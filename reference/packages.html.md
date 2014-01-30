@@ -6,7 +6,7 @@ A package is a collection of source code along with a script that describes how 
 
 ## <a id="package-compilation"></a> Package Compilation ##
 
-Packages are compiled on demand during deployment. The [Director](/docs/running/bosh/components/director.html) first checks whether a compiled version of the package already exists for the stemcell version to which the package will be deployed. If a compiled version doesn't already exist, the Director instantiates a compile VM using the same stemcell version to which the package will be deployed. This action gets the package source from the blobstore, compiles it, packages the resulting binaries, and stores the package in the blobstore.
+Packages are compiled on demand during deployment. The [Director](/bosh/components/director.html) first checks whether a compiled version of the package already exists for the stemcell version to which the package will be deployed. If a compiled version doesn't already exist, the Director instantiates a compile VM using the same stemcell version to which the package will be deployed. This action gets the package source from the blobstore, compiles it, packages the resulting binaries, and stores the package in the blobstore.
 
 To turn source code into binaries, each package has a `packaging` script that is responsible for the compilation, and is run on the compile VM. The script gets two environment variables set from the BOSH agent:
 
@@ -37,5 +37,4 @@ The package contents are specified in the `spec` file, which has three sections:
 
 The package `spec` file contains a section that lists other packages that the current package depends on. These dependencies are compile time dependencies, as opposed to the job dependencies, which are runtime dependencies.
 
-When the [Director](/docs/running/bosh/components/director.html) plans the compilation of a package during a deployment, it first makes sure all dependencies are compiled before it proceeds to compile the current package, and that prior to starting the compilation all dependent packages are installed on the compilation VM.
- 
+When the [Director](/bosh/components/director.html) plans the compilation of a package during a deployment, it first makes sure all dependencies are compiled before it proceeds to compile the current package, and that prior to starting the compilation all dependent packages are installed on the compilation VM.
