@@ -1,0 +1,71 @@
+## BOSH Glossary
+
+The intent of the BOSH glossary is to crystallize and define the terms of the "language" used within BOSH teams.
+
+# Agent
+
+The sense of the noun "agent" in the context of BOSH differs from ordinary usage.
+
+The BOSH agent is a constantly running process in VMs deployed by BOSH. The Agent receives messages from the BOSH Director and executes tasks.
+
+# Blobstore
+
+The Blobstore is a repository where BOSH stores binary content at various times in the lifecycle of a BOSH release.
+
+# Deploy
+
+The sense of the verb "deploy" in the context of BOSH differs from ordinary usage. 
+
+BOSH uses a manifest, a release, and a stemcell together to deploy software to the cloud. 
+
+# Deployment
+
+The sense of the noun "deployment" in the context of BOSH differs from ordinary usage.
+
+BOSH creates a stable deployment using ephemeral resources. The deployment can be replicated and re-deployed on different infrastructure than where it was deployed the first.
+
+# Director
+
+The sense of the noun "director" in the context of BOSH differs from ordinary usage.
+
+The BOSH director is the orchestrator of a BOSH deployment. It coordinates the various BOSH agents and responds to user requests and system events.
+
+# Release
+
+The sense of the noun "release" in the context of BOSH differs from ordinary usage.
+
+A BOSH release is the collected configuration, instructions, jobs, tasks, and packages needed to make a software component deployable by BOSH.
+
+# Stemcell
+
+The sense of the noun "stemcell" in the context of BOSH differs from ordinary usage.
+
+A BOSH stemcell is a generic VM image that BOSH uses as a template and instantiates and configures to realize the VMs required for a specific deployment.
+
+# Task
+
+The sense of the noun "task" in the context of BOSH differs from ordinary usage.
+
+A singular unit of work that BOSH performs. It has a clear lifecycle (e.g., started, running, ended, failed) and a BOSH user can monitor and get statuses and logs for all tasks.
+
+# MicroBOSH
+
+An essentially complete BOSH that runs within a single VM is called a MicroBOSH. The role of the MicroBOSH is to orchestrate the deployment of BOSH. 
+
+# Job
+
+The sense of the noun "job" in the context of BOSH differs from ordinary usage.
+
+BOSH aggregates multiple tasks into a single job. Each job usually maps to a goal ... multiple jobs in a release ... 
+
+# Jumpbox
+
+A VM that acts as a single access point for the VMs in a BOSH deployment and its VMs.
+
+# CPI
+
+Cloud Provider Interface is the layer between BOSH and an IaaS (cloud).
+
+# Manifest
+
+A manifest is a YAML file that identifies a release and a stemcell and specifies how they are configured in a given deployment.
