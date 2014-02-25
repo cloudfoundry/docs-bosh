@@ -8,16 +8,16 @@ Reading through this glossary should help you quickly become comfortable working
 
 | Term          | Definition   |
 | ------------- | ------------ |
-| Agent         | A process that runs continuously in VMs deployed by BOSH. The BOSH Agent executes tasks in response to messages it receives messages from the BOSH Director. |
+| Agent         | A process that runs continuously in VMs deployed by BOSH. The BOSH Agent executes tasks in response to messages it receives from the BOSH Director. |
 | Blobstore     | A repository where BOSH stores binary content at various times during the lifecycle of a BOSH release.|
 | CPI | A Cloud Provider Interface is a software layer between BOSH and an IaaS (cloud). |
 | Deploy        | BOSH deploys software to the cloud using a manifest, a stemcell, and a release. This sense of the verb "deploy" is unique to BOSH.|
-| Deployment    | An encapsulation of software and configuration that can be deployed to the cloud by BOSH. A BOSH deployment is a "thing" that can be replicated. Even though BOSH creates the deployment using ephemeral resources, the deployment is stable in that it continues to function when _insert better prose here_. A BOSH deployment is portable across different kinds of infrastructure (that is, across different CPIs). |
+| Deployment    | An encapsulation of software and configuration that can be deployed to the cloud by BOSH. A BOSH deployment is a "thing" that can be replicated. Even though BOSH creates the deployment using ephemeral resources, the deployment is stable in that BOSH re-creates VMs that fail and otherwise works to keep your software running. A BOSH deployment is portable across different kinds of infrastructure (that is, across different CPIs). |
 | Director | The BOSH component that coordinates the BOSH Agents and responds to user requests and system events. The BOSH Director is the orchestrator of a BOSH deployment. |
-| Job | An aggregation of multiple tasks. Each goal of a given release usually maps to a single job. For example _insert example here_. There are multiple jobs in a release. This sense of the noun "job" is unique to BOSH.|
+| Job | An aggregation of multiple tasks. Each major area of functionality for a given release usually maps to a single job. For example, a database server within a release could map to a BOSH job. There are multiple jobs in a release. This sense of the noun "job" is unique to BOSH.|
 | Jumpbox | A VM that acts as a single access point for the VMs in a BOSH deployment. Allowing access through a jumpbox and disabling access to the other VMs is a common security measure. |
 | Manifest | A YAML file that identifies a release and a stemcell and specifies how to configure them for a given deployment. |
-| MicroBOSH | An essentially complete BOSH that runs within a single VM. The role of the MicroBOSH is to orchestrate the deployment of BOSH.|
+| MicroBOSH | An essentially complete BOSH that runs within a single VM. One use of the MicroBOSH is to orchestrate the deployment of a full BOSH.|
 | Release | A collection of packages and accompanying information needed to make a software component deployable by BOSH. This sense of the noun "release" is unique to BOSH. |
 | Stemcell | A generic VM image that BOSH instantiates and configures to realize a deployment. A stemcell is a template from which BOSH creates whatever VMs are needed for a wide variety of components and products. |
 | Task | The basic unit of work performed by BOSH. You can get the status and logs for any task. You can monitor the task throughout its lifecycle, which progresses through states like started, running, ended, and failed. This sense of the noun "task" is unique to BOSH. |
