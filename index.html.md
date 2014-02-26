@@ -1,22 +1,48 @@
 ---
-title: BOSH
+title: What BOSH is and Why it is Different
 ---
 
 BOSH is an open source tool chain for release engineering, deployment, and lifecycle management of large-scale distributed services.
 
-BOSH was developed to deploy Cloud Foundry, however it has a more general purpose - it can be used to deploy other distributed services. BOSH can deploy these services on Infrastructure as a Service (IaaS) providers such as VMware vSphere, vCloud Director, Amazon Web Services EC2, and OpenStack.
+BOSH simplifies working with distributed software by abstracting away differences between local, staging, and production environments.
+BOSH does this by separating your decisions about what software to run from your need to conform to a particular environment.
 
-These sections describe the architecture, topology, configuration, and use of BOSH, as well as the structure and conventions used in packaging and deployment.
+You can see this separation of concerns in the structure of a BOSH deployment, which has three elements: release, stemcell, and manifest.
 
-* [Components](components/index.html)
-* [Local Setup](setup/index.html)
-* [Deploying Cloud Foundry with BOSH](/deploying/index.html)
-* [Reference](reference/index.html)
-  * [Jobs](reference/jobs.html)
-  * [Packages](reference/packages.html)
-  * [Releases](reference/releases.html)
-  * [BOSH CLI](reference/bosh-cli.html)
-  * [BOSH DB](reference/boshdb.html)
-  * [BOSH vSphere CPI](reference/bosh_vsphere_cpi.html)
-* Troubleshooting
-  * [How to locate and watch logs on Job instances](troubleshooting/job-logs.html)
+* The release encapsulates production code together with all information needed to install and run that code. You choose a release that has the software products and services you want. The release is solely concerned with production needs.
+
+* The stemcell is a VM image that BOSH makes into whatever VMs are needed. You choose a stemcell based on cloud infrastructure and OS—a small subset of environmental constraints.
+
+* The manifest coordinates BOSH operations on the stemcell and release. You tailor a manifest to account for cloud infrastructure, network architecture, and VM types, including what OSes the VMs run. The manifest, then, accounts for most environmental constraints.
+
+This approach leads to convenience and efficiency as the following typical scenarios illustrate.
+
+* You switch a deployment between clouds by editing a few lines in the manifest and choosing a new stemcell, while keeping the same release.
+
+* You scale up your application by editing a single line in the manifest and redeploying with a single command.
+
+* You update or roll back your application by changing just the release version and redeploying with the same stemcell and manifest.
+
+* You provide configuration information to authorities to satisfy compliance requirements. The release is complete and specific about details such as which version of each package is installed on each VM.
+
+* When VMs fail, BOSH “resurrects” them on new VMs. BOSH discovers VM failures by comparing the actual state of the deployment with the intended state as described in the manifest.
+
+In general, BOSH avoids the complexity inherent in “bespoke” deployment practices.
+Instead, BOSH offers simple and elegant ways to work.
+The topics that follow this one emphasize these efficient patterns.
+
+* The Glossary introduces the unique “language of BOSH” and should be useful to everyone.
+
+* The other topics explain what you need to know about BOSH to create distributed software, deploy it to the cloud, and manage deployments.
+
+* There is separate documentation about deploying Cloud Foundry with BOSH.
+
+
+
+
+
+
+
+
+
+
