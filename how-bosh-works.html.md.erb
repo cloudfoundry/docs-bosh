@@ -12,14 +12,14 @@ When you think about what BOSH does, you can piece together a portrait of BOSH c
 
 Consider the interactions between BOSH and an operator, a cloud, and a distributed service that has been deployed to the cloud using BOSH.
 
-The operator sends commands to BOSH, which responds with output.
-BOSH communicates with the cloud infrastructure.
-BOSH communicates with the VMs on which the service is running.
+* The operator sends commands to BOSH, which responds with output.
+* BOSH communicates with the cloud infrastructure.
+* BOSH communicates with the VMs on which the service is running.
 
 Given these interactions, it makes sense that BOSH has:
 
 * A Command Line Interface (CLI) for communication with an operator.
-* A Director component that receives commands from the CLI through an API, and in turn communicates with other BOSH components to realize the intent of the operator. The Director also keeps track of the state of the VMs.
+* A Director component that receives commands from the CLI, and in turn communicates with other BOSH components to realize the intent of the operator. The Director also keeps track of the state of the VMs.
 * A Blobstore where BOSH can store code that has been uploaded and needs to be deployed.
 * A Cloud Provider Interface (CPI) that BOSH uses to communicate with the cloud infrastructure.
 
