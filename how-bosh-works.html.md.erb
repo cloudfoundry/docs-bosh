@@ -2,10 +2,13 @@
 title: How BOSH Works
 ---
 
-## <a id="high"></a>A High-Level Portrait of BOSH ##
+BOSH is complex enough that it's a good idea to take your learning about it in stages.
 
-To understand BOSH, start by assuming that for each major area of functionality, BOSH has a component
-Then think about what BOSH does, and piece together a portrait of BOSH component by component.
+
+## <a id="high"></a>A High-Level View ##
+
+To understand BOSH, start by assuming that for each major area of functionality, BOSH has a component.
+When you think about what BOSH does, you can piece together a portrait of BOSH component by component.
 
 Consider the interactions between BOSH and an operator, a cloud, and a distributed service that has been deployed to the cloud using BOSH.
 
@@ -36,7 +39,7 @@ Likewise, the Director is responsible for some system operations that are not di
 
 More importantly, BOSH has several components whose role is to enable the Director, Cloud Controller, Blobstore, and Health Manager function as a system.
 
-## <a id="deeper"></a>Looking Deeper into BOSH ##
+## <a id="deeper"></a>Looking Deeper ##
 
 * Router
 * Messaging
