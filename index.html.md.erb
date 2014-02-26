@@ -9,11 +9,11 @@ BOSH does this by separating your decisions about what software to run from your
 
 You can see this separation of concerns in the structure of a BOSH deployment, which has three elements: release, stemcell, and manifest.
 
-* The release encapsulates production code together with all information needed to install and run that code. You choose a release that has the software products and services you want. The release is solely concerned with production needs.
+* The **release** encapsulates production code together with all information needed to install and run that code. You choose a release that has the software products and services you want. The release is solely concerned with production needs.
 
-* The stemcell is a VM image that BOSH makes into whatever VMs are needed. You choose a stemcell based on cloud infrastructure and OS—a small subset of environmental constraints.
+* The **stemcell** is a VM image that BOSH makes into whatever VMs are needed. You choose a stemcell based on cloud infrastructure and OS—a small subset of environmental constraints.
 
-* The manifest coordinates BOSH operations on the stemcell and release. You tailor a manifest to account for cloud infrastructure, network architecture, and VM types, including what OSes the VMs run. The manifest, then, accounts for most environmental constraints.
+* The **manifest** coordinates BOSH operations on the stemcell and release. You tailor a manifest to account for cloud infrastructure, network architecture, and VM types, including what OSes the VMs run. The manifest, then, accounts for most environmental constraints.
 
 This approach is what gives working with BOSH a high degree of efficiency, as the following typical scenarios illustrate.
 
