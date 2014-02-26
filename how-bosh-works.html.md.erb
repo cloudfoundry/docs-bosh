@@ -2,10 +2,9 @@
 title: How BOSH Works
 ---
 
-Once you know what the main elements of BOSH are and what they do,
-your understanding of BOSH will remain clear as you learn about supporting elements.
+The key to understanding BOSH is to get a broad picture first and fill in details afterwards.
 
-## <a id="high"></a>A High-Level View ##
+## <a id="high"></a>A High-Level View of BOSH ##
 
 To understand BOSH, start by assuming that for each major area of functionality, BOSH has a component.
 When you think about what BOSH does, you can build up a portrait of BOSH component by component.
@@ -77,7 +76,7 @@ The queue resides in a Redis key-value store.
 ### <a id="registry"></a>Registry ###
 
 VMs have no "awareness" of their own configuration information.
-This includes IP addresses for the network interface, and IDs for the volume reserved for the VM, for the VM itself, and for disks and other devices.
+This includes IP addresses for the network interface; and, IDs for the volume reserved for the VM, for the VM itself, and for disks and other devices.
 
 Agents obtain configuration information for their VMs in different ways, depending on cloud infrastructure.
 Some cloud infrastructures use the Registry for this purpose.
