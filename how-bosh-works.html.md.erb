@@ -48,7 +48,7 @@ Health Monitor continuously monitors the state of the VMs.
 Based on data from Health Monitor, two BOSH plugins can attempt to return VMs to a desired state.
 
 * The BOSH Resurrector can be enabled to automatically recreate VMs that disappear or whose Agent becomes unresponsive.
-* BOSH Cloud Check (`bosh cck`) is a CLI command that the user can run to fix a wide variety issues that can arise in a distributed system.
+* BOSH Cloud Check (`bosh cck`) is a CLI command that the user can run to fix a wide variety of issues that can arise in a distributed system.
 
 ### <a id="nats"></a> Messaging (NATS) ###
 
@@ -60,9 +60,9 @@ These messages have two purposes: to confirm the health of the Agent, and to inf
 For internal communication between the VMs that it creates, BOSH allows named DNS records.
 This means that instead of an IP address, one component could communicate with another by a host and domain name, for example:
 
-    `http://postgres-db.my-deployment.com`
+`http://postgres-db.my-deployment.com`
 
-PowerDNS is the Open Source DNS server that BOSH runs if you use this feature.
+PowerDNS is the DNS server that BOSH runs if you use this feature.
 
 ### <a id="postgres"></a> Postgres database ###
 
@@ -76,12 +76,8 @@ The queue resides in a Redis key-value store.
 
 ### <a id="registry"></a>Registry ###
 
-When a VM is created, it has no "awareness" of its own IP address or other vital information, including:
-
-* an ID for the VM
-* an ID for the volume reserved for the VM
-* IDs for disks and other devices
-* the network interface IP
+VMs have no "awareness" of their own configuration information.
+This includes IP addresses for the network interface, and IDs for the volume reserved for the VM, for the VM itself, and for disks and other devices.
 
 Agents obtain configuration information for their VMs in different ways, depending on cloud infrastructure.
 Some cloud infrastructures use the Registry for this purpose.
@@ -95,5 +91,3 @@ The interaction between IaaS, Agent, Registry, and Worker follows this pattern:
 1. The Agent sends an information request to the Registry.
 1. The Registry responds by providing the requested information.
 1. The Agent uses the information to configure the VM.
-
-
