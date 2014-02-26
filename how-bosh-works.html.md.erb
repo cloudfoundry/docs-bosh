@@ -18,31 +18,27 @@ BOSH communicates with the VMs on which the service is running.
 
 Given these interactions, it makes sense that BOSH has:
 
-* An endpoint that accepts uploads of data.
 * A Command Line Interface (CLI) for communication with an operator.
-* A Director component that receives commands from the CLI, through an API, and in turn communicates with other BOSH components to realize the intent of the operator.
-* A Cloud Controller component that keeps track of the state of the VMs.
+* A Director component that receives commands from the CLI through an API, and in turn communicates with other BOSH components to realize the intent of the operator. The Director also keeps track of the state of the VMs.
 * A Blobstore where BOSH can store code that has been uploaded and needs to be deployed.
-* A Health Manager that monitors actual VM state and compares it with desired VM state as described in manifests, then informs the Cloud Controller about any discrepancies.
+* A Cloud Provider Interface (CPI) that BOSH uses to communicate with the cloud infrastructure.
 
-Though not part of BOSH itself, every VM for the service that was deployed using BOSH has a BOSH Agent.
+Finally, every VM for the service that was deployed using BOSH has a BOSH Agent.
 The Agent is a process that is always running when the VM is alive.
 BOSH communicates with a VM by "talking to" the Agent.
-
-Finally, BOSH communicates with the interface of the cloud infrastructure itself.
-Each cloud provider has its own characteristic interface.
 
 This is a good basic picture of BOSH.
 Naturally, there is more to know about each of the elements discussed so far.
 For example, the CLI is scriptable, so BOSH can receive automated commands.
 Likewise, the Director is responsible for some system operations that are not directly initiated by the operator.
 
-More importantly, BOSH has several components whose role is to enable the Director, Cloud Controller, Blobstore, and Health Manager function as a system.
-
 ## <a id="deeper"></a>Looking Deeper ##
+
+BOSH has several components whose role is to enable the Director, Cloud Controller, Blobstore, and Health Manager function as a system.
 
 * Router
 * Messaging
+* A Health Manager that monitors actual VM state and compares it with desired VM state as described in manifests, then informs the Cloud Controller about any discrepancies.
 
 
 
