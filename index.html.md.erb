@@ -15,7 +15,7 @@ You can see this separation of concerns in the structure of a BOSH deployment, w
 
 * The manifest coordinates BOSH operations on the stemcell and release. You tailor a manifest to account for cloud infrastructure, network architecture, and VM types, including what OSes the VMs run. The manifest, then, accounts for most environmental constraints.
 
-This approach leads to convenience and efficiency as the following typical scenarios illustrate.
+This approach is what gives working with BOSH a high degree of efficiency, as the following typical scenarios illustrate.
 
 * You switch a deployment between clouds by editing a few lines in the manifest and choosing a new stemcell, while keeping the same release.
 
