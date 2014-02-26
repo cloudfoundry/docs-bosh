@@ -14,12 +14,13 @@ BOSH communicates with the cloud infrastructure.
 BOSH communicates with the VMs on which the service is running.
 
 Given these interactions, it makes sense that BOSH has:
-* an endpoint that accepts uploads of data
-* a Command Line Interface (CLI) for communication with an operator
-* a Director component that receives commands from the CLI, through an API, and in turn communicates with other BOSH components to realize the intent of the operator
-* a Cloud Controller component that keeps track of the state of the VMs
-* a Blobstore where BOSH can store code that has been uploaded and needs to be deployed
-* a Health Manager that monitors actual VM state and compares it with desired VM state as described in manifests, then informs the Cloud Controller about any discrepancies
+
+* An endpoint that accepts uploads of data.
+* A Command Line Interface (CLI) for communication with an operator.
+* A Director component that receives commands from the CLI, through an API, and in turn communicates with other BOSH components to realize the intent of the operator.
+* A Cloud Controller component that keeps track of the state of the VMs.
+* A Blobstore where BOSH can store code that has been uploaded and needs to be deployed.
+* A Health Manager that monitors actual VM state and compares it with desired VM state as described in manifests, then informs the Cloud Controller about any discrepancies.
 
 Though not part of BOSH itself, every VM for the service that was deployed using BOSH has a BOSH Agent.
 The Agent is a process that is always running when the VM is alive.
