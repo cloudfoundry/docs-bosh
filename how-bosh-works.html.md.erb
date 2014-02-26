@@ -4,11 +4,10 @@ title: How BOSH Works
 
 BOSH is complex enough that it's a good idea to take your learning about it in stages.
 
-
 ## <a id="high"></a>A High-Level View ##
 
 To understand BOSH, start by assuming that for each major area of functionality, BOSH has a component.
-When you think about what BOSH does, you can piece together a portrait of BOSH component by component.
+When you think about what BOSH does, you can build up a portrait of BOSH component by component.
 
 Consider the interactions between BOSH and an operator, a cloud, and a distributed service that has been deployed to the cloud using BOSH.
 
@@ -27,18 +26,46 @@ Finally, every VM for the service that was deployed using BOSH has a BOSH Agent.
 The Agent is a process that is always running when the VM is alive.
 BOSH communicates with a VM by "talking to" the Agent.
 
-This is a good basic picture of BOSH.
-Naturally, there is more to know about each of the elements discussed so far.
-For example, the CLI is scriptable, so BOSH can receive automated commands.
-Likewise, the Director is responsible for some system operations that are not directly initiated by the operator.
+This is a good basic picture of the main elements of BOSH.
+Naturally, there is more to know.
+For example:
+
+* Each BOSH component runs on its own VM. Some components can have multiple instances (run on multiple VMs) to increase resilience, capacity, or both.
+* The CLI is scriptable, so BOSH can receive automated commands.
+* The Director is responsible for some system operations that are not directly initiated by the operator.
+
+More importantly, there are additional BOSH components whose role is to support the main components in various ways.
 
 ## <a id="deeper"></a>Looking Deeper ##
 
-BOSH has several components whose role is to enable the Director, Cloud Controller, Blobstore, and Health Manager function as a system.
+
+
+BOSH 
 
 * Router
-* Messaging
-* A Health Manager that monitors actual VM state and compares it with desired VM state as described in manifests, then informs the Cloud Controller about any discrepancies.
+* Messaging (NATS)
+* PowerDNS name server
+* Worker VMs
+* Health Monitor 
+
+* Postgres database
+
+** actual VM state and compares it with desired VM state as described in manifests, then informs the Cloud Controller about any discrepancies.
+need better explanation
+including:
+plugin system
+Resurrector (plugin)
+when VM is gone or Agent unresponsive, works automatically
+BOSH CCK (part of CLI)
+replace “problem manager” with “Health Monitor” —> scrub story
+
+
+## <a id=""></a> ##
+
+Stemcell
+
+
+
 
 
 
