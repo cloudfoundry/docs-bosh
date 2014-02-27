@@ -18,7 +18,7 @@ Consider the interactions between BOSH and an operator, a cloud, and a distribut
 Given these interactions, it makes sense that BOSH has:
 
 * A **Command Line Interface (CLI)** for communication with an operator.
-* A **Director** component that receives commands from the CLI, and in turn communicates with other BOSH components to realize the intent of the operator. The Director also keeps track of the state of the VMs.
+* A <a id="director"></a>**Director** component that receives commands from the CLI, and in turn communicates with other BOSH components to realize the intent of the operator. The Director also keeps track of the state of the VMs.
 * A **Blobstore** component where BOSH can store code that has been uploaded and needs to be deployed.
 * A **Cloud Provider Interface (CPI)** that BOSH uses to communicate with the cloud infrastructure.
 
