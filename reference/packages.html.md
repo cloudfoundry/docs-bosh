@@ -37,4 +37,4 @@ The package contents are specified in the `spec` file, which has three sections:
 
 The package `spec` file contains a section that lists other packages that the current package depends on. These dependencies are compile time dependencies, as opposed to the job dependencies, which are runtime dependencies.
 
-When the [Director](/bosh/components/director.html) plans the compilation of a package during a deployment, it first makes sure all dependencies are compiled before it proceeds to compile the current package, and that prior to starting the compilation all dependent packages are installed on the compilation VM.
+When the [Director](/bosh/glossary.html#director) plans the compilation of a package during a deployment, it first makes sure all dependencies are compiled before it proceeds to compile the current package, and that prior to starting the compilation all dependent packages are installed on the compilation VM.
