@@ -75,8 +75,10 @@ The queue resides in a Redis key-value store.
 
 ### <a id="registry"></a>Registry ###
 
-When being created or updated, a VM must obtain external information and then use that information to configure itself.
-The kinds of information needed include IP addresses for the network interface; and, IDs for the volume reserved for the VM, for the VM itself, and for disks and other devices.
+VMs lack the information they need to configure themselves when they are created or updated.
+Two kinds of information typically needed are:
+* IP addresses for the network interface, gateway, and netmask.
+* IDs for the volume reserved for the VM, for the VM itself, and for disks and other devices.
 
 The BOSH Agent obtains configuration information for the VM where it is running.
 How this is done depends on cloud infrastructure.
