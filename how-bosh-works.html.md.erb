@@ -2,7 +2,7 @@
 title: How BOSH Works
 ---
 
-The topic starts with a broad picture BOSH and fills in more detail afterwards.
+The topic starts by outlining the major elements in BOSH and goes on to detail supporting elements.
 
 ## <a id="high"></a>A High-Level View of BOSH ##
 
@@ -17,10 +17,10 @@ Consider the interactions between BOSH and an operator, a cloud, and a distribut
 
 Given these interactions, it makes sense that BOSH has:
 
-* A Command Line Interface (CLI) for communication with an operator.
-* A Director component that receives commands from the CLI, and in turn communicates with other BOSH components to realize the intent of the operator. The Director also keeps track of the state of the VMs.
-* A Blobstore component where BOSH can store code that has been uploaded and needs to be deployed.
-* A Cloud Provider Interface (CPI) that BOSH uses to communicate with the cloud infrastructure.
+* A **Command Line Interface (CLI)** for communication with an operator.
+* A **Director** component that receives commands from the CLI, and in turn communicates with other BOSH components to realize the intent of the operator. The Director also keeps track of the state of the VMs.
+* A **Blobstore** component where BOSH can store code that has been uploaded and needs to be deployed.
+* A **Cloud Provider Interface (CPI)** that BOSH uses to communicate with the cloud infrastructure.
 
 The Director translates commands from the CLI into actionable tasks, chunking the work into tasks that it then queues.
 Tasks are taken out of the queue and run by a special kind of BOSH process called a Worker.
