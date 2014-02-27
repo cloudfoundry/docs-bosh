@@ -6,7 +6,7 @@ A package is a collection of source code along with a script that describes how 
 
 ## <a id="package-compilation"></a> Package Compilation ##
 
-Packages are compiled on demand during deployment. The [Director](/bosh/components/director.html) first checks whether a compiled version of the package already exists for the stemcell version to which the package will be deployed. If a compiled version doesn't already exist, the Director instantiates a compile VM using the same stemcell version to which the package will be deployed. This action gets the package source from the blobstore, compiles it, packages the resulting binaries, and stores the package in the blobstore.
+Packages are compiled on demand during deployment. The [Director](/bosh/glossary.html#director) first checks whether a compiled version of the package already exists for the stemcell version to which the package will be deployed. If a compiled version doesn't already exist, the Director instantiates a compile VM using the same stemcell version to which the package will be deployed. This action gets the package source from the blobstore, compiles it, packages the resulting binaries, and stores the package in the blobstore.
 
 To turn source code into binaries, each package has a `packaging` script that is responsible for the compilation, and is run on the compile VM. The script gets two environment variables set from the BOSH agent:
 
