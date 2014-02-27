@@ -2,7 +2,7 @@
 title: How BOSH Works
 ---
 
-The key to understanding BOSH is to get a broad picture first and fill in details afterwards.
+The topic starts with a broad picture BOSH and fills in more detail afterwards.
 
 ## <a id="high"></a>A High-Level View of BOSH ##
 
@@ -75,18 +75,18 @@ The queue resides in a Redis key-value store.
 
 ### <a id="registry"></a>Registry ###
 
-VMs have no "awareness" of their own configuration information.
-This includes IP addresses for the network interface; and, IDs for the volume reserved for the VM, for the VM itself, and for disks and other devices.
+When a VM is created or updated, it must obtain the information it needs to configure itself, from outside.
+The kinds of information needed include IP addresses for the network interface; and, IDs for the volume reserved for the VM, for the VM itself, and for disks and other devices.
 
-Agents obtain configuration information for their VMs in different ways, depending on cloud infrastructure.
+The BOSH Agent obtains configuration information for the VM where it is running.
+How this is done depends on cloud infrastructure.
 Some cloud infrastructures use the Registry for this purpose.
-Agents send requests to the Registry through its HTTP endpoint.
 
 The interaction between IaaS, Agent, Registry, and Worker follows this pattern:
 
 1. Through the CPI, a Worker tells the IaaS to create or update a VM.
 1. The IaaS provides the Worker with information the VM needs.
 1. The Worker updates the Registry with the information.
-1. The Agent sends an information request to the Registry.
+1. The Agent sends an information request to the Registry HTTP endpoint.
 1. The Registry responds by providing the requested information.
 1. The Agent uses the information to configure the VM.
