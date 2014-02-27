@@ -24,4 +24,4 @@ $ rbenv rehash
 </pre>
 
 ## Next Step: Install Micro BOSH
-[Micro BOSH](/bosh/components/micro-bosh.html) is a single VM that includes all of the BOSH components. You will use Micro BOSH to deploy BOSH. Installation steps for Micro BOSH are specific to the IaaS layer you are using. Go back to the [Deploying Cloud Foundry page](/deploying/) and select the page with your specific IaaS to continue.
+MicroBOSH is a single VM that includes all of the BOSH components. You use Micro BOSH to deploy BOSH. Installation steps for Micro BOSH are specific to the IaaS layer you are using. Go back to the [Deploying Cloud Foundry page](/deploying/) and select the page with your specific IaaS to continue.
