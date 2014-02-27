@@ -51,7 +51,7 @@ Based on data from Health Monitor, two BOSH plugins can attempt to return VMs to
 
 ### <a id="nats"></a> Messaging (NATS) ###
 
-The Director and the Agents communicate through a lightweight publish-subscribe and distributed queueing messaging system called NATS.
+The Director and the Agents communicate through a lightweight publish-subscribe and distributed queueing messaging system called [NATS](https://github.com/derekcollison/nats).
 These messages have two purposes: to confirm the health of the Agent, and to inform the Director about changes in the health of monitored processes.
 
 ### <a id="dns"></a> PowerDNS name server ###
@@ -61,17 +61,17 @@ This means that instead of an IP address, one component could communicate with a
 
 `http://postgres-db.my-deployment.com`
 
-PowerDNS is the DNS server that BOSH runs if you use this feature.
+[PowerDNS](https://www.powerdns.com/opensource.html) is the DNS server that BOSH runs if you use this feature.
 
 ### <a id="postgres"></a> Postgres database ###
 
-The Director uses a Postgres database to store information about the desired state of the deployed system(s).
+The Director uses a [Postgres](http://www.postgresql.org/) database to store information about the desired state of the deployed system(s).
 This includes what releases are present, what has been deployed, what stemcells are available, and so on.
 
 ### <a id="redis"></a> Redis key-value store ###
 
 The Director queues the names of tasks that it needs to run.
-The queue resides in a Redis key-value store.
+The queue resides in a [Redis](http://redis.io/) key-value store.
 
 ### <a id="registry"></a>Registry ###
 
@@ -82,7 +82,7 @@ Two kinds of information typically needed are:
 * IDs for the volume reserved for the VM, for the VM itself, and for disks and other devices.
 
 The BOSH Agent obtains configuration information for the VM where it is running.
-How this is done depends on cloud infrastructure.
+How this is done depends on the cloud Infrastructure as a Service (IaaS) you are using.
 Some cloud infrastructures use the Registry for this purpose.
 
 The interaction between IaaS, Agent, Registry, and Worker follows this pattern:
