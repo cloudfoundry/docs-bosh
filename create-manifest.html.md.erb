@@ -1,0 +1,135 @@
+---
+title: Create a Manifest
+---
+
+When you discover a distributed software product that you want to deploy to the cloud using BOSH,
+you download a BOSH release of the product.
+You then locate a stemcell that is appropriate for your preferred combination of VM and IaaS.
+Now you need to decide the orchestration and configuration of the deployment,
+and to express your decisions in a form that BOSH can consume: namely, a deployment manifest.
+This topic explains how manifests work and how to create them.
+
+## <a id="orchestrate"></a> Specifying the Orchestration of your Deployment ##
+
+Suppose the product you want to deploy can do five things: call these capabilities Feature A through Feature D.
+You want your deployment to take advantage of all five features, but you don't want any one VM to be responsible for more than two features.
+For the sake of capacity and resilience, you want every feature to run on more than one VM.
+
+You can achieve this by defining VM types, where each type supports different features.
+Finally, you decide how many instances of each VM type to create.
+
+What you are doing is orchestrating your deployment.
+In the manifest you specify your orchestration decisions along with everything else about your deployment,
+including the stemcell, release, and network configuration to use.
+
+## <a id="release"></a> Translating from Release to Manifest ##
+
+**Note**: The terms "job" and "template" are used one way in the BOSH release and another in BOSH manifests.
+In some situations you may need to use the terms "release job", "manifest job", "release template", and "manifest template" for the sake of clarity.
+
+When you orchestrate, you allocate features to VM types and then specify a number of instances for each VM type.
+
+* A BOSH release uses the term "job" to describe a _feature_.
+* Meanwhile, a BOSH manifest uses the term "job" to describe a _VM type_,
+and the term "template" to describe a feature.
+* When you allocate a feature to a VM type, the feature described as a "job" in the release becomes a "template" in the `jobs` block in the manifest.
+You name your VM types as "jobs" and specify a number of instances for each.
+
+For example, the manifest fragment below shows two VM types, each of which supports two features.
+
+<pre class="terminal">
+jobs:
+- name: vm-type-x
+  templates:
+  - name: feature-a
+    release: foo_beta
+  - name: feature-d
+    release: foo_beta
+  instances: 2
+  resource_pool: default
+  persistent_disk: 10240
+  networks:
+  - name: default
+    default: [dns, gateway]
+- name: vm-type-y
+  templates:
+  - name: feature-b
+    release: foo_beta
+  - name: feature-c
+    release: foo_beta
+  instances: 4
+  resource_pool: default
+  persistent_disk: 20480
+  networks:
+  - name: default
+    default: [dns, gateway]
+</pre>
+
+
+## <a id="anatomy"></a> Anatomy of a Manifest ##
+
+A BOSH deployment manifest begins by identifying the deployment.
+
+For example:
+
+<pre class="terminal">
+---
+name: dummy
+director_uuid: 080a8261-8bf8-4996-a754-2545a99c0b2c
+
+releases:
+- name: dummy_a
+  version: latest
+</pre>
+
+After that, the manifest has six required _blocks_:
+
+1. compilation
+1. update
+1. resource_pools
+1. networks
+1. jobs
+1. properties
+
+Manifests are written in YAML, which means that each block is translated into a hash.
+You can put the blocks in any order.
+
+### <a id='compilation'></a> The compilation block ###
+
+BOSH compiles all the software packages within the release at deploy time.
+The `compilation` block specifies what VMs should perform the compilation.
+
+### <a id='update'></a> The update block ###
+
+The `update` block:
+
+* Uses the `max_in_flight` variable to limit the number of VMs that can be updated simultaneously.
+* Specifies the desired behavior of "canaries."
+A "canary" is an instance of a given VM type that BOSH updates before all the other instances in order to test whether the new release can update successfully.
+BOSH monitors the updating of the canary, and if that fails, or appears to succeed too quickly, BOSH does not proceed to update the rest of the instances.
+
+### <a id='resource_pools'></a> The resource_pools block ###
+
+Resource pools are collections of VMs which are on the same network, are the same kind of VM from the IaaS's perspective, and are built from the same stemcell.
+The `resource_pools` block specifies all of these.
+
+### <a id='networks'></a> The networks block ###
+
+The `networks` block is where you specify network configuration information for the deployment.
+Networks are named, enabling you to specify multiple networks.
+
+### <a id='jobs'></a> The jobs block ###
+
+The `jobs` block is where you name VM types and specify:
+
+* The product features each type supports, in the form of templates.
+* Some configuration information that applies to the VM type as opposed to the feature.
+
+Features (templates) typically require configuration.
+You specify this information in the `properties` block.
+
+### <a id='properties'></a> The properties block ###
+
+The `properties` block consists of headings which are the names of features (templates) from the `jobs` block.
+Each heading is followed by one or more lines of configuration information.
+
