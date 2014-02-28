@@ -160,7 +160,7 @@ but otherwise makes no effort to learn the state of the VM being updated.
 BOSH goes on to update the remaining VMs without waiting for the maximum watch time.
 * If the the last VM that is not a canary completes its update successfully,
 BOSH declares the update complete without waiting for the maximum watch time.
-* If any VM has still not completed its update by the maximum watch time, BOSH (by default) ends the update with an error.
+* BOSH ends the update with an error at the maximum watch time if one or more VMs (canaries or not) have not completed their updates. ("One or more" is the default threshold.)
 
 In the example below:
 
