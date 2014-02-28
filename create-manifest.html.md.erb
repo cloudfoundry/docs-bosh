@@ -16,23 +16,27 @@ You want your deployment to take advantage of all five features, but you don't w
 For the sake of capacity and resilience, you want every feature to run on more than one VM.
 
 To achieve this, you define VM types, where each type supports different features.
-Then you decide how many instances of each VM type to create. This is how you orchestrate your deployment.
+Then you decide how many instances of each VM type to create. Now how have orchestrated your deployment.
 
 In the manifest you specify orchestration along with everything else about your deployment,
 including the stemcell, release, and network configuration to use.
 
 ## <a id="release"></a> Translating from Release to Manifest ##
 
-**Note**: The terms "job" and "template" are used one way in the BOSH release and another in BOSH manifests.
-In some situations you may need to use the terms "release job", "manifest job", "release template", and "manifest template" for the sake of clarity.
-
 When you orchestrate, you allocate features to VM types and then specify a number of instances for each VM type.
+You need to see what a product calls its features in the BOSH release in order to specify orchestration in the manifest.
+
+The terms "job" and "template" have one meaning in the release and another in the manifest.
 
 * A BOSH release uses the term "job" to describe a _feature_.
 * Meanwhile, a BOSH manifest uses the term "job" to describe a _VM type_,
 and the term "template" to describe a feature.
 * When you allocate a feature to a VM type, the feature described as a "job" in the release becomes a "template" in the `jobs` block in the manifest.
 You name your VM types as "jobs" and specify a number of instances for each.
+
+In the illustration below, five features found in a release are allocated to VM types in a manifest.
+
+ <%= image_tag("orchestrate.png") %>
 
 For example, the manifest fragment below shows two VM types, each of which supports two features.
 
@@ -67,7 +71,16 @@ jobs:
 
 ## <a id="anatomy"></a> Anatomy of a Manifest ##
 
-A BOSH deployment manifest begins by identifying the deployment.
+Some of the information in any given BOSH manifest is IaaS-specific.
+The vast majority of manifest content, though, is independent of the cloud infrastructure where you want to deploy.
+This makes it possible to re-use manifests, making minimal changes, even when moving a deployment from one IaaS to another.
+
+A BOSH deployment manifest begins by identifying the deployment as follows:
+
+1. The **name** you give the deployment.
+1. The `director_uuid` _insert text here_ to ensure that you deploy with the correct BOSH.
+1. The **release name** you choose.
+1. The **release version** which _insert description here_.
 
 For example:
 
@@ -96,16 +109,22 @@ You can put the blocks in any order.
 ### <a id='compilation'></a> The compilation block ###
 
 BOSH compiles all the software packages within the release at deploy time.
-The `compilation` block specifies what VMs should perform the compilation.
+The `compilation` block specifies which VMs should perform the compilation.
 
 ### <a id='update'></a> The update block ###
 
 The `update` block:
 
 * Uses the `max_in_flight` variable to limit the number of VMs that can be updated simultaneously.
-* Specifies the desired behavior of "canaries."
-A "canary" is an instance of a given VM type that BOSH updates before all the other instances in order to test whether the new release can update successfully.
-BOSH monitors the updating of the canary, and if that fails, or appears to succeed too quickly, BOSH does not proceed to update the rest of the instances.
+* Specifies the number and desired behavior of "canaries."
+
+Before BOSH updates all the instances of a given VM type, it updates one or more "canaries,"
+and monitors to update to determine whether it can run successfully on that VM type.
+
+A "canary" is just an instance of the VM type to be updated.
+
+If the "canary" update fails, or even appears to succeed too quickly, BOSH does not proceed to update the rest of the instances.
+_maybe insert more explanation here_
 
 ### <a id='resource_pools'></a> The resource_pools block ###
 
@@ -131,4 +150,17 @@ You specify this information in the `properties` block.
 
 The `properties` block consists of headings which are the names of features (templates) from the `jobs` block.
 Each heading is followed by one or more lines of configuration information.
+
+## <a id="example"></a> A Basic Example Manifest ##
+
+_insert example and reference other examples?_
+
+## <a id="creating"></a> How to Create a Manifest ##
+
+You can modify example manifests to suit your purposes.
+
+Another approach is to use a tool like spiff to create a manifest.
+_say more_
+
+
 
