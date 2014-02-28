@@ -249,6 +249,15 @@ Most headings are names of features (templates) from the `jobs` block.
 
 This block can be quite long, so the example below shows only a few interesting excerpts.
 
+**Note**: The `mysql` and `registry` attributes provide an example of a _YAML reference_, where:
+
+* A string prefixed with an ampersand defines the attribute to its left as a hash.
+* Strings prefixed by an asterisk reference the hash defined previously.
+
+In this case, `&bosh_db` defines the all the keys and values in the `mysql` attribute as `bosh_db`.
+Later, the `db` key in the `registry` attribute references the `bosh_db` hash.
+The result is that the value of the `db` key in `registry` is the entire set of keys and values in `mysql`.
+
 <pre class="terminal">
 properties:
 
@@ -281,7 +290,7 @@ properties:
 
 	...
 
-	registry:
+  registry:
 	  address: 10.10.0.7
 	  db: *bosh_db
 	  http:
@@ -290,11 +299,6 @@ properties:
 	    password: 72a181ef4cf87560665zzzp2cfca30465c
 
 </pre>
-
-**Note**: The `mysql` and `registry` attributes provide an example of a _YAML reference_.
-The string prefixed with an ampersand `&bosh_db` in this case defines the entire attribute hash (all the keys and values in the `mysql` attribute) as `bosh_db`.
-In the `registry` attribute, the value for the `db` key invokes the reference with a string prefixed by an asterisk.
-The string is `bosh_db`, meaning that the entire `bosh_db` hash defined previously becomes the value of the `db` key.
 
 This block is IaaS-dependent.
 
