@@ -2,16 +2,16 @@
 title: Create a Manifest
 ---
 
-When you discover a distributed software product that you want to deploy to the cloud using BOSH,
+When you discover a distributed software product that you want to deploy using BOSH,
 you download a BOSH release of the product and locate a stemcell appropriate for your preferred combination of VM and IaaS.
 
-Next, you need to decide how to orchestrate and configure the deployment,
-and to express your decisions in a form that BOSH can consume: namely, a deployment manifest.
+Next, you decide how to orchestrate and configure the deployment.
+Then you express your decisions in a form that BOSH can consume: namely, a deployment manifest.
 This topic explains how manifests work and how to create them.
 
 ## <a id="orchestrate"></a> Specifying Orchestration ##
 
-Suppose the product you want to deploy can do five things: call these capabilities Feature A through Feature D.
+Suppose the product you want to deploy can do five things: call these capabilities Feature A through Feature E.
 You want your deployment to take advantage of all five features, but you don't want any one VM to be responsible for more than two features.
 For the sake of capacity and resilience, you want every feature to run on more than one VM.
 
@@ -20,6 +20,8 @@ Then you decide how many instances of each VM type to create. Now how have orche
 
 In the manifest you specify orchestration along with everything else about your deployment,
 including the stemcell, release, and network configuration to use.
+
+**Note**: This topic does not treat using multiple releases or stemcells for simplicity's sake, but BOSH supports both.
 
 ## <a id="release"></a> Translating from Release to Manifest ##
 
@@ -31,7 +33,8 @@ The terms "job" and "template" have one meaning in the release and another in th
 * A BOSH release uses the term "job" to describe a _feature_.
 * Meanwhile, a BOSH manifest uses the term "job" to describe a _VM type_,
 and the term "template" to describe a feature.
-* When you allocate a feature to a VM type, the feature described as a "job" in the release becomes a "template" in the `jobs` block in the manifest.
+
+When you allocate a feature to a VM type, the feature described as a "job" in the release becomes a "template" in the `jobs` block in the manifest.
 You name your VM types as "jobs" and specify a number of instances for each.
 
 In the illustration below, five features found in a release are allocated to VM types in a manifest.
@@ -68,19 +71,16 @@ jobs:
     default: [dns, gateway]
 </pre>
 
-
 ## <a id="anatomy"></a> Anatomy of a Manifest ##
 
-Some of the information in any given BOSH manifest is IaaS-specific.
-The vast majority of manifest content, though, is independent of the cloud infrastructure where you want to deploy.
-This makes it possible to re-use manifests, making minimal changes, even when moving a deployment from one IaaS to another.
+Parts of any given BOSH manifest are IaaS-specific.
+Most manifest content, though, is independent of the cloud infrastructure where you want to deploy.
+This allows you to re-use manifests, making minimal changes, even when moving a deployment from one IaaS to another.
 
-A BOSH deployment manifest begins by identifying the deployment as follows:
+A BOSH deployment manifest begins with three dashes, and then identifies the deployment as follows:
 
 1. The **name** you give the deployment.
-1. The `director_uuid` _insert text here_ to ensure that you deploy with the correct BOSH.
-1. The **release name** you choose.
-1. The **release version** which _insert description here_.
+1. The `director_uuid` to ensure that you deploy with the correct BOSH.
 
 For example:
 
@@ -88,14 +88,11 @@ For example:
 ---
 name: dummy
 director_uuid: 080a8261-8bf8-4996-a754-2545a99c0b2c
-
-releases:
-- name: dummy_a
-  version: latest
 </pre>
 
-After that, the manifest has six required _blocks_:
+After that, the manifest has seven required _blocks_:
 
+1. releases
 1. compilation
 1. update
 1. resource_pools
@@ -103,13 +100,34 @@ After that, the manifest has six required _blocks_:
 1. jobs
 1. properties
 
-Manifests are written in YAML, which means that each block is translated into a hash.
-You can put the blocks in any order.
+The manifest is in YAML, so the YAML parser translates each block into a hash.
+For this reason, you can put the blocks in any order.
+
+<pre class="terminal">
+releases:
+- name: foo_beta
+  version: 0.1-dev
+</pre>
+
+### <a id='compilation'></a> The compilation block ###
+
+1. The **name** of each releases you use in the deployment  .
+1. The **version** of that release .
 
 ### <a id='compilation'></a> The compilation block ###
 
 BOSH compiles all the software packages within the release at deploy time.
 The `compilation` block specifies which VMs should perform the compilation.
+
+<pre class="terminal">
+compilation:
+  reuse_compilation_vms: true
+  workers: 2
+  network: default
+  cloud_properties:
+    instance_type: c1.medium
+    availability_zone: us-east-1c
+</pre>
 
 ### <a id='update'></a> The update block ###
 
@@ -119,24 +137,69 @@ The `update` block:
 * Specifies the number and desired behavior of "canaries."
 
 Before BOSH updates all the instances of a given VM type, it updates one or more "canaries,"
-and monitors to update to determine whether it can run successfully on that VM type.
+and monitors the update to determine whether it can run successfully on that VM type.
 
 A "canary" is just an instance of the VM type to be updated.
 
 If the "canary" update fails, or even appears to succeed too quickly, BOSH does not proceed to update the rest of the instances.
-_maybe insert more explanation here_
+
+<pre class="terminal">
+update:
+  canaries: 1
+  canary_watch_time: 30000-240000
+  update_watch_time: 30000-600000
+  max_in_flight: 3
+</pre>
 
 ### <a id='resource_pools'></a> The resource_pools block ###
+
+IaaS-dependent instance type
 
 Resource pools are collections of VMs which are on the same network, are the same kind of VM from the IaaS's perspective, and are built from the same stemcell.
 The `resource_pools` block specifies all of these.
 
+<pre class="terminal">
+resource_pools:
+- name: default
+  stemcell:
+    name: bosh-aws-xen-ubuntu
+    version: latest
+  network: default
+  size: 1
+  cloud_properties:
+    instance_type: m1.small
+    availability_zone: us-east-1c
+</pre>
+
 ### <a id='networks'></a> The networks block ###
+
+IaaS-dependent -- some have subnet, some have network names, some keys differ
 
 The `networks` block is where you specify network configuration information for the deployment.
 Networks are named, enabling you to specify multiple networks.
 
+<pre class="terminal">
+networks:
+- name: default
+  type: manual
+  subnets:
+  - range: 10.10.0.0/24
+    gateway: 10.10.0.1
+    static:
+    - 10.10.0.7 - 10.10.0.9
+    reserved:
+    - 10.10.0.2 - 10.10.0.6
+    - 10.10.0.10 - 10.10.0.10
+    dns:
+    - 10.10.0.6
+    cloud_properties:
+      subnet: subnet-d597b993
+</pre>
+
 ### <a id='jobs'></a> The jobs block ###
+
+IaaS-agnostic
+
 
 The `jobs` block is where you name VM types and specify:
 
@@ -146,10 +209,68 @@ The `jobs` block is where you name VM types and specify:
 Features (templates) typically require configuration.
 You specify this information in the `properties` block.
 
+<pre class="terminal">
+jobs:
+- name: dummy
+  templates:
+  - name: dummy
+    release: dummy_a
+  instances: 1
+  resource_pool: default
+  persistent_disk: 10240
+  networks:
+  - name: default
+    default: [dns, gateway]
+</pre>
+
 ### <a id='properties'></a> The properties block ###
 
 The `properties` block consists of headings which are the names of features (templates) from the `jobs` block.
 Each heading is followed by one or more lines of configuration information.
+
+<pre class="terminal">
+properties:
+
+  ntp:
+  - 0.north-america.pool.ntp.org
+  - 1.north-america.pool.ntp.org
+  - 2.north-america.pool.ntp.org
+  - 3.north-america.pool.ntp.org
+
+  blobstore:
+    address: 10.10.0.7
+    port: 25251
+    backend_port: 25552
+    agent:
+      user: agent
+      password: ldsjlkadsfjlj
+    director:
+      user: director
+      password: DirectoR
+
+...
+
+mysql: &bosh_db
+  adapter: mysql2
+  user: u1250a5fcd8ade2
+  password: p2cfca30665aa46f875605ca81845ef4c
+  host: bosh.cabaz18bo7yr.us-east-1.rds.amazonaws.com
+  port: 3306
+  database: bosh
+
+...
+
+registry:
+  address: 10.10.0.7
+  db: *bosh_db
+  http:
+    port: 25777
+    user: awsreg
+    password: awsreg
+
+</pre>
+
+
 
 ## <a id="example"></a> A Basic Example Manifest ##
 
