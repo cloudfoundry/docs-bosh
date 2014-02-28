@@ -75,12 +75,10 @@ jobs:
 
 Parts of any given BOSH manifest are IaaS-specific.
 Most manifest content, though, is independent of the cloud infrastructure where you want to deploy.
-This allows you to re-use manifests, making minimal changes, even when moving a deployment from one IaaS to another.
+This allows you to re-use manifests with minimal changes, even you re-deploy on a different IaaS.
 
-A BOSH deployment manifest begins with three dashes, and then identifies the deployment as follows:
-
-1. The **name** you give the deployment.
-1. The `director_uuid` to ensure that you deploy with the correct BOSH.
+You begin the BOSH deployment manifest with three dashes, followed by the name you give the deployment,
+then a `director_uuid` that ensures that you deploy with the correct BOSH.
 
 For example:
 
@@ -92,16 +90,22 @@ director_uuid: 080a8261-8bf8-4996-a754-2545a99c0b2c
 
 After that, the manifest has seven required _blocks_:
 
-1. releases
-1. compilation
-1. update
-1. resource_pools
-1. networks
-1. jobs
-1. properties
+1. `releases`
+1. `compilation`
+1. `update`
+1. `resource_pools`
+1. `networks`
+1. `jobs`
+1. `properties`
 
 The manifest is in YAML, so the YAML parser translates each block into a hash.
 For this reason, you can put the blocks in any order.
+
+### <a id='releases'></a> The releases block ###
+
+The release block lists the name and version of each release you use in your deployment:
+
+For example:
 
 <pre class="terminal">
 releases:
@@ -109,15 +113,14 @@ releases:
   version: 0.1-dev
 </pre>
 
-### <a id='compilation'></a> The compilation block ###
-
-1. The **name** of each releases you use in the deployment  .
-1. The **version** of that release .
+This block is IaaS-agnostic.
 
 ### <a id='compilation'></a> The compilation block ###
 
-BOSH compiles all the software packages within the release at deploy time.
+At deploy time, BOSH compiles all the software packages within the release.
 The `compilation` block specifies which VMs should perform the compilation.
+
+For example:
 
 <pre class="terminal">
 compilation:
@@ -128,6 +131,8 @@ compilation:
     instance_type: c1.medium
     availability_zone: us-east-1c
 </pre>
+
+This block contains an IaaS-dependent `cloud_properties` sub-block.
 
 ### <a id='update'></a> The update block ###
 
@@ -141,7 +146,14 @@ and monitors the update to determine whether it can run successfully on that VM 
 
 A "canary" is just an instance of the VM type to be updated.
 
-If the "canary" update fails, or even appears to succeed too quickly, BOSH does not proceed to update the rest of the instances.
+BOSH does not proceed to update the rest of the instances when either:
+
+* The "canary" update fails, or
+*
+
+or even appears to succeed too quickly,
+
+For example:
 
 <pre class="terminal">
 update:
@@ -151,12 +163,14 @@ update:
   max_in_flight: 3
 </pre>
 
-### <a id='resource_pools'></a> The resource_pools block ###
+This block is IaaS-agnostic.
 
-IaaS-dependent instance type
+### <a id='resource_pools'></a> The resource_pools block ###
 
 Resource pools are collections of VMs which are on the same network, are the same kind of VM from the IaaS's perspective, and are built from the same stemcell.
 The `resource_pools` block specifies all of these.
+
+For example:
 
 <pre class="terminal">
 resource_pools:
@@ -171,12 +185,14 @@ resource_pools:
     availability_zone: us-east-1c
 </pre>
 
+This block contains an IaaS-dependent `cloud_properties` sub-block.
+
 ### <a id='networks'></a> The networks block ###
 
-IaaS-dependent -- some have subnet, some have network names, some keys differ
-
 The `networks` block is where you specify network configuration information for the deployment.
-Networks are named, enabling you to specify multiple networks.
+You can specify multiple networks.
+
+For example:
 
 <pre class="terminal">
 networks:
@@ -196,10 +212,9 @@ networks:
       subnet: subnet-d597b993
 </pre>
 
+This block is IaaS-dependent, because subnets, network names, and other keys may differ from IaaS to IaaS.
+
 ### <a id='jobs'></a> The jobs block ###
-
-IaaS-agnostic
-
 
 The `jobs` block is where you name VM types and specify:
 
@@ -208,6 +223,8 @@ The `jobs` block is where you name VM types and specify:
 
 Features (templates) typically require configuration.
 You specify this information in the `properties` block.
+
+For example:
 
 <pre class="terminal">
 jobs:
@@ -223,10 +240,14 @@ jobs:
     default: [dns, gateway]
 </pre>
 
+This block is IaaS-agnostic.
+
 ### <a id='properties'></a> The properties block ###
 
-The `properties` block consists of headings which are the names of features (templates) from the `jobs` block.
-Each heading is followed by one or more lines of configuration information.
+The `properties` block consists of headings followed by one or more lines of configuration information.
+Most headings are names of features (templates) from the `jobs` block.
+
+This block can be quite long, so the example below shows only a few interesting excerpts.
 
 <pre class="terminal">
 properties:
@@ -243,45 +264,49 @@ properties:
     backend_port: 25552
     agent:
       user: agent
-      password: ldsjlkadsfjlj
+      password: 665aap2cfca30465ca81845ef4cf87560
     director:
       user: director
-      password: DirectoR
+      password: 845ef4cf87560665aap2cfca30465ca81
 
 ...
 
-mysql: &bosh_db
-  adapter: mysql2
-  user: u1250a5fcd8ade2
-  password: p2cfca30665aa46f875605ca81845ef4c
-  host: bosh.cabaz18bo7yr.us-east-1.rds.amazonaws.com
-  port: 3306
-  database: bosh
+  mysql: &bosh_db
+	  adapter: mysql2
+	  user: u1250a5fcd8ade2
+	  password: p2cfca30665aa46f875605ca81845ef4c
+	  host: bosh.cabaz18bo7yr.us-east-1.rds.amazonaws.com
+	  port: 3306
+	  database: bosh
 
-...
+	...
 
-registry:
-  address: 10.10.0.7
-  db: *bosh_db
-  http:
-    port: 25777
-    user: awsreg
-    password: awsreg
+	registry:
+	  address: 10.10.0.7
+	  db: *bosh_db
+	  http:
+	    port: 25777
+	    user: awsreg
+	    password: 72a181ef4cf87560665zzzp2cfca30465c
 
 </pre>
 
+**Note**: The `mysql` and `registry` attributes provide an example of a _YAML reference_.
+The string prefixed with an ampersand `&bosh_db` in this case defines the entire attribute hash (all the keys and values in the `mysql` attribute) as `bosh_db`.
+In the `registry` attribute, the value for the `db` key invokes the reference with a string prefixed by an asterisk.
+The string is `bosh_db`, meaning that the entire `bosh_db` hash defined previously becomes the value of the `db` key.
 
+This block is IaaS-dependent.
 
 ## <a id="example"></a> A Basic Example Manifest ##
 
-_insert example and reference other examples?_
+
 
 ## <a id="creating"></a> How to Create a Manifest ##
 
 You can modify example manifests to suit your purposes.
 
-Another approach is to use a tool like spiff to create a manifest.
-_say more_
+Another approach is to use a tool like [spiff](https://github.com/cloudfoundry-incubator/spiff) to create a manifest.
 
 
 
