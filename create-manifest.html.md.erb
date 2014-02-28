@@ -136,31 +136,43 @@ This block contains an IaaS-dependent `cloud_properties` sub-block.
 
 ### <a id='update'></a> The update block ###
 
-The `update` block:
+The `update` block specifies:
 
-* Uses the `max_in_flight` variable to limit the number of VMs that can be updated simultaneously.
-* Specifies the number and desired behavior of "canaries."
-
-Before BOSH updates all the instances of a given VM type, it updates one or more "canaries,"
-and monitors the update to determine whether it can run successfully on that VM type.
+* The maximum number of VMs that can be updated simultaneously, with the `max_in_flight` key.
+* The number of "canaries" with the `canaries` key.
+* The update behavior of "canaries" with the `canary_watch_time` key.
+* The update behavior of VMs that are _not_ "canaries" with the `update_watch_time` key.
 
 A "canary" is just an instance of the VM type to be updated.
+BOSH updates the canaries first, and only goes on to update the remaining VMs once the canaries have updated successfully.
+You use canaries to determine whether an update can run successfully on that VM type.
+A common use case is that when a deployment contains many VMs, it makes sense to test a new release on a few of them
+before trying to update the entire cohort.
 
-BOSH does not proceed to update the rest of the instances when either:
+Update behavior is based on the concept of _watch time_, whose minimum and maximum you specify in milliseconds.
+Watch time works like this:
 
-* The "canary" update fails, or
-*
+* Between the moment update begins and the minimum is reached, BOSH reacts if the update fails
+but otherwise makes no effort to learn the state of the VM being updated.
+* Between the minimum and maximum, BOSH checks the health of the VM at intervals.
+* If the update fails at any time, BOSH ends the update with the error message "job is not running."
+* If the the last canary to update completes its update successfully,
+BOSH goes on to update the remaining VMs without waiting for the maximum watch time.
+* If the the last VM that is not a canary completes its update successfully,
+BOSH declares the update complete without waiting for the maximum watch time.
+* If any VM has still not completed its update by the maximum watch time, BOSH (by default) ends the update with an error.
 
-or even appears to succeed too quickly,
+In the example below:
 
-For example:
+* There are three canaries, with a minimum watch time of 30 seconds and a maximum watch time of four minutes.
+* VMs that are not canaries can update ten at a time, with a minimum watch time of 30 seconds and a maximum watch time of ten minutes.
 
 <pre class="terminal">
 update:
-  canaries: 1
+  canaries: 3
   canary_watch_time: 30000-240000
   update_watch_time: 30000-600000
-  max_in_flight: 3
+  max_in_flight: 10
 </pre>
 
 This block is IaaS-agnostic.
@@ -302,13 +314,11 @@ properties:
 
 This block is IaaS-dependent.
 
-## <a id="example"></a> A Basic Example Manifest ##
+## <a id="example"></a> Example Manifests ##
 
-
+BOSH provides a [variety](https://github.com/cloudfoundry/bosh/tree/master/release/examples) of example manifests.
 
 ## <a id="creating"></a> How to Create a Manifest ##
 
 You can modify example manifests to suit your purposes. Another approach is to use a tool like [spiff](https://github.com/cloudfoundry-incubator/spiff) to create a manifest.
-
-
 
