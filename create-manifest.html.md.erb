@@ -15,11 +15,10 @@ Suppose the product you want to deploy can do five things: call these capabiliti
 You want your deployment to take advantage of all five features, but you don't want any one VM to be responsible for more than two features.
 For the sake of capacity and resilience, you want every feature to run on more than one VM.
 
-You can achieve this by defining VM types, where each type supports different features.
-Finally, you decide how many instances of each VM type to create.
+To achieve this, you define VM types, where each type supports different features.
+Then you decide how many instances of each VM type to create. This is how you orchestrate your deployment.
 
-What you are doing is orchestrating your deployment.
-In the manifest you specify your orchestration decisions along with everything else about your deployment,
+In the manifest you specify orchestration along with everything else about your deployment,
 including the stemcell, release, and network configuration to use.
 
 ## <a id="release"></a> Translating from Release to Manifest ##
