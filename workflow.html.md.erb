@@ -32,7 +32,7 @@ To deploy BOSH using BOSH Lite, MicroBOSH, or equivalent software, you must:
 
 * [Download] (http://bosh_artifacts.cfapps.io/) a **release** of BOSH, and a **stemcell** appropriate to the cloud infrastructure and OS where you plan to deploy.
 
-* [Create a **manifest**] (http://localhost:9292/bosh/create-manifest.html) that accounts for environmental constraints and specifies how you want to orchestrate your deployment.
+* [Create](http://localhost:9292/bosh/create-manifest.html) a **manifest** that accounts for environmental constraints and specifies how you want to orchestrate your deployment.
 
 ## <a id="before"></a> Before Deploying Software with BOSH, Obtain the Stemcell, Release and Manifest  ##
 
@@ -42,7 +42,7 @@ Before you deploy, you must have:
 You can obtain a release from a software provider, or create one yourself.
 
 * A **stemcell** appropriate to the cloud infrastructure and OS where you plan to deploy.
-You obtain a stemcell from Pivotal Network.
+You obtain a stemcell from the [public download site](http://bosh_artifacts.cfapps.io/).
 
 * A **manifest** that accounts for environmental constraints and specifies how you want to orchestrate your deployment.
 You can modify an example manifest to suit your purposes, or use a tool like spiff to create a manifest.
@@ -64,10 +64,8 @@ Because deploying software is an iterative process, the amount of labor that thi
 
 Other activities typical of the care and feeding of distributed software deployments include:
 
-* Creating and editing users
-* Inspecting the state of VMs
-* Getting (viewing) and sometimes cancelling Director tasks
+* Creating and editing users.
+* Inspecting the state of VMs.
+* Getting (viewing) and cancelling Director tasks.
 
 You perform these activities before or after deployment, or both.
-
-
