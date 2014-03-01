@@ -1,5 +1,5 @@
 ---
-title: BOSH Workflow
+title: Basic BOSH Workflow
 ---
 
 While the distributed software you use BOSH to deploy can be complex, the basic patterns for working with BOSH are not.
@@ -8,20 +8,21 @@ While the distributed software you use BOSH to deploy can be complex, the basic 
 
 Before you use BOSH to deploy software, how do you deploy BOSH itself?
 
-You have several options.
+The two options below are supported.
+Experimental and community-based methods also exist.
 
-1. BOSH Lite is software that runs within a single VM.
-Scripts packaged with BOSH Lite make deploying it simpler than deploying a normal ("full") BOSH.
+### <a id="lite"></a> BOSH Lite  ###
 
-1. _other option_
+[BOSH Lite] (https://github.com/cloudfoundry/bosh-lite) is software that runs within a single VM created with [Vagrant] (http://www.vagrantup.com/).
+Scripts packaged with BOSH Lite make it simple to deploy on a laptop or other local environment.
+In sum, BOSH Lite is a low-cost, low-risk development environment to test and experiment with BOSH.
+You do not need a release, a stemcell, or a manifest, only Vagrant and related files.
 
-only in AWS:
-bosh aws create
-bosh aws bootstrap micro bosh aws bootstrap bosh
-or generate for manifests only instead of bootstrap
+### <a id="micro"></a> MicroBOSH  ###
 
-minimal example:
-deploy BOSH with MicroBOSH
+MicroBOSH is software that runs within a single VM on the cloud infrastructure that are supported for deploying software with BOSH.
+To deploy MicroBOSH you need a stemcell and a manifest, but no release.
+MicroBOSH is suited to deploying software (as an alternative to multi-VM BOSH), and is only supported way to deploy BOSH for production.
 
 ## <a id="before"></a> Before Deploying, Obtain the Stemcell, Release and Manifest  ##
 
@@ -57,5 +58,4 @@ Other activities typical of the care and feeding of distributed software deploym
 
 You perform these activities before or after deployment, or both.
 
-### <a id=" "></a>    ###
 
