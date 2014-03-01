@@ -4,27 +4,41 @@ title: Basic BOSH Workflow
 
 While the distributed software you use BOSH to deploy can be complex, the basic patterns for working with BOSH are not.
 
-## <a id="options"></a> Options for Deploying BOSH  ##
+## <a id="options"></a> Deploying BOSH  ##
 
-Before you use BOSH to deploy software, how do you deploy BOSH itself?
-
-The two options below are supported.
-Experimental and community-based methods also exist.
+Before you use BOSH to deploy software, you must first deploy BOSH itself.
+You can deploy BOSH with either of the two supported options below, or with experimental and community-based methods not documented here.
 
 ### <a id="lite"></a> BOSH Lite  ###
 
-[BOSH Lite] (https://github.com/cloudfoundry/bosh-lite) is software that runs within a single VM created with [Vagrant] (http://www.vagrantup.com/).
+[BOSH Lite] (https://github.com/cloudfoundry/bosh-lite) runs within a single VM created with [Vagrant] (http://www.vagrantup.com/).
 Scripts packaged with BOSH Lite make it simple to deploy on a laptop or other local environment.
 In sum, BOSH Lite is a low-cost, low-risk development environment to test and experiment with BOSH.
 To deploy BOSH Lite, you do not need a release, a stemcell, or a manifest, only Vagrant and related files.
 
 ### <a id="micro"></a> MicroBOSH  ###
 
-MicroBOSH is software that runs within a single VM on the cloud infrastructure that are supported for deploying software with BOSH.
+MicroBOSH runs within a single VM on the cloud infrastructure that are supported for deploying software with BOSH.
 To deploy MicroBOSH you need a stemcell and a manifest, but no release.
 MicroBOSH is suited to deploying software (as an alternative to multi-VM BOSH), and is only supported way to deploy BOSH for production.
+MicroBOSH is included within BOSH.
 
-## <a id="before"></a> Before Deploying, Obtain the Stemcell, Release and Manifest  ##
+Once you have BOSH Lite, MicroBOSH, or equivalent software running, you can use it to deploy BOSH
+(in the sense of "full" BOSH which runs on multiple VMs), or any other software that BOSH can deploy.
+
+**Note**: If you do not need to deploy full BOSH, skip to [Before Deploying Software with BOSH, Obtain the Stemcell, Release and Manifest](#before) below.
+
+To deploy BOSH using BOSH Lite, MicroBOSH, or equivalent software, you must:
+
+* Download a **release** of BOSH
+
+* Download a **stemcell** appropriate to the cloud infrastructure and OS where you plan to deploy.
+You obtain a stemcell from Pivotal Network.
+
+*  **manifest** that accounts for environmental constraints and specifies how you want to orchestrate your deployment.
+You can modify an example manifest to suit your purposes, or use a tool like spiff to create a manifest.
+
+## <a id="before"></a> Before Deploying Software with BOSH, Obtain the Stemcell, Release and Manifest  ##
 
 Before you deploy, you must have:
 
@@ -36,6 +50,8 @@ You obtain a stemcell from Pivotal Network.
 
 * A **manifest** that accounts for environmental constraints and specifies how you want to orchestrate your deployment.
 You can modify an example manifest to suit your purposes, or use a tool like spiff to create a manifest.
+
+Deployments that use multiple releases and multiple stemcells are supported.
 
 ## <a id="deploying"></a> Deploying Software with BOSH  ##
 
