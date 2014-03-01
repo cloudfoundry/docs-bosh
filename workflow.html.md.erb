@@ -38,8 +38,6 @@ You can modify an example manifest to suit your purposes, or use a tool like spi
 
 ## <a id="deploying"></a> Deploying Software with BOSH  ##
 
-Iterative
-
 To deploy software with BOSH, you perform four steps:
 
 1. Upload stemcell.
@@ -47,19 +45,17 @@ To deploy software with BOSH, you perform four steps:
 1. Set deployment with a manifest.
 1. Deploy.
 
-This simple pattern makes ,
+This pattern is at the heart of the BOSH workflow, and its power is in simplicity.
+Without it, you would likely need to perform a larger number of tasks, many of them difficult to replicate from deployment to deployment.
+Because deploying software is an iterative process, the amount of labor that this pattern saves is significant.
 
-Other activities that are typical of the care and feeding of distributed software deployments include:
+Other activities typical of the care and feeding of distributed software deployments include:
 
 * Creating and editing users
 * Inspecting the state of VMs
 * Getting (viewing) and sometimes cancelling Director tasks
 
-You may perform these activities either before and after deployment.
-
-
-
-
+You perform these activities before or after deployment, or both.
 
 ### <a id=" "></a>    ###
 
