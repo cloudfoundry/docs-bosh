@@ -8,16 +8,18 @@ Reading through this glossary should help you quickly become comfortable working
 
 | Term          | Definition   |
 | ------------- | ------------ |
-| <a id="agent"></a>Agent         | A process that runs continuously on each VM that BOSH deploys (one Agent process per VM). The BOSH Agent executes tasks in response to messages it receives from the BOSH Director. |
+| Agent         | A process that runs continuously on each VM that BOSH deploys (one Agent process per VM). The BOSH Agent executes tasks in response to messages it receives from the BOSH Director. |
 | Blobstore     | A repository where BOSH stores release artifacts, logs, stemcells, and other content, at various times during the lifecycle of a BOSH release. |
 | CPI | A Cloud Provider Interface is a software layer between BOSH and an IaaS (cloud). |
 | Deploy (verb)       | BOSH deploys software to the cloud using a deployment manifest, one or more stemcells, and one or more releases. |
 | Deployment (noun)   | An encapsulation of software and configuration that BOSH can deploy to the cloud. You can think of a BOSH deployment as the state of a collection of VMs: what software is on them, what resources they use, and how these are orchestrated. Even though BOSH creates the deployment using ephemeral resources, the deployment is stable in that BOSH re-creates VMs that fail and otherwise works to keep your software running. BOSH also manages persistent disks so that state (for example, database data files) can survive when BOSH re-creates a VM. A particular combination of manifest, stemcell, and release is portable across different kinds of cloud infrastructure (that is, across different CPIs) with minimal changes to the manifest. |
 | Director | The BOSH component that coordinates the BOSH Agents and responds to user requests and system events. The BOSH Director is the orchestrator of a BOSH deployment. |
+| IaaS | Infrastructure as a Service. "An IaaS" is shorthand for "a cloud from a particular IaaS provider." BOSH enables the Cloud Foundry PaaS to support multiple IaaS's. |
 | Job | A BOSH release uses the term “job” to describe a feature, that is, a major area of functionality. Meanwhile, a BOSH manifest uses the term “job” to describe a VM type, and the term “template” to describe a feature. When you allocate a feature to a VM type, the feature described as a “job” in the release becomes a “template” in the `jobs` block in the manifest. You name your VM types as “jobs” and specify a number of instances for each.|
 | Jumpbox | A VM that acts as a single access point for the VMs in a BOSH deployment. For resilience, there should be more than one jumpbox. Allowing access through jumpboxes and disabling access to the other VMs is a common security measure. |
 | Manifest | A YAML file that identifies one or more release, one or more stemcells and specifies how to configure them for a given deployment. |
-| <a id="micro"></a> MicroBOSH | An essentially complete BOSH that runs within a single VM. One use of the MicroBOSH is to orchestrate the deployment of a BOSH on multiple VMs. |
+| MicroBOSH | An essentially complete BOSH that runs within a single VM. One use of the MicroBOSH is to orchestrate the deployment of a BOSH on multiple VMs. |
+| PaaS | Platform as a Service, where large-scale distributed software is deployed to the platform, abstracting away details of the underlying IaaS. Cloud Foundry is PaaS. |
 | Release | A collection of configuration files, job definitions, source code, package definitions and accompanying information needed to make a software component deployable by BOSH. A release should have no dependencies that need to be fetched from the internet. |
 | Stemcell | A generic VM image that BOSH clones and configures to during deployment. A stemcell is a template from which BOSH creates whatever VMs are needed for a wide variety of components and products. |
 | Task | The basic unit of work performed by BOSH. You can get the status and logs for any task. You can monitor the task throughout its lifecycle, which progresses through states like started, running, done, and error. |
