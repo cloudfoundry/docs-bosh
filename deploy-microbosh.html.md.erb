@@ -19,12 +19,18 @@ and provides examples from a particular deployment which happens to use AWS.
 Your overall goal when preparing to deploy MicroBOSH is to have a stemcell, a manifest,
 and properly set up environments both locally and in the cloud.
 
+### <a id="cli"></a> Install the BOSH CLI  ###
+
+* Run the command shown on the stemcell download site:
+
+    `gem install bosh_cli bosh_cli_plugin_micro`
+
 ### <a id="cloud"></a> Set up a deployment area in the cloud ###
 
 Collect or decide:
 
 1. The deployment name.
-1. The domain, subdomain, and any IaaS-specific information about where your deployment should reside.
+1. Any IaaS-specific information about where your deployment should reside.
 1. The name and credentials of the user who will administer your deployment.
 
 * For example, on AWS you need:
@@ -43,6 +49,10 @@ To obtain the user information you could:
     `Your 1 User(s) have been created successfully. This is the last time these User security credentials will be available for download.`
 1. Copy the `Access Key ID` and the `Secret Access Key` for later use.
 1. Finish the user creation process as directed by the prompts.
+
+Next:
+
+    `gem install bosh_cli_plugin_aws`
 
 ### <a id="local"></a> Set up a local work area  ###
 
@@ -63,11 +73,6 @@ _Comment about where to download to._
 They are actually just pointers to stemcells that already exist on AWS.
 Using a light BOSH stemcell spares you from the "uploading a stemcell" step later on.
 
-### <a id="cli"></a> Install the BOSH CLI  ###
-
-* From the _which?_ directory, run the command shown on the stemcell download site:
-
-    `gem install bosh_cli -v 1.2089.0`
 
 ### <a id="enviro"></a> Set up your local environment   ###
 
