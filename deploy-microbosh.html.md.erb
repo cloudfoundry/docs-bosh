@@ -51,7 +51,7 @@ How to do this is up to you.
 
 * For example, you could create a directory structure like this:
 
-  `~/deployments-aws/boshtest/deployments`
+    `~/deployments-aws/boshtest/deployments`
 
 ### <a id="stemcell"></a> Obtain a stemcell  ###
 
@@ -76,10 +76,10 @@ At the command line on your local system:
 1. cd into the _which?_ directory.
 1. Generate the BOSH environment variables:
 
-	`source bosh_environment`
+    `source bosh_environment`
 1. Check to see that the BOSH environment variables exist:
 
-	`env | grep BOSH`
+    `env | grep BOSH`
 1. Using the information you have [collected](#cloud), assign values to the BOSH environment variables.
 
 * For example, you could set up the environment for an AWS deployment as follows:
@@ -105,10 +105,10 @@ For example:
 1. cd into the _which?_ directory.
 1. Generate the manifest:
 
-	`bosh aws generate micro_bosh aws_vpc_receipt.yml aws_route53_receipt.yml`
+    `bosh aws generate micro_bosh aws_vpc_receipt.yml aws_route53_receipt.yml`
 1. Verify that the manifest was generated:
 
-	`ls -al micro-bosh.yml`
+    `ls -al micro-bosh.yml`
 
 ## <a id="deploy"></a> Deploying MicroBOSH  ##
 
@@ -119,7 +119,7 @@ Once preparation is complete, you deploy MicroBOSH in three steps.
 **Note**: Skip this step if you are using AWS.
 
 * From the _which?_ directory, run the command:
-	`foo`
+    `foo`
 
 ### <a id="set"></a> Set the deployment  ###
 
@@ -136,7 +136,7 @@ This is called "setting the deployment."
 1. cd into the _which?_ directory.
 1. Deploy MicroBOSH:
 
-  `bosh micro deploy <stemcell_URL>`
+    `bosh micro deploy <stemcell_URL>`
 
 ## <a id="verify"></a> Verifying your Deployment  ##
 
