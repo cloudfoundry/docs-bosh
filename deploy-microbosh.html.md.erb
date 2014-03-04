@@ -10,32 +10,12 @@ To deploy MicroBOSH you need a stemcell and a manifest.
 You do not need a release since MicroBOSH itself is included within the stemcell.
 
 The details of how you deploy MicroBOSH depend on which IaaS you use.
-This topic outlines a general procedure and also provides examples from a particular deployment which happens to use AWS.
+This topic outlines a general procedure that applies for all IaaS's,
+and provides examples from a particular deployment which happens to use AWS.
 
-## <a id="local"></a> Set Up a Local Work Area  ##
+## <a id="prep"></a> Preparing to Deploy  ##
 
-You need to set up a "home base" on your local system, where you run BOSH commands and where downloads can land.
-How to do this is up to you.
-
-* For example, you could create a directory structure like this:
-
-  `~/deployments-aws/boshtest/deployments`
-
-## <a id="stemcell"></a> Obtain a Stemcell  ##
-
-[Download](http://bosh-artifacts.cfapps.io/) a stemcell that is appropriate for your preferred combination of IaaS and VM type.
-
-* For example, the stemcell for CentOS on AWS is called `light-bosh (aws xen centos)`.
-"Light BOSH" stemcells are AWS-specific.
-They are actually just pointers stemcells that already exist on AWS.
-Using a light BOSH stemcell spares you from the "uploading a stemcell" step later on.
-
-## <a id="cli"></a> Install the BOSH CLI  ##
-
-* From the _which?_ directory, run the command shown on the stemcell download site:
-	`gem install bosh_cli -v 1.2089.0`
-
-## <a id="admin"></a> Collect Administrative Information ##
+### <a id="cloud"></a> Set Up your Deployment Area in the Cloud ###
 
 You need to collect or decide:
 
@@ -58,10 +38,33 @@ To obtain the user information you could:
 Pause when you get to the one that says:
 "Your 1 User(s) have been created successfully.
 This is the last time these User security credentials will be available for download."
-1. Copy the `Access Key ID`
-1. Copy the `Secret Access Key`
+1. Copy the `Access Key ID` and the `Secret Access Key` for later use.
 
-## <a id="enviro"></a> Set Up your Local Environment   ##
+### <a id="local"></a> Set Up a Local Work Area  ###
+
+You need a "home base" where you run BOSH commands and where downloads can land, on your local system.
+How to do this is up to you.
+
+* For example, you could create a directory structure like this:
+
+  `~/deployments-aws/boshtest/deployments`
+
+### <a id="stemcell"></a> Obtain a Stemcell  ###
+
+[Download](http://bosh-artifacts.cfapps.io/) a stemcell that is appropriate for your preferred combination of IaaS and VM type.
+_Comment about where to download to._
+
+* For example, the stemcell for CentOS on AWS is called `light-bosh (aws xen centos)`.
+"Light BOSH" stemcells are AWS-specific.
+They are actually just pointers stemcells that already exist on AWS.
+Using a light BOSH stemcell spares you from the "uploading a stemcell" step later on.
+
+### <a id="cli"></a> Install the BOSH CLI  ###
+
+* From the _which?_ directory, run the command shown on the stemcell download site:
+	`gem install bosh_cli -v 1.2089.0`
+
+### <a id="enviro"></a> Set Up your Local Environment   ###
 
 At the command line on your local system:
 
@@ -85,9 +88,10 @@ $ export BOSH_VPC_ACCESS_KEY_ID=12345abcde12345abcde12345
 $ export BOSH_VPC_SECRET_ACCESS_KEY=12345abcde22345abcde32345abcde42345abcde
 </pre>
 
-## <a id="manifest"></a> Create the manifest  ##
+### <a id="manifest"></a> Create the manifest  ###
 
-If you are using an IaaS other than AWS, refer to [Creating a BOSH Deployment Manifest](./create-manifest.html) for instructions.
+If you are using an IaaS other than AWS, you need to create a deployment manifest.
+Refer to [Creating a BOSH Deployment Manifest](./create-manifest.html) for instructions.
 
 For AWS, there are BOSH CLI commands which generate the manifest for you.
 
@@ -101,22 +105,37 @@ For example:
 
 	`ls -al micro-bosh.yml`
 
-## <a id="set"></a> Set the Deployment  ##
+## <a id="deploy"></a> Deploying MicroBOSH  ##
+
+Once preparation is complete, deploying MicroBOSH is
+
+### <a id="upload"></a> Upload the stemcell  ###
+
+**Note**: Skip this step if you are using AWS.
+
+* From the _which?_ directory, run the command:
+	`foo`
+
+### <a id="set"></a> Set the Deployment  ###
 
 Before you deploy, you must set the BOSH CLI to use the correct manifest.
 This is called "setting the deployment."
 
 1. cd into the _which?_ directory.
-1. Generate the manifest:
+1. Run the `deployment`:
 
     `bosh micro deployment micro/micro_bosh.yml`
 
-## <a id="deploy"></a> Deploy MicroBOSH  ##
+### <a id="deploy"></a> Deploy MicroBOSH  ###
 
 1. cd into the _which?_ directory.
 1. Deploy MicroBOSH:
 
   `bosh micro deploy <stemcell_URL>`
+
+## <a id="verify"></a> Verifying your Deployment  ##
+
+_Mention that BATS is not needed here, provide a simple sanity check._
 
 
 
