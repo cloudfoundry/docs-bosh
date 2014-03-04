@@ -10,21 +10,21 @@ You do not need a release MicroBOSH itself is included within the stemcell.
 The details of how you deploy MicroBOSH depend on which IaaS you are using.
 This topic outlines a general procedure and also provides examples from a particular deployment which happens to use AWS.
 
-## <a id="local"></a> Set Up a Work Area on your Local System  ##
+## <a id="local"></a> Set Up a Local Work Area  ##
 
 You need to set up a "home base" on your local system, where you run BOSH commands and where downloads can land.
 How to do this is up to you.
 
 * For example, you could create a directory structure like this:
 
-  ~/deployments-aws/boshtest/deployments
+  `~/deployments-aws/boshtest/deployments`
 
 ## <a id="stemcell"></a> Obtain a Stemcell  ##
 
 [Download](http://bosh-artifacts.cfapps.io/) a stemcell that is appropriate for your preferred combination of IaaS and VM type.
 
-* For example, the stemcell to use CentOS on AWS is called `light-bosh (aws xen centos)`.
-The "light BOSH" stemcells are AWS-specific.
+* For example, the stemcell for CentOS on AWS is called `light-bosh (aws xen centos)`.
+"Light BOSH" stemcells are AWS-specific.
 They are actually just pointers stemcells that already exist on AWS.
 Using a light BOSH stemcell spares you from the "uploading a stemcell" step later on.
 
@@ -33,7 +33,7 @@ Using a light BOSH stemcell spares you from the "uploading a stemcell" step late
 * From the _which?_ directory, run the command shown on the stemcell download site:
 	`gem install bosh_cli -v 1.2089.0`
 
-## <a id="admin"></a> Collect the Information Needed to Administer your Deployment  ##
+## <a id="admin"></a> Collect Administrative Information ##
 
 You need to collect or decide:
 
