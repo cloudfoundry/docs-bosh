@@ -1,0 +1,120 @@
+---
+title: Deploying MicroBOSH
+---
+
+MicroBOSH runs within a single VM on any cloud infrastructure that is supported for deploying software with BOSH.
+MicroBOSH is suited to deploying software (as an alternative to multi-VM BOSH), and is the only supported way to deploy BOSH for production.
+To deploy MicroBOSH you need a stemcell and a manifest.
+You do not need a release MicroBOSH itself is included within the stemcell.
+
+The details of how you deploy MicroBOSH depend on which IaaS you are using.
+This topic outlines a general procedure and also provides examples from a particular deployment which happens to use AWS.
+
+## <a id="local"></a> Set Up a Work Area on your Local System  ##
+
+You need to set up a "home base" on your local system, where you run BOSH commands and where downloads can land.
+How to do this is up to you.
+
+* For example, you could create a directory structure like this:
+
+  ~/deployments-aws/boshtest/deployments
+
+## <a id="stemcell"></a> Obtain a Stemcell  ##
+
+[Download](http://bosh-artifacts.cfapps.io/) a stemcell that is appropriate for your preferred combination of IaaS and VM type.
+
+* For example, the stemcell to use CentOS on AWS is called `light-bosh (aws xen centos)`.
+The "light BOSH" stemcells are AWS-specific.
+They are actually just pointers stemcells that already exist on AWS.
+Using a light BOSH stemcell spares you from the "uploading a stemcell" step later on.
+
+## <a id="cli"></a> Install the BOSH CLI  ##
+
+* From the _which?_ directory, run the command shown on the stemcell download site:
+	`gem install bosh_cli -v 1.2089.0`
+
+## <a id="admin"></a> Collect the Information Needed to Administer your Deployment  ##
+
+You need to collect or decide:
+
+1. The deployment name.
+1. The domain, subdomain, and any IaaS-specific information about the where your deployment should reside.
+1. The name and credentials of the user who will administer your deployment.
+
+* For example, on AWS you need:
+
+1. The deployment name.
+1. The domain, subdomain, and primary availability zone.
+1. The name, access key ID, and secret access key for the administrative user for the MicroBOSH you intend to deploy.
+
+To obtain the user information you could:
+
+1. Log into AWS.
+1. Create a new group of users.
+1. Create a user to administer the MicroBOSH.
+* AWS takes you through a series of wizard-like popup screens.
+Pause when you get to the one that says:
+"Your 1 User(s) have been created successfully.
+This is the last time these User security credentials will be available for download."
+1. Copy the `Access Key ID`
+1. Copy the `Secret Access Key`
+
+## <a id="enviro"></a> Set Up your Local Environment   ##
+
+At the command line on your local system:
+
+1. cd into the _which?_ directory.
+1. Generate the BOSH environment variables:
+
+	`source bosh_environment`
+1. Check to see that the BOSH environment variables exist:
+
+	`env | grep BOSH`
+1. Using the information you have [collected](#admin), assign values to the BOSH environment variables.
+
+* For example, you could set up the environment for an AWS deployment as follows:
+
+<pre class="terminal">
+$ export BOSH_DEPLOYMENT_NAME=boshtest
+$ export BOSH_VPC_DOMAIN=example.com
+$ export BOSH_VPC_SUBDOMAIN=myboshtest
+$ export BOSH_VPC_PRIMARY_AZ=us-east-1b
+$ export BOSH_VPC_ACCESS_KEY_ID=12345abcde12345abcde12345
+$ export BOSH_VPC_SECRET_ACCESS_KEY=12345abcde22345abcde32345abcde42345abcde
+</pre>
+
+## <a id="manifest"></a> Create the manifest  ##
+
+If you are using an IaaS other than AWS, refer to [Creating a BOSH Deployment Manifest](./create-manifest.html) for instructions.
+
+For AWS, there are BOSH CLI commands which generate the manifest for you.
+
+For example:
+
+1. cd into the _which?_ directory.
+1. Generate the manifest:
+
+	`bosh aws generate micro_bosh aws_vpc_receipt.yml aws_route53_receipt.yml`
+1. Verify that the manifest was generated:
+
+	`ls -al micro-bosh.yml`
+
+## <a id="set"></a> Set the Deployment  ##
+
+Before you deploy, you must set the BOSH CLI to use the correct manifest.
+This is called "setting the deployment."
+
+1. cd into the _which?_ directory.
+1. Generate the manifest:
+
+    `bosh micro deployment micro/micro_bosh.yml`
+
+## <a id="deploy"></a> Deploy MicroBOSH  ##
+
+1. cd into the _which?_ directory.
+1. Deploy MicroBOSH:
+
+  `bosh micro deploy <stemcell_URL>`
+
+
+
