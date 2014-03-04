@@ -56,7 +56,7 @@ _Comment about where to download to._
 
 * For example, the stemcell for CentOS on AWS is called `light-bosh (aws xen centos)`.
 "Light BOSH" stemcells are AWS-specific.
-They are actually just pointers stemcells that already exist on AWS.
+They are actually just pointers to stemcells that already exist on AWS.
 Using a light BOSH stemcell spares you from the "uploading a stemcell" step later on.
 
 ### <a id="cli"></a> Install the BOSH CLI  ###
@@ -75,7 +75,7 @@ At the command line on your local system:
 1. Check to see that the BOSH environment variables exist:
 
 	`env | grep BOSH`
-1. Using the information you have [collected](#admin), assign values to the BOSH environment variables.
+1. Using the information you have [collected](#cloud), assign values to the BOSH environment variables.
 
 * For example, you could set up the environment for an AWS deployment as follows:
 
@@ -90,7 +90,7 @@ $ export BOSH_VPC_SECRET_ACCESS_KEY=12345abcde22345abcde32345abcde42345abcde
 
 ### <a id="manifest"></a> Create the manifest  ###
 
-If you are using an IaaS other than AWS, you need to create a deployment manifest.
+If you are using an IaaS other than AWS, you need to use a text editor to create a deployment manifest, which is a YAML file named `micro-bosh.yml`.
 Refer to [Creating a BOSH Deployment Manifest](./create-manifest.html) for instructions.
 
 For AWS, there are BOSH CLI commands which generate the manifest for you.
@@ -107,7 +107,7 @@ For example:
 
 ## <a id="deploy"></a> Deploying MicroBOSH  ##
 
-Once preparation is complete, deploying MicroBOSH is
+Once preparation is complete, you deploy MicroBOSH in three steps.
 
 ### <a id="upload"></a> Upload the stemcell  ###
 
