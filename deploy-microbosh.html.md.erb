@@ -91,9 +91,7 @@ create a text file named `bosh_environment`.
 * For each item of information enumerated [above](#cloud),
 add a line to the file, of the form:
 
-```
-export <BOSH_environment_variable>=<value>
-```
+    `export <BOSH_environment_variable>=<value>`
 
 Use the information you have [collected](#cloud) to identify values to assign.
 
@@ -116,16 +114,13 @@ export BOSH_VPC_SECRET_ACCESS_KEY=12345abcde22345abcde32345abcde42345abcde
 
     `env | grep BOSH`
 
-* For example, you could set up the environment for an AWS deployment as follows:
+### <a id="bootstrap"></a> AWS-only: Add bootstrap capability  ###
 
-<pre class="terminal">
-$ export BOSH_DEPLOYMENT_NAME=boshtest
-$ export BOSH_VPC_DOMAIN=example.com
-$ export BOSH_VPC_SUBDOMAIN=myboshtest
-$ export BOSH_VPC_PRIMARY_AZ=us-east-1b
-$ export BOSH_VPC_ACCESS_KEY_ID=12345abcde12345abcde12345
-$ export BOSH_VPC_SECRET_ACCESS_KEY=12345abcde22345abcde32345abcde42345abcde
-</pre>
+* _What to say here? Is this the right place?_
+
+    `aws create bootstrap`
+
+**Note**: This command may take between thirty minutes and an hour to complete.
 
 ### <a id="manifest"></a> Create the manifest  ###
 
