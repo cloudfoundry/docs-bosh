@@ -21,7 +21,7 @@ and properly set up environments both locally and in the cloud.
 
 ### <a id="cli"></a> Install the BOSH CLI  ###
 
-* Run the command shown on the stemcell download site:
+* Run this command to install the BOSH CLI along with its MicroBOSH plugin:
 
     `gem install bosh_cli bosh_cli_plugin_micro`
 
@@ -50,18 +50,27 @@ To obtain the user information you could:
 1. Copy the `Access Key ID` and the `Secret Access Key` for later use.
 1. Finish the user creation process as directed by the prompts.
 
-Next:
+* Then, run this command to install the BOSH CLI AWS plugin:
 
     `gem install bosh_cli_plugin_aws`
 
 ### <a id="local"></a> Set up a local work area  ###
 
-You need a "home base" where you run BOSH commands and where downloads can land, on your local system.
-How to do this is up to you.
+**Note**: While not required, the instructions in this section are highly recommended.
+
+Set up a directory structure with four levels:
+
+1. A top-level directory to contain files related to deployments to a particular IaaS.
+1. Inside the top-level directory, a directory to contain files related to a particular deployment.
+1. Inside each deployment directory, a directory to contain mainly manifests.
+1. Inside the manifests directory, directories for each product you intend to deploy.
 
 * For example, you could create a directory structure like this:
 
-    `~/deployments-aws/boshtest/deployments`
+1. A top-level directory called `deployments-aws`.
+1. Inside the top-level directory, a directory named `boshtest` that is named for your planned MicroBOSH deployment.
+1. Inside `boshtest`, a directory named `manifests`.
+1. Inside `manifests`, a directory named `micro`.
 
 ### <a id="stemcell"></a> Obtain a stemcell  ###
 
