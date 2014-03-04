@@ -3,11 +3,13 @@ title: Deploying MicroBOSH
 ---
 
 MicroBOSH runs within a single VM on any cloud infrastructure that is supported for deploying software with BOSH.
-MicroBOSH is suited to deploying software (as an alternative to multi-VM BOSH), and is the only supported way to deploy BOSH for production.
-To deploy MicroBOSH you need a stemcell and a manifest.
-You do not need a release MicroBOSH itself is included within the stemcell.
+MicroBOSH is suited to deploying software (as an alternative to multi-VM BOSH).
+The only supported way to deploy BOSH for production is to use MicroBOSH.
 
-The details of how you deploy MicroBOSH depend on which IaaS you are using.
+To deploy MicroBOSH you need a stemcell and a manifest.
+You do not need a release since MicroBOSH itself is included within the stemcell.
+
+The details of how you deploy MicroBOSH depend on which IaaS you use.
 This topic outlines a general procedure and also provides examples from a particular deployment which happens to use AWS.
 
 ## <a id="local"></a> Set Up a Local Work Area  ##
