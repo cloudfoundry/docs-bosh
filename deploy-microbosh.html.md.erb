@@ -18,7 +18,7 @@ and provides examples from a particular deployment which happens to use AWS.
 Your overall goal when preparing to deploy MicroBOSH is ensure that you have a stemcell, a manifest,
 and properly set up environments both locally and in the cloud.
 
-### <a id="cloud"></a> Set Up a Deployment Area in the Cloud ###
+### <a id="cloud"></a> Set up a deployment area in the cloud ###
 
 You need to collect or decide:
 
@@ -43,7 +43,7 @@ Pause when you get to the one that says:
 This is the last time these User security credentials will be available for download."
 1. Copy the `Access Key ID` and the `Secret Access Key` for later use.
 
-### <a id="local"></a> Set Up a Local Work Area  ###
+### <a id="local"></a> Set up a local work area  ###
 
 You need a "home base" where you run BOSH commands and where downloads can land, on your local system.
 How to do this is up to you.
@@ -52,7 +52,7 @@ How to do this is up to you.
 
   `~/deployments-aws/boshtest/deployments`
 
-### <a id="stemcell"></a> Obtain a Stemcell  ###
+### <a id="stemcell"></a> Obtain a stemcell  ###
 
 [Download](http://bosh-artifacts.cfapps.io/) a stemcell that is appropriate for your preferred combination of IaaS and VM type.
 _Comment about where to download to._
@@ -67,7 +67,7 @@ Using a light BOSH stemcell spares you from the "uploading a stemcell" step late
 * From the _which?_ directory, run the command shown on the stemcell download site:
 	`gem install bosh_cli -v 1.2089.0`
 
-### <a id="enviro"></a> Set Up your Local Environment   ###
+### <a id="enviro"></a> Set up your local environment   ###
 
 At the command line on your local system:
 
@@ -119,7 +119,7 @@ Once preparation is complete, you deploy MicroBOSH in three steps.
 * From the _which?_ directory, run the command:
 	`foo`
 
-### <a id="set"></a> Set the Deployment  ###
+### <a id="set"></a> Set the deployment  ###
 
 Before you deploy, you must set the BOSH CLI to use the correct manifest.
 This is called "setting the deployment."
