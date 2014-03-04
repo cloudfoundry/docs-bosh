@@ -31,7 +31,7 @@ Collect or decide:
 
 1. The deployment name.
 1. Any IaaS-specific information about where your deployment should reside.
-1. The name and credentials of the user who will administer your deployment.
+1. The name and credentials of an admin user for your deployment.
 
 * For example, on AWS you need:
 
@@ -85,16 +85,34 @@ Using a light BOSH stemcell spares you from the "uploading a stemcell" step late
 
 ### <a id="enviro"></a> Set up your local environment   ###
 
-At the command line on your local system:
+In the directory that contains files for your MicroBOSH deployment (`deployments-aws/boshtest` in these examples),
+create a text file named `bosh_environment`.
 
-1. cd into the _which?_ directory.
-1. Generate the BOSH environment variables:
+For each item of information enumerated in [Set up a deployment area in the cloud](#cloud) above,
+add a line to the file, of the form:
+
+    `export <BOSH_environment_variable>=<value>`
+
+Use the information you have [collected](#cloud) to identify values to assign.
+
+* For example, the file could look something like this:
+
+<pre class="terminal">
+export BOSH_DEPLOYMENT_NAME=boshtest
+export BOSH_VPC_DOMAIN=example.com
+export BOSH_VPC_SUBDOMAIN=myboshtest
+export BOSH_VPC_PRIMARY_AZ=us-east-1b
+export BOSH_VPC_ACCESS_KEY_ID=12345abcde12345abcde12345
+export BOSH_VPC_SECRET_ACCESS_KEY=12345abcde22345abcde32345abcde42345abcde
+</pre>
+
+Now use the file to generate the BOSH environment variables:
 
     `source bosh_environment`
-1. Check to see that the BOSH environment variables exist:
+
+Check to see that the BOSH environment variables exist:
 
     `env | grep BOSH`
-1. Using the information you have [collected](#cloud), assign values to the BOSH environment variables.
 
 * For example, you could set up the environment for an AWS deployment as follows:
 
