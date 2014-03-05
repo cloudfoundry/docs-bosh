@@ -249,7 +249,6 @@ jobs:
   persistent_disk: 10240
   networks:
   - name: default
-    default: [dns, gateway]
 </pre>
 
 This block is IaaS-agnostic.
@@ -293,22 +292,22 @@ properties:
 ...
 
   mysql: &bosh_db
-	  adapter: mysql2
-	  user: u1250a5fcd8ade2
-	  password: p2cfca30665aa46f875605ca81845ef4c
-	  host: bosh.cabaz18bo7yr.us-east-1.rds.amazonaws.com
-	  port: 3306
-	  database: bosh
+    adapter: mysql2
+    user: u1250a5fcd8ade2
+    password: p2cfca30665aa46f875605ca81845ef4c
+    host: bosh.cabaz18bo7yr.us-east-1.rds.amazonaws.com
+    port: 3306
+    database: bosh
 
 ...
 
   registry:
-	  address: 10.10.0.7
-	  db: *bosh_db
-	  http:
-	    port: 25777
-	    user: awsreg
-	    password: 72a181ef4cf87560665zzzp2cfca30465c
+    address: 10.10.0.7
+    db: *bosh_db
+    http:
+      port: 25777
+      user: awsreg
+      password: 72a181ef4cf87560665zzzp2cfca30465c
 
 </pre>
 
