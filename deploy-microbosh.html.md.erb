@@ -23,7 +23,8 @@ and properly set up environments both locally and in the cloud.
 you should have made a few more decisions by now:
 
 * What IaaS to use.
-* What to name the cloud you plan to deploy on that IaaS.
+* What to name the environment you plan to deploy on that IaaS.
+In this context, the term "environment" means one or more software products deployed to the same cloud to provide a service or set of services.
 
 ### <a id="local"></a> Set up a local work area  ###
 
@@ -64,7 +65,7 @@ Download to the directory of your choice, and remember its path for later use.
 The MicroBOSH deployment manifest is a YAML file named `micro-bosh.yml` and should reside in the directory
 named for the product it deploys (`boshtest/microbosh` in these examples).
 
-If you are using AWS, there are BOSH CLI commands which generate the manifest for you.
+If you are using AWS, you can generate the manifest using special BOSH CLI commands.
 If you are using an IaaS other than AWS, you need to use a text editor to create a MicroBOSH deployment manifest.
 
 To understand general principles of BOSH deployment manifests,
