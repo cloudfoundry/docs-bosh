@@ -27,16 +27,18 @@ you should have made a few more decisions by now:
 
 ### <a id="local"></a> Set up a local work area  ###
 
-**Note**: While not required, the instructions in this section are highly recommended.
+**Note**: How to set up your local work area is up to you.
+What follows is a suggested approach that you are free to vary to suit your needs.
 
 Set up a directory structure with three levels:
 
-1. A top-level directory for each IaaS you plan to use.
-1. Inside the IaaS directory, directories for each cloud you intend to deploy on the IaaS.
-1. Inside each cloud directory, directories for each product you intend to deploy. In this context, MicroBOSH is a product.
+1. One top-level directory for each IaaS you plan to use.
+1. Inside the IaaS directory, a directory for each cloud you intend to deploy on the IaaS.
+1. Inside each cloud directory, a directory for each product you intend to deploy. In this context, MicroBOSH is a product.
 
-* For example, you might be planning to deploy MicroBOSH on a cloud named `boshtest`, that in turn is deployed to the OpenStack IaaS.
-You would create a directory for each, such that the path to your MicroBOSH deployment could be `deploy2openstack/boshtest/micro`.
+* The examples that follow assume that you plan to deploy MicroBOSH on a cloud named `boshtest`.
+You plan to deploy the `boshtest` cloud, in turn, to the OpenStack IaaS.
+You create a directory for each, such that the path to your MicroBOSH deployment is `deploy2openstack/boshtest/micro`.
 
 <%= image_tag("bosh-directories-ex.png") %>
 
