@@ -19,6 +19,12 @@ and ends with an example focused on AWS.
 Your overall goal when preparing to deploy MicroBOSH is to have a stemcell, a manifest,
 and properly set up environments both locally and in the cloud.
 
+**Note**: Along with the decision you have made to deploy MicroBOSH,
+you should have made a few more decisions:
+
+* What IaaS to use.
+* What to name the cloud you plan to deploy on that IaaS.
+
 ### <a id="cli"></a> Install the BOSH CLI  ###
 
 * Run this command to install the BOSH CLI along with its MicroBOSH plugin:
@@ -29,7 +35,7 @@ and properly set up environments both locally and in the cloud.
 
 Collect or decide:
 
-1. The environment name.
+1. The name of the cloud you plan to deploy.
 1. Any IaaS-specific information about where your deployment should reside.
 1. The name and credentials of an admin user for your deployment.
 
@@ -87,7 +93,7 @@ Once preparation is complete, you deploy MicroBOSH in three steps.
 
 ### <a id="set"></a> Set the deployment  ###
 
-Before you deploy, you must set the BOSH CLI to use the correct manifest.
+Before you deploy, direct the BOSH CLI to use the correct manifest.
 This is called "setting the deployment."
 
 1. `cd` into the directory you created for MicroBOSH (`micro` in these examples).
@@ -97,10 +103,16 @@ This is called "setting the deployment."
 
 ### <a id="deploy"></a> Deploy MicroBOSH  ###
 
+1. Recall the local path to the stemcell you downloaded.
 1. `cd` into the directory you created for MicroBOSH (`micro` in these examples).
 1. Deploy MicroBOSH:
 
-    `bosh micro deploy <stemcell_URL>`
+    `bosh micro deploy <local_path_to_stemcell>`
+
+An important effect of this command is to create a file named `bosh-deployment.yml`.
+This file functions like a small database that MicroBOSH uses when bootstrapping itself.
+
+in the directory where you run
 
 ## <a id="verify"></a> Verifying your Deployment  ##
 
