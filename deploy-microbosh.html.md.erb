@@ -25,20 +25,6 @@ you should have made a few more decisions by now:
 * What IaaS to use.
 * What to name the cloud you plan to deploy on that IaaS.
 
-### <a id="cli"></a> Install the BOSH CLI  ###
-
-* Run this command to install the BOSH CLI along with its MicroBOSH plugin:
-
-    `gem install bosh_cli bosh_cli_plugin_micro`
-
-### <a id="cloud"></a> Set up a deployment area in the cloud ###
-
-Collect or decide:
-
-1. The name of the cloud you plan to deploy.
-1. Any IaaS-specific information about where your deployment should reside.
-1. The name and credentials of an admin user for your deployment.
-
 ### <a id="local"></a> Set up a local work area  ###
 
 **Note**: While not required, the instructions in this section are highly recommended.
@@ -53,6 +39,20 @@ Set up a directory structure with three levels:
 You would create a directory for each, such that the path to your MicroBOSH deployment could be `deploy2openstack/boshtest/micro`.
 
 <%= image_tag("bosh-directories-ex.png") %>
+
+### <a id="cli"></a> Install the BOSH CLI  ###
+
+* Run this command to install the BOSH CLI along with its MicroBOSH plugin:
+
+    `gem install bosh_cli bosh_cli_plugin_micro`
+
+### <a id="cloud"></a> Set up a deployment area in the cloud ###
+
+Collect or decide:
+
+1. The name of the cloud you plan to deploy.
+1. Any IaaS-specific information about where your deployment should reside.
+1. The name and credentials of the user whom you want to designate as admin for your deployment.
 
 ### <a id="stemcell"></a> Obtain a stemcell  ###
 
@@ -91,27 +91,18 @@ named for the product it deploys (`deploy2openstack/boshtest/micro` in these exa
 
 ## <a id="deploy"></a> Deploying MicroBOSH  ##
 
-Once preparation is complete, you deploy MicroBOSH in three steps.
+When you are ready to deploy, be sure you have the local path to the stemcell you downloaded.
+Then `cd` into the directory you created for MicroBOSH (`micro` in these examples).
 
-### <a id="set"></a> Set the deployment  ###
-
-Before you deploy, direct the BOSH CLI to use the correct manifest.
-This is called "setting the deployment."
-
-1. `cd` into the directory you created for MicroBOSH (`micro` in these examples).
-1. Set the deployment:
+1. Set the deployment—that is, direct the BOSH CLI to use the correct manifest:
 
     `bosh micro deployment micro_bosh.yml`
 
-### <a id="deploy"></a> Deploy MicroBOSH  ###
-
-1. Recall the local path to the stemcell you downloaded.
-1. `cd` into the directory you created for MicroBOSH (`micro` in these examples).
 1. Deploy MicroBOSH:
 
     `bosh micro deploy <local_path_to_stemcell>`
 
-An important effect of this command is to create a file named `bosh-deployment.yml`.
+**Note**: An important effect of the `bosh micro deploy` command is to create a file named `bosh-deployment.yml`.
 This file functions like a small database that MicroBOSH uses when bootstrapping itself.
 
 in the directory where you run
