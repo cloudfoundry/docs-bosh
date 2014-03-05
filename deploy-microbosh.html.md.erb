@@ -11,8 +11,8 @@ To deploy MicroBOSH you need a stemcell and a manifest.
 You do not need a release since MicroBOSH itself is included within the stemcell.
 
 The IaaS you use determines the details of how you deploy MicroBOSH.
-This topic outlines a general procedure that applies for all IaaS's,
-and provides examples from a particular deployment which happens to use AWS.
+This topic starts with a general procedure that applies for all IaaS's,
+and ends with an example which provides the specifics of deploying on AWS.
 
 ## <a id="prep"></a> Preparing to Deploy  ##
 
@@ -33,27 +33,6 @@ Collect or decide:
 1. Any IaaS-specific information about where your deployment should reside.
 1. The name and credentials of an admin user for your deployment.
 
-* For example, on AWS you need:
-
-1. The deployment name.
-1. The domain, subdomain, and primary availability zone.
-1. The name, access key ID, and secret access key for the administrative user for the MicroBOSH you intend to deploy.
-
-To obtain the user information you could:
-
-1. Log into AWS.
-1. Create a new group of users.
-1. Create a user to administer the MicroBOSH.
-1. As you respond to the prompts in the wizard-like AWS popup screen, pause when you see the message:
-
-    `Your 1 User(s) have been created successfully. This is the last time these User security credentials will be available for download.`
-1. Copy the `Access Key ID` and the `Secret Access Key` for later use.
-1. Finish the user creation process as directed by the prompts.
-
-* Then, run this command to install the BOSH CLI AWS plugin:
-
-    `gem install bosh_cli_plugin_aws`
-
 ### <a id="local"></a> Set up a local work area  ###
 
 **Note**: While not required, the instructions in this section are highly recommended.
@@ -65,23 +44,10 @@ Set up a directory structure with four levels:
 1. Inside each deployment directory, a directory to contain mainly manifests.
 1. Inside the manifests directory, directories for each product you intend to deploy.
 
-* For example, you could create a directory structure like this:
-
-1. A top-level directory called `deployments-aws`.
-1. Inside the top-level directory, a directory named `boshtest` that is named for your planned MicroBOSH deployment.
-1. Inside `boshtest`, a directory named `manifests`.
-1. Inside `manifests`, a directory named `micro`.
-
 ### <a id="stemcell"></a> Obtain a stemcell  ###
 
 [Download](http://bosh-artifacts.cfapps.io/) a stemcell that is appropriate for your preferred combination of IaaS and VM type.
-_Comment about where to download to._
-
-* For example, the stemcell for CentOS on AWS is called `light-bosh (aws xen centos)`.
-"Light BOSH" stemcells are AWS-specific.
-They are actually just pointers to stemcells that already exist on AWS.
-Using a light BOSH stemcell spares you from the "uploading a stemcell" step later on.
-
+Download to the directory of your choice, and remember its path for later use.
 
 ### <a id="enviro"></a> Set up your local environment   ###
 
@@ -114,17 +80,6 @@ export BOSH_VPC_SECRET_ACCESS_KEY=12345abcde22345abcde32345abcde42345abcde
 
     `env | grep BOSH`
 
-### <a id="bootstrap"></a> AWS-only: Add bootstrap capability  ###
-
-_What to say here? Is this the right place?_
-
-1. `cd` into the top-level directory you created (`deployments-aws` in these examples).
-1. Run this command to _how to phrase?_
-
-    `aws create bootstrap`
-
-**Note**: This command may take between thirty minutes and an hour to complete.
-
 ### <a id="manifest"></a> Create the manifest  ###
 
 If you are using an IaaS other than AWS, you need to use a text editor to create a deployment manifest, which is a YAML file named `micro-bosh.yml`.
@@ -132,26 +87,9 @@ Refer to [Creating a BOSH Deployment Manifest](./create-manifest.html) for instr
 
 For AWS, there are BOSH CLI commands which generate the manifest for you.
 
-For example:
-
-1. `cd` into the directory you created for manifests (`manifests` in these examples).
-1. Generate the manifest:
-
-    `bosh aws generate micro_bosh aws_vpc_receipt.yml aws_route53_receipt.yml`
-1. Verify that the manifest was generated:
-
-    `ls -al micro-bosh.yml`
-
 ## <a id="deploy"></a> Deploying MicroBOSH  ##
 
 Once preparation is complete, you deploy MicroBOSH in three steps.
-
-### <a id="upload"></a> Upload the stemcell  ###
-
-**Note**: Skip this step if you are using AWS.
-
-* From the _which?_ directory, run the command:
-    `foo`
 
 ### <a id="set"></a> Set the deployment  ###
 
@@ -172,7 +110,13 @@ This is called "setting the deployment."
 
 ## <a id="verify"></a> Verifying your Deployment  ##
 
-_Mention that BATS is not needed here, provide a simple sanity check._
+You have two general options for verifying that your deployment was successful.
+These are:
+
+1. Start using MicroBOSH by targeting the new director and uploading software.
+A minimal "dummy release" can be useful here.
+
+2. Running the BOSH Acceptance Tests (BATS), which requires advanced system administration skills.
 
 
 
