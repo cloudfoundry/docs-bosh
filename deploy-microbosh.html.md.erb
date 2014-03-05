@@ -30,17 +30,15 @@ you should have made a few more decisions by now:
 **Note**: How to set up your local work area is up to you.
 What follows is a suggested approach that you are free to vary to suit your needs.
 
-Set up a directory structure with three levels:
+Set up a directory structure with two levels:
 
-1. One top-level directory for each IaaS you plan to use.
-1. Inside the IaaS directory, a directory for each cloud you intend to deploy on the IaaS.
-1. Inside each cloud directory, a directory for each product you intend to deploy. In this context, MicroBOSH is a product.
+1. A top-level directory named after the environment you intend to deploy on the IaaS.
+1. Inside the environment directory, a directory for each product you intend to deploy. In this context, MicroBOSH is a product.
 
-* The examples that follow assume that you plan to deploy MicroBOSH on a cloud named `boshtest`.
-You plan to deploy the `boshtest` cloud, in turn, to the OpenStack IaaS.
-You create a directory for each, such that the path to your MicroBOSH deployment is `deploy2openstack/boshtest/micro`.
+* The examples that follow assume that you plan to deploy MicroBOSH to an environment named `boshtest`.
+You create a directory for each, such that the path to your MicroBOSH deployment is `boshtest/microbosh`.
 
-<%= image_tag("bosh-directories-ex.png") %>
+<%= image_tag("bosh-directories-2-level.png") %>
 
 ### <a id="cli"></a> Install the BOSH CLI  ###
 
@@ -52,7 +50,7 @@ You create a directory for each, such that the path to your MicroBOSH deployment
 
 Collect or decide:
 
-1. The name of the cloud you plan to deploy.
+1. The name of the environment you plan to deploy.
 1. Any IaaS-specific information about where your deployment should reside.
 1. The name and credentials of the user whom you want to designate as admin for your deployment.
 
@@ -61,40 +59,21 @@ Collect or decide:
 [Download](http://bosh-artifacts.cfapps.io/) a stemcell that is appropriate for your preferred combination of IaaS and VM type.
 Download to the directory of your choice, and remember its path for later use.
 
-### <a id="enviro"></a> Set up your local environment   ###
-
-In the directory that contains files for your MicroBOSH deployment (`deploy2openstack/boshtest/micro` in these examples),
-create a text file named `bosh_environment`.
-
-* For each item of information enumerated [above](#cloud),
-add a line to the file, of the form:
-
-    `export <BOSH_environment_variable>=<value>`
-
-Use the information you have [collected](#cloud) to identify values to assign.
-
-* Now use the file to generate the BOSH environment variables:
-
-    `source bosh_environment`
-
-* Check to see that the BOSH environment variables exist:
-
-    `env | grep BOSH`
-
-### <a id="manifest"></a> Create the manifest  ###
-
-If you are using an IaaS other than AWS, you need to use a text editor to create a deployment manifest.
-Refer to [Creating a BOSH Deployment Manifest](./create-manifest.html) for instructions.
-
-For AWS, there are BOSH CLI commands which generate the manifest for you.
+### <a id="manifest"></a> Create the MicroBOSH deployment manifest  ###
 
 The MicroBOSH deployment manifest is a YAML file named `micro-bosh.yml` and should reside in the directory
-named for the product it deploys (`deploy2openstack/boshtest/micro` in these examples).
+named for the product it deploys (`boshtest/microbosh` in these examples).
+
+If you are using AWS, there are BOSH CLI commands which generate the manifest for you.
+If you are using an IaaS other than AWS, you need to use a text editor to create a MicroBOSH deployment manifest.
+
+To understand general principles of BOSH deployment manifests,
+see [Creating a BOSH Deployment Manifest](./create-manifest.html).
 
 ## <a id="deploy"></a> Deploying MicroBOSH  ##
 
 When you are ready to deploy, be sure you know the local path to the stemcell you downloaded.
-Then `cd` into the directory you created for MicroBOSH (`micro` in these examples).
+Then `cd` into the directory you created for MicroBOSH (`boshtest/microbosh` in these examples).
 
 1. Set the deployment—that is, direct the BOSH CLI to use the correct manifest:
 
@@ -116,6 +95,3 @@ These are:
 A minimal "dummy release" can be useful here.
 
 2. Running the BOSH Acceptance Tests (BATS), which requires advanced system administration skills.
-
-
-
