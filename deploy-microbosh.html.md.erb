@@ -20,7 +20,7 @@ Your overall goal when preparing to deploy MicroBOSH is to have a stemcell, a ma
 and properly set up environments both locally and in the cloud.
 
 **Note**: Along with the decision you have made to deploy MicroBOSH,
-you should have made a few more decisions:
+you should have made a few more decisions by now:
 
 * What IaaS to use.
 * What to name the cloud you plan to deploy on that IaaS.
@@ -50,7 +50,7 @@ Set up a directory structure with three levels:
 1. Inside each cloud directory, directories for each product you intend to deploy. In this context, MicroBOSH is a product.
 
 * For example, you might be planning to deploy MicroBOSH on a cloud named `boshtest`, that in turn is deployed to the OpenStack IaaS.
-You would create a directory for each, such that the path to your MicroBOSH deployment could be `openstack/boshtest/micro`.
+You would create a directory for each, such that the path to your MicroBOSH deployment could be `deploy2openstack/boshtest/micro`.
 
 ### <a id="stemcell"></a> Obtain a stemcell  ###
 
@@ -59,7 +59,7 @@ Download to the directory of your choice, and remember its path for later use.
 
 ### <a id="enviro"></a> Set up your local environment   ###
 
-In the directory that contains files for your MicroBOSH deployment (`openstack/boshtest/micro` in these examples),
+In the directory that contains files for your MicroBOSH deployment (`deploy2openstack/boshtest/micro` in these examples),
 create a text file named `bosh_environment`.
 
 * For each item of information enumerated [above](#cloud),
@@ -85,7 +85,7 @@ Refer to [Creating a BOSH Deployment Manifest](./create-manifest.html) for instr
 For AWS, there are BOSH CLI commands which generate the manifest for you.
 
 The MicroBOSH deployment manifest is a YAML file named `micro-bosh.yml` and should reside in the directory
-named for the product it deploys (`openstack/boshtest/micro` in these examples).
+named for the product it deploys (`deploy2openstack/boshtest/micro` in these examples).
 
 ## <a id="deploy"></a> Deploying MicroBOSH  ##
 
