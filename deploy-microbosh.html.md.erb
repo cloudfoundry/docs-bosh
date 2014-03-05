@@ -10,9 +10,9 @@ MicroBOSH is suited to deploying BOSH releases of any software, including multi-
 To deploy MicroBOSH you need a stemcell and a manifest.
 You do not need a release since MicroBOSH itself is included within the stemcell.
 
-The IaaS you use determines the details of how you deploy MicroBOSH.
+The IaaS you use determines many details of how you deploy MicroBOSH.
 This topic starts with a general procedure that applies for all IaaS's,
-and ends with an example which provides the specifics of deploying on AWS.
+and ends with an example focused on AWS.
 
 ## <a id="prep"></a> Preparing to Deploy  ##
 
@@ -29,7 +29,7 @@ and properly set up environments both locally and in the cloud.
 
 Collect or decide:
 
-1. The deployment name.
+1. The environment name.
 1. Any IaaS-specific information about where your deployment should reside.
 1. The name and credentials of an admin user for your deployment.
 
@@ -37,12 +37,14 @@ Collect or decide:
 
 **Note**: While not required, the instructions in this section are highly recommended.
 
-Set up a directory structure with four levels:
+Set up a directory structure with three levels:
 
-1. A top-level directory to contain files related to deployments to a particular IaaS.
-1. Inside the top-level directory, a directory to contain files related to a particular deployment.
-1. Inside each deployment directory, a directory to contain mainly manifests.
-1. Inside the manifests directory, directories for each product you intend to deploy.
+1. A top-level directory for each IaaS you plan to use.
+1. Inside the IaaS directory, directories for each cloud you intend to deploy on the IaaS.
+1. Inside each cloud directory, directories for each product you intend to deploy. In this context, MicroBOSH is a product.
+
+* For example, you might be planning to deploy MicroBOSH on a cloud named `boshtest`, that in turn is deployed to the OpenStack IaaS.
+You would create a directory for each, such that the path to your MicroBOSH deployment could be `openstack/boshtest/micro`.
 
 ### <a id="stemcell"></a> Obtain a stemcell  ###
 
@@ -51,7 +53,7 @@ Download to the directory of your choice, and remember its path for later use.
 
 ### <a id="enviro"></a> Set up your local environment   ###
 
-In the directory that contains files for your MicroBOSH deployment (`deployments-aws/boshtest` in these examples),
+In the directory that contains files for your MicroBOSH deployment (`openstack/boshtest/micro` in these examples),
 create a text file named `bosh_environment`.
 
 * For each item of information enumerated [above](#cloud),
@@ -60,17 +62,6 @@ add a line to the file, of the form:
     `export <BOSH_environment_variable>=<value>`
 
 Use the information you have [collected](#cloud) to identify values to assign.
-
-* For example, the file could look something like this:
-
-<pre class="terminal">
-export BOSH_DEPLOYMENT_NAME=boshtest
-export BOSH_VPC_DOMAIN=example.com
-export BOSH_VPC_SUBDOMAIN=myboshtest
-export BOSH_VPC_PRIMARY_AZ=us-east-1b
-export BOSH_VPC_ACCESS_KEY_ID=12345abcde12345abcde12345
-export BOSH_VPC_SECRET_ACCESS_KEY=12345abcde22345abcde32345abcde42345abcde
-</pre>
 
 * Now use the file to generate the BOSH environment variables:
 
@@ -82,10 +73,13 @@ export BOSH_VPC_SECRET_ACCESS_KEY=12345abcde22345abcde32345abcde42345abcde
 
 ### <a id="manifest"></a> Create the manifest  ###
 
-If you are using an IaaS other than AWS, you need to use a text editor to create a deployment manifest, which is a YAML file named `micro-bosh.yml`.
+If you are using an IaaS other than AWS, you need to use a text editor to create a deployment manifest.
 Refer to [Creating a BOSH Deployment Manifest](./create-manifest.html) for instructions.
 
 For AWS, there are BOSH CLI commands which generate the manifest for you.
+
+The MicroBOSH deployment manifest is a YAML file named `micro-bosh.yml` and should reside in the directory
+named for the product it deploys (`openstack/boshtest/micro` in these examples).
 
 ## <a id="deploy"></a> Deploying MicroBOSH  ##
 
@@ -96,14 +90,14 @@ Once preparation is complete, you deploy MicroBOSH in three steps.
 Before you deploy, you must set the BOSH CLI to use the correct manifest.
 This is called "setting the deployment."
 
-1. `cd` into the directory you created for manifests (`manifests` in these examples).
+1. `cd` into the directory you created for MicroBOSH (`micro` in these examples).
 1. Set the deployment:
 
-    `bosh micro deployment micro/micro_bosh.yml`
+    `bosh micro deployment micro_bosh.yml`
 
 ### <a id="deploy"></a> Deploy MicroBOSH  ###
 
-1. cd into the _which?_ directory.
+1. `cd` into the directory you created for MicroBOSH (`micro` in these examples).
 1. Deploy MicroBOSH:
 
     `bosh micro deploy <stemcell_URL>`
