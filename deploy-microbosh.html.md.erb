@@ -91,7 +91,7 @@ named for the product it deploys (`deploy2openstack/boshtest/micro` in these exa
 
 ## <a id="deploy"></a> Deploying MicroBOSH  ##
 
-When you are ready to deploy, be sure you have the local path to the stemcell you downloaded.
+When you are ready to deploy, be sure you know the local path to the stemcell you downloaded.
 Then `cd` into the directory you created for MicroBOSH (`micro` in these examples).
 
 1. Set the deployment—that is, direct the BOSH CLI to use the correct manifest:
@@ -102,10 +102,8 @@ Then `cd` into the directory you created for MicroBOSH (`micro` in these example
 
     `bosh micro deploy <local_path_to_stemcell>`
 
-**Note**: An important effect of the `bosh micro deploy` command is to create a file named `bosh-deployment.yml`.
-This file functions like a small database that MicroBOSH uses when bootstrapping itself.
-
-in the directory where you run
+**Note**: An important effect of the `bosh micro deploy` command is to create the `bosh-deployment.yml` file,
+which functions like a small database that MicroBOSH uses when bootstrapping itself.
 
 ## <a id="verify"></a> Verifying your Deployment  ##
 
