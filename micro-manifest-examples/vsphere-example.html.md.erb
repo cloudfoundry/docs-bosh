@@ -1,0 +1,132 @@
+---
+title: MicroBOSH Deployment Manifest Example for vSphere
+---
+
+Explanatory comments follow this example.
+
+~~~yaml
+---
+name: MicroBOSH01
+
+network:
+  ip: <ip_address_you_want_for_microbosh>
+  netmask: <netmask_for_the_subnet_you_are_deploying_to>
+  gateway: <gateway_for_the_subnet_you_are_deploying_to>
+  dns:
+  # The micro-bosh VM has the following DNS entries in its /etc/resolv.com, allowing it to resolve, for example, IaaS FQDNs.
+  - <ip_for_dns>
+  cloud_properties:
+    name: <network_name_according_to_vsphere>
+
+resources: # this seems like good sizing for microbosh
+   persistent_disk: 16384
+   cloud_properties:
+      ram: 8192
+      disk: 16384
+      cpu: 4
+cloud:
+  plugin: vsphere
+  properties:
+    agent:
+      ntp:
+        - <ntp_host_1>
+        - <ntp_host_2>
+     vcenters:
+       - host: <vcenter_ip>
+         user: <vcenter_userid>
+         password: <vcenter_password>
+         datacenters:
+           - name: <datacenter_name>
+             vm_folder: <vm_folder_name>
+             template_folder: <template_folder_name>
+             disk_path: <subdir_to_store_disks>
+             datastore_pattern: <data_store_pattern>
+             persistent_datastore_pattern: <persistent_datastore_pattern>
+             allow_mixed_datastores: <true_if_persistent_datastores_and_datastore_patterns_are_the_same>
+             clusters:
+             - <cluster_name>:
+                 resource_pool: <resource_pool_name_optional>
+
+apply_spec:
+  properties:
+    vcenter:
+      host: <vcenter_ip>
+      user: <vcenter_userid>
+      password: <vcenter_password>
+      datacenters:
+        - name: <datacenter_name>
+          vm_folder: <vm_folder_name>
+          template_folder: <template_folder_name>
+          disk_path: <subdir_to_store_disks>
+          datastore_pattern: <data_store_pattern>
+          persistent_datastore_pattern: <persistent_datastore_pattern>
+          allow_mixed_datastores: <true_if_persistent_datastores_and_datastore_patterns_are_the_same>
+          clusters:
+          - <cluster_name>:
+              resource_pool: <resource_pool_name_optional>
+    dns:
+        # The BOSH powerDNS contacts the following DNS server for serving DNS entries from other domains.
+        recursor: <ip_for_dns>
+
+logging:
+  # If needed increase the default logging level to trace REST traffic with IaaS providers. Default is info
+  level: info
+  # Default location is <deployment_dir>/bosh_micro_deploy.log
+  # file :
+
+
+~~~
+
+The `apply_spec` provides Micro BOSH with the vCenter settings in order for it
+to deploy Cloud Foundry.
+It is different than the vCenter you are using to deploy MicroBOSH because
+MicroBOSH can deploy to a different vCenter than the one it was deployed to.
+
+If you want to create a role for the BOSH user in vCenter, the privileges are
+defined [here](./vcenter_user_privileges.html).
+
+Before you can run micro BOSH deployer, you have to create folders according to
+the values in your manifest.
+
+1. Create the vm_folder
+1. Create the template_folder
+1. Create the disk_path in the appropriate datastores
+1. Create the resource_pool (optional)
+
+![vcenter-folders](/images/vcenter-folders.png)
+![vcenter-disk-path](/images/vcenter-disk-path.png)
+
+* Datastore Patterns
+
+The datastore pattern above could just be the name of a datastore or some
+regular expression matching the datastore name.
+
+If you have a datastore called "vc\_data\_store\_1" and you would like to use
+this datastore for both persistent and non persistent disks, your config would
+look like this:
+
+~~~yaml
+               datastore_pattern: vc_data_store_1
+               persistent_datastore_pattern:  vc_data_store_1
+               allow_mixed_datastores: true
+~~~
+
+If you have two datastores called "vc\_data\_store\_1" and
+"vc\_data\_store\_2", and you would like to use both datastore for both
+persistent and non persistent disks, your config would look like this:
+
+~~~yaml
+               datastore_pattern: vc_data_store_?
+               persistent_datastore_pattern:  vc_data_store_?
+               allow_mixed_datastores: true
+~~~
+
+If you have two datastores called "vnx:1" and "vnx:2", and you would like to
+separate your persistent and non persistent disks, your config would look like
+this:
+
+~~~yaml
+               datastore_pattern: vnx:1
+               persistent_datastore_pattern: vnx:2
+               allow_mixed_datastores: false
+~~~

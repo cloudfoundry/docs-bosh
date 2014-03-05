@@ -1,0 +1,273 @@
+---
+title: Creating a MicroBOSH Deployment Manifest
+---
+
+foo
+
+## <a id="orchestrate"></a> Specifying Orchestration ##
+
+Suppose the product you want to deploy can do five things: call these capabilities Feature A through Feature E.
+You want your deployment to take advantage of all five features, but you don't want any one VM to be responsible for more than two features.
+For the sake of capacity and resilience, you want every feature to run on more than one VM.
+
+To achieve this, you define VM types, where each type supports different features.
+Then you decide how many instances of each VM type to create. Now how have orchestrated your deployment.
+
+In the manifest you specify orchestration along with everything else about your deployment,
+including the stemcell, release, and network configuration to use.
+
+**Note**: This topic does not treat using multiple releases or stemcells for simplicity's sake, but BOSH supports both.
+
+## <a id="release"></a> Translating from Release to Manifest ##
+
+
+## <a id="anatomy"></a> Anatomy of a Manifest ##
+
+Parts of any given BOSH manifest are IaaS-specific.
+Most manifest content, though, is independent of the cloud infrastructure where you want to deploy.
+This allows you to re-use manifests with minimal changes, even you re-deploy on a different IaaS.
+
+You begin the BOSH deployment manifest with three dashes, followed by the name you give the deployment,
+then a `director_uuid` that ensures that you deploy with the correct BOSH.
+
+For example:
+
+<pre class="terminal">
+---
+name: dummy
+director_uuid: 080a8261-8bf8-4996-a754-2545a99c0b2c
+</pre>
+
+After that, the manifest has seven required _blocks_:
+
+1. `releases`
+1. `compilation`
+1. `update`
+1. `resource_pools`
+1. `networks`
+1. `jobs`
+1. `properties`
+
+The manifest is in YAML, so the YAML parser translates each block into a hash.
+For this reason, you can put the blocks in any order.
+
+### <a id='releases'></a> The releases block ###
+
+The release block lists the name and version of each release you use in your deployment:
+
+For example:
+
+<pre class="terminal">
+releases:
+- name: foo_beta
+  version: 0.1-dev
+</pre>
+
+This block is IaaS-agnostic.
+
+### <a id='compilation'></a> The compilation block ###
+
+At deploy time, BOSH compiles all the software packages within the release.
+The `compilation` block specifies which VMs should perform the compilation.
+
+For example:
+
+<pre class="terminal">
+compilation:
+  reuse_compilation_vms: true
+  workers: 2
+  network: default
+  cloud_properties:
+    instance_type: c1.medium
+    availability_zone: us-east-1c
+</pre>
+
+This block contains an IaaS-dependent `cloud_properties` sub-block.
+
+### <a id='update'></a> The update block ###
+
+The `update` block specifies:
+
+* The maximum number of VMs that can be updated simultaneously, with the `max_in_flight` key.
+* The number of "canaries" with the `canaries` key.
+* The update behavior of "canaries" with the `canary_watch_time` key.
+* The update behavior of VMs that are _not_ "canaries" with the `update_watch_time` key.
+
+A "canary" is just an instance of the VM type to be updated.
+BOSH updates the canaries first, and only goes on to update the remaining VMs once the canaries have updated successfully.
+You use canaries to determine whether an update can run successfully on that VM type.
+A common use case is that when a deployment contains many VMs, it makes sense to test a new release on a few of them
+before trying to update the entire cohort.
+
+Update behavior is based on the concept of _watch time_, whose minimum and maximum you specify in milliseconds.
+Watch time works like this:
+
+* Between the moment update begins and the minimum is reached, BOSH reacts if the update fails
+but otherwise makes no effort to learn the state of the VM being updated.
+* Between the minimum and maximum, BOSH checks the health of the VM at intervals.
+* If the update fails at any time, BOSH ends the update with the error message "job is not running."
+* If the the last canary to update completes its update successfully,
+BOSH goes on to update the remaining VMs without waiting for the maximum watch time.
+* If the the last VM that is not a canary completes its update successfully,
+BOSH declares the update complete without waiting for the maximum watch time.
+* BOSH ends the update with an error at the maximum watch time if one or more VMs (canaries or not) have not completed their updates. ("One or more" is the default threshold.)
+
+In the example below:
+
+* There are three canaries, with a minimum watch time of 30 seconds and a maximum watch time of four minutes.
+* VMs that are not canaries can update ten at a time, with a minimum watch time of 30 seconds and a maximum watch time of ten minutes.
+
+<pre class="terminal">
+update:
+  canaries: 3
+  canary_watch_time: 30000-240000
+  update_watch_time: 30000-600000
+  max_in_flight: 10
+</pre>
+
+This block is IaaS-agnostic.
+
+### <a id='resource_pools'></a> The resource_pools block ###
+
+Resource pools are collections of VMs which are on the same network, are the same kind of VM from the IaaS's perspective, and are built from the same stemcell.
+The `resource_pools` block specifies all of these.
+
+For example:
+
+<pre class="terminal">
+resource_pools:
+- name: default
+  stemcell:
+    name: bosh-aws-xen-ubuntu
+    version: latest
+  network: default
+  size: 1
+  cloud_properties:
+    instance_type: m1.small
+    availability_zone: us-east-1c
+</pre>
+
+This block contains an IaaS-dependent `cloud_properties` sub-block.
+
+### <a id='networks'></a> The networks block ###
+
+The `networks` block is where you specify network configuration information for the deployment.
+You can specify multiple networks.
+
+For example:
+
+<pre class="terminal">
+networks:
+- name: default
+  type: manual
+  subnets:
+  - range: 10.10.0.0/24
+    gateway: 10.10.0.1
+    static:
+    - 10.10.0.7 - 10.10.0.9
+    reserved:
+    - 10.10.0.2 - 10.10.0.6
+    - 10.10.0.10 - 10.10.0.10
+    dns:
+    - 10.10.0.6
+    cloud_properties:
+      subnet: subnet-d597b993
+</pre>
+
+This block is IaaS-dependent, because subnets, network names, and other keys may differ from IaaS to IaaS.
+
+### <a id='jobs'></a> The jobs block ###
+
+The `jobs` block is where you name VM types and specify:
+
+* The product features each type supports, in the form of templates.
+* Some configuration information that applies to the VM type as opposed to the feature.
+
+Features (templates) typically require configuration.
+You specify this information in the `properties` block.
+
+For example:
+
+<pre class="terminal">
+jobs:
+- name: dummy
+  templates:
+  - name: dummy
+    release: dummy_a
+  instances: 1
+  resource_pool: default
+  persistent_disk: 10240
+  networks:
+  - name: default
+</pre>
+
+This block is IaaS-agnostic.
+
+### <a id='properties'></a> The properties block ###
+
+The `properties` block consists of headings followed by one or more lines of configuration information.
+Most headings are names of features (templates) from the `jobs` block.
+
+This block can be quite long, so the example below shows only a few interesting excerpts.
+
+**Note**: The `mysql` and `registry` attributes provide an example of a _YAML reference_, where:
+
+* A string prefixed with an ampersand defines the attribute to its left as a hash.
+* Strings prefixed by an asterisk reference the hash defined previously.
+
+In this case, `&bosh_db` defines the all the keys and values in the `mysql` attribute as `bosh_db`.
+Later, the `db` key in the `registry` attribute references the `bosh_db` hash.
+The result is that the value of the `db` key in `registry` is the entire set of keys and values in `mysql`.
+
+<pre class="terminal">
+properties:
+
+  ntp:
+  - 0.north-america.pool.ntp.org
+  - 1.north-america.pool.ntp.org
+  - 2.north-america.pool.ntp.org
+  - 3.north-america.pool.ntp.org
+
+  blobstore:
+    address: 10.10.0.7
+    port: 25251
+    backend_port: 25552
+    agent:
+      user: agent
+      password: 665aap2cfca30465ca81845ef4cf87560
+    director:
+      user: director
+      password: 845ef4cf87560665aap2cfca30465ca81
+
+...
+
+  mysql: &bosh_db
+    adapter: mysql2
+    user: u1250a5fcd8ade2
+    password: p2cfca30665aa46f875605ca81845ef4c
+    host: bosh.cabaz18bo7yr.us-east-1.rds.amazonaws.com
+    port: 3306
+    database: bosh
+
+...
+
+  registry:
+    address: 10.10.0.7
+    db: *bosh_db
+    http:
+      port: 25777
+      user: awsreg
+      password: 72a181ef4cf87560665zzzp2cfca30465c
+
+</pre>
+
+This block is IaaS-dependent.
+
+## <a id="example"></a> Example Manifests ##
+
+BOSH provides a [variety](https://github.com/cloudfoundry/bosh/tree/master/release/examples) of example manifests.
+
+## <a id="creating"></a> How to Create a Manifest ##
+
+You can modify example manifests to suit your purposes. Another approach is to use a tool like [spiff](https://github.com/cloudfoundry-incubator/spiff) to create a manifest.
+
