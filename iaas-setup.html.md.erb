@@ -2,10 +2,180 @@
 title: Setting Up your IaaS for BOSH
 ---
 
-placeholder
+Before you deploy BOSH (including MicroBOSH), make sure that your IaaS is properly set up as described below.
 
-## <a id="orchestrate"></a> placeholder ##
+## <a id="hardware"></a> Hardware ##
 
-placeholder
+Whichever IaaS you use, your need to choose hardware that adequately supports the _describe characteristics of BOSH_.
 
-### <a id='releases'></a> placeholder ###
+### <a id='aws'></a> AWS ###
+
+AWS describes hardware in terms of [instance types](http://aws.amazon.com/ec2/instance-types/).
+The **m2.medium** instance type is a reasonable instance type to try for your BOSH deployment.
+For MicroBOSH, **m1.small** is fine for testing but could be inadequate for production.
+
+### <a id='openstack'></a> OpenStack ###
+
+OpenStack describes hardware in terms of flavors.
+_insert comment here_
+
+### <a id='vsphere'></a> vSphere ###
+
+vSphere describes hardware in terms of RAM, CPU, virtual disk, and the other typical specs.
+_insert comment here_
+
+## <a id="security"></a> Security ##
+
+When setting up your IaaS for BOSH, configuring Security Groups is required for AWS or OpenStack.
+Configuring multiple networks is recommended for vSphere.
+You do this to restrict incoming network traffic to the BOSH VM or VMs.
+
+### <a id='aws'></a> AWS and OpenStack  ###
+
+Set up two security groups, `ssh` and `bosh`, as specified in the following tables.
+
+#### <a id='ssh'></a> ssh Security Group  ####
+
+<style type="text/css">
+.table {font-size:12px;color:#333333; width:100%;border-width: 1px;border-color: #729ea5;border-collapse: collapse;}
+.table th {font-size:12px;background-color:#acc8cc;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;text-align:center;}
+.table tr {background-color:#d4e3e5;}
+.table td {font-size:12px;width:18%; border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
+.table td.left {font-size:12px;width:16%; border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
+.table tr:hover {background-color:#ffffff;}
+</style>
+
+
+  <table border="1" class="table" >
+  <tr><th>Protocol</th><th>From Port</th><th>To Port</th><th>Source</th><th>User or Purpose</th></tr>
+  <tr><td>UDP</td><td>68</td><td>68</td><td>0.0.0.0/0 (CIDR)</td><td>BOOTP/DHCP</td></tr>
+  <tr><td>TCP</td><td>22</td><td>22</td><td>0.0.0.0/0 (CIDR)</td><td>SSH</td></tr>
+  <tr><td>ICMP</td><td>-1</td><td>-1</td><td>0.0.0.0/0 (CIDR)</td><td>ping</td></tr>
+  </table>
+
+#### <a id='bosh'></a> bosh Security Group  ####
+
+  <table border="1" class="table" >
+  <tr><th>Protocol</th><th>From Port</th><th>To Port</th><th>Source</th><th>User or Purpose</th></tr>
+  <tr><td>TCP</td><td>1</td><td>65535</td><td>bosh</td><td>Members of the bosh Security Group.</td></tr>
+  <tr><td>UDP</td><td>53</td><td>53</td><td>0.0.0.0/0 (CIDR)</td><td>Inbound DNS requests.</td></tr>
+  <tr><td>UDP</td><td>53</td><td>53</td><td>0.0.0.0/0 (CIDR)</td><td>Inbound DNS requests.</td></tr>
+  <tr><td>TCP</td><td>68</td><td>68</td><td>0.0.0.0/0 (CIDR)</td><td>BOOTP/DHCP</td></tr>
+  <tr><td>TCP</td><td>4222</td><td>4222</td><td>0.0.0.0/0 (CIDR)</td><td>NATS</td></tr>
+  <tr><td>TCP</td><td>6868</td><td>6868</td><td>0.0.0.0/0 (CIDR)</td><td>BOSH Agent</td></tr>
+  <tr><td>TCP</td><td>25250</td><td>25250</td><td>0.0.0.0/0 (CIDR)</td><td>BOSH Blobstore</td></tr>
+  <tr><td>TCP</td><td>25555</td><td>25555</td><td>0.0.0.0/0 (CIDR)</td><td>BOSH Director</td></tr>
+  <tr><td>TCP</td><td>25777</td><td>25777</td><td>0.0.0.0/0 (CIDR)</td><td>BOSH Registry</td></tr>
+  </table>
+
+
+### <a id='vsphere'></a> vSphere ###
+
+_describe multiple network configuration for vSphere_
+
+## <a id="network"></a> Networking and Services ##
+
+In this section we describe remaining IaaS-specific setup requirements.
+
+### <a id='aws'></a> AWS ###
+
+Deploying BOSH is supported on the VPC flavor of AWS, but not on the EC2 flavor.
+
+#### <a id='domain-prep'></a> Prepare a Domain ####
+
+First, pick a DNS domain name for your Cloud Foundry instance. If you
+pick *cloud.mydomain.com*, your applications will be available as
+*app-name.cloud.mydomain.com*.
+
+Create an AWS Route 53 Hosted Zone for your domain at the [Route 53 control panel](https://console.aws.amazon.com/route53). The control
+panel shows you a "delegation set", or a list of addresses to which
+you must delegate DNS authority for your domain. If your domain is
+*cloud.mydomain.com*, each address in the delegation set should
+become an NS record in the DNS server for *mydomain.com*.
+
+<%= image_tag("hostedzone.png") %>
+
+#### <a id='deployment-env-prep'></a> Prepare the Deployment Environment ####
+
+Ruby 1.9.3 and git (1.8 or later) are prerequisites for the following
+steps. After you install Ruby and git, install the `bundler` RubyGem:
+
+<pre class="terminal">
+$ gem install bundler
+</pre>
+
+Create a deployments directory with a subdirectory for your
+particular deployment. For example, `~/deployments/cf-example`. In
+the particular deployment's sub-directory, create a file named `Gemfile` with the following contents:
+
+~~~
+source 'https://rubygems.org'
+
+ruby "1.9.3"
+
+gem "bosh_cli_plugin_aws"
+~~~
+
+<pre class="terminal">
+$ cd ~/deployments/cf-example
+~/deployments/cf-example$ bundle install
+</pre>
+
+Next, set environment variables required for deploying to AWS. Create
+a file called `bosh_environment` and add the following, changing the
+value for each line to suit your configuration:
+
+~~~
+export BOSH_VPC_DOMAIN=mydomain.com
+export BOSH_VPC_SUBDOMAIN=cloud # Pick something more unique than 'cloud' to work around a temporary shortcoming of the tool
+export BOSH_AWS_ACCESS_KEY_ID=AWS_ACCESS_KEY_ID
+export BOSH_AWS_SECRET_ACCESS_KEY=AWS_SECRET_ACCESS_KEY
+export BOSH_AWS_REGION=us-east-1
+export BOSH_VPC_SECONDARY_AZ=us-east-1a # see note below
+export BOSH_VPC_PRIMARY_AZ=us-east-1d   # see note below
+~~~
+
+*Note:* `BOSH_VPC_DOMAIN` and `BOSH_VPC_SUBDOMAIN` must correspond to
+the DNS domain name you set up when configuring Route 53. The values
+shown above correspond to the earlier Route 53 example of
+*cloud.mydomain.com*.
+
+*Note:* Now only deployment to `us-east-1` region is supported by the next
+steps. For MicroBOSH deploy please review [following guide](https://gist.github.com/danhigham/5804252).
+
+Choose availability zones that are listed as "operating normally" on
+the [AWS Console Status Health Section](https://console.aws.amazon.com/ec2/v2/home?region=us-east-1)
+for your region.
+
+Use `source` to set them for the current shell:
+
+<pre class="terminal">
+~/deployments/cf-example$ source bosh_environment
+</pre>
+
+Run `bosh aws create` to create a VPC Internet Gateway, VPC subnets,
+three RDS databases, and a NAT VM for Cloud Foundry subnet routing.
+The command takes some time but not require user input. This command
+generates receipt files that you use when deploying Cloud Foundry
+(`aws_rds_receipt.yml` and `aws_vpc_receipt.yml`).
+
+<pre class="terminal">
+~/cf$ bundle exec bosh aws create
+Executing migration CreateKeyPairs
+allocating 1 KeyPair(s)
+Executing migration CreateVpc
+. . .
+details in S3 receipt: aws_rds_receipt and file: aws_rds_receipt.yml
+Executing migration CreateS3
+creating bucket xxxx-bosh-blobstore
+creating bucket xxxx-bosh-artifacts
+</pre>
+
+**Note:** RDS database creation may take 20+ minutes to finish.
+
+
+
+### <a id='openstack'></a> OpenStack ###
+
+
+### <a id='vsphere'></a> vSphere ###
