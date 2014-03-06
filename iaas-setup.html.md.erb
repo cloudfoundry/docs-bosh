@@ -4,9 +4,11 @@ title: Setting Up your IaaS for BOSH
 
 Before you deploy BOSH (including MicroBOSH), make sure that your IaaS is properly set up as described below.
 
+**Note**: Deploying BOSH is supported on the VPC flavor of AWS, but not on the EC2 flavor.
+
 ## <a id="hardware"></a> Choosing Suitable Hardware ##
 
-Whichever IaaS you use, your need to choose hardware that adequately supports the _describe characteristics of BOSH_.
+Choose hardware that adequately supports the _describe characteristics of BOSH_.
 
 ### <a id='aws'></a> AWS ###
 
@@ -26,7 +28,7 @@ As a starting point for deciding what hardware to use, see the documented [hardw
 
 ## <a id="inbound"></a> Restricting Inbound Network Traffic ##
 
-When setting up your IaaS for BOSH, configuring Security Groups is required for AWS or OpenStack.
+Configuring Security Groups is required to deploy BOSH on AWS and OpenStack.
 Configuring multiple networks is recommended for vSphere.
 You do this to restrict incoming network traffic to the BOSH VM or VMs.
 
@@ -38,7 +40,7 @@ Set up two security groups, `ssh` and `bosh`, as specified in the following tabl
 
 <style type="text/css">
 .table {font-size:12px;color:#333333; width:100%;border-width: 1px;border-color: #729ea5;border-collapse: collapse;}
-.table th {font-size:12px;background-color:#acc8cc;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;text-align:center;}
+.table th {font-size:12px;font-weight: bold;background-color:#acc8cc;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;text-align:center;}
 .table tr {background-color:#d4e3e5;}
 .table td {font-size:12px;width:18%; border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
 .table td.left {font-size:12px;width:16%; border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
@@ -78,11 +80,9 @@ _describe multiple network configuration for vSphere_
 
 ## <a id="network"></a> Further Setup for AWS and vSphere ##
 
-There are a few IaaS-specific setup requirements remaining for AWS and vSphere, but none for OpenStack.
+A few IaaS-specific setup requirements remain for AWS and vSphere (but none for OpenStack).
 
 ### <a id='aws'></a> AWS ###
-
-Deploying BOSH is supported on the VPC flavor of AWS, but not on the EC2 flavor.
 
 #### <a id='domain-prep'></a> Prepare a Domain ####
 
@@ -216,7 +216,7 @@ functionality (for example, communication between VMs).
 
 There is also the question of how far you can or want to go towards automating validation.
 
-If you are using OpenStack, you can run the validation procedure which appears in
+If you are using OpenStack, you can run the [validation procedure](../deploying/openstack/validate_openstack.html) which appears in
 the Cloud Foundry documentation but applies to the present context as well.
 
 If you are using AWS or vSphere, you can consider adapting the parts of the OpenStack
