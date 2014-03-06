@@ -4,7 +4,7 @@ title: Setting Up your IaaS for BOSH
 
 Before you deploy BOSH (including MicroBOSH), make sure that your IaaS is properly set up as described below.
 
-## <a id="hardware"></a> Hardware ##
+## <a id="hardware"></a> Choosing Suitable Hardware ##
 
 Whichever IaaS you use, your need to choose hardware that adequately supports the _describe characteristics of BOSH_.
 
@@ -16,15 +16,15 @@ For MicroBOSH, **m1.small** is fine for testing but could be inadequate for prod
 
 ### <a id='openstack'></a> OpenStack ###
 
-OpenStack describes hardware in terms of flavors.
+OpenStack describes hardware in terms of [flavors](http://docs.openstack.org/trunk/openstack-ops/content/flavors.html).
 _insert comment here_
 
 ### <a id='vsphere'></a> vSphere ###
 
 vSphere describes hardware in terms of RAM, CPU, virtual disk, and the other typical specs.
-_insert comment here_
+As a starting point for deciding what hardware to use, see the documented [hardware requirements for Cloud Foundry](../deploying/vsphere/hardware_spec.html).
 
-## <a id="security"></a> Security ##
+## <a id="inbound"></a> Restricting Inbound Network Traffic ##
 
 When setting up your IaaS for BOSH, configuring Security Groups is required for AWS or OpenStack.
 Configuring multiple networks is recommended for vSphere.
@@ -68,14 +68,17 @@ Set up two security groups, `ssh` and `bosh`, as specified in the following tabl
   <tr><td>TCP</td><td>25777</td><td>25777</td><td>0.0.0.0/0 (CIDR)</td><td>BOSH Registry</td></tr>
   </table>
 
+**Note About OpenStack**: Port UDP 68 was automatically added to all security groups.
+In OpenStack Grizzly, there are settings for both **INGRESS** and **EGRESS** control.
+The instructions here apply to **INGRESS** only.
 
 ### <a id='vsphere'></a> vSphere ###
 
 _describe multiple network configuration for vSphere_
 
-## <a id="network"></a> Networking and Services ##
+## <a id="network"></a> Further Setup for AWS and vSphere ##
 
-In this section we describe remaining IaaS-specific setup requirements.
+There are a few IaaS-specific setup requirements remaining for AWS and vSphere, but none for OpenStack.
 
 ### <a id='aws'></a> AWS ###
 
@@ -155,7 +158,7 @@ Use `source` to set them for the current shell:
 
 Run `bosh aws create` to create a VPC Internet Gateway, VPC subnets,
 three RDS databases, and a NAT VM for Cloud Foundry subnet routing.
-The command takes some time but not require user input. This command
+The command takes some time but does not require user input. This command
 generates receipt files that you use when deploying Cloud Foundry
 (`aws_rds_receipt.yml` and `aws_vpc_receipt.yml`).
 
@@ -173,9 +176,59 @@ creating bucket xxxx-bosh-artifacts
 
 **Note:** RDS database creation may take 20+ minutes to finish.
 
-
-
-### <a id='openstack'></a> OpenStack ###
-
-
 ### <a id='vsphere'></a> vSphere ###
+
+Be sure to [install and prepare](../deploying/vsphere/install-and-prepare-vsphere.html) a vSphere cluster suitable for BOSH.
+Then complete the following instructions.
+
+#### <a id="prerequisites"></a>Prerequisites ####
+
+We recommend that you run the BOSH bootstrap from Ubuntu since it is the
+distribution used by the BOSH team, and has been thoroughly tested.
+
+Plan to have around 8 GB of free disk space for the bosh_cli if you plan to use it to deploy CF releases.
+You'll need around 3 GB free disk space in /tmp
+
+* Install some core packages on Ubuntu that the BOSH deployer depends on.
+
+<pre class="terminal">
+$ sudo apt-get -y install libsqlite3-dev genisoimage
+</pre>
+
+* Install Ruby and RubyGems. Refer to the [Installing Ruby](../common/install_ruby_rbenv.html) page for help with Ruby installation.
+
+* Install the BOSH Deployer Ruby gem.
+
+<pre class="terminal">
+$ gem install bosh_cli --pre
+$ gem install bosh_cli_plugin_micro --pre
+</pre>
+
+Once you have installed the deployer, you will be able to use `bosh micro`
+commands.
+To see help on these type `bosh help micro`.
+
+
+## <a id="validate"></a> Validating Your IaaS Instance ##
+
+There are at least two aspects of your IaaS instance that you can validate: hardware, and
+functionality (for example, communication between VMs).
+
+There is also the question of how far you can or want to go towards automating validation.
+
+If you are using OpenStack, you can run the validation procedure which appears in
+the Cloud Foundry documentation but applies to the present context as well.
+
+If you are using AWS or vSphere, you can consider adapting the parts of the OpenStack
+procedure that make sense for your IaaS.
+
+You can use the appropriate APIs for performing and automating validation:
+
+* [VMware vSphere API](https://www.vmware.com/support/developer/vc-sdk/)
+* [Amazon EC3 API](http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html)
+
+
+
+
+
+
