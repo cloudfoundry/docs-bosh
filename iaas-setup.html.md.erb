@@ -8,7 +8,11 @@ Before you deploy BOSH (including MicroBOSH), make sure that your IaaS is proper
 
 ## <a id="hardware"></a> Choosing Suitable Hardware ##
 
-Choose hardware that adequately supports the _describe characteristics of BOSH_.
+What hardware is most suitable for your deployment depends on your intended use of BOSH.
+
+* If you plan to deploy a large number of applications, for example, you should opt for greater amounts of
+disk space, because BOSH needs room to store the releases it deploys.
+* If you expect a large number of active users, more RAM is a good idea.
 
 ### <a id='aws'></a> AWS ###
 
@@ -19,7 +23,7 @@ For MicroBOSH, **m1.small** is fine for testing but could be inadequate for prod
 ### <a id='openstack'></a> OpenStack ###
 
 OpenStack describes hardware in terms of [flavors](http://docs.openstack.org/trunk/openstack-ops/content/flavors.html).
-_insert comment here_
+Choose a flavor with at least three gigabytes of RAM.
 
 ### <a id='vsphere'></a> vSphere ###
 
