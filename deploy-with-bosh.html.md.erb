@@ -22,9 +22,160 @@ team thinks of as the canonical example of using BOSH.
 Even if you plan to use BOSH in a different way, you will have a useful sense of
 how things are supposed to work.
 
-## <a id="foo"></a> foo ##
-
-bar
+## <a id="prep"></a> Preparing to Deploy ##
 
 
-### <a id="foo"></a> foo ###
+Download stemcell and release from public site.
+
+Create the manifest.
+
+<pre class="terminal">
+$ bosh target 172.16.99.11
+Target set to `embarcadero-microbosh'
+
+ |1.9.3-p484| embarcadero in ~/bosh
+$ bosh login admin admin
+Logged in as `admin'
+
+ |1.9.3-p484| embarcadero in ~/bosh
+$ bosh vms
+Deployment `embarcadero-bosh'
+
+Director task 17
+
+Task 17 done
+
++-----------+---------+---------------+--------------+
+| Job/index | State   | Resource Pool | IPs          |
++-----------+---------+---------------+--------------+
+| bosh/0    | running | default       | 172.16.99.12 |
++-----------+---------+---------------+--------------+
+
+VMs total: 1
+</pre>
+
+You have a release.
+
+<pre class="terminal">
+$ bosh releases
+
++------+-----------+-------------+
+| Name | Versions  | Commit Hash |
++------+-----------+-------------+
+| bosh | 38.1-dev  | 8ed2b56e+   |
+|      | 38.3-dev* | 8ed2b56e+   |
+|      | 42        | bee75ed2+   |
++------+-----------+-------------+
+(*) Currently deployed
+(+) Uncommitted changes
+
+Releases total: 1
+</pre>
+
+You have a stemcell.
+
+<pre class="terminal">
+$ bosh stemcells
+
++--------------------------+---------+-----------------------------------------+
+| Name                     | Version | CID                                     |
++--------------------------+---------+-----------------------------------------+
+| bosh-vsphere-esxi-centos | 2089*   | sc-6de86da4-5219-448e-b42d-61851fb2c0ba |
++--------------------------+---------+-----------------------------------------+
+
+(*) Currently in-use
+
+Stemcells total: 1
+</pre>
+
+
+## <a id="deploying"></a> Deploying ##
+
+### <a id="stemcell"></a> Upload the Stemcell ###
+
+$ bosh upload stemcell ~/Downloads/bosh-stemcell-2089-vsphere-esxi-centos.tgz
+
+<pre class="terminal">
+Verifying stemcell...
+File exists and readable                                     OK
+Verifying tarball...
+
+...
+
+Uploading stemcell...
+
+bosh-stemcell: 100% |oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo| 558.9MB  39.4MB/s Time: 00:00:14
+</pre>
+
+Run the `bosh stemcell` command to verify that the stemcell you had before is no longer present on your local system,
+because it has been uploaded to MicroBOSH: 
+
+<pre class="terminal">
+$ bosh stemcells
+No stemcells
+</pre>
+
+
+### <a id="release"></a> Upload the Release ###
+
+<pre class="terminal">
+$ bosh upload release ~/Downloads/bosh-2131.tgz
+
+Verifying release...
+File exists and readable                                     OK
+Extract tarball                                              OK
+Manifest exists                                              OK
+Release name/version                                         OK
+
+....                 
+
+Release has been created
+  bosh/42 (00:00:00)
+Done                    1/1 00:00:00
+
+Task 18 done
+
+Started		2014-03-07 06:16:09 UTC
+Finished	2014-03-07 06:16:10 UTC
+Duration	00:00:01
+
+Release uploaded
+</pre>
+
+### <a id="manifest"></a> Set Deployment with a Manifest ###
+
+<pre class="terminal">
+$ bosh deployment ~/workspace/deployments-vcenter/embarcadero/bosh2/manifest.yml
+Deployment set to `/Users/pivotal/workspace/deployments-vcenter/embarcadero/bosh2/manifest.yml'
+</pre>
+
+### <a id="deploy"></a> Deploy ###
+
+<pre class="terminal">
+$ bosh deploy
+Getting deployment properties from director...
+Compiling deployment manifest...
+Please review all changes carefully
+Deploying `manifest.yml' to `embarcadero-microbosh' (type 'yes' to continue): yes
+
+...
+
+Started		2014-03-07 06:38:12 UTC
+Finished	2014-03-07 06:39:52 UTC
+Duration	00:01:40
+
+Deployed `manifest.yml' to `embarcadero-microbosh'
+</pre>
+
+### <a id="afterword"></a> Verify ###
+
+<pre class="terminal">
+$ bosh target 172.16.99.212
+Target set to `bosh2'
+Your username: admin
+Enter password: *****
+Logged in as `admin'
+</pre>
+
+
+
