@@ -82,18 +82,13 @@ The instructions here apply to **INGRESS** only.
 
 _describe multiple network configuration for vSphere_
 
-## <a id="network"></a> Further Setup for AWS and vSphere ##
-
-A few IaaS-specific setup requirements remain for AWS and vSphere (but none for
-OpenStack).
-
-### <a id='aws'></a> AWS ###
+## <a id="network"></a> Further Setup for AWS ##
 
 For AWS, there are special BOSH CLI commands to set up your infrastructure.
 This section explains how to install the plugin that provides the commands,
-and then use the commands.
+and then use them.
 
-#### <a id='plugin'></a> Install the AWS plugin to the BOSH CLI ####
+### <a id='plugin'></a> Install the AWS plugin to the BOSH CLI ###
 
 Ensure that you Ruby 1.9.3 and git (1.8 or later) installed.
 Then install the `bundler` RubyGem:
@@ -103,21 +98,22 @@ $ gem install bundler
 </pre>
 
 Create a directory for your planned deployment.
-In that directory:
+`cd` into that directory, which is where all the commands in this topic
+should be run.
 
 1. Create a file named `Gemfile` with the following contents:
 
-~~~
-source 'https://rubygems.org'
+	<pre class="terminal">
+	source 'https://rubygems.org'
 
-ruby "1.9.3"
+	ruby "1.9.3"
 
-gem "bosh_cli_plugin_aws"
-~~~
+	gem "bosh_cli_plugin_aws"
+	</pre>
 
 1. Run the `bundle install` command.
 
-#### <a id='domain-prep'></a> Prepare a Domain ####
+### <a id='domain-prep'></a> Prepare a domain ###
 
 First, pick a DNS domain name for the environment you plan to deploy.
 If you pick *cloud.mydomain.com*, your applications become available as
@@ -132,7 +128,7 @@ For example, if your domain is *cloud.mydomain.com*,
 create an NS record in the DNS server for *mydomain.com*
 for each address in the delegation set.
 
-#### <a id='domain-prep'></a> Prepare a Domain ####
+### <a id='set-env'></a> Set environment variables ###
 
 Next, set environment variables required for deploying to AWS. Create
 a file called `bosh_environment` and add the following, changing the
@@ -163,7 +159,7 @@ for your region.
 Use `source` to set them for the current shell:
 
 <pre class="terminal">
-~/deployments/cf-example$ source bosh_environment
+$ source bosh_environment
 </pre>
 
 Run the `bosh aws create` command to generate the receipt files that you use
@@ -173,10 +169,10 @@ three RDS databases, and a NAT VM.
 The NAT VM is for use with Cloud Foundry.
 You can remove it if you plan to deploy software other than Cloud Foundry.
 
-`bosh aws create` takes some time but does not require user input.
+**Note:** RDS database creation may take 20+ minutes to finish.
 
 <pre class="terminal">
-~/cf$ bundle exec bosh aws create
+$ bundle exec bosh aws create
 Executing migration CreateKeyPairs
 allocating 1 KeyPair(s)
 Executing migration CreateVpc
@@ -186,40 +182,6 @@ Executing migration CreateS3
 creating bucket xxxx-bosh-blobstore
 creating bucket xxxx-bosh-artifacts
 </pre>
-
-**Note:** RDS database creation may take 20+ minutes to finish.
-
-### <a id='vsphere'></a> vSphere ###
-
-Be sure to [install and prepare](../deploying/vsphere/install-and-prepare-vsphere.html) a vSphere cluster suitable for BOSH.
-Then complete the following instructions.
-
-#### <a id="prerequisites"></a>Prerequisites ####
-
-We recommend that you run the BOSH bootstrap from Ubuntu since it is the
-distribution used by the BOSH team, and has been thoroughly tested.
-
-Plan to have around 8 GB of free disk space for the bosh_cli if you plan to use it to deploy CF releases.
-You'll need around 3 GB free disk space in /tmp
-
-* Install some core packages on Ubuntu that the BOSH deployer depends on.
-
-<pre class="terminal">
-$ sudo apt-get -y install libsqlite3-dev genisoimage
-</pre>
-
-* Install Ruby and RubyGems. Refer to the [Installing Ruby](../common/install_ruby_rbenv.html) page for help with Ruby installation.
-
-* Install the BOSH Deployer Ruby gem.
-
-<pre class="terminal">
-$ gem install bosh_cli --pre
-$ gem install bosh_cli_plugin_micro --pre
-</pre>
-
-Once you have installed the deployer, you will be able to use `bosh micro`
-commands.
-To see help on these type `bosh help micro`.
 
 
 ## <a id="validate"></a> Validating Your IaaS Instance ##
