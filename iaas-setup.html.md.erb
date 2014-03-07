@@ -89,25 +89,14 @@ OpenStack).
 
 ### <a id='aws'></a> AWS ###
 
-#### <a id='domain-prep'></a> Prepare a Domain ####
+For AWS, there are special BOSH CLI commands to set up your infrastructure.
+This section explains how to install the plugin that provides the commands,
+and then use the commands.
 
-First, pick a DNS domain name for the environment you plan to deploy.
-If you pick *cloud.mydomain.com*, your applications will be available as
-*app-name.cloud.mydomain.com*.
+#### <a id='plugin'></a> Install the AWS plugin to the BOSH CLI ####
 
-Create an AWS Route 53 Hosted Zone for your domain at the
-[Route 53 control panel](https://console.aws.amazon.com/route53).
-Delegate DNS authority for your domain to the addresses in the
-"delegation set" that appears in the control panel.
-
-For example, if your domain is *cloud.mydomain.com*,
-create an NS record in the DNS server for *mydomain.com*
-for each address in the delegation set.
-
-#### <a id='deployment-env-prep'></a> Prepare the Deployment Environment ####
-
-Ruby 1.9.3 and git (1.8 or later) are prerequisites for the following
-steps. After you install Ruby and git, install the `bundler` RubyGem:
+Ensure that you Ruby 1.9.3 and git (1.8 or later) installed.
+Then install the `bundler` RubyGem:
 
 <pre class="terminal">
 $ gem install bundler
@@ -128,6 +117,22 @@ gem "bosh_cli_plugin_aws"
 
 1. Run the `bundle install` command.
 
+#### <a id='domain-prep'></a> Prepare a Domain ####
+
+First, pick a DNS domain name for the environment you plan to deploy.
+If you pick *cloud.mydomain.com*, your applications become available as
+*app-name.cloud.mydomain.com*.
+
+Create an AWS Route 53 Hosted Zone for your domain at the
+[Route 53 control panel](https://console.aws.amazon.com/route53).
+Delegate DNS authority for your domain to the addresses in the
+"delegation set" that appears in the control panel.
+
+For example, if your domain is *cloud.mydomain.com*,
+create an NS record in the DNS server for *mydomain.com*
+for each address in the delegation set.
+
+#### <a id='domain-prep'></a> Prepare a Domain ####
 
 Next, set environment variables required for deploying to AWS. Create
 a file called `bosh_environment` and add the following, changing the
@@ -149,8 +154,7 @@ The values shown above correspond to the earlier Route 53 example of
 `BOSH_VPC_DOMAIN` and `BOSH_VPC_SUBDOMAIN` must correspond to the
 DNS domain name you set up when configuring Route 53.
 
-Now only deployment to `us-east-1` region is supported by the next
-steps. For MicroBOSH deploy please review [following guide](https://gist.github.com/danhigham/5804252).
+The only supported value for `BOSH_AWS_REGION` is `us-east-1`.
 
 Choose availability zones that are listed as "operating normally" on
 the [AWS Console Status Health Section](https://console.aws.amazon.com/ec2/v2/home?region=us-east-1)
