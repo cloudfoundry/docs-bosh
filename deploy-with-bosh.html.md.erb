@@ -23,21 +23,23 @@ how things are supposed to work.
 
 ## <a id="prep"></a> Preparing to Deploy ##
 
-Preparation consists of thinking through the deployment,
-collecting the
-To deploy software with BOSH, you need a release, a stemcell, and a manifest.
+Preparation consists of thinking through how to orchestrate the environment you want to deploy,
+and how to configure the network and instrument VMs.
+You need to set up your IaaS instance and collect the networking information that goes in the manifest.
+Then you create the manifest and obtain a release and a stemcell.
 
 ### <a id=""></a> Plan how you want to orchestrate your environment ###
 
 For the sake of this example, let's assume that you have decided to deploy BOSH to an environment with two VMs.
-Your reasoning might be that security architecture
-The "thinking" parts of BOSH-Director, Health Monitor, Messaging (NATS), and PowerDNS—
-and the other for the data-storing parts: Blobstore, Redis, and Postgres.
-
+One reason you might do this is to implement a security architecture where the data-storing parts of BOSH
+(Blobstore, Redis, and Postgres) reside on one VM, while the "thinking" parts of BOSH
+(Director, Health Monitor, NATS, and PowerDNS) reside on the other.
+This would allow you to restrict access to data, while allowing deployment operators freer access to
+the BOSH Director.
 
 ### <a id=""></a> Set up the IaaS ###
 
-You collect all the information about your vSphere and vCenter that you need to configure the environment you plan to deploy.
+You collect the information about your vSphere and vCenter that you need to configure the environment.
 
 This includes:
 
@@ -53,7 +55,7 @@ You always reserve the IP of the MicroBOSH that deploys BOSH.
 
 Create the manifest to reflect the desired orchestration of the environment along with the network configuration information
 for your IaaS.
-Refer to the example manifest at the end of this topic.
+Refer to the [example manifest](#example-manifest) at the end of this topic.
 
 ### <a id=""></a> Download stemcell and release from public site ###
 
@@ -67,27 +69,30 @@ In this example, these are:
 
 ### <a id=""></a> Target and log into MicroBOSH ###
 
-Use the `bosh target` command so that the BOSH CLI runs on the MicroBOSH you want to use to deploy software.
+Ensure that the BOSH CLI runs on the MicroBOSH you want to use to deploy software.
+(In some environments there might be more than one BOSH or MicroBOSH.)
+You do this by passing the IP address of the MicroBOSH to the `bosh target` command.
+
+<pre class="terminal">
+$ bosh target 172.16.99.11
+Target set to `embarcadero-microbosh'
+</pre>
+
 Then log in on the MicroBOSH.
 Run the `bosh vms` command which shows VMs that the (Micro)BOSH has deployed.
 For now, `bosh vms` shows no VMs deployed.
 
 <pre class="terminal">
-$ bosh target 172.16.99.11
-Target set to `embarcadero-microbosh'
-
- |1.9.3-p484| embarcadero in ~/bosh
 $ bosh login admin ********
 Logged in as `admin'
 
- |1.9.3-p484| embarcadero in ~/bosh
 $ bosh vms
 No deployments
 </pre>
 
 ## <a id="deploying"></a> Deploying ##
 
-
+Enact the [familiar pattern](./workflow.html#deploying) _upload stemcell, upload release, set deployment, deploy_.
 
 ### <a id="stemcell"></a> Upload the Stemcell ###
 
@@ -112,7 +117,6 @@ because it has been uploaded to MicroBOSH:
 $ bosh stemcells
 No stemcells
 </pre>
-
 
 ### <a id="release"></a> Upload the Release ###
 
@@ -165,18 +169,45 @@ Duration	00:01:40
 Deployed `manifest.yml' to `embarcadero-microbosh'
 </pre>
 
-### <a id="afterword"></a> Verify ###
+### <a id="verify"></a> Verify ###
+
+While the output you have seen indicates that deployment was successful,
+you can run some basic checks on your new multi-VM BOSH.
+
+Set your local BOSH CLI to communicate with the new BOSH Director.
 
 <pre class="terminal">
-$ bosh target 172.16.99.212
+$ bosh target 172.16.69.232
 Target set to `bosh2'
 Your username: admin
 Enter password: *****
 Logged in as `admin'
 </pre>
 
+Run `bosh status` to verify that everything looks right.
 
-## <a id="example-manifest"></a> Example Manifest for Deploying multi-VM BOSH with MicroBOSH ##
+<pre class="terminal">
+$ bosh status
+Config
+             /Users/pivotal/.bosh_config
+
+Director
+  Name       bosh2
+  URL        https://172.16.69.232:25555
+  Version    1.2131.0 (release:bee75ed2 bosh:bee75ed2)
+  User       admin
+  UUID       d2ad4585-ea92-4652-8c07-1ba6625b9220
+  CPI        vsphere
+  dns        enabled (domain_name: bosh)
+  compiled_package_cache disabled
+  snapshots  enabled
+
+Deployment
+  not set
+</pre>
+
+
+## <a id="example-manifest"></a> Manifest for Deploying BOSH with MicroBOSH ##
 
 ~~~yaml
 ---
