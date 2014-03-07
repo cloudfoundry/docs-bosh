@@ -35,35 +35,46 @@ One reason you might do this is to implement a security architecture where the d
 This would allow you to restrict access to data, while allowing deployment operators freer access to
 the BOSH Director.
 
+The IaaS used in this example is vSphere.
+
 ### <a id=""></a> Set up the IaaS ###
 
-You collect the information about your vSphere and vCenter that you need to configure the environment.
+Collect the information about your vSphere and vCenter that you need to configure the environment.
 
 This includes:
 
 * The names for your datacenter, datastore, cluster, resource pool, and network.
 * The IP addresses for your vCenter and network gateway.
-* The IP addresses for the VMs to be deployed, called static IP addresses
+* The IP addresses for the VMs to be deployed, called static IP addresses.
 * The range of IP addresses of your network.
 * The range of IP addresses that you want to reserve.
 These, and the static IPs, are off-limits to BOSH when BOSH needs to dynamically use an IP address for tasks like compilation.
-You always reserve the IP of the MicroBOSH that deploys BOSH.
+Always reserve the IP of the MicroBOSH that deploys BOSH.
 
 ### <a id=""></a> Create the manifest ###
 
-Create the manifest to reflect the desired orchestration of the environment along with the network configuration information
-for your IaaS.
+The manifest should incorporate the network configuration information for your IaaS.
+It should also reflect the way you want to orchestrate the deployment across the multiple VMs.
+
+For a suggestion about where to create the manifest and run BOSH deployment commands, see [Deploying MicroBOSH](./deploy-microbosh.html).
+
+BOSH deploys VMs in the order listed in the manifest.
+In this case you need to list the data-storing VM first, because the other VM has the BOSH Director.
+The Blobstore, Redis, and Postgres all need to be up and running before the Director.
+
+Use the **properties** block in the manifest to specify ephemeral disk (this is a vSphere-specific usage).
+
 Refer to the [example manifest](#example-manifest) at the end of this topic.
 
 ### <a id=""></a> Download stemcell and release from public site ###
 
-You download the latest release of BOSH, and a stemcell suitable for your preferred combination of IaaS and VM type.
+You [download](http://bosh-artifacts.cfapps.io/) the latest release of BOSH, and a stemcell suitable for your preferred combination of IaaS and VM type.
 In this example, these are:
 
 * The **bosh-2131** release
 * The **vsphere esxi centos** stemcell
 
-**Note**: This is only an example, so you can expect release numbers to be out of date by the time you read this.
+**Note**: Release numbers given in this example may be out of date by the time you read this.
 
 ### <a id=""></a> Target and log into MicroBOSH ###
 
@@ -72,8 +83,8 @@ Ensure that the BOSH CLI runs on the MicroBOSH you want to use to deploy softwar
 You do this by passing the IP address of the MicroBOSH to the `bosh target` command.
 
 <pre class="terminal">
-$ bosh target 172.16.99.11
-Target set to `embarcadero-microbosh'
+$ bosh target 192.168.1.11
+Target set to `boshtest-microbosh'
 </pre>
 
 Then log in on the MicroBOSH.
@@ -94,8 +105,10 @@ Enact the [familiar pattern](./workflow.html#deploying) _upload stemcell, upload
 
 ### <a id="stemcell"></a> Upload the Stemcell ###
 
+Pass the path to the stemcell you downloaded to the `bosh upload stemcell` command:
+
 <pre class="terminal">
-$ bosh upload stemcell ~/Downloads/bosh-stemcell-2089-vsphere-esxi-centos.tgz
+$ bosh upload stemcell ~/Downloads/bosh-stemcell-2131-vsphere-esxi-centos.tgz
 
 Verifying stemcell...
 File exists and readable                                     OK
@@ -105,18 +118,12 @@ Verifying tarball...
 
 Uploading stemcell...
 
-bosh-stemcell: 100% |oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo| 558.9MB  39.4MB/s Time: 00:00:14
-</pre>
-
-Run the `bosh stemcells` command to verify that the stemcell you had before is no longer present on your local system,
-because it has been uploaded to MicroBOSH:
-
-<pre class="terminal">
-$ bosh stemcells
-No stemcells
+bosh-stemcell: 100% |ooooooooooooooooooooooooooooooooooooo| 558.9MB  39.4MB/s Time: 00:00:14
 </pre>
 
 ### <a id="release"></a> Upload the Release ###
+
+Pass the path to the release of BOSH you downloaded to the `bosh upload release` command:
 
 <pre class="terminal">
 $ bosh upload release ~/Downloads/bosh-2131.tgz
@@ -144,19 +151,23 @@ Release uploaded
 
 ### <a id="manifest"></a> Set Deployment with a Manifest ###
 
+Pass the path to the manifest to the `bosh deployment` command:
+
 <pre class="terminal">
-$ bosh deployment ~/workspace/deployments-vcenter/embarcadero/bosh2/manifest.yml
-Deployment set to `/Users/pivotal/workspace/deployments-vcenter/embarcadero/bosh2/manifest.yml'
+$ bosh deployment /home/boshtest/bosh/manifest.yml
+Deployment set to `/home/boshtest/bosh/manifest.yml'
 </pre>
 
 ### <a id="deploy"></a> Deploy ###
+
+Run the `bosh deploy` command:
 
 <pre class="terminal">
 $ bosh deploy
 Getting deployment properties from director...
 Compiling deployment manifest...
 Please review all changes carefully
-Deploying `manifest.yml' to `embarcadero-microbosh' (type 'yes' to continue): yes
+Deploying `manifest.yml' to `boshtest-microbosh' (type 'yes' to continue): yes
 
 ...
 
@@ -164,7 +175,7 @@ Started		2014-03-07 06:38:12 UTC
 Finished	2014-03-07 06:39:52 UTC
 Duration	00:01:40
 
-Deployed `manifest.yml' to `embarcadero-microbosh'
+Deployed `manifest.yml' to `boshtest-microbosh'
 </pre>
 
 ## <a id="verify"></a> Verifying the Deployment ##
@@ -172,17 +183,38 @@ Deployed `manifest.yml' to `embarcadero-microbosh'
 While the output you have seen indicates that deployment was successful,
 you can run some basic checks on your new multi-VM BOSH.
 
-Set your local BOSH CLI to communicate with the new BOSH Director.
+Verify that your MicroBOSH has successfully deployed two VMs,
+and that they have the expected IP addresses:
 
 <pre class="terminal">
-$ bosh target 172.16.69.232
+$ bosh vms
+Deployment `bosh2'
+
+Director task 33
+
+Task 33 done
+
++-------------+---------+---------------+---------------+
+| Job/index   | State   | Resource Pool | IPs           |
++-------------+---------+---------------+---------------+
+| bosh_api/0  | running | default       | 192.168.1.232 |
+| bosh_data/0 | running | default       | 192.168.1.233 |
++-------------+---------+---------------+---------------+
+
+VMs total: 2
+</pre>
+
+Set your local BOSH CLI to communicate with the new BOSH Director:
+
+<pre class="terminal">
+$ bosh target 192.168.1.232
 Target set to `bosh2'
 Your username: admin
 Enter password: *****
 Logged in as `admin'
 </pre>
 
-Run `bosh status` to verify that everything looks right.
+Run `bosh status` to verify that everything looks right:
 
 <pre class="terminal">
 $ bosh status
@@ -191,7 +223,7 @@ Config
 
 Director
   Name       bosh2
-  URL        https://172.16.69.232:25555
+  URL        https://192.168.1.232:25555
   Version    1.2131.0 (release:bee75ed2 bosh:bee75ed2)
   User       admin
   UUID       d2ad4585-ea92-4652-8c07-1ba6625b9220
@@ -219,18 +251,18 @@ networks:
 - name: default
   type: manual
   subnets:
-  - range: 172.16.68.0/23
-    gateway: 172.16.68.1
+  - range: 192.168.1.0/24
+    gateway: 192.168.1.1
     static:
-    - 172.16.69.232
-    - 172.16.69.233
+    - 192.168.1.232
+    - 192.168.1.233
     reserved:
     # .1 is special
-    - 172.16.68.2 - 172.16.69.230
-    - 172.16.69.240 - 172.16.69.254
+    - 192.168.1.2 - 192.168.1.230
+    - 192.168.1.240 - 192.168.1.254
     # .255 is special
     dns:
-    - 10.80.130.1
+    - 8.8.8.8
     cloud_properties:
       name: 'CF_2'
 
@@ -274,7 +306,7 @@ jobs:
   networks:
   - name: default
     static_ips:
-    - 172.16.69.233
+    - 192.168.1.233
 
 - name: bosh_api
   template:
@@ -287,19 +319,19 @@ jobs:
   networks:
   - name: default
     static_ips:
-    - 172.16.69.232
+    - 192.168.1.232
 
 properties:
-  ntp: ["10.80.130.1"]
+  ntp: ["pool.ntp.org"]
 
   nats:
     user: nats
     password: nats-password
-    address: 172.16.69.232
+    address: 192.168.1.232
     port: 4222
 
   blobstore:
-    address: 172.16.69.233
+    address: 192.168.1.233
     port: 25251
     backend_port: 25552
     agent:
@@ -312,18 +344,18 @@ properties:
   postgres: &bosh_db
     user: bosh
     password: bosh-password
-    host: 172.16.69.233
+    host: 192.168.1.233
     port: 5432
     database: bosh
 
   redis:
     password: redis-password
-    address: 172.16.69.233
+    address: 192.168.1.233
     port: 25255
 
   director:
     name: bosh2
-    address: 172.16.69.232
+    address: 192.168.1.232
     port: 25555
     encryption: false
     enable_snapshots: true
@@ -352,12 +384,12 @@ properties:
     resurrector_enabled: true
 
   dns:
-    address: 172.16.69.232
-    recursor: 10.80.130.1
+    address: 192.168.1.232
+    recursor: 8.8.8.8
     db: *bosh_db
 
   vcenter:
-    address: 172.16.69.3
+    address: 192.168.1.3
     user: root
     password: vmware
     datacenters:
