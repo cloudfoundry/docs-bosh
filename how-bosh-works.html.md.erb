@@ -83,7 +83,8 @@ Two kinds of information typically needed are:
 
 The BOSH Agent obtains configuration information for the VM where it is running.
 How this is done depends on the cloud Infrastructure as a Service (IaaS) you are using.
-Some cloud infrastructures use the Registry for this purpose.
+Some cloud infrastructures (AWS and OpenStack) use the Registry for this purpose.
+The Registry is a web app that uses the Postgres database.
 
 The interaction between IaaS, Agent, Registry, and Worker follows this pattern:
 
@@ -93,3 +94,6 @@ The interaction between IaaS, Agent, Registry, and Worker follows this pattern:
 1. The Agent sends an information request to the Registry HTTP endpoint.
 1. The Registry responds by providing the requested information.
 1. The Agent uses the information to configure the VM.
+
+**Note**: vSphere does not use the Registry.
+Instead, a CD-ROM ISO image that BOSH attaches to each VM provides the same information that the Registry would.
