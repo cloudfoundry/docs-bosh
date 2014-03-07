@@ -24,78 +24,70 @@ how things are supposed to work.
 
 ## <a id="prep"></a> Preparing to Deploy ##
 
+### <a id=""></a> Plan how you want to orchestrate your environment ###
 
-Download stemcell and release from public site.
+In this example, you have decided to deploy BOSH to an environment with two VMs.
+You intend to use one VM for the "thinking" parts of BOSH-Director, Health Monitor, Messaging (NATS), and PowerDNS.
+and the other for the data-storing parts: Blobstore, Redis, and Postgres.
 
-Create the manifest.
+Putting the data on its own VM might be something you do for the sake of a security architecture.
+
+### <a id=""></a> Set up the IaaS ###
+
+You collect all the information about your vSphere and vCenter that you need to configure the environment you plan to deploy.
+
+This includes:
+
+* The names for your datacenter, datastore, cluster, resource pool, and network.
+* The IP addresses for your vCenter and network gateway.
+* The IP addresses for the VMs to be deployed, called static IP addresses
+* The range of IP addresses of your network.
+* The range of IP addresses that you want to reserve.
+These, and the static IPs, are off-limits to BOSH when BOSH needs to dynamically use an IP address for tasks like compilation.
+You always reserve the IP of the Microbosh that is deploying BOSH.
+
+### <a id=""></a> Create the manifest ###
+
+Create the manifest to reflect the desired orchestration of the environment along with the network configuration information
+for your IaaS.
+
+### <a id=""></a> Download stemcell and release from public site ###
+
+You download the latest release of BOSH, and a stemcell suitable for your preferred combination of IaaS and VM type.
+In this example, these are:
+
+* The **bosh-2131** release
+* The **vsphere esxi centos** stemcell
+
+**Note**: This is only an example, so you can expect release numbers to be out of date by the time you read this.
+
+### <a id=""></a> Target and log into MicroBOSH ###
+
+Use the `bosh target` command so that the BOSH CLI runs on the MicroBOSH you want to use to deploy software.
+Then log in on the MicroBOSH, and run the `bosh vms` command if you want to
 
 <pre class="terminal">
 $ bosh target 172.16.99.11
 Target set to `embarcadero-microbosh'
 
  |1.9.3-p484| embarcadero in ~/bosh
-$ bosh login admin admin
+$ bosh login admin ********
 Logged in as `admin'
 
  |1.9.3-p484| embarcadero in ~/bosh
 $ bosh vms
-Deployment `embarcadero-bosh'
-
-Director task 17
-
-Task 17 done
-
-+-----------+---------+---------------+--------------+
-| Job/index | State   | Resource Pool | IPs          |
-+-----------+---------+---------------+--------------+
-| bosh/0    | running | default       | 172.16.99.12 |
-+-----------+---------+---------------+--------------+
-
-VMs total: 1
+No deployments
 </pre>
-
-You have a release.
-
-<pre class="terminal">
-$ bosh releases
-
-+------+-----------+-------------+
-| Name | Versions  | Commit Hash |
-+------+-----------+-------------+
-| bosh | 38.1-dev  | 8ed2b56e+   |
-|      | 38.3-dev* | 8ed2b56e+   |
-|      | 42        | bee75ed2+   |
-+------+-----------+-------------+
-(*) Currently deployed
-(+) Uncommitted changes
-
-Releases total: 1
-</pre>
-
-You have a stemcell.
-
-<pre class="terminal">
-$ bosh stemcells
-
-+--------------------------+---------+-----------------------------------------+
-| Name                     | Version | CID                                     |
-+--------------------------+---------+-----------------------------------------+
-| bosh-vsphere-esxi-centos | 2089*   | sc-6de86da4-5219-448e-b42d-61851fb2c0ba |
-+--------------------------+---------+-----------------------------------------+
-
-(*) Currently in-use
-
-Stemcells total: 1
-</pre>
-
 
 ## <a id="deploying"></a> Deploying ##
 
+
+
 ### <a id="stemcell"></a> Upload the Stemcell ###
 
+<pre class="terminal">
 $ bosh upload stemcell ~/Downloads/bosh-stemcell-2089-vsphere-esxi-centos.tgz
 
-<pre class="terminal">
 Verifying stemcell...
 File exists and readable                                     OK
 Verifying tarball...
@@ -107,8 +99,8 @@ Uploading stemcell...
 bosh-stemcell: 100% |oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo| 558.9MB  39.4MB/s Time: 00:00:14
 </pre>
 
-Run the `bosh stemcell` command to verify that the stemcell you had before is no longer present on your local system,
-because it has been uploaded to MicroBOSH: 
+Run the `bosh stemcells` command to verify that the stemcell you had before is no longer present on your local system,
+because it has been uploaded to MicroBOSH:
 
 <pre class="terminal">
 $ bosh stemcells
@@ -127,7 +119,7 @@ Extract tarball                                              OK
 Manifest exists                                              OK
 Release name/version                                         OK
 
-....                 
+....
 
 Release has been created
   bosh/42 (00:00:00)
