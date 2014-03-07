@@ -2,35 +2,38 @@
 title: Deploying Distributed Software with BOSH
 ---
 
-This topic is geared towards the reader who has set up an IaaS instance for BOSH,
-deployed MicroBOSH, and is now ready to deploy multi-VM BOSH.
-The assumed goal is to use multi-VM BOSH as the primary toolset for deploying
-other distributed software and for managing the lifecycle of that software.
+There are many ways to use BOSH to deploy distributed software.
 
-This is a tutorial in _using MicroBOSH to deploy multi-VM BOSH_.
-It belongs the larger category of stories about
-_using BOSH to deploy distributed software_.
-That category includes many possibilities.
-For example:
+For example, you could:
 
-* Using multi-VM BOSH to deploy a BOSH release of a key-value store.
-* Using MicroBOSH to deploy a distributed messaging service.
-* Using multi-VM BOSH to deploy Cloud Foundry.
+* Use multi-VM BOSH to deploy a BOSH release of a key-value store.
+* Use multi-VM BOSH to deploy Cloud Foundry.
+* Use MicroBOSH to deploy a distributed messaging service.
+* Use MicroBOSH to deploy multi-VM BOSH.
+
+In this tutorial, we focus on the fourth example, using MicroBOSH to deploy multi-VM BOSH.
+This is a realistic use case.
+It is appropriate if, for example, your goal is to use multi-VM BOSH as your primary toolset
+for deploying other distributed software and for managing the lifecycle of that software.
 
 When you work through this tutorial, you experience what the BOSH development
-team thinks of as the canonical example of using BOSH.
-Even if you plan to use BOSH in a different way, you will have a useful sense of
+team thinks of as a canonical example of using BOSH.
+Even if you plan to use BOSH in a different way, this story should provide a useful sense of
 how things are supposed to work.
 
 ## <a id="prep"></a> Preparing to Deploy ##
 
+Preparation consists of thinking through the deployment,
+collecting the
+To deploy software with BOSH, you need a release, a stemcell, and a manifest.
+
 ### <a id=""></a> Plan how you want to orchestrate your environment ###
 
-In this example, you have decided to deploy BOSH to an environment with two VMs.
-You intend to use one VM for the "thinking" parts of BOSH-Director, Health Monitor, Messaging (NATS), and PowerDNS.
+For the sake of this example, let's assume that you have decided to deploy BOSH to an environment with two VMs.
+Your reasoning might be that security architecture
+The "thinking" parts of BOSH-Director, Health Monitor, Messaging (NATS), and PowerDNS—
 and the other for the data-storing parts: Blobstore, Redis, and Postgres.
 
-Putting the data on its own VM might be something you do for the sake of a security architecture.
 
 ### <a id=""></a> Set up the IaaS ###
 
@@ -44,12 +47,13 @@ This includes:
 * The range of IP addresses of your network.
 * The range of IP addresses that you want to reserve.
 These, and the static IPs, are off-limits to BOSH when BOSH needs to dynamically use an IP address for tasks like compilation.
-You always reserve the IP of the Microbosh that is deploying BOSH.
+You always reserve the IP of the MicroBOSH that deploys BOSH.
 
 ### <a id=""></a> Create the manifest ###
 
 Create the manifest to reflect the desired orchestration of the environment along with the network configuration information
 for your IaaS.
+Refer to the example manifest at the end of this topic.
 
 ### <a id=""></a> Download stemcell and release from public site ###
 
@@ -64,7 +68,9 @@ In this example, these are:
 ### <a id=""></a> Target and log into MicroBOSH ###
 
 Use the `bosh target` command so that the BOSH CLI runs on the MicroBOSH you want to use to deploy software.
-Then log in on the MicroBOSH, and run the `bosh vms` command if you want to
+Then log in on the MicroBOSH.
+Run the `bosh vms` command which shows VMs that the (Micro)BOSH has deployed.
+For now, `bosh vms` shows no VMs deployed.
 
 <pre class="terminal">
 $ bosh target 172.16.99.11
@@ -168,6 +174,175 @@ Your username: admin
 Enter password: *****
 Logged in as `admin'
 </pre>
+
+
+## <a id="example-manifest"></a> Example Manifest for Deploying multi-VM BOSH with MicroBOSH ##
+
+~~~yaml
+---
+name: bosh2
+director_uuid: 6bcdfa35-5d51-4d39-8360-6e2b97cad2bc
+release:
+  name: bosh
+  version: 42
+
+networks:
+- name: default
+  type: manual
+  subnets:
+  - range: 172.16.68.0/23
+    gateway: 172.16.68.1
+    static:
+    - 172.16.69.232
+    - 172.16.69.233
+    reserved:
+    # .1 is special
+    - 172.16.68.2 - 172.16.69.230
+    - 172.16.69.240 - 172.16.69.254
+    # .255 is special
+    dns:
+    - 10.80.130.1
+    cloud_properties:
+      name: 'CF_2'
+
+resource_pools:
+- name: default
+  stemcell:
+    name: bosh-vsphere-esxi-centos
+    version: 2131
+  network: default
+  size: 2
+  cloud_properties:
+    ram: 512
+    disk: 2_000
+    cpu: 2
+
+compilation:
+  reuse_compilation_vms: true
+  workers: 1
+  network: default
+  cloud_properties:
+    ram: 512
+    disk: 6_000
+    cpu: 2
+
+update:
+  canaries: 1
+  canary_watch_time: 30000 - 90000
+  update_watch_time: 30000 - 90000
+  max_in_flight: 1
+  max_errors: 1
+
+jobs:
+- name: bosh_data
+  template:
+  - blobstore
+  - postgres
+  - redis
+  instances: 1
+  resource_pool: default
+  persistent_disk: 8_000
+  networks:
+  - name: default
+    static_ips:
+    - 172.16.69.233
+
+- name: bosh_api
+  template:
+  - nats
+  - director
+  - health_monitor
+  - powerdns
+  instances: 1
+  resource_pool: default
+  networks:
+  - name: default
+    static_ips:
+    - 172.16.69.232
+
+properties:
+  ntp: ["10.80.130.1"]
+
+  nats:
+    user: nats
+    password: nats-password
+    address: 172.16.69.232
+    port: 4222
+
+  blobstore:
+    address: 172.16.69.233
+    port: 25251
+    backend_port: 25552
+    agent:
+      user: agent
+      password: agent-password
+    director:
+      user: director
+      password: director-password
+
+  postgres: &bosh_db
+    user: bosh
+    password: bosh-password
+    host: 172.16.69.233
+    port: 5432
+    database: bosh
+
+  redis:
+    password: redis-password
+    address: 172.16.69.233
+    port: 25255
+
+  director:
+    name: bosh2
+    address: 172.16.69.232
+    port: 25555
+    encryption: false
+    enable_snapshots: true
+    max_tasks: 100
+    db: *bosh_db
+
+  hm:
+    http:
+      port: 25923
+      user: admin
+      password: admin-password
+    director_account:
+      user: admin
+      password: admin-password
+    intervals:
+      poll_director: 60
+      poll_grace_period: 30
+      log_stats: 300
+      analyze_agents: 60
+      agent_timeout: 180
+      rogue_agent_alert: 180
+    loglevel: info
+    email_notifications: false
+    tsdb_enabled: false
+    cloud_watch_enabled: false
+    resurrector_enabled: true
+
+  dns:
+    address: 172.16.69.232
+    recursor: 10.80.130.1
+    db: *bosh_db
+
+  vcenter:
+    address: 172.16.69.3
+    user: root
+    password: vmware
+    datacenters:
+      - name: TEST_DATACENTER
+        vm_folder:       SYSTEM_MICRO_VSPHERE_VMs
+        template_folder: SYSTEM_MICRO_VSPHERE_Templates
+        disk_path:       SYSTEM_MICRO_VSPHERE_Disks
+        datastore_pattern:            datastore1
+        persistent_datastore_pattern: datastore1
+        allow_mixed_datastores: true
+        clusters:
+          - TEST_CLUSTER:
+              resource_pool: TEST_RP
+~~~
 
 
 
