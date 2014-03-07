@@ -84,23 +84,25 @@ _describe multiple network configuration for vSphere_
 
 ## <a id="network"></a> Further Setup for AWS and vSphere ##
 
-A few IaaS-specific setup requirements remain for AWS and vSphere (but none for OpenStack).
+A few IaaS-specific setup requirements remain for AWS and vSphere (but none for
+OpenStack).
 
 ### <a id='aws'></a> AWS ###
 
 #### <a id='domain-prep'></a> Prepare a Domain ####
 
-First, pick a DNS domain name for your Cloud Foundry instance. If you
-pick *cloud.mydomain.com*, your applications will be available as
+First, pick a DNS domain name for the environment you plan to deploy.
+If you pick *cloud.mydomain.com*, your applications will be available as
 *app-name.cloud.mydomain.com*.
 
-Create an AWS Route 53 Hosted Zone for your domain at the [Route 53 control panel](https://console.aws.amazon.com/route53). The control
-panel shows you a "delegation set", or a list of addresses to which
-you must delegate DNS authority for your domain. If your domain is
-*cloud.mydomain.com*, each address in the delegation set should
-become an NS record in the DNS server for *mydomain.com*.
+Create an AWS Route 53 Hosted Zone for your domain at the
+[Route 53 control panel](https://console.aws.amazon.com/route53).
+Delegate DNS authority for your domain to the addresses in the
+"delegation set" that appears in the control panel.
 
-<%= image_tag("hostedzone.png") %>
+For example, if your domain is *cloud.mydomain.com*,
+create an NS record in the DNS server for *mydomain.com*
+for each address in the delegation set.
 
 #### <a id='deployment-env-prep'></a> Prepare the Deployment Environment ####
 
@@ -111,9 +113,10 @@ steps. After you install Ruby and git, install the `bundler` RubyGem:
 $ gem install bundler
 </pre>
 
-Create a deployments directory with a subdirectory for your
-particular deployment. For example, `~/deployments/cf-example`. In
-the particular deployment's sub-directory, create a file named `Gemfile` with the following contents:
+Create a directory for your planned deployment.
+In that directory:
+
+1. Create a file named `Gemfile` with the following contents:
 
 ~~~
 source 'https://rubygems.org'
@@ -123,10 +126,8 @@ ruby "1.9.3"
 gem "bosh_cli_plugin_aws"
 ~~~
 
-<pre class="terminal">
-$ cd ~/deployments/cf-example
-~/deployments/cf-example$ bundle install
-</pre>
+1. Run the `bundle install` command.
+
 
 Next, set environment variables required for deploying to AWS. Create
 a file called `bosh_environment` and add the following, changing the
@@ -142,12 +143,13 @@ export BOSH_VPC_SECONDARY_AZ=us-east-1a # see note below
 export BOSH_VPC_PRIMARY_AZ=us-east-1d   # see note below
 ~~~
 
-*Note:* `BOSH_VPC_DOMAIN` and `BOSH_VPC_SUBDOMAIN` must correspond to
-the DNS domain name you set up when configuring Route 53. The values
-shown above correspond to the earlier Route 53 example of
-*cloud.mydomain.com*.
+**Note:**
+The values shown above correspond to the earlier Route 53 example of
+**cloud.mydomain.com**.
+`BOSH_VPC_DOMAIN` and `BOSH_VPC_SUBDOMAIN` must correspond to the
+DNS domain name you set up when configuring Route 53.
 
-*Note:* Now only deployment to `us-east-1` region is supported by the next
+Now only deployment to `us-east-1` region is supported by the next
 steps. For MicroBOSH deploy please review [following guide](https://gist.github.com/danhigham/5804252).
 
 Choose availability zones that are listed as "operating normally" on
@@ -160,11 +162,14 @@ Use `source` to set them for the current shell:
 ~/deployments/cf-example$ source bosh_environment
 </pre>
 
-Run `bosh aws create` to create a VPC Internet Gateway, VPC subnets,
-three RDS databases, and a NAT VM for Cloud Foundry subnet routing.
-The command takes some time but does not require user input. This command
-generates receipt files that you use when deploying Cloud Foundry
-(`aws_rds_receipt.yml` and `aws_vpc_receipt.yml`).
+Run the `bosh aws create` command to generate the receipt files that you use
+when deploying software with BOSH (`aws_rds_receipt.yml` and `aws_vpc_receipt.yml`).
+`bosh aws create` also creates a VPC Internet Gateway, VPC subnets,
+three RDS databases, and a NAT VM.
+The NAT VM is for use with Cloud Foundry.
+You can remove it if you plan to deploy software other than Cloud Foundry.
+
+`bosh aws create` takes some time but does not require user input.
 
 <pre class="terminal">
 ~/cf$ bundle exec bosh aws create
