@@ -8,9 +8,9 @@ but much smaller.
 Parts of the manifest are IaaS-specific.
 Refer to the example for the IaaS you plan to use:
 
-* [AWS](./micro-manifest-examples/aws-example.html)
-* [OpenStack](./micro-manifest-examples/openstack-example.html)
-* [vSphere](./micro-manifest-examples/vsphere-example.html)
+* [AWS](#ex-aws)
+* [OpenStack](#ex-openstack)
+* [vSphere](#ex-vsphere)
 
 ## <a id="anatomy"></a> Anatomy of a Manifest ##
 
@@ -141,7 +141,7 @@ to create a manifest.
 
 These examples are designed to illuminate what each IaaS requires in a MicroBOSH deployment manifest.
 
-### <a id="aws"></a> AWS ###
+### <a id="ex-aws"></a> AWS ###
 
 ~~~yaml
 name: microbosh
@@ -182,7 +182,7 @@ apply_spec:
       address: x.x.x.x    #Change this to the allocated IP address from Step 2
 ~~~
 
-### <a id="openstack"></a> OpenStack ###
+### <a id="ex-openstack"></a> OpenStack ###
 
 Explanatory comments follow this example.
 
@@ -314,7 +314,7 @@ cloud:
 * The `default_security_groups` option set the security groups used by Micro BOSH. The `microbosh_security_group` **must** be an existing security group (check the [prerequisites](#openstack_security_groups) section).
 * The `default_key_name` and `private_key` options sets the key pair used by Micro BOSH. The `microbosh_keypair` **must** be an existing keypair (check the [prerequisites](#openstack_keypairs) section).
 
-### <a id="vSphere"></a> vSphere ###
+### <a id="ex-vSphere"></a> vSphere ###
 
 Explanatory comments follow this example.
 
