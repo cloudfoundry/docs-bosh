@@ -80,7 +80,11 @@ The instructions here apply to **INGRESS** only.
 
 ### <a id='vsphere'></a> vSphere ###
 
-_describe multiple network configuration for vSphere_
+With vSphere, a common practice is to configure multiple networks,
+then put BOSH on one network and the software that is deployed with BOSH on
+a separate network or networks.
+
+Security groups as such is not a vSphere feature.
 
 ## <a id="network"></a> Further Setup for AWS ##
 
