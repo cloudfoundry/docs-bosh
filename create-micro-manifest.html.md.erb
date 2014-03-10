@@ -84,8 +84,8 @@ to be created and attached to the MicroBOSH VM.
 MicroBOSH stores its data on the persistent disk, so that no data
 is lost when the VM is restarted or when you update MicroBOSH.
 
-`persistent_disk` is specified in megabytes so the example below,
-it is set to `16384`, which is 16 Gigabytes.
+`persistent_disk` is specified in megabytes.
+For example, a value of `16384` equates to 16 Gigabytes.
 
 The content of the `cloud_properties` sub-block varies from IaaS to IaaS.
 
@@ -102,7 +102,7 @@ resources:
 
 ### <a id='cloud'></a> The cloud block ###
 
-The resources block specifies a `plugin` whose value is the name of the IaaS you want to use,
+The resources block specifies the IaaS you want to use in the `plugin` attribute,
 and `properties`, whose content differs from IaaS to IaaS.
 
 For example:
