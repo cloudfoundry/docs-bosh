@@ -51,7 +51,7 @@ logging:
 
 The `network` block is where you specify network configuration information for the deployment.
 
-**Note**: This block is named "network" (singular) for MicroBOSH, but named "networks" (plural)
+**Note**: This block is named "network" (singular) for MicroBOSH, as opposed to "networks" (plural)
 for multi-VM BOSH.
 
 For example:
@@ -78,8 +78,15 @@ keys may differ from IaaS to IaaS.
 
 ### <a id='resources'></a> The resources block ###
 
-The resources block specifies `persistent disk`, which is IaaS-agnostic,
-and `cloud_properties`, whose content differs from IaaS to IaaS.
+The resources block specifies the size of the `persistent_disk`
+to be created and attached to the MicroBOSH VM.
+MicroBOSH stores its data on the persistent disk, so that no data
+is lost when the VM is restarted or when you update MicroBOSH.
+
+`persistent_disk` is specified in megabytes so the example below,
+it is set to `16384`, which is 16 Gigabytes.
+
+The content of the `cloud_properties` sub-block varies from IaaS to IaaS.
 
 For example:
 
@@ -295,7 +302,7 @@ resources:
     instance_type: <flavor_name>
 ~~~
 
-* The `persistent_disk` indicates that a new 16Gb volume will be created and attached to the Micro BOSH vm. On this disk, Micro BOSH will store the data, so in case you reboot or when upgrading the Micro BOSH vm, no data will be lost.
+
 * The `instance_type` set the OpenStack flavor used for the Micro BOSH vm. The `flavor_name` **must** have ephemeral disk (check the [validate your OpenStack](validate_openstack.html) guide)
 
 #### <a id="cloud_properties"></a>Cloud properties ####
