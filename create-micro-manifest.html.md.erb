@@ -3,7 +3,7 @@ title: Creating a MicroBOSH Deployment Manifest
 ---
 
 The deployment manifest for MicroBOSH is similar the deployment manifest for multi-VM BOSH,
-but much smaller.
+but much simpler.
 
 Parts of the manifest are IaaS-specific.
 Refer to the example for the IaaS you plan to use:
@@ -20,7 +20,7 @@ For example:
 
 <pre class="terminal">
 ---
-name: dummy
+name: microbosh-test
 </pre>
 
 After that, there are five required _blocks_:
@@ -50,6 +50,9 @@ logging:
 ### <a id='network'></a> The network block ###
 
 The `network` block is where you specify network configuration information for the deployment.
+
+**Note**: This block is named "network" (singular) for MicroBOSH, but named "networks" (plural)
+for multi-VM BOSH.
 
 For example:
 
@@ -144,10 +147,13 @@ These examples are designed to illuminate what each IaaS requires in a MicroBOSH
 ### <a id="ex-aws"></a> AWS ###
 
 ~~~yaml
-name: microbosh
+name: microbosh-aws
 
 logging:
-  level: DEBUG
+  # If needed increase the default logging level to trace REST traffic with IaaS providers. Default is info
+  level: debug
+  # Default location is <deployment_dir>/bosh_micro_deploy.log
+  # file :
 
 network:
   type: dynamic
@@ -178,7 +184,7 @@ apply_spec:
     nats:
       address: x.x.x.x    #Change this to the allocated IP address from Step 2
   properties:
-    aws_registry:
+    registry:
       address: x.x.x.x    #Change this to the allocated IP address from Step 2
 ~~~
 
@@ -191,7 +197,10 @@ Explanatory comments follow this example.
 name: microbosh-openstack
 
 logging:
-  level: DEBUG
+  # If needed increase the default logging level to trace REST traffic with IaaS providers. Default is info
+  level: debug
+  # Default location is <deployment_dir>/bosh_micro_deploy.log
+  # file :
 
 network:
   type: manual
@@ -320,7 +329,13 @@ Explanatory comments follow this example.
 
 ~~~yaml
 ---
-name: MicroBOSH01
+name: microbosh-vsphere
+
+logging:
+  # If needed increase the default logging level to trace REST traffic with IaaS providers. Default is info
+  level: info
+  # Default location is <deployment_dir>/bosh_micro_deploy.log
+  # file :
 
 network:
   ip: <ip_address_you_want_for_microbosh>
@@ -381,13 +396,6 @@ apply_spec:
     dns:
         # The BOSH powerDNS contacts the following DNS server for serving DNS entries from other domains.
         recursor: <ip_for_dns>
-
-logging:
-  # If needed increase the default logging level to trace REST traffic with IaaS providers. Default is info
-  level: info
-  # Default location is <deployment_dir>/bosh_micro_deploy.log
-  # file :
-
 
 ~~~
 
