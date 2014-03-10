@@ -25,11 +25,11 @@ name: microbosh-test
 
 After that, there are five required _blocks_:
 
-1. `logging`
-1. `network`
-1. `resources`
-1. `cloud`
-1. `apply_spec`
+1. [logging](#logging)
+1. [network](#network)
+1. [resources](#resources)
+1. [cloud](#cloud)
+1. [apply_spec](#apply)
 
 The manifest is in YAML, so the YAML parser translates each block into a hash.
 For this reason, you can put the blocks in any order.
@@ -59,13 +59,16 @@ The `type` attribute can be set to either of two values:
 * `dynamic` means that DHCP is used to assign the MicroBOSH VM an IP address.
 * `manual` means that you set the IP address for the MicroBOSH VM, in the manifest.
 
-The `dns` sub-block is for nameservers you want the operating system of the MicroBOSH VM to use.
-They are written to the `/etc/resolv.conf` file.
+The `dns` sub-block is for nameservers you want the operating system of the MicroBOSH VM to use
+in resolving domain names that internal MicroBOSH nameserver cannot resolve.
+The nameservers are written to the `/etc/resolv.conf` file.
 MicroBOSH components could use them to resolve IaaS FQDNs, for example.
 
 The optional `vip` attribute allows you to assign a floating IP address to the MicroBOSH VM.
 Then you can access the VM from outside of the its network.
 If set, `allocated_floating_ip` **must** be a floating IP that was allocated before you deploy.
+
+**Note**: the `vip` and `allocated_floating_ip` attributes exist in AWS and OpenStack but not in vSphere.
 
 The `network` sub-block is IaaS-dependent, because subnets, and other
 keys may differ from IaaS to IaaS.
@@ -183,6 +186,9 @@ These examples are designed to illuminate what each IaaS requires in a MicroBOSH
 
 You can adapt this example to your environment settings.
 
+You will need the "Elastic IP" address for the MicroBOSH VM.
+This was configured when you set up AWS for MicroBOSH.
+
 ~~~yaml
 name: microbosh-aws
 
@@ -194,7 +200,7 @@ logging:
 
 network:
   type: dynamic
-  vip: x.x.x.x    #Change this to the allocated IP address from Step 2
+  vip: <elastic_ip_for_microbosh_vm>
 
 resources:
   persistent_disk: 20000
@@ -217,12 +223,12 @@ cloud:
 apply_spec:
   agent:
     blobstore:
-      address: x.x.x.x    #Change this to the allocated IP address from Step 2
+      address: <elastic_ip_for_microbosh_vm>
     nats:
-      address: x.x.x.x    #Change this to the allocated IP address from Step 2
+      address: <elastic_ip_for_microbosh_vm>
   properties:
     registry:
-      address: x.x.x.x    #Change this to the allocated IP address from Step 2
+      address: <elastic_ip_for_microbosh_vm>
 ~~~
 
 ### <a id="ex-openstack"></a> OpenStack ###
