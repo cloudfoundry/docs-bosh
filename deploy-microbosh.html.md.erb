@@ -89,10 +89,32 @@ which functions like a small database that MicroBOSH uses when bootstrapping its
 
 ## <a id="verify"></a> Verifying your Deployment  ##
 
-You have two general options for verifying that your deployment was successful.
-These are:
+You have two main options for verifying that your deployment was successful.
+These are to run some basic commands, and, to run the
+BOSH Acceptance Tests (BATS).
 
-1. Start using MicroBOSH by targeting the new director and uploading software.
+### <a id="start"></a> Basic commands for verifying MicroBOSH ###
+
+Target the MicroBOSH with the host and domain name or IP address.
+The `bosh target` command prompts you for a username and password.
+
+<pre class="terminal">
+$ bosh target alpha.microbosh-test.example.com
+Target set to `vpc-alpha-microbosh-test'
+Your username: admin
+Enter password: *****
+Logged in as `admin'
+</pre>
+
+**Note**: The first time you log in,
+the username and password are both `admin`.
+**Extremely Important**: Change the default password to a strong password immediately.
+
+Run `bosh vms`.
+
+Try uploading software to your MicroBOSH.
 A minimal ["dummy release"](https://github.com/abic/dummy-boshrelease) can be useful here.
 
-2. Running the BOSH Acceptance Tests (BATS), which requires advanced system administration skills.
+### <a id="bats"></a> Run the BOSH Acceptance Tests (BATS) ###
+
+BATS requires advanced system administration skills.
