@@ -1,0 +1,157 @@
+---
+title: Creating a BOSH Release
+---
+
+Suppose you want to create a BOSH release of an application that you have developed.
+
+Workflow:
+
+1. develop application
+1. create (local) release
+1. deploy release to test environment
+1. test — ready for final release?
+    * no — back to 1
+    * yes - continue
+1. create final release
+
+
+
+The name of your application is `boshify`.
+
+## <a id="src"></a> Get your Source into the `src` Directory ##
+
+Begin by creating a new directory named `boshify-release`.
+
+In `boshify-release`, create a directory named `src`.
+
+In `src`, create a directory named `boshify`.
+
+Copy the boshify code into `boshify-release/src/boshify`.
+
+**Note**: Instead of copying the code, you could use symlinks.
+
+
+## <a id="bundle package"></a> Run bundle package to create packages ##
+
+Back in `boshify-release`, create a directory named `packages`.
+
+	`bundle package`
+		takes all gems and puts them in `vendor/cache`,
+		which BOSH creates in `src/boshify`
+
+
+## <a id="create-release"></a> Run bosh create release ##
+
+In `boshify-release/packages`, create a directory named `pre-packaging`
+
+	`bosh create release`
+
+	runs what's in here, only local
+
+	can download more dependencies and put them in `src`
+
+	Some prefer not to bundle dependencies; you can bring them in at compile time.
+
+## <a id="spec"></a> Specs  ##
+
+In `boshify-release/packages`, create a directory named `spec`
+
+	YAML
+
+	specs tell BOSH how to compile
+
+	specifies:
+
+		package name
+		dependencies
+		files
+			pattern that determines which source files go into package
+
+## <a id="deploy"></a> Run bosh deploy ##
+
+In `boshify-release/packages`, create a directory named `packaging`
+
+	`bosh deploy`
+
+	run when we compile the package
+
+	main thing:
+
+	`bundle install`
+
+	finds the bundle package and compiles all native source; if not, downloads
+
+## <a id="jobs"></a> Jobs ##
+
+In `boshify-release`, create a directory named `jobs`
+
+	in `jobs`, create `boshify` directory
+
+	means jobs in same sense as manifest - type of VM with set of features, that gets replicated to a specified number of instances
+
+	BOSH looks for these jobs in the manifest: 1-to-1 relationship
+
+	here, `boshify` is a job?
+
+	job
+
+	monit — BOSH uses to verify the health of a process
+	spec
+	templates
+
+	monit is a service that controls processes
+
+		different options to start, stop
+		can pass it the process ID
+			is it alive? can restart if it fails
+		if you log into BOSH VM you can run monit status
+			running
+			failing
+
+## <a id="templates"></a> Templates ##
+
+In `boshify-release/jobs/boshify`, create the `templates` directory.
+
+There is one template per job.
+BOSH takes all the templates and verifies them against the spec in the `jobs` directory.
+
+There is one `spec` per job, and it's in the `boshify-release/packages/boshify` folder.
+
+_Where is this?_
+List of templates: key is template, value is file it generates.
+
+Then there is the `ctl` file, a template (`erb`).
+
+It says, when you call **start** on me, run this... a Ruby command in this case.
+
+Names a *pid* file, which is what we give to monit.
+
+When we deploy, templates have access to the properties specified in the manifest.
+
+Two main templates:
+
+* `ctl` with start and stop
+* `job_name_yml.erb` with configuration
+
+We can have more if the app needs them.
+
+These go in the repo to be processed by `bosh deploy`.
+
+This approach makes releases more independent because it allows the same release to be deployed to different environments.
+
+## <a id="final"></a> Create the Final Release ##
+
+Two types of release: development (default) and final.
+
+`bosh create release`
+`bosh create release -- final`
+
+Final generates:
+
+* final builds and puts them in the `releases` folder, which it creates.
+* for each release, a `<releases>.yml` file, which it uploads to the public blobstore.
+
+To use your release, anyone can clone the repo that contains the `<releases>.yml` file.
+Upload just uses the URL from there.
+
+
