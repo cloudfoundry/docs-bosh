@@ -4,154 +4,257 @@ title: Creating a BOSH Release
 
 Suppose you want to create a BOSH release of an application that you have developed.
 
-Workflow:
+BOSH releases are created using an iterative workflow:
 
-1. develop application
-1. create (local) release
-1. deploy release to test environment
-1. test — ready for final release?
-    * no — back to 1
-    * yes - continue
-1. create final release
+1. Develop the application.
+1. Create a **dev release**.
+  * BOSH bumps the release number by a "dot".
+1. Deploy the **dev release** to your test environment.
+1. Test the **dev release**.
+Is it ready for final release?
+    * If the answer is no, begin the cycle again.
+    * If the answer is yes, continue.
+1. Create a **final release**
+  * BOSH bumps the release number by whole number.
 
+The BOSH release workflow embodies some principles intended to make BOSH releases
+optimally useful.
+Among these principles are the following:
 
+* BOSH releases do not necessarily depend on the internet.
+* BOSH release don't add blobs to GitHub.
+* Using underscores in filenames is the BOSH way.
+* Commenting your code to facilitate debugging is the BOSH way.
 
-The name of your application is `boshify`.
+## <a id="..."></a> Decide What to Release ##
 
-## <a id="src"></a> Get your Source into the `src` Directory ##
+Some releases contain a single app.
+Others are collections of related pieces of software.
+For example, such a collection might include a few MySQL nodes along with a dashboard app.
 
-Begin by creating a new directory named `boshify-release`.
+In a BOSH release, each of these pieces of software is a _job_.
+You also need to know the conception of _packages_, _src_, and _blobs_ that apply in
+the world of BOSH releases.
 
-In `boshify-release`, create a directory named `src`.
+* **jobs** describe pieces of a service
+* **packages** provide source code and dependencies to jobs
+* **src** provide non-binary files to packages
+* **blobs** provides binaries not checked into git
 
-In `src`, create a directory named `boshify`.
+Where to draw the line between what should and should not be included in a release
+is a judgment call when you are dealing with more complex examples of distributed software.
 
-Copy the boshify code into `boshify-release/src/boshify`.
 
-**Note**: Instead of copying the code, you could use symlinks.
 
+### <a id="..."></a> About this tutorial ###
 
-## <a id="bundle package"></a> Run bundle package to create packages ##
+This tutorial walks you through creating a dev release and then a final release
+that contains a single job, namely a Sinatra app called `ardo`.
 
-Back in `boshify-release`, create a directory named `packages`.
+## <a id="..."></a> Create the Release Directory ##
 
-	`bundle package`
-		takes all gems and puts them in `vendor/cache`,
-		which BOSH creates in `src/boshify`
+Make the release directory:
 
+  `bosh init release --git`
 
-## <a id="create-release"></a> Run bosh create release ##
+* `cd` into it.
+* All commands in the example are run from here.
 
-In `boshify-release/packages`, create a directory named `pre-packaging`
+## <a id="..."></a> Create the Job Skeleton ##
 
-	`bosh create release`
+This command generates a job _skeleton_, meaning ...
 
-	runs what's in here, only local
+  `bosh generate job ardo-web`
 
-	can download more dependencies and put them in `src`
+### <a id="..."></a> Create a control script for the job  ###
 
-	Some prefer not to bundle dependencies; you can bring them in at compile time.
+* In the spec for the job, create a template for the control script.
+* Templates are `erb` files, so this one is `ctl.erb.`
+* The spec shows the file that template will become in the actual app at compile time:
+  `ctl.erb: bin/ctl`
+* Create start and stop scripts and save them as `ctl.erb.`
+* Some real development work here, maybe to iterate on later.
+* `set -e -x`
 
-## <a id="spec"></a> Specs  ##
+### <a id="..."></a>   ###
 
-In `boshify-release/packages`, create a directory named `spec`
+* In the packages block of the spec, add a line describing a package for the job.
+* The actual package does not exist yet.
 
-	YAML
+### <a id="..."></a> Commit ###
 
-	specs tell BOSH how to compile
+## <a id="..."></a> Create Dependency Package Skeletons ##
 
-	specifies:
+A BOSH release contains one package for each of its jobs,
+and additional packages, one for each dependencies.
+To see clearly what packages you need to create,
+start by making a dependency graph.
 
-		package name
-		dependencies
-		files
-			pattern that determines which source files go into package
+Then take a bottom-up approach, creating package skeletons
+for dependencies, while leaving the job package for later.
 
-## <a id="deploy"></a> Run bosh deploy ##
+### <a id="..."></a> Make a dependency graph ###
 
-In `boshify-release/packages`, create a directory named `packaging`
+Two kinds:
 
-	`bosh deploy`
+* job dependency
+* package dependency
 
-	run when we compile the package
+Rules:
 
-	main thing:
+* jobs never depend on other jobs
+* jobs can depend on packages
+* packages can depend on other packages
 
-	`bundle install`
+### <a id="..."></a> Add package skeletons ###
 
-	finds the bundle package and compiles all native source; if not, downloads
+First create packages for job dependencies.
+The job in our example release is a Sinatra app,
+whose only dependency is on Ruby.
 
-## <a id="jobs"></a> Jobs ##
+  `bosh generate package ruby_1.9.3`
 
-In `boshify-release`, create a directory named `jobs`
+* correct name in the spec (now is ruby_1.9.3 not plain ruby)
 
-	in `jobs`, create `boshify` directory
+Next, create packages for package dependencies.
+The only package dependency in our example is that the Ruby
+package depends on the YAML library.
 
-	means jobs in same sense as manifest - type of VM with set of features, that gets replicated to a specified number of instances
+  `bosh generate package libyaml_0.1.4`
 
-	BOSH looks for these jobs in the manifest: 1-to-1 relationship
+You now have package skeletons for all the dependencies in your release.
+Later on, you will flesh out the skeletons to make them usable packages.
 
-	here, `boshify` is a job?
+## <a id="..."></a> Add Blobs Locally ##
 
-	job
+When creating a release, you use git for your source code.
+Git is not well-suited to dealing with large binaries, however.
+For this reason, you add blobs to a local blobstore while creating
+dev releases.
 
-	monit — BOSH uses to verify the health of a process
-	spec
-	templates
+Before you create a final release, you typically upload the blobs to a public blobstore.
 
-	monit is a service that controls processes
+### <a id="..."></a> Decide what blobs to add ###
 
-		different options to start, stop
-		can pass it the process ID
-			is it alive? can restart if it fails
-		if you log into BOSH VM you can run monit status
-			running
-			failing
+* running `bosh add blob` now would fail with an error
 
-## <a id="templates"></a> Templates ##
+### <a id="..."></a> Create a local blobstore  ###
 
-In `boshify-release/jobs/boshify`, create the `templates` directory.
+* in `config` folder: `final.yml` and `private.yml`
 
-There is one template per job.
-BOSH takes all the templates and verifies them against the spec in the `jobs` directory.
+### <a id="..."></a> Add blobs to blobstore ###
 
-There is one `spec` per job, and it's in the `boshify-release/packages/boshify` folder.
+* in release directory:
+  `bosh add blob <path> <package_name_as_prefix><filename>`
 
-_Where is this?_
-List of templates: key is template, value is file it generates.
+## <a id="..."></a> Update Specs ##
 
-Then there is the `ctl` file, a template (`erb`).
+### <a id="..."></a> Add blob to dependency spec ###
 
-It says, when you call **start** on me, run this... a Ruby command in this case.
+* libyaml spec needs to know about libyml blob
+* BOSH looks in two locations: `src` and `blobs`
 
-Names a *pid* file, which is what we give to monit.
+### <a id="..."></a> Update package spec with dependency information  ###
 
-When we deploy, templates have access to the properties specified in the manifest.
+* Add ruby's dependence on libyaml to Dependencies section of ruby spec
+* satisfies a line in the `packaging` script
 
-Two main templates:
+### <a id="..."></a> Update package spec with blobs information ###
 
-* `ctl` with start and stop
-* `job_name_yml.erb` with configuration
+* ruby, rubygems, bundler
+* with `ruby_1.9.3` prefix — all part of that package
+* `bosh blobs` to see that they are there and copy filenames
+* paste filenames into the `ruby_1.9.3` spec
 
-We can have more if the app needs them.
+## <a id="..."></a> Create the Job Package  ##
 
-These go in the repo to be processed by `bosh deploy`.
+* Up to now all we have is a mention of the package in the job spec.
+* Now we create the job package itself:
 
-This approach makes releases more independent because it allows the same release to be deployed to different environments.
+  `bosh generate package ardo-web`
 
-## <a id="final"></a> Create the Final Release ##
+* The package contains a `spec` and a `packaging` script, both empty when
+the package is newly created.
+* Next, put useful information into `spec` and `packaging`.
 
-Two types of release: development (default) and final.
+### <a id="..."></a> Update the job package spec with dependency information ###
 
-`bosh create release`
-`bosh create release -- final`
+* In `dependencies` block, name the dependencies.
+* In `files` block, use a glob to specify the pattern that matches the files.
+** By convention, the `src` directory should contain a sub-directory named for the job.
+** Use a glob that does a deep traverse of the `src/ardo-web` directory.
 
-Final generates:
+### <a id="..."></a> Write the packaging script for the job ###
 
-* final builds and puts them in the `releases` folder, which it creates.
-* for each release, a `<releases>.yml` file, which it uploads to the public blobstore.
+* This transforms the package at compile time.
+* Refer to section explaining variables BOSH gives you.
+** Described in BOSH code.
+** Any file you put in there ends up on the VM ("install target") ...
 
-To use your release, anyone can clone the repo that contains the `<releases>.yml` file.
-Upload just uses the URL from there.
+
+## <a id="..."></a> Create Properties  ##
+
+* Properties are inputs ...
+* Coordinating with the `properties` block in the manifest...
+
+## <a id="..."></a> Do a Dev Release  ##
+
+We have:
+
+* blobs
+* source
+* script to build from source
+* control script
+
+Can't create release before uploading blobs unless we use the `--force`
+option, which tells BOSH to use the blobs in the local blobstore.
+This is permissible when creating and testing dev releases but not
+final releases.
+
+`bosh create release --force`
+
+BOSH asks for release name.
+For a dev release, this can be anything.
+
+## <a id="..."></a> Deploy the Dev Release  ##
+
+Target a director.
+
+See what releases are available:
+
+  `bosh releases`
+
+If BOSH is already pointing to a release, edit the BOSH deployment manifest.
+Otherwise, [create a manifest] (./create-manifest.html).
+
+Upload the new dev release.
+If in the release directory, no path needed:
+
+   `bosh upload release`
+
+## <a id="..."></a> Test the Dev Release  ##
+
+* Debug primer: log in on VM, etc.
+* If your release fails any of these tests, fix and do a new dev release.
+
+## <a id="..."></a> Do a Final Release  ##
+
+Only proceed to this step if your latest dev release passes all tests.
+
+### <a id="..."></a> Upload blobs ###
+
+  `bosh upload blobs`
+
+### <a id="..."></a> Release ###
+
+  `bosh release --final`
+
+
+## <a id="..."></a> Test the Final Release  ##
+
+
+
+
+
 
 
