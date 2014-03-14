@@ -332,7 +332,7 @@ For each blob, run:
 `bosh add blob <path> <package_name_as_prefix><filename>`
 
 You construct this command by taking the same information found in the spec for each package in the
-`packaging` directory.
+`packages` directory.
 
 For example, in `packages/libyaml_0.1.4/spec`, you find:
 
@@ -343,9 +343,9 @@ files:
 
 ~~~
 
-To construct the command, just reverse the order of what's in the spec:
+To construct the command, just reverse the order of what's in the spec and delete the filename from the prefix:
 
-`bosh add blob http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz libyaml_0.1.4/yaml-0.1.4.tar.gz`
+`bosh add blob http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz libyaml_0.1.4`
 
 
 ## <a id="..."></a> Update Specs ##
