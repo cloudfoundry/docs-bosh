@@ -321,14 +321,32 @@ For that reason, it is automatically gitignored (assuming you used the `--git` o
 running `git init release` at the beginning of this tutorial), so its contents truly
 remain private in that they are not checked into Git.
 
-The "secret" in `private.yml` file is "does not matter."
+The "secret" in the example `private.yml` file is "does not matter."
 The reason is that the `secret` line, while required, is deprecated, so its content actually
 does not matter.
 
 ### <a id="..."></a> Add blobs to blobstore ###
 
-* in release directory:
-  `bosh add blob <path> <package_name_as_prefix><filename>`
+For each blob, run:
+
+`bosh add blob <path> <package_name_as_prefix><filename>`
+
+You construct this command by taking the same information found in the spec for each package in the
+`packaging` directory.
+
+For example, in `packages/libyaml_0.1.4/spec`, you find:
+
+~~~yaml
+
+files:
+- libyaml_0.1.4/yaml-0.1.4.tar.gz # From http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz
+
+~~~
+
+To construct the command, just reverse the order of what's in the spec:
+
+`bosh add blob http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz libyaml_0.1.4/yaml-0.1.4.tar.gz`
+
 
 ## <a id="..."></a> Update Specs ##
 
