@@ -17,31 +17,33 @@ Is it ready for final release?
 1. Create a **final release**.
   * BOSH bumps the release number by whole number.
 
-Beside the workflow, this tutorial explains principles to
-keep in mind when creating BOSH releases:
+As a matter of principle, BOSH releases:
 
-* BOSH releases package up all dependencies.
-* BOSH releases do not add blobs to a git repository.
-* BOSH releases remain buildable for a long time.
-* BOSH releases do not necessarily depend on the internet.
+* Package up all dependencies.
+* Do not add blobs to a git repository.
+* Remain buildable for a long time.
+* Do not necessarily depend on the internet.
 
-* Using underscores in filenames is the BOSH way.
-* Commenting your code to facilitate debugging is the BOSH way.
+As a matter of good practice, when creating BOSH releases, you should:
+
+* Use underscores in filenames.
+* Comment your code to facilitate debugging.
+* Assume that stemcells contain no libraries or other software that your release can use.
 
 ## <a id="..."></a> Decide What to Release ##
 
 Some releases contain a single app.
-Others are collections of the pieces of software that together form a particular service.
-For example, such a collection might include a few MySQL nodes along with a dashboard app.
-You might think of each of these pieces of software as an area of functionality, or a feature.
-In a BOSH release, each such piece is a _job_.
+Others are collections of pieces of software that together form a service.
+For example, you could release a service that consists of two MySQL nodes along with a dashboard app.
+These three pieces can each be thought of as an area of functionality, or a feature.
+In a BOSH release, each piece is a _job_.
 
-In a BOSH release:
+In a BOSH release, four directories assume primary importance:
 
 * **jobs** describe pieces of a service.
 * **packages** provide source code and dependencies to jobs.
-* **src** provides non-binary files to packages.
-* **blobs** provides binaries not checked into a Git repository.
+* **src** provides packages the non-binary files they need.
+* **blobs** provides packages the binaries they need, other than binaries that are checked into a Git repository.
 
 Creating a release entails several judgment calls: what to include, how to structure it, and how to split up jobs and packages.
 
@@ -50,8 +52,9 @@ that contains a single job, namely a Sinatra app called `ardo`.
 
 ## <a id="..."></a> Create the Release Directory ##
 
-The _release directory_ is where you run all the BOSH commands needed to create a release.
-Create the release directory:
+All the constituent parts of a release reside in the _release directory_.
+
+To get started creating a release, create the release directory:
 
   `bosh init release ardo-release --git`
 
@@ -74,11 +77,13 @@ $ tree .
 6 directories, 1 file
 </pre>
 
-## <a id="..."></a> Create the Job Skeleton ##
+**Note**: The release directory is where you run all the BOSH commands in this tutorial.
+
+## <a id="..."></a> Create the Job Skeletons ##
 
 For each piece of software you include in a release, you create a job.
 
-When you first create it, the job is a _skeleton_: an empty structure to be filled up
+When first created, the job is a _skeleton_: an empty structure to be filled up
 as release creation progresses.
 
 The example release only includes one job.
@@ -101,28 +106,26 @@ jobs/ardo_web/
 1 directory, 2 files
 </pre>
 
-### <a id="..."></a> Create a control script for the job  ###
+### <a id="..."></a> Create control script for the jobs  ###
 
 Every deployed app must have a way to start and stop.
-A control script serves that function in our example.
-In a BOSH release, a script is an ERB template
-stored in the `templates` directory for the relevant job.
+You provide that in a BOSH release by writing a control script that
+includes a start command and a stop command.
+The script is an ERB template stored in the `templates` directory for the relevant job.
 At compile time, BOSH transforms templates into files which
 eventually reside on the VMs where the deployed software runs.
 
-For our example, the control script includes a start and a stop command.
-Further details would be beyond the scope of this tutorial.
-Writing scripts is typically one of the heavier tasks entailed in creating a release.
-Real-life software typically needs more functionality than just start and stop,
-so the scripting is more extensive than in this example.
-As you discover unexpected behavior while testing your dev releases,
-you refine your scripts and iterate.
+In production situations, start and stop commands can be required to turn more things on and off
+than the simple commands in our example do.
+Control scripts can be the source of unexpected behavior that you discover while testing your dev releases.
+When that happens, you refine your scripts and iterate.
+For these reasons, writing scripts is typically one of the heavier tasks entailed in creating a release.
 
-For now, create the control script and save it as `ctl.erb` in the `templates` directory.
+Create the control script and save it as `ctl.erb` in the `templates` directory.
 
-### <a id="..."></a> Update the job spec  ###
+### <a id="..."></a> Update the job specs  ###
 
-The `spec` file is the home for metadata about your job.
+The `spec` file is where metadata about your job resides.
 
 You now possess two pieces of information which must be recorded in that metadata.
 
@@ -154,22 +157,14 @@ This is a good time to commit.
 Be aware that if you followed the recommended practice of using the `--git` option with
 `bosh init release`, the correct `.gitignore` file has been automatically created for you.
 
-## <a id="..."></a> Create Dependency Package Skeletons ##
-
-A BOSH release contains one package for each of its jobs,
-and additional packages, one for each dependency.
-To see clearly what packages you need to create,
-start by making a dependency graph.
-
-Then take a bottom-up approach, creating package skeletons
-for dependencies, while leaving the job package for later.
-
-### <a id="..."></a> Make a dependency graph ###
+## <a id="..."></a> Make a dependency graph ##
 
 There are two kinds of dependencies in a BOSH release:
 
-* The **job dependency**, for example, the `ardo_web` job depends on Ruby.
-* The **package dependency**, for example, the Ruby package in your release depends on the YAML library.
+* The **runtime dependency**, where a job depends on a package at runtime.
+For example, the `ardo_web` job depends on Ruby.
+* The **compile-time dependency**, where a package depends on another package at compile time.
+For example, Ruby depends on the YAML library.
 
 Three rules govern these dependencies:
 
@@ -183,6 +178,7 @@ Creating a dependency graph helps you clarify this understanding, and provides a
 reference as you add elements to the release.
 
 Go through any scripts you have created and note the files cited by each script.
+_note package path_ and _go through all job templates_.
 The names of these files must be added to the `packages` block of the job spec.
 In our example, they are `ardo_web` and `ruby_1.9.3`.
 
@@ -198,19 +194,22 @@ The dependency graph for `ardo-release` looks like this:
 
 _insert illustration_
 
+## <a id="..."></a> Create packages ##
+
+Taking one package at a time, you can complete the steps in this section,
+then start another package and iterate.
+
+Create packages starting from the bottom of your dependency graph.
+
 ### <a id="..."></a> Add package skeletons ###
 
-First create packages for job dependencies.
-The job in our example release is a Sinatra app,
-whose only dependency is on Ruby.
+When first created, the package is a _skeleton_: an empty structure to be filled up
+as release creation progresses.
 
-  `bosh generate package ruby_1.9.3`
-
-Next, create packages for package dependencies.
-The only package dependency in our example is that the Ruby
-package depends on the YAML library.
 
   `bosh generate package libyaml_0.1.4`
+
+  `bosh generate package ruby_1.9.3`
 
 You now have package skeletons for all the dependencies in your release.
 
@@ -237,20 +236,36 @@ Later on, you will flesh out the skeletons to make them usable packages.
 
 ### <a id="..."></a> Create packaging scripts ###
 
-The packages you have been creating represent software that BOSH needs to
-install on VMs at deploy time.
-That is accomplished by the `packaging` script within each package.
+In our example, BOSH compiles Ruby code into gems.
+Many releases include packages which need to be compiled.
+The resulting compiled binaries need to be placed in the proper location on VMs where
+the deployed release runs.
 
-Every packaging script must install the software for the package it belongs to,
+BOSH interacts with packaging scripts to make this happen.
+
+* The packaging script specifies a target directory.
+* BOSH creates the target directory locally.
+* The packaging script provides instructions for compiling the package.
+* BOSH compiles binaries as specified in the packaging script.
+* BOSH places the compiled binaries in the target directory.
+* BOSH replicates the target directory, now populated with compiled binaries, on a VM.
+
+Not _all_ releases require BOSH to compile code.
+Some only contain code in a scripting language, for example.
+In that case, the packaging script still specifies a target directory,
+but could contain a copy command rather than compilation instructions.
+
+Like control scripts, packaging scripts require a relatively large proportion of the
+labor that goes into creating a release.
+
+Write your packaging scripts now.
+To get started, study the examples.
+
+* Begin each script with a `set -e -x` line to aid debugging at compile time.
+* Write each script to install the software for the package it belongs to,
 and also invoke any package dependencies.
-Use your dependency graph to determine which dependencies belong in each
+* Use your dependency graph to determine which dependencies belong in each
 packaging script.
-
-For a start on writing packaging scripts, study the examples.
-Begin packaging scripts with a `set -e -x` line to aid debugging at compile time.
-
-_explicitly say to write all packaging scripts now?_
-_include packaging scripts inline?_
 
 ### <a id="..."></a> Create packaging specs ###
 
@@ -261,8 +276,14 @@ Within each package directory is a `spec` file which states:
 * The location where BOSH can find the binaries and other files that the package needs.
 
 Use your dependency graph to determine which dependencies belong in each spec.
+Your personal preferences and style as a developer also play a role here.
+Consider our example: the spec for Ruby lists `rubygems` and `bundler` as dependencies along
+with Ruby itself.
+Some Ruby developers would do it this way; others would not.
+Remember not to depend on the presence of libraries or other software on the stemcells that
+BOSH uses to create VMs.
 
-Follow this convention for describing binary locations in the `files` block of the spec:
+Describe binary locations in the `files` block of the spec according to this convention:
 
 * Find the official site for the binary in question.
 For example, Ruby might be at `http://cache.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p484.tar.gz`.
@@ -279,11 +300,9 @@ correct information.
 
 Observe how these conventions are followed in the examples.
 
-_add examples inline?_
+_add examples inline_
 
-_can't remember how we came up with the gemfiles and such_
-
-## <a id="..."></a> Add Blobs Locally ##
+### <a id="..."></a> Add Blobs Locally ###
 
 When creating a release, use Git for your source code.
 Since Git is not well-suited to dealing with large binaries,
@@ -295,11 +314,7 @@ Instead:
 dev releases.
 * Upload blobs to a public blobstore before you create a final release.
 
-### <a id="..."></a> Decide what blobs to add ###
-
 Normally, all the binaries you record in your packaging specs should be added to a local blobstore.
-
-_remark about how this is a decision?_
 
 ### <a id="..."></a> Create a local blobstore  ###
 
@@ -367,30 +382,6 @@ To construct the command, just reverse the order of what's in the spec and delet
 * with `ruby_1.9.3` prefix — all part of that package
 * `bosh blobs` to see that they are there and copy filenames
 * paste filenames into the `ruby_1.9.3` spec
-
-## <a id="..."></a> Create the Job Package  ##
-
-* Up to now all we have is a mention of the package in the job spec.
-* Now we create the job package itself:
-
-  `bosh generate package ardo_web`
-
-* The package contains stubs for a `spec` and a `packaging` script.
-* Next, put useful information into `spec` and `packaging`.
-
-### <a id="..."></a> Update the job package spec with dependency information ###
-
-* In `dependencies` block, name the dependencies.
-* In `files` block, use a glob to specify the pattern that matches the files.
-** By convention, the `src` directory should contain a sub-directory named for the job.
-** Use a glob that does a deep traverse of the `src/ardo_web` directory.
-
-### <a id="..."></a> Write the packaging script for the job ###
-
-* This transforms the package at compile time.
-* Refer to section explaining variables BOSH gives you.
-** Described in BOSH code.
-** Any file you put in there ends up on the VM ("install target") ...
 
 
 ## <a id="..."></a> Create Properties  ##
