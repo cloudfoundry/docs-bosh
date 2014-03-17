@@ -20,10 +20,11 @@ Is it ready for final release?
 Beside the workflow, this tutorial explains principles to
 keep in mind when creating BOSH releases:
 
-* BOSH releases do not necessarily depend on the internet.
-* BOSH releases remain buildable for a long time.
 * BOSH releases package up all dependencies.
-* BOSH releases do not add blobs to GitHub.
+* BOSH releases do not add blobs to a git repository.
+* BOSH releases remain buildable for a long time.
+* BOSH releases do not necessarily depend on the internet.
+
 * Using underscores in filenames is the BOSH way.
 * Commenting your code to facilitate debugging is the BOSH way.
 
@@ -40,9 +41,9 @@ In a BOSH release:
 * **jobs** describe pieces of a service.
 * **packages** provide source code and dependencies to jobs.
 * **src** provides non-binary files to packages.
-* **blobs** provides binaries not checked into GitHub.
+* **blobs** provides binaries not checked into a Git repository.
 
-What to include in a release is a judgment call, especially for more complex distributed software.
+Creating a release entails several judgment calls: what to include, how to structure it, and how to split up jobs and packages.
 
 This tutorial walks you through creating a dev release and then a final release
 that contains a single job, namely a Sinatra app called `ardo`.
@@ -68,7 +69,7 @@ $ tree .
 ├── jobs
 ├── packages
 ├── src
-└── ardo-web
+└── ardo_web
 
 6 directories, 1 file
 </pre>
@@ -84,15 +85,15 @@ The example release only includes one job.
 
 Generate a job skeleton:
 
-  `bosh generate job ardo-web`
+  `bosh generate job ardo_web`
 
-Naming the job `ardo-web` distinguishes it from the original app.
+Naming the job `ardo_web` distinguishes it from the original app.
 
 View the job skeleton with `tree`:
 
 <pre class="terminal">
-$ tree jobs/ardo-web/
-jobs/ardo-web/
+$ tree jobs/ardo_web/
+jobs/ardo_web/
 ├── monit
 ├── spec
 └── templates
@@ -167,7 +168,7 @@ for dependencies, while leaving the job package for later.
 
 There are two kinds of dependencies in a BOSH release:
 
-* The **job dependency**, for example, the `ardo-web` job depends on Ruby.
+* The **job dependency**, for example, the `ardo_web` job depends on Ruby.
 * The **package dependency**, for example, the Ruby package in your release depends on the YAML library.
 
 Three rules govern these dependencies:
@@ -232,7 +233,7 @@ packages
 
 Later on, you will flesh out the skeletons to make them usable packages.
 
-**Note**: Use of the `pre-packaging` file is not recommended, and is not discussed in this tutorial.
+**Note**: Use of the `pre_packaging` file is not recommended, and is not discussed in this tutorial.
 
 ### <a id="..."></a> Create packaging scripts ###
 
@@ -246,19 +247,18 @@ Use your dependency graph to determine which dependencies belong in each
 packaging script.
 
 For a start on writing packaging scripts, study the examples.
-Begin packaging scripts with a `set -e -x` line to aid debugging at compile and
-deployment time.
+Begin packaging scripts with a `set -e -x` line to aid debugging at compile time.
 
 _explicitly say to write all packaging scripts now?_
 _include packaging scripts inline?_
 
 ### <a id="..."></a> Create packaging specs ###
 
-Within each `packaging` directory is a `spec` file which states:
+Within each package directory is a `spec` file which states:
 
 * The package name.
 * The package's dependencies.
-* The location where BOSH can find the binaries for the package.
+* The location where BOSH can find the binaries and other files that the package needs.
 
 Use your dependency graph to determine which dependencies belong in each spec.
 
@@ -267,14 +267,15 @@ Follow this convention for describing binary locations in the `files` block of t
 * Find the official site for the binary in question.
 For example, Ruby might be at `http://cache.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p484.tar.gz`.
 
-* Download the binary from the official location and make sure the md5 hashes match.
+* Download the binary from the official location and make sure the file hash matches.
 
 * Record the binary name including version number, with a slash and the binary filename concatenated to it.
-In the same line, cite the official URL in a comment.
+It's a good idea to cite the official URL in a comment, in the same line.
 
-BOSH interprets the locations you record in the `files` section as being in the `blobs` directory.
-In the next few steps, you will add the actual blobs to a local blobstore, which will populate the
-`blobs` directory with the correct information.
+BOSH interprets the locations you record in the `files` section as being either in the `src` directory or
+in the `blobs` directory. (BOSH looks in `src` first).
+When you add the actual blobs to a local blobstore (see the next section), BOSH populates the `blobs` directory with the
+correct information.
 
 Observe how these conventions are followed in the examples.
 
@@ -286,7 +287,7 @@ _can't remember how we came up with the gemfiles and such_
 
 When creating a release, use Git for your source code.
 Since Git is not well-suited to dealing with large binaries,
-blobs should not be checked into Git.
+it's a good idea to avoid checking blobs into Git.
 
 Instead:
 
@@ -329,7 +330,7 @@ does not matter.
 
 For each blob, run:
 
-`bosh add blob <path> <package_name_as_prefix><filename>`
+`bosh add blob <path> <package_name_as_prefix>`
 
 You construct this command by taking the same information found in the spec for each package in the
 `packages` directory.
@@ -372,10 +373,9 @@ To construct the command, just reverse the order of what's in the spec and delet
 * Up to now all we have is a mention of the package in the job spec.
 * Now we create the job package itself:
 
-  `bosh generate package ardo-web`
+  `bosh generate package ardo_web`
 
-* The package contains a `spec` and a `packaging` script, both empty when
-the package is newly created.
+* The package contains stubs for a `spec` and a `packaging` script.
 * Next, put useful information into `spec` and `packaging`.
 
 ### <a id="..."></a> Update the job package spec with dependency information ###
@@ -383,7 +383,7 @@ the package is newly created.
 * In `dependencies` block, name the dependencies.
 * In `files` block, use a glob to specify the pattern that matches the files.
 ** By convention, the `src` directory should contain a sub-directory named for the job.
-** Use a glob that does a deep traverse of the `src/ardo-web` directory.
+** Use a glob that does a deep traverse of the `src/ardo_web` directory.
 
 ### <a id="..."></a> Write the packaging script for the job ###
 
