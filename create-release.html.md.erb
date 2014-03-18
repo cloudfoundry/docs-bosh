@@ -2,11 +2,16 @@
 title: Creating a BOSH Release
 ---
 
-Suppose you want to create a BOSH release of an application that you have developed.
+The iterative workflow for creating BOSH releases looks like this:
 
-You can do this using an iterative workflow:
+  <%= image_tag("release-iterate.png") %>
 
-1. Develop the application.
+The notion of the **dev release** and the **final release** is built into
+the way BOSH automatically numbers releases.
+
+We can make this clear by describing the iterative workflow in words:
+
+1. Develop or modify the application.
 1. Create a **dev release**.
   * BOSH bumps the release number by a "dot."
 1. Deploy the **dev release** to your test environment.
@@ -16,6 +21,8 @@ Is it ready for final release?
     * If the answer is yes, continue.
 1. Create a **final release**.
   * BOSH bumps the release number by whole number.
+1. When the final release needs to be modified or improved,
+begin the cycle again.
 
 As a matter of principle, BOSH releases:
 
