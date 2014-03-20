@@ -120,16 +120,16 @@ should be run.
 ### <a id='domain-prep'></a> Prepare a domain ###
 
 First, pick a DNS domain name for the environment you plan to deploy.
-If you pick *cloud.mydomain.com*, your applications become available as
-*app-name.cloud.mydomain.com*.
+If you pick *cloud.example.com*, your applications become available as
+*app-name.cloud.example.com*.
 
 Create an AWS Route 53 Hosted Zone for your domain at the
 [Route 53 control panel](https://console.aws.amazon.com/route53).
 Delegate DNS authority for your domain to the addresses in the
 "delegation set" that appears in the control panel.
 
-For example, if your domain is *cloud.mydomain.com*,
-create an NS record in the DNS server for *mydomain.com*
+For example, if your domain is *cloud.example.com*,
+create an NS record in the DNS server for *example.com*
 for each address in the delegation set.
 
 ### <a id='set-env'></a> Set environment variables ###
@@ -139,7 +139,7 @@ a file called `bosh_environment` and add the following, changing the
 value for each line to suit your configuration:
 
 ~~~
-export BOSH_VPC_DOMAIN=mydomain.com
+export BOSH_VPC_DOMAIN=example.com
 export BOSH_VPC_SUBDOMAIN=cloud # Pick something more unique than 'cloud' to work around a temporary shortcoming of the tool
 export BOSH_AWS_ACCESS_KEY_ID=AWS_ACCESS_KEY_ID
 export BOSH_AWS_SECRET_ACCESS_KEY=AWS_SECRET_ACCESS_KEY
@@ -150,7 +150,7 @@ export BOSH_VPC_PRIMARY_AZ=us-east-1d   # see note below
 
 **Note:**
 The values shown above correspond to the earlier Route 53 example of
-**cloud.mydomain.com**.
+**cloud.example.com**.
 `BOSH_VPC_DOMAIN` and `BOSH_VPC_SUBDOMAIN` must correspond to the
 DNS domain name you set up when configuring Route 53.
 
