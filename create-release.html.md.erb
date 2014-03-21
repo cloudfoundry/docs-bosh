@@ -63,11 +63,12 @@ what to include, how to structure it, and how to split up jobs and packages.
 To get started creating a release, decide what jobs your release should include.
 
 For the example release, we have decided to include two jobs: a web UI and a background worker.
-The worker periodically sends an HTTP request to the web UI.
+The worker periodically sends an HTTP request to the web UI, and the web UI displays the number
+of worker requests received.
 
-You also decide what properties to give your release.
-Release properties are essentially the inputs to your deployed service.
-We have decided to give our example one property: the port on which the web UI listens.
+You also decide what properties to give your jobs.
+Job properties are essentially inputs.
+We have decided to give our example service one property: the port on which the web UI listens.
 
 ## <a id="release-dir"></a> Create the Release Directory ##
 
@@ -106,6 +107,21 @@ $ tree .
 Notice that in the release directory, BOSH creates a subdirectory for each
 of the fundamental elements: jobs, packages, source (which BOSH calls `src`), and blobs.
 
+### <a id="strategy"></a> A note about work strategy ###
+
+You are about to begin five central parts of the tutorial,
+Create Job Skeletons, Make Dependency Graphs, Create Packages, Add Blobs Locally,
+and Update Specs to Complete Jobs.
+You can go one section at a time, completing one section for all jobs,
+doing the same for in the next section, and so on.
+Alternatively, you can go one job at a time, completing all four sections for one job,
+doing the same for the next job, and so on.
+
+For releases with just a few jobs, going one section at a time is probably easiest.
+That is what we'll do in this tutorial.
+If you have a larger number of jobs, going one job at a time may be more efficient.
+Choose the approach that seems most comfortable and least error-prone.
+
 ## <a id="job-skel"></a> Create Job Skeletons ##
 
 When first created, the job is a _skeleton_: an empty structure that fills up
@@ -143,7 +159,7 @@ $ tree .
 
 ### <a id="control"></a> Create control scripts for the jobs  ###
 
-Every deployed app needs a way to start and stop.
+Every deployed job needs a way to start and stop.
 You provide that in a BOSH release by writing a control script for each job.
 
 The control script:
@@ -153,6 +169,11 @@ The control script:
 
 At compile time, BOSH transforms templates into files, which it then replicates on
 VMs where the deployed software runs.
+In our example, `ctl.erb` becomes the `bin/ctl` file.
+
+On a deployed release, BOSH accesses the control script and any other templates through
+the `monit` file, which references the templates as well as the process ID (pid) file.
+_How does monit get created? How to improve my vague wording?_
 
 In production situations, start and stop commands typically turn more things on and off
 than the simple commands in our example do.
@@ -170,22 +191,14 @@ If your release needs templates other than the control script, create them now.
 
 Metadata for each job resides in a `spec` file.
 
-Two kinds of information which you now possess must be recorded in that metadata.
+Now that you possess the template names, you should record them in that metadata.
 
-1. **Job names.**
-For each job you have created, list a package of the same name
-in the `packages` block of the `spec` file for the job.
-You can now and create the actual package later.
-The package will be needed to provide source code and dependencies to the job.
-
-1. **Template names**.
-List each template you have created in the `templates` block of the `spec`
+* List each template you have created in the `templates` block of the `spec`
 file for its job.
 At compile time, BOSH makes templates into files on VMs.
 List the template and the path to the corresponding file as a key/value pair.
 
-Update the `spec` files for all the jobs in your release with the relevant job names and
-template names.
+Update the `spec` files for all the jobs in your release with the template names.
 
 In our example, we edit the `spec` files for the both the `web_ui` and `bg_worker` jobs.
 The updated `spec` file for the `bg_worker` job looks like this:
@@ -194,9 +207,6 @@ The updated `spec` file for the `bg_worker` job looks like this:
 
 templates:
   ctl.erb: bin/ctl
-
-packages:
-- bg_worker
 
 ~~~
 
@@ -217,20 +227,6 @@ You have now created one or more job skeletons; this is a good time to commit.
 
 Be aware that if you followed the recommended practice of using the `--git` option with
 `bosh init release`, the correct `.gitignore` file has been automatically created for you.
-
-### <a id="strategy"></a> A note about work strategy ###
-
-You are about to begin four central parts of the tutorial,
-Make Dependency Graphs, Create Packages, Add Blobs Locally, and Update Specs to Complete Jobs.
-You can go one section at a time, completing one section for all jobs,
-doing the same for in the next section, and so on.
-Alternatively, you can go one job at a time, completing all four sections for one job,
-doing the same for the next job, and so on.
-
-For releases with just a few jobs, going one section at a time is probably easiest.
-That is what we'll do in this tutorial.
-If you have a larger number of jobs, going one job at a time may be more efficient.
-Choose the approach that seems most comfortable and least error-prone.
 
 ## <a id="graph"></a> Make Dependency Graphs ##
 
@@ -341,8 +337,10 @@ the code.
 BOSH relies on you to write packaging scripts that perform the correct operation.
 
 BOSH creates the VMs where deployed jobs run.
-Before that, though, BOSH creates _compilation VMs_.
-BOSH deletes compilation VMs when it no longer needs them.
+BOSH also creates _compilation VMs_ and compiles packages into the install target directory
+on them.
+BOSH then replicates the install target directory on the regular VMs.
+BOSH deletes compilation VMs after compiling all the packages.
 
 The overall interaction between BOSH, the packaging script, and VMs goes like this:
 
@@ -360,7 +358,7 @@ code to `BOSH_INSTALL_TARGET`.
 At compile time, BOSH translates `BOSH_INSTALL_TARGET` to the actual location on deployed VMs
 where binaries need to be.
 If the instructions you provide in the packaging scripts fail to deliver compiled code to
-`BOSH_INSTALL_TARGET`, then as far as your release is concerned, that code does not exist.
+`BOSH_INSTALL_TARGET`, the job cannot function because the VM has no way to find and run the code.
 This failure scenario can happen if, for example, you use a `make` command that by default
 delivers compiled code to some standard location.
 That is why you need some equivalent of the `configure` command in the example packaging
@@ -389,15 +387,17 @@ Within each package directory is a `spec` file which states:
 
 * The package name.
 * The package's dependencies.
-* The location where BOSH can find the binaries and other files that the package needs.
+* The location where BOSH can find the binaries and other files that the package needs during compilation.
 
 Use your dependency graph to determine which dependencies belong in each spec.
 Your personal preferences and style as a developer also play a role here.
 Consider our example: the spec for Ruby lists `rubygems` and `bundler` as dependencies along
 with Ruby itself.
 Some Ruby developers would do it this way; others would not.
+
 Remember not to depend on the presence of libraries or other software on the stemcells that
 BOSH uses to create VMs.
+This maximizes the portability of your release across different versions of stemcells.
 
 Describe binary locations in the `files` block of the spec according to this convention:
 
@@ -483,7 +483,7 @@ files:
 
 If you downloaded the blob, its local path might be:
 
-`~Downloads/yaml-0.1.4.tar.gz`
+`~/Downloads/yaml-0.1.4.tar.gz`
 
 Go through all your packages and make a list of local paths to the blobs you downloaded.
 Now you are ready to inform BOSH about these blobs.
@@ -499,14 +499,14 @@ those blobs may become essential to some other developer.
 For this reason, uploading a blob and then removing it is considered poor practice.
 
 When creating dev releases, you should run `bosh add blob` to inform
-BOSH of local paths to blobs, but refrain from running `bosh upload blob`.
-That command is discussed in connection with dev releases.
+BOSH of local paths to blobs, but refrain from running `bosh upload blobs`.
+That command is discussed in connection with final releases.
 
 ## <a id="..."></a> Update Specs to Complete Jobs ##
 
 _what have we not done yet?_
 
-## <a id="..."></a> Create Release Properties  ##
+## <a id="..."></a> Create Job Properties  ##
 
 * Properties are inputs ...
 * Coordinating with the `properties` block in the manifest...
