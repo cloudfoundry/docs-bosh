@@ -22,6 +22,9 @@ Is it ready for final release?
 1. When the final release needs to be modified or improved,
 begin the cycle again.
 
+This tutorial walks you through creating and deploying a dev release and then a final release.
+You can use the example code to replicate the release we describe in the tutorial.
+
 As a matter of principle, BOSH releases:
 
 * Package up all dependencies.
@@ -35,23 +38,22 @@ As a matter of good practice, when creating BOSH releases, you should:
 * Comment your code to facilitate debugging.
 * Assume that stemcells contain no libraries or other software that your release can use.
 
-This tutorial walks you through creating a dev release and then a final release.
 _The finished example release is here <download_link>_.
-You use the directions to create your own release, comparing your results with the sample code.
 
-The ordering of tasks in this tutorial represents just one way of accomplishing the overall goal.
-The BOSH team has found this approach to be efficient,
-but these directions are only suggestions unless otherwise noted.
+This tutorial orders tasks in a way that the BOSH Team thinks is efficient,
+but that represents just one of many possible ways to accomplish the overall
+goal.
+These directions are only suggestions unless otherwise noted.
 
 ## <a id="what"></a> Decide What to Release ##
 
 A BOSH release contains one or more pieces of software that work together in some way.
-For example, you could create a BOSH release of a service that has three pieces: two MySQL nodes and a dashboard app.
-People may think of these pieces as areas of functionality, or features, or roles.
+For example, you could create a BOSH release of a service with three pieces: two MySQL nodes and a dashboard app.
+You may think of these pieces as areas of functionality, or features, or roles.
 In a BOSH release, you make each piece a _job_.
 
 Jobs are among the four fundamental elements in a BOSH release.
-Each of the others provides something that another element needs:
+The others each provide something another element needs:
 
 * **jobs** describe pieces of the service or application you are releasing.
 * **packages** provide source code and dependencies to jobs.
@@ -68,7 +70,38 @@ of worker requests received.
 
 You also decide what properties to give your jobs.
 Job properties are essentially inputs.
-We have decided to give our example service one property: the port on which the web UI listens.
+In our example, we have decided to create one property: the port on which the web UI listens.
+
+In our example, the two jobs split up the functionality provided by single Ruby app, `ardo_app`.
+
+When you deploy a release, BOSH creates two kinds of VMs on the target IaaS:
+
+* **Compilation VMs** provide a temporary, isolated environment where BOSH
+prepares the binaries or scripts your jobs need.
+That might require compiling source code, running commands which
+are equivalent but not the same as compiling (like `bundle install` in Ruby),
+ or just copying scripts.
+BOSH performs whichever of these three activities a particular release needs,
+at "compile time."
+The result is the BOSH install target directory, which contains the
+binaries or scripts your jobs need.
+The install target directory resides on the compilation VM.
+BOSH replicates it on the job VM.
+Then BOSH deletes the compilation VM.
+You decide how many compilation VMs to create, as well as how
+compilation VMs should behave, when you create the [deployment manifest](./create-manifest.html#compilation).
+
+* **Job VMs** are the VMs where your deployed jobs run.
+Be aware that the release does not specify which groupings of jobs
+run on a single VM, or how many instances of that VM to create.
+You make those decisions when you create the [deployment manifest](./create-manifest.html#release).
+
+By compiling your code in the isolated environment of a
+compilation VM which is identical to the job VM, BOSH frees you from concerns
+ about discrepancies between compilation environment and deployment environment.
+Because both VMs are newly-created, you can be certain that they are in
+a known state, in the sense that they can never contain software
+left over from previous deployments.
 
 ## <a id="release-dir"></a> Create the Release Directory ##
 
@@ -82,12 +115,13 @@ The `--git` option initializes a git repo in the release directory.
 This is recommended but not required.
 
 Our example release is named `ardo-release`.
-This name is just an anagram for `dora`, the sample app on which `ardo` is based.
-The point is to give the release a name that won't be confused with the names of its parts
-(`web_ui` and `bg_worker`).
+The name "ardo" was chosen arbitrarily, but the dash was not.
+The release name should have dashes rather than underscores, to conform to the
+convention for Git repo names.
+All other filenames in the release should use underscores.
 
 `cd` into the release directory.
-From here on, all the BOSH commands in this tutorial are run from within the release directory.
+This is where all the BOSH commands in this tutorial are run from here on.
 
 View the release with `tree`:
 
@@ -107,18 +141,29 @@ $ tree .
 Notice that in the release directory, BOSH creates a subdirectory for each
 of the fundamental elements: jobs, packages, source (which BOSH calls `src`), and blobs.
 
+### <a id="source"></a> Populate the src directory ###
+
+Populate the `src` directory with your source code.
+
+You can just copy the `ardo_app` directory into `src`.
+That keeps the tutorial simple.
+For production, consider using a Git [submodule](https://git.wiki.kernel.org/index.php/GitSubmoduleTutorial).
+With a Git submodule, users of your release always access the correct
+versions of dependencies even when those versions are no longer current.
+
 ### <a id="strategy"></a> A note about work strategy ###
 
 You are about to begin five central parts of the tutorial,
 Create Job Skeletons, Make Dependency Graphs, Create Packages, Add Blobs Locally,
 and Update Specs to Complete Jobs.
-You can go one section at a time, completing one section for all jobs,
-doing the same for in the next section, and so on.
-Alternatively, you can go one job at a time, completing all four sections for one job,
-doing the same for the next job, and so on.
+You can proceed in either of two ways:
+
+1. **One section at a time**. Complete one section for all jobs, then do the same for in the next section, and so on.
+
+1. **One job at a time**. Complete all four sections for one job, do the same for the next job, and so on.
 
 For releases with just a few jobs, going one section at a time is probably easiest.
-That is what we'll do in this tutorial.
+We'll do that in this tutorial.
 If you have a larger number of jobs, going one job at a time may be more efficient.
 Choose the approach that seems most comfortable and least error-prone.
 
@@ -157,48 +202,79 @@ $ tree .
 9 directories, 5 files
 </pre>
 
-### <a id="control"></a> Create control scripts for the jobs  ###
-
 Every deployed job needs a way to start and stop.
-You provide that in a BOSH release by writing a control script for each job.
+You provide that in the BOSH release by writing a control script for each job,
+and a `monit` file that references the commands in the control script.
+
+### <a id="control"></a> Create control scripts  ###
 
 The control script:
 
 * Includes a start command and a stop command.
 * Is an ERb template stored in the `templates` directory for the relevant job.
 
-At compile time, BOSH transforms templates into files, which it then replicates on
-VMs where the deployed software runs.
-In our example, `ctl.erb` becomes the `bin/ctl` file.
+At compile time, BOSH transforms templates into files, which it then replicates
+on the job VMs.
+For each job in our example, the `ctl.erb` template becomes the `bin/ctl` file.
 
-On a deployed release, BOSH accesses the control script and any other templates through
-the `monit` file, which references the templates as well as the process ID (pid) file.
-_How does monit get created? How to improve my vague wording?_
+The control script for the `web_ui` job looks like this:
 
-In production situations, start and stop commands typically turn more things on and off
-than the simple commands in our example do.
-Control scripts can be the source of unexpected behavior that you discover as you test your dev releases.
+_insert snippet_
+_Can we comment the script as an example of the right way to do this?_
+
+For each job, create a control script and save it as `ctl.erb` in the `templates`
+directory for its job.
+
+Start and stop commands in production situations typically turn more things on
+and off than the simple ones in our example do.
+Control scripts can be the source of unexpected behavior that you discover as
+you test your dev releases.
 When that happens, you refine your scripts and iterate.
-For these reasons, writing scripts is typically one of the heavier tasks entailed in creating a release.
-
-For each job, create a control script and save it as `ctl.erb` in the `templates` directory for its job.
-
-_insert ctl.erb as a snippet here? for one job or both?_
+For these reasons, writing control scripts is typically one of the heavier
+tasks entailed in creating a release.
 
 If your release needs templates other than the control script, create them now.
+
+### <a id="monit"></a> Update monit files  ###
+
+The `monit` file:
+
+* Specifies the process ID (pid) file for the job.
+* References each command provided by the templates for the job.
+* Specifies that the job belongs to the `vcap` group.
+
+On a deployed release, a BOSH Agent runs on each job VM.
+BOSH communicates with the Agent, which in turn executes the commands you have
+provided in the control script.
+The Agent does this with the help of [Monit](http://mmonit.com/monit/),
+which is open source software for monitoring processes, programs, files, and
+directories.
+
+The `monit` file for the `web_ui` job looks like this:
+
+_insert snippet_
+
+Update the `monit` file for each of your jobs, adapting the example.
 
 ### <a id="job-specs"></a> Update job specs  ###
 
 Metadata for each job resides in a `spec` file.
+The `spec` file has a `templates` block which you must update as described
+in this section.
 
-Now that you possess the template names, you should record them in that metadata.
+BOSH makes templates into files on VMs at compile time.
 
-* List each template you have created in the `templates` block of the `spec`
-file for its job.
-At compile time, BOSH makes templates into files on VMs.
-List the template and the path to the corresponding file as a key/value pair.
+In the `templates` block of the `spec` file for each job:
 
-Update the `spec` files for all the jobs in your release with the template names.
+* Each template name is a key.
+* Each path to the corresponding file on a job VM is a value.
+
+The file paths that you provide for templates are relative to
+a sort of home directory that BOSH creates for the job on the VM:
+
+~~~
+/var/vcap/jobs/<job_name>/
+~~~
 
 In our example, we edit the `spec` files for the both the `web_ui` and `bg_worker` jobs.
 The updated `spec` file for the `bg_worker` job looks like this:
@@ -210,23 +286,18 @@ templates:
 
 ~~~
 
-**Note**: The file paths that you provide for templates are relative to
-what is in effect a home directory for the job on the VM:
-
-~~~
-/var/vcap/jobs/<job_name>/
-~~~
-
-For example, the path we provided for the `bg_worker` control script was
+The path we provided for the `bg_worker` control script is
 `bin/ctl`.
-BOSH translates that into the full path `/var/vcap/jobs/bg_worker/bin/ctl`.
+We know that BOSH will translate that into the full path `/var/vcap/jobs/bg_worker/bin/ctl`.
+
+Update the `spec` files for all the jobs in your release with the template names.
 
 ### <a id="commit-one"></a> Commit ###
 
 You have now created one or more job skeletons; this is a good time to commit.
 
-Be aware that if you followed the recommended practice of using the `--git` option with
-`bosh init release`, the correct `.gitignore` file has been automatically created for you.
+If you used the `--git` option with `bosh init release` (as recommended), the
+correct `.gitignore` file has been automatically created for you.
 
 ## <a id="graph"></a> Make Dependency Graphs ##
 
@@ -247,61 +318,72 @@ Correctly understanding the dependencies between the jobs and packages in your r
 Creating a dependency graph helps you clarify this understanding, and provides a
 reference as you add elements to the release.
 
-Identify dependencies by going through your control scripts (and other templates, if any).
+Identify runtime dependencies by going through your control scripts (and other templates, if any).
 Note the package names cited by each script.
-In our example, this line in `ctl.erb` cites Ruby:
+
+In our example, this line in either of our `ctl.erb` scripts cites `ardo_app`:
+
+~~~
+cd /var/vcap/packages/ardo_app
+~~~
+
+This line cites Ruby:
 
 ~~~
 exec /var/vcap/packages/ruby_1.9.3/bin/bundle exec
 ~~~
 
-Add `web_ui`'s dependency on Ruby version 1.9.3 to your dependency graph.
-(Later, you add the actual Ruby package to your release.)
+Add these dependencies to your dependency graph.
+They are runtime dependencies, because they are cases where jobs depend upon
+packages.
 
-The dependency graph for `ardo-release` looks like this:
+Identify compile-time dependencies by using your knowledge about the
+dependencies you have already noted.
+If you happen to miss a dependency, BOSH will let you know later, when you
+try to run `bosh deploy`.
+
+In our example, we have noted a runtime dependency on Ruby 1.9.3.
+We now ask ourselves whether Ruby 1.9.3 itself has any dependencies.
+The answer is yes, it depends on libyaml 0.1.4.
+
+Add this dependency to your dependency graph.
+This is a compile-time dependency because it is a case where a package
+depends upon another package.
+
+Throughout this process, you note dependencies that tell you which actual
+packages you will add to your release later on.
+For now, you have a dependency graph to guide you as you continue creating
+your release.
+
+The complete dependency graph for `ardo-release` looks like this:
 
   <%= image_tag("dep-graph.png") %>
 
-
-### <a id="..."></a> Update the job spec with dependencies ###
-
-The dependency graph reveals runtime dependencies that
-need to be added to the `packages` block of the job spec.
-
-Edit the job spec to include these dependencies.
-
-In our example, the dependency graph shows that `web_ui` job depends on
-`ruby_1.9.3`.
-
-~~~yaml
-packages:
-- web_ui
-- ruby_1.9.3
-~~~
+For a large or complicated release, you might prefer to make more than one
+dependency graph.
 
 ## <a id="..."></a> Create Package Skeletons ##
 
-Packages give BOSH the information it needs to compile or copy source code
-and dependencies and then replicate the resulting executable code
-in the proper location on VMs during deployment.
+Packages give BOSH the information it needs to prepare the binaries
+and dependencies that your jobs need to run.
 
-When first created, a package is a _skeleton_: an empty structure to be filled up
+When first created, a package is a _skeleton_: an empty structure that fills up
 as release creation progresses.
 
 Create packages starting from the bottom of your dependency graph.
 
-  `bosh generate package <dependency_or_job_name>`
+  `bosh generate package <dependency_name>`
 
-In our example, we run this command four times.
+In our example, we run this command three times.
 Starting from the bottom of the dependency graph,
-we run it for libyaml_0.1.4, ruby_1.9.3, bg_worker, and web_ui.
+we run it for `libyaml_0.1.4`, `ruby_1.9.3`, and `ardo_app`.
 
 View the package skeletons with `tree`:
 
 <pre class="terminal">
 $ tree packages
 packages
-├── bg_worker
+├── ardo_app
 │   ├── packaging
 │   ├── pre_packaging
 │   └── spec
@@ -309,79 +391,23 @@ packages
 │   ├── packaging
 │   ├── pre_packaging
 │   └── spec
-├── ruby_1.9.3
-│   ├── packaging
-│   ├── pre_packaging
-│   └── spec
-└── web_ui
+└── ruby_1.9.3
     ├── packaging
     ├── pre_packaging
     └── spec
 
-4 directories, 12 files
+3 directories, 9 files
 </pre>
+
+This modular approach, with a separate package for each dependency, is
+provides maximum reusability along with clear structure.
+It is not mandatory; what packages to create is a matter of preference.
+You could even opt to put all the dependencies together in a single package,
+though that is not recommended.
 
 **Note**: Use of the `pre_packaging` file is not recommended, and is not discussed in this tutorial.
 
-### <a id="..."></a> Create packaging scripts ###
-
-At compile time, BOSH places executable binaries on the VMs where jobs run
-once deployment is complete.
-The packaging scripts are your compile-time instructions to BOSH.
-
-* If a package references source code like Ruby or libyaml, you need to instruct BOSH to actually compile
-the code.
-
-* If it references an app like `web_ui` or `bg_worker`, you simply instruct BOSH to copy the app.
-
-BOSH relies on you to write packaging scripts that perform the correct operation.
-
-BOSH creates the VMs where deployed jobs run.
-BOSH also creates _compilation VMs_ and compiles packages into the install target directory
-on them.
-BOSH then replicates the install target directory on the regular VMs.
-BOSH deletes compilation VMs after compiling all the packages.
-
-The overall interaction between BOSH, the packaging script, and VMs goes like this:
-
-* The packaging script specifies a target directory.
-* BOSH creates the target directory on the compilation VM.
-* The packaging script provides instructions for compiling the package.
-* BOSH compiles binaries as specified in the packaging script.
-* BOSH places the compiled binaries in the target directory.
-* BOSH replicates the target directory, on a VM where the deployed jobs will run.
-
-Use the `BOSH_INSTALL_TARGET` environment variable in your packaging scripts.
-Also, make sure that the `make` command you use in the script is configured to deliver compiled
-code to `BOSH_INSTALL_TARGET`.
-
-At compile time, BOSH translates `BOSH_INSTALL_TARGET` to the actual location on deployed VMs
-where binaries need to be.
-If the instructions you provide in the packaging scripts fail to deliver compiled code to
-`BOSH_INSTALL_TARGET`, the job cannot function because the VM has no way to find and run the code.
-This failure scenario can happen if, for example, you use a `make` command that by default
-delivers compiled code to some standard location.
-That is why you need some equivalent of the `configure` command in the example packaging
-scripts.
-
-You should also be aware of the role of the `dependencies` block in package `spec` files.
-BOSH ensures that the dependencies cited there are available to the deployed binary.
-For example, in the `spec` file for the Ruby package, we cite libyaml as a dependency.
-That ensures that the Ruby on deployed VMs has access to libyaml.
-
-Like control scripts, packaging scripts require a relatively large proportion of the
-labor that goes into creating a release.
-
-Write your packaging scripts now.
-To get started, study the examples.
-
-* Use your dependency graph to determine which dependencies belong in each
-packaging script.
-
-* Begin each script with a `set -e -x` line.
-This aids debugging at compile time by causing the script to exit immediately if an error occurs.
-
-### <a id="..."></a> Update packaging specs ###
+### <a id="update-pkging-specs"></a> Update packaging specs ###
 
 Within each package directory is a `spec` file which states:
 
@@ -399,77 +425,182 @@ Remember not to depend on the presence of libraries or other software on the ste
 BOSH uses to create VMs.
 This maximizes the portability of your release across different versions of stemcells.
 
-Describe binary locations in the `files` block of the spec according to this convention:
+To correctly describe binary locations in the `files` block of the spec:
 
 * Find the official site for the binary in question.
 For example, Ruby might be at `http://cache.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p484.tar.gz`.
 
 * Download the binary from the official location and make sure the file hash matches.
 
-* Record the binary name including version number, with a slash and the binary filename concatenated to it.
+* Record the binary name including version number, with a slash and the binary
+filename concatenated to it.
 It's a good idea to cite the official URL in a comment, in the same line.
 
-BOSH interprets the locations you record in the `files` section as being either in the `src` directory or
-in the `blobs` directory. (BOSH looks in `src` first).
-When you add the actual blobs to a local blobstore (see the next section), BOSH populates the `blobs` directory with the
-correct information.
+BOSH interprets the locations you record in the `files` section as being
+either in the `src` directory or in the `blobs` directory.
+(BOSH looks in `src` first).
+When you add the actual blobs to a blobstore (see the next section),
+BOSH populates the `blobs` directory with the correct information.
 
 Observe how these conventions are followed in the examples.
 
 _add examples inline_
 
-## <a id="..."></a> Add Blobs ##
+Update the spec for each package.
+
+### <a id="..."></a> Create packaging scripts ###
+
+At compile time, BOSH takes the source files referenced in the package specs,
+ and renders them into the executable binaries and scripts that your jobs will
+need once deployed.
+
+You write packaging scripts to instruct BOSH how to do this.
+The instructions may involve some combination of copying, compilation, and
+related procedures.
+For example:
+
+* For a Ruby app like `ardo_app`, BOSH must copy source files and install Ruby
+gems.
+
+* For Ruby itself, BOSH must compile source code into a binary.
+
+* For a Python app, BOSH must copy source files and install Python eggs.
+
+BOSH relies on you to write packaging scripts that perform the correct operation.
+
+Adhere to these principles when writing packaging scripts:
+
+* Use your dependency graph to determine which dependencies belong in each
+packaging script.
+
+* Begin each script with a `set -e -x` line.
+This aids debugging at compile time by causing the script to exit immediately
+if an error occurs.
+
+* Ensure that any copying, installing or compiling delivers resulting code to
+ the install target directory (represented as the `BOSH_INSTALL_TARGET`
+environment variable). For `make` commands, use `configure` or its equivalent
+to accomplish this.
+
+* Be aware that BOSH ensures that dependencies cited in the `dependencies`
+block of package `spec` files are available to the deployed binary.
+For example, in the `spec` file for the Ruby package, we cite libyaml as a dependency.
+That ensures that the Ruby on deployed VMs has access to libyaml.
+
+If the instructions you provide in the packaging scripts fail to deliver compiled
+code to `BOSH_INSTALL_TARGET`, the job cannot function because the VM has no
+way to find and run the code.
+This failure scenario can happen if, for example,
+you use a `make` command that delivers compiled code to some standard location
+by default.
+You can fix the problem by configuring `make` to compile into
+`BOSH_INSTALL_TARGET`.
+See how this is done in the example packaging scripts.
+
+Write your packaging scripts now.
+To get started, study the examples.
+
+_snippet_
+
+Like control scripts, writing packaging scripts is one of the heavier tasks
+entailed in creating a release.
+
+### <a id="update-job-specs-with-deps"></a> Update job specs with dependencies ###
+
+The dependency graph reveals runtime dependencies that
+need to be added to the `packages` block of the job spec.
+
+Edit the job specs to include these dependencies.
+
+In our example, the dependency graph shows that `web_ui` job depends on
+`ardo_app` and `ruby_1.9.3`:
+
+~~~yaml
+packages:
+- ardo_app
+- ruby_1.9.3
+~~~
+
+_Explain files block_
+_glob for ardo_app_
+
+## <a id="blobs"></a> Add Blobs ##
 
 When creating a release, you use Git for your source code.
-For example, the `web_ui` and `bg_worker` source is checked into a Git repo.
+For example, the `ardo_app` source is checked into a Git repo.
 
-But your release also uses Ruby and libyaml, which are in the form of binaries
-like tar or gem files, also known as blobs.
-Since Git is not well-suited to dealing with large binaries,
-checking these blobs into Git would be problematic.
+But releases often also use tar files or other binaries, also known as blobs.
+For example, `ardo-release` uses libyaml.
+Checking blobs into Git would be problematic because Git is not
+well-suited to dealing with large binaries.
 
-You can avoid checking blobs into Git by doing the following:
+BOSH lets you avoid checking blobs into Git by doing the following:
 
-* For dev releases you direct BOSH to use local copies of blobs.
+* For dev releases, use local copies of blobs.
 
-* When creating a final release, you upload blobs to a blobstore,
-then direct BOSH to obtain the blobs from there.
+* For a final release, upload blobs to a blobstore,
+and direct BOSH to obtain the blobs from there.
 
-### <a id="..."></a> Configure a blobstore  ###
+### <a id="config-blobstore"></a> Configure a blobstore  ###
 
-Every release has one `config` directory, where you record the information BOSH needs to
-work with blobstores.
+Although the blobstore is not needed until you do a final release,
+configuring the blobstore ahead of time makes for a better workflow.
 
-In the `config` directory:
+In the `config` directory, you record the information BOSH needs about the
+blobstore:
 
 * The `final.yml` file names the blobstore and declares its type, which is either `local`
 or one of several other types that specify blobstore providers.
 
-* The `private.yml` file specifies the path of the blobstore, along with a secret.
+* The `private.yml` file specifies the blobstore path, along with a secret.
 
 `private.yml` contains keys for accessing the blobstore.
 For that reason, `private.yml` is automatically gitignored (assuming you used the `--git`
 option when running `git init release` at the beginning of this tutorial).
 By not checking `private.yml` into Git, BOSH keeps the keys private.
 
-**Note**: A peculiarity of the `local` type blobstore is that the `blobstore_secret`
-line is required, although it is deprecated and its content does not matter.
-There is no `blobstore_secret` line for other types of blobstores.
-
 The `config` directory also contains two files whose content is automatically
 generated: the `blobs.yml` file and the `dev.yml` file.
 
-Adapt the example `final.yml` and `private.yml` files to fit the specifics of your release.
+Adapt the examples below to fit the specifics of your release.
 
-_insert examples_
+Example `final.yml`:
 
-### <a id="..."></a> Inform BOSH where blobs are ###
+~~~yaml
+---
+blobstore:
+  provider: local
+final_name: ardo_blobstore
+~~~
+
+Example `private.yml`:
+
+~~~yaml
+---
+blobstore_secret: 'does-not-matter'
+blobstore:
+  local:
+    blobstore_path: /tmp/ardo-blobs
+
+~~~
+
+**Note**: The `blobstore_secret` is required for the `local` type blobstore.
+This is true even though the `blobstore_secret` line is deprecated and its
+content does not matter.
+There is never `blobstore_secret` line for blobstores of types other than
+`local`.
+
+Also, be aware that the `local` type blobstore is essentially a convenience for
+development.
+Final releases should use a publically-accessible type of blobstore.
+
+### <a id="inform"></a> Inform BOSH where blobs are ###
 
 Each package has a `spec` file, which has a `files` block.
 For packages whose content you downloaded from the internet,
 the `files` block lists the binaries you downloaded, along with
 the URLs from which you downloaded them.
-(This assumes that you followed the directions in the [Update package specs] section.)
+(This assumes that you followed the directions in the [Update package specs](#update-pkging-specs) section.)
 
 Those files are blobs, and now you need the paths to the downloaded blobs on
 your local system.
@@ -492,26 +623,46 @@ For each blob, run:
 
 `bosh add blob <path_to_blob_on_local_system> <package_name>`
 
-### <a id="..."></a> Do not upload blobs for a dev release ###
+BOSH adds each blob to the `blobs` directory, in a subdirectory whose name is the
+second argument to the `bosh add blob` command.
+The package name is a good choice for that argument because it produces a
+cleanly-organized `blobs` directory.
+
+### <a id="no-upload"></a> Do not upload blobs for a dev release ###
 
 The nature of blobstores (other than local ones) is that once you have uploaded blobs,
 those blobs may become essential to some other developer.
 For this reason, uploading a blob and then removing it is considered poor practice.
 
-When creating dev releases, you should run `bosh add blob` to inform
-BOSH of local paths to blobs, but refrain from running `bosh upload blobs`.
-That command is discussed in connection with final releases.
+When creating dev releases, do not run `bosh upload blobs`.
+That command is discussed below, in connection with final releases.
 
 ## <a id="..."></a> Update Specs to Complete Jobs ##
 
 _what have we not done yet?_
 
-## <a id="..."></a> Create Job Properties  ##
+## <a id="create-props"></a> Create Job Properties  ##
 
-* Properties are inputs ...
-* Coordinating with the `properties` block in the manifest...
+You can specify what in your service is configurable at deployment time.
+Each configurable input or control is a _property_ that belongs to a
+particular job.
 
-## <a id="..."></a> Do a Dev Release  ##
+Creating properties requires three steps:
+
+1. Define properties in the `properties` block of the job spec.
+
+1. Add a variable for the property to relevant templates.
+For example, a start command can take a property as an argument,
+using a variable of the form:
+
+1. Specify the property in the deployment manifest.
+
+In our example, we want the port that the web UI listens on to be a
+configurable property.
+
+We edit the spec for the web UI job.
+
+## <a id="dev-release"></a> Do a Dev Release  ##
 
 We have:
 
@@ -521,7 +672,7 @@ We have:
 * control script
 
 
-### <a id="..."></a> Release  ###
+### <a id="dev-release-release"></a> Release  ###
 
 Can't create release before uploading blobs unless we use the `--force`
 option, which tells BOSH to use the blobs in the local blobstore.
@@ -533,7 +684,7 @@ final releases.
 BOSH asks for release name.
 For a dev release, this can be anything.
 
-### <a id="..."></a> Deploy the Dev Release  ###
+### <a id="dev-release-deploy"></a> Deploy the Dev Release  ###
 
 Target a director.
 
@@ -545,15 +696,19 @@ If BOSH is already pointing to a release, edit the BOSH deployment manifest.
 Otherwise, [create a manifest] (./create-manifest.html).
 
 Upload the new dev release.
-If in the release directory, no path needed:
 
    `bosh upload release`
+
+
+Assuming you are in the release directory, no path is needed with the above command.
 
 Deploy:
 
    `bosh deploy`
 
-### <a id="..."></a> Test the Dev Release  ###
+See [Deploying Distributed Software with BOSH](./deploy-with-bosh.html) for more about deployment.
+
+### <a id="dev-release-test"></a> Test the Dev Release  ###
 
 What tests to run depends on the software you are releasing.
 
@@ -565,11 +720,11 @@ If your release fails any of these tests:
 * Do a new dev release and then bosh deploy to see that new release succeeds deploying.
 * You can use `bosh deploy --recreate` to deploy all VMs from scratch.
 
-## <a id="..."></a> Do a Final Release  ##
+## <a id="final-release"></a> Do a Final Release  ##
 
 Only proceed to this step if your latest dev release passes all tests.
 
-### <a id="..."></a> Upload blobs ###
+### <a id="upload-blobs"></a> Upload blobs ###
 
 You are ready to do a final release except for one thing:
 your latest dev release depends on locally-stored blobs.
@@ -586,13 +741,13 @@ Now you can upload your blobs to a blobstore:
 
 `bosh upload blobs`
 
-### <a id="..."></a> Commit ###
+### <a id="final-commit"></a> Commit ###
 
 You have run the `bosh upload blobs` command so the `blobs` file now contains names and keys.
 
 This is a good time to commit.
 
-### <a id="..."></a> Release ###
+### <a id="final-release-release"></a> Release ###
 
 Run:
 
@@ -603,11 +758,11 @@ BOSH prompts you for a release name, and assigns a whole-number version to the r
 This is a good time to `git push` so that other team members have access to final release you just created.
 
 
-### <a id="..."></a> Commit ###
+### <a id="final-release-commit"></a> Commit ###
 
 One more commit before you deploy.
 
-### <a id="..."></a> Deploy the Final Release  ###
+### <a id="final-release-deploy"></a> Deploy the Final Release  ###
 
 Run:
 
