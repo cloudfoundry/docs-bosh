@@ -637,15 +637,11 @@ For this reason, uploading a blob and then removing it is considered poor practi
 When creating dev releases, do not run `bosh upload blobs`.
 That command is discussed below, in connection with final releases.
 
-## <a id="..."></a> Update Specs to Complete Jobs ##
-
-_what have we not done yet?_
-
 ## <a id="create-props"></a> Create Job Properties  ##
 
-You can specify what in your service is configurable at deployment time.
-Each configurable input or control is a _property_ that belongs to a
-particular job.
+If your service needs to be configurable at deployment time,
+you create the desired inputs or controls and specify them in the release.
+Each input is a _property_ that belongs to a particular job.
 
 Creating properties requires three steps:
 
@@ -660,33 +656,50 @@ using a variable of the form:
 In our example, we want the port that the web UI listens on to be a
 configurable property.
 
-We edit the spec for the web UI job.
+We edit the spec for the web UI job to look like this:
+
+~~~yaml
+properties:
+   web_ui.port:
+     description: Port that web_ui app listens on
+     default: 80
+~~~
+
+Adapt the example to create any properties your release needs now.
 
 ## <a id="dev-release"></a> Do a Dev Release  ##
 
-We have:
-
-* blobs
-* source
-* script to build from source
-* control script
-
+All the elements needed to create a dev release should now be in place.
 
 ### <a id="dev-release-release"></a> Release  ###
 
-Can't create release before uploading blobs unless we use the `--force`
-option, which tells BOSH to use the blobs in the local blobstore.
-This is permissible when creating and testing dev releases but not
-final releases.
+For a dev release, BOSH needs to use the local copies of our blobs.
+Use the `--force` option with the `bosh create release` command,
+because otherwise BOSH expects the blobs to have been uploaded first,
+and we do not want to upload blobs until we a final release.
+
+Using the `--force` option is permissible when creating and testing dev
+releases but not final releases.
+
+Create the dev release:
 
 `bosh create release --force`
 
-BOSH asks for release name.
-For a dev release, this can be anything.
+BOSH asks for the release name.
 
 ### <a id="dev-release-deploy"></a> Deploy the Dev Release  ###
 
-Target a director.
+Deploying the release requires three or more steps, depending on whether
+BOSH is targeting the desired Director, and whether BOSH is already pointing
+to a release.
+
+See what director BOSH is targeting:
+
+  `bosh target`
+
+Target a director:
+
+  `bosh target <director_url>`
 
 See what releases are available:
 
@@ -698,7 +711,6 @@ Otherwise, [create a manifest] (./create-manifest.html).
 Upload the new dev release.
 
    `bosh upload release`
-
 
 Assuming you are in the release directory, no path is needed with the above command.
 
@@ -712,13 +724,17 @@ See [Deploying Distributed Software with BOSH](./deploy-with-bosh.html) for more
 
 What tests to run depends on the software you are releasing.
 
-* Debug primer: log in on VM, etc.
+In general, it helps to open a separate terminal and log in on the job VM, and
+observe logging output as you test your release.
 
-If your release fails any of these tests:
+If your release fails tests, follow this pattern.
 
-* Fix
-* Do a new dev release and then bosh deploy to see that new release succeeds deploying.
-* You can use `bosh deploy --recreate` to deploy all VMs from scratch.
+* Fix the code.
+* Do a new dev release.
+* Run `bosh deploy` to see whether the new release deploys successfully.
+
+Using `bosh deploy --recreate` can provide a clearer picture because with that option,
+BOSH deploys all the VMs from scratch.
 
 ## <a id="final-release"></a> Do a Final Release  ##
 
@@ -739,7 +755,7 @@ undo the error.
 
 Now you can upload your blobs to a blobstore:
 
-`bosh upload blobs`
+  `bosh upload blobs`
 
 ### <a id="final-commit"></a> Commit ###
 
@@ -751,16 +767,15 @@ This is a good time to commit.
 
 Run:
 
-`bosh release --final`
+  `bosh release --final`
 
 BOSH prompts you for a release name, and assigns a whole-number version to the release.
 
 This is a good time to `git push` so that other team members have access to final release you just created.
 
-
 ### <a id="final-release-commit"></a> Commit ###
 
-One more commit before you deploy.
+Do one more commit before you deploy!
 
 ### <a id="final-release-deploy"></a> Deploy the Final Release  ###
 
@@ -768,3 +783,4 @@ Run:
 
 `bosh deploy`
 
+See [Deploying Distributed Software with BOSH](./deploy-with-bosh.html) for more about deployment.
