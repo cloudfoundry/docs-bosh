@@ -223,8 +223,43 @@ For each job in our example, the `ctl.erb` template becomes the `bin/ctl` file.
 
 The control script for the `web_ui` job looks like this:
 
-_insert snippet_
-_Can we comment the script as an example of the right way to do this?_
+<pre type="terminal">
+RUN_DIR=/var/vcap/sys/run/ardo_web
+LOG_DIR=/var/vcap/sys/log/ardo_web
+PIDFILE=${RUN_DIR}/pid
+
+case $1 in
+
+  start)
+    mkdir -p $RUN_DIR $LOG_DIR
+    chown -R vcap:vcap $RUN_DIR $LOG_DIR
+
+    echo $$ >> $PIDFILE
+
+    cd /var/vcap/packages/ardo_web
+
+    export PATH=/var/vcap/packages/ruby_1.9.3/bin:$PATH
+
+    exec /var/vcap/packages/ruby_1.9.3/bin/bundle exec \
+      rackup -p <%%= properties.ardo_web.port %> \
+      >  $LOG_DIR/ardo_web.stdout.log \
+      >> $LOG_DIR/ardo_web.stderr.log
+
+    ;;
+
+  stop)
+
+    kill -9 `cat $PIDFILE`
+
+    rm -f $PIDFILE
+
+    ;;
+
+  *)
+    echo "Usage: ctl {start|stop}" ;;
+
+esac
+</pre>
 
 For each job, create a control script and save it as `ctl.erb` in the `templates`
 directory for its job.
