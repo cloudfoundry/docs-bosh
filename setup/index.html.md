@@ -2,7 +2,7 @@
 title: BOSH CLI Local Setup
 ---
 
-[BOSH CLI](/bosh/reference/bosh-cli.html) is a command line interface used to interact with MicroBOSH and BOSH. Before you can use MicroBOSH or BOSH you need to install BOSH Command Line Interface. The following steps install BOSH CLI. You can install on either a physical or virtual machine.
+BOSH CLI is a command line interface used to interact with MicroBOSH and BOSH. Before you can use MicroBOSH or BOSH you need to install BOSH Command Line Interface. The following steps install BOSH CLI. You can install on either a physical or virtual machine.
 
 ## Prerequisites ##
 
