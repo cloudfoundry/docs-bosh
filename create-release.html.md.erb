@@ -147,9 +147,12 @@ Populate the `src` directory with your source code.
 
 You can just copy the `ardo_app` directory into `src`.
 That keeps the tutorial simple.
-For production, consider using a Git [submodule](https://git.wiki.kernel.org/index.php/GitSubmoduleTutorial).
+For production, consider using a Git [submodule]
+(https://git.wiki.kernel.org/index.php/GitSubmoduleTutorial).
 With a Git submodule, users of your release always access the correct
 versions of dependencies even when those versions are no longer current.
+This is very efficient for users of large BOSH releases like [Cloud Foundry]
+(https://github.com/cloudfoundry/cf-release), which has more than thirty Git submodules.
 
 ### <a id="strategy"></a> A note about work strategy ###
 
@@ -484,8 +487,10 @@ to accomplish this.
 
 * Be aware that BOSH ensures that dependencies cited in the `dependencies`
 block of package `spec` files are available to the deployed binary.
-For example, in the `spec` file for the Ruby package, we cite libyaml as a dependency.
-That ensures that the Ruby on deployed VMs has access to libyaml.
+For example, in the `spec` file for the Ruby package, we cite libyaml as a
+dependency.
+This ensures that on the compilation VMs, the packaging script for Ruby has
+access to the compiled libyaml package.
 
 If the instructions you provide in the packaging scripts fail to deliver compiled
 code to `BOSH_INSTALL_TARGET`, the job cannot function because the VM has no
