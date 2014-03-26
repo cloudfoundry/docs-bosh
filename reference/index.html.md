@@ -1,5 +1,5 @@
 ---
-title: BOSH Reference 
+title: BOSH Reference
 ---
 
 ## <a id="bosh-release"></a> BOSH release ##
@@ -30,7 +30,7 @@ Release size: 985.5K
 Uploading release
 ...
 Release has been created
-  redis/1 (00:00:00)                                                                                
+  redis/1 (00:00:00)
 Done                    1/1 00:00:00
 </pre>
 
@@ -62,8 +62,4 @@ A BOSH Release is built from a directory tree with the contents described in thi
 | [src](src.html) 	| source code for packages 	|
 | [blobs](blobs.html) 	| local cache of large source code bundles 	|
 
-
-## <a id="bosh-cli"></a> BOSH CLI ##
-
-* [BOSH CLI](bosh-cli.html) 
 
