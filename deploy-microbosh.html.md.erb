@@ -34,7 +34,8 @@ What follows is a suggested approach that you are free to vary to suit your need
 Set up a directory structure with two levels:
 
 1. A top-level directory named after the environment you intend to deploy on the IaaS.
-1. Inside the environment directory, a directory for each product you intend to deploy. In this context, MicroBOSH is a product.
+1. Inside the environment directory, a directory for each product you intend to deploy.
+In this context, MicroBOSH is a product.
 
 * The examples that follow assume that you plan to deploy MicroBOSH to an environment named `boshtest`.
 You create a directory for each, such that the path to your MicroBOSH deployment is `boshtest/microbosh`.
@@ -50,6 +51,14 @@ You create a directory for each, such that the path to your MicroBOSH deployment
 * As needed, consult the BOSH CLI help:
 
     `bosh help --all`
+
+**Note**: Ruby 1.9.x is a prerequisite for installing the BOSH CLI.
+(Ruby 2.x is not supported.) If you are using the rbenv Ruby environment manager,
+refresh the list of gems that rbenv knows about:
+
+<pre class="terminal">
+$ rbenv rehash
+</pre>
 
 ### <a id="cloud"></a> Set up a deployment area in the cloud ###
 
