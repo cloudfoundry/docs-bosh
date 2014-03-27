@@ -224,8 +224,8 @@ For each job in our example, the `ctl.erb` template becomes the `bin/ctl` file.
 The control script for the `web_ui` job looks like this:
 
 <pre type="terminal">
-RUN_DIR=/var/vcap/sys/run/ardo_web
-LOG_DIR=/var/vcap/sys/log/ardo_web
+RUN_DIR=/var/vcap/sys/run/web_ui
+LOG_DIR=/var/vcap/sys/log/web_ui
 PIDFILE=${RUN_DIR}/pid
 
 case $1 in
@@ -236,14 +236,14 @@ case $1 in
 
     echo $$ >> $PIDFILE
 
-    cd /var/vcap/packages/ardo_web
+    cd /var/vcap/packages/web_ui
 
     export PATH=/var/vcap/packages/ruby_1.9.3/bin:$PATH
 
     exec /var/vcap/packages/ruby_1.9.3/bin/bundle exec \
-      rackup -p <%%= properties.ardo_web.port %> \
-      >  $LOG_DIR/ardo_web.stdout.log \
-      >> $LOG_DIR/ardo_web.stderr.log
+      rackup -p <%%= properties.web_ui.port %> \
+      >  $LOG_DIR/web_ui.stdout.log \
+      >> $LOG_DIR/web_ui.stderr.log
 
     ;;
 
@@ -292,10 +292,10 @@ directories.
 The `monit` file for the `web_ui` job looks like this:
 
 <pre type="terminal">
-check process ardo_web
-  with pidfile /var/vcap/sys/run/ardo_web/pid
-  start program "/var/vcap/jobs/ardo_web/bin/ctl start"
-  stop program "/var/vcap/jobs/ardo_web/bin/ctl stop"
+check process web_ui
+  with pidfile /var/vcap/sys/run/web_ui/pid
+  start program "/var/vcap/jobs/web_ui/bin/ctl start"
+  stop program "/var/vcap/jobs/web_ui/bin/ctl stop"
   group vcap
 </pre>
 
