@@ -291,7 +291,13 @@ directories.
 
 The `monit` file for the `web_ui` job looks like this:
 
-_insert snippet_
+<pre type="terminal">
+check process ardo_web
+  with pidfile /var/vcap/sys/run/ardo_web/pid
+  start program "/var/vcap/jobs/ardo_web/bin/ctl start"
+  stop program "/var/vcap/jobs/ardo_web/bin/ctl stop"
+  group vcap
+</pre>
 
 Update the `monit` file for each of your jobs, adapting the example.
 
