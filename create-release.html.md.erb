@@ -123,6 +123,8 @@ All other filenames in the release should use underscores.
 `cd` into the release directory.
 This is where all the BOSH commands in this tutorial are run from here on.
 
+### <a id="directory-structure"></a> Directory structure on job VMs ###
+
 View the release with `tree`:
 
 <pre class="terminal">
@@ -140,6 +142,16 @@ $ tree .
 
 Notice that in the release directory, BOSH creates a subdirectory for each
 of the fundamental elements: jobs, packages, source (which BOSH calls `src`), and blobs.
+
+When deploying your release, BOSH places compiled code and other resources
+in the `/var/vcap/` directory tree, which BOSH creates on the job VMs.
+This means that the four fundamental directories you just created,
+`jobs`, `packages`, `src`, and `blobs`, will appear on job VMs as
+`/var/vcap/blobs`, `/var/vcap/packages`, `/var/vcap/src`, and `/var/vcap/blobs`,
+respectively.
+
+The `/var/vcap` directory tree comes into play in several places later in this
+ tutorial.
 
 ### <a id="source"></a> Populate the src directory ###
 
@@ -299,7 +311,8 @@ check process web_ui
   group vcap
 </pre>
 
-Update the `monit` file for each of your jobs, adapting the example.
+Update the `monit` file for each of your jobs.
+Adapt the example, using `/var/vcap` paths in the same way.
 
 ### <a id="job-specs"></a> Update job specs  ###
 
@@ -315,10 +328,18 @@ In the `templates` block of the `spec` file for each job:
 * Each path to the corresponding file on a job VM is a value.
 
 The file paths that you provide for templates are relative to
-a sort of home directory that BOSH creates for the job on the VM:
+the `/var/vcap/jobs` directory on the VM.
+
+When you write:
 
 ~~~
-/var/vcap/jobs/<job_name>/
+bin/ctl
+~~~
+
+That is transformed at compile time, into:
+
+~~~
+/var/vcap/jobs/<job_name>/bin/ctl
 ~~~
 
 In our example, we edit the `spec` files for the both the `web_ui` and `bg_worker` jobs.
