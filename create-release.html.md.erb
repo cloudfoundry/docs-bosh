@@ -38,7 +38,7 @@ As a matter of good practice, when creating BOSH releases, you should:
 * Comment your code to facilitate debugging.
 * Assume that stemcells contain no libraries or other software that your release can use.
 
-_The finished example release is here <download_link>_.
+<!---  The finished example release is here (insert download link TBD) -->
 
 This tutorial orders tasks in a way that the BOSH Team thinks is efficient,
 but that represents just one of many possible ways to accomplish the overall
@@ -354,7 +354,8 @@ templates:
 
 The path we provided for the `bg_worker` control script is
 `bin/ctl`.
-We know that BOSH will translate that into the full path `/var/vcap/jobs/bg_worker/bin/ctl`.
+We know that BOSH will translate that into the full path
+`/var/vcap/jobs/bg_worker/bin/ctl`.
 
 Update the `spec` files for all the jobs in your release with the template names.
 
@@ -479,7 +480,7 @@ Within each package directory is a `spec` file which states:
 
 * The package name.
 * The package's dependencies.
-* The location where BOSH can find the binaries and other files that the package needs during compilation.
+* The location where BOSH can find the binaries and other files that the package needs at compile time.
 
 Use your dependency graph to determine which dependencies belong in each spec.
 Your personal preferences and style as a developer also play a role here.
@@ -504,13 +505,56 @@ It's a good idea to cite the official URL in a comment, in the same line.
 
 BOSH interprets the locations you record in the `files` section as being
 either in the `src` directory or in the `blobs` directory.
-(BOSH looks in `src` first).
+(BOSH looks in `src` first.)
 When you add the actual blobs to a blobstore (see the next section),
 BOSH populates the `blobs` directory with the correct information.
 
+For packages that depend on their own source code, use the globbing pattern
+`<package_name>/**/*` to deep-traverse the directory in `src` where
+the source code will reside.
+
 Observe how these conventions are followed in the examples.
 
-_add examples inline_
+#### <a id="pkg-spec-libyaml"></a> Example libyaml package spec ####
+
+~~~yaml
+---
+name: libyaml_0.1.4
+
+dependencies: []
+
+files:
+- libyaml_0.1.4/yaml-0.1.4.tar.gz # From http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz
+~~~
+
+
+#### <a id="pkg-spec-ruby"></a> Example Ruby package spec ####
+
+~~~yaml
+---
+name: ruby_1.9.3
+
+dependencies:
+- libyaml_0.1.4
+
+files:
+- ruby_1.9.3/ruby-1.9.3-p484.tar.gz # http://cache.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p484.tar.gz
+- ruby_1.9.3/rubygems-1.8.24.tgz    # http://rubyforge.org/frs/download.php/76073/rubygems-1.8.24.tgz
+- ruby_1.9.3/bundler-1.2.1.gem      # https://rubygems.org/downloads/bundler-1.2.1.gem
+~~~
+
+#### <a id="pkg-spec-ardo"></a> Example ardo_app package spec ####
+
+~~~yaml
+---
+name: ardo_web
+
+dependencies:
+- ruby_1.9.3
+
+files:
+- ardo_web/**/*
+~~~
 
 Update the spec for each package.
 
@@ -557,7 +601,7 @@ access to the compiled libyaml package.
 
 If the instructions you provide in the packaging scripts fail to deliver compiled
 code to `BOSH_INSTALL_TARGET`, the job cannot function because the VM has no
-way to find and run the code.
+way to find the code to run.
 This failure scenario can happen if, for example,
 you use a `make` command that delivers compiled code to some standard location
 by default.
@@ -568,7 +612,59 @@ See how this is done in the example packaging scripts.
 Write your packaging scripts now.
 To get started, study the examples.
 
-_snippet_
+#### <a id="pkg-script-libyaml"></a> Example libyaml packaging script ####
+
+~~~
+set -e -x
+
+tar xzf libyaml_0.1.4/yaml-0.1.4.tar.gz
+pushd yaml-0.1.4
+  ./configure --prefix=${BOSH_INSTALL_TARGET}
+
+  make
+  make install
+popd
+~~~
+
+#### <a id="pkg-script-ruby"></a> Example Ruby packaging script ####
+
+~~~
+set -e -x
+
+tar xzf ruby_1.9.3/ruby-1.9.3-p484.tar.gz
+pushd ruby-1.9.3-p484
+  ./configure \
+    --prefix=${BOSH_INSTALL_TARGET} \
+    --disable-install-doc \
+    --with-opt-dir=/var/vcap/packages/libyaml_0.1.4
+
+  make
+  make install
+popd
+
+tar zxvf ruby_1.9.3/rubygems-1.8.24.tgz
+pushd rubygems-1.8.24
+  ${BOSH_INSTALL_TARGET}/bin/ruby setup.rb
+popd
+
+${BOSH_INSTALL_TARGET}/bin/gem install ruby_1.9.3/bundler-1.2.1.gem --no-ri --no-rdoc
+~~~
+
+#### <a id="pkg-script-ardo"></a> Example ardo_app packaging script ####
+
+~~~
+set -e -x
+
+cp -a ardo_app/* ${BOSH_INSTALL_TARGET}
+
+cd ${BOSH_INSTALL_TARGET}
+
+/var/vcap/packages/ruby_1.9.3/bin/bundle install \
+  --local \
+  --deployment \
+  --without development test
+~~~
+
 
 Like control scripts, writing packaging scripts is one of the heavier tasks
 entailed in creating a release.
@@ -588,9 +684,6 @@ packages:
 - ardo_app
 - ruby_1.9.3
 ~~~
-
-_Explain files block_
-_glob for ardo_app_
 
 ## <a id="blobs"></a> Add Blobs ##
 
