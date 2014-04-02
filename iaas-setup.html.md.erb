@@ -2,43 +2,65 @@
 title: Setting Up your IaaS for BOSH
 ---
 
-Before you deploy BOSH (including MicroBOSH), make sure that your IaaS is properly set up as described below.
+Before you deploy BOSH or MicroBOSH, complete the following steps to set up your IaaS:
 
-**Note**: Deploying BOSH is supported on the VPC flavor of AWS, but not on the EC2 flavor.
+1. Allocate hardware resources
+1. Restrict inbound network traffic
+1. (AWS Only) Complete your IaaS setup
+1. Validate your IaaS instance
 
-## <a id="hardware"></a> Choosing Suitable Hardware ##
+**Note**: BOSH supports the VPC flavor of AWS, but not the EC2 flavor.
 
-What hardware is most suitable for your deployment depends on your intended use of BOSH.
+## <a id="hardware"></a> Step 1: Allocate Hardware Resources ##
 
-* If you plan to deploy a large number of applications, for example, you should opt for greater amounts of
-disk space, because BOSH needs room to store the releases it deploys.
-* If you expect a large number of active users, more RAM is a good idea.
+Your intended use of BOSH determines what hardware resources you should allocate
+in your IaaS.
+For example:
+
+* BOSH needs room to store the releases it deploys.
+Larger applications or larger numbers of them require more disk space.
+
+* Larger numbers of active users require more RAM.
+
+Use the UI that your IaaS provides to allocate hardware for your BOSH deployment.
 
 ### <a id='aws'></a> AWS ###
 
-AWS describes hardware in terms of [instance types](http://aws.amazon.com/ec2/instance-types/).
-The **m2.medium** instance type is a reasonable instance type to try for your BOSH deployment.
+AWS describes hardware in terms of  [instance types]
+(http://aws.amazon.com/ec2/instance-types/).
+Most deployments can start with the **m2.medium** instance type.
 For MicroBOSH, **m1.small** is fine for testing but could be inadequate for production.
 
 ### <a id='openstack'></a> OpenStack ###
 
-OpenStack describes hardware in terms of [flavors](http://docs.openstack.org/trunk/openstack-ops/content/flavors.html).
+OpenStack describes hardware in terms of [flavors]
+(http://docs.openstack.org/trunk/openstack-ops/content/flavors.html).
 Choose a flavor with at least three gigabytes of RAM.
 
 ### <a id='vsphere'></a> vSphere ###
 
-vSphere describes hardware in terms of RAM, CPU, virtual disk, and the other typical specs.
-As a starting point for deciding what hardware to use, see the documented [hardware requirements for Cloud Foundry](../deploying/vsphere/hardware_spec.html).
+vSphere describes hardware in terms of RAM, CPU, virtual disk, and other specs.
+Refer to the [hardware requirements for Cloud Foundry]
+(../deploying/vsphere/hardware_spec.html) topic for help deciding what hardware to use.
 
-## <a id="inbound"></a> Restricting Inbound Network Traffic ##
+## <a id="inbound"></a> Step 2: Restrict Inbound Network Traffic ##
 
-Configuring Security Groups is required to deploy BOSH on AWS and OpenStack.
-Configuring multiple networks is recommended for vSphere.
-You do this to restrict incoming network traffic to the BOSH VM or VMs.
+To deploy BOSH on AWS or OpenStack, you must configure security groups.
+For vSphere, we recommend configuring multiple networks.
+The goal in all cases is to restrict incoming network traffic to the BOSH VM or VMs.
 
 ### <a id='aws'></a> AWS and OpenStack  ###
 
-Set up two security groups, `ssh` and `bosh`, as specified in the following tables.
+Set up two security groups, **ssh** and **bosh**.
+The settings in the following tables are generic; adapt them to your production
+needs.
+
+**Note**: In OpenStack Grizzly, there are settings for both `INGRESS` and `EGRESS`
+control.
+The instructions here apply to `INGRESS` only.
+The tables reflect the fact that OpenStack automatically adds port UDP 68 to all
+security groups.
+For AWS, add this port manually.
 
 #### <a id='ssh'></a> ssh Security Group  ####
 
@@ -66,7 +88,7 @@ Set up two security groups, `ssh` and `bosh`, as specified in the following tabl
   <tr><td>TCP</td><td>1</td><td>65535</td><td>bosh</td><td>Members of the bosh Security Group.</td></tr>
   <tr><td>UDP</td><td>53</td><td>53</td><td>0.0.0.0/0 (CIDR)</td><td>Inbound DNS requests.</td></tr>
   <tr><td>UDP</td><td>53</td><td>53</td><td>0.0.0.0/0 (CIDR)</td><td>Inbound DNS requests.</td></tr>
-  <tr><td>TCP</td><td>68</td><td>68</td><td>0.0.0.0/0 (CIDR)</td><td>BOOTP/DHCP</td></tr>
+  <tr><td>UDP</td><td>68</td><td>68</td><td>0.0.0.0/0 (CIDR)</td><td>BOOTP/DHCP</td></tr>
   <tr><td>TCP</td><td>4222</td><td>4222</td><td>0.0.0.0/0 (CIDR)</td><td>NATS</td></tr>
   <tr><td>TCP</td><td>6868</td><td>6868</td><td>0.0.0.0/0 (CIDR)</td><td>BOSH Agent</td></tr>
   <tr><td>TCP</td><td>25250</td><td>25250</td><td>0.0.0.0/0 (CIDR)</td><td>BOSH Blobstore</td></tr>
@@ -74,135 +96,115 @@ Set up two security groups, `ssh` and `bosh`, as specified in the following tabl
   <tr><td>TCP</td><td>25777</td><td>25777</td><td>0.0.0.0/0 (CIDR)</td><td>BOSH Registry</td></tr>
   </table>
 
-**Note About OpenStack**: Port UDP 68 was automatically added to all security groups.
-In OpenStack Grizzly, there are settings for both **INGRESS** and **EGRESS** control.
-The instructions here apply to **INGRESS** only.
-
 ### <a id='vsphere'></a> vSphere ###
 
-With vSphere, a common practice is to configure multiple networks,
-then put BOSH on one network and the software that is deployed with BOSH on
-a separate network or networks.
+vSphere does not support security groups.
+Instead, a common practice is to configure multiple networks.
+Use one network for BOSH and one or more separate networks for the software
+that you deploy with BOSH.
 
-Security groups as such is not a vSphere feature.
+## <a id="network"></a> Step 3: (AWS only) Complete your IaaS Setup  ##
 
-## <a id="network"></a> Further Setup for AWS ##
-
-For AWS, there are special BOSH CLI commands to set up your infrastructure.
-This section explains how to install the plugin that provides the commands,
-and then use them.
+This section explains how to install and use the BOSH CLI commands for setting up AWS infrastructure.
 
 ### <a id='plugin'></a> Install the AWS plugin to the BOSH CLI ###
 
-Ensure that you Ruby 1.9.3 and git (1.8 or later) installed.
-Then install the `bundler` RubyGem:
+1. Ensure that you have installed Ruby 1.9.x, which is a prerequisite for installing the BOSH CLI. (Ruby 2.x is not supported.)
+1. Create a directory for your planned deployment and navigate to it.
+1. Install the BOSH CLI and its MicroBOSH plugin:
 
-<pre class="terminal">
-$ gem install bundler
-</pre>
+    `gem install bosh_cli bosh_cli_plugin_micro bosh_cli_plugin_aws`
 
-Create a directory for your planned deployment.
-`cd` into that directory, which is where all the commands in this topic
-should be run.
+    **Note**:  To view the BOSH CLI help, run:
 
-1. Create a file named `Gemfile` with the following contents:
+    `bosh help --all`
 
-	<pre class="terminal">
-	source 'https://rubygems.org'
+1. **(Optional)** If you are using the rbenv Ruby environment manager, refresh its list of gems:
 
-	ruby "1.9.3"
+    `rbenv rehash`
 
-	gem "bosh_cli_plugin_aws"
-	</pre>
-
-1. Run the `bundle install` command.
 
 ### <a id='domain-prep'></a> Prepare a domain ###
 
-First, pick a DNS domain name for the environment you plan to deploy.
-If you pick *cloud.example.com*, your applications become available as
-*app-name.cloud.example.com*.
+1. Choose a DNS domain name for your deployment.
+If you pick **cloud.example.com**, services that you later deploy using BOSH become
+available as **service-name.cloud.example.com**.
 
-Create an AWS Route 53 Hosted Zone for your domain at the
-[Route 53 control panel](https://console.aws.amazon.com/route53).
-Delegate DNS authority for your domain to the addresses in the
-"delegation set" that appears in the control panel.
-
-For example, if your domain is *cloud.example.com*,
-create an NS record in the DNS server for *example.com*
-for each address in the delegation set.
+1. Use the [Route 53 control panel](https://console.aws.amazon.com/route53) to
+create an AWS Route 53 Hosted Zone for your domain.
+Delegate DNS authority for your domain to the addresses in the “delegation set”
+that appears in the control panel.
+For example, if your domain is **cloud.example.com**, create an NS record in the
+DNS server for `example.com` for each address in the delegation set.
 
 ### <a id='set-env'></a> Set environment variables ###
 
-Next, set environment variables required for deploying to AWS. Create
-a file called `bosh_environment` and add the following, changing the
+Set environment variables required for deploying to AWS.
+
+1. Create a file called bosh_environment and add the following, changing the
 value for each line to suit your configuration:
 
-~~~
-export BOSH_VPC_DOMAIN=example.com
-export BOSH_VPC_SUBDOMAIN=cloud # Pick something more unique than 'cloud' to work around a temporary shortcoming of the tool
-export BOSH_AWS_ACCESS_KEY_ID=AWS_ACCESS_KEY_ID
-export BOSH_AWS_SECRET_ACCESS_KEY=AWS_SECRET_ACCESS_KEY
-export BOSH_AWS_REGION=us-east-1
-export BOSH_VPC_SECONDARY_AZ=us-east-1a # see note below
-export BOSH_VPC_PRIMARY_AZ=us-east-1d   # see note below
-~~~
+    ~~~
+    export BOSH_VPC_DOMAIN=example.com
+    export BOSH_VPC_SUBDOMAIN=cloud # Pick something more unique than 'cloud' to work around a temporary shortcoming of the tool
+    export BOSH_AWS_ACCESS_KEY_ID=AWS_ACCESS_KEY_ID
+    export BOSH_AWS_SECRET_ACCESS_KEY=AWS_SECRET_ACCESS_KEY
+    export BOSH_AWS_REGION=us-east-1
+    export BOSH_VPC_SECONDARY_AZ=us-east-1a # see note below
+    export BOSH_VPC_PRIMARY_AZ=us-east-1d   # see note below
+    ~~~
 
-**Note:**
-The values shown above correspond to the earlier Route 53 example of
-**cloud.example.com**.
-`BOSH_VPC_DOMAIN` and `BOSH_VPC_SUBDOMAIN` must correspond to the
-DNS domain name you set up when configuring Route 53.
+    **Note:** The values shown above correspond to the earlier Route 53 example of
+    **cloud.example.com**.
+    `BOSH_VPC_DOMAIN` and `BOSH_VPC_SUBDOMAIN` must correspond to the domain name
+    you set up when configuring Route 53.
+    The only supported value for `BOSH_AWS_REGION` is `us-east-1`.
 
-The only supported value for `BOSH_AWS_REGION` is `us-east-1`.
-
-Choose availability zones that are listed as "operating normally" on
-the [AWS Console Status Health Section](https://console.aws.amazon.com/ec2/v2/home?region=us-east-1)
+1. Choose availability zones that are listed as “operating normally” on the
+[AWS Console Status Health Section](https://console.aws.amazon.com/ec2/v2/home?region=us-east-1)
 for your region.
 
-Use `source` to set them for the current shell:
+1. Set the new environment variables for the current shell:
 
-<pre class="terminal">
-$ source bosh_environment
-</pre>
+    `source bosh_environment`
 
-Run the `bosh aws create` command to generate the receipt files that you use
-when deploying software with BOSH (`aws_rds_receipt.yml` and `aws_vpc_receipt.yml`).
-`bosh aws create` also creates a VPC Internet Gateway, VPC subnets,
-three RDS databases, and a NAT VM.
-The NAT VM is for use with Cloud Foundry.
-You can remove it if you plan to deploy software other than Cloud Foundry.
+1. Create your AWS infrastructure:
 
-**Note:** RDS database creation may take 20+ minutes to finish.
+    <pre class="terminal">
+    $ bundle exec bosh aws create
+    Executing migration CreateKeyPairs
+    allocating 1 KeyPair(s)
+    Executing migration CreateVpc
+    . . .
+    details in S3 receipt: aws_rds_receipt and file: aws_rds_receipt.yml
+    Executing migration CreateS3
+    creating bucket xxxx-bosh-blobstore
+    creating bucket xxxx-bosh-artifacts
+    </pre>
 
-<pre class="terminal">
-$ bundle exec bosh aws create
-Executing migration CreateKeyPairs
-allocating 1 KeyPair(s)
-Executing migration CreateVpc
-. . .
-details in S3 receipt: aws_rds_receipt and file: aws_rds_receipt.yml
-Executing migration CreateS3
-creating bucket xxxx-bosh-blobstore
-creating bucket xxxx-bosh-artifacts
-</pre>
+The `bosh aws create` command generates the receipt files `aws_rds_receipt.yml`
+and `aws_vpc_receipt.yml`, a VPC Internet Gateway, VPC subnets, three RDS
+databases, and a NAT VM.
 
+**Note**: RDS database creation may take longer than twenty minutes to finish.
 
-## <a id="validate"></a> Validating Your IaaS Instance ##
+You can remove the NAT VM if you do not plan to deploy Cloud Foundry.
 
-There are at least two aspects of your IaaS instance that you can validate: hardware, and
+## <a id="validate"></a> Step 4: Validate your IaaS Instance ##
+
+You can validate at least two aspects of your IaaS instance: hardware and
 functionality (for example, communication between VMs).
 
-There is also the question of how far you can or want to go towards automating validation.
+For OpenStack, consider running the [validation procedure]
+(../deploying/openstack/validate_openstack.html) described in the Cloud
+Foundry documentation.
 
-If you are using OpenStack, you can run the [validation procedure](../deploying/openstack/validate_openstack.html) which appears in
-the Cloud Foundry documentation but applies to the present context as well.
-
-If you are using AWS or vSphere, you can consider adapting the parts of the OpenStack
-procedure that make sense for your IaaS.
+For AWS or vSphere, consider adapting the parts of the OpenStack procedure
+that make sense for your IaaS.
 
 You can use the appropriate APIs for performing and automating validation:
 
 * [VMware vSphere API](https://www.vmware.com/support/developer/vc-sdk/)
 * [Amazon EC3 API](http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html)
 * [OpenStack APIs](http://api.openstack.org/)
+
