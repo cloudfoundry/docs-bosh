@@ -3,15 +3,24 @@ title: BOSH Documentation
 ---
 
 BOSH is an open source orchestration tool for working with large-scale
-deployments.
+deployments that supports:
+
+* Frequent changes in code and infrastructure
+* Updates to releases and operating systems, with minimal impact
+* Repeatable and predictable deployments
+* Combining in-house source code with off-the-shelf source and binaries in a
+release
+* Collaboration between groups of developers and release engineers
+* A self-service model for developers to test evolving code
+
 With BOSH, you can do things like:
 
-* scale a deployment up or down with a single command
-* define resource pools with VMs of varying sizes and use the appropriate size
+* Scale a deployment up or down with a single command
+* Define resource pools with VMs of varying sizes and use the appropriate size
 for a given job type
-* manage your static IP addresses
-* specify a base operating system for your VMs
-* upgrade the operating system for all your VMs with a single deploy command
+* Manage your static IP addresses
+* Specify a base operating system for your VMs
+* Upgrade the operating system for all your VMs with a single deploy command
 
 BOSH also monitors the health of the jobs running on the VMs within a deployment
 and can automatically heal the cluster if a VM dies.
