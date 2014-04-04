@@ -416,8 +416,8 @@ dependency graph.
 
 ## <a id="pkg-skeletons"></a> Create Package Skeletons ##
 
-Packages give BOSH the information it needs to prepare the binaries
-and dependencies that your jobs need to run.
+Packages give BOSH the information needed to prepare the binaries and
+dependencies for your jobs.
 
 When first created, a package is a _skeleton_: an empty structure that fills up
 as release creation progresses.
@@ -451,11 +451,10 @@ packages
 3 directories, 9 files
 </pre>
 
-This modular approach, with a separate package for each dependency,
-provides maximum reusability along with clear structure.
-It is not mandatory; what packages to create is a matter of preference.
-You could even opt to put all the dependencies together in a single package,
-though that is not recommended.
+Putting each dependency in a separate package provides maximum reusability
+along with a clear, modular structure. This is not mandatory; what packages
+to create is a matter of preference. You could even opt to put all the
+dependencies together in a single package, though that is not recommended.
 
 **Note**: Use of the `pre_packaging` file is not recommended, and is not discussed in this tutorial.
 
@@ -463,21 +462,20 @@ though that is not recommended.
 
 Within each package directory is a `spec` file which states:
 
-* The package name.
-* The package's dependencies.
-* The location where BOSH can find the binaries and other files that the package needs at compile time.
+* The package name
+* The package's dependencies
+* The location where BOSH can find the binaries and other files that the package needs at compile time
 
 Use your dependency graph to determine which dependencies belong in each spec.
-Your personal preferences and style as a developer also play a role here.
+Developer preferences and style play a role here.
 Consider our example: the spec for Ruby lists `rubygems` and `bundler` as dependencies along
 with Ruby itself.
 Some Ruby developers would do it this way; others would not.
 
-Remember not to depend on the presence of libraries or other software on the stemcells that
-BOSH uses to create VMs.
-This maximizes the portability of your release across different versions of stemcells.
+To maximize portability of your release across different versions of stemcells,
+never depend on the presence of libraries or other software on stemcells.
 
-To correctly describe binary locations in the `files` block of the spec:
+To describe binary locations in the `files` block of the spec:
 
 * Find the official site for the binary in question.
 For example, Ruby might be at `http://cache.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p484.tar.gz`.
@@ -498,7 +496,8 @@ For packages that depend on their own source code, use the globbing pattern
 `<package_name>/**/*` to deep-traverse the directory in `src` where
 the source code will reside.
 
-Observe how these conventions are followed in the examples.
+Update the spec for each package.
+Refer to the example specs below for guidance.
 
 #### <a id="pkg-spec-libyaml"></a> Example libyaml package spec ####
 
@@ -540,8 +539,6 @@ dependencies:
 files:
 - ardo_web/**/*
 ~~~
-
-Update the spec for each package.
 
 ### <a id="pkg-scripts"></a> Create packaging scripts ###
 
@@ -594,8 +591,10 @@ You can fix the problem by configuring `make` to compile into
 `BOSH_INSTALL_TARGET`.
 See how this is done in the example packaging scripts.
 
+Like control scripts, writing packaging scripts is one of the heavier tasks
+entailed in creating a release.
 Write your packaging scripts now.
-To get started, study the examples.
+Refer to the examples below for guidance.
 
 #### <a id="pkg-script-libyaml"></a> Example libyaml packaging script ####
 
@@ -650,10 +649,6 @@ cd ${BOSH_INSTALL_TARGET}
   --without development test
 ~~~
 
-
-Like control scripts, writing packaging scripts is one of the heavier tasks
-entailed in creating a release.
-
 ### <a id="update-job-specs-with-deps"></a> Update job specs with dependencies ###
 
 The dependency graph reveals runtime dependencies that
@@ -672,20 +667,18 @@ packages:
 
 ## <a id="blobs"></a> Add Blobs ##
 
-When creating a release, you use Git for your source code.
-For example, the `ardo_app` source is checked into a Git repo.
+When creating a release, you likely use a source code repository.
 
 But releases often also use tar files or other binaries, also known as blobs.
 For example, `ardo-release` uses libyaml.
-Checking blobs into Git would be problematic because Git is not
-well-suited to dealing with large binaries.
+Checking blobs into a repository may be problematic if the repository you use
+is not well-suited to dealing with large binaries.
+(Git, for example, is not.)
 
-BOSH lets you avoid checking blobs into Git by doing the following:
+BOSH lets you avoid checking blobs into a repository by doing the following:
 
 * For dev releases, use local copies of blobs.
-
-* For a final release, upload blobs to a blobstore,
-and direct BOSH to obtain the blobs from there.
+* For a final release, upload blobs to a blobstore, and direct BOSH to obtain the blobs from there.
 
 ### <a id="config-blobstore"></a> Configure a blobstore  ###
 
