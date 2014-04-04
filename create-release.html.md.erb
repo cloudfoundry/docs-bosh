@@ -357,6 +357,11 @@ Creating a dependency graph helps clarify your understanding of the
 dependencies between the jobs and packages in your release, and provides a
 reference as you add elements to the release.
 
+As you build the dependency graph, you discover dependencies on packages
+and record them in the graph.
+When the time comes to add packages to your release, the dependency graph
+is your guide.
+
 #### <a id="runtime"> </a>Identify runtime dependencies ####
 
 Whenever a control script or other template cites a package name, the job
@@ -400,8 +405,7 @@ The answer is yes, it depends on libyaml 0.1.4.
 
 We add this compile-time dependency to our example dependency graph.
 
-For now, you have a dependency graph to guide you as you continue creating
-your release.
+#### <a id="dep-graph-example"> </a>The complete example dependency graph ####
 
 The complete dependency graph for `ardo-release` looks like this:
 
@@ -409,9 +413,6 @@ The complete dependency graph for `ardo-release` looks like this:
 
 For a large or complicated release, you might prefer to make more than one
 dependency graph.
-
-Throughout this process, you note dependencies that tell you which actual
-packages you will add to your release later on.
 
 ## <a id="pkg-skeletons"></a> Create Package Skeletons ##
 
