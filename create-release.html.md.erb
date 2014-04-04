@@ -668,9 +668,7 @@ packages:
 ## <a id="blobs"></a> Add Blobs ##
 
 When creating a release, you likely use a source code repository.
-
-But releases often also use tar files or other binaries, also known as blobs.
-For example, `ardo-release` uses libyaml.
+But releases often use tar files or other binaries, also known as blobs.
 Checking blobs into a repository may be problematic if the repository you use
 is not well-suited to dealing with large binaries.
 (Git, for example, is not.)
@@ -678,6 +676,7 @@ is not well-suited to dealing with large binaries.
 BOSH lets you avoid checking blobs into a repository by doing the following:
 
 * For dev releases, use local copies of blobs.
+
 * For a final release, upload blobs to a blobstore, and direct BOSH to obtain the blobs from there.
 
 ### <a id="config-blobstore"></a> Configure a blobstore  ###
@@ -693,10 +692,10 @@ or one of several other types that specify blobstore providers.
 
 * The `private.yml` file specifies the blobstore path, along with a secret.
 
-`private.yml` contains keys for accessing the blobstore.
-For that reason, `private.yml` is automatically gitignored (assuming you used the `--git`
-option when running `git init release` at the beginning of this tutorial).
-By not checking `private.yml` into Git, BOSH keeps the keys private.
+`private.yml` contains keys for accessing the blobstore and should not be
+checked into a repository.
+(If you used the `--git` option when running `bosh init release` at the beginning
+of this tutorial, `private.yml` is automatically `gitignored`.)
 
 The `config` directory also contains two files whose content is automatically
 generated: the `blobs.yml` file and the `dev.yml` file.
@@ -729,16 +728,14 @@ content does not matter.
 There is never `blobstore_secret` line for blobstores of types other than
 `local`.
 
-Also, be aware that the `local` type blobstore is essentially a convenience for
+The `local` type blobstore is essentially a convenience for
 development.
-Final releases should use a publically-accessible type of blobstore.
+Final releases should use a non-local blobstore that is publicly accessible.
 
 ### <a id="inform"></a> Inform BOSH where blobs are ###
 
-Each package has a `spec` file, which has a `files` block.
-For packages whose content you downloaded from the internet,
-the `files` block lists the binaries you downloaded, along with
-the URLs from which you downloaded them.
+In the package `spec` file, the `files` block lists any binaries you downloaded,
+along with the URLs from which you downloaded them.
 (This assumes that you followed the directions in the [Update package specs](#update-pkging-specs) section.)
 
 Those files are blobs, and now you need the paths to the downloaded blobs on
@@ -762,10 +759,25 @@ For each blob, run:
 
 `bosh add blob <path_to_blob_on_local_system> <package_name>`
 
-BOSH adds each blob to the `blobs` directory, in a subdirectory whose name is the
-second argument to the `bosh add blob` command.
-The package name is a good choice for that argument because it produces a
-cleanly-organized `blobs` directory.
+The `bosh add blob` command adds a local blob file to the collection of files your release
+recognizes as BOSH blobs.
+
+The usage shown above is a blend of requirement and convention.
+It works like this:
+
+* For the first argument, you provide the path to the blob on your local system
+* For the second argument, you provide the destination in the `blobs` directory in
+your release
+* BOSH goes into the `blobs` directory and creates a subdirectory with
+the name of the package that the local blob represents
+* In the new subdirectory, BOSH creates a symbolic link to a copy of the blob
+which BOSH makes within a hidden directory in the release
+
+Using the package name as the second argument of the `bosh add blobs` command
+is recommended because it produces a cleanly-organized blobs directory.
+
+Later, when you upload blobs for a final release, BOSH uses the hidden directory
+as a staging area.
 
 ### <a id="no-upload"></a> Do not upload blobs for a dev release ###
 
