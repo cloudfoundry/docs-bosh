@@ -72,7 +72,7 @@ like `bundle install` in Ruby, or just copying scripts, and delivering the
 resulting binaries and scripts to the BOSH install target directory.
 BOSH creates the install target directory on a compilation VM, and then
 replicates it on a job VM.
-Then BOSH deletes the compilation VM.
+BOSH then deletes the compilation VM.
 When you create the [deployment manifest](./create-manifest.html#compilation),
 you decide how many compilation VMs to create and how they should behave.
 
@@ -84,36 +84,37 @@ You make those decisions when you create the [deployment manifest]
 
 Because the environments of compilation VMs and job VMs are identical,
 BOSH frees you from concerns about discrepancies between compilation
-environment and deployment environment.
+and deployment environments.
 
-Compilation VMs never contain software left over from previous
-deployments, because they are newly created when you deploy, and destroyed
-once compilation is done.
-Job VMs are newly created and cannot contain software left over from previous
-deployments in two cases: the first time you deploy a release, and every time
-that you deploy using the `--recreate` option.
-By compiling and deploying on fresh VMs, BOSH assures that your VMs are in a
-known state in terms of what software is present.
+Newly created VMs are in a known state in the sense that they can
+never contain software left over from previous deployments.
+VM creation in BOSH works on consistent principles that are important to know
+when you debug a release:
+
+* Compilation VMs are newly created every time you deploy.
+
+* Job VMs are newly created in two cases: the first time you deploy a release,
+and every time that you deploy using the `--recreate` option.
 
 ## <a id="release-dir"></a> Create the Release Directory ##
 
-All the constituent parts of a release reside in the _release directory_.
+All parts of the release reside in the _release directory_.
 
-`cd` into the workspace where you want the release to be, and create the release directory:
+To create the release directory, navigate into the workspace where you want the
+release to be, and run::
 
   `bosh init release <release_name> --git`
 
 The `--git` option initializes a git repo in the release directory.
-This is recommended but not required.
+This is recommended if you use Git.
 
-Our example release is named `ardo-release`.
-The name "ardo" was chosen arbitrarily, but the dash was not.
 The release name should have dashes rather than underscores, to conform to the
 convention for Git repo names.
 All other filenames in the release should use underscores.
 
-`cd` into the release directory.
-This is where all the BOSH commands in this tutorial are run from here on.
+In the release directory, BOSH creates a subdirectory for each of the
+fundamental elements: jobs, packages, source (which BOSH calls `src`), and
+blobs.
 
 ### <a id="directory-structure"></a> Directory structure on job VMs ###
 
@@ -132,38 +133,31 @@ $ tree .
 5 directories, 1 file
 </pre>
 
-Notice that in the release directory, BOSH creates a subdirectory for each
-of the fundamental elements: jobs, packages, source (which BOSH calls `src`), and blobs.
-
 When deploying your release, BOSH places compiled code and other resources
 in the `/var/vcap/` directory tree, which BOSH creates on the job VMs.
-This means that the four fundamental directories you just created,
-`jobs`, `packages`, `src`, and `blobs`, will appear on job VMs as
-`/var/vcap/blobs`, `/var/vcap/packages`, `/var/vcap/src`, and `/var/vcap/blobs`,
-respectively.
-
-The `/var/vcap` directory tree comes into play in several places later in this
- tutorial.
+The four directories you just created, `jobs`, `packages`, `src`, and `blobs`,
+appear on job VMs as `/var/vcap/blobs`, `/var/vcap/packages`, `/var/vcap/src`,
+and `/var/vcap/blobs`, respectively.
 
 ### <a id="source"></a> Populate the src directory ###
 
 Populate the `src` directory with your source code.
 
-You can just copy the `ardo_app` directory into `src`.
-That keeps the tutorial simple.
+For this tutorial, copy your code directory into `src`.
+
 For production, consider using a Git [submodule]
-(https://git.wiki.kernel.org/index.php/GitSubmoduleTutorial).
+(https://git.wiki.kernel.org/index.php/GitSubmoduleTutorial), Mercurial
+repository, or other mechanism to ensure that users of your release
+always access the correct versions of dependencies even when those versions
+are no longer current.
+This is important for large BOSH releases. For example, [Cloud Foundry]
+(https://github.com/cloudfoundry/cf-release) has more than thirty Git submodules.
 
-With a Git submodule, users of your release always access the correct
-versions of dependencies even when those versions are no longer current.
-This is very efficient for users of large BOSH releases like [Cloud Foundry]
-(https://github.com/cloudfoundry/cf-release), which has more than thirty Git submodules.
-
-### <a id="strategy"></a> A note about work strategy ###
+### <a id="strategy"></a> Choose a work strategy ###
 
 You are about to begin five central parts of the tutorial,
-Create Job Skeletons, Make Dependency Graphs, Create Packages, Add Blobs Locally,
-and Update Specs to Complete Jobs.
+Create Job Skeletons, Make Dependency Graphs, Create Packages, Add Blobs, and
+Create Job Properties.
 You can proceed in either of two ways:
 
 1. **One section at a time**. Complete one section for all jobs, then do the same for in the next section, and so on.
@@ -175,12 +169,15 @@ We'll do that in this tutorial.
 If you have a larger number of jobs, going one job at a time may be more efficient.
 Choose the approach that seems most comfortable and least error-prone.
 
+Navigate into the release directory.
+From here on, this tutorial assumes that you run all commands from there.
+
 ## <a id="job-skel"></a> Create Job Skeletons ##
 
 When first created, the job is a _skeleton_: an empty structure that fills up
 as release creation progresses.
 
-Generate job skeletons by running this command once for each job in your release:
+Run this command once for each job in your release:
 
   `bosh generate job <job_name>`
 
@@ -210,9 +207,8 @@ $ tree .
 9 directories, 5 files
 </pre>
 
-Every deployed job needs a way to start and stop.
-You provide that in the BOSH release by writing a control script for each job,
-and a `monit` file that references the commands in the control script.
+Every job needs a way to start and stop.
+You provide that by writing a control script and updating the `monit` file.
 
 ### <a id="control"></a> Create control scripts  ###
 
@@ -223,7 +219,8 @@ The control script:
 
 At compile time, BOSH transforms templates into files, which it then replicates
 on the job VMs.
-For each job in our example, the `ctl.erb` template becomes the `bin/ctl` file.
+For each job, create a control script and save it as `ctl.erb` in the `templates`
+ directory for its job.
 
 The control script for the `web_ui` job looks like this:
 
@@ -265,9 +262,6 @@ case $1 in
 esac
 </pre>
 
-For each job, create a control script and save it as `ctl.erb` in the `templates`
-directory for its job.
-
 Start and stop commands in production situations typically turn more things on
 and off than the simple ones in our example do.
 Control scripts can be the source of unexpected behavior that you discover as
@@ -282,14 +276,14 @@ If your release needs templates other than the control script, create them now.
 
 The `monit` file:
 
-* Specifies the process ID (pid) file for the job.
-* References each command provided by the templates for the job.
-* Specifies that the job belongs to the `vcap` group.
+* Specifies the process ID (pid) file for the job
+* References each command provided by the templates for the job
+* Specifies that the job belongs to the `vcap` group
 
 On a deployed release, a BOSH Agent runs on each job VM.
-BOSH communicates with the Agent, which in turn executes the commands you have
-provided in the control script.
-The Agent does this with the help of [Monit](http://mmonit.com/monit/),
+BOSH communicates with the Agent, which in turn executes commands in the
+control script.
+The Agent does this using [Monit](http://mmonit.com/monit/),
 which is open source software for monitoring processes, programs, files, and
 directories.
 
@@ -309,30 +303,16 @@ Adapt the example, using `/var/vcap` paths in the same way.
 ### <a id="job-specs"></a> Update job specs  ###
 
 Metadata for each job resides in a `spec` file.
-The `spec` file has a `templates` block which you must update as described
-in this section.
 
-BOSH makes templates into files on VMs at compile time.
+In the job `spec` file, the `templates` block contains key/value pairs where:
 
-In the `templates` block of the `spec` file for each job:
-
-* Each template name is a key.
-* Each path to the corresponding file on a job VM is a value.
+* Each key is template name
+* Each value is the path to the corresponding file on a job VM
 
 The file paths that you provide for templates are relative to
-the `/var/vcap/jobs` directory on the VM.
-
-When you write:
-
-~~~
-bin/ctl
-~~~
-
-That is transformed at compile time, into:
-
-~~~
-/var/vcap/jobs/<job_name>/bin/ctl
-~~~
+the `/var/vcap/jobs/<job_name>` directory on the VM.
+For example, `bin/ctl` becomes `/var/vcap/jobs/<job_name>/bin/ctl` on the job VM.
+Using `bin` as the directory where theses files go is a convention.
 
 In our example, we edit the `spec` files for the both the `web_ui` and `bg_worker` jobs.
 The updated `spec` file for the `bg_worker` job looks like this:
@@ -344,12 +324,9 @@ templates:
 
 ~~~
 
-The path we provided for the `bg_worker` control script is
-`bin/ctl`.
-We know that BOSH will translate that into the full path
-`/var/vcap/jobs/bg_worker/bin/ctl`.
+The result on the job VM is `/var/vcap/jobs/bg_worker/bin/ctl`.
 
-Update the `spec` files for all the jobs in your release with the template names.
+For each job, update the `spec` file with template names.
 
 ### <a id="commit-one"></a> Commit ###
 
@@ -364,7 +341,8 @@ There are two kinds of dependencies in a BOSH release:
 
 * The **runtime dependency**, where a job depends on a package at runtime.
 For example, the `web_ui` job depends on Ruby.
-* The **compile-time dependency**, where a package depends on another package at compile time.
+* The **compile-time dependency**, where a package depends on another package at
+compile time.
 For example, Ruby depends on the YAML library.
 
 Three rules govern these dependencies:
@@ -373,14 +351,21 @@ Three rules govern these dependencies:
 * Jobs can depend on packages.
 * Packages can depend on other packages.
 
-Correctly understanding the dependencies between the jobs and packages in your release is essential.
-Creating a dependency graph helps you clarify this understanding, and provides a
+Creating a dependency graph helps clarify your understanding of the
+dependencies between the jobs and packages in your release, and provides a
 reference as you add elements to the release.
 
-Identify runtime dependencies by going through your control scripts (and other templates, if any).
-Note the package names cited by each script.
+### <a id="build-graph">Building the Dependency Graph ###
 
-In our example, this line in either of our `ctl.erb` scripts cites `ardo_app`:
+1. Identify runtime dependencies.
+
+Whenever a control script or other template cites a package name, the job
+the template belongs to depends on the cited package at runtime.
+
+For each job, find all the cases where your control scripts cite packages.
+Add these runtime dependencies to your dependency graph.
+
+In our example, this line in both of our `ctl.erb` scripts cites `ardo_app`:
 
 ~~~
 cd /var/vcap/packages/ardo_app
@@ -392,25 +377,29 @@ This line cites Ruby:
 exec /var/vcap/packages/ruby_1.9.3/bin/bundle exec
 ~~~
 
-Add these dependencies to your dependency graph.
-They are runtime dependencies, because they are cases where jobs depend upon
-packages.
+This means that both the `web-ui` and `bg_worker` jobs have runtime
+dependencies on both the `ardo_app` and `ruby_1.9.3` packages.
 
-Identify compile-time dependencies by using your knowledge about the
-dependencies you have already noted.
-If you happen to miss a dependency, BOSH will let you know later, when you
-try to run `bosh deploy`.
+We add these four runtime dependencies to our example dependency graph.
 
-In our example, we have noted a runtime dependency on Ruby 1.9.3.
+2. Identify compile-time dependencies.
+
+Use your knowledge about the runtime dependencies you have already noted.
+Consider the packages you have identified as dependencies.
+Do any of them depend on other packages in turn?
+
+Whenever a package depends on another package, that is a compile-time
+dependency.
+
+For each job, add the compile-time dependencies to your dependency graph.
+If you miss a dependency, BOSH lets you know later, when you try to deploy.
+
+In our example, we already noted a runtime dependency on Ruby 1.9.3.
 We now ask ourselves whether Ruby 1.9.3 itself has any dependencies.
 The answer is yes, it depends on libyaml 0.1.4.
 
-Add this dependency to your dependency graph.
-This is a compile-time dependency because it is a case where a package
-depends upon another package.
+We add this compile-time dependency to our example dependency graph.
 
-Throughout this process, you note dependencies that tell you which actual
-packages you will add to your release later on.
 For now, you have a dependency graph to guide you as you continue creating
 your release.
 
@@ -420,6 +409,9 @@ The complete dependency graph for `ardo-release` looks like this:
 
 For a large or complicated release, you might prefer to make more than one
 dependency graph.
+
+Throughout this process, you note dependencies that tell you which actual
+packages you will add to your release later on.
 
 ## <a id="pkg-skeletons"></a> Create Package Skeletons ##
 
