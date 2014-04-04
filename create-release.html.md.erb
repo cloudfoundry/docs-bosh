@@ -351,13 +351,13 @@ Three rules govern these dependencies:
 * Jobs can depend on packages.
 * Packages can depend on other packages.
 
+### <a id="build-graph"> </a>Building the Dependency Graph ###
+
 Creating a dependency graph helps clarify your understanding of the
 dependencies between the jobs and packages in your release, and provides a
 reference as you add elements to the release.
 
-### <a id="build-graph"> </a>Building the Dependency Graph ###
-
-1. Identify runtime dependencies.
+#### <a id="runtime"> </a>Identify runtime dependencies ####
 
 Whenever a control script or other template cites a package name, the job
 the template belongs to depends on the cited package at runtime.
@@ -382,7 +382,7 @@ dependencies on both the `ardo_app` and `ruby_1.9.3` packages.
 
 We add these four runtime dependencies to our example dependency graph.
 
-2. Identify compile-time dependencies.
+#### <a id="compile-time"> </a>Identify compile-time dependencies ####
 
 Use your knowledge about the runtime dependencies you have already noted.
 Consider the packages you have identified as dependencies.
