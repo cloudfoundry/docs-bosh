@@ -759,19 +759,19 @@ For each blob, run:
 
 `bosh add blob <path_to_blob_on_local_system> <package_name>`
 
-The `bosh add blob` command adds a local blob file to the collection of files your release
+The `bosh add blob` command adds a local blob to the collection your release
 recognizes as BOSH blobs.
 
 The usage shown above is a blend of requirement and convention.
 It works like this:
 
 * For the first argument, you provide the path to the blob on your local system
-* For the second argument, you provide the destination in the `blobs` directory in
-your release
+* For the second argument, you provide a destination within the `blobs` directory
+in your release
 * BOSH goes into the `blobs` directory and creates a subdirectory with
 the name of the package that the local blob represents
 * In the new subdirectory, BOSH creates a symbolic link to a copy of the blob
-which BOSH makes within a hidden directory in the release
+which BOSH makes in a hidden directory
 
 Using the package name as the second argument of the `bosh add blobs` command
 is recommended because it produces a cleanly-organized blobs directory.
@@ -781,12 +781,12 @@ as a staging area.
 
 ### <a id="no-upload"></a> Do not upload blobs for a dev release ###
 
-The nature of blobstores (other than local ones) is that once you have uploaded blobs,
-those blobs may become essential to some other developer.
+Once you have uploaded blobs to a non-local blobstore, those blobs may become
+essential to some other developer.
 For this reason, uploading a blob and then removing it is considered poor practice.
 
 When creating dev releases, do not run `bosh upload blobs`.
-That command is discussed below, in connection with final releases.
+(You only run it when you do a final release.)
 
 ## <a id="create-props"></a> Create Job Properties  ##
 
@@ -802,7 +802,11 @@ Creating properties requires three steps:
 For example, a start command can take a property as an argument,
 using a variable of the form:
 
-1. Specify the property in the deployment manifest.
+	<%%= properties.<job_name>.<property_name> %>
+
+1. Specify the property in the [deployment manifest](./create-manifest.html#properties).
+
+Adapt the example below to create any properties your release needs now.
 
 In our example, we want the port that the web UI listens on to be a
 configurable property.
@@ -816,21 +820,19 @@ properties:
      default: 80
 ~~~
 
-Adapt the example to create any properties your release needs now.
-
 ## <a id="dev-release"></a> Do a Dev Release  ##
 
 All the elements needed to create a dev release should now be in place.
 
 ### <a id="dev-release-release"></a> Release  ###
 
-For a dev release, BOSH needs to use the local copies of our blobs.
-Use the `--force` option with the `bosh create release` command,
-because otherwise BOSH expects the blobs to have been uploaded first,
-and we do not want to upload blobs until we a final release.
+For the dev release, use the `--force` option with the `bosh create release`
+command.
+This forces BOSH to use the local copies of our blobs.
 
-Using the `--force` option is permissible when creating and testing dev
-releases but not final releases.
+Without the `--force` option, BOSH requires blobs to be uploaded before you
+run `bosh create release`.
+For a final release, we upload blobs, but not for a dev release.
 
 Create the dev release:
 
@@ -869,14 +871,15 @@ Deploy:
 
    `bosh deploy`
 
-See [Deploying Distributed Software with BOSH](./deploy-with-bosh.html) for more about deployment.
+See [Deploying Distributed Software with BOSH](./deploy-with-bosh.html) for more
+about deployment.
 
 ### <a id="dev-release-test"></a> Test the Dev Release  ###
 
 What tests to run depends on the software you are releasing.
 
-In general, it helps to open a separate terminal and log in on the job VM, and
-observe logging output as you test your release.
+Start by opening a separate terminal, logging in on the job VM, and observing
+logging output as you test your release.
 
 If your release fails tests, follow this pattern.
 
@@ -893,26 +896,34 @@ Only proceed to this step if your latest dev release passes all tests.
 
 ### <a id="upload-blobs"></a> Upload blobs ###
 
-You are ready to do a final release except for one thing:
-your latest dev release depends on locally-stored blobs.
+When you use the `bosh create release --force` command to create them, dev
+releases depend on locally-stored blobs.
+To do a final release, you must upload blobs first.
 
-Before you go further, run `bosh blobs`.
-Proofread the list of blobs to make sure
-it includes nothing but the blobs you need for the final release.
+If files that you need to keep private are uploaded to a public blobstore,
+there is no satisfactory way to undo the mistake.
+To avoid this situation, complete the following steps immediately before
+you upload blobs:
 
-If some file that you need to keep private is mistakenly
-uploaded to a blobstore, there is no satisfactory way to
-undo the error.
+1. Run `bosh blobs` to see the list of blobs BOSH is prepared to upload
 
-Now you can upload your blobs to a blobstore:
+1. Proofread the list of blobs displayed by the command
+
+1. The list should include only the blobs you need for the final release
+
+1. If the list includes any files that should not be uploaded, find and delete
+the symbolic links to them in the `blobs` directory
+
+To upload your blobs, run:
 
   `bosh upload blobs`
 
 ### <a id="final-commit"></a> Commit ###
 
-You have run the `bosh upload blobs` command so the `blobs` file now contains names and keys.
+The `bosh upload blobs` command has now populated the `blobs.yml` file
+in the `config` directory with metadata for uploaded blobs.
 
-This is a good time to commit.
+This is a good reason to commit.
 
 ### <a id="final-release-release"></a> Release ###
 
@@ -922,7 +933,8 @@ Run:
 
 BOSH prompts you for a release name, and assigns a whole-number version to the release.
 
-This is a good time to `git push` so that other team members have access to final release you just created.
+This is a good time to push your code to a shared repository to give others access to
+your final release.
 
 ### <a id="final-release-commit"></a> Commit ###
 
