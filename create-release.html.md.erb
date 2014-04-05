@@ -68,9 +68,9 @@ never contain software left over from previous deployments.
 VM creation in BOSH works on consistent principles that are important to know
 when you debug a release:
 
-* Compilation VMs are newly created every time you deploy.
+* **Compilation VMs** are newly created every time you deploy.
 
-* Job VMs are newly created in two cases: the first time you deploy a release,
+* **Job VMs** are newly created in two cases: the first time you deploy a release,
 and every time that you deploy using the `--recreate` option.
 
 ### <a id="what"></a> Decide What to Release ###
@@ -374,7 +374,7 @@ is your guide.
 #### <a id="runtime"> </a>Identify runtime dependencies ####
 
 Whenever a control script or other template cites a package name, the job
-the template belongs to depends on the cited package at runtime.
+that the template belongs to depends on the cited package at runtime.
 
 For each job, find all the cases where your control scripts cite packages.
 Add these runtime dependencies to your dependency graph.
@@ -503,7 +503,7 @@ BOSH populates the `blobs` directory with the correct information.
 
 For packages that depend on their own source code, use the globbing pattern
 `<package_name>/**/*` to deep-traverse the directory in `src` where
-the source code will reside.
+the source code should reside.
 
 Update the spec for each package.
 Refer to the example specs below for guidance.
@@ -552,8 +552,8 @@ files:
 ### <a id="pkg-scripts"></a> Create packaging scripts ###
 
 At compile time, BOSH takes the source files referenced in the package specs,
- and renders them into the executable binaries and scripts that your jobs will
-need once deployed.
+ and renders them into the executable binaries and scripts that your deployed
+jobs need.
 
 You write packaging scripts to instruct BOSH how to do this.
 The instructions may involve some combination of copying, compilation, and
@@ -678,9 +678,8 @@ packages:
 
 When creating a release, you likely use a source code repository.
 But releases often use tar files or other binaries, also known as blobs.
-Checking blobs into a repository may be problematic if the repository you use
-is not well-suited to dealing with large binaries.
-(Git, for example, is not.)
+Checking blobs into a repository is problematic if your repository
+unsuited to dealing with large binaries (as is true of Git, for example).
 
 BOSH lets you avoid checking blobs into a repository by doing the following:
 
@@ -689,9 +688,6 @@ BOSH lets you avoid checking blobs into a repository by doing the following:
 * For a final release, upload blobs to a blobstore, and direct BOSH to obtain the blobs from there.
 
 ### <a id="config-blobstore"></a> Configure a blobstore  ###
-
-Although the blobstore is not needed until you do a final release,
-configuring the blobstore ahead of time makes for a better workflow.
 
 In the `config` directory, you record the information BOSH needs about the
 blobstore:
@@ -710,6 +706,17 @@ The `config` directory also contains two files whose content is automatically
 generated: the `blobs.yml` file and the `dev.yml` file.
 
 Adapt the examples below to fit the specifics of your release.
+Our example release uses the `local` type blobstore because otherwise it would
+be necessary to explain how to configure a public blobstore such as
+Amazon S3, which is too large a topic for this context.
+
+The `local` type blobstore is suitable for learning but the resulting release
+cannot be shared.
+For that reason, you should configure a non-local, publicly available blobstore
+for releases that you intend to share.
+Normally, the blobstore you choose when you begin working on a release is used
+for all subsequent versions of the release.
+Changing the blobstore that a release uses is beyond the scope of this tutorial.
 
 Example `final.yml`:
 
@@ -736,10 +743,6 @@ This is true even though the `blobstore_secret` line is deprecated and its
 content does not matter.
 There is never `blobstore_secret` line for blobstores of types other than
 `local`.
-
-The `local` type blobstore is essentially a convenience for
-development.
-Final releases should use a non-local blobstore that is publicly accessible.
 
 ### <a id="inform"></a> Inform BOSH where blobs are ###
 
