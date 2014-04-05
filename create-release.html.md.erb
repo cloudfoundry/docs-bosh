@@ -6,11 +6,6 @@ The workflow for creating BOSH releases is iterative, and looks like this:
 
   <%= image_tag("release-iterate.png") %>
 
-This tutorial walks you through creating and deploying a dev release and then
-a final release.
-
-<!--- You can use the example code to replicate the release we describe in the tutorial. -->
-
 As a matter of principle, BOSH releases:
 
 * Package up all dependencies
@@ -31,7 +26,19 @@ otherwise noted.
 
 ## <a id="prep"></a> Preparation ##
 
-### <a id="compile-time"></a> What compile time means for BOSH ###
+This tutorial walks you through creating and deploying a dev release and then
+a final release.
+
+More than one dev release is typically required before you are ready to do a
+final release.
+For that reason, the tutorial is designed so that you can prepare once (by
+completing the material in this section), then iterate through
+the material about dev releases (Steps 1 through 6) as many times as necessary
+before proceeding to do a final release.
+
+<!--- You can use the example code to replicate the release we describe in the tutorial. -->
+
+### <a id="compile-time"></a> About compile time ###
 
 When you deploy a release, BOSH creates two kinds of VMs on the target IaaS:
 
@@ -118,7 +125,7 @@ In the release directory, BOSH creates a subdirectory for each of the
 fundamental elements: jobs, packages, source (which BOSH calls `src`), and
 blobs.
 
-### <a id="directory-structure"></a> Directory structure on job VMs ###
+### <a id="directory-structure"></a> About directory structure on job VMs ###
 
 View the release with `tree`:
 
