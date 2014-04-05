@@ -29,39 +29,9 @@ When creating BOSH releases, you should:
 These directions, and the ordering of tasks, are only suggestions unless
 otherwise noted.
 
-## <a id="what"></a> Decide What to Release ##
+## <a id="prep"></a> Preparation ##
 
-A BOSH release contains one or more pieces of software that work together.
-For example, you could create a BOSH release of a service with three pieces:
-two MySQL nodes and a dashboard app.
-You may think of these pieces as areas of functionality, or features, or roles.
-In a BOSH release, you make each piece a _job_.
-
-Jobs are among the four fundamental elements in a BOSH release.
-The others each provide something another element needs:
-
-* **Jobs** describe pieces of the service or application you are releasing
-* **Packages** provide source code and dependencies to jobs
-* **Source** provides packages the non-binary files they need
-* **Blobs** provide packages the binaries they need, other than binaries that
-are checked into a source code repository
-
-You make judgment calls when creating a release:
-what to include, how to structure it, and how to split up jobs and packages.
-To get started creating a release, decide what jobs your release should include.
-
-Our example release includes two jobs: a web UI and a background worker.
-The worker periodically sends an HTTP request to the web UI, and the web UI
-displays the number of worker requests received.
-The two jobs split up the functionality provided by single Ruby app,
-`ardo_app`.
-
-You also decide what properties to give your jobs.
-Job properties are essentially inputs.
-In our example, we have decided to create one property:
-the port on which the web UI listens.
-
-### <a id="release-dir"></a> Job VMs and Compilation VMs ###
+### <a id="compile-time"></a> What compile time means for BOSH ###
 
 When you deploy a release, BOSH creates two kinds of VMs on the target IaaS:
 
@@ -96,7 +66,39 @@ when you debug a release:
 * Job VMs are newly created in two cases: the first time you deploy a release,
 and every time that you deploy using the `--recreate` option.
 
-## <a id="release-dir"></a> Create the Release Directory ##
+### <a id="what"></a> Decide What to Release ###
+
+A BOSH release contains one or more pieces of software that work together.
+For example, you could create a BOSH release of a service with three pieces:
+two MySQL nodes and a dashboard app.
+You may think of these pieces as areas of functionality, or features, or roles.
+In a BOSH release, you make each piece a _job_.
+
+Jobs are among the four fundamental elements in a BOSH release.
+The others each provide something another element needs:
+
+* **Jobs** describe pieces of the service or application you are releasing
+* **Packages** provide source code and dependencies to jobs
+* **Source** provides packages the non-binary files they need
+* **Blobs** provide packages the binaries they need, other than binaries that
+are checked into a source code repository
+
+You make judgment calls when creating a release:
+what to include, how to structure it, and how to split up jobs and packages.
+To get started creating a release, decide what jobs your release should include.
+
+Our example release includes two jobs: a web UI and a background worker.
+The worker periodically sends an HTTP request to the web UI, and the web UI
+displays the number of worker requests received.
+The two jobs split up the functionality provided by single Ruby app,
+`ardo_app`.
+
+You also decide what properties to give your jobs.
+Job properties are essentially inputs.
+In our example, we have decided to create one property:
+the port on which the web UI listens.
+
+### <a id="release-dir"></a> Create the release directory ###
 
 All parts of the release reside in the _release directory_.
 
@@ -172,7 +174,7 @@ Choose the approach that seems most comfortable and least error-prone.
 Navigate into the release directory.
 From here on, this tutorial assumes that you run all commands from there.
 
-## <a id="job-skel"></a> Create Job Skeletons ##
+## <a id="job-skel"></a> Step 1: Create Job Skeletons ##
 
 When first created, the job is a _skeleton_: an empty structure that fills up
 as release creation progresses.
@@ -335,7 +337,7 @@ You have now created one or more job skeletons; this is a good time to commit.
 If you used the `--git` option with `bosh init release` (as recommended), the
 correct `.gitignore` file has been automatically created for you.
 
-## <a id="graph"></a> Make Dependency Graphs ##
+## <a id="graph"></a> Step 2: Make Dependency Graphs ##
 
 There are two kinds of dependencies in a BOSH release:
 
@@ -414,7 +416,7 @@ The complete dependency graph for `ardo-release` looks like this:
 For a large or complicated release, you might prefer to make more than one
 dependency graph.
 
-## <a id="pkg-skeletons"></a> Create Package Skeletons ##
+## <a id="pkg-skeletons"></a> Step 3: Create Package Skeletons ##
 
 Packages give BOSH the information needed to prepare the binaries and
 dependencies for your jobs.
@@ -665,7 +667,7 @@ packages:
 - ruby_1.9.3
 ~~~
 
-## <a id="blobs"></a> Add Blobs ##
+## <a id="blobs"></a> Step 4: Add Blobs ##
 
 When creating a release, you likely use a source code repository.
 But releases often use tar files or other binaries, also known as blobs.
@@ -788,7 +790,7 @@ For this reason, uploading a blob and then removing it is considered poor practi
 When creating dev releases, do not run `bosh upload blobs`.
 (You only run it when you do a final release.)
 
-## <a id="create-props"></a> Create Job Properties  ##
+## <a id="create-props"></a> Step 5: Create Job Properties  ##
 
 If your service needs to be configurable at deployment time,
 you create the desired inputs or controls and specify them in the release.
@@ -820,7 +822,7 @@ properties:
      default: 80
 ~~~
 
-## <a id="dev-release"></a> Do a Dev Release  ##
+## <a id="dev-release"></a> Step 6: Do a Dev Release  ##
 
 All the elements needed to create a dev release should now be in place.
 
