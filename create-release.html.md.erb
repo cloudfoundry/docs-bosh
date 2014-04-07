@@ -2,91 +2,11 @@
 title: Creating a BOSH Release
 ---
 
-The workflow for creating BOSH releases is iterative, and looks like this:
-
-  <%= image_tag("release-iterate.png") %>
-
-As a matter of principle, BOSH releases:
-
-* Package up all dependencies
-* Remain buildable for a long time
-* Avoid adding blobs to a source code repository
-* Avoid depending on the internet
-
-When creating BOSH releases, you should:
-
-* Use underscores in filenames
-* Comment your code to facilitate debugging
-* Assume that stemcells contain no libraries or other software that your release can use
-
-<!---  The finished example release is here (insert download link TBD) -->
-
-These directions, and the ordering of tasks, are only suggestions unless
-otherwise noted.
-
-## <a id="prep"></a> Preparation ##
-
-This tutorial walks you through creating and deploying a dev release and then
-a final release.
-
-More than one dev release is typically required before you are ready to do a
-final release.
-For that reason, the tutorial is designed so that you can prepare once (by
-completing the material in this section), then iterate through
-the material about dev releases (Steps 1 through 6) as many times as necessary
-before proceeding to do a final release.
-
-This tutorial contains both explanations and actions.
-The [Summary](./create-release-summary.html) omits the explanations and should
-only be used once you thoroughly grasp the material in this tutorial.
-
-<!--- You can use the example code to replicate the release we describe in the tutorial. -->
-
-### <a id="compile-time"></a> About compile time ###
-
-When you deploy a release, BOSH creates two kinds of VMs on the target IaaS:
-
-* **Compilation VMs**  provide a temporary, isolated environment where BOSH
-prepares the binaries or scripts your jobs need.
-BOSH does this at  “compile time,” by compiling source code, running commands
-like `bundle install` in Ruby, or just copying scripts, and delivering the
-resulting binaries and scripts to the BOSH install target directory.
-BOSH creates the install target directory on a compilation VM, and then
-replicates it on a job VM.
-BOSH then deletes the compilation VM.
-When you create the [deployment manifest](./create-manifest.html#compilation),
-you decide how many compilation VMs to create and how they should behave.
-
-* **Job VMs** are where your deployed jobs run.
-The release does not specify which groupings of jobs run on a single VM, or how
-many instances of that VM to create.
-You make those decisions when you create the [deployment manifest]
-(./create-manifest.html#release).
-
-Because the environments of compilation VMs and job VMs are identical,
-BOSH frees you from concerns about discrepancies between compilation
-and deployment environments.
-
-Newly created VMs are in a known state in the sense that they can
-never contain software left over from previous deployments.
-VM creation in BOSH works on consistent principles that are important to know
-when you debug a release:
-
-* **Compilation VMs** are newly created every time you deploy.
-
-* **Job VMs** are newly created in two cases: the first time you deploy a release,
-and every time that you deploy using the `--recreate` option.
-
-### <a id="what"></a> Decide what to release ###
-
 A BOSH release contains one or more pieces of software that work together.
 For example, you could create a BOSH release of a service with three pieces:
 two MySQL nodes and a dashboard app.
-You may think of these pieces as areas of functionality, or features, or roles.
-In a BOSH release, you make each piece a _job_.
 
-Jobs are among the four fundamental elements in a BOSH release.
-The others each provide something another element needs:
+There are four fundamental elements in a BOSH release:
 
 * **Jobs** describe pieces of the service or application you are releasing
 * **Packages** provide source code and dependencies to jobs
@@ -94,32 +14,19 @@ The others each provide something another element needs:
 * **Blobs** provide packages the binaries they need, other than binaries that
 are checked into a source code repository
 
-You make judgment calls when creating a release:
-what to include, how to structure it, and how to split up jobs and packages.
-To get started creating a release, decide what jobs your release should include.
-
-Our example release includes two jobs: a web UI and a background worker.
-The worker periodically sends an HTTP request to the web UI, and the web UI
-displays the number of worker requests received.
+The following instructions use an example release that includes two jobs:
+a web UI and a background worker.
 The two jobs split up the functionality provided by single Ruby app,
 `ardo_app`.
 
-You also decide what properties to give your jobs.
-Job properties are essentially inputs.
-In our example, we have decided to create one property:
-the port on which the web UI listens.
+### <a id="release-dir"></a>Create the release directory ###
 
-### <a id="release-dir"></a> Create the release directory ###
-
-All parts of the release reside in the _release directory_.
+All parts of a release reside in the _release directory_.
 
 To create the release directory, navigate into the workspace where you want the
-release to be, and run::
+release to be, and run:
 
-  `bosh init release <release_name> --git`
-
-The `--git` option initializes a git repo in the release directory.
-This is recommended if you use Git.
+  `bosh init release <release_name>`
 
 The release name should have dashes rather than underscores, to conform to the
 convention for Git repo names.
