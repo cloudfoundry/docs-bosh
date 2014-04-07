@@ -36,6 +36,11 @@ completing the material in this section), then iterate through
 the material about dev releases (Steps 1 through 6) as many times as necessary
 before proceeding to do a final release.
 
+The main body of this tutorial contains both explanations and actions.
+At the end, there is a [Summary](#summary) which omits the explanations.
+Be sure you understand all the material in the tutorial before you try to
+create a release using the Summary.
+
 <!--- You can use the example code to replicate the release we describe in the tutorial. -->
 
 ### <a id="compile-time"></a> About compile time ###
@@ -850,7 +855,7 @@ Create the dev release:
 
 `bosh create release --force`
 
-BOSH asks for the release name.
+BOSH prompts for a release name, and assigns a dot-number version to the release.
 
 ### <a id="dev-release-deploy"></a> Deploy the Dev Release  ###
 
