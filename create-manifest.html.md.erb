@@ -152,7 +152,7 @@ before trying to update the entire cohort.
 Update behavior is based on the concept of _watch time_, whose minimum and maximum you specify in milliseconds.
 Watch time works like this:
 
-* Between the moment update begins and the minimum is reached, BOSH reacts if the update fails
+* Between the moment an update begins and the minimum is reached, BOSH reacts if the update fails
 but otherwise makes no effort to learn the state of the VM being updated.
 * Between the minimum and maximum, BOSH checks the health of the VM at intervals.
 * If the update fails at any time, BOSH ends the update with the error message "job is not running."
