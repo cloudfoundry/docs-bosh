@@ -265,7 +265,7 @@ This block can be quite long, so the example below shows only a few interesting 
 * A string prefixed with an ampersand defines the attribute to its left as a hash.
 * Strings prefixed by an asterisk reference the hash defined previously.
 
-In this case, `&bosh_db` defines the all the keys and values in the `mysql` attribute as `bosh_db`.
+In this case, `&bosh_db` defines all the keys and values in the `mysql` attribute as `bosh_db`.
 Later, the `db` key in the `registry` attribute references the `bosh_db` hash.
 The result is that the value of the `db` key in `registry` is the entire set of keys and values in `mysql`.
 
