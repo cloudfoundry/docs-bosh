@@ -25,26 +25,17 @@ The two jobs split up the functionality provided by single Ruby app,
 This section needs to be completed once.
 Next, you iterate through Steps 1 through 6 until your dev release is
 satisfactory.
-Then you do a final release.
+Then you can do a final release.
 
 ### <a id="release-dir"></a>Create the release directory ###
-
-All parts of a release reside in the _release directory_.
 
 To create the release directory, navigate into the workspace where you want the
 release to be, and run:
 
   `bosh init release <release_name>`
 
-The release name should have dashes rather than underscores, to conform to the
-convention for Git repo names.
-All other filenames in the release should use underscores.
-
-In the release directory, BOSH creates a subdirectory for each of the
-fundamental elements: jobs, packages, source (which BOSH calls `src`), and
-blobs.
-
-### <a id="directory-structure"></a> About directory structure on job VMs ###
+Use dashes in the release name.
+Use underscores for all other filenames in the release.
 
 View the release with `tree`:
 
@@ -69,43 +60,21 @@ and `/var/vcap/blobs`, respectively.
 
 ### <a id="source"></a> Populate the src directory ###
 
-Populate the `src` directory with your source code.
-
-For this tutorial, copy your code directory into `src`.
-
-For production, consider using a Git [submodule]
-(https://git.wiki.kernel.org/index.php/GitSubmoduleTutorial), Mercurial
-repository, or other mechanism to ensure that users of your release
-always access the correct versions of dependencies even when those versions
-are no longer current.
-This is important for large BOSH releases. For example, [Cloud Foundry]
-(https://github.com/cloudfoundry/cf-release) has more than thirty Git submodules.
+Copy your source code into the `src` directory.
+Alternatively, link your source code to the directory using a mechanism such as
+a Git submodule or a Mercurial repo.
 
 ### <a id="strategy"></a> Choose a work strategy ###
 
-You are about to begin five central parts of the tutorial,
-Create Job Skeletons, Make Dependency Graphs, Create Packages, Add Blobs, and
-Create Job Properties.
-You can proceed in either of two ways:
-
-1. **One section at a time**. Complete one section for all jobs, then do the same for in the next section, and so on.
-
-1. **One job at a time**. Complete all four sections for one job, do the same for the next job, and so on.
-
-For releases with just a few jobs, going one section at a time is probably easiest.
-We'll do that in this tutorial.
+Choose whether you want to work one Step at a time or one job at a time.
+For releases with just a few jobs, going one Step at a time is probably easiest.
 If you have a larger number of jobs, going one job at a time may be more efficient.
-Choose the approach that seems most comfortable and least error-prone.
-
-Navigate into the release directory.
-From here on, this tutorial assumes that you run all commands from there.
 
 ## <a id="job-skel"></a> Step 1: Create Job Skeletons ##
 
-When first created, the job is a _skeleton_: an empty structure that fills up
-as release creation progresses.
+Navigate into the release directory.
 
-Run this command once for each job in your release:
+For each job, create a job skeleton:
 
   `bosh generate job <job_name>`
 
@@ -135,18 +104,16 @@ $ tree .
 9 directories, 5 files
 </pre>
 
+### <a id="control"></a> Create control scripts  ###
+
 Every job needs a way to start and stop.
 You provide that by writing a control script and updating the `monit` file.
-
-### <a id="control"></a> Create control scripts  ###
 
 The control script:
 
 * Includes a start command and a stop command.
 * Is an ERb template stored in the `templates` directory for the relevant job.
 
-At compile time, BOSH transforms templates into files, which it then replicates
-on the job VMs.
 For each job, create a control script and save it as `ctl.erb` in the `templates`
  directory for its job.
 
@@ -190,14 +157,6 @@ case $1 in
 esac
 </pre>
 
-Start and stop commands in production situations typically turn more things on
-and off than the simple ones in our example do.
-Control scripts can be the source of unexpected behavior that you discover as
-you test your dev releases.
-When that happens, you refine your scripts and iterate.
-For these reasons, writing control scripts is typically one of the heavier
-tasks entailed in creating a release.
-
 If your release needs templates other than the control script, create them now.
 
 ### <a id="monit"></a> Update monit files  ###
@@ -211,9 +170,8 @@ The `monit` file:
 On a deployed release, a BOSH Agent runs on each job VM.
 BOSH communicates with the Agent, which in turn executes commands in the
 control script.
-The Agent does this using [Monit](http://mmonit.com/monit/),
-which is open source software for monitoring processes, programs, files, and
-directories.
+The Agent does this using open source process monitoring software called
+[Monit] (http://mmonit.com/monit/).
 
 The `monit` file for the `web_ui` job looks like this:
 
@@ -226,11 +184,15 @@ check process web_ui
 </pre>
 
 Update the `monit` file for each of your jobs.
-Adapt the example, using `/var/vcap` paths in the same way.
+Use `/var/vcap` paths as shown in the example.
 
 ### <a id="job-specs"></a> Update job specs  ###
 
-Metadata for each job resides in a `spec` file.
+At compile time, BOSH transforms templates into files, which it then replicates
+on the job VMs.
+
+The template names and file paths are among the metadata for each job that
+resides in the job `spec` file.
 
 In the job `spec` file, the `templates` block contains key/value pairs where:
 
@@ -242,8 +204,8 @@ the `/var/vcap/jobs/<job_name>` directory on the VM.
 For example, `bin/ctl` becomes `/var/vcap/jobs/<job_name>/bin/ctl` on the job VM.
 Using `bin` as the directory where theses files go is a convention.
 
-In our example, we edit the `spec` files for the both the `web_ui` and `bg_worker` jobs.
-The updated `spec` file for the `bg_worker` job looks like this:
+The `templates` block of the updated `spec` files for the example jobs look
+like this:
 
 ~~~yaml
 
@@ -251,8 +213,6 @@ templates:
   ctl.erb: bin/ctl
 
 ~~~
-
-The result on the job VM is `/var/vcap/jobs/bg_worker/bin/ctl`.
 
 For each job, update the `spec` file with template names.
 
@@ -281,14 +241,8 @@ Three rules govern these dependencies:
 
 ### <a id="build-graph"> </a>Building the Dependency Graph ###
 
-Creating a dependency graph helps clarify your understanding of the
-dependencies between the jobs and packages in your release, and provides a
-reference as you add elements to the release.
-
-As you build the dependency graph, you discover dependencies on packages
-and record them in the graph.
-When the time comes to add packages to your release, the dependency graph
-is your guide.
+Create a dependency graph to clarify your understanding of the
+dependencies between the jobs and packages in your release.
 
 #### <a id="runtime"> </a>Identify runtime dependencies ####
 
@@ -339,18 +293,15 @@ The complete dependency graph for `ardo-release` looks like this:
 
     <%= image_tag("dep-graph.png") %>
 
-For a large or complicated release, you might prefer to make more than one
-dependency graph.
+For a large or complicated release, consider making more than one dependency
+graph.
 
 ## <a id="pkg-skeletons"></a> Step 3: Create Package Skeletons ##
 
 Packages give BOSH the information needed to prepare the binaries and
 dependencies for your jobs.
 
-When first created, a package is a _skeleton_: an empty structure that fills up
-as release creation progresses.
-
-Create packages starting from the bottom of your dependency graph.
+Create package skeletons starting from the bottom of your dependency graph.
 
   `bosh generate package <dependency_name>`
 
