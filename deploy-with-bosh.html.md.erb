@@ -358,9 +358,14 @@ properties:
     address: 192.168.1.232
     port: 25555
     encryption: false
+    # Check if the CPI for your IaaS supports snapshots, otherwise disable it.
+    # As an example vCloud cpi 0.5.2 does not support snaphots
     enable_snapshots: true
     max_tasks: 100
     db: *bosh_db
+    # If needed, limit the number of threads used to concurrently instanciate new vms (32 by default)
+    # max_threads: 1
+
 
   hm:
     http:
