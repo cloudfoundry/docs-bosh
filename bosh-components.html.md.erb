@@ -52,6 +52,7 @@ The Director controls VM creation and deployment, as well as other software and
 service lifecycle events.
 
 The Director creates actionable tasks:
+
 * by translating commands sent by an operator through the BOSH CLI
 * from scheduled processes like backups or snapshots
 * if needed to reconcile the expected state with the actual state of a VM
@@ -74,6 +75,7 @@ inform the Director about changes in the health of monitored processes.
 ## <a id="registry"></a>Registry ##
 When BOSH creates or updates a VM, BOSH stores the following VM configuration
 information in the registry:
+
 * IP addresses for the network interface, gateway, and netmask
 * IDs for the volume reserved for the VM, for the VM itself, and for disks and other devices
 
