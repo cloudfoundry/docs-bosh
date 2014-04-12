@@ -2,7 +2,7 @@
 title: BOSH Components
 ---
 
-This topic describes the major components of BOSH.
+This topic describes the components of BOSH.
 <%= image_tag("/images/components.png") %>
 
 ## <a id="agent"></a>Agent ##
@@ -12,7 +12,7 @@ carries out those instructions.
 The Agent receives job specifications from the Director and uses them to assign
 a role, or Job, to the VM.
 
-For example, to assign the the Job of running MySQL to a VM, the Director sends
+For example, to assign the Job of running MySQL to a VM, the Director sends
 instructions to the Agent on the VM.
 These instructions include which packages to install and how to configure those
 packages.
@@ -27,7 +27,7 @@ When you deploy a release, BOSH orchestrates the compilation of packages and
 stores the result in the Blobstore.
 
 ## <a id="cli"></a>BOSH Command Line Interface (CLI) ##
-The BOSH CLI command-line tool is the primary operator interface to BOSH.
+The BOSH Command Line Interface (CLI) is the primary operator interface to BOSH.
 An operator uses the CLI to interact with the BOSH Director and perform actions
 on the cloud.
 
@@ -41,7 +41,10 @@ BOSH uses PowerDNS to provide DNS resolution between the VMs in a BOSH
 deployment.
 
 ## <a id="cpi"></a>Cloud Provider Interface (CPI) ##
-BOSH uses the Cloud Provider Interface to communicate with the cloud infrastructure.
+A Cloud Provider Interface (CPI) is an API that BOSH uses to interact with an
+Infrastructure as a Service (IaaS) provider to create and manage stemcells and
+VMs.
+A CPI abstracts the cloud infrastructure from the rest of BOSH.
 
 ## <a id="director"></a>Director ##
 The BOSH Director is the core orchestrating component in BOSH.
@@ -69,8 +72,8 @@ These messages have two purposes: to confirm the health of the Agent, and to
 inform the Director about changes in the health of monitored processes.
 
 ## <a id="registry"></a>Registry ##
-When BOSH creates or updates a VM, BOSH stores and uses the following
-configuration information for the VM in the registry:
+When BOSH creates or updates a VM, BOSH stores the following VM configuration
+information in the registry:
 * IP addresses for the network interface, gateway, and netmask
 * IDs for the volume reserved for the VM, for the VM itself, and for disks and other devices
 
