@@ -2,44 +2,24 @@
 title: BOSH Documentation
 ---
 
-BOSH is an open source orchestration tool for working with large-scale
-deployments that supports:
+BOSH installs and updates software packages on large numbers of VMs over many IaaS providers with the absolute minimum of configuration changes.
 
-* Frequent changes in code and infrastructure
-* Updates to releases and operating systems, with minimal impact
-* Repeatable and predictable deployments
-* Combining in-house source code with off-the-shelf source and binaries in a
-release
-* Collaboration between groups of developers and release engineers
-* A self-service model for developers to test evolving code
+BOSH orchestrates initial deployments and ongoing updates that are:
 
-With BOSH, you can do things like:
-
-* Scale a deployment up or down with a single command
-* Define resource pools with VMs of varying sizes and use the appropriate size
-for a given job type
-* Manage your static IP addresses
-* Specify a base operating system for your VMs
-* Upgrade the operating system for all your VMs with a single deploy command
-
-BOSH also monitors the health of the jobs running on the VMs within a deployment
-and can automatically heal the cluster if a VM dies.
+* Predictable, repeatable, and reliable
+* Self-healing
+* Infrastructure-agnostic
 
 BOSH works on multiple IaaS offerings including AWS, Open Stack, and vSphere,
 freeing operators from concerns about differences between environments.
 
-With BOSH, deployments and updates are predictable, repeatable, and
-infrastructure-agnostic.
-
 ## <a id="foundations"></a> BOSH Foundations ##
 
-This section provides both a starting point for novices and a fresh view
-for experts.
-
-* [BOSH Command Line Interface (CLI)](https://github.com/cloudfoundry/bosh#installing-bosh-gems): The primary
+The [BOSH Command Line Interface (CLI)](https://github.com/cloudfoundry/bosh#installing-bosh-gems) is the primary
 operator interface to BOSH.
 Run `bosh help --all` to see all available BOSH commands.
-* [Glossary](glossary.html)
+
+* [BOSH Terminology](glossary.html)
 * [What BOSH is and Why it's Different](what-bosh-is.html)
 * [Basic BOSH Workflow](workflow.html)
 
