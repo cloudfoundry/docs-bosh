@@ -37,10 +37,11 @@ To deploy BOSH Lite, you do not need a release, a stemcell, or a manifest, only 
 
 Once you have MicroBOSH running, you can use it to deploy multi-VM BOSH or any other software that BOSH can deploy.
 
-Some benefits of using bosh multi-vms over micro-bosh is:
- * easier maintenance of the bosh params (updates to bosh properties take seconds to be applied)
- * easy access to bosh vms (using ```bosh ssh```) and bosh logs
- * easy monitoring of bosh vms cpu, disk, RAM (using ```bosh vms --vitals```)
+Some benefits of using multi-VM BOSH over MicroBosh:
+
+ * Easier maintenance of the BOSH parameters: updates to BOSH properties are applied in seconds
+ * Easy access to BOSH VMs using `bosh ssh` and BOSH logs
+ * Easy monitoring of CPU, disk, and RAM on BOSH VMs using `bosh vms --vitals`
 
 **Note**: As shown in the illustration, deploying Multi-VM BOSH is optional.
 
