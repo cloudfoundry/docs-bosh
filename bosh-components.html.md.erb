@@ -96,21 +96,19 @@ This example shows how BOSH components interact when creating a new VM.
 ## <a id="create-vm"></a>Creating a New VM ##
 <%= image_tag("/images/deploy-sequence.png") %><br />
 
-1. Through the CLI, the operator takes an action (e.g. deploy for the first
+1. Through the BOSH CLI, the operator takes an action (e.g. deploy for the first
 time, scaling up deployment) which requires creating a new VM.
 1. The CLI passes the instruction to the Director.
-1. The Director puts a task into the Queue.
-1. A Worker picks up the task from the Queue.
-1. The Worker uses the CPI to tell the IaaS to launch a VM.
-1. The IaaS provides the Worker with information (IP addresses and IDs) the
+1. The Director uses the CPI to tell the IaaS to launch a VM.
+1. The IaaS provides the Director with information (IP addresses and IDs) the
 Agent on the VM needs to configure the VM.
-1. The Worker updates the Registry with the configuration information for the
-VM.
+1. The Director updates the BOSH Registry with the configuration information for 
+the VM.
 1. The Agent running on the VM requests the configuration information for the VM
-from the Registry.
-1. The Registry responds by providing the IP addresses and IDs.
+from the BOSH Registry.
+1. The BOSH Registry responds with the IP addresses and IDs.
 1. The Agent uses the IP addresses and IDs to configure the VM.
 
-**Note**: vSphere does not use the Registry.
+**Note**: vSphere does not use the BOSH Registry.
 Instead, BOSH attaches a CD-ROM ISO image with the necessary information to each
 vSphere VM.
