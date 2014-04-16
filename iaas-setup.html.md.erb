@@ -109,7 +109,7 @@ This section explains how to install and use the BOSH CLI commands for setting u
 
 ### <a id='plugin'></a> Install the AWS plugin to the BOSH CLI ###
 
-1. Ensure that you have installed Ruby 1.9.x, which is a prerequisite for installing the BOSH CLI. (Ruby 2.x is not supported.)
+1. Ensure that you have installed the most recent patch of Ruby 1.9.3, which is a prerequisite for installing the BOSH CLI. (Ruby 2.x is not supported.)
 1. Create a directory for your planned deployment and navigate to it.
 1. Install the BOSH CLI and its MicroBOSH plugin:
 
@@ -125,6 +125,8 @@ This section explains how to install and use the BOSH CLI commands for setting u
 
 
 ### <a id='domain-prep'></a> Prepare a domain ###
+
+**Note**: This step is only necessary if you want to use BOSH to deploy Cloud Foundry.
 
 1. Choose a DNS domain name for your deployment.
 If you pick **cloud.example.com**, services that you later deploy using BOSH become
@@ -170,6 +172,8 @@ for your region.
 
 1. Create your AWS infrastructure:
 
+	**Note**: Skip this step if you are deploying MicroBOSH.
+
     <pre class="terminal">
     $ bundle exec bosh aws create
     Executing migration CreateKeyPairs
@@ -200,11 +204,6 @@ For OpenStack, consider running the [validation procedure]
 Foundry documentation.
 
 For AWS or vSphere, consider adapting the parts of the OpenStack procedure
-that make sense for your IaaS.
-
-You can use the appropriate APIs for performing and automating validation:
-
-* [VMware vSphere API](https://www.vmware.com/support/developer/vc-sdk/)
-* [Amazon EC2 API](http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html)
-* [OpenStack APIs](http://api.openstack.org/)
+that make sense for your IaaS. Alternatively, you can use the API that your CPI
+provides for performing and automating validation.
 
