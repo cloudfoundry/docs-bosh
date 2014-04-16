@@ -2,34 +2,25 @@
 title: Deploying MicroBOSH
 ---
 
+MicroBOSH runs within a single VM on any cloud infrastructure that is supported for deploying software with BOSH.
+
+Use MicroBOSH to deploy one of the following on an IaaS:
+
+* Multi-VM BOSH for production
+* Cloud Foundry or another distributed software package
+
 The only supported way to deploy BOSH for production is to use MicroBOSH.
 
-MicroBOSH runs within a single VM on any cloud infrastructure that is supported for deploying software with BOSH.
-MicroBOSH is suited to deploying BOSH releases of any software, including multi-VM BOSH.
-
-To deploy MicroBOSH you need a stemcell and a manifest.
-You do not need a release since MicroBOSH itself is included within the stemcell.
-
 The IaaS you use determines many details of how you deploy MicroBOSH.
-This topic starts with a general procedure that applies for all IaaS's,
+This topic starts with a general procedure that applies for any IaaS,
 and ends with an example focused on AWS.
 
 ## <a id="prep"></a> Preparing to Deploy  ##
 
-Your overall goal when preparing to deploy MicroBOSH is to have a stemcell, a manifest,
-and properly set up environments both locally and in the cloud.
-
-**Note**: Along with the decision you have made to deploy MicroBOSH,
-you should have made a few more decisions by now:
-
-* What IaaS to use.
-* What to name the environment you plan to deploy on that IaaS.
-In this context, the term "environment" means one or more software products deployed to the same cloud to provide a service or set of services.
+To deploy MicroBOSH you need a stemcell, a manifest, and properly set up environments both locally and in the cloud.
+You do not need a release since MicroBOSH itself is included within the stemcell.
 
 ### <a id="local"></a> Set up a local work area  ###
-
-**Note**: How to set up your local work area is up to you.
-What follows is a suggested approach that you are free to vary to suit your needs.
 
 Set up a directory structure with two levels:
 
@@ -52,7 +43,7 @@ You create a directory for each, such that the path to your MicroBOSH deployment
 
     `bosh help --all`
 
-**Note**: Ruby 1.9.x is a prerequisite for installing the BOSH CLI.
+**Note**: The latest patch of Ruby 1.9.3 is a prerequisite for installing the BOSH CLI.
 (Ruby 2.x is not supported.) If you are using the rbenv Ruby environment manager,
 refresh the list of gems that rbenv knows about:
 
