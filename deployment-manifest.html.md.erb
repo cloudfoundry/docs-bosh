@@ -108,10 +108,12 @@ A `vip` network is a collection of virtual IPs (for example, EC2 elastic IPs) th
 
 ## <a id='jobs'></a>Jobs Block ##
 
-**jobs** [Hash, required]: Specifies [jobs](./glossary.html#job) included in this deployment. The most commonly used job properties are:
+**jobs** [Hash, required]: Specifies the mapping between BOSH release [jobs](./glossary.html#job) and cloud instances. Jobs are defined in the BOSH release. The Jobs block defines how BOSH associates jobs with the VMs started by the IaaS. The most commonly used job properties are:
 
-* **name** [String, required]: A unique name used to identify and reference the job.
-* **template** [String, required]: Specifies the name of a job template in the release.
+* **name** [String, required]: A unique name used to identify and reference this  association between a BOSH release job and a VM.
+* **templates** [Hash, optional]: Specifies the name and release of a job template.
+    * **name** [String, required]: The job template name
+    * **version** [String, required]: The release where the job template exists
 * **persistent_disk** [Integer, optional]: Specifies the persistent disk size; defaults to 0 (no persistent disk). If `persistent_disk` is a positive integer, BOSH creates a persistent disk of that size in megabytes and attaches it to each job instance VM.
 * **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a job block are accessible only to that job, and override any identically named global properties.
 * **resource_pool** [String, required]: A valid resource pool name from the Resource Pools block. BOSH runs instances of this job in a VM from the named resource pool.
@@ -122,15 +124,17 @@ A `vip` network is a collection of virtual IPs (for example, EC2 elastic IPs) th
     * **static_ips** [Range, optional]: The range of IP addresses reserved for the job on the network
     * **default** [Array, optional]: Specifies which network components (DNS, Gateway) BOSH populates by default from this network. BOSH references this property if the Networks block defines multiple networks.
 
-## <a id='properties'></a>Properties Block
+## <a id='properties'></a>Properties Block ##
 
-**properties**: Describes global properties and generalized configuration information.
+**properties**: Describes global properties and general configuration information.
 
 Global properties allow BOSH to configure jobs to a specific environment. `properties` defined in the Properties block are accessible to all jobs. Any identically named `properties` in the Jobs block will override the global property for that job.
 
-Job templates may contain generalized configuration information like account names or port numbers. This information can be extracted from the job templates and added to the manifest in a sub-block of the Properties block. The name of the job template identifies the sub-block.
+General configuration information originates from the template spec file of a job in a BOSH release. By moving this information from the release into the manifest, changes to a deployment are made by changing the manifest, with no need to change the release. Because a BOSH release is much larger and complex than the deployment manifest for the release, changing the manifest is invariably faster and easier than changing the release.
 
-Typically abstracted information includes but is not limited to:
+General configuration information is added to the manifest in a sub-block of the Properties block. The name of the job template identifies the sub-block.
+
+Typical general configuration information includes but is not limited to:
 
 * Passwords
 * Account names
@@ -138,3 +142,15 @@ Typically abstracted information includes but is not limited to:
 * Host names
 * IP addresses
 * Port numbers
+
+### <a id='properties'></a>Job Property Precedence ###
+
+1. BOSH applies the properties in the template spec file to the job.
+1. If an identically named property exists in the Properties block of the deployment manifest, the value of this property overrides the previous value.
+1. If an identically named property exists in the Properties sub-block of the Jobs block of the deployment manifest, the value of this property overrides the previous value.
+
+**Note**:
+
+* If a job template spec declares specific properties, BOSH ignores any properties not declared in the job template spec file.
+
+* If a job template spec does not declare any properties, BOSH applies all properties from the deployment manifest to the job.
