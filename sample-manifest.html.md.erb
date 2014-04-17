@@ -15,7 +15,7 @@ releases:
   version: latest
 
 compilation:
-  reuse\_compilation\_vms: true
+  reuse_compilation_vms: true
   workers: 2
   network: default
   cloud_properties:
@@ -24,8 +24,8 @@ compilation:
 
 update:
   canaries: 1
-  canary\_watch\_time: 30000-240000
-  update\_watch\_time: 30000-600000
+  canary_watch_time: 30000-240000
+  update_watch_time: 30000-600000
   max\_in\_flight: 3
 
 resource_pools:
@@ -57,7 +57,7 @@ networks:
 jobs:
 - name: sample
   templates:
-  - name: sample\_with\_properties
+  - name: sample_with_properties
     release: go_sample
   instances: 1
   resource_pool: default
@@ -70,10 +70,9 @@ jobs:
 
 - name: sample_errand
   templates:
-  - name: sample\_with\_properties
+  - name: sample_with_properties
     release: sample
   instances: 1
-  lifecycle: errand
   resource_pool: default
   networks:
   - name: default
