@@ -1,323 +1,140 @@
 ---
-title: Creating a BOSH Deployment Manifest
+title: BOSH Deployment Manifest
 ---
 
-When you discover a distributed software product that you want to deploy using BOSH,
-you download a BOSH release of the product and locate a stemcell appropriate for your preferred combination of VM and IaaS.
-
-Next, you decide how to orchestrate and configure the deployment.
-Then you express your decisions in a form that BOSH can consume: namely, a deployment manifest.
-This topic explains how manifests work and how to create them.
+The BOSH deployment manifest is a YAML file that defines the components and
+properties of the deployment.
+When a BOSH operator initiates a new deployment using the BOSH CLI, the BOSH
+Director receives a version of the deployment manifest and creates a new
+deployment using this manifest.
 
-## <a id="orchestrate"></a> Specifying Orchestration ##
+Contents of a BOSH deployment manifest:
 
-Suppose the product you want to deploy can do five things: call these capabilities Feature A through Feature E.
-You want your deployment to take advantage of all five features, but you don't want any one VM to be responsible for more than two features.
-For the sake of capacity and resilience, you want every feature to run on more than one VM.
+* [Deployment Identification](#deployment): A name for the deployment and the
+UUID of the BOSH Director managing the deployment
+* [Releases Block](#releases): Name and version of each release in a deployment
+* [Compilation Block](#compilation): Properties of compilation VMs
+* [Update Block](#update): Defines how BOSH updates job instances during
+deployment
+* [Resource Pools Block](#resource_pools): Properties of VMs that BOSH creates
+and manages
+* [Networks Block](#networks): Network configuration information
+* [Jobs Block](#jobs): Configuration and resource information for jobs
+* [Properties Block](#properties): Describes global properties and generalized
+configuration information
 
-To achieve this, you define VM types, where each type supports different features.
-Then you decide how many instances of each VM type to create. Now how have orchestrated your deployment.
+## <a id='deployment'></a>Deployment Identification ##
 
-In the manifest you specify orchestration along with everything else about your deployment,
-including the stemcell, release, and network configuration to use.
+**name** [String, required]: The name of the deployment. A single BOSH Director can manage multiple deployments and distinguishes them by name.
 
-**Note**: This topic does not treat using multiple releases or stemcells for simplicity's sake, but BOSH supports both.
+**director_uuid** [String, required]: This string must match the UUID of the currently targeted BOSH Director for the BOSH CLI to allow any operations on the deployment. Use `bosh status` to display the UUID of the currently targeted BOSH Director.
 
-## <a id="release"></a> Translating from Release to Manifest ##
+## <a id='releases'></a>Releases Block ##
 
-When you orchestrate, you allocate features to VM types and then specify a number of instances for each VM type.
-You need to see what a product calls its features in the BOSH release in order to specify orchestration in the manifest.
+**releases** [Hash, required]: The name and version of each release in the deployment.
 
-The terms "job" and "template" have one meaning in the release and another in the manifest.
+* **name** [String, required]: Name of a release name used in the deployment
+* **version** [String, required]: The version of the release to use
 
-* A BOSH release uses the term "job" to describe a _feature_.
-* Meanwhile, a BOSH manifest uses the term "job" to describe a _VM type_,
-and the term "template" to describe a feature.
+## <a id='compilation'></a>Compilation Block ##
 
-When you allocate a feature to a VM type, the feature described as a "job" in the release becomes a "template" in the `jobs` block in the manifest.
-You name your VM types as "jobs" and specify a number of instances for each.
+**compilation** [Hash, required]: Properties of compilation VMs.
 
-In the illustration below, five features in a release are allocated to VM types in a manifest.
+* **reuse\_compilation\_vms** [Boolean, optional]: If `false`, BOSH creates a new compilation VM for each new package compilation and destroys the VM when compilation is complete. If `true`, compilation VMs are re-used when compiling packages. Defaults to `false`.
+* **workers** [Integer, required]: The maximum number of compilation VMs.
+* **network** [String, required]: References a valid network name defined in the Networks block. BOSH assigns network properties to compilation VMs according to the type and properties of the specified network.
+* **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to create compilation VMs. Examples: `instance_type`, `availability_zone`
 
- <%= image_tag("orchestrate_sm_3.png") %>
+## <a id='update'></a>Update Block ##
 
-The manifest fragment below shows two VM types (jobs), each of which supports two features (templates).
+**update** [Hash, required]: This specifies instance update properties. These properties control how BOSH updates job instances during the deployment.
 
-<pre class="terminal">
-jobs:
-- name: vm-type-x
-  templates:
-  - name: feature-a
-    release: foo_beta
-  - name: feature-d
-    release: foo_beta
-  instances: 2
-  resource_pool: default
-  persistent_disk: 10240
-  networks:
-  - name: default
-    default: [dns, gateway]
-- name: vm-type-y
-  templates:
-  - name: feature-b
-    release: foo_beta
-  - name: feature-c
-    release: foo_beta
-  instances: 4
-  resource_pool: default
-  persistent_disk: 20480
-  networks:
-  - name: default
-    default: [dns, gateway]
-</pre>
+* **canaries** [Integer, required]: The number of [canary](./glossary.html#canary) instances.
+* **canary\_watch\_time** [Integer or Range, required]: The time to wait for canary instances to declare an updated job healthy or unhealthy.
+    * If the `canary_watch_time` is an integer, the BOSH Director sleeps for that many seconds, then checks whether the canary instances are healthy.
+    * If the `canary_watch_time` is a range (low-high), the Director:
+        * Sleeps for `low` milliseconds
+        * Checks whether the canary instances are healthy, sleeps until `high` milliseconds pass if they are not, then checks again
+* **update\_watch\_time** [Integer or Range, required]: The time to wait for non-canary instances to declare an updated job healthy or unhealthy.
+* **max\_in\_flight** [Integer, required]: The maximum number of non-canary instances to update in parallel.
 
-## <a id="anatomy"></a> Anatomy of a Manifest ##
-
-Parts of any given BOSH manifest are IaaS-specific.
-Most manifest content, though, is independent of the cloud infrastructure where you want to deploy.
-This allows you to re-use manifests with minimal changes, even if you re-deploy on a different IaaS.
-
-You begin the BOSH deployment manifest with three dashes, followed by the name you give the deployment,
-then a `director_uuid` that ensures that you deploy with the correct BOSH.
+## <a id='resource_pools'></a>Resource Pools Block ##
 
-For example:
+**resource_pools** [Hash, required]: Specifies the [resource pools](./glossary.html#resource_pools) a deployment uses. A deployment manifest can describe multiple resource pools and uses unique names to identify and reference them.
 
-<pre class="terminal">
----
-name: dummy
-director_uuid: 080a8261-8bf8-4996-a754-2545a99c0b2c
-</pre>
+* **name** [String, required]: A unique name used to identify and reference the resource pool
+* **network** [String, required]: References a valid network name defined in the Networks block. Newly created resource pool VMs use the described configuration.
+* **size** [Integer, required]: The number of VMs in the resource pool. The resource pool should be at least as big as the total number of job instances using it.
+* **stemcell** [Hash, required]: The stemcell used to create resource pool VMs.
+    * **name** [String, required]: The stemcell name
+    * **version** [String, required]: The stemcell version
+* **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to create compilation VMs. Examples: `instance_type`, `availability_zone`
+* **env** [Hash, optional]: Describes the VM environment and provide a specific VM environment to the CPI `create_stemcell` call. `env` data is available to BOSH Agents as VM settings. Default is {} (empty Hash).
 
-After that, the manifest has seven required _blocks_:
+## <a id='networks'></a>Networks Block ##
 
-1. `releases`
-1. `compilation`
-1. `update`
-1. `resource_pools`
-1. `networks`
-1. `jobs`
-1. `properties`
-
-The manifest is in YAML, so the YAML parser translates each block into a hash.
-For this reason, you can put the blocks in any order.
-
-### <a id='releases'></a> The releases block ###
+**networks** [Hash, required]: Each sub-block listed in the Networks block specifies a network configuration that jobs can reference. There are three different network types: `manual`, `dynamic`, and `vip`.
 
-The release block lists the name and version of each release you use in your deployment:
+### Manual ###
 
-For example:
+BOSH completely manages `manual` networks. For these networks, BOSH:
 
-<pre class="terminal">
-releases:
-- name: foo_beta
-  version: 0.1-dev
-</pre>
+* Provides dynamic, static, and reserved IP pools
+* Provides IP address ranges for DNS servers
+* Manages assigning IP addresses
+* Makes network-related sanity checks
+* Specifies network configurations VMs should use
 
-This block is IaaS-agnostic.
+Manually managed networks can be further divided into subnets. A `manual` networks sub-block contains `subnets`, with each subnet containing the following information:
 
-### <a id='compilation'></a> The compilation block ###
-
-At deploy time, BOSH compiles all the software packages within the release.
-The `compilation` block specifies which VMs should perform the compilation.
-
-For example:
-
-<pre class="terminal">
-compilation:
-  reuse_compilation_vms: true
-  workers: 2
-  network: default
-  cloud_properties:
-    instance_type: c1.medium
-    availability_zone: us-east-1c
-</pre>
-
-This block contains an IaaS-dependent `cloud_properties` sub-block.
+* **range** [String, required]: Subnet IP range that includes all IPs from this subnet.
+* **gateway** [String, optional]: Subnet gateway IP.
+* **dns** [Array, optional]: DNS IP addresses for this subnet.
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the network.
+* **reserved** [String, optional]: Reserved IP range. BOSH does not assign IPs from this range to any VM.
+* **static** [String, optional]: Static IP range. BOSH assigns IPs from this range to jobs requesting static IPs.
 
-### <a id='update'></a> The update block ###
-
-The `update` block specifies:
+### Dynamic ###
 
-* The maximum number of VMs that can be updated simultaneously, with the `max_in_flight` key.
-* The number of "canaries" with the `canaries` key.
-* The update behavior of "canaries" with the `canary_watch_time` key.
-* The update behavior of VMs that are _not_ "canaries" with the `update_watch_time` key.
+BOSH does not manage `dynamic` networks. VMs using a `dynamic` network must acquire IP addresses and other network configuration information from a DHCP server or other source, not from BOSH. The only configuration information supported in a `dynamic` network sub-block is `cloud_properties`.
 
-A "canary" is just an instance of the VM type to be updated.
-BOSH updates the canaries first, and only goes on to update the remaining VMs once the canaries have updated successfully.
-You use canaries to determine whether an update can run successfully on that VM type.
-A common use case is that when a deployment contains many VMs, it makes sense to test a new release on a few of them
-before trying to update the entire cohort.
-
-Update behavior is based on the concept of _watch time_, whose minimum and maximum you specify in milliseconds.
-Watch time works like this:
-
-* Between the moment an update begins and the minimum is reached, BOSH reacts if the update fails
-but otherwise makes no effort to learn the state of the VM being updated.
-* Between the minimum and maximum, BOSH checks the health of the VM at intervals.
-* If the update fails at any time, BOSH ends the update with the error message "job is not running."
-* If the the last canary to update completes its update successfully,
-BOSH goes on to update the remaining VMs without waiting for the maximum watch time.
-* If the the last VM that is not a canary completes its update successfully,
-BOSH declares the update complete without waiting for the maximum watch time.
-* BOSH ends the update with an error at the maximum watch time if one or more VMs (canaries or not) have not completed their updates. ("One or more" is the default threshold.)
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the network.
 
-In the example below:
+### VIP ###
 
-* There are three canaries, with a minimum watch time of 30 seconds and a maximum watch time of four minutes.
-* VMs that are not canaries can update ten at a time, with a minimum watch time of 30 seconds and a maximum watch time of ten minutes.
+A `vip` network is a collection of virtual IPs (for example, EC2 elastic IPs) that require each job to specify a range of IPs it needs to run. The only configuration information supported in a `vip` network sub-block is `cloud_properties`.
 
-<pre class="terminal">
-update:
-  canaries: 3
-  canary_watch_time: 30000-240000
-  update_watch_time: 30000-600000
-  max_in_flight: 10
-</pre>
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the network.
 
-This block is IaaS-agnostic.
+## <a id='jobs'></a>Jobs Block ##
 
-### <a id='resource_pools'></a> The resource_pools block ###
+**jobs** [Hash, required]: Specifies [jobs](./glossary.html#job) included in this deployment. The most commonly used job properties are:
 
-Resource pools are collections of VMs which are on the same network, are the same kind of VM from the IaaS's perspective, and are built from the same stemcell.
-The `resource_pools` block specifies all of these.
+* **name** [String, required]: A unique name used to identify and reference the job.
+* **template** [String, required]: Specifies the name of a job template in the release.
+* **persistent_disk** [Integer, optional]: Specifies the persistent disk size; defaults to 0 (no persistent disk). If `persistent_disk` is a positive integer, BOSH creates a persistent disk of that size in megabytes and attaches it to each job instance VM.
+* **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a job block are accessible only to that job, and override any identically named global properties.
+* **resource_pool** [String, required]: A valid resource pool name from the Resource Pools block. BOSH runs instances of this job in a VM from the named resource pool.
+* **update** [Hash, optional]: Specific update settings for this job. Use this to overriding global job update settings on a per-job basis.
+* **instances** [Integer, required]: The number of job instances. Each instance is a VM running this particular job.
+* **networks** [Array]: Specifies the networks this job requires. Each network can have the following properties specified:
+    * **name** [String, required]: A valid network name from the Networks block
+    * **static_ips** [Range, optional]: The range of IP addresses reserved for the job on the network
+    * **default** [Array, optional]: Specifies which network components (DNS, Gateway) BOSH populates by default from this network. BOSH references this property if the Networks block defines multiple networks.
 
-For example:
-
-<pre class="terminal">
-resource_pools:
-- name: default
-  stemcell:
-    name: bosh-aws-xen-ubuntu
-    version: latest
-  network: default
-  size: 1
-  cloud_properties:
-    instance_type: m1.small
-    availability_zone: us-east-1c
-</pre>
-
-This block contains an IaaS-dependent `cloud_properties` sub-block.
-
-### <a id='networks'></a> The networks block ###
-
-The `networks` block is where you specify network configuration information for the deployment.
-You can specify multiple networks.
-
-For example:
-
-<pre class="terminal">
-networks:
-- name: default
-  type: manual
-  subnets:
-  - range: 10.10.0.0/24
-    gateway: 10.10.0.1
-    static:
-    - 10.10.0.7 - 10.10.0.9
-    reserved:
-    - 10.10.0.2 - 10.10.0.6
-    - 10.10.0.10 - 10.10.0.10
-    dns:
-    - 10.10.0.6
-    cloud_properties:
-      subnet: subnet-d597b993
-</pre>
+## <a id='properties'></a>Properties Block
 
-This block is IaaS-dependent, because subnets, network names, and other keys may differ from IaaS to IaaS.
+**properties**: Describes global properties and generalized configuration information.
 
-### <a id='jobs'></a> The jobs block ###
+Global properties allow BOSH to configure jobs to a specific environment. `properties` defined in the Properties block are accessible to all jobs. Any identically named `properties` in the Jobs block will override the global property for that job.
 
-The `jobs` block is where you name VM types and specify:
+Job templates may contain generalized configuration information like account names or port numbers. This information can be extracted from the job templates and added to the manifest in a sub-block of the Properties block. The name of the job template identifies the sub-block.
 
-* The product features each type supports, in the form of templates.
-* Some configuration information that applies to the VM type as opposed to the feature.
+Typically abstracted information includes but is not limited to:
 
-Features (templates) typically require configuration.
-You specify this information in the `properties` block.
-
-For example:
-
-<pre class="terminal">
-jobs:
-- name: dummy
-  templates:
-  - name: dummy
-    release: dummy_a
-  instances: 1
-  resource_pool: default
-  persistent_disk: 10240
-  networks:
-  - name: default
-</pre>
-
-This block is IaaS-agnostic.
-
-### <a id='properties'></a> The properties block ###
-
-The `properties` block consists of headings followed by one or more lines of configuration information.
-Most headings are names of features (templates) from the `jobs` block.
-
-This block can be quite long, so the example below shows only a few interesting excerpts.
-
-**Note**: The `mysql` and `registry` attributes provide an example of a _YAML reference_, where:
-
-* A string prefixed with an ampersand defines the attribute to its left as a hash.
-* Strings prefixed by an asterisk reference the hash defined previously.
-
-In this case, `&bosh_db` defines all the keys and values in the `mysql` attribute as `bosh_db`.
-Later, the `db` key in the `registry` attribute references the `bosh_db` hash.
-The result is that the value of the `db` key in `registry` is the entire set of keys and values in `mysql`.
-
-<pre class="terminal">
-properties:
-
-  ntp:
-  - 0.north-america.pool.ntp.org
-  - 1.north-america.pool.ntp.org
-  - 2.north-america.pool.ntp.org
-  - 3.north-america.pool.ntp.org
-
-  blobstore:
-    address: 10.10.0.7
-    port: 25251
-    backend_port: 25552
-    agent:
-      user: agent
-      password: 665aap2cfca30465ca81845ef4cf87560
-    director:
-      user: director
-      password: 845ef4cf87560665aap2cfca30465ca81
-
-...
-
-  mysql: &bosh_db
-    adapter: mysql2
-    user: u1250a5fcd8ade2
-    password: p2cfca30665aa46f875605ca81845ef4c
-    host: bosh.cabaz18bo7yr.us-east-1.rds.amazonaws.com
-    port: 3306
-    database: bosh
-
-...
-
-  registry:
-    address: 10.10.0.7
-    db: *bosh_db
-    http:
-      port: 25777
-      user: awsreg
-      password: 72a181ef4cf87560665zzzp2cfca30465c
-
-</pre>
-
-This block is IaaS-dependent.
-
-## <a id="example"></a> Example Manifests ##
-
-BOSH provides a [variety](https://github.com/cloudfoundry/bosh/tree/master/release/examples) of example manifests.
-
-## <a id="creating"></a> How to Create a Manifest ##
-
-You can modify example manifests to suit your purposes. Another approach is to use a tool like [spiff](https://github.com/cloudfoundry-incubator/spiff) to create a manifest.
-
+* Passwords
+* Account names
+* Shared secrets
+* Host names
+* IP addresses
+* Port numbers
