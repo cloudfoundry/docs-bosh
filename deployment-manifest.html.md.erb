@@ -128,7 +128,7 @@ A `vip` network is a collection of virtual IPs (for example, EC2 elastic IPs) th
 
 **properties**: Describes global properties and general configuration information.
 
-Global properties allow BOSH to configure jobs to a specific environment. `properties` defined in the Properties block are accessible to all jobs. Any identically named `properties` in the Jobs block will override the global property for that job.
+Global properties allow BOSH to configure jobs to a specific environment. `properties` defined in the [Properties](#properties) block are accessible to all jobs. Any identically named `properties` in the [Jobs](#jobs) block will override the global property for that job.
 
 General configuration information originates from the template spec file of a job in a BOSH release. By moving this information from the release into the manifest, changes to a deployment are made by changing the manifest, with no need to change the release. Because a BOSH release is much larger and complex than the deployment manifest for the release, changing the manifest is invariably faster and easier than changing the release.
 
@@ -146,8 +146,8 @@ Typical general configuration information includes but is not limited to:
 ### <a id='properties'></a>Job Property Precedence ###
 
 1. BOSH applies the properties in the template spec file to the job.
-1. If an identically named property exists in the Properties block of the deployment manifest, the value of this property overrides the previous value.
-1. If an identically named property exists in the Properties sub-block of the Jobs block of the deployment manifest, the value of this property overrides the previous value.
+1. If an identically named property exists in the [Properties](#properties) block of the deployment manifest, the value of this property overrides the previous value.
+1. If an identically named property exists in the Properties sub-block of the [Jobs](#jobs) block of the deployment manifest, the value of this property overrides the previous value.
 
 **Note**:
 
