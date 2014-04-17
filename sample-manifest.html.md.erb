@@ -4,7 +4,9 @@ title: Sample BOSH Deployment Manifest
 
 The following is the contents of a sample BOSH deployment manifest.
 
-<pre class='terminal'>---
+<pre class='terminal'>
+
+---
 name: sample-errand
 director_uuid: 1234abcd-5678-efab-9012-3456cdef7890
 
@@ -13,7 +15,7 @@ releases:
   version: latest
 
 compilation:
-  reuse_compilation_vms: true
+  reuse\_compilation\_vms: true
   workers: 2
   network: default
   cloud_properties:
@@ -22,9 +24,9 @@ compilation:
 
 update:
   canaries: 1
-  canary_watch_time: 30000-240000
-  update_watch_time: 30000-600000
-  max_in_flight: 3
+  canary\_watch\_time: 30000-240000
+  update\_watch\_time: 30000-600000
+  max\_in\_flight: 3
 
 resource_pools:
 - name: default
@@ -55,7 +57,7 @@ networks:
 jobs:
 - name: sample
   templates:
-  - name: sample_with_properties
+  - name: sample\_with\_properties
     release: go_sample
   instances: 1
   resource_pool: default
@@ -65,11 +67,10 @@ jobs:
   properties:
     output_value: 'I am stdout'
     error_value: 'I am stderr'
-    exit_code: 155
 
 - name: sample_errand
   templates:
-  - name: sample_with_properties
+  - name: sample\_with\_properties
     release: sample
   instances: 1
   lifecycle: errand
@@ -80,11 +81,9 @@ jobs:
   properties:
     output_value: 'I am stdout'
     error_value: 'I am stderr'
-    exit_code: 155
 
 properties:
-  sample_with_properties:
+  sample\_with\_properties:
     output_value: 'I am stdout'
     error_value: 'I am stderr'
-    exit_code: 155
 </pre>
