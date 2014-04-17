@@ -229,9 +229,7 @@ jobs:
 
 Global properties allow BOSH to configure jobs to a specific environment. `properties` defined in the [Properties](#properties) block are accessible to all jobs. Any identically named `properties` in the [Jobs](#jobs) block will override the global property for that job.
 
-By default, general configuration information resides in the template spec file of a job in a BOSH release. If you move this information from the release into the manifest, you can reconfigure a deployment by changing the manifest instead of the release.
-
-General configuration information is added to the manifest in a sub-block of the Properties block. The name of the job template identifies the sub-block.
+By default, general configuration information resides in the template spec file of a job in a BOSH release. If you move this information from the release into the manifest, you can reconfigure a deployment by changing the manifest instead of the release. To do this, add the general configuration information to the manifest in a sub-block of the Properties block. The name of the job template identifies the sub-block.
 
 Typical general configuration information includes but is not limited to:
 
@@ -254,10 +252,10 @@ properties:
 
 1. BOSH applies the properties in the template spec file to the job.
 1. If an identically named property exists in the [Properties](#properties) block of the deployment manifest, the value of this property overrides the previous value.
-1. If an identically named property exists in the Properties sub-block of the [Jobs](#jobs) block of the deployment manifest, the value of this property overrides the previous value.
+1. If an identically named property exists in the Properties sub-block of the [Jobs](#jobs) block of the deployment manifest, the value of this property overrides all previous values.
 
 **Note**:
 
-* If a job template spec declares specific properties, BOSH ignores any properties not declared in the job template spec file.
+* If a job template spec declares specific properties, BOSH ignores all other properties.
 
 * If a job template spec does not declare any properties, BOSH applies all properties from the deployment manifest to the job.
