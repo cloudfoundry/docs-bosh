@@ -35,21 +35,7 @@ You create a directory for each, such that the path to your MicroBOSH deployment
 
 ### <a id="cli"></a> Install the BOSH CLI  ###
 
-* Run this command to install the BOSH CLI along with its MicroBOSH plugin:
-
-    `gem install bosh_cli bosh_cli_plugin_micro`
-
-* As needed, consult the BOSH CLI help:
-
-    `bosh help --all`
-
-**Note**: The latest patch of Ruby 1.9.3 is a prerequisite for installing the BOSH CLI.
-(Ruby 2.x is not supported.) If you are using the rbenv Ruby environment manager,
-refresh the list of gems that rbenv knows about:
-
-<pre class="terminal">
-$ rbenv rehash
-</pre>
+[Install the BOSH CLI](./bosh-cli.html)
 
 ### <a id="cloud"></a> Set up a deployment area in the cloud ###
 
@@ -66,18 +52,25 @@ Download to the directory of your choice, and remember its path for later use.
 
 ### <a id="manifest"></a> Create the MicroBOSH deployment manifest  ###
 
-The MicroBOSH deployment manifest is a YAML file named `micro-bosh.yml` that should reside in the directory
-created for MicroBOSH (`boshtest/microbosh` in these examples).
+The MicroBOSH deployment manifest is a YAML file named `micro-bosh.yml` that
+should reside in the directory created for MicroBOSH (`boshtest/microbosh` in
+these examples).
 
 To understand general principles of BOSH deployment manifests,
 see [BOSH Deployment Manifest](./deployment-manifest.html).
+
+For more information specific to an IaaS, see the following:
+
+* [AWS](./create-micro-manifest.html#ex-aws)
+* [OpenStack](./create-micro-manifest.html#ex-openstack)
+* [vSphere](./create-micro-manifest.html#ex-vsphere)
 
 ## <a id="deploy"></a> Deploying MicroBOSH  ##
 
 When you are ready to deploy, be sure you know the local path to the stemcell you downloaded.
 Then `cd` into the directory you created for MicroBOSH (`boshtest/microbosh` in these examples).
 
-1. Set the deployment—that is, direct the BOSH CLI to use the correct manifest:
+1. Use the `bosh micro deployment` command to direct the BOSH CLI to use the correct manifest:
 
     `bosh micro deployment micro_bosh.yml`
 
@@ -85,8 +78,9 @@ Then `cd` into the directory you created for MicroBOSH (`boshtest/microbosh` in 
 
     `bosh micro deploy <local_path_to_stemcell>`
 
-**Note**: An important effect of the `bosh micro deploy` command is to create the `bosh-deployment.yml` file,
-which functions like a small database that MicroBOSH uses when bootstrapping itself.
+**Note**: An important effect of the `bosh micro deploy` command is to create
+the `bosh-deployment.yml` file. This file functions like a small database that
+MicroBOSH uses when bootstrapping itself.
 
 ## <a id="verify"></a> Verifying your Deployment  ##
 
