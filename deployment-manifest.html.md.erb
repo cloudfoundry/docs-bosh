@@ -75,7 +75,7 @@ compilation:
 
 **update** [Hash, required]: This specifies instance update properties. These properties control how BOSH updates job instances during the deployment.
 
-* **canaries** [Integer, required]: The number of [canary](./glossary.html#canary) instances.
+* **canaries** [Integer, required]: The number of [canary](./terminology.html#canary) instances.
 * **canary\_watch\_time** [Integer or Range, required]: The time to wait for canary instances to declare an updated job healthy or unhealthy.
     * If the `canary_watch_time` is an integer, the BOSH Director sleeps for that many seconds, then checks whether the canary instances are healthy.
     * If the `canary_watch_time` is a range (low-high), the Director:
@@ -95,7 +95,7 @@ update:
 
 ## <a id='resource-pools'></a>Resource Pools Block ##
 
-**resource_pools** [Hash, required]: Specifies the [resource pools](./glossary.html#resource-pools) a deployment uses. A deployment manifest can describe multiple resource pools and uses unique names to identify and reference them.
+**resource_pools** [Hash, required]: Specifies the [resource pools](./terminology.html#resource-pools) a deployment uses. A deployment manifest can describe multiple resource pools and uses unique names to identify and reference them.
 
 * **name** [String, required]: A unique name used to identify and reference the resource pool
 * **network** [String, required]: References a valid network name defined in the Networks block. Newly created resource pool VMs use the described configuration.
@@ -178,7 +178,7 @@ networks:
 
 ## <a id='jobs'></a>Jobs Block ##
 
-**jobs** [Hash, required]: Specifies the mapping between BOSH release [jobs](./glossary.html#job) and cloud instances. Jobs are defined in the BOSH release. The Jobs block defines how BOSH associates jobs with the VMs started by the IaaS. The most commonly used job properties are:
+**jobs** [Hash, required]: Specifies the mapping between BOSH release [jobs](./terminology.html#job) and cloud instances. Jobs are defined in the BOSH release. The Jobs block defines how BOSH associates jobs with the VMs started by the IaaS. The most commonly used job properties are:
 
 * **name** [String, required]: A unique name used to identify and reference this  association between a BOSH release job and a VM.
 * **templates** [Hash, optional]: Specifies the name and release of a job template.
