@@ -1,0 +1,37 @@
+---
+title: BOSH Design Principles
+---
+
+BOSH is an open source orchestration tool for working with large-scale
+deployments that supports:
+
+* Frequent changes in code and infrastructure
+* Updates to releases and operating systems, with minimal impact
+* Repeatable and predictable deployments
+* Combining in-house source code with off-the-shelf source and binaries in a
+release
+* Collaboration between groups of developers and release engineers
+* A self-service model for developers to test evolving code
+
+## <a id="predictable"></a>BOSH Deployments are Predictable ##
+
+BOSH compiles the source code in an isolated, sterile environment.
+When BOSH completes a deployment or update, the virtual machines deployed
+contain only the exact software specified in the release.
+
+BOSH versions all jobs, packages, and releases independently.
+Because BOSH automatically versions releases and everything they contain in a
+consistent way, the state of your deployment is known throughout its lifecycle.
+
+## <a id="predictable"></a>BOSH Deployments are Repeatable ##
+
+Every time you repeat a deployment, the result is exactly the same deployed
+system.
+
+## <a id="predictable"></a>BOSH Deployments are Self-Healing ##
+
+BOSH monitors the health of processes running on the virtual machines it deploys
+and compares the results with the ideal state of the system as described in the
+deployment manifest.
+If BOSH detects a failed job or non-responsive VM, BOSH can automatically
+recreate the job on a new VM.
