@@ -105,9 +105,9 @@ For example, on OSX you can do this from the terminal:
 
 1. Click **Subnets**.
 
-    <%= image_tag("images/micro-aws/subnet.png") %>
-
 1. Record the **Subnet ID** created for the ‘microbosh’ VPC for use in [Step 2: Create the Deployment Manifest](#create-manifest).
+
+    <%= image_tag("images/micro-aws/subnet.png") %>
 
 ### <a id="create-eip"></a>Create an Elastic IP ###
 
@@ -132,7 +132,7 @@ Click **Yes, Allocate**.
     * **Name tag:** bosh
     * **Group Name:** bosh
     * **Description:** BOSH Security Group
-    * **VPC:** Select the ‘microbosh’ VPC created in [Create a Virtual Private Cloud)](#create-vpc).
+    * **VPC:** Select the ‘microbosh’ VPC created in [Create a Virtual Private Cloud](#create-vpc).
 
         <%= image_tag("images/micro-aws/create-security.png") %>
 
@@ -142,7 +142,7 @@ Click **Yes, Allocate**.
 
     <%= image_tag("images/micro-aws/edit-rules.png") %>
 
-1. Click Edit.
+1. Click **Edit**.
 
 1. MicroBOSH needs ports 25555 (BOSH Director), 6868 (BOSH Agent) and 22 (SSH to
 debug) opened for inbound traffic. Add the following rules:
@@ -164,7 +164,7 @@ debug) opened for inbound traffic. Add the following rules:
 	</tr>
     </table>
 
-1. Click Save.
+1. Click **Save**.
 
 ## <a id="create-manifest"></a>Step 2: Create Deployment Manifest ##
 
@@ -275,14 +275,14 @@ cloud_properties:
   architecture: x86_64
   root_device_name: /dev/sda1
   ami:
-    us-east-1: ami-03223a6a  # This is Amazon Machine Image (AMI) identifier
+    us-east-1: ami-03223a6a  # This is the Amazon Machine Image (AMI) identifier
 </pre>
 
 ## <a id="deploy"></a>Step 4: Deploy MicroBOSH ##
 
 1. Use `bosh micro deployment PATH-TO-micro_bosh.yml` to set MicroBOSH to use your manifest file.
 
-    In the following example, `micro_bosh.yml` is located in ~/workspace/my-deployment:
+    In the following example, `micro_bosh.yml` is located in `~/workspace/my-deployment`:
 
     <pre class='terminal'>
     $ bosh micro deployment ~/workspace/my-deployment/micro\_bosh.yml
@@ -299,7 +299,7 @@ downloaded stemcell.
 
     <pre class='terminal'>
     $ bosh micro deploy ami-03223a6a
-    Deploying new micro BOSH instance ~/workspace/my-deployments/micro_bosh.yml     to 'https://54.86.66.111:25555' (type 'yes' to continue): yes
+    Deploying new micro BOSH instance ~/workspace/my-deployments/micro_bosh.yml to 'https://54.86.66.111:25555' (type 'yes' to continue): yes
       Started deploy micro bosh
       ...
       Done deploy micro bosh
@@ -321,12 +321,13 @@ The default username and password are `admin` and `admin`.
 
 ## <a id="troubleshooting"></a>Basic Troubleshooting ##
 
-If the deployment failed, run `bosh micro delete`, then deploy again.
+If the deployment fails, run `bosh micro delete`, then deploy again.
 
-If you see error messages that refer to your `access key signature`, check the
-accuracy of the ACCESS-KEY-ID and SECRET-ACCESS-KEY in the deployment manifest.
+If you see an error message that refers to your `access key signature`, check
+the accuracy of the ACCESS-KEY-ID and SECRET-ACCESS-KEY in the deployment
+manifest.
 
 If you see other error messages:
 
 * Check your `micro_bosh.yml` for errors.
-* Review your AWS configuration to verify you did not miss any steps.
+* Review your AWS configuration.
