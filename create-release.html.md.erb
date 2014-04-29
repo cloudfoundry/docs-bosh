@@ -678,13 +678,16 @@ Each input is a _property_ that belongs to a particular job.
 
 Creating properties requires three steps:
 
-1. Define properties in the `properties` block of the job spec.
+1. Define properties and defaults in the `properties` block of
+the job spec.
 
-1. Add a variable for the property to relevant templates.
+1. Use the property lookup helper `p()` to reference properties in
+relevant templates.
+
 For example, a start command can take a property as an argument,
-using a variable of the form:
+using the property lookup helper:
 
-	<%%= properties.<job_name>.<property_name> %>
+       <%%= p('<job_name>.<property_name>') %>
 
 1. Specify the property in the [deployment manifest](./deployment-manifest.html#properties).
 
