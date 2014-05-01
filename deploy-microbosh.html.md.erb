@@ -11,9 +11,9 @@ The only supported way to deploy multi-VM BOSH is to use MicroBOSH.
 You can use MicroBOSH to deploy multi-VM BOSH, Cloud Foundry, or other
 distributed software packages on an IaaS.
 
-The IaaS you use determines many details of how you deploy MicroBOSH. 
+The IaaS you use determines many details of how you deploy MicroBOSH.
 This topic presents an overview of the procedure used to deploy MicroBOSH on any
-IaaS. 
+IaaS.
 If you are using AWS, OpenStack, or vSphere, refer instead to these specific topics:
 
 * [Deploying MicroBOSH to AWS](./deploy-microbosh-to-aws.html)
@@ -28,7 +28,7 @@ If you are using AWS, OpenStack, or vSphere, refer instead to these specific top
 Inside the `deployments` directory, create `microbosh`, `manifest`, and
 `stemcell` subdirectories.
 
-## <a id="prepare-iaas"></a>Step 2: Prepare IaaS ##
+## <a id="prepare-iaas"></a>Step 2: Prepare Your IaaS ##
 
 The steps needed to prepare your IaaS for MicroBOSH depend on the IaaS.
 Examples of steps you may need to take include:
@@ -86,65 +86,67 @@ stemcell, then click **Download**.
 
 1. In a terminal window, from the `deployments` directory, run `bosh micro deployment manifest` to set MicroBOSH to use your manifest file.
 
-Example:
+    Example:
 
-<pre class='terminal'>
-$ bosh micro deployment manifest
-WARNING! Your target has been changed to https://54.86.66.111:25555!
-Deployment set ‘Users/my-name/deployments/micro_bosh.yml’
-</pre>
+    <pre class='terminal'>
+    $ bosh micro deployment manifest
+    WARNING! Your target has been changed to https://54.86.66.111:25555!
+    Deployment set ‘Users/my-name/deployments/micro_bosh.yml’
+    </pre>
 
-**Note**: The WARNING! message alerts you to a change in the targeted IP
-address, and is not an error message.
+    **Note**: The WARNING! message alerts you to a change in the targeted IP
+    address, and is not an error message.
 
 1. Use `bosh micro deploy stemcell/NAME-OF-STEMCELL` to deploy MicroBOSH using
 the downloaded stemcell.
 
-Example:
+    Example:
 
-<pre class='terminal'>
-$ bosh micro deploy stemcell/bosh-stemcell-2427-aws-xen-ubuntu.tgz
-</pre>
+    <pre class='terminal'>
+    $ bosh micro deploy stemcell/bosh-stemcell-2427-aws-xen-ubuntu.tgz
+    </pre>
 
-**Note**: An important effect of the `bosh micro deploy` command is to create
-the `bosh-deployment.yml` file.
-This file functions like a small database that MicroBOSH uses when bootstrapping
-itself.
+    **Note**: An important effect of the `bosh micro deploy` command is to
+    create the `bosh-deployment.yml` file.
+    This file functions like a small database that MicroBOSH uses when
+    bootstrapping itself.
 
 1. Use `bosh target IP-ADDRESS` to log into your new MicroBOSH server.
 The default username and password are `admin` and `admin`.
 
-Example:
+    Example:
 
-<pre class='terminal'>
-$ bosh target 54.86.66.111
-Target set to 'microbosh'
-Your username: admin
-Enter password: *****
-Logged in as 'admin'
-</pre>
+    <pre class='terminal'>
+    $ bosh target 54.86.66.111
+    Target set to 'microbosh'
+    Your username: admin
+    Enter password: *****
+    Logged in as 'admin'
+    </pre>
 
 1. Run `bosh status` to check the state of your MicroBOSH deployment.
 
-<pre class='terminal'>
-$ bosh status
-Config
-              /Users/pivotal/.bosh_config
+    Example:
 
-Director
-  Name        micro-bosh
-  URL         https://54.85.89.30:25555
-  Version     1.2427.0 (release:921db96c bosh:921db96c)
-  User        admin
-  UUID        44e69f8b-9091-405c-a2c2-d29bebb1ce8a
-  CPI         aws
-  dns         enabled (domain_name: microbosh)
-  compiled_package_cache     disabled
-  snapshots   disabled
+    <pre class='terminal'>
+    $ bosh status
+    Config
+                  /Users/pivotal/.bosh_config
 
-Deployment
-  not set
-</pre>
+    Director
+      Name        micro-bosh
+      URL         https://54.85.89.30:25555
+      Version     1.2427.0 (release:921db96c bosh:921db96c)
+      User        admin
+      UUID        44e69f8b-9091-405c-a2c2-d29bebb1ce8a
+      CPI         aws
+      dns         enabled (domain_name: microbosh)
+      compiled_package_cache     disabled
+      snapshots   disabled
+
+    Deployment
+      not set
+    </pre>
 
 ## <a id="deploy-microbosh"></a>Basic Troubleshooting ##
 
