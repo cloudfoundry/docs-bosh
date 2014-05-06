@@ -45,8 +45,8 @@ after a deploy finishes.
 The operator runs BOSH errands using the `bosh run errand` command.
 BOSH errands stop after the task they describe completes.
 
-To distinguish an errand from a non-errand job, set the `lifecycle` property for 
-the errand in the [Jobs Block](./deployment-manifest.html#jobs) of the 
+To distinguish an errand from a non-errand job, set the `lifecycle` property for
+the errand in the [Jobs Block](./deployment-manifest.html#jobs) of the
 deployment manifest to `errand`.
 If this property is not set, BOSH uses the default value `service` and
 configures instances of the job to run as long as the deployment runs.
@@ -93,11 +93,15 @@ in an instance of the job.
 Using monit, BOSH can start, stop, and restart instances of a job when
 necessary.
 
-At a minimum, a `monit` file contains three parts for each process in a job:
+A functioning `monit` requires, at a minimum, three parts for each process in a
+job:
 
 * `with pidfile`: Name and path to the file containing the process ID (PID)
 * `start program`: Command monit uses to start the process
 * `stop program`: Command monit uses to stop the process
+
+**Note**: When developing or testing a release, you can use an empty `monit`
+file.
 
 #### <a id="errand-monitoring"></a>Errands ####
 
