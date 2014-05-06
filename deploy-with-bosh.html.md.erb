@@ -26,7 +26,7 @@ and how to configure the network and instrument VMs.
 You need to set up your IaaS instance and collect the networking information that goes in the manifest.
 Then you create the manifest and obtain a release and a stemcell.
 
-### <a id=""></a> Plan how you want to orchestrate your environment ###
+### <a id="plan"></a> Plan how you want to orchestrate your environment ###
 
 For the sake of this example, let's assume that you have decided to deploy BOSH to an environment with two VMs.
 One reason you might do this is to implement a security architecture where the data-storing parts of BOSH
@@ -37,7 +37,7 @@ the BOSH Director.
 
 The IaaS used in this example is vSphere.
 
-### <a id=""></a> Set up the IaaS ###
+### <a id="set-iaas"></a> Set up the IaaS ###
 
 Collect the information about your vSphere and vCenter that you need to configure the environment.
 
@@ -51,7 +51,7 @@ This includes:
 These, and the static IPs, are off-limits to BOSH when BOSH needs to dynamically use an IP address for tasks like compilation.
 Always reserve the IP of the MicroBOSH that deploys BOSH.
 
-### <a id=""></a> Create the manifest ###
+### <a id="create-manifest"></a> Create the manifest ###
 
 The manifest should incorporate the network configuration information for your IaaS.
 It should also reflect the way you want to orchestrate the deployment across the multiple VMs.
@@ -66,7 +66,7 @@ Use the **properties** block in the manifest to specify ephemeral disk (this is 
 
 Refer to the [example manifest](#example-manifest) at the end of this topic.
 
-### <a id=""></a> Download stemcell and release from public site ###
+### <a id="download-stemcell"></a> Download stemcell and release from public site ###
 
 You [download](http://bosh-artifacts.cfapps.io/) the latest release of BOSH, and a stemcell suitable for your preferred combination of IaaS and VM type.
 In this example, these are:
@@ -76,7 +76,7 @@ In this example, these are:
 
 **Note**: Release numbers given in this example may be out of date by the time you read this.
 
-### <a id=""></a> Target and log into MicroBOSH ###
+### <a id="target"></a> Target and log into MicroBOSH ###
 
 Ensure that the BOSH CLI runs on the MicroBOSH you want to use to deploy software.
 (In some environments there might be more than one BOSH or MicroBOSH.)
