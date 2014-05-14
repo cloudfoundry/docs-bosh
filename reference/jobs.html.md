@@ -40,6 +40,12 @@ Each template can use Ruby templating system ERb to insert properties and condit
 - `<% expression %>` - Evaluates `expression` but does not insert content into the template. Useful for `if`/`else`/`end` statements.
 - `<% if_p("some.property") do |prop| %>` - Evaluates the block only if `some.property` property has been provided. The property is available in the variable `prop`. Multiple properties can be required: `<% if_p("prop1", "prop2") do |prop1, prop2| %>`
 
+For advanced users, each job template can access the `spec` object to learn more about the deployment, BOSH and this VM:
+
+- `<%= spec.deployment %>` - Inserts the current deployment name from the deployment manifest
+- `<%= spec.dns_domain_name %>` - Inserts the root DNS domain name for BOSH DNS. This value can also be learned from running `bosh status`.
+- `<%= spec.networks.send(spec.networks.methods(false).first).ip %>` - Inserts the IP of the first network bound to this VM (typically its the only network).
+
 <a id="the-job-of-a-vm"></a> The Job of a VM
 --------------------------------------------
 
