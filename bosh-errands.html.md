@@ -26,13 +26,13 @@ set -e
 export PATH=$PATH:/var/vcap/packages/ruby/bin
 cd /var/vcap/packages/broker-registrar
 
-CF_API_URL='&lt;%= p("cf.api_url") %&gt;'
-CF_ADMIN_USERNAME='&lt;%= p("cf.admin_username") %&gt;'
-CF_ADMIN_PASSWORD='&lt;%= p("cf.admin_password") %&gt;'
-BROKER_NAME='&lt;%= p("broker.name") %&gt;'
-BROKER_URL='http://&lt;%= p("broker.host") %&gt;:&lt;%= p("broker.port") %&gt;'
-BROKER_USERNAME='&lt;%= p("broker.username") %&gt;'
-BROKER_PASSWORD='&lt;%= p("broker.password") %&gt;'
+CF_API_URL='<%= p("cf.api_url") %>'
+CF_ADMIN_USERNAME='<%= p("cf.admin_username") %>'
+CF_ADMIN_PASSWORD='<%= p("cf.admin_password") %>'
+BROKER_NAME='<%= p("broker.name") %>'
+BROKER_URL='http://<%= p("broker.host") %>:<%= p("broker.port") %>'
+BROKER_USERNAME='<%= p("broker.username") %>'
+BROKER_PASSWORD='<%= p("broker.password") %>'
 
 # partially-redacted command for debugging
 echo "
