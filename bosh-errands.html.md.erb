@@ -4,7 +4,7 @@ title: BOSH Errands
 
 ### What is an Errand?
 
-A BOSH Errand is a short lived BOSH job that operator can run multiple times after the deploy has finished. Common use cases include:
+A BOSH Errand is a short lived BOSH job that operator can run multiple times after a deploy has finished. Common use cases include:
 
 * Smoke tests
 * Cloud Foundry Service Broker binding and unbinding
@@ -12,9 +12,9 @@ A BOSH Errand is a short lived BOSH job that operator can run multiple times aft
 
 ### How to Deploy an Errand
 
-A BOSH errand has a similar structure as a regular BOSH job in a BOSH release. The Errand job in BOSH release should provide `run` script that will be executed as part of errand run.
+A BOSH errand has a structure similar to that of regular BOSH job in a BOSH release. An errand job in BOSH release should provide a `run` script that will be executed as part of running the errand.
 
-In the deployment manifest, a BOSH errand must have the `lifecycle` property set to `errand` in job description (see the example below). The resource pool must also provide enough capacity to accommodate an ephemeral VM for the errand.
+In the job description section of a deployment manifest, a BOSH errand must have its `lifecycle` property set to `errand`. (See the example below). The resource pool must also provide enough capacity to accommodate an ephemeral VM for the errand.
 
 ### Example of an Errand Script
 
@@ -26,13 +26,13 @@ set -e
 export PATH=$PATH:/var/vcap/packages/ruby/bin
 cd /var/vcap/packages/broker-registrar
 
-CF_API_URL='<%= p("cf.api_url") %>'
-CF_ADMIN_USERNAME='<%= p("cf.admin_username") %>'
-CF_ADMIN_PASSWORD='<%= p("cf.admin_password") %>'
-BROKER_NAME='<%= p("broker.name") %>'
-BROKER_URL='http://<%= p("broker.host") %>:<%= p("broker.port") %>'
-BROKER_USERNAME='<%= p("broker.username") %>'
-BROKER_PASSWORD='<%= p("broker.password") %>'
+CF_API_URL='&lt;%= p("cf.api_url") %&gt;'
+CF_ADMIN_USERNAME='&lt;%= p("cf.admin_username") %&gt;'
+CF_ADMIN_PASSWORD='&lt;%= p("cf.admin_password") %&gt;'
+BROKER_NAME='&lt;%= p("broker.name") %&gt;'
+BROKER_URL='http://&lt;%= p("broker.host") %&gt;:&lt;%= p("broker.port") %&gt;'
+BROKER_USERNAME='&lt;%= p("broker.username") %&gt;'
+BROKER_PASSWORD='&lt;%= p("broker.password") %&gt;'
 
 # partially-redacted command for debugging
 echo "
@@ -56,7 +56,7 @@ bundle exec ./bin/broker-registrar delete \
     --broker-password $BROKER_PASSWORD
 ```
 
-### Example of errand manifest
+### Example of an Manifest
 
 ```
 jobs:
@@ -82,7 +82,7 @@ Once a release with an errand has been deployed, the errand can be run using the
 
 `bosh run errand <errand_name>`
 
-where `<errand_name>` is a job name provided in deployment manifest. This will compile all the packages required by the errand job and execute the `run` script provided by the release for the errand.
+In this command, `<errand_name>` is a job name provided in deployment manifest. This will compile all the packages required by the errand job and execute the `run` script provided by the release for the errand.
 
 The output of an errand will be printed on the screen once the errand is finished.
 
@@ -94,18 +94,27 @@ While errand is running it can be canceled by the following directive:
 
 `bosh cancel task <task_name>`
 
-That will terminate the errand process, release the deployment lock and refill the resource pool.
+This will terminate the errand process, release the deployment lock, and refill the resource pool.
+
+### Handling Errand Output
+
+In addition to stdout and stderror, the need exists to handle errand output.  When output is less than 1MB, it  is streamed to the screen. When output is larger than 1MB, it needs to be handle more specifically. By default, output is sent to a log file. These options exist:
+
+run errand <errand_name> [--download-logs] [--logs-dir  destination_directory]
+    Run specified errand
+    --download-logs                                    download logs
+    --logs-dir destination_directory                   logs download directory
+
+Soon, the user will have the option to not save output to a log file and instead stream output > 1MB to the screen. (https://www.pivotaltracker.com/story/show/70384252)
 
 ### Listing Errands
 
 Coming soon: the directive that will allow to list all errands in a deployment.
 
-### Warnings and Pitfalls
+### Warnings and Important Tips
 
 * Errands do not have a notion of persistence. The persistent disk migration for errands is not supported.
 
 * As part of `run errand` the BOSH deployment executes the drain script. If the drain script is exercising dynamic drain it might result in unpredicted behavior.
 
 * While an errand is running the director will hold a deployment lock which will prevent all other deploys. Additionally, `cloud check` CLI command will be unavailable and the health monitor will not scan and fix current deployments during the duration of the errand.
-
-* Currently, errand output which is greater than 1MB will be discarded.
