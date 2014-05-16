@@ -100,10 +100,14 @@ This will terminate the errand process, release the deployment lock, and refill 
 
 In addition to stdout and stderror, the need exists to handle errand output.  When output is less than 1MB, it  is streamed to the screen. When output is larger than 1MB, it needs to be handle more specifically. By default, output is sent to a log file. These options exist:
 
-run errand <errand_name> [--download-logs] [--logs-dir  destination_directory]
+
+`run errand <errand_name> [--download-logs] [--logs-dir  destination_directory]`
+
+```
     Run specified errand
     --download-logs                                    download logs
     --logs-dir destination_directory                   logs download directory
+```
 
 Soon, the user will have the option to not save output to a log file and instead stream output > 1MB to the screen. (https://www.pivotaltracker.com/story/show/70384252)
 
