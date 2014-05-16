@@ -1,0 +1,111 @@
+---
+title: BOSH Errands
+---
+
+### What is an Errand?
+
+A BOSH Errand is a short lived BOSH job that operator can run multiple times after the deploy has finished. Common use cases include:
+
+* Smoke tests
+* Cloud Foundry Service Broker binding and unbinding
+* Pushing an app to Cloud Foundry
+
+### How to Deploy an Errand
+
+A BOSH errand has a similar structure as a regular BOSH job in a BOSH release. The Errand job in BOSH release should provide `run` script that will be executed as part of errand run.
+
+In the deployment manifest, a BOSH errand must have the `lifecycle` property set to `errand` in job description (see the example below). The resource pool must also provide enough capacity to accommodate an ephemeral VM for the errand.
+
+### Example of an Errand Script
+
+The [cf-mysql release](https://github.com/cloudfoundry/cf-mysql-release) uses a BOSH errand to deregister a service broker by creating the following errand `run` script. Notice that, as in this case, a `run` script may also be templated.
+
+```
+#!/bin/bash
+set -e
+export PATH=$PATH:/var/vcap/packages/ruby/bin
+cd /var/vcap/packages/broker-registrar
+
+CF_API_URL='<%= p("cf.api_url") %>'
+CF_ADMIN_USERNAME='<%= p("cf.admin_username") %>'
+CF_ADMIN_PASSWORD='<%= p("cf.admin_password") %>'
+BROKER_NAME='<%= p("broker.name") %>'
+BROKER_URL='http://<%= p("broker.host") %>:<%= p("broker.port") %>'
+BROKER_USERNAME='<%= p("broker.username") %>'
+BROKER_PASSWORD='<%= p("broker.password") %>'
+
+# partially-redacted command for debugging
+echo "
+bundle exec ./bin/broker-registrar delete
+    --cf-address $CF_API_URL
+    --cf-username $CF_ADMIN_USERNAME
+    --cf-password ********
+    --broker-name $BROKER_NAME
+    --broker-url $BROKER_URL
+    --broker-username $BROKER_USERNAME
+    --broker-password ********
+"
+
+bundle exec ./bin/broker-registrar delete \
+    --cf-address $CF_API_URL                \
+    --cf-username $CF_ADMIN_USERNAME        \
+    --cf-password $CF_ADMIN_PASSWORD        \
+    --broker-name $BROKER_NAME              \
+    --broker-url $BROKER_URL                \
+    --broker-username $BROKER_USERNAME      \
+    --broker-password $BROKER_PASSWORD
+```
+
+### Example of errand manifest
+
+```
+jobs:
+- name: errand
+  template: errand
+  instances: 1
+  lifecycle: errand
+  resource_pool: default
+  networks:
+  - name: default
+
+- name: regular_job
+  template: regular_job
+  instances: 1
+  resource_pool: default
+  networks:
+  - name: default
+```
+
+### How to Run an Errand
+
+Once a release with an errand has been deployed, the errand can be run using the following directive:
+
+`bosh run errand <errand_name>`
+
+where `<errand_name>` is a job name provided in deployment manifest. This will compile all the packages required by the errand job and execute the `run` script provided by the release for the errand.
+
+The output of an errand will be printed on the screen once the errand is finished.
+
+Once the errand is finished executing, the resource pool will be refilled with the extra VM that was used by an errand.
+
+### Canceling an Errand
+
+While errand is running it can be canceled by the following directive:
+
+`bosh cancel task <task_name>`
+
+That will terminate the errand process, release the deployment lock and refill the resource pool.
+
+### Listing Errands
+
+Coming soon: the directive that will allow to list all errands in a deployment.
+
+### Warnings and Pitfalls
+
+* Errands do not have a notion of persistence. The persistent disk migration for errands is not supported.
+
+* As part of `run errand` the BOSH deployment executes the drain script. If the drain script is exercising dynamic drain it might result in unpredicted behavior.
+
+* While an errand is running the director will hold a deployment lock which will prevent all other deploys. Additionally, `cloud check` CLI command will be unavailable and the health monitor will not scan and fix current deployments during the duration of the errand.
+
+* Currently, errand output which is greater than 1MB will be discarded.
