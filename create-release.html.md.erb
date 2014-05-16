@@ -594,6 +594,8 @@ Example `final.yml`:
 ---
 blobstore:
   provider: local
+  options:
+    blobstore_path: /tmp/ardo-blobs
 final_name: ardo_blobstore
 ~~~
 
@@ -607,6 +609,10 @@ blobstore:
     blobstore_path: /tmp/ardo-blobs
 
 ~~~
+
+If you have a `private.yml` file:
+* **Required**: Include the `blobstore_path` in the `private.yml` file.
+* **Optional**: Include the `blobstore_path` in the `final.yml` file. Doing so allows you to `gitignore` the `private.yml` file but still allow the release to be downloaded and used on other systems.
 
 **Note**: The `blobstore_secret` is required for the `local` type blobstore.
 This is true even though the `blobstore_secret` line is deprecated and its
