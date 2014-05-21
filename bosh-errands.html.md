@@ -111,6 +111,15 @@ In addition to stdout and stderror, the need exists to handle errand output.  Wh
 
 Soon, the user will have the option to not save output to a log file and instead stream output > 1MB to the screen. (https://www.pivotaltracker.com/story/show/70384252)
 
+###Hey wait a second, my BOSH Errand logs are gone…###
+
+When an errand completes, the VM that it ran on goes away.  This is the nature of errands.  When the VM goes away, naturally all the logs that the errand created on that VM go away too.
+
+Here is how you handle this situation and get access to the logs.  
+* In the errand script, redirect stdout to a logfile so that the logfile can be downloaded.  
+* On the BOSH cli, download logs with the option --download-logs.  The logs will be downloaded to your present working directory by default.  This default can  be overridden with the optional  --logs-dir <directory_you_specify> 
+
+
 ### Listing Errands
 
 Coming soon: the directive that will allow to list all errands in a deployment.
