@@ -116,7 +116,9 @@ Soon, the user will have the option to not save output to a log file and instead
 When an errand completes, the VM that it ran on goes away.  This is the nature of errands.  When the VM goes away, naturally all the logs that the errand created on that VM go away, too.
 
 Here is how you handle this situation and get access to the logs:
+
 * In the errand script, redirect stdout to a logfile so that the logfile can be downloaded.
+
 * On the BOSH cli, download logs with the option `--download-logs`. The logs will be downloaded to your present working directory by default. This default can be overridden with the optional `--logs-dir <directory_you_specify>` flag.
 
 ### Listing Errands
