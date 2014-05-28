@@ -2,8 +2,8 @@
 title: Creating a MicroBOSH Deployment Manifest
 ---
 
-The deployment manifest for MicroBOSH is similar to the deployment manifest for multi-VM BOSH,
-but much shorter.
+The deployment manifest for MicroBOSH is similar to the deployment manifest for
+multi-VM BOSH, but much shorter.
 
 Parts of the manifest are IaaS-specific.
 Refer to the example for the IaaS you plan to use:
@@ -14,7 +14,8 @@ Refer to the example for the IaaS you plan to use:
 
 ## <a id="anatomy"></a> Anatomy of a Manifest ##
 
-Begin the BOSH deployment manifest with three dashes, followed by your name for the deployment.
+Begin the BOSH deployment manifest with three dashes, followed by your name for
+the deployment.
 
 For example:
 
@@ -25,11 +26,11 @@ name: microbosh-test
 
 After that, there are five required _blocks_:
 
-1. [logging](#logging)
-1. [network](#network)
-1. [resources](#resources)
-1. [cloud](#cloud)
-1. [apply_spec](#apply)
+* [logging](#logging)
+* [network](#network)
+* [resources](#resources)
+* [cloud](#cloud)
+* [apply_spec](#apply)
 
 The manifest is in YAML, so the YAML parser translates each block into a hash.
 For this reason, you can put the blocks in any order.
@@ -44,31 +45,35 @@ You can also specify the file to which MicroBOSH writes logs.
 logging:
   # If needed increase the default logging level to trace REST traffic with IaaS providers. Default is info
   level: debug
-  # Default location is <deployment_dir>/bosh_micro_deploy.log
+  # Default location is &lt;deployment_directory&gt;/bosh_micro_deploy.log
   # file:
 </pre>
 
 ### <a id='network'></a> The network block ###
 
 The `network` block is where you specify network configuration information for the deployment.
-This block is named "network" (singular) for MicroBOSH, as opposed to "networks" (plural)
-for multi-VM BOSH.
+
+**NOTE**: In a multi-VM BOSH deployment manifest, this block is named
+`networks`.
 
 The `type` attribute can be set to either of two values:
 
 * `dynamic` means that DHCP is used to assign the MicroBOSH VM an IP address.
 * `manual` means that you set the IP address for the MicroBOSH VM, in the manifest.
 
-The `dns` sub-block is for nameservers you want the operating system of the MicroBOSH VM to use
-in resolving domain names that internal MicroBOSH nameserver cannot resolve.
+The `dns` sub-block is for nameservers you want the operating system of the
+MicroBOSH VM to use in resolving domain names that internal MicroBOSH nameserver
+cannot resolve.
 The nameservers are written to the `/etc/resolv.conf` file.
 MicroBOSH components could use them to resolve IaaS FQDNs, for example.
 
-The optional `vip` attribute allows you to assign a floating IP address to the MicroBOSH VM.
+The optional `vip` attribute allows you to assign a floating IP address to the
+MicroBOSH VM.
 Then you can access the VM from outside of the its network.
 If set, `allocated_floating_ip` **must** be a floating IP that was allocated before you deploy.
 
-**Note**: the `vip` and `allocated_floating_ip` attributes exist in AWS and OpenStack but not in vSphere.
+**Note**: the `vip` and `allocated_floating_ip` attributes exist in AWS and
+OpenStack but not in vSphere.
 
 The `network` sub-block is IaaS-dependent, because subnets, and other
 keys may differ from IaaS to IaaS.
@@ -94,16 +99,16 @@ network:
 
 ### <a id='resources'></a> The resources block ###
 
-The resources block specifies the size of a persistent disk
-to be created and attached to the MicroBOSH VM.
-MicroBOSH stores its data on the persistent disk such that no data
-is lost when the VM is restarted or when you update MicroBOSH.
+The resources block specifies the size of a persistent disk to be created and
+attached to the MicroBOSH VM.
+MicroBOSH stores its data on the persistent disk such that no data is lost when
+the VM is restarted or when you update MicroBOSH.
 
 `persistent_disk` is specified in megabytes.
 For example, a value of `16384` equates to 16 Gigabytes.
 
 Persistent disk differs from ephemeral disk, that is, the disk space allocated
-to the MicroBOSH VM ...
+to the MicroBOSH VM.
 
 Next comes the `cloud_properties` sub-block, whose content varies from IaaS to IaaS.
 
@@ -130,7 +135,7 @@ cloud:
   plugin: openstack
   properties:
     openstack:
-      auth_url: http://<identity_server>:5000/v2.0
+      auth_url: http://&lt;identity_server&gt;:5000/v2.0
       username: &lt;username&gt;
       api_key: &lt;password&gt;
       tenant: &lt;tenant&gt;
@@ -144,17 +149,19 @@ cloud:
 
 The content of the `apply_spec` block varies from IaaS to IaaS.
 
-In this block you specify configuration information for
-MicroBOSH components like the Director and the Health Monitor, as
-well as for elements of infrastructure like the vCenter in vSphere.
+In this block you specify configuration information for MicroBOSH components
+like the Director and the Health Monitor, as well as for elements of
+infrastructure like the vCenter in vSphere.
 
 MicroBOSH has a nameserver component called `powerDNS`.
-If, after you deploy MicroBOSH, you use it deploy other software,
-MicroBOSH will create VMs as it deploys that software.
-VMs that MicroBOSH creates use the powerDNS on their parent VM to resolve IP addresses.
+If, after you deploy MicroBOSH, you use it deploy other software, MicroBOSH will
+create VMs as it deploys that software.
+VMs that MicroBOSH creates use the powerDNS on their parent VM to resolve IP
+addresses.
 
-In the `dns` sub-block of the `apply_spec` block, you specify the IP of the nameserver,
-or recursor, that powerDNS should use to resolve names external to its domain.
+In the `dns` sub-block of the `apply_spec` block, you specify the IP of the
+nameserver, or recursor, that powerDNS should use to resolve names external to
+its domain.
 
 For example:
 
@@ -175,8 +182,8 @@ apply_spec:
 ## <a id="creating"></a> How to Create a Manifest ##
 
 You can modify example manifests to suit your purposes.
-Another approach is to use a tool like [spiff](https://github.com/cloudfoundry-incubator/spiff)
-to create a manifest.
+Another approach is to use a tool like
+[spiff](https://github.com/cloudfoundry-incubator/spiff) to create a manifest.
 
 ## <a id="examples"></a> Example Manifests ##
 
@@ -195,7 +202,7 @@ name: microbosh-aws
 logging:
   # If needed increase the default logging level to trace REST traffic with IaaS providers. Default is info
   level: debug
-  # Default location is <deployment_dir>/bosh_micro_deploy.log
+  # Default location is deployment_dir>/bosh_micro_deploy.log
   # file :
 
 network:
@@ -293,10 +300,11 @@ network:
 
 
 If you are using the [OpenStack Networking](http://www.openstack.org/software/openstack-networking/) component,
-the network block takes one of two forms, depending on whether you specify dynamic or manual
-networking.
+the network block takes one of two forms, depending on whether you specify
+dynamic or manual networking.
 
-In both cases, use the `net_id` attribute to set the `network_uuid` of the OpenStack network you want to use.
+In both cases, use the `net_id` attribute to set the `network_uuid` of the
+OpenStack network you want to use.
 You must use an existing Network UUID.
 You can list your OpenStack networks using the command `quantum net-list`.
 
@@ -323,12 +331,14 @@ network:
 ~~~
 
 **Note**: Manual networking requires you to set the IP address of the MicroBOSH VM.
-The IP address you choose must be within the IP range of a subnet set of the network specified in `net_id`.
+The IP address you choose must be within the IP range of a subnet set of the
+network specified in `net_id`.
 
 #### <a id="flavors"></a>OpenStack flavors ####
 
 OpenStack describes VMs in terms of flavors.
-You specify the flavor in the `instance_type` attribute of the `cloud_properties` sub-block of the `resources` block.
+You specify the flavor in the `instance_type` attribute of the
+`cloud_properties` sub-block of the `resources` block.
 Choose a flavor that has some ephemeral disk as described in [validate your OpenStack](../../deploying/openstack/validate_openstack.html).
 
 ~~~yaml
@@ -382,7 +392,7 @@ network:
   netmask: <netmask_for_the_subnet_you_are_deploying_to>
   gateway: <gateway_for_the_subnet_you_are_deploying_to>
   dns:
-  # The micro-bosh VM has the following DNS entries in its /etc/resolv.conf, allowing it to resolve, for example, IaaS FQDNs.
+  # The MicroBOSH VM has the following DNS entries in its /etc/resolv.conf, allowing it to resolve, for example, IaaS FQDNs.
   - <ip_for_dns>
   cloud_properties:
     name: <network_name_according_to_vsphere>
@@ -444,8 +454,8 @@ apply_spec:
 The `datastore_pattern` attribute can either be the name of a datastore or a
 regular expression that matches one or more datastore names.
 
-If you want to use a datastore called "vc\_data\_store\_1"
-for both persistent and ephemeral disks, use the following configuration:
+If you want to use a datastore called "vc\_data\_store\_1" for both persistent
+and ephemeral disks, use the following configuration:
 
 ~~~yaml
                datastore_pattern: vc_data_store_1
@@ -454,8 +464,8 @@ for both persistent and ephemeral disks, use the following configuration:
 ~~~
 
 If you want to use two datastores, called "vc\_data\_store\_1" and
-"vc\_data\_store\_2", for both persistent and ephemeral disks,
-use the following configuration:
+"vc\_data\_store\_2", for both persistent and ephemeral disks, use the following
+configuration:
 
 ~~~yaml
                datastore_pattern: vc_data_store_?
