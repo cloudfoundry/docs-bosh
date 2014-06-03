@@ -1,0 +1,80 @@
+---
+title: How to Locate and Watch Logs on Job VMs
+---
+
+When deploying a BSOH release, such as the Cloud Foundry cf-release, a job might
+fail to run.
+
+Example:
+
+<pre class="terminal">
+Updating job common4
+  core/0 (canary) (00:12:55)
+Done                    1/1 00:12:55
+
+Error 400007: `core/0' is not running after update
+</pre>
+
+To diagnose the cause of the failure, you need to look at various log files on the failing instance. Hopefully the answer to your issue will become apparent and you can make corrections.
+
+## Access a Job VM ##
+
+In the example above, the job VM is named `core/0`. You can get a terminal session to this job VM via the `bosh ssh` command. Run either of the following commands:
+
+<pre class="terminal">
+$ bosh ssh core/0
+$ bosh ssh core 0
+</pre>
+
+## Log Files of Interest ##
+
+There are four places to look for log files:
+
+* Job template log folders
+* BOSH agent log file
+* BOSH monit log file
+* Services output log locations
+
+### Job Template Log Folders ###
+
+The first place to look for problems is the log files of the processes running within the job VM.
+
+By convention, all BOSH releases are configured to place log files in `/var/vcap/sys/log/*/*`.
+
+<pre class="terminal">
+$ sudo tail -f -n 200 /var/vcap/sys/log/*/*
+</pre>
+
+**Note**: When writing a BOSH release, configure all services to place their logs in `/var/vcap/sys/log/JOB_NAME`.
+
+### BOSH Agent Log File ###
+
+If the job(s) within a VM have not yet started, look in the BOSH agent's log file for possible errors or aberrations:
+
+<pre class="terminal">
+$ sudo tail -f -n 200 /var/vcap/bosh/log/current
+</pre>
+
+### BOSH monit Log File ###
+
+Monit is used by the BOSH agent to start, restart, and stop services included in each job template.
+
+Monit can detect errors and output useful information to its log file. Examine the monit.log file:
+
+<pre class="terminal">
+$ sudo tail -f -n 200 /var/vcap/monit/monit.log
+</pre>
+
+**Note**: When writing a BOSH release, include a [monit wrapper](http://stackoverflow.com/questions/3356476/debugging-monit/4439403#4439403 "shell - Debugging monit - Stack Overflow") around your job's `start` and `stop` scripts to aid future debugging.
+
+### Services Output Log Locations ###
+
+Finally, it is possible that the services being run within a job, such as PostgreSQL, can output logs into its own default locations. These default logging locations depend on the services.
+
+For example, if your BOSH release has a `postgres` job, the startup log may be at `/var/vcap/store/postgres/pg_log/startup.log`.
+
+The following command might be useful in finding these additional log files:
+
+<pre class="terminal">
+$ sudo tail -n 200 -f /var/vcap/store/postgres/*/*.log
+</pre>
