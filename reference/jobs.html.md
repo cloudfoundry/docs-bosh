@@ -1,7 +1,6 @@
 ---
-
 title: Jobs
------------
+---
 
 Jobs are a realization of packages, i.e. running one or more processes from a package. A job contains the configuration files and startup scripts to run the binaries from a package.
 
