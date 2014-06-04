@@ -1,0 +1,54 @@
+---
+title: What's New in BOSH
+---
+## New Help Topics ##
+
+* [Errand documentation](./jobs.html)
+
+## Release Notes: May 30, 2014 ##
+
+### Build: 2579 ###
+
+####Features:####
+
+* Create a final release without having first created a dev release
+* BOSH should be able to deploy over a failing job even if monit fails to stop the job
+* Go agent: bosh-blobstore-s3 should allow you to turn off SSL cert verification
+* Go agent: bosh s3 should support new options (`use_ssl`)
+
+
+####Bug Fixes:####
+
+**Pull Requests:**
+
+https://github.com/cloudfoundry/bosh-lite/pull/105 - Changed README.md an scripts/provision_cf to reflect new warden stemcell. Thanks Lothar Wieske!
+
+https://github.com/cloudfoundry/bosh-lite/pull/113 - Support deploying to a VPC on AWS.  Thank you Nikhil Gajwani!
+
+Meanwhile:  Ferdy Rodenas had a busy week last week announcing experimental work with the Google Compute Engine and BOSH as well as Docker and BOSH:
+http://blog.gopivotal.com/cloud-foundry-pivotal/products/deploy-and-update-your-google-compute-engine-vms-using-cloud-foundry-bosh
+
+http://blog.gopivotal.com/cloud-foundry-pivotal/products/managing-stateful-docker-containers-with-cloud-foundry-bosh
+
+Speaking of Docker, we were excited to learn last week that Docker was among the list of 16 companies joining the Cloud Foundry Foundation as silver members.  Welcome to all 16!
+
+http://www.gopivotal.com/platform-as-a-service/press-release/05292014-cloud-foundry-foundation-doubles-membership
+
+
+## Release Notes: May 23, 2014 ##
+
+### Build: 2577 ###
+
+#### Features:####
+
+* Go agent: Agent Sends alerts on SSH login and logout
+* Go agent: Go agent should report SSH login/logout on Centos
+* External CPI returns logs with bosh task `<id> --cpi`
+* As a BOSH release developer, I should be able to tell by looking at my drain script whether the job will be restarted with the same persistent disk
+
+####Bug Fixes:####
+
+**Pull Requests:**
+
+https://github.com/cloudfoundry/bosh/pull/539 - Adding S3 blobstore options: `ssl_verify_peer`+ `s3_multipart_threshold`
+https://github.com/cloudfoundry/bosh/pull/577 - Retry checking spot instance request state on `AWS::EC2::Errors::InvalidSpotInstanceRequestID::NotFound`
