@@ -2,7 +2,8 @@
 title: Setting Up your IaaS for BOSH
 ---
 
-Before you deploy BOSH or MicroBOSH, complete the following steps to set up your IaaS:
+Before you deploy BOSH or MicroBOSH, complete the following steps to set up your 
+IaaS:
 
 1. Allocate hardware resources
 1. Restrict inbound network traffic
@@ -15,6 +16,7 @@ Before you deploy BOSH or MicroBOSH, complete the following steps to set up your
 
 Your intended use of BOSH determines what hardware resources you should allocate
 in your IaaS.
+
 For example:
 
 * BOSH needs room to store the releases it deploys.
@@ -22,32 +24,33 @@ Larger applications or larger numbers of them require more disk space.
 
 * Larger numbers of active users require more RAM.
 
-Use the UI that your IaaS provides to allocate hardware for your BOSH deployment.
+Use the UI that your IaaS provides to allocate hardware for your BOSH 
+deployment.
 
 ### <a id='aws'></a> AWS ###
 
-AWS describes hardware in terms of  [instance types]
-(http://aws.amazon.com/ec2/instance-types/).
+AWS describes hardware in terms of  [instance types](http://aws.amazon.com/ec2/instance-types/).
 Most deployments can start with the **m2.medium** instance type.
-For MicroBOSH, **m1.small** is fine for testing but could be inadequate for production.
+For MicroBOSH, **m1.small** is acceptable for testing purposes but may be 
+inadequate for production.
 
 ### <a id='openstack'></a> OpenStack ###
 
-OpenStack describes hardware in terms of [flavors]
-(http://docs.openstack.org/trunk/openstack-ops/content/flavors.html).
+OpenStack describes hardware in terms of [flavors](http://docs.openstack.org/trunk/openstack-ops/content/flavors.html).
 Choose a flavor with at least three gigabytes of RAM.
 
 ### <a id='vsphere'></a> vSphere ###
 
 vSphere describes hardware in terms of RAM, CPU, virtual disk, and other specs.
-Refer to the [hardware requirements for Cloud Foundry]
-(../deploying/vsphere/hardware_spec.html) topic for help deciding what hardware to use.
+Refer to the [hardware requirements for Cloud Foundry](../deploying/vsphere/hardware_spec.html) topic for help deciding what 
+hardware to use.
 
 ## <a id="inbound"></a> Step 2: Restrict Inbound Network Traffic ##
 
 To deploy BOSH on AWS or OpenStack, you must configure security groups.
 For vSphere, we recommend configuring multiple networks.
-The goal in all cases is to restrict incoming network traffic to the BOSH VM or VMs.
+The goal in all cases is to restrict incoming network traffic to the BOSH VM or 
+VMs.
 
 ### <a id='aws'></a> AWS and OpenStack  ###
 
@@ -55,35 +58,25 @@ Set up two security groups, **ssh** and **bosh**.
 The settings in the following tables are generic; adapt them to your production
 needs.
 
-**Note**: In OpenStack Grizzly, there are settings for both `INGRESS` and `EGRESS`
-control.
-The instructions here apply to `INGRESS` only.
+**Note**: In OpenStack Grizzly, there are settings for both `INGRESS` and 
+`EGRESS` control.
+The following instructions apply to `INGRESS` only.
 The tables reflect the fact that OpenStack automatically adds port UDP 68 to all
 security groups.
 For AWS, add this port manually.
 
-#### <a id='ssh'></a> ssh Security Group  ####
+#### <a id='ssh'></a> SSH Security Group  ####
 
-<style type="text/css">
-.table {font-size:12px;color:#333333; width:100%;border-width: 1px;border-color: #729ea5;border-collapse: collapse;}
-.table th {font-size:12px;font-weight: bold;background-color:#acc8cc;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;text-align:center;}
-.table tr {background-color:#d4e3e5;}
-.table td {font-size:12px;width:18%; border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
-.table td.left {font-size:12px;width:16%; border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
-.table tr:hover {background-color:#ffffff;}
-</style>
-
-
-  <table border="1" class="table" >
+<table border="1" class="nice" >
   <tr><th>Protocol</th><th>From Port</th><th>To Port</th><th>Source</th><th>User or Purpose</th></tr>
   <tr><td>UDP</td><td>68</td><td>68</td><td>0.0.0.0/0 (CIDR)</td><td>BOOTP/DHCP</td></tr>
   <tr><td>TCP</td><td>22</td><td>22</td><td>0.0.0.0/0 (CIDR)</td><td>SSH</td></tr>
   <tr><td>ICMP</td><td>-1</td><td>-1</td><td>0.0.0.0/0 (CIDR)</td><td>ping</td></tr>
   </table>
 
-#### <a id='bosh'></a> bosh Security Group  ####
+#### <a id='bosh'></a> BOSH Security Group  ####
 
-  <table border="1" class="table" >
+<table border="1" class="nice" >
   <tr><th>Protocol</th><th>From Port</th><th>To Port</th><th>Source</th><th>User or Purpose</th></tr>
   <tr><td>TCP</td><td>1</td><td>65535</td><td>bosh</td><td>Members of the bosh Security Group.</td></tr>
   <tr><td>UDP</td><td>53</td><td>53</td><td>0.0.0.0/0 (CIDR)</td><td>Inbound DNS requests.</td></tr>
@@ -105,7 +98,8 @@ that you deploy with BOSH.
 
 ## <a id="network"></a> Step 3: (AWS only) Complete your IaaS Setup  ##
 
-This section explains how to install and use the BOSH CLI commands for setting up AWS infrastructure.
+This section explains how to install and use the BOSH CLI commands for setting 
+up AWS infrastructure.
 
 ### <a id='plugin'></a> Install the AWS plugin to the BOSH CLI ###
 
