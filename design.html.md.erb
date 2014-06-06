@@ -2,16 +2,13 @@
 title: BOSH Design Principles
 ---
 
-BOSH is an open source orchestration tool for working with large-scale
-deployments that supports:
+BOSH is an open framework for managing the full development and deployment life cycle of large-scale distributed software applications.
 
-* Frequent changes in code and infrastructure
-* Updates to releases and operating systems, with minimal impact
-* Repeatable and predictable deployments
-* Combining in-house source code with off-the-shelf source and binaries in a
-release
-* Collaboration between groups of developers and release engineers
-* A self-service model for developers to test evolving code
+BOSH:
+
+* Leverages IaaS APIs to create VMs from base images packaged with operator-defined network, storage, and software configurations
+* Monitors and manages VM and process health, detecting and restarting processes or VMs when they become unhealthy
+* Updates all VMs reliably and idempotently whether the update is to the OS, a package, or any other component
 
 ## <a id="predictable"></a>BOSH Deployments are Predictable ##
 
