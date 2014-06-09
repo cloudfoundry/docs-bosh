@@ -5,6 +5,21 @@ title: What's New in BOSH
 
 * [Errand documentation](./jobs.html)
 
+## Release Notes: June 6, 2014 ##
+
+### Build: N/A ###
+
+#### Features:####
+
+* Increase the timeout for connecting to vSphere
+* BOSH releases should have a user-defined final version
+
+####Bug Fixes:####
+
+**Pull Requests:**
+
+https://github.com/cloudfoundry/bosh-lite/pull/112 - Update ruby to 1.9.3-p547.  Thanks, Michael Fraenkel!
+
 ## Release Notes: May 30, 2014 ##
 
 ### Build: 2579 ###
@@ -33,22 +48,3 @@ http://blog.gopivotal.com/cloud-foundry-pivotal/products/managing-stateful-docke
 Speaking of Docker, we were excited to learn last week that Docker was among the list of 16 companies joining the Cloud Foundry Foundation as silver members.  Welcome to all 16!
 
 http://www.gopivotal.com/platform-as-a-service/press-release/05292014-cloud-foundry-foundation-doubles-membership
-
-
-## Release Notes: May 23, 2014 ##
-
-### Build: 2577 ###
-
-#### Features:####
-
-* Go agent: Agent Sends alerts on SSH login and logout
-* Go agent: Go agent should report SSH login/logout on Centos
-* External CPI returns logs with bosh task `<id> --cpi`
-* As a BOSH release developer, I should be able to tell by looking at my drain script whether the job will be restarted with the same persistent disk
-
-####Bug Fixes:####
-
-**Pull Requests:**
-
-https://github.com/cloudfoundry/bosh/pull/539 - Adding S3 blobstore options: `ssl_verify_peer`+ `s3_multipart_threshold`
-https://github.com/cloudfoundry/bosh/pull/577 - Retry checking spot instance request state on `AWS::EC2::Errors::InvalidSpotInstanceRequestID::NotFound`
