@@ -26,26 +26,16 @@ Specifically:
 * Instances created from different jobs can run on the same VM.
 
 For example, four VMs could each run an instance of the Cloud Controller job,
-with one VM running both a Cloud Controller job instance and an instance of the
+with one VM running both a Cloud Controller job instance and an instance of a
 DEA job.
 
-## <a id="jobs-vs-errands"></a>Jobs vs. Errands ##
+## <a id="jobs-vs-errands"></a>Errands ##
 
-In most cases, a developer wants a job instance to run as long as the deployment
-runs.
-For example, if a job instance runs a database for a deployment, the developer
-would want the database to be available for the life of the deployment.
-BOSH runs these jobs using [`monit`](#monitoring).
+An **errand** is a special kind of BOSH job.
+BOSH errands run once, or only on demand, and stop after the task they describe
+completes.
 
-In other cases, a developer might want a job instance to run once, or only on
-demand.
-BOSH calls these kinds of jobs **errands**.
-A BOSH errand is a BOSH job that an operator can run once, or multiple times,
-after a deploy finishes.
-The operator runs BOSH errands using the `bosh run errand` command.
-BOSH errands stop after the task they describe completes.
-
-To distinguish an errand from a non-errand job, set the `lifecycle` property for
+To distinguish an errand from a job, set the `lifecycle` property for
 the errand in the [Jobs Block](./deployment-manifest.html#jobs) of the
 deployment manifest to `errand`.
 If this property is not set, BOSH uses the default value `service` and
@@ -58,17 +48,21 @@ Examples include:
 * Binding or unbinding a Cloud Foundry service broker
 * Pushing an application to Cloud Foundry
 
-## <a id="job-parts"></a>Parts of a BOSH Job ##
+## <a id="job-parts"></a>Parts of a BOSH Job or BOSH Errand ##
 
-Jobs are defined in a BOSH [release](./create-release.html).
+Both jobs and errands are defined in a BOSH [release](./create-release.html).
+
 BOSH jobs consist of three parts: specifications, templates, and monitoring.
+
+BOSH errands consist of two parts, specifications and templates.
+BOSH does not monitor the health of any processes in instances of an errand.
 
 ### <a id="specification"></a>Specification ###
 
 A job specification, or **spec**, is a YAML document that lists:
 
 * Required [packages](./reference/packages.html): A package contains source code and a script. The script describes how to compile the source code and install the resultant binary. Optionally, packages can contain the names of other packages this package depends on.
-* Job templates: The names and file paths to [job templates](#templates) the job uses.
+* Job templates: The names and file paths to [job templates](#templates) that the job uses.
 * Job properties: BOSH uses job properties when creating an instance of a job. Typical job properties include account names, passwords, shared secrets, hostnames, IP addresses, port numbers, and descriptions.
 
 ### <a id="templates"></a>Templates ###
@@ -85,11 +79,9 @@ instance of a job.
 
 ### <a id="monitoring"></a>Monitoring ###
 
-#### <a id="job-monitoring"></a>Non-errand jobs ####
+#### <a id="job-monitoring"></a>Job Monitoring ####
 
-If a job is not defined as an errand, BOSH uses
-[monit](http://mmonit.com/monit/) to manage and monitor the health of processes
-in an instance of the job.
+BOSH uses [monit](http://mmonit.com/monit/) to manage and monitor the health of processes in an instance of a job.
 Using monit, BOSH can start, stop, and restart instances of a job when
 necessary.
 
@@ -103,30 +95,21 @@ job:
 **Note**: When developing or testing a release, you can use an empty `monit`
 file.
 
-#### <a id="errand-monitoring"></a>Errands ####
+#### <a id="errand-monitoring"></a>Errand Monitoring ####
 
-BOSH errands run once, or only on demand, and stop after the task they describe
-completes.
 BOSH does not monitor the health of any processes in an instance of an errand.
 
-Instead of using the `start program` command in a monit file, an operator runs
-BOSH errands using the `bosh run errand` command.
-Therefore, an errand defined in a BOSH release should provide an executable
-`run` script.
-
-## <a id="running"></a>Running Jobs ##
+## <a id="running"></a>Running Jobs and Errands ##
 
 BOSH ensures an instance of a job always runs in a predictable, deterministic
 environment by creating a new VM specifically for the instance.
 
-### <a id="job-running"></a>Non-errand jobs ###
+### <a id="running-jobs"></a>Running Jobs ###
 
-If a job is not defined as an errand, BOSH creates instances of the job on VMs
-as part of the deployment process.
-BOSH monitors the instances and restarts any that fail, keeping them running for
-as long as the deployment runs.
+BOSH creates instances of the job on VMs as part of the deployment process.
+BOSH monitors the instances it deploys and restarts any that fail, keeping them running for as long as the deployment runs.
 
-BOSH runs non-errand jobs using the commands provided in the `monit` file.
+BOSH runs jobs using the commands provided in the `monit` file.
 
 Example `monit` file:
 
@@ -137,7 +120,15 @@ check process postgres
   stop program "/var/vcap/jobs/postgres/bin/postgres_ctl stop"
 </pre>
 
-### <a id="errand-running"></a>Errands ###
+#### <a id="canceling-jobs"></a>Canceling Jobs ####
+
+You cannot cancel jobs.
+
+### <a id="errand-running"></a>Running Errands ###
+
+An operator runs a BOSH errand using the `bosh run errand` command.
+To facilitate this, an errand defined in a BOSH release should provide an
+executable `run` script.
 
 Whenever an errand runs, BOSH:
 
@@ -164,7 +155,7 @@ $ bosh run errand my-smoke-test-errand
 
 The `bosh run errand` command compiles all packages the errand job requires and executes the `run` script that the BOSH release provides for the errand.
 
-#### <a id="run-script"></a>Example Executable Script ####
+**Example Executable Script**
 
 This is an example `run` script for a BOSH errand that de-registers a service
 broker.
@@ -205,9 +196,7 @@ bundle exec ./bin/broker-registrar delete \
     --broker-password $BROKER_PASSWORD
 </pre>
 
-## <a id="canceling-jobs"></a>Canceling Jobs ##
-
-You cannot cancel non-errand jobs.
+#### <a id="canceling-jobs"></a>Canceling Errands ####
 
 Use `bosh cancel errand ERRAND_NAME` to cancel a running errand.
 
@@ -220,8 +209,15 @@ $ bosh cancel errand my-smoke-test
 The `bosh cancel errand` command terminates the errand process, releases the
 deployment lock, and returns the errand VM to the resource pool.
 
-## <a id="errand-running"></a>Warnings and Important Tips ##
+## <a id="logging"></a>Logging ##
+
+
+### <a id="job-logging"></a>Logging ###
+
+### <a id="errand-logging"></a>Logging ###
+
+## <a id="errand-running"></a>Warnings and Additional Information ##
 
 * Errands do not have a notion of persistence. Persistent disk migration for errands is not supported.
-* Whenever an errand runs, BOSH initiates a deployment lock. This lock prevent all other deploys. Additionally, the `cloud check` CLI command is unavailable and the health monitor does not scan and fix current deployments during the duration of the errand.
+* Whenever an errand runs, BOSH initiates a deployment lock. This lock prevent all other deploys. Additionally, the BOSH CLI `cloudcheck` command is unavailable, and the health monitor does not scan and fix current deployments during the duration of the errand.
 * Currently, BOSH limits errand output to 1 MB. BOSH discards errand output greater than 1 MB.
