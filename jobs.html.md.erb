@@ -136,7 +136,7 @@ Whenever an errand runs, BOSH:
 1. Provisions and configures the VM for the errand
 1. Installs the errand code and all required packages and templates
 1. Runs the processes specified by the errand
-1. Sends all output of the errand to the BOSH CLI for output to the screen
+1. Sends all output of the errand to the BOSH CLI for output
 1. Releases the deployment lock
 1. Release the VM back into the resource pool
 
@@ -144,8 +144,7 @@ Whenever an errand runs, BOSH:
 resource pool for a BOSH deployment with errands must include one additional VM
 per errand.
 
-To run an errand, use `bosh run errand ERRAND-NAME`. ERRAND-NAME must be an
-errand job name provided in the deployment manifest.
+Use `bosh run errand ERRAND-NAME` to run an errand. ERRAND-NAME must be the name of an errand provided in the deployment manifest.
 
 Example:
 
@@ -209,15 +208,30 @@ $ bosh cancel errand my-smoke-test
 The `bosh cancel errand` command terminates the errand process, releases the
 deployment lock, and returns the errand VM to the resource pool.
 
-## <a id="logging"></a>Logging ##
+#### <a id="errand-logging"></a>Errand Logging ####
 
+BOSH only logs errand output if the output is greater than 1 MB in size.
+By default, BOSH streams smaller errand output, stdout, and stderr to the screen.
 
-### <a id="job-logging"></a>Logging ###
+When BOSH [runs an errand](#errand-running), BOSH provisions and configures a VM for the errand.
+When the errand completes, BOSH releases the VM back into the resource pool.
+Once the VM has been released back into the resource pool, you cannot access any log files or screen output on the VM.
 
-### <a id="errand-logging"></a>Logging ###
+To save log files and screen output from a BOSH errand VM:
+
+1. In the BOSH errand script, redirect stdout and stderr to a log file.
+1. Using the BOSH CLI, run `bosh errand` with the `--download-logs` option to download the log files.
+
+    By default, BOSH downloads the logs to your present working directory.
+    Use the `--logs-dir destination_directory` option to change this
+    directory.
+
+    <pre class='terminal'>
+    $ run errand SampleErrand --download-logs --logs-dir ~/workspace/SampleLogDirectory
+    </pre>
 
 ## <a id="errand-running"></a>Warnings and Additional Information ##
 
 * Errands do not have a notion of persistence. Persistent disk migration for errands is not supported.
-* Whenever an errand runs, BOSH initiates a deployment lock. This lock prevent all other deploys. Additionally, the BOSH CLI `cloudcheck` command is unavailable, and the health monitor does not scan and fix current deployments during the duration of the errand.
+* Whenever an errand runs, BOSH initiates a deployment lock. This lock prevent all other deploys. Additionally, the BOSH CLI `cck` command is unavailable, and the health monitor does not scan and fix current deployments during the duration of the errand.
 * Currently, BOSH limits errand output to 1 MB. BOSH discards errand output greater than 1 MB.
