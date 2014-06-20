@@ -210,7 +210,7 @@ deployment lock, and returns the errand VM to the resource pool.
 
 #### <a id="errand-logging"></a>Errand Logging ####
 
-BOSH only logs errand output if the output is greater than 1 MB in size.
+BOSH only logs errand output if the output is greater than 1MB in size.
 By default, BOSH streams smaller errand output, stdout, and stderr to the screen.
 
 When BOSH [runs an errand](#errand-running), BOSH provisions and configures a VM for the errand.
@@ -234,4 +234,4 @@ To save log files and screen output from a BOSH errand VM:
 
 * Errands do not have a notion of persistence. Persistent disk migration for errands is not supported.
 * Whenever an errand runs, BOSH initiates a deployment lock. This lock prevent all other deploys. Additionally, the BOSH CLI `cloudcheck` command is unavailable, and the health monitor does not scan and fix current deployments during the duration of the errand.
-* Currently, BOSH limits errand output to 1 MB. BOSH discards errand output greater than 1 MB.
+* Currently, BOSH limits errand output to 1MB. BOSH discards errand output greater than 1MB.
