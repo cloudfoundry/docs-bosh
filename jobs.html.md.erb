@@ -46,7 +46,6 @@ Examples include:
 
 * Smoke tests
 * Binding or unbinding a Cloud Foundry service broker
-* Pushing an application to Cloud Foundry
 
 ## <a id="job-parts"></a>Parts of a BOSH Job or BOSH Errand ##
 
@@ -57,7 +56,7 @@ BOSH jobs consist of three parts: specifications, templates, and monitoring.
 BOSH errands consist of two parts, specifications and templates.
 BOSH does not monitor the health of any processes in instances of an errand.
 
-### <a id="specification"></a>Specification ###
+### <a id="specification"></a>Specifications ###
 
 A job specification, or **spec**, is a YAML document that lists:
 
@@ -128,7 +127,7 @@ You cannot cancel jobs.
 
 An operator runs a BOSH errand using the `bosh run errand` command.
 To facilitate this, an errand defined in a BOSH release should provide an
-executable `run` script.
+executable /bin/run script.
 
 Whenever an errand runs, BOSH:
 
@@ -149,14 +148,14 @@ Use `bosh run errand ERRAND-NAME` to run an errand. ERRAND-NAME must be the name
 Example:
 
 <pre class="terminal">
-$ bosh run errand my-smoke-test-errand
+$ bosh run errand smoke-test
 </pre>
 
-The `bosh run errand` command compiles all packages the errand job requires and executes the `run` script that the BOSH release provides for the errand.
+The `bosh run errand` command compiles all packages the errand job requires and executes the /bin/run script that the BOSH release provides for the errand.
 
-**Example Executable Script**
+**Example Executable /bin/run Script**
 
-This is an example `run` script for a BOSH errand that de-registers a service
+This is an example /bin/run script for a BOSH errand that de-registers a service
 broker.
 
 <pre class='terminal'>
@@ -197,18 +196,21 @@ bundle exec ./bin/broker-registrar delete \
 
 #### <a id="canceling-jobs"></a>Canceling Errands ####
 
-Use `bosh cancel errand ERRAND_NAME` to cancel a running errand.
-
-Example:
+Use `bosh cancel task <task_id>` to cancel a running errand.
 
 <pre class="terminal">
-$ bosh cancel errand my-smoke-test
+$ bosh cancel task 123
 </pre>
 
 The `bosh cancel errand` command terminates the errand process, releases the
 deployment lock, and returns the errand VM to the resource pool.
 
 #### <a id="errand-logging"></a>Errand Logging ####
+
+BOSH names logs using the errand name and type of log, and writes the logs to
+the `/var/vcap/sys/log/<errand-name>` directory.
+
+For example, BOSH writes the stdout log for an errand named "smoke-test" to `/var/vcap/sys/log/smoke-test/smoke-test.stdout.log`.
 
 BOSH only logs errand output if the output is greater than 1MB in size.
 By default, BOSH streams smaller errand output, stdout, and stderr to the screen.
@@ -233,5 +235,5 @@ To save log files and screen output from a BOSH errand VM:
 ## <a id="errand-running"></a>Warnings and Additional Information ##
 
 * Errands do not have a notion of persistence. Persistent disk migration for errands is not supported.
-* Whenever an errand runs, BOSH initiates a deployment lock. This lock prevent all other deploys. Additionally, the BOSH CLI `cloudcheck` command is unavailable, and the health monitor does not scan and fix current deployments during the duration of the errand.
-* Currently, BOSH limits errand output to 1MB. BOSH discards errand output greater than 1MB.
+* Whenever an errand runs, BOSH initiates a deployment lock. This lock prevent all other deploys. Additionally, the BOSH CLI `cloudcheck` command is unavailable, and the health monitor does not scan and fix current deployments while the errand runs.
+* Currently, BOSH limits errand output to 1MB by discarding any errand output greater than 1MB.
