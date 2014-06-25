@@ -31,9 +31,7 @@ DEA job.
 
 ## <a id="jobs-vs-errands"></a>Errands ##
 
-An **errand** is a special kind of BOSH job.
-BOSH errands run once, or only on demand, and stop after the task they describe
-completes.
+An **errand** is a type of BOSH job that runs once or only on demand.
 
 To distinguish an errand from a job, set the `lifecycle` property for
 the errand in the [Jobs Block](./deployment-manifest.html#jobs) of the
@@ -42,10 +40,17 @@ If this property is not set, BOSH uses the default value `service` and
 configures instances of the job to run as long as the deployment runs.
 
 Common BOSH errands include any task meant to be run once or only on demand.
-Examples include:
+Examples include smoke tests and Cloud Foundry service broker binding.
 
-* Smoke tests
-* Binding or unbinding a Cloud Foundry service broker
+**Notes**:
+
+* Since BOSH requests and provisions a new VM for each errand, the
+resource pool for a BOSH deployment with errands must include one additional VM
+per errand. If you receive an error message about insufficient VM capacity, you
+must adjust the [Job Block](./deployment-manifest.html#jobs) of your deployment
+manifest.
+* Errands do not have a notion of persistence. Persistent disk migration for errands is not supported.
+
 
 ## <a id="job-parts"></a>Parts of a BOSH Job or BOSH Errand ##
 
@@ -53,7 +58,7 @@ Both jobs and errands are defined in a BOSH [release](./create-release.html).
 
 BOSH jobs consist of three parts: specifications, templates, and monitoring.
 
-BOSH errands consist of two parts, specifications and templates.
+BOSH errands consist of two parts: specifications and templates.
 BOSH does not monitor the health of any processes in instances of an errand.
 
 ### <a id="specification"></a>Specifications ###
@@ -62,7 +67,8 @@ A job specification, or **spec**, is a YAML document that lists:
 
 * Required [packages](./reference/packages.html): A package contains source code and a script. The script describes how to compile the source code and install the resultant binary. Optionally, packages can contain the names of other packages this package depends on.
 * Job templates: The names and file paths to [job templates](#templates) that the job uses.
-* Job properties: BOSH uses job properties when creating an instance of a job. Typical job properties include account names, passwords, shared secrets, hostnames, IP addresses, port numbers, and descriptions.
+* Job properties: BOSH uses job properties when creating an instance of a job.
+Typical job properties include account names, passwords, shared secrets, hostnames, IP addresses, port numbers, and descriptions.
 
 ### <a id="templates"></a>Templates ###
 
@@ -80,7 +86,8 @@ instance of a job.
 
 #### <a id="job-monitoring"></a>Job Monitoring ####
 
-BOSH uses [monit](http://mmonit.com/monit/) to manage and monitor the health of processes in an instance of a job.
+BOSH uses [monit](http://mmonit.com/monit/) to manage and monitor the health of
+processes in an instance of a job.
 Using monit, BOSH can start, stop, and restart instances of a job when
 necessary.
 
@@ -106,7 +113,8 @@ environment by creating a new VM specifically for the instance.
 ### <a id="running-jobs"></a>Running Jobs ###
 
 BOSH creates instances of the job on VMs as part of the deployment process.
-BOSH monitors the instances it deploys and restarts any that fail, keeping them running for as long as the deployment runs.
+BOSH monitors the instances it deploys and restarts any that fail, keeping them
+running for as long as the deployment runs.
 
 BOSH runs jobs using the commands provided in the `monit` file.
 
@@ -127,23 +135,24 @@ You cannot cancel jobs.
 
 An operator runs a BOSH errand using the `bosh run errand` command.
 To facilitate this, an errand defined in a BOSH release should provide an
-executable /bin/run script.
+executable `/bin/run` script.
 
-Whenever an errand runs, BOSH:
 
-1. Initiates a **deployment lock** that prevents any other deploys
+BOSH does the following when it runs an errand:
+
+1. Initiates a deployment lock that does the following:
+ * Prevents all other deploys
+ * Prevents the running of the BOSH CLI `cloudcheck` command
+ * Prevents the health monitor from scanning and fixing current deployments
 1. Provisions and configures the VM for the errand
 1. Installs the errand code and all required packages and templates
 1. Runs the processes specified by the errand
 1. Sends all output of the errand to the BOSH CLI for output
 1. Releases the deployment lock
-1. Release the VM back into the resource pool
+1. Releases the VM back into the resource pool
 
-**Note**: Since BOSH requests and provisions a new VM for each errand, the
-resource pool for a BOSH deployment with errands must include one additional VM
-per errand.
-
-Use `bosh run errand ERRAND-NAME` to run an errand. ERRAND-NAME must be the name of an errand provided in the deployment manifest.
+Use `bosh run errand ERRAND-NAME` to run an errand. ERRAND-NAME must be the name
+of an errand provided in the deployment manifest.
 
 Example:
 
@@ -151,11 +160,12 @@ Example:
 $ bosh run errand smoke-test
 </pre>
 
-The `bosh run errand` command compiles all packages the errand job requires and executes the /bin/run script that the BOSH release provides for the errand.
+The `bosh run errand` command compiles all packages the errand job requires and
+executes the `/bin/run` script that the BOSH release provides for the errand.
 
 **Example Executable /bin/run Script**
 
-This is an example /bin/run script for a BOSH errand that de-registers a service
+This is an example `/bin/run` script for a BOSH errand that de-registers a service
 broker.
 
 <pre class='terminal'>
@@ -207,33 +217,27 @@ deployment lock, and returns the errand VM to the resource pool.
 
 #### <a id="errand-logging"></a>Errand Logging ####
 
-BOSH names logs using the errand name and type of log, and writes the logs to
+BOSH names logs using the errand name and log type, and writes the logs to
 the `/var/vcap/sys/log/<errand-name>` directory.
+For example, BOSH writes the stdout log for an errand named "smoke-test" to
+ `/var/vcap/sys/log/smoke-test/smoke-test.stdout.log`.
 
-For example, BOSH writes the stdout log for an errand named "smoke-test" to `/var/vcap/sys/log/smoke-test/smoke-test.stdout.log`.
+**Note**: Since BOSH releases the VM back into the resource pool when an
+errand completes, you cannot access any log files or screen output after this
+process finishes.
 
-BOSH only logs errand output if the output is greater than 1MB in size.
-By default, BOSH streams smaller errand output, stdout, and stderr to the screen.
+By default, BOSH streams errand output smaller than 1MB, stdout, and stderr to
+the screen. You must redirect errand output greater than 1MB to a file.
 
-When BOSH [runs an errand](#errand-running), BOSH provisions and configures a VM for the errand.
-When the errand completes, BOSH releases the VM back into the resource pool.
-Once the VM has been released back into the resource pool, you cannot access any log files or screen output on the VM.
+To save output from a BOSH errand VM:
 
-To save log files and screen output from a BOSH errand VM:
+1. In the BOSH errand script, redirect the output to a log file.
+1. Using the BOSH CLI, run `bosh errand` with the `--download-logs` option to
+download the log files.
 
-1. In the BOSH errand script, redirect stdout and stderr to a log file.
-1. Using the BOSH CLI, run `bosh errand` with the `--download-logs` option to download the log files.
+By default, BOSH downloads the logs to your present working directory.
+Use the `--logs-dir destination_directory` option to change this directory.
 
-    By default, BOSH downloads the logs to your present working directory.
-    Use the `--logs-dir destination_directory` option to change this
-    directory.
-
-    <pre class='terminal'>
-    $ run errand SampleErrand --download-logs --logs-dir ~/workspace/SampleLogDirectory
-    </pre>
-
-## <a id="errand-running"></a>Warnings and Additional Information ##
-
-* Errands do not have a notion of persistence. Persistent disk migration for errands is not supported.
-* Whenever an errand runs, BOSH initiates a deployment lock. This lock prevent all other deploys. Additionally, the BOSH CLI `cloudcheck` command is unavailable, and the health monitor does not scan and fix current deployments while the errand runs.
-* Currently, BOSH limits errand output to 1MB by discarding any errand output greater than 1MB.
+<pre class='terminal'>
+$ run errand SampleErrand --download-logs --logs-dir ~/workspace/SampleLogDirectory
+</pre>
