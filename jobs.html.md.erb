@@ -39,14 +39,13 @@ deployment manifest to `errand`.
 If this property is not set, BOSH uses the default value `service` and
 configures instances of the job to run as long as the deployment runs.
 
-<p class="note"><strong>Notes</strong>:
-  <ul>
-    <li>Since BOSH requests and provisions a new VM for each errand, the
-resource pool for a BOSH deployment with errands must include one additional VM
-per errand. If you receive an error message about insufficient VM capacity, you must adjust the <a href="./deployment-manifest.html#jobs">Jobs Block</a> of your deployment manifest.</li>
-	<li>Errands do not have a notion of persistence. Persistent disk migration for errands is not supported.</li>
-  </ul>
-</p>
+<p class="note"><strong>Note</strong>: Since BOSH requests and provisions a new
+VM for each errand, the resource pool for a BOSH deployment with errands must
+include one additional VM per errand.
+If you receive an error message about insufficient VM capacity, you must adjust
+the <a href="./deployment-manifest.html#jobs">Jobs Block</a> of your deployment
+manifest.</p>
+<p class="note"><strong>Note</strong>: Errands do not have a notion of persistence. Persistent disk migration for errands is not supported.</p>
 
 ## <a id="job-parts"></a>Parts of a BOSH Job or BOSH Errand ##
 
