@@ -5,6 +5,70 @@ title: What's New in BOSH
 
 * [Errand documentation](./jobs.html)
 
+## Release Notes: June 13, 2014 ##
+
+### Build: 2605 ###
+
+#### Features: ####
+
+69904516 - move the bosh-artifacts app / routes to the cfcommunity org
+
+70452708 - upgrade powerdns to 3.3.1
+
+60722654 - Remove validate_deployment method from CPIs
+
+72457474 - Release Versioning changes need to be well documented
+
+61077500 - Bosh release upload should check fingerprints rather than checksums
+
+72929204 - Bump net-ssh-gateway gem in bosh cli
+
+72376106 - As a bosh operator, I should be able to use the new CLI with the old Director (pre/post version changes)
+
+71591118 - bump dependencies in bosh-lite CI
+
+72930238 - BOSH Release Versioning Blog Post
+
+71066352 - cloudfoundry/bosh #576: Adding boot from volume changes.in
+
+73080910 - Investigate outbound networking behavior for AWS accounts with a default VPC
+
+70689810 - Upgrade gems in preparation for Ruby 2.1.1 support
+
+72466378 - cloudfoundry/bosh-lite #114: Adds IPTable entries for port forwarding inside the BOSH-lite [finishes …
+
+72457710 - Go Agent should report Memory Usage without including kernel cache/buffers
+
+####Bug Fixes: ####
+
+72758866 - cloudfoundry/bosh #587: misaligned partitions on trusty ephemeral and persistent disks
+
+66621702 - BOSH should allow uploading release with same pkg/job fingerprints but different SHA1s
+
+71187928 - non-collocated jobs from different releases can collide on packages where package/version is the exact same
+
+59776002 - Bosh should not save incorrect sha for a package
+
+69144598 - `bosh export compiled_packages` should not truncate .tgz
+
+72717508 - Director should error with ReleaseVersionInvalid instead of ReleaseAlreadyExists if the version is invalid on upload release
+
+72374480 - A bosh user should be able to redeploy an existing dev release (new cli, new director, old data)
+
+72991988 - bosh micro should not require cloud/provider (which it doesn't have access to)
+
+71660302 - cloudfoundry/bosh #583: [goagent][aws] ssh to aws ec2 failing - No default ip could be found
+
+**Pull Requests:**
+
+https://github.com/cloudfoundry/bosh/pull/576 - Adding boot from volume changes   Thanks Aaron Huber!
+
+https://github.com/cloudfoundry/bosh-lite/pull/114 -  Adds IPTable entries for port forwarding inside the BOSH-lite   Thanks Nikhil Gajwani!
+
+#### Worth noting: ####
+The BOSH artifacts that were previously only available at bosh-artifacts.cfapps.io or are now available at  http://boshartifacts.cloudfoundry.org/  (bosh-artifacts.cfapps.io site redirects).
+
+
 ## Release Notes: June 6, 2014 ##
 
 ### Build: N/A ###
@@ -19,32 +83,3 @@ title: What's New in BOSH
 **Pull Requests:**
 
 https://github.com/cloudfoundry/bosh-lite/pull/112 - Update ruby to 1.9.3-p547.  Thanks, Michael Fraenkel!
-
-## Release Notes: May 30, 2014 ##
-
-### Build: 2579 ###
-
-####Features:####
-
-* Create a final release without having first created a dev release
-* BOSH should be able to deploy over a failing job even if monit fails to stop the job
-* Go agent: bosh-blobstore-s3 should allow you to turn off SSL cert verification
-* Go agent: bosh s3 should support new options (`use_ssl`)
-
-
-####Bug Fixes:####
-
-**Pull Requests:**
-
-https://github.com/cloudfoundry/bosh-lite/pull/105 - Changed README.md an scripts/provision_cf to reflect new warden stemcell. Thanks Lothar Wieske!
-
-https://github.com/cloudfoundry/bosh-lite/pull/113 - Support deploying to a VPC on AWS.  Thank you Nikhil Gajwani!
-
-Meanwhile:  Ferdy Rodenas had a busy week last week announcing experimental work with the Google Compute Engine and BOSH as well as Docker and BOSH:
-http://blog.gopivotal.com/cloud-foundry-pivotal/products/deploy-and-update-your-google-compute-engine-vms-using-cloud-foundry-bosh
-
-http://blog.gopivotal.com/cloud-foundry-pivotal/products/managing-stateful-docker-containers-with-cloud-foundry-bosh
-
-Speaking of Docker, we were excited to learn last week that Docker was among the list of 16 companies joining the Cloud Foundry Foundation as silver members.  Welcome to all 16!
-
-http://www.gopivotal.com/platform-as-a-service/press-release/05292014-cloud-foundry-foundation-doubles-membership
