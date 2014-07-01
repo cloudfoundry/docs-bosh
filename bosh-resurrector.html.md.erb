@@ -7,8 +7,8 @@ You use the Resurrector to protect your deployment from failed VMs.
 
 When the Health Monitor detects that a BOSH Agent has stopped responding, the 
 Resurrector prompts the BOSH Director to run a scan and fix task. 
-This task uses BOSH [cloudcheck](../customizing/trouble-advanced.html#cck) to 
-scan for problems and automatically fix them. 
+This task uses BOSH `cloudcheck` to scan for problems and automatically fix 
+them. 
 If the scan and fix detects that the Agent is unresponsive or that the VM is 
 missing, the Director creates a replacement VM. 
 When a VM uses a persistent disk, the Director detaches the disk, creates a 
