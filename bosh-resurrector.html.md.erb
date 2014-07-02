@@ -2,38 +2,38 @@
 title: Using the BOSH Resurrector
 ---
 
-The BOSH Resurrector is a plugin to the BOSH Health Monitor. 
-You use the Resurrector to protect your deployment from failed VMs. 
+The BOSH Resurrector is a plugin to the BOSH Health Monitor.
+You use the Resurrector to protect your deployment from failed VMs.
 
-When the Health Monitor detects that a BOSH Agent has stopped responding, the 
-Resurrector prompts the BOSH Director to run a scan and fix task. 
-This task uses BOSH `cloudcheck` to scan for problems and automatically fix 
-them. 
-If the scan and fix detects that the Agent is unresponsive or that the VM is 
-missing, the Director creates a replacement VM. 
-When a VM uses a persistent disk, the Director detaches the disk, creates a 
+When the Health Monitor detects that a BOSH Agent has stopped responding, the
+Resurrector prompts the BOSH Director to run a scan and fix task.
+This task uses BOSH `cloudcheck` to scan for problems and automatically fix
+them.
+If the scan and fix detects that the Agent is unresponsive or that the VM is
+missing, the Director creates a replacement VM.
+When a VM uses a persistent disk, the Director detaches the disk, creates a
 replacement VM, attaches the disk to the new VM, and restarts all processes.
 
-<p class='note'><strong>Note</strong>: BOSH deploys with the Resurrector 
-	disabled by default. 
-To use this feature, you must enable the Resurrector in your deployment 
-manifest and redeploy.</p> 
+<p class='note'><strong>Note</strong>: BOSH deploys with the Resurrector
+	disabled by default.
+To use this feature, you must enable the Resurrector in your deployment
+manifest and redeploy.</p>
 
 The BOSH Resurrector features three configuration properties that allow you to:
 
-* Set an absolute minimum number of VMs to try to resurrect over a given time 
+* Set an absolute minimum number of VMs to try to resurrect over a given time
 interval
 * Set a maximum percentage of VMs to try to resurrect over a given time interval
-* Change the time interval 
+* Change the time interval
 
 ## Enabling and Configuring the BOSH Resurrector ##
 
 To enable the Resurrector, you must complete the following three steps:
 
-1. Set **resurrector_enabled** to `true` in the `hm` section of the Properties 
-block of your deployment manifest. 
+1. Set **resurrector_enabled** to `true` in the `hm` section of the Properties
+block of your deployment manifest.
 
-1. **(Optional)** Modify the following configuration properties: 
+1. **(Optional)** Modify the following configuration properties:
 
     <table border="1" class="nice" >
   <tr>
@@ -43,25 +43,25 @@ block of your deployment manifest.
   </tr>
   <tr>
     <td><code>resurrector.minimum_down_jobs</code></td>
-	<td>This property sets a minimum for Resurrector alerts. The Resurrector 
-		alerts the Director of at least this number of non-responsive VMs 
-		regardless of the <code>resurrector.percent_threshold</code>.</td> 
+	<td>This property sets a minimum for Resurrector alerts. The Resurrector
+		alerts the Director of at least this number of non-responsive VMs
+		regardless of the <code>resurrector.percent_threshold</code>.</td>
 <td>5</td>
   </tr>
   <tr>
     <td><code>resurrector.percent_threshold</code></td>
-	<td>This property controls for a catastrophic failure scenario. If the 
-		number of non-responsive VMs exceeds this percentage, the Resurrector 
+	<td>This property controls for a catastrophic failure scenario. If the
+		number of non-responsive VMs exceeds this percentage, the Resurrector
 		stops alerting the Director.<br /><br />
-Enter the percentage value as a <code>float</code> from 0 to 1. The default 
-value is 0.2, representing 20%.</td> 
+Enter the percentage value as a <code>float</code> from 0 to 1. The default
+value is 0.2, representing 20%.</td>
 <td>0.2</td>
   </tr>
-  <tr> 
+  <tr>
 <td><code>resurrector.time_threshold</code></td>
-<td>This property sets the maximum time in seconds until the Director no longer 
-	accepts a Resurrector alert.</td> 
-<td>  
+<td>This property sets the maximum time in seconds until the Director no longer
+	accepts a Resurrector alert.</td>
+<td>
 600</td>
   </tr>
   </table>
@@ -72,37 +72,40 @@ value is 0.2, representing 20%.</td>
 
 To disable the Resurrector:
 
-1. Set **resurrector_enabled** to `false` in the `hm` section of the Properties 
+1. Set **resurrector_enabled** to `false` in the `hm` section of the Properties
 block of your deployment manifest.
- 
+
 1. Redeploy.
 
-## Customizing Resurrector for Your Deployment   
+## Customizing Resurrector for Your Deployment
 
 For most deployments, you can use the default values.
 
-The `resurrector.minimum_down_jobs` value sets the lower limit to the number of 
-VMs the Resurrector will notify the Director to resurrect, while the 
-`resurrector.percent_threshold` value sets the upper limit. 
-Note that the `resurrector.minimum_down_jobs` always supercedes the 
+The `resurrector.minimum_down_jobs` value sets the lower limit to the number of
+VMs the Resurrector notifies the Director to resurrect, while the
+`resurrector.percent_threshold` value sets the upper limit.
+Note that the `resurrector.minimum_down_jobs` always supercedes the
 `resurrector.percent_threshold` value.
 
-In very small or very large deployments, the default values may need 
+In very small or very large deployments, the default values may need
 customization, as discussed in the following examples.
 
 ### Small Deployment ###
 
-If your deployment consists of five VMs, and you use the default property 
-values, the Resurrector notifies the Director to recreate all VMs in a 
-catastrophic failure scenario. 
-In this scenario, set `resurrector.minimum_down_jobs` to 2.
+If you use the default property values, the Resurrector notifies the Director to
+recreate a minimum of five VMs.
+However, if your deployment consists of only five VMs, you may not want BOSH to 
+attempt to recreate your entire deployment in the event of a catastrophic 
+failure.
+In this scenario, we recommend that you set `resurrector.minimum_down_jobs` to 1 
+or 2.
 
 ### Large Deployment ###
 
-If your deployment consists of 1000 VMs, and you use the default property 
-values, the Resurrector notifies the Director to recreate at least five VMs and 
-up to 200 VMs. 
-Depending on your deployment, you may consider even 100 inaccessible VMs a 
-catastrophic failure. 
-In this scenario, set `resurrector.percent_threshold` to 5% so that the 
+If your deployment consists of 1000 VMs, and you use the default property
+values, the Resurrector notifies the Director to recreate at least five VMs and
+up to 200 VMs.
+Depending on your deployment, you may consider even 100 inaccessible VMs a
+catastrophic failure.
+In this scenario, set `resurrector.percent_threshold` to 5% so that the
 Director resurrects 50 VMs or fewer.
