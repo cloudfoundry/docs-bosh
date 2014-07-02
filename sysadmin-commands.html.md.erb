@@ -2,7 +2,8 @@
 title: BOSH Commands for System Administration
 ---
 
-This document lists the fundamental BOSH commands you use to perform System Administration tasks, categorized by workflow.
+This document lists the fundamental BOSH commands you use to perform system
+administration tasks, categorized by workflow.
 
 ## <a id="general"></a>General Purpose ##
 Use these commands to log into and connect with the BOSH Director.
@@ -88,17 +89,21 @@ Use these commands to administer deployment manifests and all aspects of cluster
   </tr>
   <tr>
     <td><code>ssh [--public_key FILE] [--gateway_host HOST] [--gateway_user USER] [--gateway_identity_file FILE] [--default_password PASSWORD]</code>
-<br /><br />OR<br /><br />
-<code>ssh JOB [INDEX] [COMMANDS]</code>
 	</td>
 	<td>When you provide arguments with an option flag, the BOSH Director starts
-		an interactive session that uses the arguments that you specify with a 
-		job VM. For example, <code>bosh ssh --public_key mykey.pub</code> 
-		instructs the BOSH Director to launch an interactive session that uses 
-		your <code>mykey.pub</code> public key on a job VM.
-		<br /><br /><br /><br /><br />
-		When you provide arguments without an option flag, the Director executes
-		the arguments as commands on the job VM. For example, <code>bosh ssh ls -R</code> runs the <code>ls -R</code> command on a job VM.
+		an interactive session, passing the specified arguments to a
+		job VM. For example, <code>bosh ssh --public_key mykey.pub</code>
+		instructs the BOSH Director to launch an interactive session with a job
+		VM and pass the specified key to the VM.
+	</td>
+  </tr>
+<tr>
+    <td>
+<code>ssh JOB [INDEX] [COMMANDS]</code>
+	</td>
+	<td>When you provide arguments without an option flag, the Director executes
+		the arguments as commands on the job VM. For example, <code>bosh DEA ssh
+		ls -R</code> runs the <code>ls -R</code> command on the DEA job VM.
 	</td>
   </tr>
   <tr>
@@ -110,8 +115,8 @@ Use these commands to administer deployment manifests and all aspects of cluster
   </tr>
   <tr>
     <td><code>task [TASK_ID] [--event] [--cpi] [--debug] [--result] [--raw]</code></td>
-	<td>Displays the status of a task that you specify and tracks its output. 
-		You can track only one of the following log types at a time: event, CPI, 
+	<td>Displays the status of a task that you specify and tracks its output.
+		You can track only one of the following log types at a time: event, CPI,
 		debug, or result. Defaults to event.
 	</td>
   </tr>
@@ -240,8 +245,8 @@ Use these commands to manage releases, stemcells, and snapshots.
   </tr>
   <tr>
     <td><code>take snapshot [JOB] [INDEX]</code></td>
-	<td>Takes a snapshot of the JOB VM that you specify.<br />
-		If you do not specify a <code>JOB</code>, takes a snapshot of every VM 
+	<td>Takes a snapshot of the job VM that you specify.<br />
+		If you do not specify a <code>JOB</code>, takes a snapshot of every VM
 		in your deployment.
 	</td>
   </tr>
