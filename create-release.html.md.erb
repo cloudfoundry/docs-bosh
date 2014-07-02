@@ -120,6 +120,8 @@ For each job, create a control script and save it as `ctl.erb` in the `templates
 The control script for the `web_ui` job looks like this:
 
 <pre type="terminal">
+#!/bin/bash
+
 RUN_DIR=/var/vcap/sys/run/web_ui
 LOG_DIR=/var/vcap/sys/log/web_ui
 PIDFILE=${RUN_DIR}/pid
@@ -138,8 +140,8 @@ case $1 in
 
     exec /var/vcap/packages/ruby_1.9.3/bin/bundle exec \
       rackup -p <%%= properties.web_ui.port %> \
-      >  $LOG_DIR/web_ui.stdout.log \
-      >> $LOG_DIR/web_ui.stderr.log
+      >>  $LOG_DIR/web_ui.stdout.log \
+      2>> $LOG_DIR/web_ui.stderr.log
 
     ;;
 
