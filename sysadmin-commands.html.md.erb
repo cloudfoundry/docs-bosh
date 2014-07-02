@@ -9,7 +9,7 @@ Use these commands to log into and connect with the BOSH Director.
 
 <table class="nice" >
   <tr>
-    <th>Command</th>
+    <th width=333px>Command</th>
     <th>Description</th>
   </tr>
   <tr>
@@ -20,8 +20,9 @@ Use these commands to log into and connect with the BOSH Director.
   </tr>
   <tr>
     <td><code>target [DIRECTOR_URL] [NAME]</code></td>
-	<td>Connects to the specified BOSH Director URL for ongoing communication.
-		You can provide <code>NAME</code> to set an alias for the Director.
+	<td>Connects to the BOSH Director URL that you specify for ongoing
+		communication. You can provide <code>NAME</code> to set an alias for the
+		Director.
 		<br />
         Displays the currently targeted Director if you do not provide a
 		URL.
@@ -34,14 +35,14 @@ Use these commands to administer deployment manifests and all aspects of cluster
 
 <table class="nice" >
   <tr>
-    <th>Command</th>
+    <th width=333px>Command</th>
     <th>Description</th>
   </tr>
   <tr>
     <td><code>cloudcheck [DEPLOYMENT_NAME] [--auto] [--report]</code></td>
 	<td>Scans for differences between the VM state database that the BOSH
 		Director maintains and the actual state of the VMs. For each difference
-		detected, <code>bosh cloudcheck</code> offers possible repair
+		the scan detects, <code>bosh cloudcheck</code> offers possible repair
 		options.
 	</td>
   </tr>
@@ -58,13 +59,13 @@ Use these commands to administer deployment manifests and all aspects of cluster
   </tr>
   <tr>
     <td><code>download manifest DEPLOYMENT_NAME [SAVE_AS]</code></td>
-	<td>Downloads and saves the deployment manifest of the specified
-		deployment.
+	<td>Downloads and saves the deployment manifest of the
+		<code>DEPLOYMENT_NAME</code> that you specify.
 	</td>
   </tr>
   <tr>
     <td><code>logs JOB [INDEX] [--agent] [--job] [--only filter1,filter2,...] [--all] [--dir DESTINATION_DIRECTORY]</code></td>
-	<td>Fetches job or agent logs from a VM. Supports custom filtering only for
+	<td>Fetches a job or agent log from a VM. Supports custom filtering only for
 		job logs.
 	</td>
   </tr>
@@ -81,7 +82,7 @@ Use these commands to administer deployment manifests and all aspects of cluster
   </tr>
   <tr>
 	<td><code>run errand ERRAND_NAME [--download-logs] [--logs-dir DESTINATION_DIRECTORY]</code></td>
-	<td>Instructs the BOSH Director to start running the named errand on a job
+	<td>Instructs the BOSH Director to run the named errand on a job
 		instance on a VM.
 	</td>
   </tr>
@@ -91,27 +92,27 @@ Use these commands to administer deployment manifests and all aspects of cluster
 <code>ssh JOB [INDEX] [COMMANDS]</code>
 	</td>
 	<td>When you provide arguments with an option flag, the BOSH Director starts
-		an interactive session with a job VM using the specified arguments. For
-		example, <code>bosh ssh --public_key mykey.pub</code> instructs the BOSH
-		Director to launch an interactive session on a job VM that uses your
-		<code>mykey.pub</code> public key.
+		an interactive session that uses the arguments that you specify with a 
+		job VM. For example, <code>bosh ssh --public_key mykey.pub</code> 
+		instructs the BOSH Director to launch an interactive session that uses 
+		your <code>mykey.pub</code> public key on a job VM.
 		<br /><br /><br /><br /><br />
 		When you provide arguments without an option flag, the Director executes
-		the arguments as commands on the job VM. For example, <code>bosh ssh ls -R</code> runs the <code>ls -R</code> command on the specified job VM.
+		the arguments as commands on the job VM. For example, <code>bosh ssh ls -R</code> runs the <code>ls -R</code> command on a job VM.
 	</td>
   </tr>
   <tr>
     <td><code>status [--uuid]</code></td>
 	<td>Displays the configuration file and deployment manifest in use, and
-		information about the BOSH Director such as name, URL, version, logged
-		in user name, UUID, and CPI.
+		information about the BOSH Director such as name, URL, version, current
+		username, UUID, and CPI.
 	</td>
   </tr>
   <tr>
     <td><code>task [TASK_ID] [--event] [--cpi] [--debug] [--result] [--raw]</code></td>
-	<td>Displays the status of a specified task and tracks its output. You can
-		track only one of the following log types at a time: event, CPI, debug,
-		or result. Defaults to event.
+	<td>Displays the status of a task that you specify and tracks its output. 
+		You can track only one of the following log types at a time: event, CPI, 
+		debug, or result. Defaults to event.
 	</td>
   </tr>
   <tr>
@@ -121,57 +122,64 @@ Use these commands to administer deployment manifests and all aspects of cluster
   </tr>
   <tr>
     <td><code>tasks recent [COUNT] [--no-filter]</code></td>
-	<td>Displays a table that lists the following for the last 30 tasks: ID
-		number, state, timestamp, user, description, and result.
+	<td>Displays a table that lists the following for the last
+		<code>COUNT</code> tasks: ID number, state, timestamp, user,
+		description, and result. <code>COUNT</code> defaults to 30.
 	</td>
   </tr>
   <tr>
     <td><code>vms [DEPLOYMENT_NAME] [--details] [--dns] [--vitals]</code></td>
-	<td>Displays a table that provides an overview of the VMs BOSH manages as
-		part of the current deployment. You can specify the following options:
+	<td>Displays a table that provides an overview of the VMs in
+		<code>DEPLOYMENT_NAME</code>. You can specify the following options:
 		<br />
 		- <strong>Details</strong>: Includes Cloud ID, Agent ID, and the status
 		of the BOSH Resurrector for each VM.
 		<br />
 		- <strong>DNS</strong>: Includes the DNS A record for each VM.
 		<br />
-		- <strong>Vitals</strong>: Includes load, CPU, memory usage, swap usage,
-		system disk usage, ephemeral disk usage, and persistent disk usage for
-		each VM.
+		- <strong>Vitals</strong>: Includes load, CPU, memory, swap, system
+		disk, ephemeral disk, and persistent disk usage for each VM.
     </td>
   </tr>
 </table>
 
 ## <a id="deployment"></a>Deployment Management ##
-Use these commands to deploy and delete VMs, view task information, and upload releases.
+Use these commands to create and delete deployments and view task information.
 
 <table class="nice" >
   <tr>
-    <th>Command</th>
+    <th width=333px>Command</th>
     <th>Description</th>
   </tr>
   <tr>
-    <td><code>delete deployment NAME [--force]
-</code></td>
-	<td>
-Deletes job instances, VMs, disks, snapshots, templates, and stemcells.</td>
+    <td><code>delete deployment NAME [--force]</code></td>
+	<td>Deletes job instances, VMs, disks, snapshots, templates, and stemcells.
+	</td>
   </tr>
   <tr>
     <td><code>deploy [--recreate]</code></td>
-	<td>
-Creates a deployment according to the currently selected deployment manifest.</td>
+	<td>Creates or recreates a deployment.
+	</td>
   </tr>
   <tr>
     <td><code>task [TASK_ID] [--event] [--cpi] [--debug] [--result] [--raw]</code></td>
-	<td>Displays the status of a specified task and tracks its output. You can track only one of the following log types at a time: event, CPI, debug, or result. Defaults to event.</td>
+	<td>Displays the status of a task that you specify and tracks its output.
+		You can track only one of the following log types at a time: event, CPI,
+		debug, or result. Defaults to event.
+	</td>
   </tr>
   <tr>
     <td><code>tasks [--no-filter]</code></td>
-	<td>Displays a table that lists the following for all currently running tasks: ID number, state, timestamp, user, description, and result.</td>
+	<td>Displays a table that lists the following for all currently running
+		tasks: ID number, state, timestamp, user, description, and result.
+	</td>
   </tr>
   <tr>
     <td><code>tasks recent [COUNT] [--no-filter]</code></td>
-	<td>Displays a table that lists the following for the last 30 tasks: ID number, state, timestamp, user, description, and result.</td>
+	<td>Displays a table that lists the following for the last
+		<code>COUNT</code> tasks: ID number, state, timestamp, user,
+		description, and result. <code>COUNT</code> defaults to 30.
+	</td>
   </tr>
 </table>
 
@@ -180,70 +188,7 @@ Use these commands to manage releases, stemcells, and snapshots.
 
 <table class="nice" >
   <tr>
-    <th>Command</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><code>create release [MANIFEST_FILE] [--force] [--final] <br />[--with-tarball] [--dry-run] [--version VERSION]
-</code></td>
-	<td>
-Creates a release.</td>
-  </tr>
-  <tr>
-    <td><code>delete release NAME [VERSION] [--force]</code></td>
-	<td>Deletes the release and associated jobs, packages, compiled packages, and their metadata. Fails if a deployment references this release.</td>
-  </tr>
-  <tr>
-    <td><code>delete snapshot SNAPSHOT_CID</code></td>
-	<td>Deletes a snapshot. Fails if the snapshot is in use.</td>
-  </tr>
-  <tr>
-    <td><code>delete snapshots</code></td>
-	<td>Deletes all snapshots.</td>
-  </tr>
-  <tr>
-    <td><code>delete stemcell NAME VERSION [--force]</code></td>
-	<td>Deletes a stemcell and all associated compiled packages. Fails if a deployment references this stemcell.</td>
-  </tr>
-  <tr>
-    <td><code>download public stemcell STEMCELL_FILENAME</code></td>
-	<td>Downloads the specified stemcell from the public blobstore.</td>
-  </tr>
-  <tr>
-    <td><code>public stemcells [--full] [--all]</code></td>
-	<td>Displays a list of public stemcells available for download.</td>
-  </tr>
-  <tr>
-    <td><code>snapshots
-</code></td>
-	<td>Displays the job, CID, and created date of all snapshots.</td>
-  </tr>
-  <tr>
-    <td><code>stemcells</code></td>
-	<td>Displays the name, version, and CID of available stemcells.</td>
-  </tr>
-  <tr>
-    <td><code>take snapshot [JOB] [INDEX]</code></td>
-	<td>Takes a snapshot of the specified JOB VM.<br />
-If the JOB is not specified, takes a snapshot of all deployments.</td>
-  </tr>
-  <tr>
-    <td><code>upload release [RELEASE_FILE] [--rebase] [--skip-if-exists]</code></td>
-	<td>Uploads the specified file as a release. If you do not provide a <code>RELEASE_FILE</code>, you must run this command from a valid release directory.</td>
-  </tr>
-  <tr>
-    <td><code>upload stemcell STEMCELL_LOCATION [--skip-if-exists]
-</code></td>
-	<td>Uploads the specified stemcell. You must specify a URI if the <code>STEMCELL_LOCATION</code> is remote.</td>
-  </tr>
-</table>
-
-## <a id="release"></a>Release Creation ##
-Use these commands to create releases and upload blobs.
-
-<table class="nice" >
-  <tr>
-    <th>Command</th>
+    <th width=333px>Command</th>
     <th>Description</th>
   </tr>
   <tr>
@@ -252,8 +197,87 @@ Use these commands to create releases and upload blobs.
 	<td>Creates a release.</td>
   </tr>
   <tr>
+    <td><code>delete release NAME [VERSION] [--force]</code></td>
+	<td>Deletes a release and associated jobs, packages, compiled packages, and
+		all package metadata.
+		Fails if a deployment references this release.
+	</td>
+  </tr>
+  <tr>
+    <td><code>delete snapshot SNAPSHOT_CID</code></td>
+	<td>Deletes a snapshot.
+	</td>
+  </tr>
+  <tr>
+    <td><code>delete snapshots</code></td>
+	<td>Deletes all snapshots.</td>
+  </tr>
+  <tr>
+    <td><code>delete stemcell NAME VERSION [--force]</code></td>
+	<td>Deletes a stemcell and all associated compiled packages. Fails if a
+		deployment references this stemcell.
+	</td>
+  </tr>
+  <tr>
+    <td><code>download public stemcell STEMCELL_FILENAME</code></td>
+	<td>Downloads the stemcell that you specify from the public blobstore.
+	</td>
+  </tr>
+  <tr>
+    <td><code>public stemcells [--full] [--all]</code></td>
+	<td>Displays a list of available public stemcells.
+	</td>
+  </tr>
+  <tr>
+    <td><code>snapshots</code></td>
+	<td>Displays the job, CID, and created date of all snapshots.
+	</td>
+  </tr>
+  <tr>
+    <td><code>stemcells</code></td>
+	<td>Displays the name, version, and CID of available stemcells.
+	</td>
+  </tr>
+  <tr>
+    <td><code>take snapshot [JOB] [INDEX]</code></td>
+	<td>Takes a snapshot of the JOB VM that you specify.<br />
+		If you do not specify a <code>JOB</code>, takes a snapshot of every VM 
+		in your deployment.
+	</td>
+  </tr>
+  <tr>
+    <td><code>upload release [RELEASE_FILE] [--rebase] [--skip-if-exists]</code></td>
+	<td>Uploads the file that you specify as a release. If you do not provide a
+		<code>RELEASE_FILE</code>, you must run this command from a valid
+		release directory.
+	</td>
+  </tr>
+  <tr>
+    <td><code>upload stemcell STEMCELL_LOCATION [--skip-if-exists]
+</code></td>
+	<td>Uploads the stemcell that you specify. You must specify a URI if the
+		<code>STEMCELL_LOCATION</code> is remote.
+	</td>
+  </tr>
+</table>
+
+## <a id="release"></a>Release Creation ##
+Use these commands to create releases and upload blobs.
+
+<table class="nice" >
+  <tr>
+    <th width=333px>Command</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>create release [MANIFEST_FILE] [--force] [--final] [--with-tarball] [--dry-run] [--version VERSION]</code></td>
+	<td>Creates a release.
+	</td>
+  </tr>
+  <tr>
     <td><code>upload blobs</code></td>
-	<td>Uploads new and updated blobs to the blobstore.</td>
+	<td>Uploads new and updated blobs to the blobstore.
+	</td>
   </tr>
 </table>
 
@@ -262,15 +286,20 @@ Use these commands to create and delete users from the BOSH Director.
 
 <table border="1" class="nice" >
   <tr>
-    <th>Command</th>
+    <th width=333px>Command</th>
     <th>Description</th>
   </tr>
   <tr>
     <td><code>create user [USERNAME] [PASSWORD]</code></td>
-	<td>Creates a user with the BOSH Director. Prompts you for a <code>USERNAME</code> and <code>PASSWORD</code> if you omit this information.</td>
+	<td>Creates a user with the BOSH Director. Prompts you for a
+		<code>USERNAME</code> and <code>PASSWORD</code> if you omit this
+		information.
+	</td>
   </tr>
   <tr>
     <td><code>delete user [USERNAME]</code></td>
-	<td>Deletes a specific user from the BOSH Director. Prompts you for a <code>USERNAME</code> if you omit this information.</td>
+	<td>Deletes a specific user from the BOSH Director. Prompts you for a
+		<code>USERNAME</code> if you omit this information.
+	</td>
   </tr>
 </table>
