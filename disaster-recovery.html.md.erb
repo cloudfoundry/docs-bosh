@@ -27,10 +27,10 @@ resolved.
 To enable alerts and notifications, configure your manifest as follows: 
 
 1. Locate the `hm` section of the Properties block of your deployment manifest. 
-1. Identify or add a notification recipient key and all required subkeys. 
-The table lists supported recipients:
 
-<table border="1" class="nice" >
+1. Identify or add a notification recipient key and all required subkeys. The table lists supported recipients:
+
+    <table border="1" class="nice" >
   <tr>
     <th>Recipient</th>
     <th>Key</th>
@@ -73,8 +73,7 @@ The table lists supported recipients:
   </tr>
 </table>
   
-1. Set the value of the recipient key to `true` and add appropriate values for 
-each subkey.
+1. Set the value of the recipient key to `true` and add appropriate values for each subkey.
 1. Redeploy.
 
 This manifest excerpt example shows how to enable Amazon CloudWatch 
@@ -112,8 +111,7 @@ This threshold is a percentage of the total number of VMs in the deployment.
 You specify the `time_threshold` and `percent_threshold` properties in your 
 manifest. 
 
-For example, in a deployment with 40 VMs, `percent_threshold` set to 20%, and  
-`time_threshold` set to 60 seconds, automatic recovery fails if the Resurrector 
+For example, in a deployment with 40 VMs, `percent_threshold` set to 20%, and `time_threshold` set to 60 seconds, automatic recovery fails if the Resurrector 
 receives eight or more unresponsive VM alerts within 60 seconds.
 
 ## <a id="manual"></a>Manual Recovery ##
@@ -151,8 +149,7 @@ Once you delete the VM reference, BOSH can no longer control the VM.
 
 ### <a id="editing"></a>Editing the Manifest ###
 
-Review the log files, alerts, and notifications for more information about  
-issues that persist after you run`bosh cloudcheck`. 
+Review the log files, alerts, and notifications for more information about issues that persist after you run`bosh cloudcheck`. 
 For example, an alert might show that a VM does not have enough memory. In this 
 case, edit the manifest to allocate more memory and redeploy.
 
