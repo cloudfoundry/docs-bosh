@@ -103,15 +103,12 @@ up AWS infrastructure.
 
 ### <a id='plugin'></a> Install the AWS plugin to the BOSH CLI ###
 
-1. Ensure that you have installed the most recent patch of Ruby 1.9.3, which is a prerequisite for installing the BOSH CLI. (Ruby 2.x is not supported.)
 1. Create a directory for your planned deployment and navigate to it.
-1. Install the BOSH CLI and its MicroBOSH plugin:
+1. Run this command to install BOSH CLI with the MicroBOSH and AWS plugins:
 
     `gem install bosh_cli bosh_cli_plugin_micro bosh_cli_plugin_aws`
 
-    **Note**:  To view the BOSH CLI help, run:
-
-    `bosh help --all`
+    <p class='note'><strong>NOTE</strong>: Installing the BOSH CLI requires Ruby 1.9.3-p547 or higher.</p>
 
 1. **(Optional)** If you are using the rbenv Ruby environment manager, refresh its list of gems:
 
