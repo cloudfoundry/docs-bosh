@@ -9,9 +9,7 @@ This topic describes how to connect BOSH or MicroBOSH to a highly-available exte
  
 ##<a id="bosh"></a>BOSH ##
 
-BOSH requires that you specify an internal MySQL or Postgres database or an external database.
-
-The BOSH deployment manifest includes a `postgres` sub-block. To configure BOSH to use an external Postgres database, modify the manifest with your Postgres database connection information and redeploy.
+BOSH requires that the BOSH deployment manifest contains database configuration information. By default, the manifest includes a pre-configured `postgres` sub-block that connects BOSH to an internal Postgres database. To configure BOSH to use an external Postgres database, modify the manifest with your external database connection information and redeploy.
 
 To connect BOSH to an external Postgres database:
 
@@ -37,10 +35,8 @@ To connect BOSH to an external Postgres database:
 
 ##<a id="microbosh"></a>MicroBOSH  
 
-MicroBOSH uses an internal Postgres database by default. You can override this default in MicroBOSH by specifying an internal MySQL database or an external database.
+MicroBOSH does not require that you specify a database in the deployment manifest. If you do not specify a database, MicroBOSH uses an internal Postgres database. To configure MicroBOSH to use an external Postgres database, add a `postgres` sub-block to your deployment manifest and redeploy.
 
-By default, the MicroBOSH deployment manifest does not include a `postgres` sub-block. To configure MicroBOSH to use an external Postgres database, add a `postgres` sub-block to your deployment manifest and redeploy.
- 
 To connect MicroBOSH to an external Postgres database:
 
 1. Record the hostname and port number of your Postgres database.
