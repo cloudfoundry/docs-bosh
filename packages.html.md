@@ -1,8 +1,8 @@
 ---
-title: Packages
+title: Understanding a BOSH Package
 ---
 
-A package is a collection of source code along with a script that describes how to compile the code to binary format and install the package, with optional dependencies on other prerequisite packages.
+A BOSH package is a collection of source code along with a script that describes how to compile the code to binary format and install the package, with optional dependencies on other prerequisite packages.
 
 ## <a id="package-compilation"></a> Package Compilation ##
 
