@@ -58,7 +58,7 @@ A BOSH Release is built from a directory tree with the contents described in thi
 | [.final_builds](final_builds.html) 	| final release builds in blobstore 	|
 | [config](config.html) 	| release configuration files 	|
 | [jobs](jobs.html) 	| job definitions 	|
-| [packages](packages.html) 	| package definitions 	|
+| [packages](../packages.html) 	| package definitions 	|
 | [src](src.html) 	| source code for packages 	|
 | [blobs](blobs.html) 	| local cache of large source code bundles 	|
 
