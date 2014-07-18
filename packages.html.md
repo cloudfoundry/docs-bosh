@@ -39,7 +39,7 @@ To create a BOSH package that contains a pre-compiled binary:
     cp -a myfile ${BOSH_INSTALL_TARGET}
     </pre>
 
-1. Continue [creating your release](../create-release.html). 
+1. Continue [creating your release](./create-release.html). 
 
 <p class="note"><strong>Note</strong>: Record the operating system that the pre-compiled software requires. You will use this information to select a valid stemcell during deployment.</p>
 
