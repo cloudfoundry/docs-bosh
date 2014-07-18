@@ -20,6 +20,30 @@ When the package is installed a symlink is created from `/var/vcap/packages/<pac
 
 There is an optional `pre_packaging` script, which is run when the source of the package is assembled during the `bosh create release`. It can for instance be used to limit which parts of the source that get packages up and stored in the blobstore. It gets the environment variable `BUILD_DIR` set by the BOSH CLI which is the directory containing the source to be packaged.
 
+### <a id="pre-compiled"></a>Pre-compiled Software Packaging ###
+
+You may want to create a package that contains pre-compiled software. Because a pre-compiled binary runs only on a specific operating system, you must use a stemcell that contains that operating system during deployment.
+
+To create a BOSH package that contains a pre-compiled binary:
+
+1. Obtain a compressed file that contains the pre-compiled binary.
+
+1. Create a packaging script that extracts the binary from the compressed file and copies it to the location you define with the `BOSH_INSTALL_TARGET` environment variable.
+
+    Store this script in the `packages/<package name>/packaging` directory.
+
+    Packaging script example:
+
+    <pre class="terminal">
+    tar zxf myfile.tar.gz
+    cp -a myfile ${BOSH_INSTALL_TARGET}
+    </pre>
+
+1. Continue [creating your release](../create-release.html). 
+
+<p class="note"><strong>Note</strong>: Record the operating system that the pre-compiled software requires. You will use this information to select a valid stemcell during deployment.</p>
+
+
 ## <a id="package-specs"></a>Package Specs ##
 
 The package contents are specified in the `spec` file, which has three sections:
