@@ -198,11 +198,11 @@ properties of the deployment. Create a manifest for your deployment as follows:
     $ mkdir ~/workspace/deployments
     </pre>
 
-1. Download the MicroBOSH deployment manifest [template](./micro_bosh.yml) to
+1. Download the MicroBOSH deployment manifest [template](./microbosh.yml) to
 your "deployments" directory. If necessary, rename the template file as
-`micro_bosh.yml`.
+`microbosh.yml`.
 
-1. Open the `micro_bosh.yml` file in a text editor. Replace the following
+1. Open the `microbosh.yml` file in a text editor. Replace the following
 properties in the template with the relevant information from AWS:
 
 * ELASTIC-IP-ADDRESS
@@ -313,13 +313,13 @@ cloud_properties:
 
 ## <a id="deploy"></a>Step 4: Deploy MicroBOSH ##
 
-1. In a terminal window, run `bosh micro deployment micro_bosh.yml` from your
+1. In a terminal window, run `bosh micro deployment microbosh.yml` from your
 "deployments" directory to instruct MicroBOSH to use your manifest file.
 
     <pre class='terminal'>
-    $ bosh micro deployment micro_bosh.yml
+    $ bosh micro deployment microbosh.yml
     WARNING! Your target has been changed to https://54.86.66.111:25555!
-    Deployment set to ~workspace/deployment/micro_bosh.yml
+    Deployment set to ~workspace/deployment/microbosh.yml
     </pre>
 
     **Note**: The `WARNING!` message alerts you to a change in targeted Elastic
@@ -340,11 +340,11 @@ identifier from the downloaded stemcell.
     Conventionally, 'bosh-deployments.yml' should be saved in ~/workspace.
     Is ~/workspace/deployments a directory where you can save state? (type 'yes' to continue): yes
 
-    Deploying new micro BOSH instance ~/workspace/deployments/micro_bosh.yml to 'https://54.86.66.111:25555' (type 'yes' to continue): yes
+    Deploying new micro BOSH instance ~/workspace/deployments/microbosh.yml to 'https://54.86.66.111:25555' (type 'yes' to continue): yes
       Started deploy micro bosh
       ...
       Done deploy micro bosh
-    Deployed '~/workspace/deployments/micro_bosh.yml' to 'https://54.86.66.111:25555', took 00:04:51 to complete
+    Deployed '~/workspace/deployments/microbosh.yml' to 'https://54.86.66.111:25555', took 00:04:51 to complete
     </pre>
 
 1. Use `bosh target ELASTIC-IP-ADDRESS` to log into your new MicroBOSH server.
@@ -368,5 +368,5 @@ manifest.
 
 If you see other error messages:
 
-* Check your `micro_bosh.yml` for errors.
+* Check your `microbosh.yml` for errors.
 * Review your AWS configuration.
