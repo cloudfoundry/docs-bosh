@@ -1,0 +1,39 @@
+name: openstack-microbosh
+logging:
+  level: DEBUG
+
+network:
+  cloud_properties:
+    net_id: NETWORK-UUID # Replace with your OpenStack internal network UUID
+  ip: SUBNET-POOL-IP-ADDRESS # Replace with an address from the subnet IP address allocation pool of your OpenStack internal network
+  type: manual
+  vip: FLOATING-IP # Replace with a floating IP address
+
+resources:
+  cloud_properties:
+    instance_type: m1.xlarge
+  persistent_disk: 16384
+
+cloud:
+  plugin: openstack
+  properties:
+    openstack:
+      api_key: OPENSTACK-PASSWORD # Replace with your OpenStack password
+      auth_url: IDENTITY-API-ENDPOINT # Replace with your OpenStack Identity API endpoint
+      default_key_name: microbosh # OpenStack Keypair name
+      default_security_groups:
+      - bosh
+      - ssh
+      private_key: ~/ssh2/id_rsa # Path to OpenStack Keypair private key
+      tenant: OPENSTACK-TENANT # Replace with OpenStack tenant name
+      username: OPENSTACK-USERNAME # Replace with OpenStack username
+
+apply_spec:
+  properties:
+    director:
+      max_threads: 3
+    hm:
+      resurrector_enabled: true
+    ntp: # This example uses the North American NTP servers. Edit for your region.
+    - 0.north-america.pool.ntp.org
+    - 1.north-america.pool.ntp.org
