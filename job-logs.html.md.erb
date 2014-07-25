@@ -3,30 +3,30 @@ title: Using BOSH Jobs and Errand Logs
 ---
 
 This topic describes different types of logs for BOSH jobs and errands and how you access and view them.
-For general information on logging, refer to the [Cloud Foundry Logging](http://www.google.com/url?q=http%3A%2F%2Fdocs.cloudfoundry.org%2Frunning%2Fmanaging-cf%2Flogging.html&sa=D&sntz=1&usg=AFQjCNGSgsE6ud76M7bfqJ-PFx4xYcCg6A) topic.
- 
+For general information on logging, refer to the [Cloud Foundry Logging](../running/managing-cf/logging.html) topic.
+
 ## <a id="jobs-logging"></a>Jobs Logging ##
 
 You can access logs by two methods:
 
  * Using the `bosh ssh` command to access the log location.
  * Using the log-specific BOSH command to generate a config file to standard output.
- 
+
 The following sections describe the logs that contain job information.
 
 ### <a id="agent-logs"></a>BOSH Agent Logs ###
 
-Agent logs contain configuration and runtime information from an Agent running on a specific VM. Review these logs if a VM fails. 
+Agent logs contain configuration and runtime information from an Agent running on a specific VM. Review these logs if a VM fails.
 The Agent stores logs in `/var/vcap/bosh/log`.
 
 To review an Agent log:
 
 1. Run `bosh vms` to display a table of that provides an overview of VMs in the deployment.
-    
+
 	Use this table to identify the Job/Index associated with a specific VM.
 
     For example:
-	
+
     <pre class="terminal">
     $ bosh vms
     Deployment `wordpress'
@@ -40,7 +40,7 @@ To review an Agent log:
     </pre>
 
 1. Run `bosh logs <job_name> <index> --agent`.
-	
+
     If you receive notification that a job will not start, use `tail` to review the log for that Agent for possible causes:
 
     <pre class="terminal">
@@ -49,12 +49,12 @@ To review an Agent log:
 
 ### <a id="director-logs"></a>BOSH Director Logs ###
 
-When you run a BOSH command using the [BOSH Command Line Interface (CLI)](http://www.google.com/url?q=http%3A%2F%2Fdocs-cloudfoundry-staging.cfapps.io%2Fbosh%2Fbosh-cli.html&sa=D&sntz=1&usg=AFQjCNGmisLsBEGpJ_nZjfPOVuxDyuvOiA), the Director stores all activities for the specific command in a task log. Review these logs when you experience an issue with a BOSH command. The Director stores logs in `/var/vcap/sys/log/director`.
+When you run a BOSH command using the [BOSH Command Line Interface (CLI)](./bosh-cli.html), the Director stores all activities for the specific command in a task log. Review these logs when you experience an issue with a BOSH command. The Director stores logs in `/var/vcap/sys/log/director`.
 
 To access the Director logs:
 
 1. Run bosh tasks recent to find the task number of the failed command.
-1. Run `bosh task <task_number>`. 
+1. Run `bosh task <task_number>`.
 
     Example:
 
@@ -73,7 +73,7 @@ To access the Director logs:
 
 ### <a id="monit-logs"></a>BOSH Monit Logs ###
 
-The BOSH agent uses monit to start, restart, and stop services included in each [job template](http://www.google.com/url?q=http%3A%2F%2Fdocs.cloudfoundry.org%2Fbosh%2Fterminology.html%23job&sa=D&sntz=1&usg=AFQjCNGG2o3rRTQmaCmwL-1dl4I-Sa97eQ).
+The BOSH agent uses monit to start, restart, and stop services included in each [job template](./terminology.html).
 
 Monit detects errors and outputs useful information to its log. Use `tail` to examine the monit.log:
 
@@ -86,12 +86,12 @@ $ sudo tail -f -n 200 /var/vcap/monit/monit.log
 ### <a id="jobs-services-logs"></a>Jobs Services Logs ###
 
 Active jobs on running VMs produce service logs. The BOSH deployment configuration determines the output location of a specific log. The creator of a release defines this location  in a config file stored in `release/jobs/<job_name>/templates/<config_file>`.
-  
+
 If you use Cloud Foundry for deployment, it configures jobs to log to `/var/vcap/sys/log/<job_name>/<job_name>.log`.
 
 
 To review Service logs, run `bosh logs <job_name> <index>`.
-	
+
 ### <a id="database-services-logs"></a>Database Services Output Logs ###
 
 Database services that run within a job, such as PostgreSQL, can output logs into their own default locations. These default logging locations depend on the specific database services.
