@@ -209,29 +209,3 @@ $ bosh cancel task 123
 
 The `bosh cancel task` command terminates the errand process, releases the
 deployment lock, and returns the errand VM to the resource pool.
-
-#### <a id="errand-logging"></a>Errand Logging ####
-
-BOSH names logs using the errand name and log type, and writes the logs to
-the `/var/vcap/sys/log/<errand-name>` directory.
-For example, BOSH writes the stdout log for an errand named "smoke-test" to
- `/var/vcap/sys/log/smoke-test/smoke-test.stdout.log`.
-
-<p class="note"><strong>Note</strong>: Since BOSH releases the VM back into the resource pool when an  errand completes, you cannot access any log files or screen output after this process finishes.</p>
-
-By default, BOSH streams errand output smaller than 1MB, stdout, and stderr to
-the screen.
-You must redirect errand output greater than 1MB to a file.
-
-To save output from a BOSH errand VM:
-
-1. In the BOSH errand script, redirect the output to a log file.
-1. Using the BOSH CLI, run `bosh errand` with the `--download-logs` option to
-download the log files.
-
-By default, BOSH downloads the logs to your present working directory.
-Use the `--logs-dir destination_directory` option to change this directory.
-
-<pre class='terminal'>
-$ run errand SampleErrand --download-logs --logs-dir ~/workspace/SampleLogDirectory
-</pre>

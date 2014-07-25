@@ -1,80 +1,116 @@
 ---
-title: How to Locate and Watch Logs on Job VMs
+title: Using BOSH Jobs and Errand Logs
 ---
 
-When deploying a BOSH release, such as the Cloud Foundry cf-release, a job might
-fail to run.
+This topic describes different types of logs for BOSH jobs and errands and how you access and view them.
+For general information on logging, refer to the [Cloud Foundry Logging](http://www.google.com/url?q=http%3A%2F%2Fdocs.cloudfoundry.org%2Frunning%2Fmanaging-cf%2Flogging.html&sa=D&sntz=1&usg=AFQjCNGSgsE6ud76M7bfqJ-PFx4xYcCg6A) topic.
+ 
+## <a id="jobs-logging"></a>Jobs Logging ##
 
-Example:
+You can access logs by two methods:
 
-<pre class="terminal">
-Updating job common4
-  core/0 (canary) (00:12:55)
-Done                    1/1 00:12:55
+ * Using the `bosh ssh` command to access the log location.
+ * Using the log-specific BOSH command to generate a config file to standard output.
+ 
+The following sections describe the logs that contain job information.
 
-Error 400007: `core/0' is not running after update
+### <a id="agent-logs"></a>BOSH Agent Logs ###
+
+Agent logs contain configuration and runtime information from an Agent running on a specific VM. Review these logs if a VM fails. 
+The Agent stores logs in `/var/vcap/bosh/log`.
+
+To review an Agent log:
+
+1. Run `bosh vms` to display a table of that provides an overview of VMs in the deployment.
+    
+	Use this table to identify the Job/Index associated with a specific VM.
+
+    For example:
+	
+    <pre class="terminal">
+    $ bosh vms
+    Deployment `wordpress'
+    +-------------+---------+---------------+-------------------------------+
+    | Job/index   | State   | Resource Pool | IPs                           |
+    +-------------+---------+---------------+-------------------------------+
+    | mysql/0     | running | common        | 10.190.215.248, 23.23.249.123 |
+    | nginx/0     | running | common        | 10.190.47.40, 23.23.247.237   |
+    | wordpress/0 | running | common        | 10.111.27.137, 23.23.249.121  |
+    +-------------+---------+---------------+-------------------------------+
+    </pre>
+
+1. Run `bosh logs <job_name> <index> --agent`.
+	
+    If you receive notification that a job will not start, use `tail` to review the log for that Agent for possible causes:
+
+    <pre class="terminal">
+    $ sudo tail -f -n 200 /var/vcap/bosh/log/current
+    </pre>
+
+### <a id="director-logs"></a>BOSH Director Logs ###
+
+When you run a BOSH command using the [BOSH Command Line Interface (CLI)](http://www.google.com/url?q=http%3A%2F%2Fdocs-cloudfoundry-staging.cfapps.io%2Fbosh%2Fbosh-cli.html&sa=D&sntz=1&usg=AFQjCNGmisLsBEGpJ_nZjfPOVuxDyuvOiA), the Director stores all activities for the specific command in a task log. Review these logs when you experience an issue with a BOSH command. The Director stores logs in `/var/vcap/sys/log/director`.
+
+To access the Director logs:
+
+1. Run bosh tasks recent to find the task number of the failed command.
+1. Run `bosh task <task_number>`. 
+
+    Example:
+
+    <pre class="terminal">
+    $ bosh tasks recent 5
++----+-------+-------------------------+-----------------------------------------------+--------------------------------------+
+| #  | State | Timestamp               | Description                                   | Result                               |
++----+-------+-------------------------+-----------------------------------------------+--------------------------------------+
+| 47 | done  | 2012-04-20 19:23:59 UTC | ssh: cleanup:{"job"=>"mysql", "indexes"=>[0]} | #File:0x00000002eb1cc8               |
+| 46 | done  | 2012-04-20 19:23:09 UTC | ssh: setup:{"job"=>"mysql", "indexes"=>[0]}   | #File:0x00000004326618               |
+| 45 | done  | 2012-04-20 19:15:34 UTC | fetch logs                                    | 22cb3f46-b818-4c44-8f71-c1afdxxxxxxx |
+| 44 | done  | 2012-04-20 19:12:57 UTC | retrieve vm-stats                             |                                      |
+| 43 | done  | 2012-04-20 19:09:37 UTC | fetch logs                                    | fc339e17-544a-419f-9b69-927479xxxxxx |
++----+-------+-------------------------+-----------------------------------------------+--------------------------------------+
 </pre>
 
-To diagnose the cause of the failure, you need to look at various log files on the failing instance. Hopefully the answer to your issue will become apparent and you can make corrections.
+### <a id="monit-logs"></a>BOSH Monit Logs ###
 
-## Access a Job VM ##
+The BOSH agent uses monit to start, restart, and stop services included in each [job template](http://www.google.com/url?q=http%3A%2F%2Fdocs.cloudfoundry.org%2Fbosh%2Fterminology.html%23job&sa=D&sntz=1&usg=AFQjCNGG2o3rRTQmaCmwL-1dl4I-Sa97eQ).
 
-In the example above, the job VM is named `core/0`. You can get a terminal session to this job VM via the `bosh ssh` command. Run either of the following commands:
-
-<pre class="terminal">
-$ bosh ssh core/0
-$ bosh ssh core 0
-</pre>
-
-## Log Files of Interest ##
-
-There are four places to look for log files:
-
-* Job template log folders
-* BOSH agent log file
-* BOSH monit log file
-* Services output log locations
-
-### Job Template Log Folders ###
-
-The first place to look for problems is the log files of the processes running within the job VM.
-
-By convention, all BOSH releases are configured to place log files in `/var/vcap/sys/log/*/*`.
-
-<pre class="terminal">
-$ sudo tail -f -n 200 /var/vcap/sys/log/*/*
-</pre>
-
-**Note**: When writing a BOSH release, configure all services to place their logs in `/var/vcap/sys/log/JOB_NAME`.
-
-### BOSH Agent Log File ###
-
-If the job(s) within a VM have not yet started, look in the BOSH agent's log file for possible errors or aberrations:
-
-<pre class="terminal">
-$ sudo tail -f -n 200 /var/vcap/bosh/log/current
-</pre>
-
-### BOSH monit Log File ###
-
-Monit is used by the BOSH agent to start, restart, and stop services included in each job template.
-
-Monit can detect errors and output useful information to its log file. Examine the monit.log file:
+Monit detects errors and outputs useful information to its log. Use `tail` to examine the monit.log:
 
 <pre class="terminal">
 $ sudo tail -f -n 200 /var/vcap/monit/monit.log
 </pre>
 
-**Note**: When writing a BOSH release, include a [monit wrapper](http://stackoverflow.com/questions/3356476/debugging-monit/4439403#4439403 "shell - Debugging monit - Stack Overflow") around your job's `start` and `stop` scripts to aid future debugging.
+<p class=”note”><strong>Note</strong>: When creating a BOSH release, include a monit wrapper around the start and stop scripts of a job to aid future debugging.</p>
 
-### Services Output Log Locations ###
+### <a id="jobs-services-logs"></a>Jobs Services Logs ###
 
-Finally, it is possible that the services being run within a job, such as PostgreSQL, can output logs into its own default locations. These default logging locations depend on the services.
+Active jobs on running VMs produce service logs. The BOSH deployment configuration determines the output location of a specific log. The creator of a release defines this location  in a config file stored in `release/jobs/<job_name>/templates/<config_file>`.
+  
+If you use Cloud Foundry for deployment, it configures jobs to log to `/var/vcap/sys/log/<job_name>/<job_name>.log`.
 
-For example, if your BOSH release has a `postgres` job, the startup log may be at `/var/vcap/store/postgres/pg_log/startup.log`.
 
-The following command might be useful in finding these additional log files:
+To review Service logs, run `bosh logs <job_name> <index>`.
+	
+### <a id="database-services-logs"></a>Database Services Output Logs ###
+
+Database services that run within a job, such as PostgreSQL, can output logs into their own default locations. These default logging locations depend on the specific database services.
+
+## <a id="errand-logs"></a>Errand Logging ##
+
+BOSH names logs using the errand name and log type, and writes the logs to the `/var/vcap/sys/log/<errand-name>` directory. For example, BOSH writes the stdout log for an errand named “smoke-test” to `/var/vcap/sys/log/smoke-test/smoke-test.stdout.log`.
+
+<p class=”note”><strong>Note</strong>: Since BOSH releases the VM back into the resource pool when an errand completes, you cannot access any logs or screen output after this process finishes. </p>
+
+By default, BOSH streams errand output smaller than 1MB, stdout, and stderr to the screen. You must redirect errand output greater than 1MB to a file.
+
+To save output from a BOSH errand VM:
+
+1. In the BOSH errand script, redirect the output to a log.
+1. Using the BOSH CLI, run `bosh errand` with the `--download-logs` option to download the logs.
+
+By default, BOSH downloads the logs to your present working directory. Use the `--logs-dir destination_directory` option to change this directory.
 
 <pre class="terminal">
-$ sudo tail -n 200 -f /var/vcap/store/postgres/*/*.log
+$ run errand SampleErrand --download-logs --logs-dir ~/workspace/SampleLogDirectory
 </pre>
