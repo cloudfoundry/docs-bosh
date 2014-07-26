@@ -1,11 +1,11 @@
 ---
-title: Using BOSH Jobs and Errand Logs
+title: Using BOSH Job and Errand Logs
 ---
 
-This topic describes different types of logs for BOSH jobs and errands and how you access and view them.
+This topic describes different types of logs for BOSH job and errands and how you access and view them.
 For general information on logging, refer to the [Cloud Foundry Logging](../running/managing-cf/logging.html) topic.
 
-## <a id="jobs-logging"></a>Jobs Logging ##
+## <a id="jobs-logging"></a>Job Logging ##
 
 You can access logs by two methods:
 
@@ -21,15 +21,15 @@ The Agent stores logs in `/var/vcap/bosh/log`.
 
 To review an Agent log:
 
-1. Run `bosh vms` to display a table of that provides an overview of VMs in the deployment.
+1. Run `bosh vms` to display a table that provides an overview of VMs in the deployment.
 
-	Use this table to identify the Job/Index associated with a specific VM.
+	Use this table to identify the job and index associated with a specific VM.
 
     For example:
 
     <pre class="terminal">
     $ bosh vms
-    Deployment `wordpress'
+    Deployment 'wordpress'
     +-------------+---------+---------------+-------------------------------+
     | Job/index   | State   | Resource Pool | IPs                           |
     +-------------+---------+---------------+-------------------------------+
@@ -53,7 +53,7 @@ When you run a BOSH command using the [BOSH Command Line Interface (CLI)](./bosh
 
 To access the Director logs:
 
-1. Run bosh tasks recent to find the task number of the failed command.
+1. Run `bosh tasks` recent to find the task number of the failed command.
 1. Run `bosh task <task_number>`.
 
     Example:
