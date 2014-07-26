@@ -2,7 +2,7 @@
 title: Using BOSH Job and Errand Logs
 ---
 
-This topic describes different types of logs for BOSH job and errands and how you access and view them.
+This topic describes different types of logs for BOSH jobs and errands and how you access and view them.
 For general information on logging, refer to the [Cloud Foundry Logging](../running/managing-cf/logging.html) topic.
 
 ## <a id="jobs-logging"></a>Job Logging ##
@@ -83,7 +83,7 @@ $ sudo tail -f -n 200 /var/vcap/monit/monit.log
 
 <p class=”note”><strong>Note</strong>: When creating a BOSH release, include a monit wrapper around the start and stop scripts of a job to aid future debugging.</p>
 
-### <a id="jobs-services-logs"></a>Jobs Services Logs ###
+### <a id="jobs-services-logs"></a>Job Services Logs ###
 
 Active jobs on running VMs produce service logs. The BOSH deployment configuration determines the output location of a specific log. The creator of a release defines this location  in a config file stored in `release/jobs/<job_name>/templates/<config_file>`.
 
