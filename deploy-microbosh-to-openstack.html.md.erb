@@ -40,9 +40,9 @@ local computer.
 To prepare your OpenStack project for deploying MicroBOSH, use the OpenStack GUI
 to perform the following tasks:
 
-* Create a [Keypair](#keypair)
-* Create and configure [Security Groups](#security-groups)
-* Allocate a [floating IP address](#floating-ip)
+* Create a [Keypair](#keypair).
+* Create and configure [Security Groups](#security-groups).
+* Allocate a [floating IP address](#floating-ip).
 
 ### <a id="keypair"></a>Create a Keypair ###
 
@@ -320,7 +320,7 @@ hypervisor, and underlying operating system.
 1. Use `bosh micro deploy STEMCELL-NAME` to deploy MicroBOSH using the
 downloaded stemcell.
 
-	<p class="note"><strong>Note</strong>: A red <code>No bosh-deployments.yml file found</code> warning appears. Type yes at the prompt to allow MicroBOSH to save state in the current directory.</p>
+	<p class="note"><strong>Note</strong>: A red <code>No bosh-deployments.yml file found</code> warning appears. Type "yes" at the prompt to allow MicroBOSH to save state in the current directory.</p>
 
 	<pre class="terminal">
 	$ bosh micro deploy bosh-stemcell-2624-openstack-kvm-centos.tgz
