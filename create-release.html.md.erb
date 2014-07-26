@@ -173,7 +173,7 @@ On a deployed release, a BOSH Agent runs on each job VM.
 BOSH communicates with the Agent, which in turn executes commands in the
 control script.
 The Agent does this using open source process monitoring software called
-[Monit] (http://mmonit.com/monit/).
+[Monit](http://mmonit.com/monit/).
 
 The `monit` file for the `web_ui` job looks like this:
 
@@ -188,7 +188,7 @@ check process web_ui
 Update the `monit` file for each of your jobs.
 Use `/var/vcap` paths as shown in the example.
 
-<p class="note"><strong>Note</strong>: When developing or testing a release, you can use an empty <code>monit</code> file.</p>
+<p class="note"><strong>Note</strong>: BOSH requires a `monit` file for each job in a release. When developing a release, you can use an empty <code>monit</code> file to meet this requirement without having to first create a control script.</p>
 
 ### <a id="job-specs"></a> Update job specs  ###
 
