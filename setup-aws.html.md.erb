@@ -1,0 +1,147 @@
+---
+title: Setting Up AWS for BOSH
+---
+
+This topic explains how to prepare AWS for deploying BOSH or MicroBOSH.
+
+##<a id="hardware"></a>Step 1: Allocate Hardware Resources ##
+
+Your intended use of BOSH determines what hardware resources you should allocate
+in your IaaS.
+
+For example:
+
+* BOSH needs room to store the releases it deploys.
+Larger applications or larger numbers of applications require more disk space.
+* Larger numbers of active users require more RAM.
+
+AWS describes hardware in terms of [instance types](http://aws.amazon.com/ec2/instance-types/).
+The **m2.medium** instance type provides a balance of computer, memory, and
+network resources suitable for many deployments.
+For MicroBOSH, the **t2.small** instance might provide sufficient resources for
+testing purposes, but can prove insufficient for production deployments.
+
+##<a id="traffic"></a>Step 2: Restrict Network Traffic ##
+
+Create and configure two security groups to restrict incoming network traffic to
+the BOSH VMs.
+
+###<a id="ssh"></a>SSH Security Group ###
+
+To create an SSH Security Group:
+
+1. Create a security group named **SSH**.
+
+1. Add the following rules to the SSH Security Group:
+
+<table border="1" class="nice" >
+  <tr><th>Type</th><th>Port</th><th>Source</th><th>User or Purpose</th></tr>
+  <tr><td>UDP</td><td>68</td><td>0.0.0.0/0</td><td>BOOTP/DHCP</td></tr>
+  <tr><td>TCP</td><td>22</td><td>0.0.0.0/0</td><td>SSH</td></tr>
+  <tr><td>ICMP</td><td>-1</td><td>0.0.0.0/0</td><td>ping</td></tr>
+</table>
+
+###<a id="bosh"></a>BOSH Security Group ###
+
+To create a BOSH Security Group:
+
+1. Create a security group named **BOSH**.
+
+1. Add the following rules to the BOSH Security Group:
+
+<table border="1" class="nice" >
+  <tr><th>Type</th><th>Port / Port Range</th><th>Source</th><th>User or Purpose</th></tr>
+  <tr><td>TCP</td><td>1-65535</td><td>BOSH</td><td>Members of the BOSH Security Group</td></tr>
+  <tr><td>UDP</td><td>53</td><td>0.0.0.0/0</td><td>Inbound DNS requests</td></tr>
+  <tr><td>UDP</td><td>68</td><td>0.0.0.0/0</td><td>BOOTP/DHCP</td></tr>
+  <tr><td>TCP</td><td>4222</td><td>0.0.0.0/0</td><td>NATS</td></tr>
+  <tr><td>TCP</td><td>6868</td><td>0.0.0.0/0</td><td>BOSH Agent</td></tr>
+  <tr><td>TCP</td><td>25250</td><td>0.0.0.0/0</td><td>BOSH Blobstore</td></tr>
+  <tr><td>TCP</td><td>25555</td><td>0.0.0.0/0</td><td>BOSH Director</td></tr>
+  <tr><td>TCP</td><td>25777</td><td>0.0.0.0/0</td><td>BOSH Registry</td></tr>
+</table>
+
+##<a id="bosh-cli"></a>Step 3: Install the BOSH CLI with MicroBOSH and AWS Plugins ##
+
+<p class="note"><strong>Note</strong>: Installing the BOSH CLI requires the latest patched version of Ruby 1.9.3, 2.0.x, or 2.1.x.</p>
+
+You must use the BOSH Command Line Interface (CLI) to interact with MicroBOSH
+and BOSH.
+
+Run this command to install the BOSH CLI with the MicroBOSH and AWS plugins:
+
+`gem install bosh_cli bosh_cli_plugin_micro bosh_cli_plugin_aws`
+
+##<a id="domain"></a>Step 4: (Optional) Prepare a Domain for Cloud Foundry Deployment ##
+
+<p class="note"><strong>Note</strong>: Perform this step only if you want to deploy Cloud Foundry with BOSH.</p>
+
+To prepare a domain:
+
+1. Choose a domain name for your deployment.
+
+    For example, if you choose **cloud.example.com**, services that you later
+	deploy using BOSH become available as **service-name.cloud.example.com**.
+
+1. Use the [Route 53 control panel](https://console.aws.amazon.com/route53) to
+create an AWS Route 53 Hosted Zone for your domain.
+Delegate DNS authority for your domain to the addresses in the **delegation set** field that appears in the control panel.
+
+	For example, if your domain is **cloud.example.com**, create an NS record in
+	the DNS server for `example.com` for each address in the delegation set.
+
+##<a id="environment"></a>Step 5: Set Environment Variables ##
+
+To set the environment variables required for deploying to AWS:
+
+1. Create a text file named `bosh_environment`.
+
+1. Add the following information, replacing the value for each line to match
+your configuration.
+
+	The values shown correspond to the earlier Route 53 **cloud.example.com**
+	example.
+
+    <p class="note"><strong>Note</strong>: `BOSH_VPC_DOMAIN` and
+	`BOSH_VPC_SUBDOMAIN` must correspond to the domain name you set up when you
+	configured Route 53. The only supported value for `BOSH_AWS_REGION` is
+	`us-east-1`.</p>
+
+    ```
+	export BOSH_VPC_DOMAIN=example.com
+	export BOSH_VPC_SUBDOMAIN=mycloud
+	export BOSH_AWS_ACCESS_KEY_ID=AWS_ACCESS_KEY_ID
+	export BOSH_AWS_SECRET_ACCESS_KEY=AWS_SECRET_ACCESS_KEY
+	export BOSH_AWS_REGION=us-east-1
+	export BOSH_VPC_SECONDARY_AZ=us-east-1a
+	export BOSH_VPC_PRIMARY_AZ=us-east-1d
+	```
+
+1. Choose availability zones that are listed as “operating normally” on the [AWS Console Status Health Section](https://console.aws.amazon.com/ec2/v2/home?region=us-east-1) for your
+region.
+
+1. In a terminal window, run `source bosh_environment` to set the new
+environment variables for the current shell.
+
+1. **(Optional)** Use `bosh aws create` to create your AWS infrastructure. Skip
+this step if you are deploying MicroBOSH.
+
+	The `bosh aws create` command generates the receipt files
+	`aws_rds_receipt.yml` and `aws_vpc_receipt.yml`, a VPC Internet Gateway, VPC
+	subnets, three RDS databases, and a NAT VM.
+	Remove the NAT VM if you do not plan to deploy Cloud Foundry.
+
+	<p class="note"><strong>Note</strong>: RDS database creation might take
+		longer than twenty minutes to complete.</p>
+
+    <pre class="terminal">
+	$ bundle exec bosh aws create
+	Executing migration CreateKeyPairs
+	allocating 1 KeyPair(s)
+	Executing migration CreateVpc
+	. . .
+	details in S3 receipt: aws_rds_receipt and file: aws_rds_receipt.yml
+	Executing migration CreateS3
+	creating bucket xxxx-bosh-blobstore
+	creating bucket xxxx-bosh-artifacts
+	</pre>
