@@ -29,15 +29,11 @@ networks.
 1. Route requests to BOSH or your applications from a router or load balancer on
 a public network.
 
-Isolating BOSH and your applications in this way increase security and allows
-your to use as many IP addresses as you need by adding subnets to the private
-networks.
-
 One way to accomplish this is to configure Network Address Translation (NAT) on a VM.
 Assign two network adapters to the VM.
 This results in the VM having two IP addresses:
 
 * A public-facing IP address: This IP address connects to the public network
-VLAN though an external gateway IP address.
+VLAN through an external gateway IP address.
 * An internal VLAN IP address: This IP address connects to BOSH and your
 application VMs through an internal gateway IP address.
