@@ -83,18 +83,17 @@ $ sudo tail -f -n 200 /var/vcap/monit/monit.log
 
 <p class=”note”><strong>Note</strong>: When creating a BOSH release, include a monit wrapper around the start and stop scripts of a job to aid future debugging.</p>
 
-### <a id="jobs-services-logs"></a>Job Services Logs ###
+### <a id="jobs-logs"></a>Job Logs ###
 
-Active jobs on running VMs produce service logs. The BOSH deployment configuration determines the output location of a specific log. The creator of a release defines this location  in a config file stored in `release/jobs/<job_name>/templates/<config_file>`.
+Active jobs on running VMs produce logs. The BOSH deployment configuration determines the output location of a specific log. The creator of a release defines this location  in a config file stored in `release/jobs/<job_name>/templates/<config_file>`.
 
 If you use Cloud Foundry for deployment, it configures jobs to log to `/var/vcap/sys/log/<job_name>/<job_name>.log`.
 
+To review a job log, run `bosh logs <job_name> <index>`.
 
-To review Service logs, run `bosh logs <job_name> <index>`.
+### <a id="services-logs"></a>Services Logs ###
 
-### <a id="database-services-logs"></a>Database Services Output Logs ###
-
-Database services that run within a job, such as PostgreSQL, can output logs into their own default locations. These default logging locations depend on the specific database services.
+Services that run within a job, such as PostgreSQL, can output logs into their own default locations. These default logging locations depend on the specific database services.
 
 ## <a id="errand-logs"></a>Errand Logging ##
 
