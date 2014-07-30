@@ -9,7 +9,7 @@ directory](./create-release.html).
 You build BOSH packages in a BOSH release directory. Your release might contain one or more packages.
 This topic describes how to create a BOSH package that includes either source code or pre-compiled software. 
 
-This documentation refers to [Step 3: Create Package Skeletons of the Creating a Release](./create-release.html#pkg-skeletons) topic.
+The information and procedures in this topic form [Step 3: Create Package Skeletons](./create-release.html#pkg-skeletons) of the Creating a Release topic. Refer to that topic to understand where BOSH packaging fits in the context of creating a BOSH release.
 
 ## <a id="prerequisite"></a>Prerequisite ##
 
