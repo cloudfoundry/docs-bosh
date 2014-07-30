@@ -114,8 +114,7 @@ The control script:
 * Includes a start command and a stop command.
 * Is an ERb template stored in the `templates` directory for the relevant job.
 
-For each job, create a control script and save it as `ctl.erb` in the `templates`
- directory for its job.
+For each job, create a control script that configures the job to store logs in `/var/vcap/sys/log/JOB_NAME`. Save this script as `ctl.erb` in the `templates` directory for its job.
 
 The control script for the `web_ui` job looks like this:
 
