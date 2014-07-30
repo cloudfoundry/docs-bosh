@@ -1,64 +1,103 @@
 ---
-title: Understanding a BOSH Package
+title: Creating BOSH Packages
 ---
 
-A BOSH package is a collection of source code along with a script that describes how to compile the code to binary format and install the package, with optional dependencies on other prerequisite packages.
+A BOSH package is a component of a BOSH release that contains a packaging `spec` file and a packaging script. 
+Each package also references source code or pre-compiled software that you store in the `src` directory of a BOSH [release  
+directory](./create-release.html).
 
-## <a id="package-compilation"></a> Package Compilation ##
+You build BOSH packages in a BOSH release directory. Your release might contain one or more packages.
+This topic describes how to create a BOSH package that includes either source code or pre-compiled software. 
 
-Packages are compiled on demand during deployment. The [Director](/bosh/terminology.html#director) first checks whether a compiled version of the package already exists for the stemcell version to which the package will be deployed. If a compiled version doesn't already exist, the Director instantiates a compile VM using the same stemcell version to which the package will be deployed. This action gets the package source from the blobstore, compiles it, packages the resulting binaries, and stores the package in the blobstore.
+This documentation refers to [Step 3: Create Package Skeletons of the Creating a Release](./create-release.html#pkg-skeletons) topic.
 
-To turn source code into binaries, each package has a `packaging` script that is responsible for the compilation, and is run on the compile VM. The script gets two environment variables set from the BOSH agent:
+## <a id="prerequisite"></a>Prerequisite ##
 
-`BOSH_INSTALL_TARGET`
-: Where to install the files the package generates. It is set to `/var/vcap/data/packages/<package name>/<package version>`.
+Create a release directory. Refer to the [Create a Release Directory](./create-release.html#release-dir) section in the Creating 
+a BOSH Release topic. 
 
-`BOSH_COMPILE_TARGET`
-: Directory containing the source. It is the current directory when the `packaging` script is invoked.
+## <a id="edit-a-package-spec"></a>Edit a Package Spec ##
 
-When the package is installed a symlink is created from `/var/vcap/packages/<package name>` which points to the latest version of the package. This link should be used when referring to another package in the `packaging` script.
+You specify package contents in the package `spec` file. BOSH automatically creates this file as a template with the following 
+sections when you run the `bosh generate package PACKAGE_NAME` command:
 
-There is an optional `pre_packaging` script, which is run when the source of the package is assembled during the `bosh create release`. It can for instance be used to limit which parts of the source that get packages up and stored in the blobstore. It gets the environment variable `BUILD_DIR` set by the BOSH CLI which is the directory containing the source to be packaged.
+ * `name`: Defines the package name.
+ * `dependencies`: **(Optional)** Defines a list of other packages that this package depends on.
+ * `files`: Defines a list of files that this package contains. You can define this list explicitly or through pattern-matching.  
 
-### <a id="pre-compiled"></a>Pre-compiled Software Packaging ###
+To edit a package spec file:
 
-You may want to create a package that contains pre-compiled software. Because a pre-compiled binary runs only on a specific operating system, you must use a stemcell that contains that operating system during deployment.
+1. Identify all compile-time dependencies.
+    A compile-time dependency occurs when a package depends on another package. 
+	For more information, refer to the [Make  Dependency Graphs](./create-release.html#graph) section of the Creating a BOSH 
+Release topic.
+1. Run `bosh generate package PACKAGE_NAME` for each compile-time dependency. 
+1. Copy all files that the package requires to the `src` directory of the BOSH release directory.
 
-To create a BOSH package that contains a pre-compiled binary:
+    Typically, these files are source code. If you are including pre-compiled software, copy a compressed file that contains the 
+pre-compiled binary.
 
-1. Obtain a compressed file that contains the pre-compiled binary.
+1. Edit each package spec file as follows:
+    * Add the names of the files for that package.
+    * Add the names of any compile-time dependencies to each package spec file. Use `[]` to indicate an empty array if a package 
+has no compile-time dependencies.
 
-1. Create a packaging script that extracts the binary from the compressed file and copies it to the location you define with the `BOSH_INSTALL_TARGET` environment variable.
+    The example shows an edited Ruby spec file with dependencies and file names. 
+    Ruby 1.9.3 has a compile-time dependency on libyaml\_0.1.4, and the ruby\_1.9.3 source code consists of three files.
 
-    Store this script in the `packages/<package name>/packaging` directory.
+	
+    Example Ruby package spec file:
 
-    Packaging script example:
+<pre class=’code’>
+  name: ruby&#95;1.9.3
 
-    <pre class="terminal">
-    tar zxf myfile.tar.gz
-    cp -a myfile ${BOSH_INSTALL_TARGET}
-    </pre>
+  dependencies:
+  - libyaml&#95;0.1.4
 
-1. Continue [creating your release](./create-release.html). 
+  files:
+  - ruby&#95;1.9.3/ruby-1.9.3-p484.tar.gz
+  - ruby&#95;1.9.3/rubygems-1.8.24.tgz
+  - ruby&#95;1.9.3/bundler-1.2.1.gem
+</pre>
+	 
+	 
+## <a id="create-a-packaging-script"></a>Create a Packaging Script ##
 
-<p class="note"><strong>Note</strong>: Record the operating system that the pre-compiled software requires. You will use this information to select a valid stemcell during deployment.</p>
+BOSH automatically creates a packaging script file template when you run the `bosh generate package PACKAGE_NAME` command. Each 
+packaging script in a package must include a symlink in the format `/var/vcap/packages/<package name>` for each dependency and 
+deliver all compiled code to `BOSH_INSTALL_TARGET`. Store the script in the `packages/<package name>/packaging` directory.
+
+<p class=”note”><strong>Note</strong>: If your package contains source code, the script must compile the code and deliver it to 
+<code>BOSH_INSTALL_TARGET</code>. If your package contains pre-compiled software, the script must extract the binary from the compressed file and copy it to <code>BOSH_INSTALL_TARGET</code>. </p>
+
+Example Ruby packaging script:
+
+<pre class=’code’>
+set -e -x
+
+tar xzf ruby&#95;1.9.3/ruby-1.9.3-p484.tar.gz
+pushd ruby-1.9.3-p484
+  ./configure \
+   --prefix=${BOSH&#95;INSTALL&#95;TARGET} \
+   --disable-install-doc \
+   --with-opt-dir=/var/vcap/packages/libyaml&#95;0.1.4
+
+   make
+   make install
+popd
+
+tar zxvf ruby&#95;1.9.3/rubygems-1.8.24.tgz
+pushd rubygems-1.8.24
+  ${BOSH&#95;INSTALL&#95;TARGET}/bin/ruby setup.rb
+popd
+
+${BOSH&#95;INSTALL&#95;TARGET}/bin/gem install ruby&#95;1.9.3/bundler-1.2.1.gem --no-ri --no-rdoc
+</pre>
 
 
-## <a id="package-specs"></a>Package Specs ##
-
-The package contents are specified in the `spec` file, which has three sections:
-
-`name`
-: Name of the package.
-
-`dependencies`
-: Optional list of other packages this package depends on. See the next section, Dependencies.
-
-`files`
-: List of files this package contains, which can contain globs. A `*` matches any file and can be restricted by other values in the glob; for example, `*.rb` only matches files ending with `.rb`. A `**` matches directories recursively.
-
-## <a id="dependencies"></a>Dependencies ##
-
-The package `spec` file contains a section that lists other packages that the current package depends on. These dependencies are compile time dependencies, as opposed to the job dependencies, which are runtime dependencies.
-
-When the [Director](/bosh/terminology.html#director) plans the compilation of a package during a deployment, it first makes sure all dependencies are compiled before it proceeds to compile the current package, and that prior to starting the compilation all dependent packages are installed on the compilation VM.
+    
+Example script referencing pre-compiled code:
+<pre class=’code’>
+tar zxf myfile.tar.gz
+cp -a myfile ${BOSH&#95;INSTALL&#95;TARGET}
+</pre>
