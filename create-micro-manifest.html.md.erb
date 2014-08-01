@@ -53,8 +53,8 @@ logging:
 
 The `network` block is where you specify network configuration information for the deployment.
 
-**NOTE**: In a multi-VM BOSH deployment manifest, this block is named
-`networks`.
+<p class="note"><strong>Note</strong>: In a multi-VM BOSH deployment manifest, this block is named
+<code>networks</code>.</p>
 
 The `type` attribute can be set to either of two values:
 
@@ -72,8 +72,8 @@ MicroBOSH VM.
 Then you can access the VM from outside of the its network.
 If set, `allocated_floating_ip` **must** be a floating IP that was allocated before you deploy.
 
-**Note**: the `vip` and `allocated_floating_ip` attributes exist in AWS and
-OpenStack but not in vSphere.
+<p class="note"><strong>Note</strong>: The <code>vip</code> and <code>allocated_floating_ip</code> attributes exist in AWS and
+OpenStack but not in vSphere.</p>
 
 The `network` sub-block is IaaS-dependent, because subnets, and other
 keys may differ from IaaS to IaaS.
@@ -330,9 +330,9 @@ network:
     net_id: <network_uuid>
 ~~~
 
-**Note**: Manual networking requires you to set the IP address of the MicroBOSH VM.
+<p class="note"><strong>Note</strong>: Manual networking requires you to set the IP address of the MicroBOSH VM.
 The IP address you choose must be within the IP range of a subnet set of the
-network specified in `net_id`.
+network specified in <code>net_id</code>.</p>
 
 #### <a id="flavors"></a>OpenStack flavors ####
 

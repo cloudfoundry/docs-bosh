@@ -81,7 +81,7 @@ Monit detects errors and outputs useful information to its log. Use `tail` to ex
 $ sudo tail -f -n 200 /var/vcap/monit/monit.log
 </pre>
 
-<p class=”note”><strong>Note</strong>: When creating a BOSH release, include a monit wrapper around the start and stop scripts of a job to aid future debugging.</p>
+<p class="note"><strong>Note</strong>: When creating a BOSH release, include a monit wrapper around the start and stop scripts of a job to aid future debugging.</p>
 
 ### <a id="jobs-logs"></a>Job Logs ###
 
@@ -99,7 +99,7 @@ Services that run within a job, such as PostgreSQL, can output logs into their o
 
 BOSH names logs using the errand name and log type, and writes the logs to the `/var/vcap/sys/log/<errand-name>` directory. For example, BOSH writes the stdout log for an errand named “smoke-test” to `/var/vcap/sys/log/smoke-test/smoke-test.stdout.log`.
 
-<p class=”note”><strong>Note</strong>: Since BOSH releases the VM back into the resource pool when an errand completes, you cannot access any logs or screen output after this process finishes. </p>
+<p class="note"><strong>Note</strong>: Since BOSH releases the VM back into the resource pool when an errand completes, you cannot access any logs or screen output after this process finishes. </p>
 
 By default, BOSH streams errand output smaller than 1MB, stdout, and stderr to the screen. You must redirect errand output greater than 1MB to a file.
 

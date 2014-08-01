@@ -187,7 +187,7 @@ check process web_ui
 Update the `monit` file for each of your jobs.
 Use `/var/vcap` paths as shown in the example.
 
-<p class="note"><strong>Note</strong>: BOSH requires a `monit` file for each job in a release. When developing a release, you can use an empty <code>monit</code> file to meet this requirement without having to first create a control script.</p>
+<p class="note"><strong>Note</strong>: BOSH requires a <code>monit</code> file for each job in a release. When developing a release, you can use an empty <code>monit</code> file to meet this requirement without having to first create a control script.</p>
 
 ### <a id="job-specs"></a> Update job specs  ###
 
@@ -338,7 +338,7 @@ along with a clear, modular structure. This is not mandatory; what packages
 to create is a matter of preference. You could even opt to put all the
 dependencies together in a single package, though that is not recommended.
 
-**Note**: Use of the `pre_packaging` file is not recommended, and is not discussed in this tutorial.
+<p class="note"><strong>Note</strong>: Use of the <code>pre_packaging</code> file is not recommended, and is not discussed in this tutorial.</p>
 
 ### <a id="update-pkging-specs"></a> Update packaging specs ###
 
@@ -618,11 +618,11 @@ If you have a `private.yml` file:
 * **Required**: Include the `blobstore_path` in the `private.yml` file.
 * **Optional**: Include the `blobstore_path` in the `final.yml` file. Doing so allows you to `gitignore` the `private.yml` file but still allow the release to be downloaded and used on other systems.
 
-**Note**: The `blobstore_secret` is required for the `local` type blobstore.
-This is true even though the `blobstore_secret` line is deprecated and its
+<p class="note"><strong>Note</strong>: The <code>blobstore_secret</code> is required for the <code>local</code> type blobstore.
+This is true even though the <code>blobstore_secret</code> line is deprecated and its
 content does not matter.
-There is never `blobstore_secret` line for blobstores of types other than
-`local`.
+There is never <code>blobstore_secret</code> line for blobstores of types other than
+<code>local</code>.</p>
 
 ### <a id="inform"></a> Inform BOSH where blobs are ###
 
