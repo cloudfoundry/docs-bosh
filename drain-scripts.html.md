@@ -1,7 +1,7 @@
 ---
 title: Drain Scripts
 ---
-BOSH jobs can have drain scripts that will be run by BOSH when the job is
+BOSH jobs can have drain scripts that BOSH runs when the job is
 restarted or stopped. These scripts allow the job to clean up and get into a
 state where it can be stopped.
 
@@ -25,9 +25,9 @@ the interpreter. Drain scripts are commonly implemented as shell scripts.
 
 The following environment variables are set in a drain script when it is running:
 
-  * BOSH_JOB_STATE - JSON description of the current job state
+  * BOSH\_JOB\_STATE - JSON description of the current job state
 
-  * BOSH_JOB_NEXT_STATE - JSON description of the new job state that is being
+  * BOSH\_JOB\_NEXT\_STATE - JSON description of the new job state that is being
     applied
 
 One use case for this feature is to determine if the size of the persistent
