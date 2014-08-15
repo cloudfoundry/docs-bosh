@@ -1,0 +1,89 @@
+---
+title: Using BOSH Snapshots with Your IaaS
+---
+
+A snapshot of a virtual machine is a file-based copy that preserves the state, disk data, and configuration of the VM
+at the time you created the snapshot.
+
+Take a snapshot of a VM before installing new software, making configuration changes, or deploying major updates. If
+the changes cause a failure or system error, use the snapshot to revert the VM to the state prior to your changes. You
+must use the recovery features of your IaaS with the [snapshot Content IDs (CIDs)](#manual) to recover the snapshots.
+
+<p class="note"><strong>Note</strong>: While snapshots allow you to revert a VM to a prior state, snapshots are not backups. Taking a snapshot does not create a complete copy of the original VM disk files. If the original VM disk files are deleted, any snapshots files are useless.</p>
+
+##<a id='enable'>Enabling BOSH Snapshots in Your Deployment</a>##
+
+BOSH snapshots use the snapshot functions your IaaS provides. Since your IaaS might or might not provide snapshots,
+BOSH disables snapshots by default. If your IaaS supports snapshots, you must enable snapshots in your IaaS and in BOSH
+to use BOSH snapshots.
+
+To enable BOSH snapshots in a deployment:
+
+1. Change the value of the `enable_snapshots` key in the `director` block of your deployment manifest from `false` to
+`true`:
+
+	<pre class="code">
+		director:
+			. . .
+			enable\_snapshots: true
+	</pre>
+
+1. Run `bosh deploy` to update your deployment.
+
+##<a id='manual'>Manually Running BOSH Snapshot Commands</a>##
+
+Once you enable snapshots in your deployment, you can use the commands described in the following table.
+
+<p class="note"><strong>Note</strong>: When you manually take a snapshot, BOSH does not explicitly instruct your IaaS to pause any processes or write buffered data to disk. Depending on your IaaS, a snapshot taken manually might not fully capture all the data on your VM at the point you take the snapshot.</p>
+
+<table border="1" class="nice" >
+<tr>
+  <th><strong>COMMAND</strong></th>
+  <th><strong>DESCRIPTION</strong></th>
+</tr>
+<tr>
+  <td><code>bosh snapshots</code></td><td>Displays the job, Content ID (CID), and created date of all snapshots. Run <code>bosh snapshots</code> to display a list of CIDs if you need to find specific snapshots to recover.</td>
+</tr>
+<tr>
+  <td><code>bosh take snapshot [JOB] [INDEX]</code></td><td>Takes a snapshot of the job VM that you specify.
+	If you do not specify a <code>JOB</code>, takes a snapshot of every VM in your deployment.</td>
+</tr>
+<tr>
+  <td><code>bosh delete snapshot SNAPSHOT-CID</code></td><td>Deletes the snapshot that SNAPSHOT-CID specifies.</td>
+</tr>
+<tr>
+  <td><code>bosh delete snapshots</code></td><td>Deletes all snapshots.</td>
+</tr>
+</table>
+
+##<a id='automatic'>Automatically Running BOSH Snapshot Commands</a>##
+
+Once you enable snapshots in your deployment, BOSH automatically takes a snapshot of a VM whenever an event triggers a
+job update on that VM. Before taking the snapshot, BOSH instructs your IaaS to pause any running processes, databases,
+and VMs, and write all buffered data to disk.
+
+You can also instruct the BOSH Director to take snapshots at regular intervals.
+
+<p class="note"><strong>Note</strong>: When the BOSH Director starts a scheduled snapshot, BOSH does not explicitly instruct your IaaS to pause any processes or write buffered data to disk. Depending on your IaaS, a scheduled snapshot might not fully capture all the data on your VM at the point you take the snapshot.</p>
+
+To schedule snapshots:
+
+1. [Enable snapshots in your deployment](#enable).
+
+1. Add a `snapshot_schedule` key to the `director` block of your deployment manifest.
+
+1. Add a [Rufus Scheduler](https://github.com/jmettraux/rufus-scheduler) [cron-formatted](https://github.com/jmettraux/rufus-scheduler/blob/two/README.rdoc#a-note-about-cron-jobs) schedule as a value for the `snapshot_schedule` key.
+
+1. Add a `self_snapshot_schedule` key to the `director` block of your deployment manifest.
+
+1. Add a Rufus Scheduler cron-formatted schedule as a value for the `self_snapshot_schedule` key.
+
+	<pre class=”code”>
+ 	director:
+  		. . .
+  		enable\_snapshots: true
+  		snapshot\_schedule: 0 0 7 * * * UTC
+  		self\_snapshot\_schedule: 0 0 6 * * * UTC
+	</pre>
+
+1. Run `bosh deploy` to update your deployment.
