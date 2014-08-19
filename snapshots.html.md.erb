@@ -25,7 +25,7 @@ To enable BOSH snapshots in a deployment:
 	<pre class="code">
 		director:
 			. . .
-			enable\_snapshots: true
+			enable_snapshots: true
 	</pre>
 
 1. Run `bosh deploy` to update your deployment.
@@ -81,9 +81,9 @@ To schedule snapshots:
 	<pre class=”code”>
  	director:
   		. . .
-  		enable\_snapshots: true
-  		snapshot\_schedule: 0 0 7 * * * UTC
-  		self\_snapshot\_schedule: 0 0 6 * * * UTC
+  		enable_snapshots: true
+  		snapshot_schedule: 0 0 7 * * * UTC
+  		self_snapshot_schedule: 0 0 6 * * * UTC
 	</pre>
 
 1. Run `bosh deploy` to update your deployment.
