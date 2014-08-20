@@ -139,8 +139,8 @@ $ run errand SampleErrand --download-logs --logs-dir ~/workspace/SampleLogDirect
 
 ##<a id="log-rotation"></a>Log Rotation ##
 
-BOSH manages log rotation with the [logrotate](http://linuxconfig.org/logrotate)
-log file management utility.
+BOSH manages log rotation with the [Logrotate](http://linuxconfig.org/logrotate)
+log file management utility. BOSH instructs Logrotate to act on all .log files in the `/var/vcap/sys/log/`, `/var/vcap/sys/log/*/`, and `/var/vcap/sys/log/*/*/` directories.
 
 Logrotate runs automatically with the following non-configurable settings:
 
@@ -152,4 +152,3 @@ Logrotate runs automatically with the following non-configurable settings:
 * `copytruncate`: Copy log files, then truncate in place instead of creating new
 	files
 * `size 50M`: Rotate log files when they exceed 50 MB in size
-* `/var/vcap/sys/log/`, `/var/vcap/sys/log/*/`, and `/var/vcap/sys/log/*/*/` directories: Act on any .log file in these directories
