@@ -163,7 +163,7 @@ tab.
 1. Click **Edit**.
 
 1. MicroBOSH needs ports 25555 (BOSH Director), 6868 (BOSH Agent) and 22 (SSH to
-debug) opened for inbound traffic. Add the following rules:
+debug) opened for inbound traffic. In addition, BOSH needs access to all TCP and UDP ports. Add the following rules:
 
     <table border="1" class="nice" >
 	<tr>
@@ -179,6 +179,12 @@ debug) opened for inbound traffic. Add the following rules:
 	</tr>
 	<tr>
 	  <td>Custom TCP Rule</td><td>22</td><td>0.0.0.0/0</td>
+	</tr>
+	<tr>
+	  <td>Custom TCP Rule</td><td>ALL</td><td>BOSH Security Group</td>
+	</tr>
+	<tr>
+	  <td>Custom UDP Rule</td><td>ALL</td><td>BOSH Security Group</td>
 	</tr>
     </table>
 
