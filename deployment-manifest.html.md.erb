@@ -18,6 +18,8 @@ UUID of the BOSH Director managing the deployment
 deployment
 * [Resource Pools Block](#resource-pools): Properties of VMs that BOSH creates
 and manages
+* [Disk Pools Block](#disk-pools): Properties of disk pools that BOSH creates
+and manages
 * [Networks Block](#networks): Network configuration information
 * [Jobs Block](#jobs): Configuration and resource information for jobs
 * [Properties Block](#properties): Describes global properties and generalized
@@ -125,19 +127,17 @@ resource\_pools:
 **disk_pools** [Array, required]: Specifies the [disk pools](./terminology.html#disk-pools) a deployment uses. A deployment manifest can describe multiple disk pools and uses unique names to identify and reference them.
 
 * **name** [String, required]: A unique name used to identify and reference the disk pool
-* **disk_size** [Integer, required]: Specifies the disk size. If `persistent_disk` is a positive integer, BOSH creates a persistent disk of that size in megabytes and attaches it to each job instance VM.
+* **disk_size** [Integer, required]: Specifies the disk size. If `disk_size` is a positive integer, BOSH creates a [persistent disk](./persistent-disks.html) of that size in megabytes and attaches it to each job instance VM.
 * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create disks. Examples: `type`, `iops`
 
 Example:
 <pre class='terminal'>
 disk\_pools:
 - name: default
-  disk_size: 2
+  disk\_size: 2
   cloud\_properties:
     type: gp2
 </pre>
-
-[Read more about persistent disks](./persistent-disks.html)
 
 ## <a id='networks'></a>Networks Block ##
 
