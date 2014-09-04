@@ -22,5 +22,6 @@ title: BOSH Terminology
 | <a id="paas"></a>PaaS | Platform as a Service, where large-scale distributed software is deployed to the platform. The PaaS abstracts away details of the underlying IaaS. Cloud Foundry is a PaaS. |
 | <a id="release"></a>Release | A collection of configuration files, job definitions, source code, package definitions and accompanying information needed to make a software component deployable by BOSH. A release should have no dependencies that need to be fetched from the internet. |
 | <a id="resource_pools"></a>Resource Pools | Resource pools are collections of VMs created from the same stemcell, with the same configuration, in a deployment.  |
+| <a id="disk_pools"></a>Disk Pools | Disk pools are collections of disks created with the same configuration, in a deployment.  |
 | <a id="stemcell"></a>Stemcell | A generic VM image that BOSH clones and configures to during deployment. A stemcell is a template from which BOSH creates whatever VMs are needed for a wide variety of components and products. |
 | <a id="task"></a>Task | The basic unit of work performed by BOSH. You can get the status and logs for any task. You can monitor the task throughout its lifecycle, which progresses through states like started, running, done, and error. |

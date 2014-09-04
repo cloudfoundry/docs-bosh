@@ -120,6 +120,25 @@ resource\_pools:
     availability\_zone: us-east-1c
 </pre>
 
+## <a id='disk-pools'></a>Disk Pools Block ##
+
+**disk_pools** [Array, required]: Specifies the [disk pools](./terminology.html#disk-pools) a deployment uses. A deployment manifest can describe multiple disk pools and uses unique names to identify and reference them.
+
+* **name** [String, required]: A unique name used to identify and reference the disk pool
+* **disk_size** [Integer, required]: Specifies the disk size. If `persistent_disk` is a positive integer, BOSH creates a persistent disk of that size in megabytes and attaches it to each job instance VM.
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create disks. Examples: `type`, `iops`
+
+Example:
+<pre class='terminal'>
+disk\_pools:
+- name: default
+  disk_size: 2
+  cloud\_properties:
+    type: gp2
+</pre>
+
+[Read more about persistent disks](./persistent-disks.html)
+
 ## <a id='networks'></a>Networks Block ##
 
 **networks** [Hash, required]: Each sub-block listed in the Networks block specifies a network configuration that jobs can reference. There are three different network types: `manual`, `dynamic`, and `vip`.
@@ -185,7 +204,7 @@ networks:
     * **name** [String, required]: The job template name
     * **version** [String, required]: The release where the job template exists
 * **lifecycle** [String, optional]: Specifies the kind of task the job represents. Valid values are `service` and `errand`; defaults to `service`. A `service` runs indefinitely and restarts if it fails. An `errand` starts with a manual trigger and does not restart if it fails.
-* **persistent_disk** [Integer, optional]: Specifies the persistent disk size; defaults to 0 (no persistent disk). If `persistent_disk` is a positive integer, BOSH creates a persistent disk of that size in megabytes and attaches it to each job instance VM.
+* **persistent_disk** [Integer, optional]: Specifies the persistent disk size; defaults to 0 (no persistent disk). If `persistent_disk` is a positive integer, BOSH creates a persistent disk of that size in megabytes and attaches it to each job instance VM. [Read more about persistent disks](./persistent-disks.html)
 * **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job, and override any identically named global properties.
 * **resource_pool** [String, required]: A valid resource pool name from the Resource Pools block. BOSH runs instances of this job in a VM from the named resource pool.
 * **update** [Hash, optional]: Specific update settings for this job. Use this to overriding global job update settings on a per-job basis.
