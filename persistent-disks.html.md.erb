@@ -1,0 +1,115 @@
+---
+title: Persistent Disks
+---
+
+Certain deployment jobs require to store data that should not be deleted when VM 
+is stopped, recreated, or deleted.
+
+Persistent disks are kept when deployment job:
+
+* is updated with new stemcell
+* is accidently deleted from the IaaS and later is recreated
+* is stopped
+
+Persistent disks are deleted when deployment job:
+
+* stops specifying persistent disk size or a disk pool
+* is scaled down via instances declaration (only disks associated with removed instances will be deleted)
+* is implictly renamed in the deployment maniefst
+* is deleted from the deployment manifest
+
+You can specify that a deployment job needs a persistent disk attachment in one of two ways: 
+via persistent\_disk declaration or via persistent\_disk_pool declaration.
+
+
+## <a id='persistent-disk'></a>persistent_disk Declaration ##
+
+**persistent_disk** [Integer, optional]: Specifies the persistent disk size; 
+defaults to 0 (no persistent disk). If persistent_disk is a positive integer, 
+BOSH creates a persistent disk of that size in megabytes and attaches it to each job instance VM.
+
+Example:
+
+<pre class='terminal'>
+jobs:
+- name: redis
+  templates:
+  - {name: redis, release: redis}
+  instances: 1
+  resource_pool: default
+  persistent_disk: 1_024
+  networks:
+  - name: default
+</pre>
+
+Downside to using simple persistent_disk declaration is that you do not have a control over 
+what type of persistent disk will be selected. CPI will pick its default disk configuration.
+
+
+## <a id='persistent-disk-pool'></a>persistent\_disk_pool Declaration ##
+
+**persistent\_disk_pool** [String, optional]: Name of the disk pool. A deployment manifest 
+can describe multiple disk pools and uses unique names to identify and reference them.
+
+### Disk Pools ###
+
+Similarly to how deployment job can be associated with a VM type via resource\_pool declaration, 
+persistent\_disk_pool declaration allows you to specify precise type and size of the persistent disk.
+
+**disk_pools** [Array, optional]: Array of disk pool declarations
+
+* **name** [String, required]: A unique name used to identify and reference the disk pool.
+* **disk_size** [Integer, required]: Size of the disk in megabytes.
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to 
+create disk. Examples: `type`, `ops`
+
+Example:
+
+<pre class='terminal'>
+disk_pools:
+- name: my-fast-disk
+  disk_size: 1_024
+  cloud_properties: {type: gp2}
+
+- name: my-standard-disk
+  disk_size: 1_024
+  cloud_properties: {type: standard}
+
+jobs:
+- name: redis
+  templates:
+  - {name: redis, release: redis}
+  instances: 1
+  resource_pool: default
+  persistent_disk_pool: my-fast-disk
+  networks:
+  - name: default
+</pre>
+
+
+## <a id='checking-stats'></a>Checking Stats ##
+
+After deploy completes `bosh vms --vitals` should start showing percentage values
+in the `Persistent Disk Usage` instead of 'n/a' for deployment job instances 
+that have persistent disk.
+
+
+## <a id='accessing-persistent-disk'></a>Accessing on Deployed VMs ##
+
+On the deployed VMs persistent disk will be mounted at `/var/vcap/store`. 
+By convention each release job (specified via `templates` key in the 
+definition of a deployment job) creates directory by its name 
+(e.g. `/var/vcap/store/redis`) and sets correct permissions.
+
+
+## <a id='changing-persistent-disk'></a>Changing Disk Properties ##
+
+BOSH allows to change disk types &amp; sizes by simply modifying the deployment manifest. 
+As long as the deployment job name stays the same, existing persistent disks will be converted
+to match requested disk type and size.
+
+During the disk migration BOSH Director communicates with BOSH Agent to attach both
+existing and newly created disk to the same VM and copy over the data. After transfer 
+successfully completes BOSH deletes existing disk and keeps new disk attached to the instance.
+
+Beware that IaaS might disallow attaching particular disk types &amp; sizes to certain VMs types.

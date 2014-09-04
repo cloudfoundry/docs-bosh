@@ -177,18 +177,6 @@ BROKER_URL='http://&lt;%= p("broker.host") %&gt;:&lt;%= p("broker.port") %&gt;'
 BROKER_USERNAME='&lt;%= p("broker.username") %&gt;'
 BROKER_PASSWORD='&lt;%= p("broker.password") %&gt;'
 
-# partially-redacted command for debugging
-echo "
-bundle exec ./bin/broker-registrar delete
-    --cf-address $CF_API_URL
-    --cf-username $CF_ADMIN_USERNAME
-    --cf-password ********
-    --broker-name $BROKER_NAME
-    --broker-url $BROKER_URL
-    --broker-username $BROKER_USERNAME
-    --broker-password ********
-"
-
 bundle exec ./bin/broker-registrar delete \
     --cf-address $CF_API_URL                \
     --cf-username $CF_ADMIN_USERNAME        \
