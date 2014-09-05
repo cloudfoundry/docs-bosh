@@ -127,7 +127,7 @@ resource\_pools:
 **disk_pools** [Array, required]: Specifies the [disk pools](./terminology.html#disk-pools) a deployment uses. A deployment manifest can describe multiple disk pools and uses unique names to identify and reference them.
 
 * **name** [String, required]: A unique name used to identify and reference the disk pool
-* **disk_size** [Integer, required]: Specifies the disk size. If `disk_size` is a positive integer, BOSH creates a [persistent disk](./persistent-disks.html) of that size in megabytes and attaches it to each job instance VM.
+* **disk_size** [Integer, required]: Specifies the disk size. `disk_size` must be a positive integer. BOSH creates a [persistent disk](./persistent-disks.html) of that size in megabytes and attaches it to each job instance VM.
 * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create disks. Examples: `type`, `iops`
 
 Example:

@@ -62,13 +62,13 @@ To specify that a deployment job needs an attached persistent disk, add a
 
 The persistent disk pool declaration allows you to specify the precise type and size of the persistent disks attached to your job VMs.
 
-A Disk Pool block contains the following key-value pairs:
+* **persistent\_disk_pool** [String, optional]: Associated with a job; specifies a particular disk_pool.
 
-* **persistent\_disk_pool** [String, optional]: Name of the disk pool. A deployment manifest can describe multiple disk pools and uses unique names to identify and reference them.
-* **disk_pools** [Array, optional]: An array of disk pool declarations.
-* **name** [String, required]: A unique name used to identify and reference the disk pool.
-* **disk_size** [Integer, required]: Size of the disk in megabytes.
-* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create disk. Examples: `type`, `ops`
+* **disk_pools** [Array, optional]: Specifies the [disk_pools](./terminology.html#disk-pools) a deployment uses. A deployment manifest can describe multiple disk pools and uses unique names to identify and reference them.
+
+    * **name** [String, required]: A unique name used to identify and reference the disk pool.
+    * **disk_size** [Integer, required]: Size of the disk in megabytes.
+    * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create disk. Examples: `type`, `ops`
 
 Example:
 
@@ -99,7 +99,7 @@ After your deployment completes, run `bosh vms --vitals` from a terminal window 
 
 ## <a id='accessing-persistent-disk'></a>Accessing Persistent Disks ##
 
-You can access persistent disks on deployed VMs through `ssh`. Persistent disks are mounted at `/var/vcap/store`.
+Persistent disks are mounted at `/var/vcap/store` on deployed VMs, and any files stored in `/var/vcap/store` are persisted. 
 
 By convention each release job, specified via the `templates` key in the
 definition of a deployment job, creates a directory using its name and sets
