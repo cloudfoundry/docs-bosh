@@ -53,7 +53,7 @@ jobs:
   - name: default
 </pre>
 
-<p class="note"><strong>Note</strong>: Persistent disk declaration does not allow you any control over the type of persistent disk attached to your job VMs. Instead, the CPI creates persistent disks using its default disk configuration.</p>
+<p class="note"><strong>Note</strong>: If you use persistent disk declaration, you cannot specify the persistent disk type or size that the CPI attaches to your job VMs. Instead, the CPI uses its default disk configuration when deploying the VMs.</p>
 
 ## <a id='persistent-disk-pool'></a>Persistent Disk Pool Declaration ##
 
@@ -99,7 +99,7 @@ After your deployment completes, run `bosh vms --vitals` from a terminal window 
 
 ## <a id='accessing-persistent-disk'></a>Accessing Persistent Disks ##
 
-Persistent disks are mounted at `/var/vcap/store` on deployed VMs, and any files stored in `/var/vcap/store` are persisted. 
+The CPI mounts persistent disks `/var/vcap/store` on deployed VMs, and persists any files stored in `/var/vcap/store`.
 
 By convention each release job, specified via the `templates` key in the
 definition of a deployment job, creates a directory using its name and sets
