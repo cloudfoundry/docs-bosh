@@ -101,11 +101,9 @@ After your deployment completes, run `bosh vms --vitals` from a terminal window 
 
 The CPI mounts persistent disks `/var/vcap/store` on deployed VMs, and persists any files stored in `/var/vcap/store`.
 
-By convention each release job, specified via the `templates` key in the
-definition of a deployment job, creates a directory using its name and sets
-correct permissions.
+You specify release jobs using the `templates` key when defining a deployment job. By convention, each release job creates a self-named directory in `/var/vcap/store` and sets the correct permissions on this directory.
 
-Example: `/var/vcap/store/redis`
+For example, a `redis` release job creates the following directory: `/var/vcap/store/redis`
 
 ## <a id='changing-persistent-disk'></a>Changing Disk Properties ##
 
