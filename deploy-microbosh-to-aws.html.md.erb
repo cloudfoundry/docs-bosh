@@ -4,13 +4,64 @@ title: Deploying MicroBOSH to AWS
 
 This topic explains how to deploy MicroBOSH to Amazon Web Services (AWS).
 
-Before you begin, install the [BOSH Command Line Interface (CLI)](./bosh-cli.html).
+## <a id="create-manifest"></a>Step 1: Create Deployment Manifest ##
 
-## <a id="prepare-aws"></a>Step 1: Prepare AWS ##
+The MicroBOSH deployment manifest is a YAML file that defines the components and
+properties of the deployment. Create a manifest for your deployment as follows:
+
+1. Create a local deployment directory to store your manifest.
+
+    <pre class='terminal'>
+    $ mkdir ~/my-micro-deployment
+    </pre>
+
+1. Create a deployment manifest YAML file (in our example we named ours
+`manifest.yml`), and save it to your deployment directory.
+
+Use this MicroBOSH deployment manifest template:
+
+<pre class='terminal'>
+---
+name: microbosh
+
+network:
+  type: manual
+  vip: ELASTIC-IP-ADDRESS # Replace with your Elastic IP address
+  ip: 10.0.0.6
+  dns: [10.0.0.2]
+  cloud_properties:
+    subnet: MICROBOSH-SUBNET-ID # Replace with your MicroBOSH subnet ID
+
+resources:
+  persistent_disk: 20000
+  cloud_properties:
+    instance_type: m1.small
+    availability_zone: us-east-1b
+
+cloud:
+  plugin: aws
+  properties:
+    aws:
+      access_key_id: ACCESS-KEY-ID # Replace with your AWSAccessKeyId
+      secret_access_key: SECRET-ACCESS-KEY # Replace with your AWSSecretKey
+      default_key_name: bosh
+      default_security_groups: ["bosh"]
+      region: us-east-1
+      ec2_private_key: bosh.pem # Path relative to the manifest file
+
+apply_spec:
+  agent:
+    blobstore: {address: 10.0.0.6}
+    nats: {address: 10.0.0.6}
+  properties:
+    registry: {address: 10.0.0.6}
+</pre>
+
+## <a id="prepare-aws"></a>Step 2: Prepare AWS Account ##
 
 If you do not have an AWS account, [create one](http://goo.gl/MaAybK).
 
-To configure AWS for MicroBOSH:
+To configure AWS Account for MicroBOSH:
 
 * [Obtain AWS credentials](#credentials)
 * [Create a Key Pair](#create-key-pair)
@@ -21,9 +72,8 @@ To configure AWS for MicroBOSH:
 ### <a id="credentials"></a>Obtain AWS credentials ###
 
 Your AWS credentials consist of an `access_key_id` and a `secret_access_key`.
-If you already know your AWS credentials you can skip this step.
-You use the `access_key_id` and `secret_access_key` when creating the deployment
-manifest.
+If you already know your AWS credentials you can skip this step and update 
+`access_key_id` and `secret_access_key` in your MicroBOSH deployment manifest.
 
 1. Log into the AWS console:
 [https://console.aws.amazon.com/console/home](https://console.aws.amazon.com/console/home).
@@ -34,7 +84,8 @@ manifest.
 
     <%= image_tag("images/micro-aws/seccred-drop.png") %>
 
-1. In the AWS IAM confirmation box, click **Continue to Security Credentials** to display the Security Credentials page.
+1. In the AWS IAM confirmation box, click **Continue to Security Credentials** to display the 
+Security Credentials page.
 
     <%= image_tag("images/micro-aws/iam-confirm.png") %>
 
@@ -52,9 +103,9 @@ manifest.
 
 1. Close the dialog box.
 
-1. Open the downloaded Key File in a text editor. Record the value of
-**AWSAccessKeyId** as your `access_key_id` and **AWSSecretKey** as your
-`secret_access_key` for use in [Step 2: Create the Deployment Manifest](#create-manifest).
+1. Open the downloaded Key File in a text editor. Update `access_key_id` 
+(replace ACCESS-KEY-ID) and `secret_access_key` (replace SECRET-ACCESS-KEY)
+in your MicroBOSH deployment manifest with values from the Key File.
 
     Example:
 
@@ -85,19 +136,19 @@ manifest.
 
     <%= image_tag("images/micro-aws/save-pem.png") %>
 
-1. Rename this file to `bosh` and save it in the `~/.ssh` folder on your
-computer.
-For example, on OS X you can do this from the terminal:
+1. Move bosh.pem file into local deployment directory. For example, on UNIX you can do this from the terminal:
 
-<pre class="terminal">
-  mv ~/Downloads/bosh.pem ~/.ssh/bosh
-</pre>
+    <pre class="terminal">
+      mv ~/Downloads/bosh.pem ~/my-aws-deployment/bosh.pem
+    </pre>
 
 ### <a id="create-vpc"></a>Create a Virtual Private Cloud ###
 
 1. On the AWS Console, select **VPC**.
 
-1. Set the AWS Region to **US East (N. Virginia)**.
+1. Currently, light stemcells are only available from US East. If you would like to use
+a light stemcell, set the AWS Region to **US East (N. Virginia)**. We will assume US East
+for this tutorial.
 
 1. Click **Start VPC Wizard**.
 
@@ -120,7 +171,7 @@ For example, on OS X you can do this from the terminal:
 
 1. Click **Subnets**.
 
-1. Record the **Subnet ID** created for the ‘microbosh’ VPC for use in [Step 2: Create the Deployment Manifest](#create-manifest).
+1. Fill in the **subnet** (replace `MICROBOSH-SUBNET-ID`) in your deployment manifest with the **Subnet ID** shown. 
 
     <%= image_tag("images/micro-aws/subnet.png") %>
 
@@ -135,7 +186,7 @@ Click **Yes, Allocate**.
 
     <%= image_tag("images/micro-aws/allocate-eip.png") %>
 
-1. Record the Elastic IP **Address** for use in [Step 2: Create the Deployment Manifest](#create-manifest).
+1. Fill in **vip** (replace `ELASTIC-IP-ADDRESS`) in your Deployment Manifest with the Elastic IP **Address** that is allocated.
 
 ### <a id="create-security"></a>Create and Configure Security Groups ###
 
@@ -155,37 +206,37 @@ Click **Yes, Allocate**.
 
 1. Click **Yes, Create**.
 
-1. Ensure the BOSH Security Group is selected and click the **Inbound Rules**
-tab.
+1. Ensure the BOSH Security Group is selected and click the **Inbound Rules** tab.
 
     <%= image_tag("images/micro-aws/edit-rules.png") %>
 
 1. Click **Edit**.
 
-1. MicroBOSH needs ports 25555 (BOSH Director), 6868 (BOSH Agent) and 22 (SSH to
-debug) opened for inbound traffic. In addition, BOSH needs access to all TCP and UDP ports. Add the following rules:
+1. MicroBOSH needs ports 25555 (BOSH Director), 6868 (BOSH Agent), and 22 (SSH to
+debug) opened for inbound traffic. In addition, BOSH deployed VMs might need access 
+to all TCP and UDP ports from within the same Security Group. Add the following rules:
 
     <table border="1" class="nice" >
-	<tr>
-		<th><b>Type</b></th>
-		<th></b>Port Range</b></th>
-		<th><b>Source</b></th>
-	</tr>
-	<tr>
-	  <td>Custom TCP Rule</td><td>25555</td><td>0.0.0.0/0</td>
-	</tr>
-	<tr>
-	  <td>Custom TCP Rule</td><td>6868</td><td>0.0.0.0/0</td>
-	</tr>
-	<tr>
-	  <td>Custom TCP Rule</td><td>22</td><td>0.0.0.0/0</td>
-	</tr>
-	<tr>
-	  <td>Custom TCP Rule</td><td>ALL</td><td>BOSH Security Group</td>
-	</tr>
-	<tr>
-	  <td>Custom UDP Rule</td><td>ALL</td><td>BOSH Security Group</td>
-	</tr>
+    	<tr>
+    		<th><b>Type</b></th>
+    		<th></b>Port Range</b></th>
+    		<th><b>Source</b></th>
+    	</tr>
+    	<tr>
+    	  <td>Custom TCP Rule</td><td>25555</td><td>0.0.0.0/0</td>
+    	</tr>
+    	<tr>
+    	  <td>Custom TCP Rule</td><td>6868</td><td>0.0.0.0/0</td>
+    	</tr>
+    	<tr>
+    	  <td>Custom TCP Rule</td><td>22</td><td>0.0.0.0/0</td>
+    	</tr>
+    	<tr>
+    	  <td>Custom TCP Rule</td><td>ALL</td><td>ID of this security group</td>
+    	</tr>
+    	<tr>
+    	  <td>Custom UDP Rule</td><td>ALL</td><td>ID of this security group</td>
+    	</tr>
     </table>
 
 1. Click **Save**.
@@ -193,167 +244,74 @@ debug) opened for inbound traffic. In addition, BOSH needs access to all TCP and
     **Note**: Ensure that the **Save Successfully** message displays. You may
     have to refresh the page to view the updated inbound rules.
 
-## <a id="create-manifest"></a>Step 2: Create Deployment Manifest ##
+## <a id="create-manifest"></a>Step 3: Download BOSH stemcell ##
 
-The MicroBOSH deployment manifest is a YAML file that defines the components and
-properties of the deployment. Create a manifest for your deployment as follows:
+If you haven't already, install the [BOSH Command Line Interface (CLI)](./bosh-cli.html).
 
-1. Create a local "deployments" directory to store your manifest.
-
-    <pre class='terminal'>
-    $ mkdir ~/workspace/deployments
-    </pre>
-
-1. Download the MicroBOSH deployment manifest [template](./microbosh.yml) to
-your "deployments" directory. If necessary, rename the template file as
-`microbosh.yml`.
-
-1. Open the `microbosh.yml` file in a text editor. Replace the following
-properties in the template with the relevant information from AWS:
-
-* ELASTIC-IP-ADDRESS
-* MICROBOSH-SUBNET-ID
-* ACCESS-KEY-ID
-* SECRET-ACCESS-KEY
-
-Use the **Group Name** of the VPC Security Group, not the security group ID, as
-the value for the `default_security_group`.
-
-The MicroBOSH deployment manifest template:
-
-<pre class='terminal'>
----
-name: microbosh
-logging:
-level: debug
-
-network:
-  type: manual
-  vip: ELASTIC-IP-ADDRESS # Replace with your Elastic IP address
-  ip: 10.0.0.6
-  dns:
-  - 10.0.0.2
-  cloud_properties:
-    subnet: MICROBOSH-SUBNET-ID # Replace with your MicroBOSH subnet ID
-
-resources:
-  persistent_disk: 20000
-  cloud_properties:
-    instance_type: m1.small
-    availability_zone: us-east-1b
-
-cloud:
-  plugin: aws
-  properties:
-    aws:
-      access_key_id: ACCESS-KEY-ID # Replace with your AWSAccessKeyId
-      secret_access_key: SECRET-ACCESS-KEY # Replace with your AWSSecretKey
-      default_key_name: bosh
-      default_security_groups: ["bosh"]
-      region: us-east-1
-      ec2_private_key: ~/.ssh/bosh
-
-apply_spec:
-  agent:
-    blobstore:
-      address: 10.0.0.6
-    nats:
-      address: 10.0.0.6
-  properties:
-    registry:
-      address: 10.0.0.6
-</pre>
-
-## <a id="create-manifest"></a>Step 3: Download MicroBOSH stemcell and extract AMI Identifier ##
-
-1. In a terminal window, run `bosh public stemcells` from your "deployments"
-directory to see a list of publicly available BOSH stemcells.
+1. In a terminal window, run `bosh public stemcells` from your deployment
+directory to see a list of publicly available BOSH stemcells. It will display the most
+recent build of each flavor.
 
     <pre class='terminal'>
     $ bosh public stemcells
     +-------------------------------------------------------------+
     | Name                                                        |
     +-------------------------------------------------------------+
-    | bosh-stemcell-2427-aws-xen-ubuntu.tgz                       |
-    | bosh-stemcell-2479-aws-xen-ubuntu-lucid.tgz                 |
-    | bosh-stemcell-2479-aws-xen-ubuntu-trusty-go_agent.tgz       |
-    | light-bosh-stemcell-2427-aws-xen-ubuntu.tgz                 |
-    | light-bosh-stemcell-2479-aws-xen-centos.tgz                 |
-    | light-bosh-stemcell-2479-aws-xen-centos-go_agent.tgz        |
-    | bosh-stemcell-2479-vsphere-esxi-centos-go_agent.tgz         |
-    | bosh-stemcell-53-warden-boshlite-ubuntu.tgz                 |
-    +-------------------------------------------------------------+
+    | bosh-stemcell-2717-aws-xen-ubuntu-trusty-go_agent.tgz       |
+    | bosh-stemcell-2717-aws-xen-centos-go_agent.tgz              |
+    | light-bosh-stemcell-2717-aws-xen-ubuntu-trusty-go_agent.tgz |
+    | light-bosh-stemcell-2717-aws-xen-centos-go_agent.tgz        |
+                    ... older stemcells ...
 </pre>
 
-1. BOSH stemcell names include the type, BOSH build number, target IaaS and hypervisior, and underlying operating system. Run `bosh download public stemcell STEMCELL-NAME` to download any "light-bosh" stemcell for aws-xen-ubuntu.
+1. BOSH stemcell names include the type, BOSH build number, target IaaS and hypervisior, 
+and underlying operating system. To download a stemcell run `bosh download public stemcell STEMCELL-NAME`.
 
-    Example:
-
-    <pre class='terminal'>
-    $ bosh download public stemcell light-bosh-stemcell-2427-aws-xen-ubuntu.tgz
-    </pre>
-
-1. Extract the `stemcell.MF` file from the stemcell. Open `stemcell.MF` in a text editor.
-
-1. The `stemcell.MF` contains an Amazon Machine Image (AMI) identifier.
-The BOSH CLI uses the AMI identifier to deploy MicroBOSH to AWS.
-Record the AMI identifier for use in [Step 4 Deploy MicroBOSH to AWS](#deploy).
-
-    In this example `stemcell.MF` file, the AMI identifier is `ami-03223a6a`:
+    To download the latest light Ubuntu Trusty stemcell:
 
     <pre class='terminal'>
----
-name: bosh-aws-xen-ubuntu
-version: '2427'
-bosh_protocol: 1
-sha1: 314424dae3462a1ffcfcdf650bff5ce7ecc7cb80
-cloud_properties:
-  name: bosh-aws-xen-ubuntu
-  version: '2427'
-  infrastructure: aws
-  architecture: x86_64
-  root_device_name: /dev/sda1
-  ami:
-    us-east-1: ami-03223a6a  # This is the Amazon Machine Image (AMI) identifier
+    $ bosh download public stemcell light-bosh-stemcell-2717-aws-xen-ubuntu-trusty-go_agent.tgz
     </pre>
 
 ## <a id="deploy"></a>Step 4: Deploy MicroBOSH ##
 
 1. In a terminal window, run `bosh micro deployment microbosh.yml` from your
-"deployments" directory to instruct MicroBOSH to use your manifest file.
+deployment directory to instruct MicroBOSH to use your manifest file.
 
     <pre class='terminal'>
-    $ bosh micro deployment microbosh.yml
+    $ cd ~/my-micro-deployment
+    $ bosh micro deployment manifest.yml
     WARNING! Your target has been changed to https://54.86.66.111:25555!
-    Deployment set to ~workspace/deployment/microbosh.yml
+    Deployment set to ~/my-micro-deployment/manifest.yml
     </pre>
 
     **Note**: The `WARNING!` message alerts you to a change in the targeted
-	IP address, and is not an error message.
+	  IP address, and is not an error message, despite being incredibly confusingly
+    highlighted in red and for all appearances informing you that something bad has happened.
 
-1. Use `bosh micro deploy AMI-IDENTIFIER` to deploy MicroBOSH using the AMI
-identifier from the downloaded stemcell.
+1. Use `bosh micro deploy light-bosh-stemcell-2717-aws-xen-ubuntu-trusty-go_agent.tgz` to deploy MicroBOSH.
 
     **Note**: A red `No bosh-deployments.yml file found` warning is expected.
     If prompted to allow MicroBOSH to "save state" in the current directory,
     type **yes**.
 
     <pre class='terminal'>
-    $ bosh micro deploy ami-03223a6a
+    $ bosh micro deploy light-bosh-stemcell-2717-aws-xen-ubuntu-trusty-go_agent.tgz
 
     No 'bosh-deployments.yml' file found in current directory.
 
-    Conventionally, 'bosh-deployments.yml' should be saved in ~/workspace.
-    Is ~/workspace/deployments a directory where you can save state? (type 'yes' to continue): yes
+    Is ~/my-micro-deployment a directory where you can save state? (type 'yes' to continue): yes
 
-    Deploying new micro BOSH instance ~/workspace/deployments/microbosh.yml to 'https://54.86.66.111:25555' (type 'yes' to continue): yes
+    Deploying new micro BOSH instance ~/my-micro-deployment/manifest.yml to 'https://54.86.66.111:25555' (type 'yes' to continue): yes
+
       Started deploy micro bosh
       ...
       Done deploy micro bosh
-    Deployed '~/workspace/deployments/microbosh.yml' to 'https://54.86.66.111:25555', took 00:04:51 to complete
+
+    Deployed '~/my-micro-deployment/manifest.yml' to 'https://54.86.66.111:25555', took 00:04:51 to complete
     </pre>
 
-1. Use `bosh target ELASTIC-IP-ADDRESS` to log into your new MicroBOSH server.
+1. Use `bosh target ELASTIC-IP-ADDRESS` to log into your new BOSH Director.
 The default username and password are `admin` and `admin`.
 
     <pre class="terminal">
@@ -362,6 +320,9 @@ The default username and password are `admin` and `admin`.
     Your username: admin
     Enter password: *****
     Logged in as 'admin'
+
+    $ bosh vms
+    No deployments
     </pre>
 
 ## <a id="troubleshooting"></a>Basic Troubleshooting ##
