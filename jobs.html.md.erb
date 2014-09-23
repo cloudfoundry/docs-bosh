@@ -165,26 +165,21 @@ service broker.
 
 <pre class='terminal'>
 #!/bin/bash
+
 set -e
+
 export PATH=$PATH:/var/vcap/packages/ruby/bin
+
 cd /var/vcap/packages/broker-registrar
 
-CF_API_URL='&lt;%= p("cf.api_url") %&gt;'
-CF_ADMIN_USERNAME='&lt;%= p("cf.admin_username") %&gt;'
-CF_ADMIN_PASSWORD='&lt;%= p("cf.admin_password") %&gt;'
-BROKER_NAME='&lt;%= p("broker.name") %&gt;'
-BROKER_URL='http://&lt;%= p("broker.host") %&gt;:&lt;%= p("broker.port") %&gt;'
-BROKER_USERNAME='&lt;%= p("broker.username") %&gt;'
-BROKER_PASSWORD='&lt;%= p("broker.password") %&gt;'
-
-bundle exec ./bin/broker-registrar delete \
-    --cf-address $CF_API_URL                \
-    --cf-username $CF_ADMIN_USERNAME        \
-    --cf-password $CF_ADMIN_PASSWORD        \
-    --broker-name $BROKER_NAME              \
-    --broker-url $BROKER_URL                \
-    --broker-username $BROKER_USERNAME      \
-    --broker-password $BROKER_PASSWORD
+bundle exec ./bin/broker-registrar delete                \
+    --cf-address '&lt;%= p("cf.api_url") %&gt;'                \
+    --cf-username '&lt;%= p("cf.admin_username") %&gt;'        \
+    --cf-password '&lt;%= p("cf.admin_password") %&gt;'        \
+    --broker-name '&lt;%= p("broker.name") %&gt;'              \
+    --broker-url 'http://&lt;%= p("broker.host") %&gt;:&lt;%= p("broker.port") %&gt;' \
+    --broker-username '&lt;%= p("broker.username") %&gt;'      \
+    --broker-password '&lt;%= p("broker.password") %&gt;'
 </pre>
 
 #### <a id="canceling-jobs"></a>Canceling Errands ####
