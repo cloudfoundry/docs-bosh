@@ -51,10 +51,9 @@ logging:
 
 ### <a id='network'></a> The network block ###
 
-The `network` block is where you specify network configuration information for the deployment.
+You specify network configuration information for the deployment in the `network` block.
 
-<p class="note"><strong>Note</strong>: In a multi-VM BOSH deployment manifest, this block is named
-<code>networks</code>.</p>
+<p class="note"><strong>Note</strong>: In a multi-VM BOSH deployment manifest, this block is named <code>networks</code>.</p>
 
 The `type` attribute can be set to either of two values:
 
@@ -355,8 +354,8 @@ The `properties` sub-block of the `cloud` block is where you set the following O
 * `auth_url` is the [OpenStack identity](http://www.openstack.org/software/openstack-shared-services/) server.
 * `username`, `api_key` and `tenant` are your OpenStack credentials.
 * `region` is the OpenStack region (optional).
-* `default_security_groups` sets the security groups used by Micro BOSH. These security groups must exist before deployment.
-* `default_key_name` and `private_key` are the key pair used by Micro BOSH. This keypair must exist before deployment.
+* `default_security_groups` sets the security groups used by MicroBOSH. These security groups must exist before deployment.
+* `default_key_name` and `private_key` are the key pair used by MicroBOSH. This keypair must exist before deployment.
 
 ~~~yaml
 cloud:
