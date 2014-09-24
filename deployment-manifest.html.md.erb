@@ -49,8 +49,7 @@ director\_uuid: 1234abcd-5678-efab-9012-3456cdef7890
 Example:
 <pre class='terminal'>
 releases:
-- name: go\_sample
-  version: latest
+- {name: go\_sample, version: latest}
 </pre>
 
 ## <a id='compilation'></a>Compilation Block ##
@@ -101,19 +100,18 @@ update:
 
 * **name** [String, required]: A unique name used to identify and reference the resource pool
 * **network** [String, required]: References a valid network name defined in the Networks block. Newly created resource pool VMs use the described configuration.
-* **size** [Integer, required]: The number of VMs in the resource pool. The resource pool should be at least as big as the total number of job instances using it.
+* **size** [Integer, optional]: The number of VMs in the resource pool. If omitted resource pool size will be automatically calculated based on the total number of job instances that belong to this resource pool. If specified size must be at least as big as the total number of job instances using it.
 * **stemcell** [Hash, required]: The stemcell used to create resource pool VMs.
     * **name** [String, required]: The stemcell name
     * **version** [String, required]: The stemcell version
 * **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to create compilation VMs. Examples: `instance_type`, `availability_zone`
-* **env** [Hash, optional]: Describes the VM environment and provide a specific VM environment to the CPI `create_stemcell` call. `env` data is available to BOSH Agents as VM settings. Default is {} (empty Hash).
+* **env** [Hash, optional]: Describes the VM environment and provide a specific VM environment to the CPI `create_stemcell` call. `env` data is available to BOSH Agents as VM settings. Default is `{}` (empty Hash).
 
 Example:
 <pre class='terminal'>
 resource\_pools:
 - name: default
   network: default
-  size: 2
   stemcell:
     name: bosh-aws-xen-centos
     version: 2366
@@ -189,8 +187,7 @@ networks:
     - 10.10.0.16 - 10.10.0.18
     reserved:
     - 10.10.0.2 - 10.10.0.15
-    dns:
-    - 10.10.0.6
+    dns: [10.10.0.6]
     cloud\_properties:
       subnet: subnet-d597b993
 </pre>
@@ -219,25 +216,22 @@ Example:
 jobs:
 - name: sample
   templates:
-  - name: sample\_with\_properties
-    release: go\_sample
+  - {name: sample\_with\_properties, release: go\_sample}
   instances: 1
   resource\_pool: default
   networks:
   - name: default
-    default: [dns, gateway]
   properties:
     output\_value: 'I am stdout'
     error\_value: 'I am stderr'
+
 - name: sample\_errand
   templates:
-  - name: sample\_with\_properties
-    release: sample
+  - {name: sample\_with\_properties, release: sample}
   instances: 1
   resource\_pool: default
   networks:
   - name: default
-    default: [dns, gateway]
   properties:
     output\_value: 'I am stdout'
     error\_value: 'I am stderr'

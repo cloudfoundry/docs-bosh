@@ -242,14 +242,13 @@ Deployment
 ~~~yaml
 ---
 name: bosh2
+
 director_uuid: 6bcdfa35-5d51-4d39-8360-6e2b97cad2bc
-release:
-  name: bosh
-  version: 42
+
+release: {name: bosh, version: 106}
 
 networks:
 - name: default
-  type: manual
   subnets:
   - range: 192.168.1.0/24
     gateway: 192.168.1.1
@@ -261,8 +260,7 @@ networks:
     - 192.168.1.2 - 192.168.1.230
     - 192.168.1.240 - 192.168.1.254
     # .255 is special
-    dns:
-    - 8.8.8.8
+    dns: [8.8.8.8]
     cloud_properties:
       name: 'CF_2'
 
@@ -272,11 +270,10 @@ resource_pools:
     name: bosh-vsphere-esxi-centos
     version: 2131
   network: default
-  size: 2
   cloud_properties:
+    cpu: 2
     ram: 512
     disk: 2_000
-    cpu: 2
 
 compilation:
   reuse_compilation_vms: true
@@ -289,37 +286,27 @@ compilation:
 
 update:
   canaries: 1
-  canary_watch_time: 30000 - 90000
-  update_watch_time: 30000 - 90000
+  canary_watch_time: 30000-90000
+  update_watch_time: 30000-90000
   max_in_flight: 1
-  max_errors: 1
 
 jobs:
 - name: bosh_data
-  template:
-  - blobstore
-  - postgres
-  - redis
+  template: [blobstore, postgres, redis]
   instances: 1
   resource_pool: default
   persistent_disk: 8_000
   networks:
   - name: default
-    static_ips:
-    - 192.168.1.233
+    static_ips: [192.168.1.233]
 
 - name: bosh_api
-  template:
-  - nats
-  - director
-  - health_monitor
-  - powerdns
+  template: [nats, director, health_monitor, powerdns]
   instances: 1
   resource_pool: default
   networks:
   - name: default
-    static_ips:
-    - 192.168.1.232
+    static_ips: [192.168.1.232]
 
 properties:
   ntp: ["pool.ntp.org"]
@@ -365,7 +352,6 @@ properties:
     db: *bosh_db
     # If needed, limit the number of threads used to concurrently instantiate new vms (32 by default)
     # max_threads: 1
-
 
   hm:
     http:
