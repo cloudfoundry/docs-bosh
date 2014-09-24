@@ -4,158 +4,25 @@ title: Deploying MicroBOSH
 
 MicroBOSH is a version of BOSH that runs on a single VM.
 
-BOSH that runs on multiple VMs, or multi-VM BOSH, deploys and manages
-large-scale distributed systems.
-The only supported way to deploy multi-VM BOSH is to use MicroBOSH.
-
 You can use MicroBOSH to deploy multi-VM BOSH, Cloud Foundry, or other
 distributed software packages on an IaaS.
 
 The IaaS you use determines many details of how you deploy MicroBOSH.
-This topic presents an overview of the procedure used to deploy MicroBOSH on any
-IaaS.
-If you are using AWS, OpenStack, or vSphere, refer instead to these specific topics:
+This topic presents an overview of the procedure used to deploy MicroBOSH on any IaaS.
+
+## <a id="configure-local"></a>Deploying MicroBOSH ##
+
+If you are using AWS, OpenStack, or vSphere, refer to IaaS specific tutorials:
 
 * [Deploying MicroBOSH to AWS](./deploy-microbosh-to-aws.html)
 * [Deploying MicroBOSH to OpenStack](./deploy-microbosh-to-openstack.html)
 * [Deploying MicroBOSH to vSphere](/deploying/vsphere/deploying_micro_bosh.html)
 
-## <a id="configure-local"></a>Step 1: Configure Local Environment ##
-
-1. Install the [BOSH Command Line Interface (CLI)](./bosh-cli.html).
-
-1. Create a `deployments` directory.
-Inside the `deployments` directory, create `microbosh`, `manifest`, and
-`stemcell` subdirectories.
-
-## <a id="prepare-iaas"></a>Step 2: Prepare Your IaaS ##
-
-The steps needed to prepare your IaaS for MicroBOSH depend on the IaaS.
-Examples of steps you may need to take include:
-
-* Creating or acquiring credentials and key pairs
-* Setting up VPCs and Elastic IP addresses
-* Creating and configuring security groups
-
-For IaaS-specific instructions, see:
-
-* [Deploying MicroBOSH to AWS](./deploy-microbosh-to-aws.html).
-* [Deploying MicroBOSH to OpenStack](./deploy-microbosh-to-openstack.html).
-* [Deploying MicroBOSH to vSphere](/deploying/vsphere/deploying_micro_bosh.html).
-
-## <a id="create-manifest"></a>Step 3: Create Deployment Manifest ##
+## <a id="create-manifest"></a> Advanced Configuration ##
 
 The MicroBOSH deployment manifest is a YAML file that defines the components and
 properties of the deployment.
 
-Create the deployment manifest by modifying an existing manifest or template.
-For IaaS-specific information, see the following:
-
 * [AWS](./create-micro-manifest.html#ex-aws)
 * [OpenStack](./create-micro-manifest.html#ex-openstack)
 * [vSphere](./create-micro-manifest.html#ex-vsphere)
-
-Name the deployment manifest `micro-bosh.yml` and save it to the
-`deployments/microbosh` directory.
-
-## <a id="download-stemcell"></a>Step 4: Download Stemcell ##
-
-BOSH stemcell names include the BOSH build number, target IaaS and hypervisor, and underlying operating system.
-For example, the name `bosh-stemcell-2427-aws-xen-ubuntu.tgz` indicates:
-
-* BOSH build: 2427
-* IaaS: AWS using the Xen hypervisor
-* Operating System: Ubuntu
-
-Each stemcell contains a MicroBOSH package for that stemcell.
-
-**Note**: A "light-bosh" stemcell is a pointer to an existing machine image on
-the target IaaS.
-Light stemcells are currently only available in some AWS regions.
-
-Select a stemcell that matches your IaaS.
-Download the stemcell to the `deployments/stemcells` directory using one of the
-following methods:
-
-* In a web browser, navigate to
-[http://bosh-artifacts.cfapps.io](http://bosh-artifacts.cfapps.io/), select a
-stemcell, then click **Download**.
-* In a terminal window, run `bosh public stemcells` to see a list of publicly available BOSH stemcells, select a stemcell, then run `bosh download public stemcell STEMCELL-NAME` to download the stemcell.
-
-## <a id="deploy-microbosh"></a>Step 5: Deploy MicroBOSH ##
-
-1. In a terminal window, from the `deployments` directory, run `bosh micro deployment manifest` to set MicroBOSH to use your manifest file.
-
-    Example:
-
-    <pre class='terminal'>
-    $ bosh micro deployment manifest
-    WARNING! Your target has been changed to https://54.86.66.111:25555!
-    Deployment set ‘Users/my-name/deployments/micro_bosh.yml’
-    </pre>
-
-    **Note**: The WARNING! message alerts you to a change in the targeted IP
-    address, and is not an error message.
-
-1. Use `bosh micro deploy stemcell/NAME-OF-STEMCELL` to deploy MicroBOSH using
-the downloaded stemcell.
-
-    Example:
-
-    <pre class='terminal'>
-    $ bosh micro deploy stemcell/bosh-stemcell-2427-aws-xen-ubuntu.tgz
-    </pre>
-
-    **Note**: An important effect of the `bosh micro deploy` command is to
-    create the `bosh-deployment.yml` file.
-    This file functions like a small database that MicroBOSH uses when
-    bootstrapping itself.
-
-1. Use `bosh target IP-ADDRESS` to log into your new MicroBOSH server.
-The default username and password are `admin` and `admin`.
-
-    Example:
-
-    <pre class='terminal'>
-    $ bosh target 54.86.66.111
-    Target set to 'microbosh'
-    Your username: admin
-    Enter password: *****
-    Logged in as 'admin'
-    </pre>
-
-1. Run `bosh status` to check the state of your MicroBOSH deployment.
-
-    Example:
-
-    <pre class='terminal'>
-    $ bosh status
-    Config
-                  /Users/pivotal/.bosh_config
-
-    Director
-      Name        micro-bosh
-      URL         https://54.85.89.30:25555
-      Version     1.2427.0 (release:921db96c bosh:921db96c)
-      User        admin
-      UUID        44e69f8b-9091-405c-a2c2-d29bebb1ce8a
-      CPI         aws
-      dns         enabled (domain_name: microbosh)
-      compiled_package_cache     disabled
-      snapshots   disabled
-
-    Deployment
-      not set
-    </pre>
-
-## <a id="deploy-microbosh"></a>Basic Troubleshooting ##
-
-If the deployment fails, run `bosh micro delete`, then deploy again.
-
-If you see an error message that refers to your credentials, check the accuracy
-of the credentials in the [deployment manifest](#create-manifest).
-
-If you see other error messages:
-
-* Check your `micro_bosh.yml` for errors.
-* Review your IaaS configuration.

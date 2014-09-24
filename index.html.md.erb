@@ -13,43 +13,53 @@ BOSH orchestrates initial deployments and ongoing updates that are:
 BOSH works on multiple IaaS offerings including AWS, Open Stack, and vSphere,
 freeing operators from concerns about differences between environments.
 
-### [What's New in BOSH](./bosh-new.html) ###
-
 ## <a id="foundations"></a> BOSH Foundations ##
 
-* [BOSH Terminology](./terminology.html)
 * [Understanding BOSH](./understanding-bosh.html)
-* [BOSH Components](./bosh-components.html)
-* [BOSH Jobs and Errands](./jobs.html)
-* [Basic BOSH Workflow](./workflow.html)
-* [BOSH Design Principles](./design.html)
+  * [BOSH Terminology](./terminology.html)
+  * [BOSH Components](./bosh-components.html)
+  * [BOSH Jobs and Errands](./jobs.html)
+  * [Basic BOSH Workflow](./workflow.html)
+  * [BOSH Design Principles](./design.html)
 
-## <a id="working"></a> Working with BOSH ##
+## <a id="installing"></a> Installing &amp; Configuring MicroBOSH ##
 
 The [BOSH Command Line Interface (CLI)](bosh-cli.html) is the primary operator
 interface to BOSH.
-Run `bosh help --all` to see all available BOSH commands.
 
+* [Deploying MicroBOSH](./deploy-microbosh.html)
+  * [Deploying MicroBOSH to AWS](./deploy-microbosh-to-aws.html)
+  * [Deploying MicroBOSH to OpenStack](./deploy-microbosh-to-openstack.html)
+
+### <a id="advanced-configuration"></a> Advanced Configuration ###
+
+* [Creating a MicroBOSH Deployment Manifest](./create-micro-manifest.html)
+* [Connecting BOSH or MicroBOSH to an External Postgres Database](./connect-postgres-hadb.html)
+
+### <a id="wip-docs"></a> WIP Documentation ###
+
+* [Setting Up vSphere for BOSH](./setup-vsphere.html)
 * [Setting Up AWS for BOSH](./setup-aws.html)
 * [Setting Up OpenStack for BOSH](./setup-openstack.html)
-* [Setting Up vSphere for BOSH](./setup-vsphere.html)
-* [Deploying MicroBOSH](./deploy-microbosh.html)
-* [Deploying MicroBOSH to AWS](./deploy-microbosh-to-aws.html)
-* [Deploying MicroBOSH to OpenStack](./deploy-microbosh-to-openstack.html)
-* [Deploying Distributed Software with BOSH](./deploy-with-bosh.html)
 
-## <a id="deep"></a> BOSH in Depth ##
+## <a id="deep"></a> Deploying Software with BOSH ##
+
+* [BOSH Commands for System Administration](./sysadmin-commands.html)
+* [Understanding the BOSH Deployment Manifest](./deployment-manifest.html)
+  * [Sample BOSH Deployment Manifest](./sample-manifest.html)
+* [Using BOSH Job and Errand Logs](./job-logs.html)
+* [Persistent Disks](./persistent-disks.html)
+* [VM Anti-Affinity](./vm-anti-affinity.html)
+* [Deploying Mutli-VM BOSH](./deploy-with-bosh.html)
+
+## <a id="health-management"></a> Health Management with BOSH ##
+
+* [Disaster Recovery with BOSH](./disaster-recovery.html)
+  * [Using the BOSH Resurrector](./bosh-resurrector.html)
+* [Using BOSH Snapshots](./snapshots.html)
+
+## <a id="creating-releases"></a> Creating BOSH Releases ##
 
 * [Creating a BOSH Release](./create-release.html)
-* [Creating BOSH Packages](./packages.html)
-* [Creating a MicroBOSH Deployment Manifest](./create-micro-manifest.html)
-* [Understanding the BOSH Deployment Manifest](./deployment-manifest.html)
-* [Sample BOSH Deployment Manifest](./sample-manifest.html)
-* [Using BOSH Job and Errand Logs](./job-logs.html)
-* [Using the BOSH Resurrector](./bosh-resurrector.html)
-* [BOSH Commands for System Administration](./sysadmin-commands.html)
-* [Disaster Recovery with BOSH](./disaster-recovery.html)
-* [Using BOSH Snapshots with Your IaaS](./snapshots.html)
-* [Connecting BOSH or MicroBOSH to an External Postgres Database](./connect-postgres-hadb.html)
-* [Drain Scripts](./drain-scripts.html)
-* [Persistent Disks](./persistent-disks.html)
+  * [Drain Scripts](./drain-scripts.html)
+  * [Creating BOSH Packages](./packages.html)
