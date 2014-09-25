@@ -17,16 +17,12 @@ properties of the deployment. Create a manifest for your deployment as follows:
 
 1. Create a deployment manifest YAML file. 
 
-The following example is a MicroBOSH deployment manifest template. Copy and paste the template into a text editor and save the manifest to your deployment directory.
+    The following example is a MicroBOSH deployment manifest template. Copy and paste the template into a text editor and save the manifest to your deployment directory.
 
-You must replace the following properties, which we describe in [Step 2: Prepare an AWS Account](#prepare-aws).
+    You must replace the ELASTIC-IP-ADDRESS, MICROBOSH-SUBNET-ID, ACCESS-KEY-ID, and SECRET-ACCESS-KEY properties, and we describe how to do this in [Step 2: Prepare an AWS Account](#prepare-aws).
 
-* ELASTIC-IP-ADDRESS
-* MICROBOSH-SUBNET-ID
-* ACCESS-KEY-ID
-* SECRET-ACCESS-KEY
+    <p class="note"><strong>Note</strong>: The example below has the file name <code>manifest.yml</code>, which we reference in other examples in this topic.</p>
 
-<p class="note"><strong>Note</strong>: The example below has the file name <code>manifest.yml</code>, which we reference in other examples in this topic.</p>
 
 <pre class='code'>
 ---
@@ -38,7 +34,7 @@ network:
   ip: 10.0.0.6
   dns: [10.0.0.2]
   cloud_properties:
-    subnet: MICROBOSH-SUBNET-ID # Replace with your MicroBOSH subnet ID
+   subnet: MICROBOSH-SUBNET-ID # Replace with your MicroBOSH subnet ID
 
 resources:
   persistent_disk: 20000
@@ -71,7 +67,7 @@ If you do not have an AWS account, [create one](http://goo.gl/MaAybK).
 
 To configure your AWS account for MicroBOSH:
 
-* [Obtain AWS credentials](#credentials)
+* (**Optional**) [Obtain AWS credentials](#credentials)
 * [Create a Key Pair](#create-key-pair)
 * [Create a Virtual Private Cloud](#create-vpc)
 * [Create an Elastic IP](#create-eip)
@@ -130,7 +126,7 @@ and `secret_access_key` in your MicroBOSH deployment manifest with values from t
 
     <%= image_tag("images/micro-aws/create-key-pair.png") %>
 
-1. In the Create Key Pair dialog box, enter “bosh” as the Key Pair name.
+1. In the Create Key Pair dialog box, enter _bosh_ as the Key Pair name.
 
     <%= image_tag("images/micro-aws/name-key-pair.png") %>
 
@@ -202,7 +198,7 @@ Click **Yes, Allocate**.
     * **Name tag:** bosh
     * **Group Name:** bosh
     * **Description:** BOSH Security Group
-    * **VPC:** Select the _microbosh_ VPC created in [Create a Virtual Private Cloud](#create-vpc).
+    * **VPC:** Select the _microbosh_ VPC that you created in [Create a Virtual Private Cloud](#create-vpc).
 
     The **Group Name** is used to define the default security groups in [Step 2: Create the Deployment Manifest](#create-manifest).
 
@@ -218,7 +214,7 @@ Click **Yes, Allocate**.
 
 1. Add the following rules for access by MicroBOSH and BOSH.
 
-MicroBOSH needs ports 25555 (BOSH Director), 6868 (BOSH Agent), and 22 (SSH to
+    MicroBOSH needs ports 25555 (BOSH Director), 6868 (BOSH Agent), and 22 (SSH to
 debug) opened for inbound traffic, and VMs that BOSH deploys might need access to all TCP and UDP ports from within the same Security Group.
 
 
@@ -270,13 +266,13 @@ directory to see a list of publicly available BOSH stemcells. The list displays 
 
 1. Run `bosh download public stemcell STEMCELL-NAME`to download a stemcell.
 
-BOSH stemcell names include the type, BOSH build number, target IaaS and hypervisior, and underlying operating system.
+    BOSH stemcell names include the type, BOSH build number, target IaaS and hypervisior, and underlying operating system.
 
     To download the latest light Ubuntu Trusty stemcell:
 
     <pre class='terminal'>
     $ bosh download public stemcell light-bosh-stemcell-2717-aws-xen-ubuntu-trusty-go_agent.tgz
-</pre>
+    </pre>
 
 ## <a id="deploy"></a>Step 4: Deploy MicroBOSH ##
 
@@ -290,11 +286,11 @@ deployment directory to instruct MicroBOSH to use your manifest file.
     Deployment set to ~/my-micro-deployment/manifest.yml
     </pre>
 
-    <p class="note"><strong>Note</strong>: Though the <code>WARNING!</code> message displays in red, it is not an error message. The message merely alerts you to a change in the targeted IP address. </p>
+    <p class="note"><strong>Note</strong>: Though the <code>WARNING!</code> message displays in red, it is not an error message. The message alerts you to a change in the targeted IP address. </p>
 
 1. Use `bosh micro deploy light-bosh-stemcell-2717-aws-xen-ubuntu-trusty-go_agent.tgz` to deploy MicroBOSH.
 
-    <p class="note"><strong>Note</strong>: A red <code>No bosh-deployments.yml file found</code> warning is expected. If prompted to allow MicroBOSH to save state in the current directory, type <strong>yes</strong>.</p>
+    <p class="note"><strong>Note</strong>: A red <code>No bosh-deployments.yml file found</code> warning is expected. If prompted to allow MicroBOSH to save state in the current directory, type <code>yes</code>.</p>
 
     <pre class='terminal'>
     $ bosh micro deploy light-bosh-stemcell-2717-aws-xen-ubuntu-trusty-go_agent.tgz
