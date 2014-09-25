@@ -58,4 +58,18 @@ apply&#95;spec:
        database: bosh
    </pre>
 
+    Add the db properties into director & dns
+    
+    <pre class="terminal">
+apply&#95;spec:
+...
+  properties:
+     director:
+       db: &#42;bosh&#95;db
+       ...
+     dns:
+       db: &#42;bosh&#95;db
+       ...
+   </pre>
+
 1. Redeploy.
