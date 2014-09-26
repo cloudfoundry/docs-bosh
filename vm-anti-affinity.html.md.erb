@@ -1,37 +1,31 @@
 ---
-title: VM Anti-affinity
+title: VM Anti-Affinity
 ---
 
-For certain deployment jobs it might be recommended that its instances 
-are spread across physical resources of the IaaS. Even though IaaS-es 
-abstract away underlying hardware resources, most have specific APIs 
-to configure VM affinity/anti-affinity rules. 
+For certain deployment jobs, you might want to distribute the instances across multiple physical resources of the IaaS. Even though an IaaS abstracts away the underlying hardware resources, most have specific APIs 
+to configure VM affinity and anti-affinity rules. 
 
-One popular example of a deployment job that needs such configuration 
-is Hadoop Datanode. If multiple Datanodes instances are placed on the 
-same physical machine, replicated data would become unavailable when 
-that physical machine fails. To make replication useful in that scenario 
-BOSH allows to configure deployment job's resource pool to specify IaaS 
-specific VM anti-affinity configuration via resource pool's `cloud_properties`.
+One popular example of a deployment job that needs this type of configuration 
+is Hadoop Datanode. If multiple Datanode instances are placed on the 
+same physical machine, replicated data becomes unavailable if 
+that machine fails. To make replication useful in this scenario, 
+BOSH allows you to configure the resource pool for a deployment job. You configure VM anti-affinity rules for an IaaS using the `cloud_properties` subblock of the `resource_pools` block in your [deployment manifest](./deployment-manifest.html).
 
 Currently only vSphere CPI provides a way to specify VM anti-affinity rules.
 
 ## <a id='vsphere'></a>vSphere Configuration ##
 
-vSphere has a concept of [VM-VM Affinity Rules](http://pubs.vmware.com/vsphere-51/index.jsp#com.vmware.vsphere.resmgmt.doc/GUID-94FCC204-115A-4918-9533-BFC588338ECB.html) which allow to specify whether VMs should run on the same host or be 
-kept on separate hosts. As of BOSH version 101 (stemcell 2693) vSphere CPI 
-can be configured to add all VMs in a BOSH resource pool into a single 
-DRS rule to spread out VMs across multiple hosts.
+The vSphere [VM-VM Affinity Rules](http://pubs.vmware.com/vsphere-51/index.jsp#com.vmware.vsphere.resmgmt.doc/GUID-94FCC204-115A-4918-9533-BFC588338ECB.html) feature allows you to specify whether VMs should run on the same host or be kept on separate hosts. As of BOSH version 101 (stemcell 2693), you can configure the vSphere CPI to include all VMs of a specified BOSH resource pool within a single DRS rule and separate the VMs among multiple hosts.
 
-Following resource pool/job configuration will make BOSH to:
+The following resource pool and job configuration manifest example instructs BOSH to:
 
-1. create 7 hadoop-datanode VMs in `my-vsphere-cluster` vSphere cluster
-1. create `separate-hadoop-datanodes-rule` DRS rule in `my-vsphere-cluster` vSphere cluster
-1. configure DRS rule such that DRS tries to place associated VMs onto different hosts
-1. associate 7 created VMs with created DRS rule
+* Create seven hadoop-datanode VMs in the `my-vsphere-cluster` vSphere cluster.
+* Create a `separate-hadoop-datanodes-rule` DRS rule in the `my-vsphere-cluster` vSphere cluster.
+* Configure the DRS rule with a `type` that separates the associated VMs onto different hosts.
+* Associate the seven VMs with the DRS rule.
 
 <pre class='terminal'>
-# Assuming that some hadoop release is used...
+# Assuming that a Hadoop release is used...
 
 resource_pools:
 - name: hadoop-datanodes
@@ -49,23 +43,22 @@ jobs:
   templates:
   - {name: hadoop-datanode, release: hadoop}
   instances: 7
-  resource_pool: default
+  resource_pool: hadoop-datanodes
   persistent_disk: 10_240
   networks:
   - name: default
 </pre>
 
-Few things to check in vSphere if VMs are not placed onto different hosts:
+If the vSphere CPI does not place the VMs on different hosts, check that you have done the following:
 
-- multiple healthy hosts are associated with vSphere cluster
-- DRS is turned on for the vSphere cluster (you can modify 
-  DRS automation level in cluster settings)
-- DRS rule is enabled and is associated with created VMs
-- DRS had enough time to move VMs to different hosts
+- Associated multiple healthy hosts to the vSphere cluster.
+- Enabled DRS for the vSphere cluster. You can modify the DRS automation level in the cluster settings.
+- Enabled a DRS rule and associated it with the appropriate VMs.
+- Given the DRS enough time to move the VMs to different hosts.
 
-<p class="note"><strong>Note</strong>: vSphere CPI currently only supports 
-one DRS rule per BOSH resource pool.</p>
-
-<p class="note"><strong>Note</strong>: vSphere CPI does not create a DRS rule 
-if BOSH resource pool contains only one VM. As soon as second VM is added 
-DRS rule will be applied to all VMs in that BOSH resource pool.</p>
+<p class="note"><strong>Notes</strong>: 
+	<ul>
+	<li>The vSphere CPI currently only supports 
+one DRS rule per BOSH resource pool.</li>
+<li>If a BOSH resource pool contains only one VM, the vSphere CPI does not create a DRS rule. After BOSH adds a second VM, the vSphere CPI will create and apply a DRS rule to all VMs in the BOSH resource pool.</li>
+</p>

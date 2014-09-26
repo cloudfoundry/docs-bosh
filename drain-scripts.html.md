@@ -8,16 +8,12 @@ state where it can be safely stopped.
 
 ## <a id="job-configuration"></a> Job Configuration ##
 
-To add drain script to a release job:
+To add a drain script to a release job:
 
-1. create a script with any name in release job's templates director
-1. reference created script in release job's and configure it to be become 
-`bin/drain`
+1. Create a script with any name in the templates directory of a release job. 
+1. In the `templates` section of the release job spec file, add the script name and the `bin/drain` directory as a key value pair.
 
-BOSH currently only allows to have one drain script per release job
-and it must be configured to become `bin/drain` on deployed VMs.
-
-Example release job spec file with a drain script:
+Example:
 
 ~~~yaml
 ---
@@ -26,41 +22,41 @@ templates:
   drain-web-requests.erb: bin/drain
 ~~~
 
+<p class="note"><strong>Note</strong>: BOSH currently only allows one drain script per release job.</p>
+
 ## <a id="script-implementation"></a> Script Implementation ##
 
-BOSH drain scripts can be written in any interpreted language found on the
-job instance (provided via release packages). The UNIX shebang line at the 
-beginning is used to specify the interpreter. Drain scripts are commonly 
-implemented as shell scripts.
+You can write BOSH drain scripts in any interpreted language found on the
+job instance. Job instances inherit languages through release packages. 
 
-Drain script must exit in one of two ways:
+Drain scripts are commonly implemented as shell scripts. The UNIX shebang line at the beginning is used to specify the interpreter.
 
-- exit with 0 status code to tell BOSH to look at printed timeout value
+You must ensure that your drain script exits in one of following ways:
 
-    In this scenario drain script must print an integer followed by a newline 
-    to `stdout` to tell BOSH how long to wait.
+- Exit with a non-`0` status code: This informs BOSH that draining failed.
 
-    **Static draining**: If the drain script prints 0 or a positive integer, BOSH will sleep for that 
-    many seconds once before moving onto its next step.
+- Exit with `0` status code: The drain script must also print an integer followed by a newline to `stdout`. BOSH interprests the `0` status code and integer as follows:
 
-    **Dynamic draining**: If the drain script prints a negative integer, BOSH will sleep for that 
-    many seconds and call the drain script again. Drain script will continue 
-    being called as long as the script outputs a negative value. There is no 
-    automatic timeout.
+    **Static draining**: If the drain script prints a zero or a positive 
+	integer, BOSH sleeps for that many seconds before continuing.
+	
+    **Dynamic draining**: If the drain script prints a negative integer, BOSH 
+	sleeps for that many seconds, then calls the drain script again. 
+	
+	<p class="note"><strong>Note</strong>: BOSH reruns a script indefinitely as long as the script exits with a status code `0` and outputs a negative integer.</p>
 
-- exit with non-0 status code to tell BOSH that draining failed
 
 ## <a id="environment-variables"></a> Environment Variables ##
 
-The following environment variables are available in a drain script when it is running:
+When running, a drain script can access the following environment variables:
 
-  * `BOSH_JOB_STATE` - JSON description of the current job state
+  * `BOSH_JOB_STATE`: JSON description of the current job state
 
-  * `BOSH_JOB_NEXT_STATE` - JSON description of the new job state that is being
+  * `BOSH_JOB_NEXT_STATE`: JSON description of the new job state that is being
     applied
 
-One use case for this feature is to determine if the size of the persistent
-disk is being changed so the job can take appropriate action.
+Use this feature to monitor job properties. 
+For example, a script can use this feature to determine if the size of the persistent disk changes and take a specified action.
 
 ## <a id="example"></a> Example ##
 
