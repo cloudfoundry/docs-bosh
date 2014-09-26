@@ -15,7 +15,7 @@ properties of the deployment. Create a manifest for your deployment as follows:
     $ mkdir ~/my-micro-deployment
     </pre>
 
-1. Create a deployment manifest YAML file. 
+1. Create a deployment manifest YAML file.
 
     The following example is a MicroBOSH deployment manifest template. Copy and paste the template into a text editor and save the manifest to your deployment directory.
 
@@ -76,7 +76,7 @@ To configure your AWS account for MicroBOSH:
 ### <a id="credentials"></a> Obtain AWS Credentials ###
 
 Your AWS credentials consist of an `access_key_id` (ACCESS-KEY-ID) and a `secret_access_key` (SECRET-ACCESS-KEY).
-If you already know your AWS credentials you can skip this step and update 
+If you already know your AWS credentials you can skip this step and update
 `access_key_id` and `secret_access_key` in your MicroBOSH deployment manifest.
 
 1. Log into the AWS console:
@@ -106,7 +106,7 @@ If you already know your AWS credentials you can skip this step and update
 
 1. Close the dialog box.
 
-1. Open the downloaded Key File in a text editor. Update `access_key_id` 
+1. Open the downloaded Key File in a text editor. Update `access_key_id`
 and `secret_access_key` in your MicroBOSH deployment manifest with values from the Key File.
 
     In the example, the `access_key_id` is _BM456AB123C2GZFTQQHA_ and
@@ -171,7 +171,7 @@ and `secret_access_key` in your MicroBOSH deployment manifest with values from t
 
 1. Click **Subnets**.
 
-1. Replace **subnet** (`MICROBOSH-SUBNET-ID`) in your deployment manifest with the **Subnet ID** shown. 
+1. Replace **subnet** (`MICROBOSH-SUBNET-ID`) in your deployment manifest with the **Subnet ID** shown.
 
     <%= image_tag("images/micro-aws/subnet.png") %>
 
@@ -235,10 +235,10 @@ debug) opened for inbound traffic, and VMs that BOSH deploys might need access t
     	  <td>Custom TCP Rule</td><td>22</td><td>0.0.0.0/0</td>
     	</tr>
     	<tr>
-    	  <td>Custom TCP Rule</td><td>ALL</td><td>ID of this security group</td>
+    	  <td>All TCP</td><td>ALL</td><td>ID of this security group</td>
     	</tr>
     	<tr>
-    	  <td>Custom UDP Rule</td><td>ALL</td><td>ID of this security group</td>
+    	  <td>All UDP</td><td>ALL</td><td>ID of this security group</td>
     	</tr>
     </table>
 
