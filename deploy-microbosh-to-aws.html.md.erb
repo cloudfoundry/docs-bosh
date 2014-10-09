@@ -137,6 +137,7 @@ Replace AVAILABILITY-ZONE in your deployment manifest with the one of the usable
 
     <%= image_tag("images/micro-aws/zones.png") %>
 
+<p class="note"><strong>Note</strong>: Currently, <strong>light</strong> stemcells are only available from the AWS Region of <strong>US East (N. Virginia)</strong>. If you want to use a light stemcell, you must select this region.</strong></p>
 
 ###<a id="create-key-pair"></a>Create a Key Pair ###
 
@@ -168,8 +169,6 @@ For example, on UNIX run this command:
     </pre>
 
 ###<a id="create-vpc"></a>Create a Virtual Private Cloud ###
-
-<p class="note"><strong>Note</strong>: Currently, light stemcells are only available from the AWS Region of <strong>US East (N. Virginia)</strong>. If you would like to use a light stemcell, you must set this region. The following procedure assumes that you set <strong>US East (N. Virginia)</strong>.</p>
 
 1. On the AWS Console, select **VPC**.
 
