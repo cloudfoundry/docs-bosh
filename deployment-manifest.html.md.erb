@@ -267,9 +267,5 @@ properties:
 1. If an identically named property exists in the [Properties](#properties) block of the deployment manifest, the value of this property overrides the previous value.
 1. If an identically named property exists in the Properties sub-block of the [Jobs](#jobs) block of the deployment manifest, the value of this property overrides all previous values.
 
-<p class="note"><strong>Notes</strong>:<ul>
-	<li>If you declare specific properties in a job template spec, BOSH ignores all other properties.</li>
-	<li>If you do not declare any specific properties in a job template spec, BOSH applies all properties from the deployment manifest to the job.</li>
-</ul>
-</p>	
+<p class="note"><strong>Note</strong>: If you declare specific properties in a job template spec, BOSH ignores all other properties. If you do not declare any specific properties in a job template spec, BOSH applies all properties from the deployment manifest to the job. </p>
 
