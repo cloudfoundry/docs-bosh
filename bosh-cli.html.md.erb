@@ -10,6 +10,57 @@ Run this command to install BOSH CLI with the MicroBOSH plugin:
 
 `gem install bosh_cli bosh_cli_plugin_micro`
 
+Run this command to install BOSH CLI with the MicroBOSH plugin with AWS:
+
+`gem install bosh_cli_plugin_micro bosh_cli_plugin_aws`
+
 Use the following command to consult the BOSH CLI help:
 
 `bosh help --all`
+
+####BOSH CLI Troubleshooting
+
+<table border="1" class="nice" >
+<tr>
+<th>Error or Message</th>
+<th>Command</th>
+</tr>
+<tr>
+<td><code>Ruby not installed</code></td>
+<td><code>sudo apt-get install ruby</code></td>
+</tr>
+<tr>
+<td><code>mkmf not found</code></td>
+<td><code>sudo apt-get install ruby-dev</code></td>
+</tr>
+<tr>
+<td><code>libxml not found</code></td>
+<td><code>sudo apt-get install libxml2-dev</code></td>
+</tr>
+<tr>
+<td><code>(compile.log:) make not found</code></td>
+<td><code>sudo apt-get install build-essential</code></td>
+</tr>
+<tr>
+<td><code>bosh_cli is good</code></td>
+<td>Note: nokogiri compiling might take a while</td>
+</tr>
+<tr>
+<td><code>libsqlite not found</code></td>
+<td><code>sudo apt-get install libsqlite3-dev</code></td>
+</tr>
+<tr>
+<td><code>libxslt is missing</code></td>
+<td><code>sudo apt-get install libxslt1-dev</code></td>
+</tr>
+<tr>
+<td><code>Can't find libpq-fe.h header</code></td>
+<td><code>sudo apt-get install libpq-dev</code></td>
+</tr>
+<tr>
+<td><code>checking for mysql_query() ... no</code></td>
+<td><code>sudo apt-get install libmysqlclient-dev</code></td>
+</tr>
+
+
+</table>
