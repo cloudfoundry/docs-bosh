@@ -1,0 +1,106 @@
+---
+title: Index
+---
+
+## What is BOSH?
+
+ * What problems does BOSH solve?
+ * Release Eegineering?
+    * Stemcell
+    * Release
+    * Deployment
+ * Comparison to other tools
+    * Chef/Puppet
+    * Terraform
+ * Glossary
+
+---
+## Installing BOSH
+
+ * [BOSH architecture](bosh-components.html)
+    * CLI
+    * The Director
+       * Director Tasks
+    * The Agent
+    * PowerDNS
+ * Boostrapping an environment (i.e. Installing MicroBOSH)
+    * Local configuration
+    * On Local machine (using boshlite)
+    * [On AWS](deploy-microbosh-to-aws.html)
+       * CloudFormation template
+    * On OpenStack
+       * Heat template
+    * On vSphere
+ * BOSH (micro) deploy step-by-step
+    * [explanation of every step of the `bosh (micro) deploy` command]
+ * Advanced BOSH configuration
+    * [Connecting BOSH or MicroBOSH to an External Postgres Database](connect-postgres-hadb.html)
+    * Deploying mutli-VM BOSH
+       * Difference between Microbosh, BOSH, and multi-vm BOSH
+
+---
+## Using BOSH to deploy software
+
+ * Basic workflow
+    * The Director
+    * [Deployment manifest breakdown](deployment-manifest.html)
+    * Basic deployment management commands
+       * bosh deploy(ment)
+       * bosh ssh
+       * bosh vms
+       * bosh [upload] stemcell(s)
+       * bosh [upload] release(s)
+    * Deploying Software step-by-step
+       * [explanation of every step of the `bosh deploy` command]
+    * Updating deployment to deal with security vulnerabilities
+ * [Persistent disks](persistent-disks.html)
+ * [VM anti-affinity](vm-anti-affinity.html)
+ * Running one off tasks
+ * Health management
+    * Monitoring
+    * Cloud check
+    * Resurrector
+    * Snapshotting WIP
+ * Complete BOSH CLI api
+ * Looking inside a BOSH Deployment
+    * Structure of a BOSH vm
+    * Using monit to monitor BOSH vms
+    * Debugging issues with jobs
+    * Location and use of Logs
+
+---
+## Tutorial for deploying from scratch
+
+ * Creating manifest line by line from scratch
+ * Locating packages/releases/stemcells
+    * Where does the release tarball come from?
+ * Uploading stemcells and releases
+ * Deploying
+ * Checking that it worked
+
+---
+For BOSH release producers:
+
+## Using BOSH to package software (i.e. Creating a BOSH release)
+ * What is a release?
+    * Creating a release
+    * Testing with dev releases
+    * Cutting final releases
+ * What is a job?
+    * Creating a job
+    * Job properties
+    * Drain scripts
+ * What is a package?
+    * Creating a package
+    * Relationship to release blobs
+ * How do releases, jobs, and packages interact?
+ * Managing release repository
+    * Release blobstore
+
+---
+## Deep-dive into stemcell building???
+
+---
+## Extending BOSH to support other IaaS-es???
+
+ * What is CPI
