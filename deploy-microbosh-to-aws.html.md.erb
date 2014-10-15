@@ -161,7 +161,7 @@ Replace AVAILABILITY-ZONE in your deployment manifest with the one of the usable
 
     <%= image_tag("images/micro-aws/save-pem.png") %>
 
-1. Move the `bosh.pem` file into local deployment directory.
+1. Move the `bosh.pem` file into your local deployment directory.
 For example, on UNIX run this command:
 
     <pre class="terminal">
@@ -289,7 +289,7 @@ The list displays the most recent build of each flavor.
                     ... older stemcells ...
 </pre>
 
-1. Run `bosh download public stemcell STEMCELL-NAME`to download a stemcell.
+1. Run `bosh download public stemcell STEMCELL-NAME` to download a stemcell.
 
     BOSH stemcell names include the type, BOSH build number, target IaaS and
 	hypervisior, and underlying operating system.
