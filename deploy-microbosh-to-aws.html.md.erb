@@ -165,7 +165,7 @@ Replace AVAILABILITY-ZONE in your deployment manifest with the one of the usable
 For example, on UNIX run this command:
 
     <pre class="terminal">
-      mv ~/Downloads/bosh.pem ~/my-aws-deployment/bosh.pem
+      mv ~/Downloads/bosh.pem ~/my-micro-deployment/bosh.pem
     </pre>
 
 ###<a id="create-vpc"></a>Create a Virtual Private Cloud ###
@@ -182,7 +182,7 @@ For example, on UNIX run this command:
     * **IP CIDR block**: 10.0.0.0/16
     * **VPC name**: microbosh
     * **Public subnet**: 10.0.0.0/24
-    * **Availability zone**: The Availability Zone you selected earlier
+    * **Availability Zone**: The Availability Zone you selected earlier
     * **Subnet name**: microbosh
     * **Enable DNS hostnames**: Yes
     * **Hardware tenancy**: Default
@@ -316,7 +316,7 @@ deployment directory to instruct MicroBOSH to use your manifest file.
 	<code>WARNING!</code> message. This is not an error message.
 	The message alerts you to a change in the targeted IP address.</p>
 
-1. Use `bosh micro deploy light-bosh-stemcell-2717-aws-xen-ubuntu-trusty-go_agent.tgz` to deploy MicroBOSH.
+1. Run `bosh micro deploy STEMCELL-NAME` to deploy MicroBOSH.
 
 	<p class="note"><strong>Note</strong>: BOSH may displays a red
 	<code>No bosh-deployments.yml file found</code> message.
