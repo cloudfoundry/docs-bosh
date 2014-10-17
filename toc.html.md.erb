@@ -2,17 +2,17 @@
 title: Index
 ---
 
-## What is BOSH?
+## Introduction
 
- * What problems does BOSH solve?
- * Release Eegineering?
-    * Stemcell
-    * Release
-    * Deployment
+ * [What is BOSH?](about.html)
+ * [What problems does BOSH solve?](problems.html)
+    * [Stemcell](stemcell.html)
+    * [Release](release.html)
+    * [Deployment](deployment.html)
  * Comparison to other tools
     * Chef/Puppet
     * Terraform
- * Glossary
+ * [Terminology](terminology.html)
 
 ---
 ## Installing BOSH
@@ -26,11 +26,15 @@ title: Index
  * Boostrapping an environment (i.e. Installing MicroBOSH)
     * Local configuration
     * On Local machine (using boshlite)
+       * Compatbility
     * [On AWS](deploy-microbosh-to-aws.html)
+       * Compatbility
        * CloudFormation template
     * On OpenStack
+       * Compatbility
        * Heat template
     * On vSphere
+       * Compatbility
  * BOSH (micro) deploy step-by-step
     * [explanation of every step of the `bosh (micro) deploy` command]
  * Advanced BOSH configuration
@@ -98,9 +102,11 @@ For BOSH release producers:
     * Release blobstore
 
 ---
-## Deep-dive into stemcell building???
+## Deep-dive into stemcell building
 
 ---
-## Extending BOSH to support other IaaS-es???
+## Extending BOSH to support other IaaS-es
 
- * What is CPI
+ * What is a CPI
+ * Interactions between CPIs and BOSH Agent
+ * CPI API v1
