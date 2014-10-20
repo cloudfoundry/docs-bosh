@@ -22,6 +22,11 @@ Create a manifest for your deployment as follows:
 	Copy and paste the template into a text editor and save the manifest to your
 	deployment directory.
 
+	<p class="note"><strong>Note</strong>: The value for the
+		<code>default_security_group</code> in your manifest must be the
+		<strong>Group Name</strong> of your VPC Security Group, not the security
+		group ID.</p>
+
     In the template, you must replace the ELASTIC-IP-ADDRESS,
 	MICROBOSH-SUBNET-ID, AVAILABILITY-ZONE, ACCESS-KEY-ID, and SECRET-ACCESS-KEY
 	properties. We describe replacing these properties in [Step 2: Prepare an
