@@ -240,35 +240,63 @@ Elastic IP Address.
 
 1. Add the rules below for access by MicroBOSH and BOSH.
 
-    Various components and functions used with MicroBOSH need specific ports
-	opened for inbound traffic.
-	For example, the BOSH Director needs port 25555 opened, the BOSH Agents need
-	port 6868 opened, and you must open port 22 to allow debugging by SSH.
-	In addition, the VMs that BOSH deploys might need access to all TCP and UDP
-	ports from within the same Security Group.
-
     <table border="1" class="nice" >
     	<tr>
     		<th><b>Type</b></th>
-    		<th></b>Port Range</b></th>
+    		<th></b>Port / Port Range</b></th>
     		<th><b>Source</b></th>
+    		<th><b>User or Purpose</b></th>
+    	</tr>
+        <tr>
+          <td>Custom TCP Rule</td><td>25777</td><td>0.0.0.0/0</td><td>BOSH
+            Registry
+          </td>
+        </tr>
+    	<tr>
+    	  <td>Custom TCP Rule</td><td>25555</td><td>0.0.0.0/0</td><td>BOSH
+			Director
+        </td>
     	</tr>
     	<tr>
-    	  <td>Custom TCP Rule</td><td>25555</td><td>0.0.0.0/0</td>
+    	  <td>Custom TCP Rule</td><td>25250</td><td>0.0.0.0/0</td><td>BOSH
+            Blobstore
+          </td>
     	</tr>
     	<tr>
-    	  <td>Custom TCP Rule</td><td>6868</td><td>0.0.0.0/0</td>
+    	  <td>Custom TCP Rule</td><td>6868</td><td>0.0.0.0/0</td><td>BOSH Agent
+        </td>
+    	</tr>
+        <tr>
+          <td>Custom TCP Rule</td><td>4222</td><td>0.0.0.0/0</td><td>NATS
+          </td>
+        </tr>
+    	<tr>
+    	  <td>Custom TCP Rule</td><td>22</td><td>0.0.0.0/0</td><td>SSH</td>
+    	</tr>
+        <tr>
+          <td>Custom UDP Rule</td><td>68</td><td>0.0.0.0/0</td><td>BOOTP/DHCP
+          </td>
+        </tr>
+        <tr>
+          <td>Custom UDP Rule</td><td>53</td><td>0.0.0.0/0</td><td>Inbound DNS
+			requests
+		  </td>
+		</tr>
+    	<tr>
+    	  <td>All TCP</td><td>ALL</td><td>ID of the BOSH Security
+			Group</td><td>Members of the BOSH Security Group
+		  </td>
     	</tr>
     	<tr>
-    	  <td>Custom TCP Rule</td><td>22</td><td>0.0.0.0/0</td>
-    	</tr>
-    	<tr>
-    	  <td>All TCP</td><td>ALL</td><td>ID of this security group</td>
-    	</tr>
-    	<tr>
-    	  <td>All UDP</td><td>ALL</td><td>ID of this security group</td>
+    	  <td>All UDP</td><td>ALL</td><td>ID of the BOSH Security
+			Group</td><td>Members of the BOSH Security Group
+		  </td>
     	</tr>
     </table>
+
+
+	</table>
+
 
 1. Click **Save**.
 
