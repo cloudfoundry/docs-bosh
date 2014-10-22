@@ -103,8 +103,8 @@ your configuration.
 	example.
 
     <p class="note"><strong>Note</strong>: <code>BOSH_VPC_DOMAIN</code> and
-	<code>BOSH_VPC_SUBDOMAIN</code> must correspond to the domain name you set 
-	up when you configured Route 53. The only supported value for 
+	<code>BOSH_VPC_SUBDOMAIN</code> must correspond to the domain name you set
+	up when you configured Route 53. The only supported value for
 	<code>BOSH_AWS_REGION</code> is <code>us-east-1</code>.</p>
 
     ```
@@ -123,8 +123,11 @@ region.
 1. In a terminal window, run `source bosh_environment` to set the new
 environment variables for the current shell.
 
-1. **(Optional)** Use `bosh aws create` to create your AWS infrastructure. Skip
-this step if you are deploying MicroBOSH.
+#<a id="infrastructure"></a>Step 6: (Optional) Create AWS Infrastructure ##
+
+<p class="note"><strong>Note</strong>: Skip this step if you are only deploying MicroBOSH, not BOSH.</p>
+
+1. In a terminal window, run `bosh aws create` to create your AWS infrastructure.
 
 	The `bosh aws create` command generates the receipt files
 	`aws_rds_receipt.yml` and `aws_vpc_receipt.yml`, a VPC Internet Gateway, VPC
