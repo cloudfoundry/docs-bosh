@@ -148,3 +148,112 @@ environment variables for the current shell.
 	creating bucket xxxx-bosh-blobstore
 	creating bucket xxxx-bosh-artifacts
 	</pre>
+
+##<a id="private-subnet"></a>Step 7: (Optional) Restrict Public Access with a Private Subnet ##
+
+By default, you deploy the VMs in a BOSH deployment on AWS to a single public
+subnet.
+Public subnet traffic on AWS routes through an Internet gateway.
+Private subnet traffic on AWS does not, and any VMs that you deploy to a private
+subnet cannot communicate directly with the Internet.
+To restrict public access to your VMs, you can deploy them to a private subnet.
+
+To allow a VM in a private subnet to access the Internet, you must do one of the
+following:
+
+* Route the private subnet traffic through a network address translation (NAT)
+	VM that you deploy to a public subnet
+* Route the private subnet traffic through an Elastic Load Balancer (ELB) that
+	you deploy to a public subnet
+
+###<a id="deploy-vms"></a>Deploy VMs to a Private Subnet ###
+
+You can deploy any of the VMs listed in the `compilation`, `resource pools`, or
+`jobs` block of your deployment manifest to a private subnet instead of a public
+subnet.
+Follow the steps below to deploy VMs to a private subnet.
+
+1. From the Amazon Virtual Private Cloud (VPC) console, create a private subnet.
+
+1. In the `networks` block of your BOSH deployment manifest, add a sub-block
+referencing the private subnet.
+The sub-block must contain the following information:
+    * `name`: Name used by other entries in the manifest to reference this
+subnet
+    * `range`: Range of IP addresses in this subnet
+    * `cloud_properties`: AWS identifier for this subnet
+<br /><br />
+1. Find a VM in the `compilation`, `resource pools`, or `jobs` block of your
+deployment manifest.
+Change the value of the `network` or `networks` key for this VM to the `name`
+that you gave to your private subnet.
+BOSH deploys a VM to the subnet that the `network` or `networks` key references.
+
+1. Redeploy using your updated deployment manifest.
+
+###<a id="nat"></a>Route through a Network Address Translation (NAT) VM ###
+
+Routing through a NAT VM allows the VMs on a private subnet to initiate outbound
+traffic to the Internet, but prevents the VMs from receiving inbound traffic
+from the Internet. 
+Follow the steps below to route outbound traffic from the VMs on a private
+subnet through a NAT VM.
+
+1. From the Amazon Virtual Private Cloud (VPC) console, create a VM to use for
+NAT on a public subnet in your VPC.
+Configure the NAT VM with an Elastic IP address.
+
+1. Create a custom route table and associate it with your private subnet.
+Add the following entries to the route table:
+
+<table border="1" class="nice" >
+  <tr>
+	<th>Destination</th>
+	<th>Target</th>
+	<th>Purpose</th>
+  </tr>
+  <tr>
+    <td>IP address range of your VPC, specified as a CIDR block.<br />
+		Example: <code>10.0.0.0/16</code>
+	</td>
+	<td><code>local</code></td>
+	<td>Enables VMs in the private subnet to communicate with other VMs in
+		the VPC
+	</td>
+  </tr>
+  <tr>
+    <td><code>0.0.0.0/0</code></td>
+	<td>Your NAT VM, specified using AWS-assigned identifiers.<br />
+		Example: <code>eni-1a2b3c4d / i-1a2b3c4d</code>
+	</td>
+	<td>Sends all non-local traffic to the NAT VM</td>
+  </tr>
+</table>
+
+###<a id="nat"></a>Route through an Elastic Load Balancer (ELB) ###
+
+Routing through an Elastic Load Balancer (ELB) allows the VMs on a private
+subnet to receive inbound traffic from the Internet.
+All traffic from the Internet for the private subnet routes through the ELB, 
+allowing you to handle access control and SSL decryption at the ELB level.
+
+<p class="note"><strong>Note</strong>: Only traffic inbound from the Internet routes through an ELB. To allow the VMs on a private subnet to initiate outbound traffic to the Internet, you must <a href="#nat">route the outbound traffic through a NAT VM</a>.</p>
+
+Follow the steps below to route traffic inbound from the Internet through an
+Elastic Load Balancer to the VMs in a private subnet.
+
+1. From the Amazon Virtual Private Cloud (VPC) console, create a public subnet
+in the same Availability Zone as your private subnet.
+
+1. In the route table for the public subnet you create, add a route to the
+Internet Gateway.
+
+1. In the AWS EC2 Dashboard, create an external Elastic Load Balancer on the
+public subnet.
+
+1. Set the ELB to service your private subnet.
+
+1. Create a security group for your ELB that allows access from the Internet.
+
+1. Add a rule to the security group used by the VMs in your private subnet that
+allows access from the ELB security group.
