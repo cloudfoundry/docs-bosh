@@ -15,17 +15,12 @@ title: Index
  * [Terminology](terminology.html)
 
 ---
-## Installing BOSH
+## Installing MicroBOSH
 
  * [BOSH architecture](bosh-components.html)
-    * CLI
-    * The Director
-       * Director Tasks
-    * The Agent
-    * PowerDNS
  * Boostrapping an environment (i.e. Installing MicroBOSH)
     * Local configuration
-    * On Local machine (using boshlite)
+    * On Local machine (using bosh-lite)
        * Compatbility
     * [On AWS](deploy-microbosh-to-aws.html)
        * Compatbility
@@ -64,13 +59,13 @@ title: Index
     * Monitoring
     * Cloud check
     * Resurrector
-    * Snapshotting WIP
- * Complete BOSH CLI api
+    * (WIP) Snapshotting
  * Looking inside a BOSH Deployment
     * Structure of a BOSH vm
     * Using monit to monitor BOSH vms
     * Debugging issues with jobs
     * Location and use of Logs
+ * [Complete BOSH CLI API](sysadmin-commands.html)
 
 ---
 ## Tutorial for deploying from scratch
@@ -93,7 +88,7 @@ For BOSH release producers:
  * What is a job?
     * Creating a job
     * Job properties
-    * Drain scripts
+    * [Drain scripts](drain-scripts.html)
  * What is a package?
     * Creating a package
     * Relationship to release blobs
