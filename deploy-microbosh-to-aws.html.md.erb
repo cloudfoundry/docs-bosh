@@ -71,6 +71,7 @@ apply_spec:
     registry: {address: 10.0.0.6}
 </pre>
 
+---
 ##<a id="prepare-aws"></a>Step 2: Prepare an AWS Account ##
 
 If you do not have an AWS account, [create one](http://goo.gl/MaAybK).
@@ -125,6 +126,7 @@ Update `access_key_id` and `secret_access_key` in your MicroBOSH deployment mani
 
     <%= image_tag("images/micro-aws/record-key.png") %>
 
+---
 ###<a id="availability-zone"></a>Select an Availability Zone ###
 
 1. In the upper-right corner of the AWS Console, select a Region.
@@ -144,6 +146,7 @@ Replace AVAILABILITY-ZONE in your deployment manifest with the one of the usable
 
 <p class="note"><strong>Note</strong>: Currently, <strong>light</strong> stemcells are only available from the AWS Region of <strong>US East (N. Virginia)</strong>. If you want to use a light stemcell, you must select this region.</strong></p>
 
+---
 ###<a id="create-key-pair"></a>Create a Key Pair ###
 
 1. In the AWS Console, select **EC2**.
@@ -173,6 +176,7 @@ For example, on UNIX run this command:
       mv ~/Downloads/bosh.pem ~/my-micro-deployment/bosh.pem
     </pre>
 
+---
 ###<a id="create-vpc"></a>Create a Virtual Private Cloud ###
 
 1. On the AWS Console, select **VPC**.
@@ -202,6 +206,7 @@ For example, on UNIX run this command:
 
     <%= image_tag("images/micro-aws/subnet.png") %>
 
+---
 ###<a id="create-eip"></a>Create an Elastic IP ###
 
 1. On the VPC Dashboard, click **Elastic IPs**.
@@ -216,6 +221,7 @@ Click **Yes, Allocate**.
 1. Replace ELASTIC-IP-ADDRESS in your deployment manifest with the allocated
 Elastic IP Address.
 
+---
 ###<a id="create-security"></a>Create and Configure Security Groups ###
 
 1. On the VPC Dashboard, click **Security Groups**.
@@ -247,61 +253,28 @@ Elastic IP Address.
     		<th><b>Source</b></th>
     		<th><b>User or Purpose</b></th>
     	</tr>
-        <tr>
-          <td>Custom TCP Rule</td><td>25777</td><td>0.0.0.0/0</td><td>BOSH
-            Registry
-          </td>
-        </tr>
-    	<tr>
-    	  <td>Custom TCP Rule</td><td>25555</td><td>0.0.0.0/0</td><td>BOSH
-			Director
-        </td>
-    	</tr>
-    	<tr>
-    	  <td>Custom TCP Rule</td><td>25250</td><td>0.0.0.0/0</td><td>BOSH
-            Blobstore
-          </td>
-    	</tr>
-    	<tr>
-    	  <td>Custom TCP Rule</td><td>6868</td><td>0.0.0.0/0</td><td>BOSH Agent
-        </td>
-    	</tr>
-        <tr>
-          <td>Custom TCP Rule</td><td>4222</td><td>0.0.0.0/0</td><td>NATS
-          </td>
-        </tr>
-    	<tr>
-    	  <td>Custom TCP Rule</td><td>22</td><td>0.0.0.0/0</td><td>SSH</td>
-    	</tr>
-        <tr>
-          <td>Custom UDP Rule</td><td>68</td><td>0.0.0.0/0</td><td>BOOTP/DHCP
-          </td>
-        </tr>
-        <tr>
-          <td>Custom UDP Rule</td><td>53</td><td>0.0.0.0/0</td><td>Inbound DNS
-			requests
-		  </td>
-		</tr>
-    	<tr>
-    	  <td>All TCP</td><td>ALL</td><td>ID of the BOSH Security
-			Group</td><td>Members of the BOSH Security Group
-		  </td>
-    	</tr>
-    	<tr>
-    	  <td>All UDP</td><td>ALL</td><td>ID of the BOSH Security
-			Group</td><td>Members of the BOSH Security Group
-		  </td>
-    	</tr>
+      <tr><td>Custom TCP Rule</td><td>25777</td><td>0.0.0.0/0</td><td>BOSH Registry</td></tr>
+    	<tr><td>Custom TCP Rule</td><td>25555</td><td>0.0.0.0/0</td><td>BOSH Director</td></tr>
+    	<tr><td>Custom TCP Rule</td><td>25250</td><td>0.0.0.0/0</td><td>BOSH Blobstore</td></tr>
+    	<tr><td>Custom TCP Rule</td><td>6868</td><td>0.0.0.0/0</td><td>BOSH Agent</td></tr>
+      <tr><td>Custom TCP Rule</td><td>4222</td><td>0.0.0.0/0</td><td>NATS</td></tr>
+    	<tr><td>Custom TCP Rule</td><td>22</td><td>0.0.0.0/0</td><td>SSH</td></tr>
+      <tr><td>Custom UDP Rule</td><td>68</td><td>0.0.0.0/0</td><td>BOOTP/DHCP</td></tr>
+      <tr><td>Custom UDP Rule</td><td>53</td><td>0.0.0.0/0</td><td>Inbound DNS requests</td></tr>
+    	<tr><td>All TCP</td><td>ALL</td><td>ID of the BOSH Security Group</td><td>Members of the BOSH Security Group</td></tr>
+    	<tr><td>All UDP</td><td>ALL</td><td>ID of the BOSH Security Group</td><td>Members of the BOSH Security Group</td></tr>
     </table>
 
-
-	</table>
-
+    <p class="note"><strong>Note</strong>: It highly discouraged to run any production
+      environment with <code>0.0.0.0/0</code> source. Production environments should
+      have MicroBOSH deployed without an elastic IP on the private subnet.</p>
 
 1. Click **Save**.
 
-    <p class="note"><strong>Note</strong>: Ensure that the <strong>Save Successfully</strong> message displays. You may have to refresh the page to view the updated inbound rules.</p>
+    <p class="note"><strong>Note</strong>: Ensure that the <strong>Save Successfully</strong>
+      message displays. You may have to refresh the page to view the updated inbound rules.</p>
 
+---
 ## <a id="download-stemcell"></a>Step 3: Download a BOSH Stemcell ##
 
 1. Install the [BOSH Command Line Interface (CLI)](./bosh-cli.html).
@@ -333,6 +306,7 @@ The list displays the most recent build of each flavor.
     $ bosh download public stemcell light-bosh-stemcell-2717-aws-xen-ubuntu-trusty-go_agent.tgz
     </pre>
 
+---
 ## <a id="deploy"></a>Step 4: Deploy MicroBOSH ##
 
 1. In a terminal window, run `bosh micro deployment microbosh.yml` from your
@@ -386,6 +360,7 @@ The default username and password are `admin` and `admin`.
     No deployments
     </pre>
 
+---
 ## <a id="troubleshooting"></a>Basic Troubleshooting ##
 
 If the deployment fails, run `bosh micro delete`, then deploy again.
