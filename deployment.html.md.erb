@@ -1,0 +1,37 @@
+---
+title: What is a Deployment?
+---
+
+A deployment is a collection of VMs built from [stemcells](stemcell.html) and populated with specific [releases](release.html), and disks that keep persistent data. These resources are created based on a manifest file in the IaaS and managed by the BOSH Director, a centralized management server.
+
+The concept of a deployment naturally emerges once it is decided which Operating System images (stemcells) need to be used and which software (releases) needs to be deployed. In addition there is also a question of how to track persistent data while cluster is updated and transformed. Usually one has to decide how to automate steps of deploying images to an IaaS, configuring machines to use said image and placing correct software versions onto provisioned machines. BOSH builds upon previously introduced primitivies: stemcells and releases by providing a way to state an explicit combination of stemcells, releases and operator specified properties in a human readable file. This file is called a deployment manifest.
+
+When deployment manifest is uploaded to a BOSH Director requested resources are allocated and remembered. These resources form a deployment. Deployment keeps track of associated VMs and persistent disks that are attached to the VMs. Over time as deployment manifest changes, VMs are replaced and updated; however, persistent disks are kept around and are re-attached to the newer VMs.
+
+User can manage a deployment via its deployment manifest. Deployment manifest contains all needed information for tracking, managing, and updating software on the deployment's VMs. It describes the deployment in an IaaS-agnostic way [1]. For example to update a Redis cluster (deployment is named 'redis-us') to a later version of a Redis release, one would update few lines in the deployment manifest:
+
+```
+---
+name: redis-us
+
+releases:
+- name: redis
+  version: 15.9 # <--- bump version
+
+resource_pools:
+- name: all-machines
+  stemcell:
+    name: bosh-aws-xen-ubuntu-lucid-go_agent
+    version: 2745
+  network: default
+  cloud_properties:
+    instance_type: m1.small
+    availability_zone: us-east-1a
+...
+```
+
+[1] In reality there are some small differences in the deployment manifest depending on which IaaS is used. This differences usually capture IaaS specific features that operator decided to use.
+
+Previous: [What is a Release?](release.html)
+
+[Back to Table of Contents](toc.html)

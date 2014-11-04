@@ -2,72 +2,81 @@
 title: BOSH Command Line Interface
 ---
 
-<p class='note'><strong>Note</strong>: Installing the BOSH CLI requires the latest patched version of Ruby 1.9.3, 2.0.x, or 2.1.x.</p>
+<p class='note'><strong>Note</strong>: Installing the BOSH CLI requires Ruby 1.9.3, 2.0.x, or 2.1.x.</p>
 
-You must use the BOSH Command Line Interface (CLI) to interact with MicroBOSH and BOSH.
+BOSH Command Line Interface (CLI) is used to interact with MicroBOSH and BOSH. To install BOSH CLI with the MicroBOSH plugin:
 
-Run this command to install BOSH CLI with the MicroBOSH plugin:
-
-`gem install bosh_cli bosh_cli_plugin_micro`
-
-Run this command to install BOSH CLI with the MicroBOSH plugin with AWS:
-
-`gem install bosh_cli_plugin_micro bosh_cli_plugin_aws`
+```
+gem install bosh_cli bosh_cli_plugin_micro
+```
 
 Use the following command to consult the BOSH CLI help:
 
-`bosh help --all`
+```
+bosh help --all
+```
 
-####Troubleshooting bosh_cli Install on Ubuntu Trusty
+## Pre-requisites on Ubuntu Trusty
 
 Install pre-requisites on Ubuntu Trusty before running `gem install` commands:
 
-`sudo apt-get install build-essential ruby ruby-dev libxml2-dev libsqlite3-dev libxslt1-dev libpq-dev libmysqlclient-dev`
+```
+sudo apt-get install build-essential ruby ruby-dev libxml2-dev libsqlite3-dev libxslt1-dev libpq-dev libmysqlclient-dev
+```
 
-####BOSH CLI Troubleshooting
 Use this table to resolve the errors listed on the left with the corresponding command on the right.
 
-<table border="1" class="nice" >
-<tr>
-<th>Error or Message</th>
-<th>Command</th>
-</tr>
-<tr>
-<td><code>Ruby not installed</code></td>
-<td><code>sudo apt-get install ruby</code></td>
-</tr>
-<tr>
-<td><code>mkmf not found</code></td>
-<td><code>sudo apt-get install ruby-dev</code></td>
-</tr>
-<tr>
-<td><code>libxml not found</code></td>
-<td><code>sudo apt-get install libxml2-dev</code></td>
-</tr>
-<tr>
-<td><code>(compile.log:) make not found</code></td>
-<td><code>sudo apt-get install build-essential</code></td>
-</tr>
-<tr>
-<td><code>bosh_cli is good</code></td>
-<td>Note: This message indicates nokogiri compiling might take longer than expected.</td>
-</tr>
-<tr>
-<td><code>libsqlite not found</code></td>
-<td><code>sudo apt-get install libsqlite3-dev</code></td>
-</tr>
-<tr>
-<td><code>libxslt is missing</code></td>
-<td><code>sudo apt-get install libxslt1-dev</code></td>
-</tr>
-<tr>
-<td><code>Can't find libpq-fe.h header</code></td>
-<td><code>sudo apt-get install libpq-dev</code></td>
-</tr>
-<tr>
-<td><code>checking for mysql_query() ... no</code></td>
-<td><code>sudo apt-get install libmysqlclient-dev</code></td>
-</tr>
-
-
+<table border="1" class="nice">
+  <tr>
+    <th>Error</th>
+    <th>Command</th>
+  </tr>
+  <tr>
+    <td><code>Ruby not installed</code></td>
+    <td><code>sudo apt-get install ruby</code></td>
+  </tr>
+  <tr>
+    <td><code>mkmf not found</code></td>
+    <td><code>sudo apt-get install ruby-dev</code></td>
+  </tr>
+  <tr>
+    <td><code>libxml not found</code></td>
+    <td><code>sudo apt-get install libxml2-dev</code></td>
+  </tr>
+  <tr>
+    <td><code>(compile.log:) make not found</code></td>
+    <td><code>sudo apt-get install build-essential</code></td>
+  </tr>
+  <tr>
+    <td><code>libsqlite not found</code></td>
+    <td><code>sudo apt-get install libsqlite3-dev</code></td>
+  </tr>
+  <tr>
+    <td><code>libxslt is missing</code></td>
+    <td><code>sudo apt-get install libxslt1-dev</code></td>
+  </tr>
+  <tr>
+    <td><code>Can't find libpq-fe.h header</code></td>
+    <td><code>sudo apt-get install libpq-dev</code></td>
+  </tr>
+  <tr>
+    <td><code>checking for mysql_query() ... no</code></td>
+    <td><code>sudo apt-get install libmysqlclient-dev</code></td>
+  </tr>
 </table>
+
+## Pre-requisites on CentOS
+
+Install pre-requisites on CentOS before running `gem install` commands:
+
+```
+sudo yum install gcc ruby ruby-devel mysql-devel postgresql-devel postgresql-libs sqlite-devel libxslt-devel libxml2-devel yajl-ruby
+```
+
+## Installing AWS Boostrap CLI (optional)
+
+Run this command to install additional AWS bootstrap commands:
+
+```
+gem install bosh_cli_plugin_aws
+```

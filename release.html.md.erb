@@ -1,0 +1,23 @@
+---
+title: What is a Release?
+---
+
+A release is a versioned collection of configuration properties, configuration templates, start up scripts, source code, binary artifacts and anything else required to build and deploy software in a reproducible way.
+
+Releases could be thought of a layer placed on top of [stemcells](stemcell.html). They  are usually self-contained and provide software very specific to the purpose of that release. For example a Redis release might include start-up and shutdown scrips for `redis-server`, tarball with Redis source code obtained from Redis official website and few configuration properties allowing cluster operators to tweak redis configuration.
+
+By allowing layering of stemcell and releases BOSH is able to easily solve problems such as how does one make sure that compiled version of software is reliably available throughout the deploy, or how to easily version and roll out new versions of software to the whole cluster VM-by-VM that other orchestration software often is not able to solve.
+
+There are two common formats in which releases are distributed: via artifacts checked into a git repository and as a single tarball.
+
+By introducing the concept of a release following concerns are addressed:
+
+- how to capture all needed configuration options and scripts for piece of the software
+- how to record and keep track of all dependencies for software
+- how to version and keep track of software releases
+- how to create releases that can be IaaS ignostic
+- how to create releases that are self-contained and do not require internet access for deployment
+
+Next: [What is a Deployment?](deployment.html)
+
+Previous: [What is a Stemcell?](stemcell.html)

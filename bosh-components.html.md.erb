@@ -4,52 +4,14 @@ title: BOSH Components
 
 This topic describes the components of BOSH and provides an example component interaction.
 
-<%= image_tag("/images/components.png") %>
-
-## <a id="list"></a>List of BOSH Components ##
-
-### <a id="agent"></a>Agent ###
-BOSH creates an Agent on every VM that BOSH deploys.
-A BOSH Agent listens for instructions from the BOSH Director to the VM and
-carries out those instructions.
-The Agent receives job specifications from the Director and uses them to assign
-a role, or Job, to the VM.
-
-For example, to assign the Job of running MySQL to a VM, the Director sends
-instructions to the Agent on the VM.
-These instructions include which packages to install and how to configure those
-packages.
-The Agent uses these instructions to install and configure MySQL on the VM.
-
-### <a id="blobstore"></a>Blobstore ###
-The BOSH Blobstore stores the source forms of releases and packages and the
-compiled images of BOSH packages.
-An operator uploads a release using the BOSH CLI, and the Director inserts the
-release into the Blobstore.
-When you deploy a release, BOSH orchestrates the compilation of packages and
-stores the result in the Blobstore.
-
-### <a id="cli"></a>BOSH Command Line Interface (CLI) ###
-The BOSH Command Line Interface (CLI) is the primary operator interface to BOSH.
+---
+## <a id="cli"></a>Command Line Interface (CLI)
+The Command Line Interface (CLI) is the primary operator interface to BOSH.
 An operator uses the CLI to interact with the BOSH Director and perform actions
 on the cloud.
 
-### <a id="database"></a>BOSH Database ###
-The BOSH Director uses a Postgres database to store information about the
-desired state of a BOSH deployment.
-This includes information about releases, packages, stemcells, and deployments.
-
-### <a id="name-server"></a>BOSH DNS Name Server ###
-BOSH uses PowerDNS to provide DNS resolution between the VMs in a BOSH
-deployment.
-
-### <a id="cpi"></a>Cloud Provider Interface (CPI) ###
-A Cloud Provider Interface (CPI) is an API that BOSH uses to interact with an
-Infrastructure as a Service (IaaS) provider to create and manage stemcells and
-VMs.
-A CPI abstracts the cloud infrastructure from the rest of BOSH.
-
-### <a id="director"></a>Director ###
+---
+## <a id="director"></a>Director
 The BOSH Director is the core orchestrating component in BOSH.
 The Director controls VM creation and deployment, as well as other software and
 service lifecycle events.
@@ -61,42 +23,84 @@ The Director creates actionable tasks:
 * if needed to reconcile the expected state with the actual state of a VM
 
 Once created, the Director adds these tasks to the Task Queue.
-BOSH Worker processes take tasks from the Task Queue and act on them.
+Worker processes take tasks from the Task Queue and act on them.
 
-### <a id="health-monitor"></a>Health Monitor ###
+### <a id="queue"></a>Task Queue
+An asynchronous queue used by the BOSH Director and Workers to manage tasks.
+The Task Queue resides in a Redis key-value store.
+
+### <a id="workers"></a>Workers
+BOSH Workers take tasks from the Task Queue and act on them.
+
+### <a id="cpi"></a>Cloud Provider Interface (CPI)
+A Cloud Provider Interface (CPI) is an API that BOSH uses to interact with an
+Infrastructure as a Service (IaaS) provider to create and manage stemcells,
+VMs, and disks. A CPI abstracts the cloud infrastructure from the rest of BOSH.
+
+---
+## <a id="health-monitor"></a>Health Monitor
 The Health Monitor uses status and lifecycle events received from BOSH Agents to
-monitor the health of VMs.
-If the Health Monitor detects a problem with a VM, it can send an alert through
-a notification plugin, or trigger the BOSH Resurrector.
+monitor the health of VMs. If the Health Monitor detects a problem with a VM, 
+it can send an alert through a notification plugin, or trigger the BOSH Resurrector.
 
-### <a id="nats"></a>Message Bus (NATS) ###
-The Director and the Agents communicate through a lightweight publish-subscribe
-and distributed queueing messaging system called NATS.
-These messages have two purposes: to confirm the health of the Agent, and to
-inform the Director about changes in the health of monitored processes.
+### <a id="resurrector"></a>Resurrector
+If enabled, the BOSH Resurrector plugin automatically recreates VMs identified
+by the Health Monitor as stopped or unresponsive.
 
-### <a id="registry"></a>Registry ###
+---
+## <a id="dns"></a>DNS Name Server
+BOSH uses PowerDNS to provide DNS resolution between the VMs in a BOSH
+deployment.
+
+---
+## <a id="persistent"></a>Components used to store Director's Persistent Data
+
+### <a id="database"></a>Database
+The BOSH Director uses a Postgres database to store information about the
+desired state of a BOSH deployment. This includes information about stemcells,
+releases, and deployments.
+
+### <a id="blobstore"></a>Blobstore
+The BOSH Blobstore stores the source forms of releases and the compiled images 
+of BOSH releases. An operator uploads a release using the BOSH CLI, and the 
+Director inserts the release into the Blobstore. When you deploy a release, 
+BOSH orchestrates the compilation of packages and stores the result in the Blobstore.
+
+---
+## <a id="comm"></a>Components used for cross-component communication
+
+### <a id="nats"></a>Message Bus (NATS)
+The Director and the Agents communicate through a lightweight publish-subscribe 
+messaging system called NATS. These messages have two purposes: to confirm the 
+health of the Agent, and to inform the Director about changes in the health of 
+monitored processes.
+
+### <a id="registry"></a>Registry
 When BOSH creates or updates a VM, BOSH stores the following VM configuration
 information in the registry:
 
 * IP addresses for the network interface, gateway, and netmask
 * IDs for the volume reserved for the VM, for the VM itself, and for disks and other devices
 
-### <a id="resurrector"></a>Resurrector ###
-If enabled, the BOSH Resurrector plugin automatically recreates VMs identified
-by the Health Monitor as stopped or unresponsive.
+---
+## <a id="agent"></a>Agent
+BOSH creates an Agent on every VM that BOSH deploys.
+A BOSH Agent listens for instructions from the BOSH Director to the VM and
+carries out those instructions.
+The Agent receives job specifications from the Director and uses them to assign
+a role, or Job, to the VM.
 
-### <a id="queue"></a>Task Queue ###
-An asynchronous queue used by the BOSH Director and Workers to manage tasks.
-The Task Queue resides in a Redis key-value store.
+For example, to assign the Job of running MySQL to a VM, the Director sends
+instructions to the Agent on the VM. These instructions include which packages to 
+install and how to configure those packages. The Agent uses these instructions to 
+install and configure MySQL on the VM.
 
-### <a id="workers"></a>Workers ###
-BOSH Workers take tasks from the Task Queue and act on them.
+---
+## <a id="example"></a>Example Component Interaction
 
-## <a id="example"></a>Example Component Interaction ##
 This example shows how BOSH components interact when creating a new VM.
 
-### <a id="create-vm"></a>Creating a New VM ###
+### <a id="create-vm"></a>Creating a New VM
 <%= image_tag("/images/deploy-sequence.png") %><br />
 
 1. Through the BOSH CLI, the operator takes an action (e.g. deploy for the first
@@ -105,13 +109,8 @@ time, scaling up deployment) which requires creating a new VM.
 1. The Director uses the CPI to tell the IaaS to launch a VM.
 1. The IaaS provides the Director with information (IP addresses and IDs) the
 Agent on the VM needs to configure the VM.
-1. The Director updates the BOSH Registry with the configuration information for
-the VM.
+1. The Director updates the BOSH Registry with the configuration information for the VM.
 1. The Agent running on the VM requests the configuration information for the VM
 from the BOSH Registry.
 1. The BOSH Registry responds with the IP addresses and IDs.
 1. The Agent uses the IP addresses and IDs to configure the VM.
-
-<p class="note"><strong>Note</strong>: vSphere does not use the BOSH Registry.
-Instead, BOSH attaches a CD-ROM ISO image with the necessary information to each
-vSphere VM.</p>
