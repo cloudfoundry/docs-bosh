@@ -4,20 +4,20 @@ title: What is a Stemcell?
 
 A stemcell is a versioned Operating System image wrapped with IaaS specific packaging.
 
-Typical stemcell contains bare minimum OS skeleton with few common utilities pre-installed, a BOSH Agent and few configuration files to make OS be securely configured by default. For example on vSphere, officially stemcell for Ubuntu Trusty is about 500MB large VMDK file. On AWS, official stemcells are published as AMIs that can be used in your AWS account.
+A typical stemcell contains a bare minimum OS skeleton with a few common utilities pre-installed, a BOSH Agent, and a few configuration files to securely configure the OS by default. For example: with vSphere, the official stemcell for Ubuntu Trusty is an approximately 500MB VMDK file. With AWS, official stemcells are published as AMIs that can be used in your AWS account.
 
-Stemcells _do not_ contain any specific information about future software that will be installed once stemcell becomes a specialized machine in the cluster. Neither do they contain any sensisitive information which would make them unshareable with other BOSH users. This clear separation between base Operating System and later-installed software is what makes stemcells a powerful concept.
+Stemcells do not contain any specific information about any software that will be installed once that stemcell becomes a specialized machine in the cluster; nor do they contain any sensitive information which would make them unable to be shared with other BOSH users. This clear separation between base Operating System and later-installed software is what makes stemcells a powerful concept.
 
-In addition to stemcells being generic, stemcells for one OS (e.g. all Ubuntu Trusty stemcells) are __exactly__ the same for __all__ infrastructures. This property of stemcells allows BOSH users to quickly and reliably switch between different infrastructures without worrying about the differences between OS images.
+In addition to being generic, stemcells for one OS (e.g. all Ubuntu Trusty stemcells) are exactly the same for all infrastructures. This property of stemcells allows BOSH users to quickly and reliably switch between different infrastructures without worrying about the differences between OS images.
 
-BOSH team is responsible for producing and maintaining official set of stemcells. We currently support Ubuntu Trusty and CentOS 6.5 on vSphere, AWS, OpenStack, and vCloud infrastructures.
+The Cloud Foundry BOSH team is responsible for producing and maintaining an official set of stemcells. Cloud Foundry currently supports Ubuntu Trusty and CentOS 6.5 on vSphere, AWS, OpenStack, and vCloud infrastructures.
 
-By introducing the concept of a stemcell following problems are solved:
+By introducing the concept of a stemcell, the following problems have been solved:
 
-- how to capture base Operating System image
-- how to version changes to the Operating System image
-- how to reuse base Operating System image across VMs of different type
-- how to reuse base Operating System image across different IaaS
+- Capturing a base Operating System image
+- Versioning changes to the Operating System image
+- Reusing base Operating System images across VMs of different types
+- Reusing base Operating System images across different IaaS
 
 Next: [What is a Release?](release.html)
 
