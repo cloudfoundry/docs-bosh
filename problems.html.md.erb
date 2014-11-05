@@ -2,29 +2,25 @@
 title: What Problems Does BOSH Solve?
 ---
 
-BOSH allows individual developers and teams to easily version, package and deploy software in a reproducible manner.
+BOSH allows developers to version, package, and deploy software in a reproducible manner. While many tools exist to solve the individual parts of versioning, packaging, and deploying software reproducibly, BOSH is designed to do each of these as a whole.
 
-Any software, a simple static site or a complex multi-component service, needs to be modified and shipped again. Updated software needs to be placed onto a cluster of machines. Or may be it just needs to be packaged up for end-users to deploy to their own servers. In a lot of cases developers who produced that software will be the ones deploying it to their production environment. So it _might_ not be, but often is, painful for them to manage their single long-lived environment; however, usually team needs a staging environment that is similarly configured to their production environment. And as long as there is a staging environment someone will ask to set up additional environments (may be for development, demos, etc.).
-
-Above situation might sound pretty standard and even appear to be simple, but it hides a lot of problems. Developer/operator communities have come very far in solving this problem with tools like Chef, Puppet, and more recently Docker, etc., but even then each organization solves these problems in a different way which usually involves variety of different and not-necessarily well integrated tools. While tools exist to solve the individual parts of versioning, packaging, and deploying software reproducibly, BOSH is the tool that was designed to do each of these as a whole.
-
-[Release Engineering page](http://en.wikipedia.org/wiki/Release_engineering) on Wikipedia identifies 4 principles of modern release engineering process is concerned. BOSH addresses each of them in the following ways:
+The [Release Engineering page](http://en.wikipedia.org/wiki/Release_engineering) n Wikipedia identifies four principles of the modern release engineering process. BOSH addresses each of them in the following ways:
 
 > **Identifiability** Being able to identify all of the source, tools, environment, and other components that make up a particular release.
 
-BOSH has a concept of software release which packages up all related source code, binary assets, configuration etc. This allows users to easily track contents a particular release. In addition to releases BOSH provides a way to capture all Operating System dependencies as one image.
+The BOSH concept of software release packages all related source code, binary assets, configuration etc. This allows users to easily track content in a particular release. In addition to releases, BOSH provides a way to capture all Operating System dependencies as one image.
 
 > **Reproducibility** The ability to integrate source, third party components, data, and deployment externals of a software system in order to guarantee operational stability.
 
-BOSH tool chain provides a centralized server that manages software releases, Operating System images, persistent data, and system configuration. It provides a clear and simple way of operating deployed system.
+The BOSH tool chain provides a centralized server that manages software releases, Operating System images, persistent data, and system configuration. It also provides a clear and simple way of operating deployed systems.
 
-> **Consistency** The mission to provide a stable framework for development, deployment, audit and accountability for software components.
+> **Consistency** The mission to provide a stable framework for development, deployment, audit, and accountability for software components.
 
-BOSH software releases workflows are used throughout the development of the software and when the system needs to be deployed. BOSH centralized server allows users to see and track changes made the deployed system.
+BThe BOSH software release workflows are used throughout the development of the software and when the system needs to be deployed. The BOSH centralized server allows users to see and track changes made to the deployed system.
 
 > **Agility** The ongoing research into what are the repercussions of modern software engineering practices on the productivity in the software cycle, i.e. continuous integration.
 
-BOSH tool chain integrates well with current best practices of software engineering (including Continious Delivery) by providing ways to easily create software releases in an automated ways and to update complex deployed systems with simple commands.
+The BOSH tool chain integrates well with the current best practices of software engineering (including Continuous Delivery) by providing ways to create software releases in an automated way and to update complex deployed systems with simple commands.
 
 Next: [What is a Stemcell?](stemcell.html)
 
