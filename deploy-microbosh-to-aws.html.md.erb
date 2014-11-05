@@ -6,9 +6,7 @@ This topic explains how to deploy MicroBOSH to Amazon Web Services (AWS).
 
 ##<a id="create-manifest"></a>Step 1: Create a Deployment Manifest ##
 
-The MicroBOSH deployment manifest is a YAML file that defines the components and
-properties of the deployment.
-Create a manifest for your deployment as follows:
+The MicroBOSH deployment manifest is a YAML file that defines the components and properties of the deployment. Create a manifest for your deployment as follows:
 
 1. Create a local deployment directory to store your manifest.
 
@@ -44,7 +42,7 @@ network:
   ip: 10.0.0.6
   dns: [10.0.0.2]
   cloud_properties:
-   subnet: MICROBOSH-SUBNET-ID # Replace with your MicroBOSH Subnet ID
+    subnet: MICROBOSH-SUBNET-ID # Replace with your MicroBOSH Subnet ID
 
 resources:
   persistent_disk: 20000
@@ -288,10 +286,8 @@ The list displays the most recent build of each flavor.
     +-------------------------------------------------------------+
     | Name                                                        |
     +-------------------------------------------------------------+
-    | bosh-stemcell-2717-aws-xen-ubuntu-trusty-go_agent.tgz       |
-    | bosh-stemcell-2717-aws-xen-centos-go_agent.tgz              |
-    | light-bosh-stemcell-2717-aws-xen-ubuntu-trusty-go_agent.tgz |
-    | light-bosh-stemcell-2717-aws-xen-centos-go_agent.tgz        |
+    | light-bosh-stemcell-2751-aws-xen-ubuntu-trusty-go_agent.tgz |
+    | light-bosh-stemcell-2751-aws-xen-centos-go_agent.tgz        |
                     ... older stemcells ...
 </pre>
 
@@ -303,7 +299,7 @@ The list displays the most recent build of each flavor.
     To download the latest light Ubuntu Trusty stemcell:
 
     <pre class='terminal'>
-    $ bosh download public stemcell light-bosh-stemcell-2717-aws-xen-ubuntu-trusty-go_agent.tgz
+    $ bosh download public stemcell light-bosh-stemcell-2751-aws-xen-ubuntu-trusty-go_agent.tgz
     </pre>
 
 ---
@@ -320,18 +316,18 @@ deployment directory to instruct MicroBOSH to use your manifest file.
     </pre>
 
     <p class="note"><strong>Note</strong>: BOSH displays a red
-	<code>WARNING!</code> message. This is not an error message.
-	The message alerts you to a change in the targeted IP address.</p>
+  	<code>WARNING!</code> message. This is not an error message.
+  	The message alerts you to a change in the targeted IP address.</p>
 
 1. Run `bosh micro deploy STEMCELL-NAME` to deploy MicroBOSH.
 
-	<p class="note"><strong>Note</strong>: BOSH may displays a red
-	<code>No bosh-deployments.yml file found</code> message.
-	If prompted to allow MicroBOSH to the save state in the current directory,
-	type <code>yes</code>.</p>
+  	<p class="note"><strong>Note</strong>: BOSH may displays a red
+  	<code>No bosh-deployments.yml file found</code> message.
+  	If prompted to allow MicroBOSH to the save state in the current directory,
+  	type <code>yes</code>.</p>
 
     <pre class='terminal'>
-    $ bosh micro deploy light-bosh-stemcell-2717-aws-xen-ubuntu-trusty-go_agent.tgz
+    $ bosh micro deploy light-bosh-stemcell-2751-aws-xen-ubuntu-trusty-go_agent.tgz
 
     No 'bosh-deployments.yml' file found in current directory.
 
@@ -346,8 +342,7 @@ deployment directory to instruct MicroBOSH to use your manifest file.
     Deployed '~/my-micro-deployment/manifest.yml' to 'https://54.86.66.111:25555', took 00:04:51 to complete
     </pre>
 
-1. Use `bosh target ELASTIC-IP-ADDRESS` to log into your new BOSH Director.
-The default username and password are `admin` and `admin`.
+1. Use `bosh target ELASTIC-IP-ADDRESS` to log into your new BOSH Director. The default username and password are `admin` and `admin`.
 
     <pre class="terminal">
     $ bosh target 54.86.66.111
@@ -365,9 +360,7 @@ The default username and password are `admin` and `admin`.
 
 If the deployment fails, run `bosh micro delete`, then deploy again.
 
-If an error message displays that refers to your `access key signature`, check
-the accuracy of the ACCESS-KEY-ID and SECRET-ACCESS-KEY in the deployment
-manifest.
+If an error message displays that refers to your `access key signature`, check the accuracy of the ACCESS-KEY-ID and SECRET-ACCESS-KEY in the deployment manifest.
 
 If other error messages appear:
 
