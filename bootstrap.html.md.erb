@@ -1,0 +1,22 @@
+---
+title: Boostrapping an environment / What is MicroBOSH?
+---
+
+MicroBOSH is a single VM BOSH installation that includes all necessary BOSH components. It is the primary way to deploy the [BOSH Director](bosh-components.html#director) and its supporting components to an IaaS to start managing deployments.
+
+There are two reasons to deploy MicroBOSH:
+
+- to manage deployments of any software
+- to deploy multi-VM BOSH, which in turn could be used for managing other deployments
+
+Special BOSH CLI command (<code>bosh micro deploy</code>) can be used to create, update or migrate existing MicroBOSH VM. In addition to managing the VM, it is also responsible for managing the persistent disk attached to the MicroBOSH VM. Persistent disk is used by the Director to store information about the deployments it manages.
+
+It is highly encouraged to update your BOSH installation frequently to stay on the latest version of BOSH.
+
+Depending on your infrastructure, choose your next step:
+
+- [Deploying MicroBOSH to AWS](deploy-microbosh-to-aws.html)
+- [Deploying MicroBOSH to vSphere](deploy-microbosh-to-vsphere.html)
+- [Deploying MicroBOSH to OpenStack](deploy-microbosh-to-openstack.html)
+
+Previous: [BOSH Architecture](bosh-components.html)
