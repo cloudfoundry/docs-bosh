@@ -1,0 +1,179 @@
+---
+title: Deploying MicroBOSH to vSphere
+---
+
+This topic explains how to deploy MicroBOSH to VMware vSphere.
+
+##<a id="create-manifest"></a>Step 1: Create a Deployment Manifest ##
+
+The MicroBOSH deployment manifest is a YAML file that defines the components and properties of the deployment. Create a manifest for your deployment as follows:
+
+1. Create a local deployment directory to store your manifest.
+
+    <pre class='terminal'>
+    $ mkdir ~/my-micro-deployment
+    </pre>
+
+1. Create a deployment manifest YAML file.
+
+    The example below is a MicroBOSH deployment manifest template. Copy and paste the template into a text editor and save the manifest to your deployment directory.
+
+    <p class="note"><strong>Note</strong>: The example below has the file name <code>manifest.yml</code>, which we reference in other examples in this topic.</p>
+
+<pre class='code'>
+---
+name: microbosh
+
+network:
+  type: manual
+  ip:      10.0.0.6
+  netmask: 255.255.255.0
+  gateway: 10.0.0.1
+  dns:     [10.0.0.2]
+  cloud_properties:
+    network: VSPHERE-NETWORK-NAME
+
+resources:
+  persistent_disk: 20000
+  cloud_properties:
+    ram: 4_096
+    disk: 10_000
+    cpu: 2
+
+cloud:
+  plugin: vsphere
+
+  properties:
+    vcenters:
+    - host: VCENTER-IP
+      user: VCENTER-USER-NAME
+      password: VCENTER-PASSWORD
+
+      datacenters:
+      - name: VSPHERE-DATACENTER-NAME
+        vm_folder: VSPHERE-VMS-FOLDER-NAME
+        template_folder: VSPHERE-TEMPLATES-FOLDER-NAME
+
+        datastore_pattern: VSPHERE-DATASTORE-NAME
+        persistent_datastore_pattern: VSPHERE-DATASTORE-NAME
+        disk_path: VSPHERE-DISK-FOLDER-NAME
+        allow_mixed_datastores: true
+
+        clusters:
+        - VSPHERE-CLUSTER-NAME
+
+    agent:
+      ntp: ["us.pool.ntp.org"]
+</pre>
+
+---
+##<a id="prepare"></a>Step 2: Prepare a vSphere Environment ##
+
+To prepare your vSphere environment for deploying MicroBOSH, use the vSphere Web Client to create any missing resources listed below:
+
+- Replace `VCENTER-IP` (e.g. '192.168.0.10') with the IP of the vCenter.
+
+- Replace `VCENTER-USER-NAME` (e.g. 'root') and `VCENTER-PASSWORD` (e.g. 'vmware') in your MicroBOSH deployment manifest with vCenter user name and password. BOSH does not require user to be an admin; however, it does need certain user privileges.
+
+- Replace `VSPHERE-DATACENTER-NAME` (e.g. 'my-dc') with the name of the datacenter the Director will use for VM creation.
+
+- Replace `VSPHERE-VMS-FOLDER-NAME` (e.g. 'my-micro-vms') and `VSPHERE-TEMPLATES-FOLDER-NAME` (e.g. 'my-micro-templates') with the name of the folder created to hold VMs and the name of the folder created to hold stemcells. Create both folders under the chosen datacenter. 
+
+- Replace `VSPHERE-DATASTORE-NAME` (e.g. 'datastore1') with the name of the datastore the Director will use for storing VMs and associated persistent disks.
+
+- Replace `VSPHERE-DISK-FOLDER-NAME` (e.g. 'my-micro-disks') with the name of the VMs folder. Create disk folder in the chosen datastore from the datastore's browser.
+
+- Replace `VSPHERE-CLUSTER-NAME` (e.g. 'cluster1') with the name of the vSphere cluster. Create cluster under the chosen datacenter in the Clusters tab.
+
+- Replace `VSPHERE-NETWORK-NAME` (e.g. 'VM Network') with the name of the vSphere network. Create network under the chosen datacenter in the Networks tab.
+
+---
+## <a id="download-stemcell"></a>Step 3: Download a BOSH Stemcell ##
+
+1. Install the [BOSH Command Line Interface (CLI)](./bosh-cli.html).
+
+1. In a terminal window, run `bosh public stemcells` from your deployment directory to see a list of publicly available BOSH stemcells. The list displays the most recent build of each flavor.
+
+    <pre class='terminal'>
+    $ bosh public stemcells
+    +-------------------------------------------------------------+
+    | Name                                                        |
+    +-------------------------------------------------------------+
+    | bosh-stemcell-2751-vsphere-esxi-ubuntu-trusty-go_agent.tgz  |
+    | bosh-stemcell-2751-vsphere-esxi-centos-go_agent.tgz         |
+                    ... older stemcells ...
+</pre>
+
+1. Run `bosh download public stemcell STEMCELL-NAME` to download a stemcell.
+
+    BOSH stemcell names include the type, BOSH build number, target IaaS and hypervisior, and underlying operating system.
+
+    To download the latest Ubuntu Trusty stemcell:
+
+    <pre class='terminal'>
+    $ bosh download public stemcell bosh-stemcell-2751-vsphere-esxi-ubuntu-trusty-go_agent.tgz
+    </pre>
+
+---
+## <a id="deploy"></a>Step 4: Deploy MicroBOSH ##
+
+1. In a terminal window, run `bosh micro deployment microbosh.yml` from your deployment directory to instruct MicroBOSH to use your manifest file.
+
+    <pre class='terminal'>
+    $ cd ~/my-micro-deployment
+    $ bosh micro deployment manifest.yml
+    WARNING! Your target has been changed to https://54.86.66.111:25555!
+    Deployment set to ~/my-micro-deployment/manifest.yml
+    </pre>
+
+    <p class="note"><strong>Note</strong>: BOSH displays a red
+  	<code>WARNING!</code> message. This is not an error message.
+  	The message alerts you to a change in the targeted IP address.</p>
+
+1. Run `bosh micro deploy STEMCELL-NAME` to deploy MicroBOSH.
+
+  	<p class="note"><strong>Note</strong>: BOSH may displays a red
+  	<code>No bosh-deployments.yml file found</code> message.
+  	If prompted to allow MicroBOSH to the save state in the current directory,
+  	type <code>yes</code>.</p>
+
+    <pre class='terminal'>
+    $ bosh micro deploy bosh-stemcell-2751-vsphere-esxi-ubuntu-trusty-go_agent.tgz
+
+    No 'bosh-deployments.yml' file found in current directory.
+
+    Is ~/my-micro-deployment a directory where you can save state? (type 'yes' to continue): yes
+
+    Deploying new micro BOSH instance ~/my-micro-deployment/manifest.yml to 'https://10.0.0.6:25555' (type 'yes' to continue): yes
+
+      Started deploy micro bosh
+      ...
+      Done deploy micro bosh
+
+    Deployed '~/my-micro-deployment/manifest.yml' to 'https://10.0.0.6:25555', took 00:04:51 to complete
+    </pre>
+
+1. Use `bosh target 10.0.0.6` to log into your new BOSH Director. The default username and password are `admin` and `admin`.
+
+    <pre class="terminal">
+    $ bosh target 10.0.0.6
+    Target set to 'microbosh'
+    Your username: admin
+    Enter password: *****
+    Logged in as 'admin'
+
+    $ bosh vms
+    No deployments
+    </pre>
+
+---
+## <a id="troubleshooting"></a>Basic Troubleshooting ##
+
+If the deployment fails, run `bosh micro delete`, then deploy again.
+
+If an error message displays 'Cannot log into vCenter', check the accuracy of the VCENTER-USER-NAME and VCENTER-PASSWORD in the deployment manifest.
+
+If other error messages appear:
+
+* Check your `microbosh.yml` for errors.
+* Review your vSphere configuration.
