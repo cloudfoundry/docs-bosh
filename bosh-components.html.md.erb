@@ -2,7 +2,7 @@
 title: BOSH Components
 ---
 
-BOSH tool chain is built from several larger components (<a href="#diagram">diagram below</a>):
+The BOSH tool chain is built from several larger components (<a href="#diagram">diagram below</a>):
 
 ---
 ## <a id="cli"></a>Command Line Interface (CLI)
@@ -10,7 +10,7 @@ The Command Line Interface (CLI) is the primary operator interface to BOSH.
 An operator uses the CLI to interact with the BOSH Director and perform actions
 on the cloud.
 
-CLI is typically installed on a machine that can directly communicate with the Director's API, e.g. operator's laptop, a jumpbox in the datacenter.
+CLI is typically installed on a machine that can directly communicate with the Director's API, e.g. an operator's laptop, or a jumpbox in the datacenter.
 
 ---
 ## <a id="director"></a>Director
@@ -40,11 +40,11 @@ VMs, and disks. A CPI abstracts the cloud infrastructure from the rest of BOSH.
 ---
 ## <a id="diagram"></a> Architecture Diagram
 
-BOSH managed environment usually centers around the Director deployed on a VM. VMs managed by the Director do not require for the Director to be actively running.
+A BOSH managed environment usually centers around the Director deployed on a VM. VMs managed by the Director do not require the Director to be actively running.
 
 <%= image_tag("/images/bosh-architecture.png") %><br />
 
-<p class='note'><strong>Note</strong>: Above diagram only shows major BOSH components. Some components could also be replaced by IaaS managed components. For example Postgres DB on AWS could be replaced by an RDS instance.</p>
+<p class='note'><strong>Note</strong>: The diagram above shows only major BOSH components. Some components could be replaced by IaaS managed components. For example: Postgres DB on AWS could be replaced by an RDS instance.</p>
 
 ---
 ## <a id="health-monitor"></a>Health Monitor
@@ -53,7 +53,7 @@ monitor the health of VMs. If the Health Monitor detects a problem with a VM,
 it can send an alert through a notification plugin, or trigger the BOSH Resurrector.
 
 ### <a id="resurrector"></a>Resurrector
-If enabled, the BOSH Resurrector plugin automatically recreates VMs identified by the Health Monitor as missing or unresponsive. It uses same Director API that CLI uses; however, unlike the CLI it is rely on manual intervention.
+If enabled, the BOSH Resurrector plugin automatically recreates VMs identified by the Health Monitor as missing or unresponsive. It uses same Director API that CLI uses; however, unlike the CLI, it relies on manual intervention.
 
 ---
 ## <a id="dns"></a>DNS Name Server
