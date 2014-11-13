@@ -6,6 +6,47 @@ The BOSH Director or MicroBOSH Director stores deployed VM status information in
 
 This topic describes how to connect BOSH or MicroBOSH to a highly-available external Postgres database.
 
+##<a id="microbosh"></a>MicroBOSH
+
+MicroBOSH does not require that you specify a database in the deployment manifest. If you do not specify a database, MicroBOSH uses an internal Postgres database. To configure MicroBOSH to use an external Postgres database, add a `postgres` sub-block to your deployment manifest and redeploy.
+
+To connect MicroBOSH to an external Postgres database:
+
+1. Record the hostname and port number of your Postgres database.
+1. Open your MicroBOSH deployment manifest in a text editor and locate the `properties` sub-block in the `apply_spec` block.
+1. Add the `postgres` sub-block to the `properties` sub-block.
+
+    Replace the user credentials, database host, and port number with your Postgres database connection information.
+
+    <pre class="terminal">
+    apply&#95;spec:
+    ...
+    properties:
+      postgres: &#38;bosh&#95;db
+        adapter: postgres
+        user: USER&#95;NAME
+        password: PASSWORD
+        host: HOST&#95;NAME
+        port: PORT&#95;NUMBER
+        database: bosh
+    </pre>
+
+1. In the `director` sub-block and the `dns` sub-block of the `properties` sub-block, add a pointer to the postgres database.
+
+    <pre class="terminal">
+    apply&#95;spec:
+    ...
+    properties:
+    ...
+      director:
+        db: &#42;bosh&#95;db
+    ...
+      dns:
+        db: &#42;bosh&#95;db
+    ...
+    </pre>
+
+1. Redeploy.
 
 ##<a id="bosh"></a>BOSH ##
 
@@ -20,57 +61,14 @@ To connect BOSH to an external Postgres database:
     Replace the existing user credentials, database host, and port number with your Postgres database connection information. Add the port number key/value pair if it does not exist.
 
     <pre class="terminal">
-  properties:
+    properties:
       postgres: &amp;bosh&#95;db
-          adapter: postgres
-          user: USER&#95;NAME
-          password: PASSWORD
-          host: HOST&#95;NAME
-          port: PORT&#95;NUMBER
-          database: bosh
-    </pre>
-
-1. Redeploy.
-
-
-##<a id="microbosh"></a>MicroBOSH
-
-MicroBOSH does not require that you specify a database in the deployment manifest. If you do not specify a database, MicroBOSH uses an internal Postgres database. To configure MicroBOSH to use an external Postgres database, add a `postgres` sub-block to your deployment manifest and redeploy.
-
-To connect MicroBOSH to an external Postgres database:
-
-1. Record the hostname and port number of your Postgres database.
-1. Open your MicroBOSH deployment manifest in a text editor and locate the `properties` sub-block in the `apply_spec` block.
-1. Add the `postgres` sub-block to the `properties` sub-block.
-
-    Replace the user credentials, database host, and port number with your Postgres database connection information.
-
-    <pre class="terminal">
-apply&#95;spec:
-...
-  properties:
-      postgres: &#38;bosh&#95;db
-          adapter: postgres
-          user: USER&#95;NAME
-          password: PASSWORD
-          host: HOST&#95;NAME
-          port: PORT&#95;NUMBER
-          database: bosh
-    </pre>
-
-1. In the `director` sub-block and the `dns` sub-block of the `properties` sub-block, add a pointer to the postgres database.
-
-    <pre class="terminal">
-apply&#95;spec:
-...
-  properties:
-  ...
-      director:
-         db: &#42;bosh&#95;db
-  ...
-      dns:
-          db: &#42;bosh&#95;db
-  ...
+        adapter: postgres
+        user: USER&#95;NAME
+        password: PASSWORD
+        host: HOST&#95;NAME
+        port: PORT&#95;NUMBER
+        database: bosh
     </pre>
 
 1. Redeploy.

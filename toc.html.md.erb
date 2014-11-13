@@ -15,25 +15,20 @@ title: Index
  * [Terminology](terminology.html)
 
 ---
-## Installing BOSH
+## Installing MicroBOSH
 
- * [BOSH architecture](bosh-components.html)
-    * CLI
-    * The Director
-       * Director Tasks
-    * The Agent
-    * PowerDNS
- * Boostrapping an environment (i.e. Installing MicroBOSH)
+ * [BOSH components](bosh-components.html)
+ * [Boostrapping an environment / What is MicroBOSH?](bootstrap.html)
     * Local configuration
-    * On Local machine (using boshlite)
+    * On Local machine (using bosh-lite)
        * Compatbility
     * [On AWS](deploy-microbosh-to-aws.html)
        * Compatbility
        * CloudFormation template
-    * On OpenStack
+    * [On OpenStack](deploy-microbosh-to-openstack.html)
        * Compatbility
        * Heat template
-    * On vSphere
+    * [On vSphere](deploy-microbosh-to-vsphere.html)
        * Compatbility
  * BOSH (micro) deploy step-by-step
     * [explanation of every step of the `bosh (micro) deploy` command]
@@ -49,11 +44,11 @@ title: Index
     * The Director
     * [Deployment manifest breakdown](deployment-manifest.html)
     * Basic deployment management commands
-       * bosh deploy(ment)
-       * bosh ssh
-       * bosh vms
        * bosh [upload] stemcell(s)
        * bosh [upload] release(s)
+       * bosh deploy(ment)
+       * bosh vms
+       * bosh ssh
     * Deploying Software step-by-step
        * [explanation of every step of the `bosh deploy` command]
     * Updating deployment to deal with security vulnerabilities
@@ -64,13 +59,13 @@ title: Index
     * Monitoring
     * Cloud check
     * Resurrector
-    * Snapshotting WIP
- * Complete BOSH CLI api
+    * (WIP) Snapshotting
  * Looking inside a BOSH Deployment
     * Structure of a BOSH vm
     * Using monit to monitor BOSH vms
     * Debugging issues with jobs
     * Location and use of Logs
+ * [Complete BOSH CLI API](sysadmin-commands.html)
 
 ---
 ## Tutorial for deploying from scratch
@@ -90,10 +85,11 @@ For BOSH release producers:
     * Creating a release
     * Testing with dev releases
     * Cutting final releases
+       * Versioning of releases
  * What is a job?
     * Creating a job
     * Job properties
-    * Drain scripts
+    * [Drain scripts](drain-scripts.html)
  * What is a package?
     * Creating a package
     * Relationship to release blobs

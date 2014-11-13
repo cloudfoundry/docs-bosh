@@ -2,7 +2,7 @@
 title: BOSH Components
 ---
 
-This topic describes the components of BOSH and provides an example component interaction.
+BOSH tool chain is built from several larger components (<a href="#diagram">diagram below</a>):
 
 ---
 ## <a id="cli"></a>Command Line Interface (CLI)
@@ -10,11 +10,11 @@ The Command Line Interface (CLI) is the primary operator interface to BOSH.
 An operator uses the CLI to interact with the BOSH Director and perform actions
 on the cloud.
 
+CLI is typically installed on a machine that can directly communicate with the Director's API, e.g. operator's laptop, a jumpbox in the datacenter.
+
 ---
 ## <a id="director"></a>Director
-The BOSH Director is the core orchestrating component in BOSH.
-The Director controls VM creation and deployment, as well as other software and
-service lifecycle events.
+The BOSH Director is the core orchestrating component in BOSH. The Director controls VM creation and deployment, as well as other software and service lifecycle events.
 
 The Director creates actionable tasks:
 
@@ -38,14 +38,22 @@ Infrastructure as a Service (IaaS) provider to create and manage stemcells,
 VMs, and disks. A CPI abstracts the cloud infrastructure from the rest of BOSH.
 
 ---
+## <a id="diagram"></a> Architecture Diagram
+
+BOSH managed environment usually centers around the Director deployed on a VM. VMs managed by the Director do not require for the Director to be actively running.
+
+<%= image_tag("/images/bosh-architecture.png") %><br />
+
+<p class='note'><strong>Note</strong>: Above diagram only shows major BOSH components. Some components could also be replaced by IaaS managed components. For example Postgres DB on AWS could be replaced by an RDS instance.</p>
+
+---
 ## <a id="health-monitor"></a>Health Monitor
 The Health Monitor uses status and lifecycle events received from BOSH Agents to
-monitor the health of VMs. If the Health Monitor detects a problem with a VM, 
+monitor the health of VMs. If the Health Monitor detects a problem with a VM,
 it can send an alert through a notification plugin, or trigger the BOSH Resurrector.
 
 ### <a id="resurrector"></a>Resurrector
-If enabled, the BOSH Resurrector plugin automatically recreates VMs identified
-by the Health Monitor as stopped or unresponsive.
+If enabled, the BOSH Resurrector plugin automatically recreates VMs identified by the Health Monitor as missing or unresponsive. It uses same Director API that CLI uses; however, unlike the CLI it is rely on manual intervention.
 
 ---
 ## <a id="dns"></a>DNS Name Server
@@ -61,18 +69,18 @@ desired state of a BOSH deployment. This includes information about stemcells,
 releases, and deployments.
 
 ### <a id="blobstore"></a>Blobstore
-The BOSH Blobstore stores the source forms of releases and the compiled images 
-of BOSH releases. An operator uploads a release using the BOSH CLI, and the 
-Director inserts the release into the Blobstore. When you deploy a release, 
+The BOSH Blobstore stores the source forms of releases and the compiled images
+of BOSH releases. An operator uploads a release using the BOSH CLI, and the
+Director inserts the release into the Blobstore. When you deploy a release,
 BOSH orchestrates the compilation of packages and stores the result in the Blobstore.
 
 ---
 ## <a id="comm"></a>Components used for cross-component communication
 
 ### <a id="nats"></a>Message Bus (NATS)
-The Director and the Agents communicate through a lightweight publish-subscribe 
-messaging system called NATS. These messages have two purposes: to confirm the 
-health of the Agent, and to inform the Director about changes in the health of 
+The Director and the Agents communicate through a lightweight publish-subscribe
+messaging system called NATS. These messages have two purposes: to confirm the
+health of the Agent, and to inform the Director about changes in the health of
 monitored processes.
 
 ### <a id="registry"></a>Registry
@@ -91,8 +99,8 @@ The Agent receives job specifications from the Director and uses them to assign
 a role, or Job, to the VM.
 
 For example, to assign the Job of running MySQL to a VM, the Director sends
-instructions to the Agent on the VM. These instructions include which packages to 
-install and how to configure those packages. The Agent uses these instructions to 
+instructions to the Agent on the VM. These instructions include which packages to
+install and how to configure those packages. The Agent uses these instructions to
 install and configure MySQL on the VM.
 
 ---
