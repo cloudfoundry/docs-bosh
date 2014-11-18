@@ -2,28 +2,19 @@
 title: Deployment Manifest Schema
 ---
 
-The BOSH deployment manifest is a YAML file that defines the components and
-properties of the deployment.
-When a BOSH operator initiates a new deployment using the BOSH CLI, the BOSH
-Director receives a version of the deployment manifest and creates a new
-deployment using this manifest.
+The BOSH deployment manifest is a YAML file that defines the components and properties of the deployment. When a BOSH operator initiates a new deployment using the BOSH CLI, the BOSH Director receives a version of the deployment manifest and creates a new deployment using this manifest.
 
 Contents of a BOSH deployment manifest:
 
-* [Deployment Identification](#deployment): A name for the deployment and the
-UUID of the BOSH Director managing the deployment
+* [Deployment Identification](#deployment): A name for the deployment and the UUID of the BOSH Director managing the deployment
 * [Releases Block](#releases): Name and version of each release in a deployment
-* [Compilation Block](#compilation): Properties of compilation VMs
-* [Update Block](#update): Defines how BOSH updates job instances during
-deployment
-* [Resource Pools Block](#resource-pools): Properties of VMs that BOSH creates
-and manages
-* [Disk Pools Block](#disk-pools): Properties of disk pools that BOSH creates
-and manages
 * [Networks Block](#networks): Network configuration information
+* [Resource Pools Block](#resource-pools): Properties of VMs that BOSH creates and manages
+* [Disk Pools Block](#disk-pools): Properties of disk pools that BOSH creates and manages
+* [Compilation Block](#compilation): Properties of compilation VMs
+* [Update Block](#update): Defines how BOSH updates job instances during deployment
 * [Jobs Block](#jobs): Configuration and resource information for jobs
-* [Properties Block](#properties): Describes global properties and generalized
-configuration information
+* [Properties Block](#properties): Describes global properties and generalized configuration information
 
 The examples below originate from a [sample deployment manifest](./sample-manifest.html).
 
@@ -40,12 +31,12 @@ name: sample-errand
 director_uuid: 1234abcd-5678-efab-9012-3456cdef7890
 ```
 
+---
 ## <a id='releases'></a>Releases Block ##
 
 **releases** [Array, required]: The name and version of each release in the deployment.
-
-* **name** [String, required]: Name of a release name used in the deployment
-* **version** [String, required]: The version of the release to use
+  * **name** [String, required]: Name of a release name used in the deployment
+  * **version** [String, required]: The version of the release to use
 
 Example:
 
@@ -54,50 +45,14 @@ releases:
 - {name: go_sample, version: latest}
 ```
 
-## <a id='compilation'></a>Compilation Block ##
+---
+## <a id='networks'></a>Networks Block ##
 
-**compilation** [Hash, required]: Properties of compilation VMs.
+**networks** [Array, required]: Each sub-block listed in the Networks block specifies a network configuration that jobs can reference. There are three different network types: `manual`, `dynamic`, and `vip`.
 
-* **workers** [Integer, required]: The maximum number of compilation VMs.
-* **network** [String, required]: References a valid network name defined in the Networks block. BOSH assigns network properties to compilation VMs according to the type and properties of the specified network.
-* **reuse\_compilation\_vms** [Boolean, optional]: If `false`, BOSH creates a new compilation VM for each new package compilation and destroys the VM when compilation is complete. If `true`, compilation VMs are re-used when compiling packages. Defaults to `false`.
-* **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to create compilation VMs. Examples: `instance_type`, `availability_zone`
+See [networks](networks.html) for more details.
 
-Example:
-
-```yaml
-compilation:
-  reuse_compilation_vms: true
-  workers: 2
-  network: default
-  cloud_properties:
-    instance_type: c1.medium
-    availability_zone: us-east-1c
-```
-
-## <a id='update'></a>Update Block ##
-
-**update** [Hash, required]: This specifies instance update properties. These properties control how BOSH updates job instances during the deployment.
-
-* **canaries** [Integer, required]: The number of [canary](./terminology.html#canary) instances.
-* **canary\_watch\_time** [Integer or Range, required]: The time to wait for canary instances to declare an updated job healthy or unhealthy.
-  * If the `canary_watch_time` is an integer, the BOSH Director sleeps for that many seconds, then checks whether the canary instances are healthy.
-  * If the `canary_watch_time` is a range (low-high), the Director:
-    * Sleeps for `low` milliseconds
-    * Checks whether the canary instances are healthy, sleeps until `high` milliseconds pass if they are not, then checks again
-* **update\_watch\_time** [Integer or Range, required]: The time to wait for non-canary instances to declare an updated job healthy or unhealthy.
-* **max\_in\_flight** [Integer, required]: The maximum number of non-canary instances to update in parallel.
-
-Example:
-
-```yaml
-update:
-  canaries: 1
-  canary_watch_time: 30000-240000
-  update_watch_time: 30000-600000
-  max_in_flight: 3
-```
-
+---
 ## <a id='resource-pools'></a>Resource Pools Block ##
 
 **resource_pools** [Array, required]: Specifies the [resource pools](./terminology.html#resource-pools) a deployment uses. A deployment manifest can describe multiple resource pools and uses unique names to identify and reference them.
@@ -125,6 +80,13 @@ resource_pools:
     availability_zone: us-east-1c
 ```
 
+### <a id='resource-pools-cloud-properties'></a> CPI Specific `cloud_properties`
+
+- [See AWS CPI resource pool cloud properties](aws-cpi.html#resource-pools)
+- [See OpenStack CPI resource pool cloud properties](openstack-cpi.html#resource-pools)
+- [See vSphere CPI resource pool cloud properties](vsphere-cpi.html#resource-pools)
+
+---
 ## <a id='disk-pools'></a>Disk Pools Block ##
 
 **disk_pools** [Array, required]: Specifies the [disk pools](./terminology.html#disk-pools) a deployment uses. A deployment manifest can describe multiple disk pools and uses unique names to identify and reference them.
@@ -143,12 +105,59 @@ disk_pools:
     type: gp2
 ```
 
-## <a id='networks'></a>Networks Block ##
+### <a id='disk-pools-cloud-properties'></a> CPI Specific `cloud_properties`
 
-**networks** [Array, required]: Each sub-block listed in the Networks block specifies a network configuration that jobs can reference. There are three different network types: `manual`, `dynamic`, and `vip`.
+- [See AWS CPI disk pool cloud properties](aws-cpi.html#disk-pools)
+- [See OpenStack CPI disk pool cloud properties](openstack-cpi.html#disk-pools)
+- [See vSphere CPI disk pool cloud properties](vsphere-cpi.html#disk-pools)
 
-See [networks](networks.html) for more details.
+---
+## <a id='compilation'></a>Compilation Block ##
 
+**compilation** [Hash, required]: Properties of compilation VMs.
+
+* **workers** [Integer, required]: The maximum number of compilation VMs.
+* **network** [String, required]: References a valid network name defined in the Networks block. BOSH assigns network properties to compilation VMs according to the type and properties of the specified network.
+* **reuse\_compilation\_vms** [Boolean, optional]: If `false`, BOSH creates a new compilation VM for each new package compilation and destroys the VM when compilation is complete. If `true`, compilation VMs are re-used when compiling packages. Defaults to `false`.
+* **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to create compilation VMs. Examples: `instance_type`, `availability_zone`
+
+Example:
+
+```yaml
+compilation:
+  workers: 2
+  network: default
+  reuse_compilation_vms: true
+  cloud_properties:
+    instance_type: c1.medium
+    availability_zone: us-east-1c
+```
+
+---
+## <a id='update'></a>Update Block ##
+
+**update** [Hash, required]: This specifies instance update properties. These properties control how BOSH updates job instances during the deployment.
+
+* **canaries** [Integer, required]: The number of [canary](./terminology.html#canary) instances.
+* **canary\_watch\_time** [Integer or Range, required]: The time to wait for canary instances to declare an updated job healthy or unhealthy.
+  * If the `canary_watch_time` is an integer, the BOSH Director sleeps for that many seconds, then checks whether the canary instances are healthy.
+  * If the `canary_watch_time` is a range (low-high), the Director:
+    * Sleeps for `low` milliseconds
+    * Checks whether the canary instances are healthy, sleeps until `high` milliseconds pass if they are not, then checks again
+* **update\_watch\_time** [Integer or Range, required]: The time to wait for non-canary instances to declare an updated job healthy or unhealthy.
+* **max\_in\_flight** [Integer, required]: The maximum number of non-canary instances to update in parallel.
+
+Example:
+
+```yaml
+update:
+  canaries: 1
+  canary_watch_time: 30000-240000
+  update_watch_time: 30000-600000
+  max_in_flight: 3
+```
+
+---
 ## <a id='jobs'></a>Jobs Block ##
 
 **jobs** [Array, required]: Specifies the mapping between BOSH release [jobs](./terminology.html#job) and cloud instances. Jobs are defined in the BOSH release. The Jobs block defines how BOSH associates jobs with the VMs started by the IaaS. The most commonly used job properties are:
@@ -195,6 +204,7 @@ jobs:
     error_value: 'I am stderr'
 ```
 
+---
 ## <a id='properties'></a>Properties Block ##
 
 **properties**: Describes global properties and general configuration information.
