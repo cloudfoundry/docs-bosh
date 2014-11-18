@@ -1,5 +1,5 @@
 ---
-title: Understanding the BOSH Deployment Manifest
+title: Deployment Manifest Schema
 ---
 
 The BOSH deployment manifest is a YAML file that defines the components and
@@ -34,43 +34,46 @@ The examples below originate from a [sample deployment manifest](./sample-manife
 **director_uuid** [String, required]: This string must match the UUID of the currently targeted BOSH Director for the BOSH CLI to allow any operations on the deployment. Use `bosh status` to display the UUID of the currently targeted BOSH Director.
 
 Example:
-<pre class='terminal'>
+
+```yaml
 name: sample-errand
-director\_uuid: 1234abcd-5678-efab-9012-3456cdef7890
-</pre>
+director_uuid: 1234abcd-5678-efab-9012-3456cdef7890
+```
 
 ## <a id='releases'></a>Releases Block ##
 
-**releases** [Hash, required]: The name and version of each release in the deployment.
+**releases** [Array, required]: The name and version of each release in the deployment.
 
 * **name** [String, required]: Name of a release name used in the deployment
 * **version** [String, required]: The version of the release to use
 
 Example:
-<pre class='terminal'>
+
+```yaml
 releases:
-- {name: go\_sample, version: latest}
-</pre>
+- {name: go_sample, version: latest}
+```
 
 ## <a id='compilation'></a>Compilation Block ##
 
 **compilation** [Hash, required]: Properties of compilation VMs.
 
-* **reuse\_compilation\_vms** [Boolean, optional]: If `false`, BOSH creates a new compilation VM for each new package compilation and destroys the VM when compilation is complete. If `true`, compilation VMs are re-used when compiling packages. Defaults to `false`.
 * **workers** [Integer, required]: The maximum number of compilation VMs.
 * **network** [String, required]: References a valid network name defined in the Networks block. BOSH assigns network properties to compilation VMs according to the type and properties of the specified network.
+* **reuse\_compilation\_vms** [Boolean, optional]: If `false`, BOSH creates a new compilation VM for each new package compilation and destroys the VM when compilation is complete. If `true`, compilation VMs are re-used when compiling packages. Defaults to `false`.
 * **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to create compilation VMs. Examples: `instance_type`, `availability_zone`
 
 Example:
-<pre class='terminal'>
+
+```yaml
 compilation:
-  reuse\_compilation\_vms: true
+  reuse_compilation_vms: true
   workers: 2
   network: default
-  cloud\_properties:
-    instance\_type: c1.medium
-    availability\_zone: us-east-1c
-</pre>
+  cloud_properties:
+    instance_type: c1.medium
+    availability_zone: us-east-1c
+```
 
 ## <a id='update'></a>Update Block ##
 
@@ -78,25 +81,26 @@ compilation:
 
 * **canaries** [Integer, required]: The number of [canary](./terminology.html#canary) instances.
 * **canary\_watch\_time** [Integer or Range, required]: The time to wait for canary instances to declare an updated job healthy or unhealthy.
-    * If the `canary_watch_time` is an integer, the BOSH Director sleeps for that many seconds, then checks whether the canary instances are healthy.
-    * If the `canary_watch_time` is a range (low-high), the Director:
-        * Sleeps for `low` milliseconds
-        * Checks whether the canary instances are healthy, sleeps until `high` milliseconds pass if they are not, then checks again
+  * If the `canary_watch_time` is an integer, the BOSH Director sleeps for that many seconds, then checks whether the canary instances are healthy.
+  * If the `canary_watch_time` is a range (low-high), the Director:
+    * Sleeps for `low` milliseconds
+    * Checks whether the canary instances are healthy, sleeps until `high` milliseconds pass if they are not, then checks again
 * **update\_watch\_time** [Integer or Range, required]: The time to wait for non-canary instances to declare an updated job healthy or unhealthy.
 * **max\_in\_flight** [Integer, required]: The maximum number of non-canary instances to update in parallel.
 
 Example:
-<pre class='terminal'>
+
+```yaml
 update:
   canaries: 1
-  canary\_watch\_time: 30000-240000
-  update\_watch\_time: 30000-600000
-  max\_in\_flight: 3
-</pre>
+  canary_watch_time: 30000-240000
+  update_watch_time: 30000-600000
+  max_in_flight: 3
+```
 
 ## <a id='resource-pools'></a>Resource Pools Block ##
 
-**resource_pools** [Hash, required]: Specifies the [resource pools](./terminology.html#resource-pools) a deployment uses. A deployment manifest can describe multiple resource pools and uses unique names to identify and reference them.
+**resource_pools** [Array, required]: Specifies the [resource pools](./terminology.html#resource-pools) a deployment uses. A deployment manifest can describe multiple resource pools and uses unique names to identify and reference them.
 
 * **name** [String, required]: A unique name used to identify and reference the resource pool
 * **network** [String, required]: References a valid network name defined in the Networks block. Newly created resource pool VMs use the described configuration.
@@ -108,17 +112,18 @@ update:
 * **env** [Hash, optional]: Describes the VM environment and provides a specific VM environment to the CPI `create_stemcell` call. `env` data is available to BOSH Agents as VM settings. Default is `{}` (empty Hash).
 
 Example:
-<pre class='terminal'>
-resource\_pools:
+
+```yaml
+resource_pools:
 - name: default
   network: default
   stemcell:
     name: bosh-aws-xen-centos
     version: 2366
-  cloud\_properties:
-    instance\_type: m1.small
-    availability\_zone: us-east-1c
-</pre>
+  cloud_properties:
+    instance_type: m1.small
+    availability_zone: us-east-1c
+```
 
 ## <a id='disk-pools'></a>Disk Pools Block ##
 
@@ -129,112 +134,66 @@ resource\_pools:
 * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create disks. Examples: `type`, `iops`
 
 Example:
-<pre class='terminal'>
-disk\_pools:
+
+```yaml
+disk_pools:
 - name: default
-  disk\_size: 2
-  cloud\_properties:
+  disk_size: 2
+  cloud_properties:
     type: gp2
-</pre>
+```
 
 ## <a id='networks'></a>Networks Block ##
 
-**networks** [Hash, required]: Each sub-block listed in the Networks block specifies a network configuration that jobs can reference. There are three different network types: `manual`, `dynamic`, and `vip`.
+**networks** [Array, required]: Each sub-block listed in the Networks block specifies a network configuration that jobs can reference. There are three different network types: `manual`, `dynamic`, and `vip`.
 
-* **name** [String, required]: Name used to reference this network configuration
-* **type** [String, required]: `manual`, `dynamic`, and `vip`
-
-### Manual ###
-
-BOSH completely manages `manual` networks. For these networks, BOSH:
-
-* Provides dynamic, static, and reserved IP pools
-* Provides IP address ranges for DNS servers
-* Manages assigning IP addresses
-* Makes network-related sanity checks
-* Specifies network configurations VMs should use
-
-Manually managed networks can be further divided into subnets. A `manual` networks sub-block contains `subnets`, with each subnet containing the following information:
-
-* **range** [String, required]: Subnet IP range that includes all IPs from this subnet.
-* **gateway** [String, optional]: Subnet gateway IP.
-* **dns** [Array, optional]: DNS IP addresses for this subnet.
-* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the network.
-* **reserved** [String, optional]: Reserved IP range. BOSH does not assign IPs from this range to any VM.
-* **static** [String, optional]: Static IP range. BOSH assigns IPs from this range to jobs requesting static IPs.
-
-### Dynamic ###
-
-BOSH does not manage `dynamic` networks. VMs using a `dynamic` network must acquire IP addresses and other network configuration information from a DHCP server or other source, not from BOSH. The only configuration information supported in a `dynamic` network sub-block is `cloud_properties`.
-
-* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the network.
-
-### VIP ###
-
-A `vip` network is a collection of virtual IPs (for example, EC2 elastic IPs) that require each job to specify a range of IPs it needs to run. The only configuration information supported in a `vip` network sub-block is `cloud_properties`.
-
-* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the network.
-
-Example:
-<pre class='terminal'>
-networks:
-- name: default
-  type: manual
-  subnets:
-  - range: 10.10.0.0/24
-    gateway: 10.10.0.1
-    static:
-    - 10.10.0.16 - 10.10.0.18
-    reserved:
-    - 10.10.0.2 - 10.10.0.15
-    dns: [10.10.0.6]
-    cloud\_properties:
-      subnet: subnet-d597b993
-</pre>
+See [networks](networks.html) for more details.
 
 ## <a id='jobs'></a>Jobs Block ##
 
-**jobs** [Hash, required]: Specifies the mapping between BOSH release [jobs](./terminology.html#job) and cloud instances. Jobs are defined in the BOSH release. The Jobs block defines how BOSH associates jobs with the VMs started by the IaaS. The most commonly used job properties are:
+**jobs** [Array, required]: Specifies the mapping between BOSH release [jobs](./terminology.html#job) and cloud instances. Jobs are defined in the BOSH release. The Jobs block defines how BOSH associates jobs with the VMs started by the IaaS. The most commonly used job properties are:
 
 * **name** [String, required]: A unique name used to identify and reference this  association between a BOSH release job and a VM.
-* **templates** [Hash, optional]: Specifies the name and release of a job template.
-    * **name** [String, required]: The job template name
-    * **version** [String, required]: The release where the job template exists
+* **templates** [Array, required]: Specifies the name and release of a job template.
+  * **name** [String, required]: The job template name
+  * **version** [String, required]: The release where the job template exists
 * **lifecycle** [String, optional]: Specifies the kind of task the job represents. Valid values are `service` and `errand`; defaults to `service`. A `service` runs indefinitely and restarts if it fails. An `errand` starts with a manual trigger and does not restart if it fails.
 * **persistent_disk** [Integer, optional]: Specifies the persistent disk size; defaults to 0 (no persistent disk). If `persistent_disk` is a positive integer, BOSH creates a persistent disk of that size in megabytes and attaches it to each job instance VM. [Read more about persistent disks](./persistent-disks.html)
 * **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job, and override any identically named global properties.
 * **resource_pool** [String, required]: A valid resource pool name from the Resource Pools block. BOSH runs instances of this job in a VM from the named resource pool.
 * **update** [Hash, optional]: Specific update settings for this job. Use this to overriding global job update settings on a per-job basis.
 * **instances** [Integer, required]: The number of job instances. Each instance is a VM running this particular job.
-* **networks** [Array]: Specifies the networks this job requires. Each network can have the following properties specified:
-    * **name** [String, required]: A valid network name from the Networks block
-    * **static_ips** [Range, optional]: The range of IP addresses reserved for the job on the network
-    * **default** [Array, optional]: Specifies which network components (DNS, Gateway) BOSH populates by default from this network. BOSH references this property if the Networks block defines multiple networks.
+* **networks** [Array, required]: Specifies the networks this job requires. Each network can have the following properties specified:
+  * **name** [String, required]: A valid network name from the Networks block
+  * **static_ips** [Array, optional]: Array of IP addresses reserved for the job on the network
+  * **default** [Array, optional]: Specifies which network components (DNS, Gateway) BOSH populates by default from this network. BOSH references this property if the Networks block defines multiple networks.
 
 Example:
-<pre class='terminal'>
+
+```yaml
 jobs:
 - name: sample
   templates:
-  - {name: sample\_with\_properties, release: go\_sample}
+  - {name: sample_with_properties, release: go_sample}
   instances: 1
-  resource\_pool: default
+  resource_pool: default
   networks:
   - name: default
   properties:
-    output\_value: 'I am stdout'
-    error\_value: 'I am stderr'
-- name: sample\_errand
+    output_value: 'I am stdout'
+    error_value: 'I am stderr'
+
+- name: sample_errand
   templates:
-  - {name: sample\_with\_properties, release: sample}
+  - {name: sample_with_properties, release: sample}
   instances: 1
-  resource\_pool: default
+  resource_pool: default
   networks:
   - name: default
   properties:
-    output\_value: 'I am stdout'
-    error\_value: 'I am stderr'
-</pre>
+    output_value: 'I am stdout'
+    error_value: 'I am stderr'
+```
 
 ## <a id='properties'></a>Properties Block ##
 
@@ -254,12 +213,13 @@ Typical general configuration information includes but is not limited to:
 * Port numbers
 
 Example:
-<pre class='terminal'>
+
+```yaml
 properties:
-  sample\_with\_properties:
-    output\_value: 'I am stdout'
-    error\_value: 'I am stderr'
-</pre>
+  sample_with_properties:
+    output_value: 'I am stdout'
+    error_value: 'I am stderr'
+```
 
 ### <a id='properties'></a>Job Property Precedence ###
 
@@ -268,4 +228,3 @@ properties:
 1. If an identically named property exists in the Properties sub-block of the [Jobs](#jobs) block of the deployment manifest, the value of this property overrides all previous values.
 
 <p class="note"><strong>Note</strong>: If you declare specific properties in a job template spec, BOSH ignores all other properties. If you do not declare any specific properties in a job template spec, BOSH applies all properties from the deployment manifest to the job. </p>
-

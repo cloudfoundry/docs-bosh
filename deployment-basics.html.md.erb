@@ -1,0 +1,99 @@
+---
+title: Deployment Basics
+---
+
+As previously stated [a deployment](deployment.html) is a collection of VMs and persistent disks. Deployment is split into smaller logical units called deployment jobs.
+
+## <a id='deployment-jobs'></a> Deployment Jobs
+
+A <em>deployment job</em> is a logical unit, defined by the cluster operator, that represents a long running service or a short running task (an errand). Deployment jobs are defined in the deployment manifest. A job can be confgiured to run multiple copies of itself i.e. a job has multiple instances. Operator usually decides which jobs they need to make their deployment do something useful. For example when creating a Redis deployment, operator will add a Redis server job. They might also decide to add a Redis slave job.
+
+Each job needs to be backed by an actual software -- releases. Operator, when defining a job in the manifest, has to specify which release or even multiple releases make up this job. Continuing with our example, Redis server job would use a `redis-release` which contains packaged up Redis server software.
+
+```yaml
+# Associates redis release with this deployment
+releases:
+- {name: redis, version: 12}
+
+jobs:
+- name: redis-master
+  instances: 1
+
+  # Associates redis-master with redis release
+  templates:
+  - {name: redis-server, release: redis}
+
+  resource_pool: redis-servers
+  networks:
+  - name: default
+```
+
+## <a id='resource-pools'></a> Resource pools
+
+Since each job instance will run on a single machine (a VM or a container), it needs to reference a stemcell. Hence each deployment job belongs to exactly one resource pool. A <em>resource pool</em> is a collection of machines (VMs) that are created from a specific stemcell. Resource pools are also defined by the operator in the deployment manifest. In addition to specifying a stemcell, resource pool definition allows to specify VM size, instance type and other IaaS specific characteristics that are used when creating VMs. For example the `redis-master` resource pool for Redis servers, referenced by the `redis-master` job in the above example, might look something like this on AWS:
+
+```yaml
+resource_pools:
+- name: redis-servers
+  network: default
+
+  # Assocition with Ubuntu Trusty stemcell for AWS
+  stemcell:
+    name: bosh-aws-xen-ubuntu-trusty-go_agent
+    version: 2765
+
+  # IaaS specific properties
+  cloud_properties:
+    instance_type: m1.medium
+```
+
+[Learn more about resource pools](resource-pools.html).
+
+## <a id='persistent-disks'></a> Persistent disks
+
+Some deployment jobs may require storing persistent data -- data that lives as long as the job instance is defined, independent of whether the job instance VM is deleted or recreated. For example, an operator can configure each instance of the `redis-slave` job to have a 10GB persistent disk:
+
+```yaml
+jobs:
+- name: redis-slave
+  instances: 2
+  templates:
+  - {name: redis-server, release: redis}
+
+  # Associated 10GB disk
+  persistent_disk: 10_240
+
+  resource_pool: redis-servers
+  networks:
+  - name: default
+```
+
+[Learn more about persistent disks](persistent-disks.html).
+
+## <a id='networks'></a> Networks
+
+Deployment job has to also reference at least one network. A BOSH <em>network</em> is a IaaS agnostic representation of the networking layer. Each job instance gets an IP from its associated networks. Based on a type of the network BOSH decides how to find out and select an IP. There are three network types: 'manual', 'dynamic', and 'vip'. Manual networks require user to specify one or more subnet and BOSH decided how to assign IPs to each job instance. For dynamic networks BOSH defers IP selection to the IaaS. And finally for vip networks BOSH allows users to assign IPs to VMs. In the deployment job example shown above, `redis-master` job references `default` network. Here how `default` network definition might look like for AWS:
+
+```yaml
+networks:
+- name: default
+  type: manual
+
+  subnets:
+  - range:    10.10.0.0/24
+    gateway:  10.10.0.1
+    dns:      [10.10.0.2]
+    reserved: [10.10.0.2-10.10.0.10]
+
+    # IaaS specific properties
+    cloud_properties:
+      subnet: subnet-9be6c3f7
+```
+
+[Learn more about networks](networks.html).
+
+Once operator made decision which deployment jobs, releases, and stemcells will be used they can create a deployment.
+
+Previous: [Basic Workflow](basic-workflow.html)
+
+Next: [Deployment Manifest Schema](deployment-manifest.html)
