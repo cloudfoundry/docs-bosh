@@ -190,24 +190,31 @@ jobs:
 Unlike the manual networking setup, static IPs for VIP networks are only specified on the deployment job.
 
 ---
-## <a id='cpi-limitations'></a> CPI limitations
+## <a id='cpi-limitations'></a> CPI Limitations
 
 The Director does not enforce how many networks could be assigned to each job instance; however, each CPI might impose custom requirements either due to the IaaS limitations or simply because support was not yet implemented.
 
-vSphere supports:
+vSphere CPI supports:
 
 - multiple manual networks for each job instance
 - NO dynamic networks since vSphere does not manage IP assignments
 - NO vip networks since vSphere does not have a elastic/floating IP concept
 
-AWS supports:
+AWS CPI supports:
 
 - single manual network for each job instance
 - single dynamic network for each job instance
 - single vip network which corresponds to an elastic IP
 
-OpenStack supports:
+OpenStack CPI supports:
 
 - multiple manual networks for each job instance
 - single dynamic network for each job instance
 - single vip network which corresponds to a floating IP
+
+---
+## <a id='cloud-properties'></a> CPI Specific `cloud_properties`
+
+- [See AWS CPI network cloud properties](aws-cpi.html#networks)
+- [See OpenStack CPI network cloud properties](openstack-cpi.html#networks)
+- [See vSphere CPI network cloud properties](vsphere-cpi.html#networks)
