@@ -18,13 +18,13 @@ Each type of network supports one or both IP reservation types:
 ---
 ## <a id='general'></a> General Structure
 
-Networking configuration is usually done in 3 steps:
+Networking configuration is usually done in three steps:
 
-- configuring the IaaS; outside of BOSH's responsiblity
-  - Example on AWS: user creates a VPC and subnets with routing tables.
-- adding networks section to the deployment manifest to define networks used in this deployment
-  - Example: user adds a manual network with a subnet and adds AWS subnet id into the subnet's cloud properties.
-- adding network associations for one or more networks to each deployment job
+- Configuring the IaaS; outside of BOSH's responsiblity
+  - Example on AWS: User creates a VPC and subnets with routing tables.
+- Adding networks section to the deployment manifest to define networks used in this deployment
+  - Example: User adds a manual network with a subnet and adds AWS subnet id into the subnet's cloud properties.
+- Adding network associations for one or more networks to each deployment job
 
 All deployment manifests have a similar structure in terms of network defintions and associations:
 
@@ -67,7 +67,7 @@ See how to define each network type below.
 ---
 ## <a id='manual'></a> Manual Networks
 
-Manual networking allows to specify one or more subnets and let the Director choose available IP from one of the subnet ranges. Subnet definition specifies CIDR range, and optionally gateway, and DNS servers. In addition certain IPs can be blacklisted (the Director will not use these IPs) via `reserved` property.
+Manual networking allows you to specify one or more subnets and let the Director choose available IP from one of the subnet ranges. A subnet definition specifies the CIDR range and optionally the gateway and DNS servers. In addition certain IPs can be blacklisted (the Director will not use these IPs) via `reserved` property.
 
 Each manual network attached to a job instance is typically represented as its own NIC in the IaaS layer.
 
@@ -110,7 +110,7 @@ networks:
     cloud_properties: {subnet: subnet-9be6c6gh}
 ```
 
-Manual networks use dynamic IP reservation by default. They also support static IP reservation. To assign instances of the deployment job specific IPs, deployment job must specify them in the `static_ips` property for the associated network. Associated network's subnet defintion must also specify them in its `static` property:
+Manual networks use dynamic IP reservation by default. They also support static IP reservation. To assign instances of the deployment job specific IPs, a deployment job must specify them in the `static_ips` property for the associated network. Associated network's subnet defintion must also specify them in its `static` property:
 
 ```yaml
 jobs:
@@ -124,7 +124,7 @@ jobs:
     static_ips: [10.10.1.11, 10.10.1.12]
 ```
 
-<p class="note">Note: If deployment job uses static IP reservation, all instances must be given static IPs.</p>
+<p class="note"><strong>Note</strong>: If deployment job uses static IP reservation, all instances must be given static IPs.</p>
 
 A common problem that you may run into is configuring multiple deployments to use overlapping IP range. The Director does _not_ consider an IP as used even if that same Director used that IP in a different deployment. There are two possible solutions for this problem: reconfigure one of the deployments to use a different IP range or use the same IP range but configure each deployment such that reserved IPs exclude each deployment from each other.
 
@@ -159,7 +159,7 @@ networks:
 ---
 ## <a id='vip'></a> VIP (Virtual IP) Networks
 
-VIP networking enables association of an IP address that is not backed by any particular NIC. This flexibility enables users to remap virtual IP to a different instance in cases of a failure.
+VIP networking enables the association of an IP address that is not backed by any particular NIC. This flexibility enables users to remap a virtual IP to a different instance in cases of a failure.
 
 VIP network attachment is not represented as a NIC in the IaaS layer. It is implemented by AWS CPI with [elastic IPs](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html), and on OpenStack CPI with [floating IPs](http://docs.openstack.org/user-guide/content/floating_ip_allocate.html).
 
@@ -192,25 +192,25 @@ Unlike the manual networking setup, static IPs for VIP networks are only specifi
 ---
 ## <a id='cpi-limitations'></a> CPI Limitations
 
-The Director does not enforce how many networks could be assigned to each job instance; however, each CPI might impose custom requirements either due to the IaaS limitations or simply because support was not yet implemented.
+The Director does not enforce how many networks can be assigned to each job instance; however, each CPI might impose custom requirements either due to the IaaS limitations or simply because support was not yet implemented.
 
 vSphere CPI supports:
 
-- multiple manual networks for each job instance
-- NO dynamic networks since vSphere does not manage IP assignments
-- NO vip networks since vSphere does not have a elastic/floating IP concept
+- Multiple manual networks for each job instance
+- No dynamic networks since vSphere does not manage IP assignments
+- No vip networks since vSphere does not have a elastic/floating IP concept
 
 AWS CPI supports:
 
-- single manual network for each job instance
-- single dynamic network for each job instance
-- single vip network which corresponds to an elastic IP
+- Single manual network for each job instance
+- Single dynamic network for each job instance
+- Single vip network which corresponds to an elastic IP
 
 OpenStack CPI supports:
 
-- multiple manual networks for each job instance
-- single dynamic network for each job instance
-- single vip network which corresponds to a floating IP
+- Multiple manual networks for each job instance
+- Single dynamic network for each job instance
+- Single vip network which corresponds to a floating IP
 
 ---
 ## <a id='cloud-properties'></a> CPI Specific `cloud_properties`
