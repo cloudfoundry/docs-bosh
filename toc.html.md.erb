@@ -5,13 +5,14 @@ title: Index
 ## Introduction
 
  * [What is BOSH?](about.html)
- * [What problems does BOSH solve?](problems.html)
-    * [Stemcell](stemcell.html)
-    * [Release](release.html)
-    * [Deployment](deployment.html)
- * Comparison to other tools
-    * Chef/Puppet
-    * Terraform
+    * [What problems does BOSH solve?](problems.html)
+       * [Stemcell](stemcell.html)
+       * [Release](release.html)
+       * [Deployment](deployment.html)
+    * Comparison to other tools
+       * Chef/Puppet
+       * Terraform
+       * Juju
  * [Terminology](terminology.html)
 
 ---
@@ -19,53 +20,60 @@ title: Index
 
  * [BOSH components](bosh-components.html)
  * [Boostrapping an environment / What is MicroBOSH?](bootstrap.html)
-    * Local configuration
-    * On Local machine (using bosh-lite)
-       * Compatbility
     * [On AWS](deploy-microbosh-to-aws.html)
-       * Compatbility
        * CloudFormation template
     * [On OpenStack](deploy-microbosh-to-openstack.html)
-       * Compatbility
        * Heat template
     * [On vSphere](deploy-microbosh-to-vsphere.html)
        * Compatbility
+    * [On Local machine using BOSH Lite](bosh-lite.html)
  * BOSH (micro) deploy step-by-step
     * [explanation of every step of the `bosh (micro) deploy` command]
- * Advanced BOSH configuration
-    * [Connecting BOSH or MicroBOSH to an External Postgres Database](connect-postgres-hadb.html)
-    * Deploying mutli-VM BOSH
-       * Difference between Microbosh, BOSH, and multi-vm BOSH
+
+### Advanced BOSH configuration
+
+ * [Connecting BOSH or MicroBOSH to an External Postgres Database](connect-postgres-hadb.html)
+ * Deploying mutli-VM BOSH
+    * Difference between Microbosh, BOSH, and multi-vm BOSH
 
 ---
 ## Using BOSH to deploy software
 
- * Basic workflow
-    * The Director
-    * [Deployment manifest breakdown](deployment-manifest.html)
-    * Basic deployment management commands
-       * bosh [upload] stemcell(s)
-       * bosh [upload] release(s)
-       * bosh deploy(ment)
-       * bosh vms
-       * bosh ssh
-    * Deploying Software step-by-step
-       * [explanation of every step of the `bosh deploy` command]
+ * [Basic workflow](basic-workflow.html)
+    * [Deployment basics](deployment-basics.html)
+       * [Deployment manifest schema](deployment-manifest.html)
+    * [Uploading stemcells](uploading-stemcells.html)
+    * [Uploading releases](uploading-releases.html)
+    * [Deploying](deploying.html)
+    * Running one off tasks
     * Updating deployment to deal with security vulnerabilities
- * [Persistent disks](persistent-disks.html)
- * [VM anti-affinity](vm-anti-affinity.html)
- * Running one off tasks
- * Health management
-    * Monitoring
-    * Cloud check
-    * Resurrector
-    * (WIP) Snapshotting
- * Looking inside a BOSH Deployment
-    * Structure of a BOSH vm
-    * Using monit to monitor BOSH vms
-    * Debugging issues with jobs
-    * Location and use of Logs
+ * [Deploying step-by-step](deploying-step-by-step.html)
  * [Complete BOSH CLI API](sysadmin-commands.html)
+
+### Detailed Deployment Configuration
+
+ * Resource Pools
+    * [VM anti-affinity](vm-anti-affinity.html)
+ * [Persistent disks](persistent-disks.html)
+ * [Networks](networks.html)
+ * IaaS specifics
+    * [AWS](aws-cpi.html)
+    * [OpenStack](openstack-cpi.html)
+    * [vSphere](vsphere-cpi.html)
+
+### Health Management
+
+ * Monitoring
+ * Cloud check
+ * Resurrector
+ * (WIP) Snapshotting
+
+### VM Configuration (Looking inside a BOSH Deployment)
+
+ * Structure of a BOSH VM
+ * Using monit to monitor BOSH VMs
+ * Debugging issues with jobs
+ * Location and use of logs
 
 ---
 ## Tutorial for deploying from scratch
@@ -81,6 +89,7 @@ title: Index
 For BOSH release producers:
 
 ## Using BOSH to package software (i.e. Creating a BOSH release)
+
  * What is a release?
     * Creating a release
     * Testing with dev releases
@@ -96,6 +105,7 @@ For BOSH release producers:
  * How do releases, jobs, and packages interact?
  * Managing release repository
     * Release blobstore
+       * [Configuring S3 release blobstore](s3-release-blobstore.html)
 
 ---
 ## Deep-dive into stemcell building

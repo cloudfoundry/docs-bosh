@@ -1,0 +1,43 @@
+---
+title: Deploying
+---
+
+Once referenced stemcells, and releases are uploaded to the Director and deployment manifest is complete, deployment can be formed on the Director. CLI provides a single command to create and update deployments: `bosh deploy`. From the perspective of the Director creation and update of the deployment happens via the same steps.
+
+To let the CLI know that you are planning to operate on a specific deployment you have to "set" the deployment:
+
+<pre class="terminal">
+bosh deployment ~/workspace/my-deployment/manifest.yml
+
+Deployment set to `/Users/pivotal/workspace/my-deployment/manifest.yml'
+</pre>
+
+From then on most commands the CLI provides act on the set deployment. To form a deployment on the Director represented by the `manifest.yml` run the deploy command:
+
+<pre class="terminal">
+bosh deploy
+</pre>
+
+After the deploy command completes with either success of failure you can try running command to list VMs created for this deployment:
+
+<pre class="terminal">
+bosh vms
+
+Deployment `my-deployment'
+
+Director task 10326
+
+Task 10326 done
+
++----------------+---------+---------------+-------------+
+| Job/index      | State   | Resource Pool | IPs         |
++----------------+---------+---------------+-------------+
+| redis-master/0 | running | redis-servers | 10.10.30.71 |
+| redis-slave/0  | running | redis-servers | 10.10.30.72 |
+| redis-slave/1  | running | redis-servers | 10.10.30.73 |
++----------------+---------+---------------+-------------+
+</pre>
+
+Previous: [Uploading Releases](uploading-releases.html)
+
+[Back to Table of Contents](toc.html)

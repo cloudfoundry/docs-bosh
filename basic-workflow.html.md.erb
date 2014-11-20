@@ -1,0 +1,21 @@
+---
+title: Basic Workflow
+---
+
+The Director is primarily used for managing deployments.
+
+Creation of a deployment consists of the following steps:
+
+- create deployment manifest
+- upload stemcells and releases used by the manifest
+- kick off the deploy to form a deployment on the Director
+
+Updating an existing deployment is effectively the same procedure:
+
+- update deployment manifest with necessary changes
+- upload new stemcells and/or releses
+- kick off the deploy to apply changes
+
+All of the steps above are done with a regular editor and via the BOSH CLI.
+
+Next: [Deployment Basics](deployment-basics.html)

@@ -1,0 +1,80 @@
+---
+title: AWS CPI
+---
+
+This documents describes cloud properties for different resources created by the AWS CPI.
+
+## <a id='networks'></a> Networks
+
+Schema for `cloud_properties` section used by dynamic network or manual network subnet:
+
+* **subnet** [String, required]: Subnet ID in which instance will be created. Example: `subnet-9be6c3f7`.
+
+Example of manual network:
+
+```yaml
+networks:
+- name: default
+  type: manual
+
+  subnets:
+  - range:   10.10.0.0/24
+    gateway: 10.10.0.1
+    cloud_properties:
+      subnet: subnet-9be6c3f7
+```
+
+Example of dynamic network:
+
+```yaml
+networks:
+- name: default
+  type: dynamic
+  cloud_properties:
+    subnet: subnet-9be6c6gh
+```
+
+---
+## <a id='resource-pools'></a> Resource pools
+
+Schema for `cloud_properties` section:
+
+* **instance_type** [String, required]: Type of the [instance](http://aws.amazon.com/ec2/instance-types/). Example: `m1.small`.
+* **availability_zone** [String, required]: Availability zone to use for creating instances. Example: `us-east-1a`.
+* **key_name** [String, optional]: Key pair name. Defaults to key pair name specified by `default_key_name` in global CPI settings. Example: `bosh`.
+* **spot\_bid\_price** [Float, optional]: Bid price in dollars. Example: `0.03`.
+
+Example of a `m1.small` instance:
+
+```yaml
+resource_pools:
+- name: default
+  network: default
+  stemcell:
+    name: bosh-aws-xen-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    instance_type: m1.small
+    availability_zone: us-east-1a
+```
+
+---
+## <a id='disk-pools'></a> Disk Pools
+
+Schema for `cloud_properties` section:
+
+* **type** [String, required]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `standard`.
+  * `standard` stands for EBS magnetic drives
+  * `gp2` stands for EBS general purpose drives (SSD)
+
+EBS volumes are created in the availability zone of an instance that volume will be attached.
+
+Example of 10GB disk:
+
+```yaml
+disk_pools:
+- name: default
+  disk_size: 10_240
+  cloud_properties:
+    type: m1.small
+```

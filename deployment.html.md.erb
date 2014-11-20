@@ -10,7 +10,7 @@ When a deployment manifest is uploaded to a BOSH Director, requested resources a
 
 A user can manage a deployment via its deployment manifest. A deployment manifest contains all needed information for tracking, managing, and updating software on the deployment's VMs. It describes the deployment in an IaaS-agnostic way<sup>[1]</sup>. For example, to update a Redis cluster (deployment is named 'redis-us') to a later version of a Redis release, one would update few lines in the deployment manifest:
 
-```
+```yaml
 ---
 name: redis-us
 

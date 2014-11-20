@@ -1,0 +1,91 @@
+---
+title: vSphere CPI
+---
+
+This documents describes cloud properties for different resources created by the vSphere CPI.
+
+## <a id='networks'></a> Networks
+
+Schema for `cloud_properties` section used by dynamic network or manual network subnet:
+
+* **name** [String, required]: Name of the vSphere network. Example: `VM Network`.
+
+Example of manual network:
+
+```yaml
+networks:
+- name: default
+  type: manual
+
+  subnets:
+  - range:   10.10.0.0/24
+    gateway: 10.10.0.1
+    cloud_properties:
+      name: VM Network
+```
+
+---
+## <a id='resource-pools'></a> Resource pools
+
+Schema for `cloud_properties` section:
+
+* **cpu** [Integer, required]: Number of CPUs. Example: `1`.
+* **ram** [Integer, required]: RAM in megabytes. Example: `1024`.
+* **disk** [Integer, required]: Ephemeral disk size in megabytes. Example: `10240`
+
+* **datacenters** [Array, optional]: Array of datacenters to use for VM placement. Must have only one and it must match datacenter configured in global CPI options.
+    * **name** [String, required]: Datacenter name.
+    * **clusters** [Array, required]: Array of clusters to use for VM placement.
+        * **\<cluster name\>** [String, required]: Cluster name.
+            * **drs_rulers** [Array, optional]: Array of DRS rules applied to [constrain VM placement](vm-anti-affinity.html#vsphere). Must have only one.
+                * **name** [String, required]: Name of a DRS rule that the Director will create.
+                * **type** [String, required]: Type of a DRS rule. Currently only `separate_vms` is supported.
+
+Example of a VM with 1 CPU, 1GB RAM, and 10GB ephemeral disk:
+
+```yaml
+resource_pools:
+- name: default
+  network: default
+  stemcell:
+    name: bosh-vsphere-esxi-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    cpu: 2
+    ram: 1_024
+    disk: 10_240
+```
+
+Example of a VM asked to be placed on a specific cluster:
+
+```yaml
+resource_pools:
+- name: default
+  network: default
+  stemcell:
+    name: bosh-vsphere-esxi-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    cpu: 2
+    ram: 1_024
+    disk: 10_240
+
+    datacenters:
+    - name: my-dc
+      clusters:
+      - my-vsphere-cluster
+```
+
+---
+## <a id='disk-pools'></a> Disk Pools
+
+Currently CPI does not support any cloud properties for disks.
+
+Example of 10GB disk:
+
+```yaml
+disk_pools:
+- name: default
+  disk_size: 10_240
+  cloud_properties: {}
+```

@@ -1,0 +1,74 @@
+---
+title: OpenStack CPI
+---
+
+This documents describes cloud properties for different resources created by the OpenStack CPI.
+
+## <a id='networks'></a> Networks
+
+Schema for `cloud_properties` section used by dynamic network or manual network subnet:
+
+* **net_id** [String, required]: Subnet ID in which instance will be created. Example: `net-b98ab66e-6fae-4c6a-81af-566e630d21d1`.
+* **security_groups** [Array, optional]: Array of security groups to apply for all VMs that are placed on this network. Defaults to security groups specified by `default_security_groups` in global CPI settings.
+
+Example of manual network:
+
+```yaml
+networks:
+- name: default
+  type: manual
+
+  subnets:
+  - range:   10.10.0.0/24
+    gateway: 10.10.0.1
+    cloud_properties:
+      net_id: net-b98ab66e-6fae-4c6a-81af-566e630d21d1
+      security_groups: [my-sec-group]
+```
+
+Example of dynamic network:
+
+```yaml
+networks:
+- name: default
+  type: dynamic
+  cloud_properties:
+    net_id: net-b98ab66e-6fae-4c6a-81af-566e630d21d1
+```
+
+---
+## <a id='resource-pools'></a> Resource pools
+
+Schema for `cloud_properties` section:
+
+* **instance_type** [String, required]: Type of the instance. Example: `m1.small`.
+* **availability_zone** [String, required]: Availability zone to use for creating instances. Example: `us-east-1a`.
+* **key_name** [String, optional]: Key pair name. Defaults to key pair name specified by `default_key_name` in global CPI settings. Example: `bosh`.
+
+Example of a `m1.small` instance:
+
+```yaml
+resource_pools:
+- name: default
+  network: default
+  stemcell:
+    name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    instance_type: m1.small
+    availability_zone: us-east-1a
+```
+
+---
+## <a id='disk-pools'></a> Disk Pools
+
+Currently CPI does not support any cloud properties for disks.
+
+Example of 10GB disk:
+
+```yaml
+disk_pools:
+- name: default
+  disk_size: 10_240
+  cloud_properties: {}
+```
