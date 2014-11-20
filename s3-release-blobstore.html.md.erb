@@ -2,7 +2,7 @@
 title: Setting up an S3 BOSH Release Blobstore
 ---
 
-This document is written for release maintainers and describes how to set up S3 bucket for storing release artifacts.
+This topic is written for release maintainers and describes how to set up a S3 bucket for storing release artifacts.
 
 ## <a id="bucket"></a> Creating S3 Bucket
 
@@ -10,7 +10,7 @@ S3 bucket is used for storing release blobs and generated final release blobs.
 
 - Create S3 bucket with a descriptive name. For example choose `redis-blobs` for `redis-release` release.
 
-- Under the bucket properties, click `Add bucket policies` and add the following entry to make blobs publicly downloadable (change `<blobs_bucket_name>` to a name you want to call your blobstore bucket):
+- Under the bucket properties, click `Add bucket policies` and add the following entry to make blobs publicly downloadable. Be sure to change `<blobs_bucket_name>` to a name you want to call your blobstore bucket.
 
 ```json
 {
@@ -25,11 +25,11 @@ S3 bucket is used for storing release blobs and generated final release blobs.
 }
 ```
 
-Note: S3 buckets have a global namespace. If you create a bucket, that name has been forever consumed for everyone using S3. If you choose to delete that bucket, the name will not be added back to the global pool of names. It is gone forever.
+<p class="note"><strong>Note</strong>: S3 buckets have a global namespace. If you create a bucket, that name has been forever consumed for everyone using S3. If you choose to delete that bucket, the name will not be added back to the global pool of names. It is gone forever.</p>
 
 ## <a id="iam-user"></a> Creating IAM User for the Maintainer
 
-IAM user is used to download and upload blobs to created S3 bucket.
+An IAM user is used to download and upload blobs to a created S3 bucket.
 
 - Create an AWS IAM user with a name that describes a specific purpose for this user -- uploading release blobs. For example: `redis-blobs-upload`.
 
@@ -53,7 +53,7 @@ blobstore:
     bucket_name: <blobs_bucket_name>
 ```
 
-Note: the `.gitignore` file in the BOSH release should include `config/private.yml`. This file should **NOT** be committed to the release repo. It is only meant for the release maintainers. `config/final.yml`, on the other hand, should not be in the `.gitignore` file, and should be committed to the repository, as it is for users consuming and deploying the release.
+<p class="note"><strong>Note</strong>: The `.gitignore` file in the BOSH release should include `config/private.yml`. This file should <strong>not</strong> be committed to the release repo. It is only meant for the release maintainers. `config/final.yml`, on the other hand, should not be in the `.gitignore` file, and should be committed to the repository, as it is for users consuming and deploying the release.</p>
 
 - Attach a _user_ policy that would limit the user to permissions to read/write to the bucket that was just created:
 
@@ -72,8 +72,8 @@ Note: the `.gitignore` file in the BOSH release should include `config/private.y
 }
 ```
 
-Note that when first creating a bucket, it might take a little while for Amazon to be able to route requests correctly to the bucket and so downloads may fail with an obscure "Broken Pipe" error. The solution is to wait for some time before trying.
+<p class="note"><strong>Note</strong>: When you first create a bucket, it might take a little while for Amazon to be able to route requests correctly to the bucket and so downloads may fail with an obscure "Broken Pipe" error. The solution is to wait for some time before trying.
 
 ## <a id="usage"></a> Usage
 
-Once S3 bucket and IAM user are configured with correct access rules, `bosh upload blobs` should succeed and S3 bucket should contain uploaded blobs. Running `bosh create release --final` will also place additional blobs into the bucket.
+Once the S3 bucket and IAM user are configured with correct access rules, `bosh upload blobs` should succeed and the S3 bucket should contain uploaded blobs. Running `bosh create release --final` will also place additional blobs into the bucket.

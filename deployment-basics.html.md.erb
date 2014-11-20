@@ -2,15 +2,15 @@
 title: Deployment Basics
 ---
 
-As previously stated [a deployment](deployment.html) is a collection of VMs and persistent disks. Deployment is split into smaller logical units called deployment jobs.
+As previously stated, a [deployment](deployment.html) is a collection of VMs and persistent disks. A deployment is split into smaller logical units called deployment jobs.
 
-Sections below show how to describe desired deployment in a deployment manifest. [Example full deployment manifest](#example) is below.
+The sections below show how to describe the desired deployment in a deployment manifest. An [example full deployment manifest](#example) is below.
 
 ## <a id='deployment-jobs'></a> Deployment Jobs
 
-A <em>deployment job</em> is a logical unit, defined by the cluster operator, that represents a long running service or a short running task (an errand). Deployment jobs are defined in the deployment manifest. A job can be confgiured to run multiple copies of itself i.e. a job has multiple instances. Operator usually decides which jobs they need to make their deployment do something useful. For example when creating a Redis deployment, operator will add a Redis server job. They might also decide to add a Redis slave job.
+A _deployment job_ is a logical unit, defined by the cluster operator, that represents a long running service or a short running task (an errand). Deployment jobs are defined in the deployment manifest. A job can be configured to run multiple copies of itself: i.e., a job has multiple instances. The operator usually decides which jobs he or she needs to make their deployment do something useful. For example, when creating a Redis deployment, the operator will add a Redis server job, and might also decide to add a Redis slave job.
 
-Each job needs to be backed by an actual software -- releases. Operator, when defining a job in the manifest, has to specify which release or even multiple releases make up this job. Continuing with our example, Redis server job would use a `redis-release` which contains packaged up Redis server software.
+Each job needs to be backed by an actual software -- releases. An operator, when defining a job in the manifest, has to specify which release or even multiple releases make up this job. Continuing with our example, the Redis server job would use a `redis-release` that contains packaged up Redis server software.
 
 ```yaml
 # Associates redis release with this deployment
@@ -31,9 +31,9 @@ jobs:
 ```
 
 ---
-## <a id='resource-pools'></a> Resource pools
+## <a id='resource-pools'></a> Resource Pools
 
-Since each job instance will run on a single machine (a VM or a container), it needs to reference a stemcell. Hence each deployment job belongs to exactly one resource pool. A <em>resource pool</em> is a collection of machines (VMs) that are created from a specific stemcell. Resource pools are also defined by the operator in the deployment manifest. In addition to specifying a stemcell, resource pool definition allows to specify VM size, instance type and other IaaS specific characteristics that are used when creating VMs. For example the `redis-master` resource pool for Redis servers, referenced by the `redis-master` job in the above example, might look something like this on AWS:
+Since each job instance will run on a single machine (a VM or a container), it needs to reference a stemcell. Hence each deployment job belongs to exactly one resource pool. A _resource pool_ is a collection of machines (VMs) that are created from a specific stemcell. Resource pools are also defined by the operator in the deployment manifest. In addition to specifying a stemcell, the resource pool definition allows the operator to specify VM size, instance type, and other IaaS-specific characteristics that are used when creating VMs. For example, the `redis-master` resource pool for Redis servers, referenced by the `redis-master` job in the above example, might look something like this on AWS:
 
 ```yaml
 resource_pools:
@@ -54,20 +54,20 @@ resource_pools:
 
 ### Compilation
 
-Most VMs in the deployment belong to a specific resource pool; however, the Director also creates compilation worker VMs for release compilation. The Director will compile each release on every necessary stemcell defined in the resource pools section. Compilation definition allows to specify VM size, instance type and other IaaS specific characteristics that are used when creating VMs.
+Most VMs in the deployment belong to a specific resource pool; however, the Director also creates compilation worker VMs for release compilation. The Director will compile each release on every necessary stemcell defined in the resource pools section. A compilation definition allows an operator to specify VM size, instance type, and other IaaS-specific characteristics that are used when creating VMs.
 
 ```yaml
 compilation:
   workers: 2
   network: default
 
-  # IaaS specific properties
+  # IaaS-specific properties
   cloud_properties:
     instance_type: m1.medium
 ```
 
 ---
-## <a id='persistent-disks'></a> Persistent disks
+## <a id='persistent-disks'></a> Persistent Disks
 
 Some deployment jobs may need to store persistent data -- data that lives as long as the job instance is defined, independent of whether the job instance VM is deleted or recreated. For example, an operator can configure each instance of the `redis-slave` job to have a 10GB persistent disk:
 
@@ -91,7 +91,7 @@ jobs:
 ---
 ## <a id='networks'></a> Networks
 
-Deployment job has to also reference at least one network. A <em>BOSH network</em> is a IaaS agnostic representation of the networking layer. Each job instance gets an IP from its associated networks. Based on a type of the network BOSH decides how to find out and select an IP. There are three network types: 'manual', 'dynamic', and 'vip'. Manual networks require user to specify one or more subnet and BOSH decided how to assign IPs to each job instance. For dynamic networks BOSH defers IP selection to the IaaS. And finally for vip networks BOSH allows users to assign IPs to VMs. In the deployment job example shown above, `redis-master` job references `default` network. Here how `default` network definition might look like for AWS:
+A deployment job must also reference at least one network. A _BOSH network_ is a IaaS-agnostic representation of the networking layer. Each job instance gets an IP from its associated networks. Based on a type of the network BOSH decides how to find out and select an IP. There are three network types: `manual`, `dynamic`, and `vip`. Manual networks require that users specify one or more subnets and BOSH determines how to assign IPs to each job instance. For dynamic networks, BOSH defers IP selection to the IaaS. For vip networks, BOSH allows users to assign IPs to VMs. In the deployment job example shown above, the `redis-master` job references a `default` network. The example below shows how a user might specify a `default` network definition for AWS:
 
 ```yaml
 networks:
@@ -116,7 +116,7 @@ networks:
 
 With all pieces combined together most deployment manifests look something like this:
 
-Note: Certain sections (compilation and update) of the deployment manifest were not described. Please see [deployment manifest schema](deployment-manifest.html) for details.
+<p class="note"><strong>Note<strong>: Certain sections (compilation and update) of the deployment manifest were not described. Refer to the [Deployment Manifest Schema](deployment-manifest.html) topic for details.</p>
 
 ```yaml
 name: my-redis-deployment
@@ -175,7 +175,7 @@ jobs:
   - name: default
 ```
 
-Once operator made decision which deployment jobs, releases, and stemcells will be used they can create a deployment.
+Once an operator has made a decision as to which deployment jobs, releases, and stemcells will be used, the operator can create a deployment.
 
 Previous: [Basic Workflow](basic-workflow.html)
 

@@ -2,21 +2,21 @@
 title: Uploading Releases
 ---
 
-(See [What is a Release?](release.html) for release introduction.)
+(See [What is a Release?](release.html) for an introduction to releases.)
 
-As described earlier each deployment references one or many releases on the Director. Before the Director can form a deployment all referenced releases must be uploaded to the Director.
+As described earlier, each deployment references one or many releases on the Director. Before the Director can form a deployment, all referenced releases must be uploaded to the Director.
 
 ## <a id='find'></a> Finding Releases
 
-Releases are distributed in two ways: via git repository or as a release tarball. Here are few popular releases found on GitHub:
+Releases are distributed in two ways: Through a Git repository or as a release tarball. Here are few popular releases found on GitHub:
 
 - [cf-release](https://github.com/cloudfoundry/cf-release)
 - [cf-mysql-release](https://github.com/cloudfoundry/cf-mysql-release)
 - [redis-release](https://github.com/cloudfoundry-community/redis-boshrelease)
 
-Note that all the repositories have a folder called `releases/` which contains release manifest YAML files that have all the required information on how to assemble specific version of a release (given that release maintainers produce and commit that version to the repository). You can use those YAML files to either directly upload a release or to create a release tarball.
+Note that all the repositories have a folder called `releases/` that contains release manifest YAML files. These files have all the required information on how to assemble specific version of a release (provided that the release maintainers produce and commit that version to the repository). You can use the YAML files to either directly upload a release or to create a release tarball.
 
-To build a release tarball from release manifest YAML file:
+To build a release tarball from a release manifest YAML file:
 
 <pre class="terminal">
 cd ~/workspace/redis-boshrelease
@@ -26,20 +26,22 @@ bosh create release releases/redis/redis-12.yml
 ---
 ## <a id='upload'></a> Uploading to the Director
 
-Assuming CLI is already targetted at the Director, CLI provides a single command to upload a release. If you have a release tarball:
+Assuming that the CLI is already targeted at the Director, the CLI provides a single command to upload a release. 
+
+If you have a release tarball:
 
 <pre class="terminal">
 bosh upload release ~/Downloads/redis-12.tgz --skip-if-exists
 </pre>
 
-or if you cloned a git repository:
+If you cloned a Git repository:
 
 <pre class="terminal">
 cd ~/workspace/redis-boshrelease
 bosh upload release releases/redis/redis-12.yml --skip-if-exists
 </pre>
 
-Once the command succeeds you can see all uploaded releases in the Director:
+Once the command succeeds, you can view all uploaded releases in the Director:
 
 <pre class="terminal">
 bosh releases
@@ -59,7 +61,7 @@ Releases total: 5
 ---
 ## <a id='using'></a> Deployment Manifest Usage
 
-To use uploaded release in your deployment, update releases section in your deployment manifest:
+To use an uploaded release in your deployment, update the `releases` section in your deployment manifest:
 
 ```yaml
 releases:

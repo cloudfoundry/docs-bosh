@@ -2,14 +2,14 @@
 title: OpenStack CPI
 ---
 
-This documents describes cloud properties for different resources created by the OpenStack CPI.
+This topic describes cloud properties for different resources created by the OpenStack CPI.
 
 ## <a id='networks'></a> Networks
 
 Schema for `cloud_properties` section used by dynamic network or manual network subnet:
 
-* **net_id** [String, required]: Subnet ID in which instance will be created. Example: `net-b98ab66e-6fae-4c6a-81af-566e630d21d1`.
-* **security_groups** [Array, optional]: Array of security groups to apply for all VMs that are placed on this network. Defaults to security groups specified by `default_security_groups` in global CPI settings.
+* **net_id** [String, required]: Subnet ID in which the instance will be created. Example: `net-b98ab66e-6fae-4c6a-81af-566e630d21d1`.
+* **security_groups** [Array, optional]: Array of security groups to apply for all VMs that are placed on this network. Defaults to security groups specified by `default_security_groups` in the global CPI settings.
 
 Example of manual network:
 
@@ -43,7 +43,7 @@ Schema for `cloud_properties` section:
 
 * **instance_type** [String, required]: Type of the instance. Example: `m1.small`.
 * **availability_zone** [String, required]: Availability zone to use for creating instances. Example: `us-east-1a`.
-* **key_name** [String, optional]: Key pair name. Defaults to key pair name specified by `default_key_name` in global CPI settings. Example: `bosh`.
+* **key_name** [String, optional]: Key pair name. Defaults to key pair name specified by `default_key_name` in the global CPI settings. Example: `bosh`.
 
 Example of a `m1.small` instance:
 
@@ -62,7 +62,7 @@ resource_pools:
 ---
 ## <a id='disk-pools'></a> Disk Pools
 
-Currently CPI does not support any cloud properties for disks.
+Currently the CPI does not support any cloud properties for disks.
 
 Example of 10GB disk:
 

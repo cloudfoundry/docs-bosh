@@ -2,18 +2,18 @@
 title: Uploading Stemcells
 ---
 
-(See [What is a Stemcell?](stemcell.html) for stemcell introduction.)
+(See [What is a Stemcell?](stemcell.html) for an introduction to stemcells.)
 
-As described earlier each resource pool references a specific stemcell on the Director. Before the Director can form a deployment all referenced stemcells must be uploaded to the Director.
+As described earlier, each resource pool references a specific stemcell on the Director. Before the Director can form a deployment, all referenced stemcells must be uploaded to the Director.
 
 ## <a id='find'></a> Finding Official Stemcells
 
 You can download stemcells from two official sources:
 
 - [BOSH Artifacts site](http://bosh-artifacts.cfapps.io/)
-- via public stemcells command
+- Using the `public stemcells` command
 
-    To list latest public stemcells:
+    To list the latest public stemcells:
 
     <pre class="terminal">
     bosh public stemcells
@@ -28,7 +28,7 @@ You can download stemcells from two official sources:
     To download use `bosh download public stemcell <stemcell_name>'. For full url use --full.
     </pre>
 
-    And to download listed public stemcell into `~/Downloads` directory:
+    And to download the listed public stemcell into the `~/Downloads` directory:
 
     <pre class="terminal">
     cd ~/Downloads
@@ -38,13 +38,13 @@ You can download stemcells from two official sources:
 ---
 ## <a id='upload'></a> Uploading to the Director
 
-Assuming CLI is already targetted at the Director, CLI provides a single command to upload a stemcell:
+Assuming the CLI is already targeted at the Director, the CLI provides a single command to upload a stemcell:
 
 <pre class="terminal">
 bosh upload stemcell ~/Downloads/bosh-stemcell-2751-aws-xen-hvm-ubuntu-trusty-go_agent.tgz --skip-if-exists
 </pre>
 
-Once the command succeeds you can see all uploaded stemcells in the Director:
+Once the command succeeds you can view all uploaded stemcells in the Director:
 
 <pre class="terminal">
 bosh stemcells

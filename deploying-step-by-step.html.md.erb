@@ -5,7 +5,7 @@ title: Deploying Step-by-step
 The Director will do the following steps when `bosh deploy` command runs:
 
 1. Check if `director_uuid` field matches the Director's UUID
-    - if no, return an error to make sure deployment is not accidently modified on a wrong director
+    - if no, return an error to make sure the deployment is not accidently modified on a wrong Director
 <br/><br/>
 1. Check if there is a deployment with the name specified by the deployment manifest
     - if no, create a deployment
@@ -71,7 +71,7 @@ The Director will do the following steps when `bosh deploy` command runs:
     1. check if the deployment job's network configuration changed
         - if no, do nothing
         - if yes, reconfigure running VM to match new configuration
-            - issue prepare\_configure\_networks Agent call
+            - issue prepare_configure_networks Agent call
             - issue configure_networks CPI call
             - issue configure_networks Agent call
 <br/><br/>

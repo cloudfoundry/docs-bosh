@@ -2,7 +2,7 @@
 title: Persistent Disks
 ---
 
-Deployment jobs may require to store persistent data.
+Deployment jobs may need to store persistent data.
 
 If you attach a persistent disk to a virtual machine and then stop, terminate, or delete the VM, your persistent disk data remains intact. Attaching the persistent disk to another VM allows you to access your data.
 
@@ -15,7 +15,8 @@ Persistent disks are kept for deployment jobs under the following circumstances:
 Persistent disks are deleted for deployment jobs under the following circumstances:
 
 * When no longer specifying a persistent disk size or a disk pool
-* When scaled down. Note: Applies only to disks associated with removed instances
+* When scaled down 
+<p class="note"><strong>Note</strong>: Applies only to disks associated with removed instances.</p>
 * When implicitly renamed in the deployment manifest
 * When deleted from the deployment manifest
 
