@@ -44,36 +44,39 @@ title: Index
  * [Basic workflow](basic-workflow.html)
     * [Deployment basics](deployment-basics.html)
        * [Deployment manifest schema](deployment-manifest.html)
-    * The Director
-    * Basic deployment management commands
-       * bosh [upload] stemcell(s)
-       * bosh [upload] release(s)
-       * bosh deploy(ment)
-       * bosh vms
-       * bosh ssh
-    * Deploying Software step-by-step
+    * [Uploading stemcells](uploading-stemcells.html)
+    * [Uploading releases](uploading-releases.html)
+    * [Deploying](deploying.html)
+    * Deploying software step-by-step
        * [explanation of every step of the `bosh deploy` command]
     * Updating deployment to deal with security vulnerabilities
+    * Running one off tasks
+  * [Complete BOSH CLI API](sysadmin-commands.html)
+
+### Detailed Deployment Configuration
+
  * Resource Pools
     * [VM anti-affinity](vm-anti-affinity.html)
  * [Persistent disks](persistent-disks.html)
  * [Networks](networks.html)
- * Running one off tasks
- * Health management
-    * Monitoring
-    * Cloud check
-    * Resurrector
-    * (WIP) Snapshotting
- * Looking inside a BOSH Deployment
-    * Structure of a BOSH VM
-    * Using monit to monitor BOSH VMs
-    * Debugging issues with jobs
-    * Location and use of logs
  * CPIs
     * [AWS](aws-cpi.html)
     * [OpenStack](openstack-cpi.html)
     * [vSphere](vsphere-cpi.html)
- * [Complete BOSH CLI API](sysadmin-commands.html)
+
+### Health Management
+
+ * Monitoring
+ * Cloud check
+ * Resurrector
+ * (WIP) Snapshotting
+
+### VM Configuration (Looking inside a BOSH Deployment)
+
+ * Structure of a BOSH VM
+ * Using monit to monitor BOSH VMs
+ * Debugging issues with jobs
+ * Location and use of logs
 
 ---
 ## Tutorial for deploying from scratch

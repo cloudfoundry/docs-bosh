@@ -1,0 +1,71 @@
+---
+title: Uploading Releases
+---
+
+(See [What is a Release?](release.html) for release introduction.)
+
+As described earlier each deployment references one or many releases on the Director. Before the Director can form a deployment all referenced releases must be uploaded to the Director.
+
+## <a id='find'></a> Finding Releases
+
+Releases are distributed in two ways: via git repository or as a release tarball. Here are few popular releases found on GitHub:
+
+- [cf-release](https://github.com/cloudfoundry/cf-release)
+- [cf-mysql-release](https://github.com/cloudfoundry/cf-mysql-release)
+- [redis-release](https://github.com/cloudfoundry-community/redis-boshrelease)
+
+Note that all the repositories have a folder called `releases/` which contains release manifest YAML files that have all the required information on how to assemble specific version of a release (given that release maintainers produce and commit that version to the repository). You can use those YAML files to either directly upload a release or to create a release tarball.
+
+To build a release tarball from release manifest YAML file:
+
+<pre class="terminal">
+cd ~/workspace/redis-boshrelease
+bosh create release releases/redis/redis-12.yml
+</pre>
+
+---
+## <a id='upload'></a> Uploading to the Director
+
+Assuming CLI is already targetted at the Director, CLI provides a single command to upload a release. If you have a release tarball:
+
+<pre class="terminal">
+bosh upload release ~/Downloads/redis-12.tgz --skip-if-exists
+</pre>
+
+or if you cloned a git repository:
+
+<pre class="terminal">
+cd ~/workspace/redis-boshrelease
+bosh upload release releases/redis/redis-12.yml --skip-if-exists
+</pre>
+
+Once the command succeeds you can see all uploaded releases in the Director:
+
+<pre class="terminal">
+bosh releases
+
++--------+----------+-------------+
+| Name   | Versions | Commit Hash |
++--------+----------+-------------+
+| redis  | 12       | 3eb40ae4    |
+| mesos  | 1        | d07b570b    |
++--------+----------+-------------+
+(*) Currently deployed
+(+) Uncommitted changes
+
+Releases total: 5
+</pre>
+
+---
+## <a id='using'></a> Deployment Manifest Usage
+
+To use uploaded release in your deployment, update releases section in your deployment manifest:
+
+```yaml
+releases:
+- {name: redis, version: 12}
+```
+
+Previous: [Uploading Stemcells](uploading-stemcells.html)
+
+Next: [Deploying](deploying.html)

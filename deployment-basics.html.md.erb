@@ -4,6 +4,8 @@ title: Deployment Basics
 
 As previously stated [a deployment](deployment.html) is a collection of VMs and persistent disks. Deployment is split into smaller logical units called deployment jobs.
 
+Sections below show how to describe desired deployment in a deployment manifest. [Example full deployment manifest](#example) is below.
+
 ## <a id='deployment-jobs'></a> Deployment Jobs
 
 A <em>deployment job</em> is a logical unit, defined by the cluster operator, that represents a long running service or a short running task (an errand). Deployment jobs are defined in the deployment manifest. A job can be confgiured to run multiple copies of itself i.e. a job has multiple instances. Operator usually decides which jobs they need to make their deployment do something useful. For example when creating a Redis deployment, operator will add a Redis server job. They might also decide to add a Redis slave job.
@@ -28,6 +30,7 @@ jobs:
   - name: default
 ```
 
+---
 ## <a id='resource-pools'></a> Resource pools
 
 Since each job instance will run on a single machine (a VM or a container), it needs to reference a stemcell. Hence each deployment job belongs to exactly one resource pool. A <em>resource pool</em> is a collection of machines (VMs) that are created from a specific stemcell. Resource pools are also defined by the operator in the deployment manifest. In addition to specifying a stemcell, resource pool definition allows to specify VM size, instance type and other IaaS specific characteristics that are used when creating VMs. For example the `redis-master` resource pool for Redis servers, referenced by the `redis-master` job in the above example, might look something like this on AWS:
@@ -37,7 +40,7 @@ resource_pools:
 - name: redis-servers
   network: default
 
-  # Assocition with Ubuntu Trusty stemcell for AWS
+  # Association with Ubuntu Trusty stemcell for AWS
   stemcell:
     name: bosh-aws-xen-ubuntu-trusty-go_agent
     version: 2765
@@ -49,9 +52,24 @@ resource_pools:
 
 [Learn more about resource pools](resource-pools.html).
 
+### Compilation
+
+Most VMs in the deployment belong to a specific resource pool; however, the Director also creates compilation worker VMs for release compilation. The Director will compile each release on every necessary stemcell defined in the resource pools section. Compilation definition allows to specify VM size, instance type and other IaaS specific characteristics that are used when creating VMs.
+
+```yaml
+compilation:
+  workers: 2
+  network: default
+
+  # IaaS specific properties
+  cloud_properties:
+    instance_type: m1.medium
+```
+
+---
 ## <a id='persistent-disks'></a> Persistent disks
 
-Some deployment jobs may require storing persistent data -- data that lives as long as the job instance is defined, independent of whether the job instance VM is deleted or recreated. For example, an operator can configure each instance of the `redis-slave` job to have a 10GB persistent disk:
+Some deployment jobs may need to store persistent data -- data that lives as long as the job instance is defined, independent of whether the job instance VM is deleted or recreated. For example, an operator can configure each instance of the `redis-slave` job to have a 10GB persistent disk:
 
 ```yaml
 jobs:
@@ -70,9 +88,10 @@ jobs:
 
 [Learn more about persistent disks](persistent-disks.html).
 
+---
 ## <a id='networks'></a> Networks
 
-Deployment job has to also reference at least one network. A BOSH <em>network</em> is a IaaS agnostic representation of the networking layer. Each job instance gets an IP from its associated networks. Based on a type of the network BOSH decides how to find out and select an IP. There are three network types: 'manual', 'dynamic', and 'vip'. Manual networks require user to specify one or more subnet and BOSH decided how to assign IPs to each job instance. For dynamic networks BOSH defers IP selection to the IaaS. And finally for vip networks BOSH allows users to assign IPs to VMs. In the deployment job example shown above, `redis-master` job references `default` network. Here how `default` network definition might look like for AWS:
+Deployment job has to also reference at least one network. A <em>BOSH network</em> is a IaaS agnostic representation of the networking layer. Each job instance gets an IP from its associated networks. Based on a type of the network BOSH decides how to find out and select an IP. There are three network types: 'manual', 'dynamic', and 'vip'. Manual networks require user to specify one or more subnet and BOSH decided how to assign IPs to each job instance. For dynamic networks BOSH defers IP selection to the IaaS. And finally for vip networks BOSH allows users to assign IPs to VMs. In the deployment job example shown above, `redis-master` job references `default` network. Here how `default` network definition might look like for AWS:
 
 ```yaml
 networks:
@@ -92,8 +111,72 @@ networks:
 
 [Learn more about networks](networks.html).
 
+---
+## <a id='example'></a> Example Full Deployment Manifest
+
+With all pieces combined together most deployment manifests look something like this:
+
+<p class="note">Note: Certain sections (compilation and update) of the deployment manifest were not described. Please see [deployment manifest schema](deployment-manifest.html) for details.</p>
+
+```yaml
+name: my-redis-deployment
+
+director_uuid: cf8dc1fc-9c42-4ffc-96f1-fbad983a6ce6
+
+releases:
+- {name: redis, version: 12}
+
+networks:
+- name: default
+  type: manual
+  subnets:
+  - range:    10.10.0.0/24
+    gateway:  10.10.0.1
+    dns:      [10.10.0.2]
+    reserved: [10.10.0.2-10.10.0.10]
+    cloud_properties: {subnet: subnet-9be6c3f7}
+
+resource_pools:
+- name: redis-servers
+  network: default
+  stemcell:
+    name: bosh-aws-xen-ubuntu-trusty-go_agent
+    version: 2765
+  cloud_properties: {instance_type: m1.medium}
+
+compilation:
+  workers: 2
+  network: default
+  cloud_properties: {instance_type: m1.medium}
+
+update:
+  canaries: 1
+  max_in_flight: 10
+  update_watch_time: 1000-30000
+  canary_watch_time: 1000-30000
+
+jobs:
+- name: redis-master
+  instances: 1
+  templates:
+  - {name: redis-server, release: redis}
+  persistent_disk: 10_240
+  resource_pool: redis-servers
+  networks:
+  - name: default
+
+- name: redis-slave
+  instances: 2
+  templates:
+  - {name: redis-server, release: redis}
+  persistent_disk: 10_240
+  resource_pool: redis-servers
+  networks:
+  - name: default
+```
+
 Once operator made decision which deployment jobs, releases, and stemcells will be used they can create a deployment.
 
 Previous: [Basic Workflow](basic-workflow.html)
 
-Next: [Deployment Manifest Schema](deployment-manifest.html)
+Next: [Uploading Stemcells](uploading-stemcells.html) or see [Deployment Manifest Schema](deployment-manifest.html) for deeper dive into deployment manifest.

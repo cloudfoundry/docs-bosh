@@ -1,0 +1,84 @@
+---
+title: Uploading Stemcells
+---
+
+(See [What is a Stemcell?](stemcell.html) for stemcell introduction.)
+
+As described earlier each resource pool references a specific stemcell on the Director. Before the Director can form a deployment all referenced stemcells must be uploaded to the Director.
+
+## <a id='find'></a> Finding Official Stemcells
+
+You can download stemcells from two official sources:
+
+- [BOSH Artifacts site](http://bosh-artifacts.cfapps.io/)
+- via public stemcells command
+
+    To list latest public stemcells:
+
+    <pre class="terminal">
+    bosh public stemcells
+
+    +-----------------------------------------------------------------+
+    | Name                                                            |
+    +-----------------------------------------------------------------+
+    | bosh-stemcell-2751-aws-xen-ubuntu-trusty-go_agent.tgz           |
+    | bosh-stemcell-2751-openstack-kvm-ubuntu-trusty-go_agent.tgz     |
+    +-----------------------------------------------------------------+
+
+    To download use `bosh download public stemcell <stemcell_name>'. For full url use --full.
+    </pre>
+
+    And to download listed public stemcell into `~/Downloads` directory:
+
+    <pre class="terminal">
+    cd ~/Downloads
+    bosh download public stemcell bosh-stemcell-2751-aws-xen-hvm-ubuntu-trusty-go_agent.tgz
+    </pre>
+
+---
+## <a id='upload'></a> Uploading to the Director
+
+Assuming CLI is already targetted at the Director, CLI provides a single command to upload a stemcell:
+
+<pre class="terminal">
+bosh upload stemcell ~/Downloads/bosh-stemcell-2751-aws-xen-hvm-ubuntu-trusty-go_agent.tgz --skip-if-exists
+</pre>
+
+Once the command succeeds you can see all uploaded stemcells in the Director:
+
+<pre class="terminal">
+bosh stemcells
+
++-----------------------------------------+---------+--------------+
+| Name                                    | Version | CID          |
++-----------------------------------------+---------+--------------+
+| bosh-aws-xen-hvm-ubuntu-trusty-go_agent | 2751    | ami-cc27a1a4 |
+| bosh-aws-xen-centos-go_agent            | 2710    | ami-a0a674c8 |
++-----------------------------------------+---------+--------------+
+
+(*) Currently in-use
+
+Stemcells total: 2
+</pre>
+
+---
+## <a id='using'></a> Deployment Manifest Usage
+
+To use uploaded stemcell in your deployment, stemcell needs to be referenced by one of the resource pools:
+
+```yaml
+resource_pools:
+- name: redis-servers
+  network: default
+
+  # Assocition with Ubuntu Trusty stemcell for AWS
+  stemcell:
+    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+    version: 2751
+
+  cloud_properties: {instance_type: m1.medium}
+```
+
+Previous: [Deployment Basics](deployment-basics.html)
+
+Next: [Uploading Releases](uploading-releases.html)
