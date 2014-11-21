@@ -5,7 +5,7 @@ title: Deploying Step-by-step
 The Director will do the following steps when `bosh deploy` command runs:
 
 1. Check if `director_uuid` field matches the Director's UUID
-    - if no, return an error to make sure the deployment is not accidently modified on a wrong Director
+    - if no, return an error to make sure the deployment is not accidentally modified on a wrong Director
 <br/><br/>
 1. Check if there is a deployment with the name specified by the deployment manifest
     - if no, create a deployment
@@ -15,11 +15,11 @@ The Director will do the following steps when `bosh deploy` command runs:
     - if invalid, return an error to the user describing the problem(s)
 <br/><br/>
 1. Contact all existing VMs associated with this deployment to determine their network configuration, stemcell configuration, and job configuration if any
-    - if cannot contact all VMs, return an error to the user. This results in a "Timed sending `get_state` error" during the 'Binding existing deployment' stage. At this point operator is expected to use `bosh cck` command to determine why certain VMs are not accessible.
+    - if the Director cannot contact all VMs, return an error to the user. This results in a "Timed sending `get_state` error" during the 'Binding existing deployment' stage. At this point the operator is expected to use `bosh cck` command to determine why certain VMs are not accessible.
 <br/><br/>
 1. Determine requested networking changes to the existing and new VMs
     - if network changes cannot be resolved (e.g. currently the Director does not support swapping of static IP reservations), return an error to the user
-    - if network changes requires more IPs that deployment's networks allow, return an error to the user
+    - if network changes require more IPs than the deployment's networks allow, return an error to the user
 <br/><br/>
 1. Delete empty VMs that are no longer needed
     - issue delete_vm CPI call for each VM
@@ -71,7 +71,7 @@ The Director will do the following steps when `bosh deploy` command runs:
     1. check if the deployment job's network configuration changed
         - if no, do nothing
         - if yes, reconfigure running VM to match new configuration
-            - issue prepare_configure_networks Agent call
+            - issue prepare\_configure\_networks Agent call
             - issue configure_networks CPI call
             - issue configure_networks Agent call
 <br/><br/>
@@ -93,5 +93,5 @@ The Director will do the following steps when `bosh deploy` command runs:
         - issue start Agent call
         - issue get_state Agent call until job state is running or times out
 <br/><br/>
-1. Creates VMs explicitly requestes empty VMs in each resource pool
+1. Creates VMs explicitly requests empty VMs in each resource pool
 <br/><br/>
