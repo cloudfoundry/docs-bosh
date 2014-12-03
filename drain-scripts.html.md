@@ -10,7 +10,7 @@ state where it can be safely stopped.
 
 To add a drain script to a release job:
 
-1. Create a script with any name in the templates directory of a release job. 
+1. Create a script with any name in the templates directory of a release job.
 1. In the `templates` section of the release job spec file, add the script name and the `bin/drain` directory as a key value pair.
 
 Example:
@@ -27,7 +27,7 @@ templates:
 ## <a id="script-implementation"></a> Script Implementation ##
 
 You can write BOSH drain scripts in any interpreted language found on the
-job instance. Job instances inherit languages through release packages. 
+job instance. Job instances inherit languages through release packages.
 
 Drain scripts are commonly implemented as shell scripts. The UNIX shebang line at the beginning is used to specify the interpreter.
 
@@ -35,14 +35,14 @@ You must ensure that your drain script exits in one of following ways:
 
 - Exit with a non-`0` status code: This informs BOSH that draining failed.
 
-- Exit with `0` status code: The drain script must also print an integer followed by a newline to `stdout`. BOSH interprests the `0` status code and integer as follows:
+- Exit with `0` status code: The drain script must also print an integer followed by a newline to `stdout`. BOSH interprets the `0` status code and integer as follows:
 
-    **Static draining**: If the drain script prints a zero or a positive 
+    **Static draining**: If the drain script prints a zero or a positive
 	integer, BOSH sleeps for that many seconds before continuing.
-	
-    **Dynamic draining**: If the drain script prints a negative integer, BOSH 
-	sleeps for that many seconds, then calls the drain script again. 
-	
+
+    **Dynamic draining**: If the drain script prints a negative integer, BOSH
+	sleeps for that many seconds, then calls the drain script again.
+
 	<p class="note"><strong>Note</strong>: BOSH reruns a script indefinitely as long as the script exits with a status code `0` and outputs a negative integer.</p>
 
 
@@ -55,7 +55,7 @@ When running, a drain script can access the following environment variables:
   * `BOSH_JOB_NEXT_STATE`: JSON description of the new job state that is being
     applied
 
-Use this feature to monitor job properties. 
+Use this feature to monitor job properties.
 For example, a script can use this feature to determine if the size of the persistent disk changes and take a specified action.
 
 ## <a id="example"></a> Example ##

@@ -9,7 +9,7 @@ One popular example of a deployment job that needs this type of configuration
 is Hadoop Datanode. If multiple Datanode instances are placed on the
 same physical machine, replicated data becomes unavailable if
 that machine fails. To make replication useful in this scenario,
-BOSH allows you to configure the resource pool for a deployment job. You configure VM anti-affinity rules for an IaaS using the `cloud_properties` subblock of the `resource_pools` block in your [deployment manifest](./deployment-manifest.html).
+BOSH allows you to configure the resource pool for a deployment job. You configure VM anti-affinity rules for an IaaS using the `cloud_properties` sub-block of the `resource_pools` block in your [deployment manifest](./deployment-manifest.html).
 
 Currently only vSphere CPI provides a way to specify VM anti-affinity rules.
 
