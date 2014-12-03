@@ -48,7 +48,7 @@ has no compile-time dependencies.
 	
     Example Ruby package spec file:
 
-<pre class=’code’>
+<pre class='code'>
   name: ruby&#95;1.9.3
 
   dependencies:
@@ -67,14 +67,14 @@ BOSH automatically creates a packaging script file template when you run the `bo
 packaging script in a package must include a symlink in the format `/var/vcap/packages/<package name>` for each dependency and 
 deliver all compiled code to `BOSH_INSTALL_TARGET`. Store the script in the `packages/<package name>/packaging` directory.
 
-  <p class=”note”><strong>Note</strong>: If your package contains source code, the script must compile the code and deliver it to 
+  <p class="note"><strong>Note</strong>: If your package contains source code, the script must compile the code and deliver it to 
 <code>BOSH&#95;INSTALL&#95;TARGET</code>. If your package contains pre-compiled software, the script must extract the binary from the compressed file and copy it to <code>BOSH&#95;INSTALL&#95;TARGET</code>.
 
-  <p class=”note”><strong>Note</strong>: If your package contains pre-compiled software, record the operating system that the pre-compiled software requires. Because a pre-compiled binary runs only on a specific operating system, any deployment using a package containing pre-compiled software requires a stemcell that contains that operating system. </p> 
+  <p class="note"><strong>Note</strong>: If your package contains pre-compiled software, record the operating system that the pre-compiled software requires. Because a pre-compiled binary runs only on a specific operating system, any deployment using a package containing pre-compiled software requires a stemcell that contains that operating system.</p> 
 
 Example Ruby packaging script:
 
-<pre class=’code’>
+<pre class='code'>
 set -e -x
 
 tar xzf ruby&#95;1.9.3/ruby-1.9.3-p484.tar.gz
@@ -99,7 +99,7 @@ ${BOSH&#95;INSTALL&#95;TARGET}/bin/gem install ruby&#95;1.9.3/bundler-1.2.1.gem 
 
     
 Example script referencing pre-compiled code:
-<pre class=’code’>
+<pre class='code'>
 tar zxf myfile.tar.gz
 cp -a myfile ${BOSH&#95;INSTALL&#95;TARGET}
 </pre>

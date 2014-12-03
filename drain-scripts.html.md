@@ -43,7 +43,7 @@ You must ensure that your drain script exits in one of following ways:
     **Dynamic draining**: If the drain script prints a negative integer, BOSH
 	sleeps for that many seconds, then calls the drain script again.
 
-	<p class="note"><strong>Note</strong>: BOSH reruns a script indefinitely as long as the script exits with a status code `0` and outputs a negative integer.</p>
+	<p class="note"><strong>Note</strong>: BOSH reruns a script indefinitely as long as the script exits with a status code <code>0</code> and outputs a negative integer.</p>
 
 
 ## <a id="environment-variables"></a> Environment Variables ##
