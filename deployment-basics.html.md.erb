@@ -91,7 +91,7 @@ jobs:
 ---
 ## <a id='networks'></a> Networks
 
-A deployment job must also reference at least one network. A _BOSH network_ is a IaaS-agnostic representation of the networking layer. Each job instance gets an IP from its associated networks. Based on a type of the network BOSH decides how to find out and select an IP. There are three network types: `manual`, `dynamic`, and `vip`. Manual networks require that users specify one or more subnets and BOSH determines how to assign IPs to each job instance. For dynamic networks, BOSH defers IP selection to the IaaS. For vip networks, BOSH allows users to assign IPs to VMs. In the deployment job example shown above, the `redis-master` job references a `default` network. The example below shows how a user might specify a `default` network definition for AWS:
+A deployment job must also reference at least one network. A _BOSH network_ is an IaaS-agnostic representation of the networking layer. Each job instance gets an IP from its associated networks. Based on a type of the network BOSH decides how to find out and select an IP. There are three network types: `manual`, `dynamic`, and `vip`. Manual networks require that users specify one or more subnets and BOSH determines how to assign IPs to each job instance. For dynamic networks, BOSH defers IP selection to the IaaS. For vip networks, BOSH allows users to assign IPs to VMs. In the deployment job example shown above, the `redis-master` job references a `default` network. The example below shows how a user might specify a `default` network definition for AWS:
 
 ```yaml
 networks:
@@ -116,7 +116,7 @@ networks:
 
 With all pieces combined together most deployment manifests look something like this:
 
-<p class="note"><strong>Note</strong>: Certain sections (compilation and update) of the deployment manifest were not described. Refer to the [Deployment Manifest Schema](deployment-manifest.html) topic for details.</p>
+<p class="note"><strong>Note</strong>: Certain sections (compilation and update) of the deployment manifest were not described. Refer to the <a href=http://docs.cloudfoundry.org/bosh/deployment-manifest.html>Deployment Manifest Schema</a> topic for details.</p>
 
 ```yaml
 name: my-redis-deployment
