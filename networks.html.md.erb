@@ -48,7 +48,7 @@ jobs:
   - name: my-network
   ...
 
-- name: my-other-job
+- name: my-multi-homed-job
   networks:
   - name: my-network
   - name: my-other-network
@@ -188,6 +188,52 @@ jobs:
 ```
 
 Unlike the manual networking setup, static IPs for VIP networks are only specified on the deployment job.
+
+---
+## <a id='multi-homed'></a> Multi-homed VMs
+
+A deployment job can be configured to have multiple IP addresses (multiple NICs) by being on multiple networks. Given that there are multiple network settings available for a deployment job, the Agent needs to decide which network's DNS settings to use and which network's gateway should be the default gateway on the VM. Agent performs such selection based on the network's `default` property specified in the deployment job.
+
+Schema for `default` property:
+
+* **default** [Array, optional]: Configures this network to provide its settings for specific category as a default. Possible values are: `dns` and `gateway`. Both values can be specified together.
+
+Example:
+
+```yaml
+networks:
+- name: my-network-1
+  type: dynamic
+  dns: [8.8.8.8]
+  cloud_properties: {}
+
+- name: my-network-2
+  type: dynamic
+  dns: [4.4.4.4]
+  cloud_properties: {}
+
+jobs:
+- name: my-multi-homed-job
+  ...
+  networks:
+  - name: my-network-1
+    default: [dns, gateway]
+  - name: my-network-2
+
+- name: my-other-multi-homed-job
+  ...
+  networks:
+  - name: my-network-1
+    default: [dns]
+  - name: my-network-2
+    default: [gateway]
+```
+
+In the above example, VM allocated to `my-multi-homed-job` deployment job will have `8.8.8.8` as its primary DNS server and the default gateway will be set to `my-network-1`'s gateway. VM allocated to `my-other-multi-homed-job` deployment job will also have `8.8.8.8` as its primary DNS server but the default gateway will be set to `my-network-2`'s gateway.
+
+<p class="note">Note: See <a href="#cpi-limitations">CPI limitations</a> to find which CPIs support this feature.</p>
+
+<p class="note">Note: See <a href="https://github.com/rakutentech/bosh-routing-release">rakutentech/bosh-routing-release</a> if you are looking for even more specific routing configuration.</p>
 
 ---
 ## <a id='cpi-limitations'></a> CPI Limitations
