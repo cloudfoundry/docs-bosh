@@ -134,7 +134,7 @@ Update `access_key_id` and `secret_access_key` in your MicroBOSH deployment mani
 1. In the AWS Console, select **EC2**.
 The **Availability Zone Status** in the **Service Health** section of the EC2
 Dashboard lists usable Availability Zones.
-Replace AVAILABILITY-ZONE in your deployment manifest with the one of the usable
+Replace AVAILABILITY-ZONE in your deployment manifest with one of the usable
 **Availability Zones**.
 
 	In this example, usable **Availability Zones** are `us-east-1a`,
@@ -189,7 +189,7 @@ For example, on UNIX run this command:
     * **IP CIDR block**: 10.0.0.0/16
     * **VPC name**: microbosh
     * **Public subnet**: 10.0.0.0/24
-    * **Availability Zone**: The Availability Zone you selected earlier
+    * **Availability Zone**: The Availability Zone that you selected earlier
     * **Subnet name**: microbosh
     * **Enable DNS hostnames**: Yes
     * **Hardware tenancy**: Default
@@ -200,7 +200,15 @@ For example, on UNIX run this command:
 
 1. Click **Subnets**.
 
-1. Replace MICROBOSH-SUBNET-ID in your deployment manifest with the **Subnet ID** shown.
+1. Select the **microbosh** subnet. Click **Modify Auto-Assign Public IP**.
+
+    <%= image_tag("images/micro-aws/modify-auto-assign.png") %>
+
+1. Check **Enable auto-assign Public IP**. Click **Save**.
+
+    <%= image_tag("images/micro-aws/enable-auto-assign.png") %>
+
+1. Replace MICROBOSH-SUBNET-ID in your deployment manifest with the **Subnet ID** displayed for the **microbosh** subnet.
 
     <%= image_tag("images/micro-aws/subnet.png") %>
 
