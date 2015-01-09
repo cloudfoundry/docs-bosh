@@ -138,7 +138,7 @@ environment variables for the current shell.
 		longer than twenty minutes to complete.</p>
 
     <pre class="terminal">
-	$ bundle exec bosh aws create
+	$ bosh aws create
 	Executing migration CreateKeyPairs
 	allocating 1 KeyPair(s)
 	Executing migration CreateVpc
@@ -195,7 +195,7 @@ BOSH deploys a VM to the subnet that the `network` or `networks` key references.
 
 Routing through a NAT VM allows the VMs on a private subnet to initiate outbound
 traffic to the Internet, but prevents the VMs from receiving inbound traffic
-from the Internet. 
+from the Internet.
 Follow the steps below to route outbound traffic from the VMs on a private
 subnet through a NAT VM.
 
@@ -234,7 +234,7 @@ Add the following entries to the route table:
 
 Routing through an Elastic Load Balancer (ELB) allows the VMs on a private
 subnet to receive inbound traffic from the Internet.
-All traffic from the Internet for the private subnet routes through the ELB, 
+All traffic from the Internet for the private subnet routes through the ELB,
 allowing you to handle access control and SSL decryption at the ELB level.
 
 <p class="note"><strong>Note</strong>: Only traffic inbound from the Internet routes through an ELB. To allow the VMs on a private subnet to initiate outbound traffic to the Internet, you must <a href="#nat">route the outbound traffic through a NAT VM</a>.</p>
