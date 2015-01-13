@@ -93,6 +93,11 @@ Displays a table that provides an overview of the VMs in `DEPLOYMENT_NAME`. You 
 `recreate JOB [INDEX] [--force]`<br/>
 Stops the job process, power cycles the VM, recreates the job instance, then restarts the job process.
 
+<a id="vm-resurrection"></a>
+`vm resurrection [STATE]`<br/>
+`vm resurrection JOB INDEX [STATE]`<br/>
+Sets resurrection state (`on` or `off`) for all VMs managed by the Director or for a single deployment job instance.
+
 `cck [DEPLOYMENT_NAME] [--auto] [--report]`<br/>
 Scans for differences between the VM state database that the Director maintains and the actual state of the VMs. For each difference the scan detects, `bosh cck` offers possible repair options.
 

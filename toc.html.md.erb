@@ -10,9 +10,6 @@ title: Index
        * [Release](release.html)
        * [Deployment](deployment.html)
     * Comparison to other tools
-       * Chef/Puppet
-       * Terraform
-       * Juju
  * [Terminology](terminology.html)
 
 ---
@@ -54,18 +51,20 @@ title: Index
 
  * Resource Pools
     * [VM anti-affinity](vm-anti-affinity.html)
- * [Persistent disks](persistent-disks.html)
  * [Networks](networks.html)
+ * [Persistent disks](persistent-disks.html)
  * IaaS specifics
     * [AWS](aws-cpi.html)
     * [OpenStack](openstack-cpi.html)
     * [vSphere](vsphere-cpi.html)
     * vCloud
 
-### Health Management
+### Health Management of VMs and Processes
 
- * Monitoring
- * Cloud check
+ * [Monitoring](monitoring.html)
+    * [Configuring Health Monitor](hm-config.html)
+ * [Process monitoring with Monit](vm-monit.html)
+ * [Using Cloud Check to repair deployments](cck.html)
  * Resurrector
  * (WIP) Snapshotting
 
@@ -73,7 +72,6 @@ title: Index
 
  * [Structure of a BOSH VM](vm-struct.html)
     * [VM Configuration Locations](vm-config.html)
- * [Process monitoring with Monit](vm-monit.html)
  * Location and use of logs
  * Debugging issues with jobs
 

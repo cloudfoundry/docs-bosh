@@ -2,7 +2,7 @@
 title: Process monitoring with Monit
 ---
 
-The Agent on each deployment job VM is responsible for managing lifecycle of each enabled release job. It  starts, monitors, restarts and stops release jobs' processes. These tasks are done with the help of [Monit](http://mmonit.com/monit/). The Agent communicates with the Monit daemon through Monit HTTP APIs to add, remove, start, stop, monitor and unmonitor release jobs' processes.
+The Agent on each deployment job VM is responsible for managing lifecycle of each enabled release job. It starts, monitors, restarts and stops release jobs' processes. These tasks are done with the help of the  [Monit](http://mmonit.com/monit/). The Agent communicates with the Monit daemon through Monit HTTP APIs to add, remove, start, stop, monitor and unmonitor release jobs' processes.
 
 ---
 ## <a id="check-status"></a> Check Status
@@ -97,4 +97,6 @@ While debugging why certain process is failing it is usually useful to tell Moni
 
 See [Monit manual](http://mmonit.com/monit/documentation/monit.html) to learn more about Monit.
 
-Previous: [VM Configuration Locations](vm-config.html)
+Previous: [Monitoring](monitoring.html)
+
+Next: [Using Cloud Check to repair deployments](cck.html)
