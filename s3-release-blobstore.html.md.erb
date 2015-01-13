@@ -14,9 +14,7 @@ S3 bucket is used for storing release blobs and generated final release blobs.
 
 ```json
 {
-  "Id": "Policy1111111400999",
   "Statement": [{
-    "Sid": "Stmt1111111397542",
     "Action": [ "s3:GetObject" ],
     "Effect": "Allow",
     "Resource": "arn:aws:s3:::<blobs_bucket_name>/*",
@@ -60,8 +58,7 @@ blobstore:
 ```json
 {
   "Version": "2012-10-17",
-	"Statement": [{
-    "Sid": "Stmt1111111473000",
+  "Statement": [{
     "Effect": "Allow",
     "Action": [ "s3:*" ],
     "Resource": [
