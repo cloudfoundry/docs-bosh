@@ -141,13 +141,17 @@ resource_pools:
   network: default
   stemcell:
     name: bosh-aws-xen-ubuntu-trusty-go_agent
-    version: 2765
-  cloud_properties: {instance_type: m1.medium}
+    version: 2708
+  cloud_properties:
+    instance_type: m1.small
+    availability_zone: us-east-1c
 
 compilation:
   workers: 2
   network: default
-  cloud_properties: {instance_type: m1.medium}
+  cloud_properties:
+    instance_type: m1.small
+    availability_zone: us-east-1c
 
 update:
   canaries: 1
