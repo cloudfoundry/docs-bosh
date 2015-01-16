@@ -20,7 +20,7 @@ The MicroBOSH deployment manifest is a YAML file that defines the components and
 
     <p class="note"><strong>Note</strong>: The example below has the file name <code>manifest.yml</code>, which we reference in other examples in this topic.</p>
 
-<pre class='code'>
+```yaml
 ---
 name: microbosh
 
@@ -64,7 +64,7 @@ cloud:
 
     agent:
       ntp: ["us.pool.ntp.org"]
-</pre>
+```
 
 ---
 ##<a id="prepare"></a>Step 2: Prepare a vSphere Environment ##
@@ -88,7 +88,7 @@ To prepare your vSphere environment for deploying MicroBOSH, use the vSphere Web
 - Replace `VSPHERE-NETWORK-NAME` (e.g. 'VM Network') with the name of the vSphere network. Create network under the chosen datacenter in the Networks tab.
 
 ---
-## <a id="download-stemcell"></a>Step 3: Download a BOSH Stemcell ##
+## <a id="download-stemcell"></a>Step 3: Download a Stemcell ##
 
 1. Install the [BOSH Command Line Interface (CLI)](./bosh-cli.html).
 

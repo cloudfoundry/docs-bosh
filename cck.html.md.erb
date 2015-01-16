@@ -1,5 +1,5 @@
 ---
-title: Using Cloud Check to repair deployments
+title: Manual repair with Cloud Check
 ---
 
 BOSH provides the Cloud Check CLI command (a.k.a cck) to repair IaaS resources used by a specific deployment. It is not commonly used while normal operations; however, it becomes essential when some IaaS operations failed and the Director cannot resolve problems without a human decision or when the Resurrector is not enabled.
@@ -247,6 +247,7 @@ Assuming there was a deployment with a VM, somehow persistent disk got deleted.
 
 Note: Not all CPIs implement needed functionality to determine if disk is missing. Those CPIs will report missing disk as [Persistent Disk is not attached](#unattached-persistent-disk) problem; however, both reattaching resolutions will fail since persistent disk would not be found.
 
-Previous: [Process monitoring with Monit](vm-monit.html)
+---
+Next: [Automatic repair with Resurrector](resurrector.html)
 
-[Back to Table of Contents](toc.html)
+Previous: [Process monitoring with Monit](vm-monit.html)
