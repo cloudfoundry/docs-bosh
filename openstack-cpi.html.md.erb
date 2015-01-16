@@ -53,6 +53,7 @@ Schema for `cloud_properties` section:
 * **instance_type** [String, required]: Type of the instance. Example: `m1.small`.
 * **availability_zone** [String, required]: Availability zone to use for creating instances. Example: `us-east-1a`.
 * **key_name** [String, optional]: Key pair name. Defaults to key pair name specified by `default_key_name` in the global CPI settings. Example: `bosh`.
+* **scheduler_hints** [Hash, optional]: Data passed to the OpenStack Filter scheduler to influence its decision where new VMs can be placed. See [VM Anti-Affinity](vm-anti-affinity.html#openstack) for a detailed example. Example: `{ group: af09abf2-2283... }`
 
 Example of a `m1.small` instance:
 
@@ -71,13 +72,18 @@ resource_pools:
 ---
 ## <a id='disk-pools'></a> Disk Pools
 
-Currently the CPI does not support any cloud properties for disks.
+Schema for `cloud_properties` section:
 
-Example of 10GB disk:
+* **type** [String, optional]: Volume type as configured in your OpenStack installation. Example: `SSD`
+
+Cinder volumes are created in the availability zone of an instance that volume will be attached.
+
+Example of 10GB SSD disk:
 
 ```yaml
 disk_pools:
 - name: default
   disk_size: 10_240
-  cloud_properties: {}
+  cloud_properties:
+    type: SSD
 ```

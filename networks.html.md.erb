@@ -80,7 +80,7 @@ Schema for manual network definition:
   * **gateway** [String, optional]: Subnet gateway IP
   * **dns** [Array, optional]: DNS IP addresses for this subnet
   * **reserved** [Array, optional]: Array of reserved IPs and/or IP ranges. BOSH does not assign IPs from this range to any VM
-  * **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to jobs requesting static IPs
+  * **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to jobs requesting static IPs. Only IPs specified here can be used for static IP reservations.
   * **cloud_properties** [Hash, required]: Describes any IaaS-specific properties for the subnet. May be empty.
 
 Example:
