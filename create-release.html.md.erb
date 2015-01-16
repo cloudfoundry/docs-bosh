@@ -1,12 +1,12 @@
 ---
-title: Creating a BOSH Release
+title: Creating a Release
 ---
 
-A BOSH release contains one or more pieces of software that work together.
-For example, you could create a BOSH release of a service with three pieces:
+A release contains one or more pieces of software that work together.
+For example, you could create a release of a service with three pieces:
 two MySQL nodes and a dashboard app.
 
-There are four fundamental elements in a BOSH release:
+There are four fundamental elements in a release:
 
 * **Jobs** describe pieces of the service or application you are releasing
 * **Packages** provide source code and dependencies to jobs
@@ -19,7 +19,7 @@ a web UI and a background worker.
 The two jobs split up the functionality provided by single Ruby app,
 `ardo_app`.
 
-
+---
 ## <a id="prep"></a>Preparation ##
 
 This section needs to be completed once.
@@ -70,6 +70,7 @@ Choose whether you want to work one Step at a time or one job at a time.
 For releases with just a few jobs, going one Step at a time is probably easiest.
 If you have a larger number of jobs, going one job at a time may be more efficient.
 
+---
 ## <a id="job-skel"></a> Step 1: Create Job Skeletons ##
 
 Navigate into the release directory.
@@ -211,10 +212,8 @@ The `templates` block of the updated `spec` files for the example jobs look
 like this:
 
 ~~~yaml
-
 templates:
   ctl.erb: bin/ctl
-
 ~~~
 
 For each job, update the `spec` file with template names.
@@ -226,6 +225,7 @@ You have now created one or more job skeletons; this is a good time to commit.
 If you used the `--git` option with `bosh init release` (as recommended), the
 correct `.gitignore` file has been automatically created for you.
 
+---
 ## <a id="graph"></a> Step 2: Make Dependency Graphs ##
 
 There are two kinds of dependencies in a BOSH release:
@@ -393,7 +393,6 @@ files:
 - libyaml_0.1.4/yaml-0.1.4.tar.gz # From http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz
 ~~~
 
-
 #### <a id="pkg-spec-ruby"></a> Example Ruby package spec ####
 
 ~~~yaml
@@ -547,6 +546,7 @@ packages:
 - ruby_1.9.3
 ~~~
 
+---
 ## <a id="blobs"></a> Step 4: Add Blobs ##
 
 When creating a release, you likely use a source code repository.
@@ -680,6 +680,7 @@ For this reason, uploading a blob and then removing it is considered poor practi
 When creating dev releases, do not run `bosh upload blobs`.
 (You only run it when you do a final release.)
 
+---
 ## <a id="create-props"></a> Step 5: Create Job Properties  ##
 
 If your service needs to be configurable at deployment time,
@@ -715,7 +716,8 @@ properties:
      default: 80
 ~~~
 
-## <a id="dev-release"></a> Step 6: Do a Dev Release  ##
+---
+## <a id="dev-release"></a> Step 6: Create a Dev Release  ##
 
 All the elements needed to create a dev release should now be in place.
 
@@ -785,7 +787,8 @@ If your release fails tests, follow this pattern.
 Using `bosh deploy --recreate` can provide a clearer picture because with that option,
 BOSH deploys all the VMs from scratch.
 
-## <a id="final-release"></a> Do a Final Release  ##
+---
+## <a id="final-release"></a> Create a Final Release  ##
 
 Only proceed to this step if your latest dev release passes all tests.
 
@@ -840,5 +843,3 @@ Do one more commit before you deploy!
 Run:
 
 `bosh deploy`
-
-See [Deploying Distributed Software with BOSH](./deploy-with-bosh.html) for more about deployment.

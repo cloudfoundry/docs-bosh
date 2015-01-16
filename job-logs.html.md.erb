@@ -1,154 +1,87 @@
 ---
-title: Using BOSH Job and Errand Logs
+title: Location and use of logs
 ---
 
-This topic describes different types of logs for BOSH jobs and errands and how
-you access and view them.
-For general information on logging, refer to the [Cloud Foundry Logging](../running/managing-cf/logging.html) topic.
+This topic describes different types of logs for BOSH jobs and errands and how you access and view them.
 
-##<a id="jobs-logging"></a>Job Logging ##
+## <a id="jobs-logging"></a> Job Logging
 
 You can access logs by two methods:
 
- * Using the `bosh ssh` command to access the log location.
- * Using the log-specific BOSH command to generate a config file to standard
-output.
+ * Using the `bosh ssh` command to SSH into a VM and look at the log files.
+ * Using the `bosh logs` command to download logs from the VM.
 
-The following sections describe the logs that contain job information.
+The following sections describe different types of logs.
 
-###<a id="agent-logs"></a>BOSH Agent Logs ###
+### <a id="jobs-logs"></a> Job Logs
 
-Agent logs contain configuration and runtime information from an Agent running
-on a specific VM. Review these logs if a VM fails.
-The Agent stores logs in `/var/vcap/bosh/log`.
+Release jobs on VMs produce logs throughtout different lifecycle events. Release authors are strongly encouraged to place release job logs into `/var/vcap/sys/log/<release_job_name>/*.log`, providing a consistent place for the operator to find them.
 
-To review an Agent log:
+For example `redis-server` release job will create two log files:
 
-1. Run `bosh vms` to display a table that provides an overview of VMs in the deployment.
+- `/var/vcap/sys/log/redis-server/redis-server.stdout.log`
+- `/var/vcap/sys/log/redis-server/redis-server.stderr.log`
 
-	Use this table to identify the job and index associated with a specific VM.
+To download logs from all release jobs from a specific instance, run `bosh logs <job_name> <index>`.
 
-    For example:
+#### <a id="log-rotation"></a> Log Rotation
 
-    <pre class="terminal">
-    $ bosh vms
-    Deployment 'wordpress'
-    +-------------+---------+---------------+-------------------------------+
-    | Job/index   | State   | Resource Pool | IPs                           |
-    +-------------+---------+---------------+-------------------------------+
-    | mysql/0     | running | common        | 10.190.215.248, 23.23.249.123 |
-    | nginx/0     | running | common        | 10.190.47.40, 23.23.247.237   |
-    | wordpress/0 | running | common        | 10.111.27.137, 23.23.249.121  |
-    +-------------+---------+---------------+-------------------------------+
-    </pre>
+BOSH log rotates release job logs with the [Logrotate](http://linuxconfig.org/logrotate) log file management utility. BOSH instructs Logrotate to act on all `.log` files in the `/var/vcap/sys/log/`, `/var/vcap/sys/log/*/`, and `/var/vcap/sys/log/*/*/` directories.
 
-1. Run `bosh logs <job_name> <index> --agent`.
+Logrotate is configured by the Agent and runs automatically with the following non-configurable settings:
 
-    If you receive notification that a job will not start, use `tail` to review
-	the log for that Agent for possible causes:
+* `missingok`: Skip missing log files and do not generate an error message
+* `rotate 7`: Keep seven log files at a time
+* `compress`: Compress old log files with gzip
+* `delaycompress`: Postpone compression of log files until the next rotation cycle
+* `copytruncate`: Copy log files, then truncate in place instead of creating new files
+* `size 50M`: Rotate log files when they exceed 50 MB in size
 
-    <pre class="terminal">
-    $ sudo tail -f -n 200 /var/vcap/bosh/log/current
-    </pre>
+### <a id="monit-logs"></a> Monit Logs
 
-###<a id="director-logs"></a>BOSH Director Logs ###
-
-When you run a BOSH command using the [BOSH Command Line Interface (CLI)](./bosh-cli.html), the Director stores all activities for the specific
-command in a task log.
-Review these logs when you experience an issue with a BOSH command. The Director
-stores logs in `/var/vcap/sys/log/director`.
-
-To access the Director logs:
-
-1. Run `bosh tasks` recent to find the task number of the failed command.
-1. Run `bosh task <task_number>`.
-
-    Example:
-
-    <pre class="terminal">
-    $ bosh tasks recent 5
-+----+-------+-------------------------+-----------------------------------------------+--------------------------------------+
-| #  | State | Timestamp               | Description                                   | Result                               |
-+----+-------+-------------------------+-----------------------------------------------+--------------------------------------+
-| 47 | done  | 2012-04-20 19:23:59 UTC | ssh: cleanup:{"job"=>"mysql", "indexes"=>[0]} | #File:0x00000002eb1cc8               |
-| 46 | done  | 2012-04-20 19:23:09 UTC | ssh: setup:{"job"=>"mysql", "indexes"=>[0]}   | #File:0x00000004326618               |
-| 45 | done  | 2012-04-20 19:15:34 UTC | fetch logs                                    | 22cb3f46-b818-4c44-8f71-c1afdxxxxxxx |
-| 44 | done  | 2012-04-20 19:12:57 UTC | retrieve vm-stats                             |                                      |
-| 43 | done  | 2012-04-20 19:09:37 UTC | fetch logs                                    | fc339e17-544a-419f-9b69-927479xxxxxx |
-+----+-------+-------------------------+-----------------------------------------------+--------------------------------------+
-</pre>
-
-###<a id="monit-logs"></a>BOSH Monit Logs ###
-
-The BOSH agent uses monit to start, restart, and stop services included in each
-[job template](./terminology.html).
-
-Monit detects errors and outputs useful information to its log. Use `tail` to
-examine the monit.log:
+The Agent uses Monit to start, restart, and stop release job processes as specified by the release jobs. Monit detects errors and outputs often useful information to its log. Use `tail` to examine the `monit.log` on a VM:
 
 <pre class="terminal">
 $ sudo tail -f -n 200 /var/vcap/monit/monit.log
 </pre>
 
-<p class="note"><strong>Note</strong>: When creating a BOSH release, include a monit wrapper around the start and stop scripts of a job to aid future debugging.</p>
+### <a id="agent-logs"></a> Agent Logs
 
-###<a id="jobs-logs"></a>Job Logs ###
+Agent logs contain configuration and runtime information from the Agent running on a VM. Review these logs if the Director sees VM as unresponsive or the Director fails to contact it during its creation.
 
-Active jobs on running VMs produce logs.
-The BOSH deployment configuration determines the output location of a specific
-log.
-The creator of a release defines this location  in a config file stored in
-`release/jobs/<job_name>/templates/<config_file>`.
+The Agent stores logs in `/var/vcap/bosh/log/` and outputs most recent content to `/var/vcap/bosh/log/current`.
 
-If you use Cloud Foundry for deployment, it configures jobs to log to
-`/var/vcap/sys/log/<job_name>/<job_name>.log`.
+<pre class="terminal">
+$ sudo tail -f -n 200 /var/vcap/bosh/log/current
+</pre>
 
-To review a job log, run `bosh logs <job_name> <index>`.
+---
+## <a id="errand-logs"></a>Errand Logging ##
 
-###<a id="services-logs"></a>Services Logs ###
+BOSH names logs using the errand name and log type, and writes the logs to the `/var/vcap/sys/log/<errand-name>` directory.
+For example, BOSH writes the stdout log for an errand named "smoke-test" to `/var/vcap/sys/log/smoke-test/smoke-test.stdout.log`.
 
-Services that run within a job, such as PostgreSQL, can output logs into their
-own default locations.
-These default logging locations depend on the specific database services.
+<p class="note"><strong>Note</strong>: Since BOSH deletes the VM when an errand completes, you cannot access full logs after errand completes.</p>
 
-##<a id="errand-logs"></a>Errand Logging ##
-
-BOSH names logs using the errand name and log type, and writes the logs to the
-`/var/vcap/sys/log/<errand-name>` directory.
-For example, BOSH writes the stdout log for an errand named "smoke-test" to
-`/var/vcap/sys/log/smoke-test/smoke-test.stdout.log`.
-
-<p class="note"><strong>Note</strong>: Since BOSH releases the VM back into the resource pool when an errand completes, you cannot access any logs or screen output after this process finishes.</p>
-
-By default, BOSH streams errand output smaller than 1MB, stdout, and stderr to
-the screen.
-You must redirect errand output greater than 1MB to a file.
+By default, the CLI outputs errand's output to the screen when it's smaller than 1MB. If you expect errand to generate output larger than 1MB, currently it needs to be redirected to a file and then downloaded.
 
 To save output from a BOSH errand VM:
 
-1. In the BOSH errand script, redirect the output to a log.
-1. Using the BOSH CLI, run `bosh errand` with the `--download-logs` option to
-download the logs.
+1. In the errand run script, redirect the output to a log.
+1. Using the CLI, run `bosh run errand X` with the `--download-logs` option to download the logs.
 
-By default, BOSH downloads the logs to your present working directory. Use the
-`--logs-dir destination_directory` option to change this directory.
+    By default, BOSH downloads the logs to your present working directory. Use the `--logs-dir destination_directory` option to change this directory.
 
 <pre class="terminal">
-$ run errand SampleErrand --download-logs --logs-dir ~/workspace/SampleLogDirectory
+$ run errand smoke-tests --download-logs --logs-dir ~/workspace/smoke-tests-logs
 </pre>
 
-##<a id="log-rotation"></a>Log Rotation ##
+---
+## <a id="director-logs"></a> Director Task Logs
 
-BOSH manages log rotation with the [Logrotate](http://linuxconfig.org/logrotate)
-log file management utility. BOSH instructs Logrotate to act on all `.log` files in the `/var/vcap/sys/log/`, `/var/vcap/sys/log/*/`, and `/var/vcap/sys/log/*/*/` directories.
+When you run a BOSH command using the [CLI](./bosh-cli.html), the Director stores all activities for the specific command in a task log. Review these logs when you experience an issue with a BOSH command.
 
-Logrotate runs automatically with the following non-configurable settings:
+To access Director task logs:
 
-* `missingok`: Skip missing log files and do not generate an error message
-* `rotate 7`: Keep seven log files at a time
-* `compress`: Compress old log files with gzip
-* `delaycompress`: Postpone compression of log files until the next rotation
-	cycle
-* `copytruncate`: Copy log files, then truncate in place instead of creating new
-	files
-* `size 50M`: Rotate log files when they exceed 50 MB in size
+1. Run `bosh tasks recent` to find the task number of the failed command.
+1. Run `bosh task <task_number>`.
