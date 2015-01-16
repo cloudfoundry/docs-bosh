@@ -24,9 +24,9 @@ See [Configuring Health Monitor](hm-config.html) for detailed plugins' configura
 
 ### <a id="resurrector"></a> Resurrector Plugin
 
-Resurrector plugin continiously cross-references VMs expected to be running against the VMs that are sending heartbeats. When resurrector does not receive heartbeats for a VM for a certain period of time, it will kick off a task on the Director to try to "resurrect" that VM. The Director will only create a new VM if the old VM is missing from the IaaS. The Director will also re-create the VM if the Agent on the VM is not responding to commands.
+Resurrector plugin continiously cross-references VMs expected to be running against the VMs that are sending heartbeats. When resurrector does not receive heartbeats for a VM for a certain period of time, it will kick off a task on the Director to try to "resurrect" that VM.
 
-Resurrection can be turned off per specific deployment job instance or for all VMs managed by the Director via [`bosh vm resurrection` CLI command](sysadmin-commands.html#vm-resurrection).
+See [Automatic repair with Resurrector](ressurrector.html) for details.
 
 ---
 ## <a id="process"></a> Processes on VMs

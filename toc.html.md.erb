@@ -64,9 +64,9 @@ title: Index
  * [Monitoring](monitoring.html)
     * [Configuring Health Monitor](hm-config.html)
  * [Process monitoring with Monit](vm-monit.html)
- * [Using Cloud Check to repair deployments](cck.html)
- * Resurrector
- * (WIP) Snapshotting
+ * [Manual repair with Cloud Check](cck.html)
+ * [Automatic repair with Resurrector](resurrector.html)
+ * Snapshotting
 
 ### <a id="vm-config"></a> VM Configuration (Looking inside a BOSH Deployment)
 
@@ -86,8 +86,6 @@ title: Index
  * Checking that it worked
 
 ---
-For BOSH release producers:
-
 ## Using BOSH to package software (i.e. Creating a BOSH release)
 
  * What is a release?
@@ -108,11 +106,9 @@ For BOSH release producers:
        * [Configuring S3 release blobstore](s3-release-blobstore.html)
 
 ---
-## Deep-dive into stemcell building
+## Extending BOSH to support other IaaSs
 
----
-## Extending BOSH to support other IaaS-
-
- * What is a CPI
+ * What is a CPI?
  * Interactions between CPIs and BOSH Agent
+ * Stemcell building
  * CPI API v1
