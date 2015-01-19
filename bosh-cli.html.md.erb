@@ -2,27 +2,34 @@
 title: BOSH Command Line Interface
 ---
 
+BOSH Command Line Interface (CLI) is used to interact with the Director. 
+
+To install BOSH CLI with the MicroBOSH plugin:
+
+<pre class="terminal">
+gem install bosh_cli bosh_cli_plugin_micro
+</pre>
+
 <p class='note'><strong>Note</strong>: Installing the BOSH CLI requires Ruby 1.9.3, 2.0.x, or 2.1.x.</p>
 
-BOSH Command Line Interface (CLI) is used to interact with MicroBOSH and BOSH. To install BOSH CLI with the MicroBOSH plugin:
+Use the following command to consult the BOSH CLI help and to verify that CLI can run:
 
-```
-gem install bosh_cli bosh_cli_plugin_micro
-```
+<pre class="terminal">
+bosh help
+</pre>
 
-Use the following command to consult the BOSH CLI help:
+---
+## <a id="troubleshooting"></a> Installation Troubleshooting
 
-```
-bosh help --all
-```
+If `bosh_cli` gem installation does not succeed, make sure pre-requisites for your OS are met.
 
-## Pre-requisites on Ubuntu Trusty
+### Prerequisites on Ubuntu Trusty
 
-Install pre-requisites on Ubuntu Trusty before running `gem install` commands:
+Make sure following packages are installed:
 
-```
+<pre class="terminal">
 sudo apt-get install build-essential ruby ruby-dev libxml2-dev libsqlite3-dev libxslt1-dev libpq-dev libmysqlclient-dev
-```
+</pre>
 
 Use this table to resolve the errors listed on the left with the corresponding command on the right.
 
@@ -65,18 +72,19 @@ Use this table to resolve the errors listed on the left with the corresponding c
   </tr>
 </table>
 
-## Pre-requisites on CentOS
+### Prerequisites on CentOS
 
-Install pre-requisites on CentOS before running `gem install` commands:
+Make sure following packages are installed:
 
-```
+<pre class="terminal">
 sudo yum install gcc ruby ruby-devel mysql-devel postgresql-devel postgresql-libs sqlite-devel libxslt-devel libxml2-devel yajl-ruby
-```
+</pre>
 
+---
 ## Installing AWS Boostrap CLI (optional)
 
-Run this command to install additional AWS bootstrap commands:
+Run this command to install AWS bootstrap plugin:
 
-```
+<pre class="terminal">
 gem install bosh_cli_plugin_aws
-```
+</pre>

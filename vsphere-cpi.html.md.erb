@@ -6,7 +6,7 @@ This topic describes cloud properties for different resources created by the vSp
 
 ## <a id='networks'></a> Networks
 
-Schema for `cloud_properties` section used by dynamic network or manual network subnet:
+Schema for `cloud_properties` section used by manual network subnet:
 
 * **name** [String, required]: Name of the vSphere network. Example: `VM Network`.
 
@@ -23,6 +23,8 @@ networks:
     cloud_properties:
       name: VM Network
 ```
+
+vSphere CPI does not support dynamic or vip networks.
 
 ---
 ## <a id='resource-pools'></a> Resource Pools

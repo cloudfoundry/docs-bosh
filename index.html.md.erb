@@ -1,63 +1,104 @@
 ---
-title: BOSH Documentation
+title: Index
 ---
 
-BOSH installs and updates software packages on large numbers of VMs over many IaaS providers with the absolute minimum of configuration changes.
+## <a id="intro"></a> Introduction
 
-BOSH orchestrates initial deployments and ongoing updates that are:
+ * [What is BOSH?](about.html)
+    * [What problems does BOSH solve?](problems.html)
+       * [Stemcell](stemcell.html)
+       * [Release](release.html)
+       * [Deployment](deployment.html)
+    * Comparison to other tools
+ * [Terminology](terminology.html)
 
-* Predictable, repeatable, and reliable
-* Self-healing
-* Infrastructure-agnostic
+---
+## <a id="install"></a> Installing MicroBOSH
 
-BOSH works on multiple IaaS offerings including AWS, Open Stack, and vSphere,
-freeing operators from concerns about differences between environments.
+ * [BOSH components](bosh-components.html)
+ * [Bootstrapping an environment / What is MicroBOSH?](bootstrap.html)
+    * [On AWS](deploy-microbosh-to-aws.html)
+       * CloudFormation template
+    * [On OpenStack](deploy-microbosh-to-openstack.html)
+       * Heat template
+    * [On vSphere](deploy-microbosh-to-vsphere.html)
+       * Compatibility
+    * On vCloud
+    * [On Local machine using BOSH Lite](bosh-lite.html)
+ * BOSH micro deploy step-by-step
 
-## <a id="foundations"></a> BOSH Foundations ##
+### Advanced BOSH configuration
 
-* [Understanding BOSH](./understanding-bosh.html)
-  * [BOSH Terminology](./terminology.html)
-  * [BOSH Components](./bosh-components.html)
-  * [BOSH Jobs and Errands](./jobs.html)
-  * [Basic BOSH Workflow](./workflow.html)
-  * [BOSH Design Principles](./design.html)
+ * [Connecting BOSH or MicroBOSH to an External Postgres Database](connect-postgres-hadb.html)
+ * Deploying multi-VM BOSH
+    * Difference between Microbosh, BOSH, and multi-VM BOSH
 
-## <a id="installing"></a> Installing and Configuring MicroBOSH ##
+---
+## <a id="basic-deploy"></a> Using BOSH to deploy software
 
-The [BOSH Command Line Interface (CLI)](bosh-cli.html) is the primary operator
-interface to BOSH.
+ * [Basic workflow](basic-workflow.html)
+    * [Deployment basics](deployment-basics.html)
+       * [Deployment manifest schema](deployment-manifest.html)
+    * [Uploading stemcells](uploading-stemcells.html)
+    * [Uploading releases](uploading-releases.html)
+    * [Deploying](deploying.html)
+    * Running one off tasks
+    * Updating deployment to deal with security vulnerabilities
+ * [Deploying step-by-step](deploying-step-by-step.html)
+ * [CLI Commands](sysadmin-commands.html)
 
-* [Deploying MicroBOSH](./deploy-microbosh.html)
-  * [Deploying MicroBOSH to AWS](./deploy-microbosh-to-aws.html)
-  * [Deploying MicroBOSH to OpenStack](./deploy-microbosh-to-openstack.html)
+### Detailed Deployment Configuration
 
-### <a id="advanced-configuration"></a> Advanced Configuration ###
+ * Resource Pools
+    * [VM anti-affinity](vm-anti-affinity.html)
+ * [Networks](networks.html)
+ * [Persistent disks](persistent-disks.html)
+ * IaaS specifics
+    * [AWS](aws-cpi.html)
+    * [OpenStack](openstack-cpi.html)
+    * [vSphere](vsphere-cpi.html)
+    * vCloud
 
-* [Creating a MicroBOSH Deployment Manifest](./create-micro-manifest.html)
-* [Connecting BOSH or MicroBOSH to an External Postgres Database](./connect-postgres-hadb.html)
-<hr />
-* [Setting Up vSphere for BOSH](./setup-vsphere.html)
-* [Setting Up AWS for BOSH](./setup-aws.html)
-* [Setting Up OpenStack for BOSH](./setup-openstack.html)
+### <a id="hm"></a> Health Management of VMs and Processes
 
-## <a id="deep"></a> Deploying Software with BOSH ##
+ * [Monitoring](monitoring.html)
+    * [Configuring Health Monitor](hm-config.html)
+ * [Process monitoring with Monit](vm-monit.html)
+ * [Manual repair with Cloud Check](cck.html)
+ * [Automatic repair with Resurrector](resurrector.html)
+ * [Persistent disk snapshotting](snapshots.html)
 
-* [BOSH Commands for System Administration](./sysadmin-commands.html)
-* [Understanding the BOSH Deployment Manifest](./deployment-manifest.html)
-  * [Sample BOSH Deployment Manifest](./sample-manifest.html)
-* [Using BOSH Job and Errand Logs](./job-logs.html)
-* [Persistent Disks](./persistent-disks.html)
-* [VM Anti-affinity](./vm-anti-affinity.html)
-* [Deploying Distributed Software with BOSH](./deploy-with-bosh.html)
+### <a id="vm-config"></a> VM Configuration (Looking inside a Deployment)
 
-## <a id="health-management"></a> Health Management with BOSH ##
+ * [Structure of a BOSH VM](vm-struct.html)
+    * [VM Configuration Locations](vm-config.html)
+ * [Location and use of logs](job-logs.html)
+ * Debugging issues with jobs
 
-* [Disaster Recovery with BOSH](./disaster-recovery.html)
-  * [Using the BOSH Resurrector](./bosh-resurrector.html)
-* [Using BOSH Snapshots](./snapshots.html)
+---
+## Using BOSH to package and distribute software
 
-## <a id="creating-releases"></a> Creating BOSH Releases ##
+ * What is a release?
+    * [Creating a release](create-release.html)
+    * Testing with dev releases
+    * Cutting final releases
+       * Versioning of releases
+ * What is a job?
+    * Creating a job
+    * Job properties
+    * [Drain scripts](drain-scripts.html)
+ * What is a package?
+    * [Creating a package](packages.html)
+    * Relationship to release blobs
+ * How do releases, jobs, and packages interact?
+ * Managing release repository
+    * Release blobstore
+       * [Configuring S3 release blobstore](s3-release-blobstore.html)
 
-* [Creating a BOSH Release](./create-release.html)
-  * [Drain Scripts](./drain-scripts.html)
-  * [Creating BOSH Packages](./packages.html)
+---
+## Extending BOSH to support other IaaSs
+
+ * What is a CPI?
+ * Interactions between CPIs and BOSH Agent
+ * Stemcell building
+ * CPI API v1

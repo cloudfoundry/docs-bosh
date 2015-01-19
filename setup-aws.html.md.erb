@@ -125,6 +125,8 @@ environment variables for the current shell.
 
 ##<a id="infrastructure"></a>Step 6: (Optional) Create AWS Infrastructure ##
 
+<p class="note"><strong>Note</strong>: `bosh aws create` command was originally created to quikly set up development accounts. We do not recommend using for any long-lived environments.</p>
+
 <p class="note"><strong>Note</strong>: Skip this step if you are only deploying MicroBOSH, not BOSH.</p>
 
 1. In a terminal window, run `bosh aws create` to create your AWS infrastructure.
@@ -151,8 +153,7 @@ environment variables for the current shell.
 
 ##<a id="private-subnet"></a>Step 7: (Optional) Restrict Public Access with a Private Subnet ##
 
-By default, you deploy the VMs in a BOSH deployment on AWS to a single public
-subnet.
+By default, you deploy the VMs in a BOSH deployment on AWS to a single public subnet.
 Public subnet traffic on AWS routes through an Internet gateway.
 Private subnet traffic on AWS does not, and any VMs that you deploy to a private
 subnet cannot communicate directly with the Internet.
