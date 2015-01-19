@@ -50,8 +50,6 @@ resource_pools:
     instance_type: m1.medium
 ```
 
-[Learn more about resource pools](resource-pools.html).
-
 ### Compilation
 
 Most VMs in the deployment belong to a specific resource pool; however, the Director also creates compilation worker VMs for release compilation. The Director will compile each release on every necessary stemcell defined in the resource pools section. A compilation definition allows an operator to specify VM size, instance type, and other IaaS-specific characteristics that are used when creating VMs.
