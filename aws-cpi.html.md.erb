@@ -80,6 +80,7 @@ Schema for `cloud_properties` section:
 * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `standard`.
   * `standard` stands for EBS magnetic drives
   * `gp2` stands for EBS general purpose drives (SSD)
+* **encrypted** [Boolean, optional]: Turns on [EBS volume encryption](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html) for this persistent disk. (VM root and ephemeral disk are not encrypted.) Defaults to `false`.
 
 EBS volumes are created in the availability zone of an instance that volume will be attached.
 
