@@ -18,7 +18,7 @@ The MicroBOSH deployment manifest is a YAML file that defines the components and
 
     The example below is a MicroBOSH deployment manifest template. Copy and paste the template into a text editor and save the manifest to your deployment directory.
 
-    In the template, you must replace the NETWORK-UUID, SUBNET-POOL-IP-ADDRESS, FLOATING-IP, OPENSTACK-PASSWORD, IDENTITY-API-ENDPOINT, OPENSTACK-TENANT, and OPENSTACK-USERNAME properties. We describe replacing these properties in [Step 2: Prepare an OpenStack environment](#prepare-openstack).
+    In the template, you must replace the `NETWORK-UUID`, `SUBNET-POOL-IP-ADDRESS`, `FLOATING-IP`, `OPENSTACK-PASSWORD`, `IDENTITY-API-ENDPOINT`, `OPENSTACK-TENANT`, and `OPENSTACK-USERNAME` properties. We describe replacing these properties in [Step 2: Prepare an OpenStack environment](#prepare-openstack).
 
   <p class="note"><strong>Note</strong>: The example below has the file name <code>manifest.yml</code>, which we reference in other examples in this topic.</p>
 
@@ -192,7 +192,7 @@ You must create and configure two Security Groups to restrict incoming network t
 
     <%= image_tag("images/micro-openstack/allocate-ip.png") %>
 
-1. Replace FLOATING-IP in your deployment manifest with the allocated
+1. Replace `FLOATING-IP` in your deployment manifest with the allocated
 Floating IP Address.
 
     <%= image_tag("images/micro-openstack/floating-ip.png") %>
@@ -281,7 +281,7 @@ deployment directory to instruct MicroBOSH to use your manifest file.
 
 If the deployment fails, run `bosh micro delete`, then deploy again.
 
-If an API Key error message appears, check the accuracy of the OPENSTACK-PASSWORD in the deployment manifest.
+If an API Key error message appears, check the accuracy of the `OPENSTACK-PASSWORD` in the deployment manifest.
 
 If other error messages appear:
 
