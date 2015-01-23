@@ -18,7 +18,7 @@ The MicroBOSH deployment manifest is a YAML file that defines the components and
 
     The example below is a MicroBOSH deployment manifest template. Copy and paste the template into a text editor and save the manifest to your deployment directory.
 
-    In the template, you must replace the ELASTIC-IP-ADDRESS, SUBNET-ID, AVAILABILITY-ZONE, ACCESS-KEY-ID, and SECRET-ACCESS-KEY properties. We describe replacing these properties in [Step 2: Prepare an AWS Account](#prepare-aws).
+    In the template, you must replace the `ELASTIC-IP-ADDRESS`, `SUBNET-ID`, `AVAILABILITY-ZONE`, `ACCESS-KEY-ID`, and `SECRET-ACCESS-KEY` properties. We describe replacing these properties in [Step 2: Prepare an AWS Account](#prepare-aws).
 
   <p class="note"><strong>Note</strong>: The example below has the file name <code>manifest.yml</code>, which we reference in other examples in this topic.</p>
 
@@ -67,14 +67,14 @@ If you do not have an AWS account, [create one](http://goo.gl/MaAybK).
 To configure your AWS account for MicroBOSH:
 
 * [Obtain AWS credentials](#credentials)
-* [Create a VPC (Virtual Private Cloud)](#create-vpc)
+* [Create a Virtual Private Cloud (VPC)](#create-vpc)
 * [Create an Elastic IP](#create-eip)
 * [Create a Key Pair](#create-key-pair)
 * [Create and Configure Security Group](#create-security)
 
 ### <a id="credentials"></a> Obtain AWS Credentials
 
-Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you already know your AWS credentials you can skip this step and replace ACCESS-KEY-ID and SECRET-ACCESS-KEY in your deployment manifest.
+Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you already know your AWS credentials you can skip this step and replace `ACCESS-KEY-ID` and `SECRET-ACCESS-KEY` in your deployment manifest.
 
 1. Log into the AWS console: [https://console.aws.amazon.com/console/home](https://console.aws.amazon.com/console/home).
 
@@ -90,20 +90,20 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 
     <%= image_tag("images/deploy-microbosh-to-aws/security-credentials-dashboard.png") %>
 
-1. Replace ACCESS-KEY-ID and SECRET-ACCESS-KEY in your deployment manifest with the **Access Key ID** and **Secret Access Key** shown.
+1. Replace `ACCESS-KEY-ID` and `SECRET-ACCESS-KEY` in your deployment manifest with the **Access Key ID** and **Secret Access Key** shown.
 
     <%= image_tag("images/deploy-microbosh-to-aws/access-keys-modal.png") %>
 
 1. Close the dialog box.
 
 ---
-### <a id="create-vpc"></a> Create a VPC (Virtual Private Cloud)
+### <a id="create-vpc"></a> Create a Virtual Private Cloud (VPC)
 
 1. In the upper-right corner of the AWS Console, select a Region.
 
     <%= image_tag("images/deploy-microbosh-to-aws/account-dashboard-region-menu.png") %>
 
-    <p class="note"><strong>Note</strong>: Currently, <strong>light</strong> stemcells are only available from the AWS Region of <strong>US East (N. Virginia)</strong>. If you want to use a light stemcell, you must select this region.</strong></p>
+    <p class="note"><strong>Note</strong>: Currently, <strong>light</strong> stemcells are only available from the AWS Region of <strong>US East (N. Virginia)</strong>. If you want to use a light stemcell, you must select this region.</p>
 
 1. On the AWS Console, select **VPC** to get to the VPC Dashboard.
 
@@ -130,7 +130,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 
 1. Click **Create VPC** and click **OK** once VPC is successfully created.
 
-1. Click **Subnets** to find "public" subnet in the VPC. Replace SUBNET-ID and AVAILABILITY-ZONE in your deployment manifest with its **Subnet ID** and **Availability Zone**.
+1. Click **Subnets** and locate the "public" subnet in the VPC. Replace `SUBNET-ID` and `AVAILABILITY-ZONE` in your deployment manifest with the "public" subnet **Subnet ID** and **Availability Zone**.
 
     <%= image_tag("images/deploy-microbosh-to-aws/list-subnets.png") %>
 
@@ -143,7 +143,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 
 1. In the Allocate Address dialog box, click **Yes, Allocate**.
 
-1. Replace ELASTIC-IP-ADDRESS in your deployment manifest with the allocated Elastic IP Address.
+1. Replace `ELASTIC-IP-ADDRESS` in your deployment manifest with the allocated Elastic IP Address.
 
     <%= image_tag("images/deploy-microbosh-to-aws/list-elastic-ips.png") %>
 
@@ -347,7 +347,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 ---
 ## <a id="troubleshooting"></a> Basic Troubleshooting
 
-If an error message displays that refers to your `access key signature`, check the accuracy of the ACCESS-KEY-ID and SECRET-ACCESS-KEY in the deployment manifest.
+If an error message displays that refers to your access key signature, check the accuracy of the `ACCESS-KEY-ID` and `SECRET-ACCESS-KEY` in the deployment manifest.
 
 If other error messages appear:
 
