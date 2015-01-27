@@ -258,9 +258,16 @@ OpenStack CPI supports:
 - Single dynamic network for each job instance
 - Single vip network which corresponds to a floating IP
 
+vCloud CPI supports:
+
+- Multiple manual networks for each job instance
+- No dynamic networks since vSphere does not manage IP assignments
+- No vip networks since vSphere does not have an elastic/floating IP concept
+
 ---
 ## <a id='cloud-properties'></a> CPI Specific `cloud_properties`
 
 - [See AWS CPI network cloud properties](aws-cpi.html#networks)
 - [See OpenStack CPI network cloud properties](openstack-cpi.html#networks)
 - [See vSphere CPI network cloud properties](vsphere-cpi.html#networks)
+- [See vCloud CPI network cloud properties](vcloud-cpi.html#networks)
