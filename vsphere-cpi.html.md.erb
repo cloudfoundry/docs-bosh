@@ -111,8 +111,8 @@ Schema:
     * **disk_path** [String, required]: Path to a *disk* folder for storing persistent disks. Folder will be automatically created in the datastore if not found.
 
     * **datastore_pattern** [String, required]: Pattern for selecting datastores for storing ephemeral disks and replicated stemcells.
-    * **persistent_datastore_pattern** [String, required]: Pattern for selecting datastores for storing persistent disks.
-    * **allow_mixed_datastores** [Boolean, optional]: Flag to indicate if `datastore_pattern` and `persistent_datastore_pattern` can reference same datastores.
+    * **persistent\_datastore\_pattern** [String, required]: Pattern for selecting datastores for storing persistent disks.
+    * **allow\_mixed\_datastores** [Boolean, optional]: Flag to indicate if `datastore_pattern` and `persistent_datastore_pattern` can reference same datastores.
 
     * **clusters** [Array, required]: Array of clusters to use for VM placement.
         * **\<cluster name\>** [String, required]: Cluster name.
@@ -123,19 +123,21 @@ Example of a CPI configuration that will place VMs into `BOSH_CL` cluster within
 ```yaml
 # ...snip...
 
-host: 172.16.68.3
-user: root
-password: vmware
+  host: 172.16.68.3
+  user: root
+  password: vmware
 
-datacenters:
-- name: BOSH_DC
-  vm_folder: prod-vms
-  template_folder: prod-templates
-  disk_path: prod-disks
-  datastore_pattern: '\Aprod-ds\z'
-  persistent_datastore_pattern: '\Aprod-ds\z'
-  allow_mixed_datastores: true
-  clusters: [BOSH_CL]
+  datacenters:
+  - name: BOSH_DC
+    vm_folder: prod-vms
+    template_folder: prod-templates
+    disk_path: prod-disks
+
+    datastore_pattern: '\Aprod-ds\z'
+    persistent_datastore_pattern: '\Aprod-ds\z'
+    allow_mixed_datastores: true
+
+    clusters: [BOSH_CL]
 ```
 
 Or example that places VMs by default into `BOSH_RP` vSphere resource pool:
@@ -143,18 +145,20 @@ Or example that places VMs by default into `BOSH_RP` vSphere resource pool:
 ```yaml
 # ...snip...
 
-host: 172.16.68.3
-user: root
-password: vmware
+  host: 172.16.68.3
+  user: root
+  password: vmware
 
-datacenters:
-- name: BOSH_DC
-  vm_folder: prod-vms
-  template_folder: prod-templates
-  disk_path: prod-disks
-  datastore_pattern: '\Aprod-ds\z'
-  persistent_datastore_pattern: '\Aprod-ds\z'
-  allow_mixed_datastores: true
-  clusters:
+  datacenters:
+  - name: BOSH_DC
+    vm_folder: prod-vms
+    template_folder: prod-templates
+    disk_path: prod-disks
+
+    datastore_pattern: '\Aprod-ds\z'
+    persistent_datastore_pattern: '\Aprod-ds\z'
+    allow_mixed_datastores: true
+
+    clusters:
     - BOSH_CL: {resource_pool: BOSH_RP}
 ```
