@@ -91,3 +91,74 @@ disk_pools:
   disk_size: 10_240
   cloud_properties: {}
 ```
+
+---
+## <a id='global'></a> Global Configuration
+
+The CPI can only talk to a single vCenter installation and manage VMs within a single vSphere datacenter.
+
+Schema:
+
+* **host** [String, required]: IP address of the vCenter. Example: `172.16.68.3`.
+* **user** [String, required]: Username for the API access. Example: `root`.
+* **password** [String, required]: Password for the API access. Example: `vmware`
+
+* **datacenters** [Array, optional]: Array of datacenters to use for VM placement. Must have only one.
+    * **name** [String, required]: Datacenter name.
+
+    * **vm_folder** [String, required]: Path to a folder (relative to the datacenter) for storing created VMs. Folder will be automatically created if not found.
+    * **template_folder** [String, required]: Path to a folder (relative to the datacenter) for storing uploaded stemcells. Folder will be automatically created if not found.
+    * **disk_path** [String, required]: Path to a *disk* folder for storing persistent disks. Folder will be automatically created in the datastore if not found.
+
+    * **datastore_pattern** [String, required]: Pattern for selecting datastores for storing ephemeral disks and replicated stemcells.
+    * **persistent\_datastore\_pattern** [String, required]: Pattern for selecting datastores for storing persistent disks.
+    * **allow\_mixed\_datastores** [Boolean, optional]: Flag to indicate if `datastore_pattern` and `persistent_datastore_pattern` can reference same datastores.
+
+    * **clusters** [Array, required]: Array of clusters to use for VM placement.
+        * **\<cluster name\>** [String, required]: Cluster name.
+            * **resource_pool** [String, optional]: Specific vSphere resource pool to use within the cluster.
+
+Example of a CPI configuration that will place VMs into `BOSH_CL` cluster within `BOSH_DC`:
+
+```yaml
+# ...snip...
+
+  host: 172.16.68.3
+  user: root
+  password: vmware
+
+  datacenters:
+  - name: BOSH_DC
+    vm_folder: prod-vms
+    template_folder: prod-templates
+    disk_path: prod-disks
+
+    datastore_pattern: '\Aprod-ds\z'
+    persistent_datastore_pattern: '\Aprod-ds\z'
+    allow_mixed_datastores: true
+
+    clusters: [BOSH_CL]
+```
+
+Or example that places VMs by default into `BOSH_RP` vSphere resource pool:
+
+```yaml
+# ...snip...
+
+  host: 172.16.68.3
+  user: root
+  password: vmware
+
+  datacenters:
+  - name: BOSH_DC
+    vm_folder: prod-vms
+    template_folder: prod-templates
+    disk_path: prod-disks
+
+    datastore_pattern: '\Aprod-ds\z'
+    persistent_datastore_pattern: '\Aprod-ds\z'
+    allow_mixed_datastores: true
+
+    clusters:
+    - BOSH_CL: {resource_pool: BOSH_RP}
+```
