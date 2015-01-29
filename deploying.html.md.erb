@@ -7,7 +7,7 @@ Once referenced stemcells and releases are uploaded to the Director and the depl
 To let the CLI know that you are planning to operate on a specific deployment you must set the deployment:
 
 <pre class="terminal">
-bosh deployment ~/workspace/my-deployment/manifest.yml
+$ bosh deployment ~/workspace/my-deployment/manifest.yml
 
 Deployment set to `/Users/pivotal/workspace/my-deployment/manifest.yml'
 </pre>
@@ -15,13 +15,13 @@ Deployment set to `/Users/pivotal/workspace/my-deployment/manifest.yml'
 From then on most commands the CLI provides act on the set deployment. To form a deployment on the Director represented by the `manifest.yml`, run the deploy command:
 
 <pre class="terminal">
-bosh deploy
+$ bosh deploy
 </pre>
 
 After the deploy command completes with either success or failure you can run a command to list VMs created for this deployment:
 
 <pre class="terminal">
-bosh vms
+$ bosh vms
 
 Deployment `my-deployment'
 
