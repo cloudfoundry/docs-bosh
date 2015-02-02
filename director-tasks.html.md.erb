@@ -2,9 +2,9 @@
 title: Director tasks
 ---
 
-An operator uses the CLI to interact with the Director. Certain CLI commands result in complex and potentially long running operations against the IaaS, blobstore or other resources. Such commands are associated with a Director task and continue running on the Director even if the CLI disconnects from the Director.
+An operator uses the CLI to interact with the Director. Certain CLI commands result in complex and potentially long running operations against the IaaS, blobstore, or other resources. Such commands are associated with a Director task and continue running on the Director even if the CLI disconnects from the Director.
 
-To find out if CLI command has an associated Director task, look for "Director task [NUM]" in its output:
+To find out if a CLI command has an associated Director task, look for "Director task [NUM]" in its output:
 
 <pre class="terminal">
 $ bosh deploy
@@ -19,7 +19,7 @@ Director task 766 # <-----------------
 ---
 ## <a id="active"></a> Currently active tasks
 
-At any time the Director may be performing multiple tasks at once. Active tasks can be in two states: `queued` or `processing`.
+At any time the Director might be performing multiple tasks at once. Active tasks can be in two states: `queued` or `processing`.
 
 To see all currently active tasks:
 
@@ -36,11 +36,11 @@ $ bosh tasks --no-filter
 Total tasks running now: 2
 </pre>
 
-<p class="note">Note: <code>--no-filter</code> flag shows all tasks. Without that flag, the Director returns a subset of running tasks that it deems important.</p>
+<p class="note"><strong>Note</strong>: <code>--no-filter</code> flag shows all tasks. Without that flag, the Director returns a subset of running tasks that it deems important.</p>
 
 ### <a id="join-active"></a> Joining tasks
 
-Since Director tasks continue to run in the background, even if the CLI has disconnected, you can rejoin a task at any time:
+Since Director tasks continue to run in the background even if the CLI has disconnected, you can rejoin a task at any time:
 
 <pre class="terminal">
 $ bosh task 766
@@ -103,7 +103,7 @@ Showing 30 recent tasks
 
 You can also run `bosh tasks recent [NUM]` to retrieve more tasks.
 
-<p class="note">Note: <code>--no-filter</code> flag shows all tasks. Without that flag, the Director returns a subset of finished tasks that it deems important.</p>
+<p class="note"><strong>Note</strong>: <code>--no-filter</code> flag shows all tasks. Without that flag, the Director returns a subset of finished tasks that it deems important.</p>
 
 ### <a id="join-finished"></a> Joining finished tasks
 
