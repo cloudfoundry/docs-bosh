@@ -1,0 +1,45 @@
+---
+title: User management on the Director
+---
+
+The Director provides a very simple user management system for authentication of operators and internal services (for example, the Health Monitor). The system does not currently allow to assign user roles/permissions.
+
+<p class="note">Note: We have future plans to integrate the Director with the UAA to provide more sophisticated authentication and authorization.</p>
+
+Once installed, the Director comes without any configured users by default. When there are no configured users you can use `admin` / `admin` credentials to login into the Director.
+
+<pre class="terminal">
+$ bosh login admin
+
+Enter password: *****
+Logged in as `admin'
+</pre>
+
+When the Director is configured with at least one user, default `admin` / `admin` credentials no longer work. To create a new user:
+
+<pre class="terminal">
+$ bosh create user some-operator
+
+Enter new password: ********
+Verify new password: ********
+User `some-operator' has been created
+</pre>
+
+To delete existing user:
+
+<pre class="terminal">
+$ bosh delete user some-operator
+
+Are you sure you would like to delete the user `some-operator'? (type 'yes' to continue): yes
+User `some-operator' has been deleted
+</pre>
+
+---
+## <a id="hm"></a> Director Tasks
+
+The Director records initiating user for each [director task](director-tasks.html). 
+
+---
+## <a id="hm"></a> Health Monitor Authentication
+
+The Health Monitor is configured to use custom user to query/submit requests to the Director. Since by default the Director does not come with any users, the Health Monitor is not able to successfully communicate with the Director. See [Automatic repair with Resurrector](resurrector.html) topic for more details.
