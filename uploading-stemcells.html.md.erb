@@ -10,13 +10,13 @@ As described earlier, each resource pool references a specific stemcell on the D
 
 You can download stemcells from two official sources:
 
-- [BOSH Artifacts site](http://bosh-artifacts.cfapps.io/)
-- Using the `public stemcells` command
+- [Stemcells section of bosh.io](//bosh.io/stemcells)
+- Using the `public stemcells` CLI command
 
     To list the latest public stemcells:
 
     <pre class="terminal">
-    bosh public stemcells
+    $ bosh public stemcells
 
     +-----------------------------------------------------------------+
     | Name                                                            |
@@ -31,23 +31,32 @@ You can download stemcells from two official sources:
     And to download the listed public stemcell into the `~/Downloads` directory:
 
     <pre class="terminal">
-    cd ~/Downloads
-    bosh download public stemcell bosh-stemcell-2751-aws-xen-hvm-ubuntu-trusty-go_agent.tgz
+    $ cd ~/Downloads
+
+    $ bosh download public stemcell bosh-stemcell-2751-aws-xen-hvm-ubuntu-trusty-go_agent.tgz
     </pre>
 
 ---
 ## <a id='upload'></a> Uploading to the Director
 
-Assuming the CLI is already targeted at the Director, the CLI provides a single command to upload a stemcell:
+Assuming the CLI is already targeted at the Director, the CLI provides a single command to upload a stemcell.
 
-<pre class="terminal">
-bosh upload stemcell ~/Downloads/bosh-stemcell-2751-aws-xen-hvm-ubuntu-trusty-go_agent.tgz --skip-if-exists
-</pre>
+- If you have a URL to a stemcell tarball (for example URL provided by bosh.io):
+
+    <pre class="terminal">
+    $ bosh upload stemcell [URL] --skip-if-exists
+    </pre>
+
+- If you have a stemcell tarball on your local machine:
+
+    <pre class="terminal">
+    $ bosh upload stemcell ~/Downloads/bosh-stemcell-2751-aws-xen-hvm-ubuntu-trusty-go_agent.tgz --skip-if-exists
+    </pre>
 
 Once the command succeeds you can view all uploaded stemcells in the Director:
 
 <pre class="terminal">
-bosh stemcells
+$ bosh stemcells
 
 +-----------------------------------------+---------+--------------+
 | Name                                    | Version | CID          |
