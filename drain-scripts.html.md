@@ -22,9 +22,12 @@ templates:
   drain-web-requests.erb: bin/drain
 ~~~
 
-<p class="note"><strong>Note</strong>: BOSH currently only allows one drain script per release job.</p>
+<p class="note"><strong>Notes</strong>:
 
-<p class="note"><strong>Note 2:</strong>: Currently, for a job containing many colocated jobs, only the first colocated job's drain script will be executed. See <a href="https://www.pivotaltracker.com/story/show/70697490">Pivotal Tracker</a> to know when multiple colocated drain scripts are supported.</p>
+  * BOSH currently only allows one drain script per release job.
+
+  * For a job that contains many colocated jobs, BOSH executes only the first colocated job's drain script.
+</p>
 
 ## <a id="script-implementation"></a> Script Implementation ##
 
