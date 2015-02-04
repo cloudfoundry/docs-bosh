@@ -120,7 +120,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
     * **VPC name**: bosh
     * **Public subnet**: 10.0.0.0/24
     * **Availability Zone**: us-east-1a
-    * **Subnet name**: public
+    * **Subnet name**: Public subnet
     * **Enable DNS hostnames**: Yes
     * **Hardware tenancy**: Default
 
@@ -128,9 +128,9 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 
     <%= image_tag("images/deploy-microbosh-to-aws/create-vpc.png") %>
 
-1. Click **Create VPC** and click **OK** once VPC is successfully created.
+1. Click **Create VPC**, and click **OK** once the VPC is successfully created.
 
-1. Click **Subnets** and locate the "public" subnet in the VPC. Replace `SUBNET-ID` and `AVAILABILITY-ZONE` in your deployment manifest with the "public" subnet **Subnet ID** and **Availability Zone**.
+1. Click **Subnets** and locate the "Public subnet" in the VPC. Replace `SUBNET-ID` and `AVAILABILITY-ZONE` in your deployment manifest with the "Public subnet" **Subnet ID** and **Availability Zone**.
 
     <%= image_tag("images/deploy-microbosh-to-aws/list-subnets.png") %>
 
@@ -214,15 +214,15 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
     		<th>Purpose</th>
     	</tr>
 
-      <tr><td>Custom TCP Rule</td><td>22</td><td>(My IP)</td><td>SSH access from CLI</td></tr>
-      <tr><td>Custom TCP Rule</td><td>6868</td><td>(My IP)</td><td>BOSH Agent access from CLI</td></tr>
-      <tr><td>Custom TCP Rule</td><td>25555</td><td>(My IP)</td><td>BOSH Director access from CLI</td></tr>
+      <tr><td>Custom TCP Rule</td><td>22</td><td>My IP</td><td>SSH access from CLI</td></tr>
+      <tr><td>Custom TCP Rule</td><td>6868</td><td>My IP</td><td>BOSH Agent access from CLI</td></tr>
+      <tr><td>Custom TCP Rule</td><td>25555</td><td>My IP</td><td>BOSH Director access from CLI</td></tr>
 
-      <tr><td>All TCP</td><td>ALL</td><td>ID of this security group</td><td>Management and data access</td></tr>
-      <tr><td>All UDP</td><td>ALL</td><td>ID of this security group</td><td>Management and data access</td></tr>
+      <tr><td>All TCP</td><td>ALL</td><td>Custom IP</td><td>Management and data access</td></tr>
+      <tr><td>All UDP</td><td>ALL</td><td>Custom IP</td><td>Management and data access</td></tr>
     </table>
 
-    <p class="note"><strong>Note</strong>: To enter ID of the "bosh" security group just start typing "bosh" and the AWS Console will autocomplete the name with its ID.</p>
+    <p class="note"><strong>Note</strong>: To enter the ID of the "bosh" security group for the <strong>Custom IP</strong> field, select the ID field and type the first character of the "bosh" <strong>Group ID</strong> value. The AWS Console displays an autocomplete list. Select the correct ID.</p>
 
     <%= image_tag("images/deploy-microbosh-to-aws/edit-security-group-rules.png") %>
 
@@ -269,25 +269,27 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 ---
 ## <a id="deploy"></a> Step 4: Deploy MicroBOSH
 
-1. In a terminal window, run `bosh micro deployment ./manifest.yml` from your deployment directory to instruct MicroBOSH to use your manifest file.
+1. In a terminal window, run `bosh micro deployment manifest.yml` from your deployment directory to instruct MicroBOSH to use your manifest file.
 
     <pre class='terminal'>
     $ cd ~/my-micro-deployment
 
-    $ bosh micro deployment ./manifest.yml
+    $ bosh micro deployment manifest.yml
     
     WARNING! Your target has been changed to https://54.175.20.129:25555!
     Deployment set to ~/my-micro-deployment/manifest.yml
     </pre>
 
-    <p class="note"><strong>Note</strong>: BOSH displays a red <code>WARNING!</code> message. This is not an error message. The message alerts you to a change in the targeted IP address.</p>
+    <p class="note"><strong>Notes</strong>: 
+    * If you receive an `Unknown command` error message, you might not have installed the (cf CLI MicroBOSH plugin)[bosh-cli.html]. Run `gem install bosh_cli_plugin_micro`. `bosh help` displays commands that begin with `micro` when you successfully install the plugin.
+    * BOSH displays a red <code>WARNING!</code> message. This is not an error message. The message alerts you to a change in the targeted IP address.</p>
 
 1. Run `bosh micro deploy STEMCELL-PATH` to deploy MicroBOSH.
 
   	<p class="note"><strong>Note</strong>: BOSH may display a red <code>No bosh-deployments.yml file found</code> message. If prompted to allow MicroBOSH to the save state in the current directory, type <code>yes</code>.</p>
 
     <pre class='terminal'>
-    $ bosh micro deploy ./light-bosh-stemcell-2818-aws-xen-ubuntu-trusty-go_agent.tgz
+    $ bosh micro deploy light-bosh-stemcell-2818-aws-xen-ubuntu-trusty-go_agent.tgz
 
     No 'bosh-deployments.yml' file found in current directory.
 
