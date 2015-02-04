@@ -23,10 +23,11 @@ templates:
 ~~~
 
 <p class="note"><strong>Notes</strong>:
+  <ul>
+    <li>BOSH currently only allows one drain script per release job.</li>
 
-  * BOSH currently only allows one drain script per release job.
-
-  * For a job that contains many colocated jobs, BOSH executes the drain script only of the first colocated job.
+    <li>For a job that contains many colocated jobs, BOSH executes the drain script only of the first colocated job.</li>
+  </ul>
 </p>
 
 ## <a id="script-implementation"></a> Script Implementation ##
