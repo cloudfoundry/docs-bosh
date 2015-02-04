@@ -286,6 +286,8 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 
 1. Run `bosh micro deploy STEMCELL-PATH` to deploy MicroBOSH.
 
+    The `bosh micro deploy` command creates the `bosh-deployments.yml` in the deployment directory with information about the environment.
+
   	<p class="note"><strong>Note</strong>: BOSH may display a red <code>No bosh-deployments.yml file found</code> message. If prompted to allow MicroBOSH to the save state in the current directory, type <code>yes</code>.</p>
 
     <pre class='terminal'>
@@ -342,9 +344,9 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
     No deployments
     </pre>
 
-1. Save contents of deployment directory so you can later update MicroBOSH to a new version of the stemcell. Be aware that `bosh micro deploy` command creates/updates `bosh-deployments.yml` in the deployment directory with information about created environment. 
+1. Save the `manifest.yml` and the `bosh-deployments.yml` in the deployment directory so you can later update MicroBOSH with a new version of the stemcell. 
 
-    <p class="note"><strong>Note</strong>: We recommend using Git to store manifest and generated deployment information.</p>
+    <p class="note"><strong>Note</strong>: When you rerun the <code>bosh micro deploy</code> command on an existing deployment directory, it updates the <code>bosh-deployments.yml</code> in the deployment directory with information about the recreated environment and replaces the log files.</p>
 
 ---
 ## <a id="troubleshooting"></a> Basic Troubleshooting
@@ -356,7 +358,7 @@ If other error messages appear:
 * Check your `manifest.yml` for errors.
 * Review your AWS configuration.
 
-If all else fails, run `bosh micro delete` and try deploying again.
+If you cannot determine the cause of an error, run `bosh micro delete` and try deploying again.
 
 ---
 [Back to Table of Contents](index.html#install)
