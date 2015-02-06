@@ -204,7 +204,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 
 1. Fill out the Edit inbound rules form and click **Save**.
 
-    <p class="note"><strong>Note</strong>: It highly discouraged to run any production environment with <code>0.0.0.0/0</code> source or to make any BOSH management ports publicly accessible.</p>
+    <p class="note"><strong>Note</strong>: It highly discouraged to run any production environment with <code>0.0.0.0/0</code> source or to make any BOSH management ports publicly accessible. THIS NOTE NO LONGER NECESSARY??</p>
 
     <table border="1" class="nice" >
     	<tr>
@@ -284,7 +284,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
     * If you receive an `Unknown command` error message, you might not have installed the (cf CLI MicroBOSH plugin)[bosh-cli.html]. Run `gem install bosh_cli_plugin_micro`. `bosh help` displays commands that begin with `micro` when you successfully install the plugin.
     * BOSH displays a red <code>WARNING!</code> message. This is not an error message. The message alerts you to a change in the targeted IP address.</p>
 
-1. Run `bosh micro deploy STEMCELL-PATH` to deploy MicroBOSH.
+1. Run `bosh micro deploy STEMCELL` to deploy MicroBOSH.
 
     The `bosh micro deploy` command creates the `bosh-deployments.yml` in the deployment directory with information about the environment.
 
@@ -358,9 +358,10 @@ If other error messages appear:
 * Check your `manifest.yml` for errors.
 * Review your AWS configuration.
 
-If you cannot determine the cause of an error, run `bosh micro delete` and try deploying again.
+If you cannot determine the cause of any error, run `bosh micro delete` to remove the deployment, then reattempt the deploy.
 
 ---
+
 [Back to Table of Contents](index.html#install)
 
-Previous: [Bootstrapping an environment](bootstrap.html)
+Next: [Configuring AWS for Cloud Foundry](configure_aws_cf.html)
