@@ -47,8 +47,8 @@ cloud:
       access_key_id: ACCESS-KEY-ID # Replace with your AWSAccessKeyId
       secret_access_key: SECRET-ACCESS-KEY # Replace with your AWSSecretKey
       region: us-east-1
-      default_key_name: microbosh
-      default_security_groups: ["microbosh"]
+      default_key_name: bosh
+      default_security_groups: ["bosh"]
       ec2_private_key: ./bosh.pem # Path relative to this manifest file
 
 apply_spec:
@@ -115,7 +115,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 
 1. Complete the VPC form with the following information:
     * **IP CIDR block**: 10.0.0.0/16
-    * **VPC name**: microbosh
+    * **VPC name**: bosh
     * **Public subnet**: 10.0.0.0/24
     * **Availability Zone**: us-east-1a
     * **Subnet name**: Public subnet
@@ -154,25 +154,25 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 
     <%= image_tag("images/deploy-microbosh-to-aws/list-key-pairs.png") %>
 
-1. In the Create Key Pair dialog box, enter "microbosh" as the Key Pair name and click **Create**.
+1. In the Create Key Pair dialog box, enter "bosh" as the Key Pair name and click **Create**.
 
     <%= image_tag("images/deploy-microbosh-to-aws/create-key-pair.png") %>
 
-    <p class="note"><strong>Note</strong>: The value for the <code>default_key_name</code> in the manifest is already set to "microbosh".</p>
+    <p class="note"><strong>Note</strong>: The value for the <code>default_key_name</code> in the manifest is already set to "bosh".</p>
 
-1. Save the `microbosh.pem` file.
+1. Save the `bosh.pem` file.
 
-1. Move the `microbosh.pem` file into your deployment directory. For example, on UNIX run this command:
+1. Move the `bosh.pem` file into your deployment directory. For example, on UNIX run this command:
 
     <pre class="terminal">
-    $ mv ~/Downloads/bosh.pem ~/micro-deployment/microbosh.pem
+    $ mv ~/Downloads/bosh.pem ~/micro-deployment/bosh.pem
 
     $ ls -la ~/micro-deployment
 
     total 16
     drwxr-xr-x   4 pivotal  staff   136 Jan 20 10:56 .
     drwxr-xr-x+ 79 pivotal  staff  2686 Jan 20 10:46 ..
-    -rw-r-----@  1 pivotal  staff  1692 Jan 20 10:55 microbosh.pem
+    -rw-r-----@  1 pivotal  staff  1692 Jan 20 10:55 bosh.pem
     -rw-r--r--   1 pivotal  staff   919 Jan 20 10:53 manifest.yml
     </pre>
 
@@ -186,17 +186,17 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
     <%= image_tag("images/deploy-microbosh-to-aws/list-security-groups.png") %>
 
 1. Complete the Create Security Group form with the following information and click **Create**:
-    * **Security group name**: microbosh
+    * **Security group name**: bosh
     * **Description**: MicroBOSH deployed VMs
-    * **VPC**: Select the "microbosh" VPC that you created in [Create a Virtual Private Cloud](#create-vpc).
+    * **VPC**: Select the "bosh" VPC that you created in [Create a Virtual Private Cloud](#create-vpc).
 
     <br/>
 
     <%= image_tag("images/deploy-microbosh-to-aws/create-security-group.png") %>
 
-    <p class="note"><strong>Note</strong>: The value for the <code>default_security_groups</code> in the manifest is already set to "microbosh". It is the <strong>Group Name</strong> of your VPC Security Group, not the security group ID.</p>
+    <p class="note"><strong>Note</strong>: The value for the <code>default_security_groups</code> in the manifest is already set to "bosh". It is the <strong>Group Name</strong> of your VPC Security Group, not the security group ID.</p>
 
-1. Select the created security group with group name "microbosh", click the **Inbound** tab and click **Edit**.
+1. Select the created security group with group name "bosh", click the **Inbound** tab and click **Edit**.
 
     <%= image_tag("images/deploy-microbosh-to-aws/open-edit-security-group-modal.png") %>
 
@@ -220,7 +220,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
       <tr><td>All UDP</td><td>ALL</td><td>Custom IP</td><td>Management and data access</td></tr>
     </table>
 
-    <p class="note"><strong>Note</strong>: To enter the ID of the "microbosh" security group for the <strong>Custom IP</strong> field, select the ID field and type the first character of the "bosh" <strong>Group ID</strong> value. The AWS Console displays an autocomplete list. Select the correct ID.</p>
+    <p class="note"><strong>Note</strong>: To enter the ID of the "bosh" security group for the <strong>Custom IP</strong> field, select the ID field and type the first character of the "bosh" <strong>Group ID</strong> value. The AWS Console displays an autocomplete list. Select the correct ID.</p>
 
     <%= image_tag("images/deploy-microbosh-to-aws/edit-security-group-rules.png") %>
 
@@ -259,7 +259,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
     total 32
     drwxr-xr-x   5 pivotal  staff   170 Jan 20 11:26 .
     drwxr-xr-x+ 79 pivotal  staff  2686 Jan 20 10:46 ..
-    -rw-r-----@  1 pivotal  staff  1692 Jan 20 10:55 microbosh.pem
+    -rw-r-----@  1 pivotal  staff  1692 Jan 20 10:55 bosh.pem
     -rw-r--r--   1 pivotal  staff  5320 Jan 20 11:26 light-bosh-stemcell-2818-aws-xen-ubuntu-trusty-go_agent.tgz # <--- downloaded stemcell
     -rw-r--r--   1 pivotal  staff   903 Jan 20 11:25 manifest.yml
     </pre>
