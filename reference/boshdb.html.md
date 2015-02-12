@@ -13,17 +13,17 @@ These tables can co-exist in a single database or they can be separated into the
 ## BOSH Core ##
 Every deployment of BOSH sets up the following schema in its database.
 
-![bosh-db-schema](/images/bosh-db-schema.png)
+![bosh-db-schema](../images/bosh-db-schema.png)
 
 ## PowerDNS ##
 If you've chosen to deploy the PowerDNS component of BOSH, then the following schema is created.
 
-![powerdns-db-schema](/images/powerdns-db-schema.png)
+![powerdns-db-schema](../images/powerdns-db-schema.png)
 
 ## Registry ##
 If you've chosen to deploy the registry component of BOSH (required if deploying to OpenStack or AWS), the following schema is created.
 
-![registry-db-schema](/images/registry-db-schema.png)
+![registry-db-schema](../images/registry-db-schema.png)
 
 ## Blobstore ##
 The following tables link to BOSH's blobstore component:
