@@ -160,20 +160,10 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 
     <p class="note"><strong>Note</strong>: The value for the <code>default_key_name</code> in the manifest is already set to "bosh".</p>
 
-1. Save the `bosh.pem` file.
-
-1. Move the `bosh.pem` file into your deployment directory. For example, on UNIX run this command:
+1. A `bosh.pem` file downloads automatically. Move this file into your deployment directory. For example, on UNIX run this command:
 
     <pre class="terminal">
     $ mv ~/Downloads/bosh.pem ~/micro-deployment/bosh.pem
-
-    $ ls -la ~/micro-deployment
-
-    total 16
-    drwxr-xr-x   4 pivotal  staff   136 Jan 20 10:56 .
-    drwxr-xr-x+ 79 pivotal  staff  2686 Jan 20 10:46 ..
-    -rw-r-----@  1 pivotal  staff  1692 Jan 20 10:55 bosh.pem
-    -rw-r--r--   1 pivotal  staff   919 Jan 20 10:53 manifest.yml
     </pre>
 
     <p class="note"><strong>Note</strong>: The value for the <code>ec2_private_key</code> in the manifest is already set.</p>
@@ -202,24 +192,6 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 
 1. Fill out the Edit inbound rules form and click **Save**.
 
-    <p class="note"><strong>Note</strong>: It highly discouraged to run any production environment with <code>0.0.0.0/0</code> source or to make any BOSH management ports publicly accessible. THIS NOTE NO LONGER NECESSARY??</p>
-
-    <table border="1" class="nice" >
-    	<tr>
-    		<th>Type</th>
-    		<th>Port Range</th>
-    		<th>Source</th>
-    		<th>Purpose</th>
-    	</tr>
-
-      <tr><td>Custom TCP Rule</td><td>22</td><td>My IP</td><td>SSH access from CLI</td></tr>
-      <tr><td>Custom TCP Rule</td><td>6868</td><td>My IP</td><td>BOSH Agent access from CLI</td></tr>
-      <tr><td>Custom TCP Rule</td><td>25555</td><td>My IP</td><td>BOSH Director access from CLI</td></tr>
-
-      <tr><td>All TCP</td><td>ALL</td><td>Custom IP</td><td>Management and data access</td></tr>
-      <tr><td>All UDP</td><td>ALL</td><td>Custom IP</td><td>Management and data access</td></tr>
-    </table>
-
     <p class="note"><strong>Note</strong>: To enter the ID of the "bosh" security group for the <strong>Custom IP</strong> field, select the ID field and type the first character of the "bosh" <strong>Group ID</strong> value. The AWS Console displays an autocomplete list. Select the correct ID.</p>
 
     <%= image_tag("images/deploy-microbosh-to-aws/edit-security-group-rules.png") %>
@@ -229,7 +201,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 
 1. Install the [BOSH Command Line Interface (CLI)](./bosh-cli.html).
 
-1. In a terminal window, run `bosh public stemcells` from your deployment directory to see a list of publicly available BOSH stemcells. The list displays the most recent build of each flavor. Select `light-bosh-stemcell-????-aws-xen-ubuntu-trusty-go_agent.tgz`:
+1. In a terminal window, run `bosh public stemcells` from your deployment directory to see a list of publicly available BOSH stemcells. The list displays the most recent build of each flavor. Choose `light-bosh-stemcell-XXXX-aws-xen-ubuntu-trusty-go_agent.tgz`:
 
     <pre class='terminal'>
     $ bosh public stemcells
@@ -282,7 +254,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
     * If you receive an `Unknown command` error message, you might not have installed the (cf CLI MicroBOSH plugin)[bosh-cli.html]. Run `gem install bosh_cli_plugin_micro`. `bosh help` displays commands that begin with `micro` when you successfully install the plugin.
     * BOSH displays a red <code>WARNING!</code> message. This is not an error message. The message alerts you to a change in the targeted IP address.</p>
 
-1. Run `bosh micro deploy STEMCELL` to deploy MicroBOSH.
+1. Run `bosh micro deploy STEMCELL-NAME` to deploy MicroBOSH.
 
     The `bosh micro deploy` command creates the `bosh-deployments.yml` in the deployment directory with information about the environment.
 
