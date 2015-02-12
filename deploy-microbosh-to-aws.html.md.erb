@@ -156,11 +156,13 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 
 1. In the Create Key Pair dialog box, enter "bosh" as the Key Pair name and click **Create**.
 
+    The value for the `default_key_name` in the manifest is already set to "bosh".
+
     <%= image_tag("images/deploy-microbosh-to-aws/create-key-pair.png") %>
 
-    <p class="note"><strong>Note</strong>: The value for the <code>default_key_name</code> in the manifest is already set to "bosh".</p>
+    A bosh.pem file downloads automatically.
 
-1. A `bosh.pem` file downloads automatically. Move this file into your deployment directory. For example, on UNIX run this command:
+1. Move the bosh.pem file into your deployment directory. For example, on UNIX run this command:
 
     <pre class="terminal">
     $ mv ~/Downloads/bosh.pem ~/micro-deployment/bosh.pem
@@ -190,7 +192,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 
     <%= image_tag("images/deploy-microbosh-to-aws/open-edit-security-group-modal.png") %>
 
-1. Fill out the Edit inbound rules form and click **Save**.
+1. Complete the **Edit inbound rules** form and click **Save**.
 
     <p class="note"><strong>Note</strong>: To enter the ID of the "bosh" security group for the <strong>Custom IP</strong> field, select the ID field and type the first character of the "bosh" <strong>Group ID</strong> value. The AWS Console displays an autocomplete list. Select the correct ID.</p>
 
@@ -201,7 +203,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 
 1. Install the [BOSH Command Line Interface (CLI)](./bosh-cli.html).
 
-1. In a terminal window, run `bosh public stemcells` from your deployment directory to see a list of publicly available BOSH stemcells. The list displays the most recent build of each flavor. Choose `light-bosh-stemcell-XXXX-aws-xen-ubuntu-trusty-go_agent.tgz`:
+1. In a terminal window, run `bosh public stemcells` from your deployment directory to view a list of publicly available BOSH stemcells. The list displays the most recent build of each flavor. Choose the latest version of `light-bosh-stemcell-XXXX-aws-xen-ubuntu-trusty-go_agent.tgz`:
 
     <pre class='terminal'>
     $ bosh public stemcells
@@ -235,6 +237,8 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
     -rw-r--r--   1 pivotal  staff  5320 Jan 20 11:26 light-bosh-stemcell-2818-aws-xen-ubuntu-trusty-go_agent.tgz # <--- downloaded stemcell
     -rw-r--r--   1 pivotal  staff   903 Jan 20 11:25 manifest.yml
     </pre>
+
+1. Run `bosh upload stemcell STEMCELL-NAME` to upload the selected stemcell.
 
 ---
 ## <a id="deploy"></a> Step 4: Deploy MicroBOSH
