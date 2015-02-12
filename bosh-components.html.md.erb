@@ -4,7 +4,7 @@ title: BOSH Components
 
 Before bootstrapping a new BOSH environment we recommend to learn the names of major components that will be installed, used and configured:
 
-<%= image_tag("/images/bosh-architecture.png") %><br />
+<%= image_tag("images/bosh-architecture.png") %><br />
 
 ---
 ## <a id="cli"></a>Command Line Interface (CLI)
@@ -20,9 +20,9 @@ The BOSH Director is the core orchestrating component in BOSH. The Director cont
 
 The Director creates actionable tasks:
 
-* by translating commands sent by an operator through the BOSH CLI
-* from scheduled processes like backups or snapshots
-* if needed to reconcile the expected state with the actual state of a VM
+* By translating commands sent by an operator through the BOSH CLI
+* From scheduled processes like backups or snapshots
+* If needed to reconcile the expected state with the actual state of a VM
 
 Once created, the Director adds these tasks to the Task Queue. Worker processes take tasks from the Task Queue and act on them.
 
@@ -61,7 +61,7 @@ The Director uses a Postgres database to store information about the desired sta
 
 ### <a id="blobstore"></a>Blobstore
 
-The BOSH Blobstore stores the source forms of releases and the compiled images of BOSH releases. An operator uploads a release using the BOSH CLI, and the Director inserts the release into the Blobstore. When you deploy a release, BOSH orchestrates the compilation of packages and stores the result in the Blobstore.
+The BOSH Blobstore stores the source forms of releases and the compiled z of BOSH releases. An operator uploads a release using the BOSH CLI, and the Director inserts the release into the Blobstore. When you deploy a release, BOSH orchestrates the compilation of packages and stores the result in the Blobstore.
 
 ---
 ## <a id="agent"></a>Agent
@@ -88,7 +88,7 @@ This example shows how BOSH components interact when creating a new VM.
 
 ### <a id="create-vm"></a>Creating a New VM
 
-<%= image_tag("/images/deploy-sequence.png") %><br />
+<%= image_tag("images/deploy-sequence.png") %><br />
 
 1. Through the BOSH CLI, the operator takes an action (e.g. deploy for the first time, scaling up deployment) which requires creating a new VM.
 1. The CLI passes the instruction to the Director.
