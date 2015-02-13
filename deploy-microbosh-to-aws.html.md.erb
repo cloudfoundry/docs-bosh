@@ -344,6 +344,8 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
     No deployments
     </pre>
 
+1. Run `bosh upload stemcell STEMCELL-NAME` to upload the selected stemcell.
+
 1. Save the `manifest.yml` and the `bosh-deployments.yml` in the deployment directory so you can later update MicroBOSH with a new version of the stemcell.
 
     <p class="note"><strong>Note</strong>: When you rerun the <code>bosh micro deploy</code> command on an existing deployment directory, it updates the <code>bosh-deployments.yml</code> in the deployment directory with information about the recreated environment and replaces the log files.</p>
