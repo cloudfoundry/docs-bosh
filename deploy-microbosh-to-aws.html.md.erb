@@ -196,6 +196,45 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 
     <p class="note"><strong>Note</strong>: To enter the ID of the "microbosh" security group for the <strong>Custom IP</strong> field, select the ID field and type the first character of the "microbosh" <strong>Group ID</strong> value. The AWS Console displays an autocomplete list. Select the correct ID.</p>
 
+    <table border="1" class="nice" >
+      <tr>
+        <th>Type</th>
+        <th>Protocol</th>
+        <th>Port Range</th>
+        <th>Source</th>
+      </tr>
+      <tr>
+        <td>Custom TCP Rule</td>
+        <td>TCP</td>
+        <td>6868</td>
+        <td>My IP</td>
+      </tr>
+      <tr>
+        <td>Custom TCP Rule</td>
+        <td>TCP</td>
+        <td>25555</td>
+        <td>My IP</td>
+      </tr>
+      <tr>
+        <td>SSH</td>
+        <td>TCP</td>
+        <td>22</td>
+        <td>My IP</td>
+      </tr>
+      <tr>
+        <td>All TCP</td>
+        <td>TCP</td>
+        <td>0-65535</td>
+        <td>Custom IP</td>
+      </tr>
+      <tr>
+        <td>All UDP</td>
+        <td>UDP</td>
+        <td>0-65535</td>
+        <td>Custom IP</td>
+      </tr>
+    </table>
+
     <%= image_tag("images/deploy-microbosh-to-aws/edit-security-group-rules.png") %>
 
 ---
