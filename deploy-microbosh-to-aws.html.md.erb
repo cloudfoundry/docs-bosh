@@ -260,24 +260,11 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
     BOSH stemcell names include the type, BOSH build number, target IaaS and
 	hypervisior, and underlying operating system.
 
-    To download the latest light Ubuntu Trusty stemcell:
+    Example downloading the 2818 version of the Ubuntu Trusty stemcell for AWS:
 
     <pre class='terminal'>
-    $ cd ~/micro-deployment
-
     $ bosh download public stemcell light-bosh-stemcell-2818-aws-xen-ubuntu-trusty-go_agent.tgz
-
-    $ ls -la
-
-    total 32
-    drwxr-xr-x   5 pivotal  staff   170 Jan 20 11:26 .
-    drwxr-xr-x+ 79 pivotal  staff  2686 Jan 20 10:46 ..
-    -rw-r-----@  1 pivotal  staff  1692 Jan 20 10:55 bosh.pem
-    -rw-r--r--   1 pivotal  staff  5320 Jan 20 11:26 light-bosh-stemcell-2818-aws-xen-ubuntu-trusty-go_agent.tgz # <--- downloaded stemcell
-    -rw-r--r--   1 pivotal  staff   903 Jan 20 11:25 manifest.yml
     </pre>
-
-1. Run `bosh upload stemcell STEMCELL-NAME` to upload the selected stemcell.
 
 ---
 ## <a id="deploy"></a> Step 4: Deploy MicroBOSH
@@ -288,12 +275,12 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
     $ cd ~/micro-deployment
 
     $ bosh micro deployment manifest.yml
-    
+
     WARNING! Your target has been changed to https://54.175.20.129:25555!
     Deployment set to ~/micro-deployment/manifest.yml
     </pre>
 
-    <p class="note"><strong>Notes</strong>: 
+    <p class="note"><strong>Notes</strong>:
     * If you receive an `Unknown command` error message, you might not have installed the (cf CLI MicroBOSH plugin)[bosh-cli.html]. Run `gem install bosh_cli_plugin_micro`. `bosh help` displays commands that begin with `micro` when you successfully install the plugin.
     * BOSH displays a red <code>WARNING!</code> message. This is not an error message. The message alerts you to a change in the targeted IP address.</p>
 
@@ -357,7 +344,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
     No deployments
     </pre>
 
-1. Save the `manifest.yml` and the `bosh-deployments.yml` in the deployment directory so you can later update MicroBOSH with a new version of the stemcell. 
+1. Save the `manifest.yml` and the `bosh-deployments.yml` in the deployment directory so you can later update MicroBOSH with a new version of the stemcell.
 
     <p class="note"><strong>Note</strong>: When you rerun the <code>bosh micro deploy</code> command on an existing deployment directory, it updates the <code>bosh-deployments.yml</code> in the deployment directory with information about the recreated environment and replaces the log files.</p>
 
