@@ -26,7 +26,7 @@ templates:
   <ul>
     <li>BOSH currently only allows one drain script per release job.</li>
 
-    <li>For a job that contains many colocated jobs, BOSH executes the drain script only of the first colocated job.</li>
+    <li>For a job that contains many colocated jobs, BOSH executes the drain script only of the first colocated job. See <a href="https://www.pivotaltracker.com/story/show/70697490">Pivotal Tracker</a> to know when multiple colocated drain scripts are supported.</li>
   </ul>
 </p>
 
