@@ -13,7 +13,7 @@ There are three types of networks that BOSH supports:
 Each type of network supports one or both IP reservation types:
 
 * **static**: IP is explicitly requested by the user in the deployment manifest
-* **dynamic**: IP is selected automatically based on the network type
+* **auto**: IP is selected automatically based on the network type
 
 ---
 ## <a id='general'></a> General Structure
@@ -110,7 +110,7 @@ networks:
     cloud_properties: {subnet: subnet-9be6c6gh}
 ```
 
-Manual networks use dynamic IP reservation by default. They also support static IP reservation. To assign instances of the deployment job specific IPs, a deployment job must specify them in the `static_ips` property for the associated network. An associated network's subnet definition must also specify them in its `static` property:
+Manual networks use automatic IP reservation by default. They also support static IP reservation. To assign specific IPs to instances of the deployment job, they must be specified in deployment job's `networks` section, in the `static_ips` property for the associated network. That network's subnet definition must also specify them in its `static` property:
 
 ```yaml
 jobs:
