@@ -15,10 +15,10 @@ Each type of network supports one or both IP reservation types:
 * **manual**: IP is explicitly requested by the user in the deployment manifest
 * **automatic**: IP is selected automatically based on the network type
 
-|                         | static network     | dynamic network | vip network |
-|-------------------------|--------------------|-----------------|-------------|
-| manual IP assignment    | Supported          | Not supported   | Supported   |
-| automatic IP assignment | Supported, default | Supported       | ?           |
+|                         | static network     | dynamic network | vip network   |
+|-------------------------|--------------------|-----------------|---------------|
+| manual IP assignment    | Supported          | Not supported   | Supported     |
+| automatic IP assignment | Supported, default | Supported       | Not supported |
 
 ---
 ## <a id='general'></a> General Structure
