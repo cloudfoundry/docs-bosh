@@ -13,7 +13,7 @@ There are three types of networks that BOSH supports:
 Each type of network supports one or both IP reservation types:
 
 * **static**: IP is explicitly requested by the user in the deployment manifest
-* **auto**: IP is selected automatically based on the network type
+* **automatic**: IP is selected automatically based on the network type
 
 ---
 ## <a id='general'></a> General Structure
@@ -137,7 +137,7 @@ Dynamic networking defers IP selection to the IaaS. For example, AWS assigns a p
 
 Each dynamic network attached to a job instance is typically represented as its own NIC in the IaaS layer.
 
-Dynamic networking only supports dynamic IP reservations.
+Dynamic networking only supports automatic IP reservations.
 
 Schema for dynamic network definition:
 
