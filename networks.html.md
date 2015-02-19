@@ -6,9 +6,9 @@ A BOSH network is an IaaS-agnostic representation of the networking layer. The D
 
 There are three types of networks that BOSH supports:
 
-* **static**: the Director decides how to assign IPs to each job instance based on the specified network subnets in the deployment manifest
-* **dynamic**: the Director defers IP selection to the IaaS
-* **vip**: the Director allows one-off IP assignments to specific jobs to enable flexible IP routing (e.g. elastic IP)
+* **static**: The Director decides how to assign IPs to each job instance based on the specified network subnets in the deployment manifest
+* **dynamic**: The Director defers IP selection to the IaaS
+* **vip**: The Director allows one-off IP assignments to specific jobs to enable flexible IP routing (e.g. elastic IP)
 
 Each type of network supports one or both IP reservation types:
 
@@ -25,7 +25,7 @@ Each type of network supports one or both IP reservation types:
 
 Networking configuration is usually done in three steps:
 
-- Configuring the IaaS: outside of BOSH's responsibility
+- Configuring the IaaS: Outside of BOSH's responsibility
   - Example on AWS: User creates a VPC and subnets with routing tables.
 - Adding networks section to the deployment manifest to define networks used in this deployment
   - Example: User adds a static network with a subnet and adds AWS subnet ID into the subnet's cloud properties.
