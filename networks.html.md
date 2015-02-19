@@ -6,14 +6,19 @@ A BOSH network is an IaaS-agnostic representation of the networking layer. The D
 
 There are three types of networks that BOSH supports:
 
-* **manual**: the Director decides how to assign IPs to each job instance based on the specified network subnets in the deployment manifest
+* **static**: the Director decides how to assign IPs to each job instance based on the specified network subnets in the deployment manifest
 * **dynamic**: the Director defers IP selection to the IaaS
 * **vip**: the Director allows one-off IP assignments to specific jobs to enable flexible IP routing (e.g. elastic IP)
 
 Each type of network supports one or both IP reservation types:
 
-* **static**: IP is explicitly requested by the user in the deployment manifest
-* **dynamic**: IP is selected automatically based on the network type
+* **manual**: IP is explicitly requested by the user in the deployment manifest
+* **automatic**: IP is selected automatically based on the network type
+
+|                         | static network     | dynamic network | vip network   |
+|-------------------------|--------------------|-----------------|---------------|
+| manual IP assignment    | Supported          | Not supported   | Supported     |
+| automatic IP assignment | Supported, default | Supported       | Not supported |
 
 ---
 ## <a id='general'></a> General Structure
@@ -23,7 +28,7 @@ Networking configuration is usually done in three steps:
 - Configuring the IaaS: outside of BOSH's responsibility
   - Example on AWS: User creates a VPC and subnets with routing tables.
 - Adding networks section to the deployment manifest to define networks used in this deployment
-  - Example: User adds a manual network with a subnet and adds AWS subnet ID into the subnet's cloud properties.
+  - Example: User adds a static network with a subnet and adds AWS subnet ID into the subnet's cloud properties.
 - Adding network associations for one or more networks to each deployment job
 
 All deployment manifests have a similar structure in terms of network definitions and associations:
@@ -54,33 +59,33 @@ jobs:
   - name: my-other-network
   ...
 
-- name: my-static-job
+- name: my-manual-job
   networks:
   - name: my-network
-    # Static IP reservations for `my-job`
-    static_ips: [IP1]
+    # Manual IP reservations for `my-job`
+    manual_ips: [IP1]
   ...
 ```
 
 See how to define each network type below.
 
 ---
-## <a id='manual'></a> Manual Networks
+## <a id='static'></a> Static Networks
 
-Manual networking allows you to specify one or more subnets and let the Director choose available IPs from one of the subnet ranges. A subnet definition specifies the CIDR range and, optionally, the gateway and DNS servers. In addition, certain IPs can be blacklisted (the Director will not use these IPs) via the `reserved` property.
+Static networking allows you to specify one or more subnets and let the Director choose available IPs from one of the subnet ranges. A subnet definition specifies the CIDR range and, optionally, the gateway and DNS servers. In addition, certain IPs can be blacklisted (the Director will not use these IPs) via the `reserved` property.
 
-Each manual network attached to a job instance is typically represented as its own NIC in the IaaS layer.
+Each static network attached to a job instance is typically represented as its own NIC in the IaaS layer.
 
-Schema for manual network definition:
+Schema for static network definition:
 
 * **name** [String, required]: Name used to reference this network configuration
-* **type** [String, required]: Value should be `manual`
+* **type** [String, required]: Value should be `static`
 * **subnets** [Array, required]: Lists subnets in this network
   * **range** [String, required]: Subnet IP range that includes all IPs from this subnet
   * **gateway** [String, optional]: Subnet gateway IP
   * **dns** [Array, optional]: DNS IP addresses for this subnet
   * **reserved** [Array, optional]: Array of reserved IPs and/or IP ranges. BOSH does not assign IPs from this range to any VM
-  * **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to jobs requesting static IPs. Only IPs specified here can be used for static IP reservations.
+  * **manual** [Array, optional]: Array of manual IPs and/or IP ranges. BOSH assigns IPs from this range to jobs requesting manual IPs. Only IPs specified here can be used for manual IP reservations.
   * **cloud_properties** [Hash, required]: Describes any IaaS-specific properties for the subnet. May be empty.
 
 Example:
@@ -88,7 +93,7 @@ Example:
 ```yaml
 networks:
 - name: my-network
-  type: manual
+  type: static
 
   subnets:
   - range:    10.10.0.0/24
@@ -104,27 +109,27 @@ networks:
     gateway: 10.10.1.1
     dns:     [10.10.1.2]
 
-    # IPs that can only be used for static IP reservations within this subnet
-    static: [10.10.1.11-10.10.1.20]
+    # IPs that can only be used for manual IP reservations within this subnet
+    manual: [10.10.1.11-10.10.1.20]
 
     cloud_properties: {subnet: subnet-9be6c6gh}
 ```
 
-Manual networks use dynamic IP reservation by default. They also support static IP reservation. To assign instances of the deployment job specific IPs, a deployment job must specify them in the `static_ips` property for the associated network. An associated network's subnet definition must also specify them in its `static` property:
+Static networks use automatic IP reservation by default. They also support manual IP reservation. To assign specific IPs to instances of the deployment job, they must be specified in deployment job's `networks` section, in the `manual_ips` property for the associated network. That network's subnet definition must also specify them in its `manual` property:
 
 ```yaml
 jobs:
-- name: my-job-with-static-ip
+- name: my-job-with-manual-ip
   instances: 2
   ...
   networks:
   - name: my-network
 
-    # IPs associated with 2 instances of `my-job-with-static-ip` job
-    static_ips: [10.10.1.11, 10.10.1.12]
+    # IPs associated with 2 instances of `my-job-with-manual-ip` job
+    manual_ips: [10.10.1.11, 10.10.1.12]
 ```
 
-<p class="note"><strong>Note</strong>: If a deployment job uses static IP reservation, all instances must be given static IPs.</p>
+<p class="note"><strong>Note</strong>: If a deployment job uses manual IP reservation, all instances must be given manual IPs.</p>
 
 A common problem that you may run into is configuring multiple deployments to use overlapping IP ranges. The Director does not consider an IP to be "used" even if the Director used that IP in a different deployment. There are two possible solutions for this problem: reconfigure one of the deployments to use a different IP range, or use the same IP range but configure each deployment such that reserved IPs exclude the deployment from each other.
 
@@ -137,7 +142,7 @@ Dynamic networking defers IP selection to the IaaS. For example, AWS assigns a p
 
 Each dynamic network attached to a job instance is typically represented as its own NIC in the IaaS layer.
 
-Dynamic networking only supports dynamic IP reservations.
+Dynamic networking only supports automatic IP reservations.
 
 Schema for dynamic network definition:
 
@@ -163,7 +168,7 @@ VIP networking enables the association of an IP address that is not backed by an
 
 VIP network attachment is not represented as a NIC in the IaaS layer. In the AWS CPI, it is implemented with [elastic IPs](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html). In OpenStack CPI, it is implemented with [floating IPs](http://docs.openstack.org/user-guide/content/floating_ip_allocate.html).
 
-VIP networking only supports static IP reservations.
+VIP networking only supports manual IP reservations.
 
 Schema for VIP network definition:
 
@@ -184,10 +189,10 @@ jobs:
   ...
   networks:
   - name: my-network
-    static_ips: [54.47.189.8]
+    manual_ips: [54.47.189.8]
 ```
 
-Unlike the manual networking setup, static IPs for VIP networks are only specified on the deployment job.
+Unlike the static networking setup, manual IPs for VIP networks are only specified on the deployment job.
 
 ---
 ## <a id='multi-homed'></a> Multi-homed VMs
@@ -240,29 +245,11 @@ In the above example, VM allocated to `my-multi-homed-job` deployment job will h
 
 The Director does not enforce how many networks can be assigned to each job instance; however, each CPI might impose custom requirements either due to the IaaS limitations or simply because support was not yet implemented.
 
-vSphere CPI supports:
-
-- Multiple manual networks for each job instance
-- No dynamic networks since vSphere does not manage IP assignments
-- No vip networks since vSphere does not have an elastic/floating IP concept
-
-AWS CPI supports:
-
-- Single manual network for each job instance
-- Single dynamic network for each job instance
-- Single vip network which corresponds to an elastic IP
-
-OpenStack CPI supports:
-
-- Multiple manual networks for each job instance
-- Single dynamic network for each job instance
-- Single vip network which corresponds to a floating IP
-
-vCloud CPI supports:
-
-- Multiple manual networks for each job instance
-- No dynamic networks since vSphere does not manage IP assignments
-- No vip networks since vSphere does not have an elastic/floating IP concept
+|                | static                    | dynamic                 | vip                                  |
+|----------------|---------------------------|-------------------------|--------------------------------------|
+| AWS            | Single per job instance   | Single per job instance | Single, corresponds to an elastic IP |
+| OpenStack      | Multiple per job instance | Single per job instance | Single, corresponds to a floating IP |
+| vSphere/vCloud | Multiple per job instance | Not supported           |                                      |
 
 ---
 ## <a id='cloud-properties'></a> CPI Specific `cloud_properties`
