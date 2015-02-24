@@ -716,6 +716,12 @@ properties:
      default: 80
 ~~~
 
+Note that the definition of properties and their defaults in the job's spec file is optional:
+Bosh will still expand properties in templates and update relevant jobs upon modifications of
+properties in the job manifest (bosh evaluates all the templates for all jobs and notices the differences in the
+result files. if there are changes bosh will update those jobs/vms.)
+
+
 ---
 ## <a id="dev-release"></a> Step 6: Create a Dev Release  ##
 
