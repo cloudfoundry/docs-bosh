@@ -6,7 +6,9 @@ This topic explains how to deploy MicroBOSH to OpenStack.
 
 ##<a id="create-manifest"></a>Step 1: Create a Deployment Manifest ##
 
-The MicroBOSH deployment manifest is a YAML file that defines the components and properties of the deployment. Create a manifest for your deployment as follows:
+The MicroBOSH deployment manifest is a YAML file that defines the components and
+properties of the deployment.
+Create a manifest for your deployment as follows:
 
 1. Create a local deployment directory to store your manifest.
 
@@ -16,11 +18,19 @@ The MicroBOSH deployment manifest is a YAML file that defines the components and
 
 1. Create a deployment manifest YAML file.
 
-    The example below is a MicroBOSH deployment manifest template. Copy and paste the template into a text editor and save the manifest to your deployment directory.
+    The example below is a MicroBOSH deployment manifest template.
+	Copy and paste the template into a text editor and save the manifest to your
+	deployment directory.
 
-    In the template, you must replace the `NETWORK-UUID`, `SUBNET-POOL-IP-ADDRESS`, `FLOATING-IP`, `OPENSTACK-PASSWORD`, `IDENTITY-API-ENDPOINT`, `OPENSTACK-TENANT`, and `OPENSTACK-USERNAME` properties. We describe replacing these properties in [Step 2: Prepare an OpenStack environment](#prepare-openstack).
+    In the template, you must replace the `NETWORK-UUID`,
+	`SUBNET-POOL-IP-ADDRESS`, `FLOATING-IP`, `OPENSTACK-PASSWORD`,
+	`IDENTITY-API-ENDPOINT`, `OPENSTACK-TENANT`, and `OPENSTACK-USERNAME`
+	properties.
+	We describe replacing these properties in [Step 2: Prepare an OpenStack environment](#prepare-openstack).
 
-  <p class="note"><strong>Note</strong>: The example below has the file name <code>manifest.yml</code>, which we reference in other examples in this topic.</p>
+    <p class="note"><strong>Note</strong>: The example below has the file name
+	<code>manifest.yml</code>, which we reference in other examples in this
+	topic.</p>
 
 ```yaml
 ---
@@ -58,9 +68,10 @@ apply_spec:
 ```
 
 ---
-##<a id="prepare-openstack"></a>Step 2: Prepare an OpenStack environment ##
+##<a id="prepare-openstack"></a>Step 2: Prepare an OpenStack Environment ##
 
-To prepare your OpenStack project for deploying MicroBOSH, use the OpenStack GUI to perform the following tasks:
+To prepare your OpenStack project for deploying MicroBOSH, use the OpenStack GUI
+to perform the following tasks:
 
 * Verify [Prerequisites](#prerequisites)
 * Create a [Keypair](#keypair).
@@ -77,13 +88,17 @@ To prepare your OpenStack project for deploying MicroBOSH, use the OpenStack GUI
 
 1. The following OpenStack services:
     * [Identity](http://www.openstack.org/software/openstack-shared-services/):
-        MicroBOSH authenticates credentials and retrieves the endpoint URLs for other OpenStack services.
+        MicroBOSH authenticates credentials and retrieves the endpoint URLs for
+		other OpenStack services.
     * [Compute](http://www.openstack.org/software/openstack-compute/):
-        MicroBOSH boots new VMs, assigns floating IPs to VMs, and creates and attaches volumes to VMs.
+        MicroBOSH boots new VMs, assigns floating IPs to VMs, and creates and
+		attaches volumes to VMs.
     * [Image](http://www.openstack.org/software/openstack-shared-services/):
         MicroBOSH stores stemcells using the Image service.
-    * **(Optional)** [OpenStack Networking](http://www.openstack.org/software/openstack-networking/):
-        Provides network scaling and automated management functions that are useful when deploying complex distributed systems.
+    * **(Optional)** [OpenStack
+		Networking](http://www.openstack.org/software/openstack-networking/):
+        Provides network scaling and automated management functions that are
+		useful when deploying complex distributed systems.
     <br /><br />
 
 1. The following OpenStack networks:
@@ -93,7 +108,8 @@ To prepare your OpenStack project for deploying MicroBOSH, use the OpenStack GUI
 
 1. A new OpenStack project.
 
-<p class="note"><strong>Note</strong>: See the <a href="http://docs.openstack.org/">OpenStack documentation</a> for help finding more information.</p>
+<p class="note"><strong>Note</strong>: See the <a href="http://docs.openstack.org/">OpenStack documentation</a> for help finding
+	more information.</p>
 
 ---
 ### <a id="keypair"></a>Create a Keypair ###
@@ -124,7 +140,8 @@ For example, on UNIX run this command:
 ---
 ### <a id="security-groups"></a>Create and Configure Security Groups ###
 
-You must create and configure two Security Groups to restrict incoming network traffic to the BOSH VMs.
+You must create and configure two Security Groups to restrict incoming network
+traffic to the BOSH VMs.
 
 ####BOSH Security Group ####
 
@@ -136,7 +153,7 @@ You must create and configure two Security Groups to restrict incoming network t
 
 1. Click **Create Security Group**.
 
-1. Name the security group "bosh" and add the description "BOSH Security Group"
+1. Name the security group "bosh" and add the description "BOSH Security Group".
 
     <%= image_tag("images/micro-openstack/create-bosh-sg.png") %>
 
@@ -158,25 +175,92 @@ You must create and configure two Security Groups to restrict incoming network t
         <th><b>Port Range</b></th>
         <th><b>Remote</b></th>
       </tr>
-      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>1-65535</td><td>bosh</td></tr>
-      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>25777</td><td>0.0.0.0/0 (CIDR)</td></tr>
-      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>25555</td><td>0.0.0.0/0 (CIDR)</td></tr>
-      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>25250</td><td>0.0.0.0/0 (CIDR)</td></tr>
-      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>6868</td><td>0.0.0.0/0 (CIDR)</td></tr>
-      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>4222</td><td>0.0.0.0/0 (CIDR)</td></tr>
-      <tr><td>Ingress</td><td>IPv4</td><td>UDP</td><td>68</td><td>0.0.0.0/0 (CIDR)</td></tr>
-      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>53</td><td>0.0.0.0/0 (CIDR)</td></tr>
-      <tr><td>Ingress</td><td>IPv4</td><td>UDP</td><td>53</td><td>0.0.0.0/0 (CIDR)</td></tr>
-      <tr><td>Egress</td><td>IPv4</td><td>Any</td><td>-</td><td>0.0.0.0/0 (CIDR)</td></tr>
-      <tr><td>Egress</td><td>IPv6</td><td>Any</td><td>-</td><td>::/0 (CIDR)</td></tr>
+      <tr>
+	    <td>Ingress</td>
+	    <td>IPv4</td>
+	    <td>TCP</td>
+	    <td>1-65535</td>
+	    <td>bosh</td>
+	  </tr>
+      <tr>
+	    <td>Ingress</td>
+	    <td>IPv4</td>
+	    <td>TCP</td>
+	    <td>25777</td>
+	    <td>0.0.0.0/0 (CIDR)</td>
+	  </tr>
+      <tr>
+	    <td>Ingress</td>
+	    <td>IPv4</td>
+	    <td>TCP</td>
+	    <td>25555</td>
+	    <td>0.0.0.0/0 (CIDR)</td>
+	  </tr>
+      <tr>
+	    <td>Ingress</td>
+	    <td>IPv4</td>
+	    <td>TCP</td>
+	    <td>25250</td>
+	    <td>0.0.0.0/0 (CIDR)</td>
+	  </tr>
+      <tr>
+	    <td>Ingress</td>
+	    <td>IPv4</td>
+	    <td>TCP</td>
+	    <td>6868</td>
+	    <td>0.0.0.0/0 (CIDR)</td>
+	  </tr>
+      <tr>
+	    <td>Ingress</td>
+	    <td>IPv4</td>
+	    <td>TCP</td>
+	    <td>4222</td>
+	    <td>0.0.0.0/0 (CIDR)</td>
+	  </tr>
+      <tr>
+	    <td>Ingress</td>
+	    <td>IPv4</td>
+	    <td>UDP</td>
+	    <td>68</td>
+	    <td>0.0.0.0/0 (CIDR)</td>
+	  </tr>
+      <tr>
+	    <td>Ingress</td>
+	    <td>IPv4</td>
+	    <td>TCP</td>
+	    <td>53</td>
+	    <td>0.0.0.0/0 (CIDR)</td>
+	  </tr>
+      <tr>
+	    <td>Ingress</td>
+	    <td>IPv4</td>
+	    <td>UDP</td>
+	    <td>53</td>
+	    <td>0.0.0.0/0 (CIDR)</td>
+	  </tr>
+      <tr>
+	    <td>Egress</td>
+	    <td>IPv4</td>
+	    <td>Any</td>
+	    <td>-</td>
+	    <td>0.0.0.0/0 (CIDR)</td>
+	  </tr>
+      <tr>
+	    <td>Egress</td>
+	    <td>IPv6</td>
+	    <td>Any</td>
+	    <td>-</td>
+	    <td>::/0 (CIDR)</td>
+	  </tr>
     </table>
 
-    <p class="note"><strong>Note</strong>: It highly discouraged to run any production
-      environment with <code>0.0.0.0/0</code> source. Production environments should
-      have MicroBOSH deployed without a floating IP on the private subnet.</p>
+    <p class="note"><strong>Note</strong>: Production environments should have
+	MicroBOSH deployed without a floating IP address on the private subnet. We
+	highly recommend against running any production environment with
+	<code>0.0.0.0/0</code> source IP addresses.</p>
 
 ---
-###<a id="floating-ip"></a>Allocate a floating IP address ###
+###<a id="floating-ip"></a>Allocate a Floating IP Address ###
 
 1. Select **Access & Security** from the left navigation panel.
 
@@ -200,29 +284,12 @@ Floating IP Address.
 ---
 ##<a id="download-stemcell"></a>Step 3: Download a Stemcell ##
 
-1. Install the [BOSH Command Line Interface (CLI)](./bosh-cli.html).
+1. Open [https://bosh.io/stemcells](https://bosh.io/stemcells) in a web browser
+to view a list of publicly available BOSH stemcells.
+The list displays the most recent builds of BOSH stemcell organized by operating
+system, target IaaS, and hypervisor.
 
-1. In a terminal window, run `bosh public stemcells` from your deployment directory to view a list of publicly available stemcells. The list displays the most recent build of each flavor.
-
-  	<pre class="terminal">
-  	$ bosh public stemcells
-  	+----------------------------------------------------------------+
-  	| Name                                                           |
-  	+----------------------------------------------------------------+
-  	| bosh-stemcell-2751-openstack-kvm-ubuntu-trusty-go_agent.tgz    |
-  	| bosh-stemcell-2751-openstack-kvm-centos-go_agent.tgz           |
-                        ... older stemcells ...
-</pre>
-
-1. Run `bosh download public stemcell STEMCELL-NAME` to download an OpenStack
-stemcell.
-
-    BOSH stemcell names include the type, BOSH build number, target IaaS and
-hypervisior, and underlying operating system.
-
-  	<pre class="terminal">
-  	$ bosh download public stemcell bosh-stemcell-2751-openstack-kvm-ubuntu-trusty-go_agent.tgz
-  	</pre>
+1. Download a BOSH stemcell for OpenStack by clicking on its version number.
 
 ---
 ##<a id="deploy-microbosh"></a>Step 4: Deploy MicroBOSH ##
@@ -263,7 +330,8 @@ deployment directory to instruct MicroBOSH to use your manifest file.
     Deployed '~/my-micro-deployment/manifest.yml' to 'https://173.81.16.12:25555', took 00:04:51 to complete
     </pre>
 
-1. Use `bosh target FLOATING-IP-ADDRESS` to log into your new MicroBOSH server. The default username and password are `admin` and `admin`.
+1. Use `bosh target FLOATING-IP-ADDRESS` to log into your new MicroBOSH server.
+The default username and password are `admin` and `admin`.
 
     <pre class="terminal">
     $ bosh target 173.81.16.12
