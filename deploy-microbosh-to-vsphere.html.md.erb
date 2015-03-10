@@ -6,7 +6,9 @@ This topic explains how to deploy MicroBOSH to VMware vSphere.
 
 ##<a id="create-manifest"></a>Step 1: Create a Deployment Manifest ##
 
-The MicroBOSH deployment manifest is a YAML file that defines the components and properties of the deployment. Create a manifest for your deployment as follows:
+The MicroBOSH deployment manifest is a YAML file that defines the components and
+properties of the deployment.
+Create a manifest for your deployment as follows:
 
 1. Create a local deployment directory to store your manifest.
 
@@ -16,9 +18,13 @@ The MicroBOSH deployment manifest is a YAML file that defines the components and
 
 1. Create a deployment manifest YAML file.
 
-    The example below is a MicroBOSH deployment manifest template. Copy and paste the template into a text editor and save the manifest to your deployment directory.
+    The example below is a MicroBOSH deployment manifest template.
+	Copy and paste the template into a text editor and save the manifest to your
+	deployment directory.
 
-    <p class="note"><strong>Note</strong>: The example below has the file name <code>manifest.yml</code>, which we reference in other examples in this topic.</p>
+    <p class="note"><strong>Note</strong>: The example below has the file name
+	<code>manifest.yml</code>, which we reference in other examples in this
+	topic.</p>
 
 ```yaml
 ---
@@ -69,7 +75,8 @@ cloud:
 ---
 ##<a id="prepare"></a>Step 2: Prepare a vSphere Environment ##
 
-To prepare your vSphere environment for deploying MicroBOSH, use the vSphere Web Client to create any missing resources listed below:
+To prepare your vSphere environment for deploying MicroBOSH, use the vSphere Web
+Client to create any missing resources listed below:
 
 - Replace `VCENTER-IP` (e.g. '192.168.0.10') with the IP of the vCenter.
 
@@ -77,7 +84,7 @@ To prepare your vSphere environment for deploying MicroBOSH, use the vSphere Web
 
 - Replace `VSPHERE-DATACENTER-NAME` (e.g. 'my-dc') with the name of the datacenter the Director will use for VM creation.
 
-- Replace `VSPHERE-VMS-FOLDER-NAME` (e.g. 'my-micro-vms') and `VSPHERE-TEMPLATES-FOLDER-NAME` (e.g. 'my-micro-templates') with the name of the folder created to hold VMs and the name of the folder created to hold stemcells. Create both folders under the chosen datacenter. 
+- Replace `VSPHERE-VMS-FOLDER-NAME` (e.g. 'my-micro-vms') and `VSPHERE-TEMPLATES-FOLDER-NAME` (e.g. 'my-micro-templates') with the name of the folder created to hold VMs and the name of the folder created to hold stemcells. Create both folders under the chosen datacenter.
 
 - Replace `VSPHERE-DATASTORE-NAME` (e.g. 'datastore1') with the name of the datastore the Director will use for storing VMs and associated persistent disks.
 
@@ -90,34 +97,17 @@ To prepare your vSphere environment for deploying MicroBOSH, use the vSphere Web
 ---
 ## <a id="download-stemcell"></a>Step 3: Download a Stemcell ##
 
-1. Install the [BOSH Command Line Interface (CLI)](./bosh-cli.html).
+1. Open [https://bosh.io/stemcells](https://bosh.io/stemcells) in a web browser
+to view a list of publicly available BOSH stemcells.
+The list displays the most recent builds of BOSH stemcell organized by operating system, target IaaS, and hypervisor.
 
-1. In a terminal window, run `bosh public stemcells` from your deployment directory to see a list of publicly available BOSH stemcells. The list displays the most recent build of each flavor.
-
-    <pre class='terminal'>
-    $ bosh public stemcells
-    +-------------------------------------------------------------+
-    | Name                                                        |
-    +-------------------------------------------------------------+
-    | bosh-stemcell-2751-vsphere-esxi-ubuntu-trusty-go_agent.tgz  |
-    | bosh-stemcell-2751-vsphere-esxi-centos-go_agent.tgz         |
-                    ... older stemcells ...
-</pre>
-
-1. Run `bosh download public stemcell STEMCELL-NAME` to download a stemcell.
-
-    BOSH stemcell names include the type, BOSH build number, target IaaS and hypervisior, and underlying operating system.
-
-    To download the latest Ubuntu Trusty stemcell:
-
-    <pre class='terminal'>
-    $ bosh download public stemcell bosh-stemcell-2751-vsphere-esxi-ubuntu-trusty-go_agent.tgz
-    </pre>
+1. Download a BOSH stemcell for vSphere by clicking on its version number.
 
 ---
 ## <a id="deploy"></a>Step 4: Deploy MicroBOSH ##
 
-1. In a terminal window, run `bosh micro deployment microbosh.yml` from your deployment directory to instruct MicroBOSH to use your manifest file.
+1. In a terminal window, run `bosh micro deployment microbosh.yml` from your
+deployment directory to instruct MicroBOSH to use your manifest file.
 
     <pre class='terminal'>
     $ cd ~/my-micro-deployment
