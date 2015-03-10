@@ -21,38 +21,13 @@ You will need to edit this file putting in various parameters like IP addresses,
 
 ## <a id="download"></a>Download a BOSH Stemcell for vCloud deployment ###
 
-You will need Internet access for the bosh\_cli to download the stemcells.
-You may need to temporarily set the http\_proxy and https\_proxy variables if
-you are behind a corporate firewall.
-If so, remember to unset it before completing the following steps if your proxy
-won't allow contacting the newly micro_bosh vm.
+1. Open [https://bosh.io/stemcells](https://bosh.io/stemcells) in a web browser
+to view a list of publicly available BOSH stemcells.
+The list displays the most recent builds of BOSH stemcell organized by operating system, target IaaS, and hypervisor.
 
-The commands used are as follows:
+1. Download a BOSH stemcell for vCloud by clicking on its version number.
 
-	bosh public stemcells
-	bosh download public stemcell <stemcell name>
-
-For example:
-
-<pre class="terminal">
-$ bosh public stemcells
-+---------------------------------------------+
-| Name 	|
-+---------------------------------------------+
-| bosh-stemcell-xxxx-aws-xen-ubuntu.tgz       |
-| bosh-stemcell-xxxx-aws-xen-centos.tgz       |
-| light-bosh-stemcell-xxxx-aws-xen-ubuntu.tgz |
-| light-bosh-stemcell-xxxx-aws-xen-centos.tgz |
-| bosh-stemcell-xxxx-openstack-kvm-ubuntu.tgz |
-| bosh-stemcell-xxxx-vsphere-esxi-ubuntu.tgz  |
-| bosh-stemcell-xxxx-vsphere-esxi-centos.tgz  |
-| bosh-stemcell-xxxx-vcloud-esxi-ubuntu.tgz   |
-| bosh-stemcell-xxxx-vcloud-esxi-centos.tgz 	|
-+---------------------------------------------+
-$ bosh download public stemcell bosh-stemcell-XXXX-vcloud-esxi-ubuntu.tgz
-</pre>
-
-## <a id="deploy-stemcell"></a> Deploy a stemcell ###
+## <a id="deploy-stemcell"></a> Deploy a Stemcell ###
 
 Change to the deployments directory and set the deployment. This assumes you named the directory micro01.
 
