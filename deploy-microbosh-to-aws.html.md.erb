@@ -240,31 +240,11 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 ---
 ## <a id="download-stemcell"></a>Step 3: Download a Stemcell
 
-1. Install the [BOSH Command Line Interface (CLI)](./bosh-cli.html).
+1. Open [https://bosh.io/stemcells](https://bosh.io/stemcells) in a web browser
+to view a list of publicly available BOSH stemcells.
+The list displays the most recent builds of BOSH stemcell organized by operating system, target IaaS, and hypervisor.
 
-1. In a terminal window, run `bosh public stemcells` from your deployment directory to view a list of publicly available BOSH stemcells. The list displays the most recent build of each flavor. Choose the latest version of `light-bosh-stemcell-XXXX-aws-xen-ubuntu-trusty-go_agent.tgz`:
-
-    <pre class='terminal'>
-    $ bosh public stemcells
-
-    +-------------------------------------------------------------+
-    | Name                                                        |
-    +-------------------------------------------------------------+
-    | light-bosh-stemcell-2818-aws-xen-ubuntu-trusty-go_agent.tgz |
-    | light-bosh-stemcell-2818-aws-xen-centos-go_agent.tgz        |
-                    ... older stemcells ...
-</pre>
-
-1. Run `bosh download public stemcell STEMCELL-NAME` to download a stemcell.
-
-    BOSH stemcell names include the type, BOSH build number, target IaaS and
-	hypervisior, and underlying operating system.
-
-    Example downloading the 2818 version of the Ubuntu Trusty stemcell for AWS:
-
-    <pre class='terminal'>
-    $ bosh download public stemcell light-bosh-stemcell-2818-aws-xen-ubuntu-trusty-go_agent.tgz
-    </pre>
+1. Download a BOSH stemcell for AWS by clicking on its version number.
 
 ---
 ## <a id="deploy"></a> Step 4: Deploy MicroBOSH
@@ -281,7 +261,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
     </pre>
 
     <p class="note"><strong>Notes</strong>:
-    * If you receive an `Unknown command` error message, you might not have installed the <a href="http://bosh.io/docs/bosh-cli.html">cf CLI MicroBOSH plugin</a>. Run `gem install bosh_cli_plugin_micro`. `bosh help` displays commands that begin with `micro` when you successfully install the plugin.
+    * If you receive an <code>Unknown command</code> error message, you might not have installed the <a href="http://bosh.io/docs/bosh-cli.html">cf CLI MicroBOSH plugin</a>. Run <code>gem install bosh_cli_plugin_micro</code>. <code>bosh help</code> displays commands that begin with <code>micro</code> when you successfully install the plugin.
     * BOSH displays a red <code>WARNING!</code> message that is not an error message. The message alerts you to a change in the targeted IP address.</p>
 
 1. Run `bosh micro deploy STEMCELL-NAME` to deploy MicroBOSH.
@@ -363,6 +343,3 @@ If other error messages appear:
 If you cannot determine the cause of any error, run `bosh micro delete` to remove the deployment, then reattempt the deploy.
 
 ---
-
-
-
