@@ -25,7 +25,7 @@ You will need to edit this file putting in various parameters like IP addresses,
 to view a list of publicly available BOSH stemcells.
 The list displays the most recent build numbers of BOSH stemcells, organized by operating system, target IaaS, and hypervisor.
 
-1. Select a BOSH stemcell for vCloud and click the build number to download.
+1. Choose a BOSH stemcell for vCloud and click the build number to download.
 
 ## <a id="deploy-stemcell"></a> Deploy a Stemcell ###
 
