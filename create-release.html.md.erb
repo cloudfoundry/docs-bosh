@@ -132,7 +132,7 @@ case $1 in
     mkdir -p $RUN_DIR $LOG_DIR
     chown -R vcap:vcap $RUN_DIR $LOG_DIR
 
-    echo $$ >> $PIDFILE
+    echo $$ > $PIDFILE
 
     cd /var/vcap/packages/web_ui
 
