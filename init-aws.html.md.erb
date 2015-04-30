@@ -331,7 +331,9 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
     <pre class='terminal'>
     $ bosh-init deploy ./bosh.yml
     ...
-</pre>
+    </pre>
+
+    See [AWS CPI errors](aws-cpi.html#errors) for list of common errors and resolutions.
 
 1. Install the [BOSH Command Line Interface (CLI)](./bosh-cli.html).
 
@@ -351,16 +353,6 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
     </pre>
 
 1. Save the deployment state file left in your deployment directory so you can later update/delete your Director. See [Deployment state](using-bosh-init.html#deployment-state) section of 'Using bosh-init' for more details.
-
----
-## <a id="troubleshooting"></a> Basic Troubleshooting
-
-If an error message displays that refers to your access key signature, check the accuracy of the `ACCESS-KEY-ID` and `SECRET-ACCESS-KEY` in the deployment manifest.
-
-If other error messages appear:
-
-* Check your `bosh.yml` for errors.
-* Review your AWS configuration.
 
 ---
 [Back to Table of Contents](index.html#install)
