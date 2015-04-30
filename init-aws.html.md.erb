@@ -2,19 +2,17 @@
 title: Initializing BOSH environment on AWS
 ---
 
-This document shows how to initialize a BOSH environment on Amazon Web Services (AWS).
+This document shows how to initialize new [environment](terminology.html#environment) on Amazon Web Services (AWS).
 
 ## <a id="create-manifest"></a>Step 1: Create a Deployment Manifest
 
-1. Create a deployment directory to store your deployment manifest for the Director.
+1. Create a deployment directory.
 
     <pre class='terminal'>
     $ mkdir ~/my-bosh
     </pre>
 
-1. Create a deployment manifest YAML file based on the example below.
-
-    Copy and paste the template into a text editor and save the manifest to your deployment directory as `bosh.yml`.
+1. Create a deployment manifest file named `bosh.yml` in the deployment director based on the template below.
 
     In the template, you must replace the `ELASTIC-IP-ADDRESS`, `SUBNET-ID`, `AVAILABILITY-ZONE`, `ACCESS-KEY-ID`, and `SECRET-ACCESS-KEY` properties. We describe replacing these properties in [Step 2: Prepare an AWS Account](#prepare-aws).
 
@@ -26,18 +24,18 @@ name: bosh
 
 releases:
 - name: bosh
-  url: "https://bosh.io/d/github.com/cloudfoundry/bosh?v=158"
+  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=158
   sha1: a97811864b96bee096477961b5b4dadd449224b4
 - name: bosh-aws-cpi
-  url: "https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-aws-cpi-release?v=7"
+  url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-aws-cpi-release?v=7
   sha1: 6545812c1c8245331b8c420f886dafd24b866eed
 
 resource_pools:
 - name: vms
   network: private
   stemcell:
-    url: "https://bosh.io/d/stemcells/bosh-aws-xen-hvm-ubuntu-trusty-go_agent"
-    sha1: bd1dedd0a44b06f9e200e0eb0212a4b6bd64f43a
+    url: https://bosh.io/d/stemcells/bosh-aws-xen-hvm-ubuntu-trusty-go_agent?v=2950
+    sha1: 6489bff150d1ecbd12fda30267896f041dd279f0
   cloud_properties:
     instance_type: m3.xlarge
     ephemeral_disk: {size: 25_000, type: gp2}
@@ -115,7 +113,7 @@ jobs:
       agent: {user: agent, password: agent-password}
 
     director:
-      # address: 127.0.0.1 # todo remove
+      address: 127.0.0.1
       name: my-bosh
       db: *db
       cpi_job: cpi
@@ -125,8 +123,8 @@ jobs:
       director_account: {user: admin, password: admin}
 
     aws: &aws
-      access_key_id: ACCESS-KEY-ID # <--- Replace with AWSAccessKeyId
-      secret_access_key: SECRET-ACCESS-KEY # <--- Replace with AWSSecretKey
+      access_key_id: ACCESS-KEY-ID # <--- Replace with AWS Access Key ID
+      secret_access_key: SECRET-ACCESS-KEY # <--- Replace with AWS Secret Key
       default_key_name: bosh
       default_security_groups: [bosh]
       region: us-east-1
@@ -157,7 +155,7 @@ cloud_provider:
 ```
 
 ---
-##<a id="prepare-aws"></a>Step 2: Prepare an AWS Account
+## <a id="prepare-aws"></a>Step 2: Prepare an AWS Account
 
 If you do not have an AWS account, [create one](http://goo.gl/MaAybK).
 
