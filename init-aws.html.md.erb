@@ -6,8 +6,6 @@ This document shows how to initialize a BOSH environment on Amazon Web Services 
 
 ## <a id="create-manifest"></a>Step 1: Create a Deployment Manifest
 
-The deployment manifest is a YAML file that defines the components and properties of the deployment. Create a manifest for your deployment as follows:
-
 1. Create a deployment directory to store your deployment manifest for the Director.
 
     <pre class='terminal'>
@@ -16,13 +14,11 @@ The deployment manifest is a YAML file that defines the components and propertie
 
 1. Create a deployment manifest YAML file based on the example below.
 
-    Copy and paste the template into a text editor and save the manifest to your deployment directory.
+    Copy and paste the template into a text editor and save the manifest to your deployment directory as `bosh.yml`.
 
     In the template, you must replace the `ELASTIC-IP-ADDRESS`, `SUBNET-ID`, `AVAILABILITY-ZONE`, `ACCESS-KEY-ID`, and `SECRET-ACCESS-KEY` properties. We describe replacing these properties in [Step 2: Prepare an AWS Account](#prepare-aws).
 
-    <p class="note"><strong>Note</strong>: The example below uses several predefined password.</p>
-
-    <p class="note"><strong>Note</strong>: The example below has the file name <code>bosh.yml</code>, which we reference in other examples in this topic.</p>
+    <p class="note"><strong>Note</strong>: The example below uses several predefined password. We recommend to replace them with passwords of your choice.</p>
 
 ```yaml
 ---
@@ -45,7 +41,7 @@ resource_pools:
   cloud_properties:
     instance_type: m3.xlarge
     ephemeral_disk: {size: 25_000, type: gp2}
-    availability_zone: AVAILABILITY-ZONE # <--- Replace with your Availability Zone
+    availability_zone: AVAILABILITY-ZONE # <--- Replace with Availability Zone
 
 disk_pools:
 - name: disks
@@ -59,7 +55,7 @@ networks:
   - range: 10.10.0.0/24
     gateway: 10.10.0.1
     dns: [10.10.0.2]
-    cloud_properties: {subnet: SUBNET-ID} # <--- Replace with your MicroBOSH Subnet ID
+    cloud_properties: {subnet: SUBNET-ID} # <--- Replace with Subnet ID
 - name: public
   type: vip
 
@@ -82,7 +78,7 @@ jobs:
 
   networks:
   - {name: private, static_ips: [10.10.0.6]}
-  - {name: public, static_ips: [ELASTIC-IP-ADDRESS]} # <--- Replace with your Elastic IP address
+  - {name: public, static_ips: [ELASTIC-IP-ADDRESS]} # <--- Replace with Elastic IP
 
   properties:
     nats:
@@ -129,8 +125,8 @@ jobs:
       director_account: {user: admin, password: admin}
 
     aws: &aws
-      access_key_id: ACCESS-KEY-ID # <--- Replace with your AWSAccessKeyId
-      secret_access_key: SECRET-ACCESS-KEY # <--- Replace with your AWSSecretKey
+      access_key_id: ACCESS-KEY-ID # <--- Replace with AWSAccessKeyId
+      secret_access_key: SECRET-ACCESS-KEY # <--- Replace with AWSSecretKey
       default_key_name: bosh
       default_security_groups: [bosh]
       region: us-east-1
@@ -148,7 +144,7 @@ cloud_provider:
     user: vcap
     private_key: ./bosh.pem # Path relative to this manifest file
 
-  mbus: "https://mbus:mbus-password@ELASTIC-IP-ADDRESS:6868" # <--- Replace with your Elastic IP address
+  mbus: "https://mbus:mbus-password@ELASTIC-IP-ADDRESS:6868" # <--- Replace with Elastic IP
 
   properties:
     aws: *aws
@@ -344,7 +340,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
     <pre class="terminal">
     $ bosh target 54.175.20.129
 
-    Target set to 'microbosh'
+    Target set to 'bosh'
     Your username: admin
     Enter password: *****
     Logged in as 'admin'
@@ -369,4 +365,4 @@ If other error messages appear:
 ---
 [Back to Table of Contents](index.html#install)
 
-Previous: [Bootstrapping an environment](bootstrap.html)
+Previous: [Bootstrapping an environment](init.html)
