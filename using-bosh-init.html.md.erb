@@ -13,6 +13,8 @@ Deploy command takes a deployment manifest as its input and idempotently converg
 - it may recreate a VM due to a stemcell difference, and
 - it may recreate persistent disks and migrate the data
 
+<p class="note">Note: See <a href="migrate-to-bosh-init.html">Migrating to bosh-init from the micro CLI plugin</a> if you have an existing MicroBOSH.</p>
+
 Here is an example output which shows creation of a new VM and deployment of the Director onto it:
 
 <pre class="terminal wide">

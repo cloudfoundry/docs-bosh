@@ -17,18 +17,32 @@ Here are the latest binaries:
 	{{ end }}
 </div>
 
-Once you download the binary for your platform, place it on your `PATH`. For example on UNIX machines:
+1. Download the binary for your platform and place it on your `PATH`. For example on UNIX machines:
 
-<pre class="terminal">
-$ chmod +x ~/Downloads/bosh-init-*
-$ sudo mv ~/Downloads/bosh-init-* /usr/local/bin/bosh-init
-</pre>
+	<pre class="terminal">
+	$ chmod +x ~/Downloads/bosh-init-*
+	$ sudo mv ~/Downloads/bosh-init-* /usr/local/bin/bosh-init
+	</pre>
 
-To make sure `bosh-init` is properly installed, check its version:
+1. Check `bosh-init` version to make sure it is properly installed:
 
-<pre class="terminal">
-$ bosh-init -v
-</pre>
+	<pre class="terminal">
+	$ bosh-init -v
+	</pre>
+
+1. Depending on your platform install following packages:
+
+	**Ubuntu Trusty**
+
+	<pre class="terminal">
+	$ sudo apt-get install -y build-essential zlibc zlib1g-dev openssl libxslt-dev libxml2-dev libssl-dev libreadline6 libreadline6-dev libyaml-dev libsqlite3-dev sqlite3
+	</pre>
+
+	**CentOS**
+
+	<pre class="terminal">
+	$ sudo yum install gcc ruby ruby-devel mysql-devel postgresql-devel postgresql-libs sqlite-devel libxslt-devel libxml2-devel yajl-ruby
+	</pre>
 
 ---
 See [Using bosh-init](using-bosh-init.html) for details on how to use it.
