@@ -63,7 +63,6 @@ jobs:
   - {name: blobstore, release: bosh}
   - {name: director, release: bosh}
   - {name: health_monitor, release: bosh}
-  - {name: registry, release: bosh}
   - {name: cpi, release: bosh-vcloud-cpi}
 
   resource_pool: vms
@@ -89,15 +88,6 @@ jobs:
       password: postgres-password
       database: bosh
       adapter: postgres
-
-    registry:
-      address: 10.0.0.6
-      host: 10.0.0.6
-      db: *db
-      http: {user: admin, password: admin, port: 25777}
-      username: admin
-      password: admin
-      port: 25777
 
     blobstore:
       address: 10.0.0.6
@@ -140,11 +130,8 @@ cloud_provider:
 
   properties:
     vcd: *vcd
-
     agent: {mbus: "https://mbus:mbus-password@0.0.0.0:6868"}
-
     blobstore: {provider: local, path: /var/vcap/micro_bosh/data/cache}
-
     ntp: *ntp
 ```
 

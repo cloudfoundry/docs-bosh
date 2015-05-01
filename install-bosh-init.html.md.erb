@@ -2,22 +2,29 @@
 title: Install bosh-init
 ---
 
-bosh-init is used for creating and updating a Director VM (and its persistent disk) in an environment.
+`bosh-init` is used for creating and updating a Director VM (and its persistent disk) in an environment.
 
-It is written in Go and comes as a single binary. Here are latest versions:
+Here are the latest binaries:
 
-* bosh-init for Linux (amd64)
-* bosh-init for Mac OS X (amd64)
-* bosh-init is not supported on Windows
+<div class="well">
+	{{ range .LatestBoshInitBinGroups }}
+		<h4>{{ .Version }}</h4>
+		<ul>
+			{{ range .Binaries }}
+				<li><a {{ href .URL }}>{{ .Description }}</a></li>
+			{{ end }}
+		</ul>
+	{{ end }}
+</div>
 
-Once you download the binary, place it on your `PATH`. For example on UNIX machines:
+Once you download the binary for your platform, place it on your `PATH`. For example on UNIX machines:
 
 <pre class="terminal">
-$ chmod +x ~/Downloads/bosh-init-X-linux
-$ sudo mv ~/Downloads/bosh-init-X-linux /usr/local/bin/bosh-init
+$ chmod +x ~/Downloads/bosh-init-*
+$ sudo mv ~/Downloads/bosh-init-* /usr/local/bin/bosh-init
 </pre>
 
-To make sure bosh-init is properly installed, check its version:
+To make sure `bosh-init` is properly installed, check its version:
 
 <pre class="terminal">
 $ bosh-init -v

@@ -72,8 +72,8 @@ jobs:
   persistent_disk_pool: disks
 
   networks:
-  - {name: private, static_ips: [PRIVATE-IP]} # <--- Replace with a private IP address
-  - {name: public, static_ips: [FLOATING-IP]} # <--- Replace with a floating IP address
+  - {name: private, static_ips: [PRIVATE-IP]} # <--- Replace with a private IP
+  - {name: public, static_ips: [FLOATING-IP]} # <--- Replace with a floating IP
 
   properties:
     nats:
@@ -94,8 +94,8 @@ jobs:
       adapter: postgres
 
     registry:
-      address: PRIVATE-IP # <--- Replace with a private IP address
-      host: PRIVATE-IP # <--- Replace with a private IP address
+      address: PRIVATE-IP # <--- Replace with a private IP
+      host: PRIVATE-IP # <--- Replace with a private IP
       db: *db
       http: {user: admin, password: admin, port: 25777}
       username: admin
@@ -103,7 +103,7 @@ jobs:
       port: 25777
 
     blobstore:
-      address: PRIVATE-IP # <--- Replace with a private IP address
+      address: PRIVATE-IP # <--- Replace with a private IP
       port: 25250
       provider: dav
       director: {user: director, password: director-password}
@@ -129,7 +129,7 @@ jobs:
       default_key_name: bosh
       default_security_groups: [bosh]
 
-    agent: {mbus: "nats://nats:nats-password@PRIVATE-IP:4222"} # <--- Replace with a private IP address
+    agent: {mbus: "nats://nats:nats-password@PRIVATE-IP:4222"} # <--- Replace with a private IP
 
     ntp: &ntp [0.pool.ntp.org, 1.pool.ntp.org]
 
@@ -137,20 +137,17 @@ cloud_provider:
   template: {name: cpi, release: bosh-openstack-cpi}
 
   ssh_tunnel:
-    host: FLOATING-IP # <--- Replace with a floating IP address
+    host: FLOATING-IP # <--- Replace with a floating IP
     port: 22
     user: vcap
     private_key: ./bosh.pem # Path relative to this manifest file
 
-  mbus: "https://mbus:mbus-password@FLOATING-IP:6868" # <--- Replace with a floating IP address
+  mbus: "https://mbus:mbus-password@FLOATING-IP:6868" # <--- Replace with a floating IP
 
   properties:
     openstack: *openstack
-
     agent: {mbus: "https://mbus:mbus-password@0.0.0.0:6868"}
-
     blobstore: {provider: local, path: /var/vcap/micro_bosh/data/cache}
-
     ntp: *ntp
 ```
 
