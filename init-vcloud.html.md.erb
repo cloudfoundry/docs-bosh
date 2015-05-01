@@ -112,11 +112,12 @@ jobs:
       user: VCLOUD-USER
       password: VCLOUD-PASSWORD
       entities:
+        organization: VDC-ORGANIZATION
+        virtual_datacenter: VDC-NAME
         vapp_catalog: bosh-catalog
         media_catalog: bosh-catalog
         media_storage_profile: '*'
-        organization: VCD-ORGANIZATION
-        virtual_datacenter: ???
+        vm_metadata_key: bosh-meta
       control: {wait_max: 900}
 
     agent: {mbus: "nats://nats:nats-password@10.0.0.6:4222"}
@@ -144,7 +145,11 @@ To prepare your vCloud environment find out and/or create any missing resources 
 
 - Replace `VCLOUD-USER` (e.g. 'root') and `VCLOUD-PASSWORD` (e.g. 'vmware') in your deployment manifest with vCloud user name and password. BOSH does not require user to be an admin; however, it does need certain user privileges.
 
-- Replace `NETWORK-NAME` (e.g. 'VM Network') with the name of the vCloud network.
+- Replace `NETWORK-NAME` (e.g. 'VM Network') with the name of the vCloud network. Deployment manifest is configured with `10.0.0.0/24` subnet.
+
+- Replace `VDC-ORGANIZATION` (e.g. 'VDC-M127910816-4610-275')
+
+- Replace `VDC-NAME` (e.g. 'VDC-M127910816-4610-275')
 
 ---
 ## <a id="deploy"></a> Step 3: Deploy
