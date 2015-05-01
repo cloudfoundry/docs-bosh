@@ -1,0 +1,198 @@
+---
+title: Initializing BOSH environment on vCloud
+---
+
+This document shows how to initialize new [environment](terminology.html#environment) on vCloud.
+
+## <a id="create-manifest"></a>Step 1: Create a Deployment Manifest
+
+1. Create a deployment directory.
+
+    <pre class='terminal'>
+    $ mkdir ~/my-bosh
+    </pre>
+
+1. Create a deployment manifest file named `bosh.yml` in the deployment director based on the template below.
+
+    <p class="note"><strong>Note</strong>: The example below uses several predefined password. We recommend to replace them with passwords of your choice.</p>
+
+```yaml
+---
+name: bosh
+
+releases:
+- name: bosh
+  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=158
+  sha1: a97811864b96bee096477961b5b4dadd449224b4
+- name: bosh-vcloud-cpi
+  url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-vcloud-cpi-release?v=5
+  sha1: 90498f23620aa3143dfdc65fd695b6154bcbd8ef
+
+resource_pools:
+- name: vms
+  network: private
+  stemcell:
+    url: https://bosh.io/d/stemcells/bosh-vcloud-esxi-ubuntu-trusty-go_agent?v=2950
+    sha1: 84b12acab1aa046627420be35caad9074a3bc4b0
+  cloud_properties:
+    cpu: 2
+    ram: 4_096
+    disk: 20_000
+
+disk_pools:
+- name: disks
+  disk_size: 20_000
+
+networks:
+- name: private
+  type: manual
+  subnets:
+  - range: 10.0.0.0/24
+    gateway: 10.0.0.1
+    dns: [10.0.0.2]
+    cloud_properties: {name: NETWORK-NAME} # <--- Replace with Network name
+
+jobs:
+- name: bosh
+  instances: 1
+
+  templates:
+  - {name: nats, release: bosh}
+  - {name: redis, release: bosh}
+  - {name: postgres, release: bosh}
+  - {name: blobstore, release: bosh}
+  - {name: director, release: bosh}
+  - {name: health_monitor, release: bosh}
+  - {name: registry, release: bosh}
+  - {name: cpi, release: bosh-vcloud-cpi}
+
+  resource_pool: vms
+  persistent_disk_pool: disks
+
+  networks:
+  - {name: private, static_ips: [10.0.0.6]}
+
+  properties:
+    nats:
+      address: 127.0.0.1
+      user: nats
+      password: nats-password
+
+    redis:
+      listen_addresss: 127.0.0.1
+      address: 127.0.0.1
+      password: redis-password
+
+    postgres: &db
+      host: 127.0.0.1
+      user: postgres
+      password: postgres-password
+      database: bosh
+      adapter: postgres
+
+    registry:
+      address: 10.0.0.6
+      host: 10.0.0.6
+      db: *db
+      http: {user: admin, password: admin, port: 25777}
+      username: admin
+      password: admin
+      port: 25777
+
+    blobstore:
+      address: 10.0.0.6
+      port: 25250
+      provider: dav
+      director: {user: director, password: director-password}
+      agent: {user: agent, password: agent-password}
+
+    director:
+      address: 127.0.0.1
+      name: my-bosh
+      db: *db
+      cpi_job: cpi
+
+    hm:
+      http: {user: hm, password: hm-password}
+      director_account: {user: admin, password: admin}
+      resurrector_enabled: true
+
+    vcd: &vcd # <--- Replace values below
+      url: VCLOUD-URL
+      user: VCLOUD-USER
+      password: VCLOUD-PASSWORD
+      entities:
+        vapp_catalog: bosh-catalog
+        media_catalog: bosh-catalog
+        media_storage_profile: '*'
+        organization: VCD-ORGANIZATION
+        virtual_datacenter: ???
+      control: {wait_max: 900}
+
+    agent: {mbus: "nats://nats:nats-password@10.0.0.6:4222"}
+
+    ntp: &ntp [0.pool.ntp.org, 1.pool.ntp.org]
+
+cloud_provider:
+  template: {name: cpi, release: bosh-vcloud-cpi}
+
+  mbus: "https://mbus:mbus-password@10.0.0.6:6868"
+
+  properties:
+    vcd: *vcd
+
+    agent: {mbus: "https://mbus:mbus-password@0.0.0.0:6868"}
+
+    blobstore: {provider: local, path: /var/vcap/micro_bosh/data/cache}
+
+    ntp: *ntp
+```
+
+---
+## <a id="prepare"></a> Step 2: Prepare a vCloud Environment
+
+To prepare your vCloud environment find out and/or create any missing resources listed below:
+
+- Replace `VCLOUD-URL` (e.g. 'https://jf629-vcd.vchs.vmware.com') with the URL of the vCloud Director.
+
+- Replace `VCLOUD-USER` (e.g. 'root') and `VCLOUD-PASSWORD` (e.g. 'vmware') in your deployment manifest with vCloud user name and password. BOSH does not require user to be an admin; however, it does need certain user privileges.
+
+- Replace `NETWORK-NAME` (e.g. 'VM Network') with the name of the vCloud network.
+
+---
+## <a id="deploy"></a> Step 3: Deploy
+
+1. Install [bosh-init](./install-bosh-init.html).
+
+1. Run `bosh-init deploy ./bosh.yml` to start the deployment process.
+
+    <pre class='terminal'>
+    $ bosh-init deploy ./bosh.yml
+    ...
+    </pre>
+
+    See [vCloud CPI errors](vcloud-cpi.html#errors) for list of common errors and resolutions.
+
+1. Install the [BOSH Command Line Interface (CLI)](./bosh-cli.html).
+
+1. Use `bosh target 10.0.0.6` to log into your new BOSH Director. The default username and password are `admin` and `admin`.
+
+    <pre class="terminal">
+    $ bosh target 10.0.0.6
+
+    Target set to 'bosh'
+    Your username: admin
+    Enter password: *****
+    Logged in as 'admin'
+
+    $ bosh vms
+
+    No deployments
+    </pre>
+
+1. Save the deployment state file left in your deployment directory so you can later update/delete your Director. See [Deployment state](using-bosh-init.html#deployment-state) section of 'Using bosh-init' for more details.
+
+---
+[Back to Table of Contents](index.html#install)
+
+Previous: [Bootstrapping an environment](init.html)
