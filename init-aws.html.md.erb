@@ -14,7 +14,7 @@ This document shows how to initialize new [environment](terminology.html#environ
 
 1. Create a deployment manifest file named `bosh.yml` in the deployment director based on the template below.
 
-    In the template, you must replace the `ELASTIC-IP-ADDRESS`, `SUBNET-ID`, `AVAILABILITY-ZONE`, `ACCESS-KEY-ID`, and `SECRET-ACCESS-KEY` properties. We describe replacing these properties in [Step 2: Prepare an AWS Account](#prepare-aws).
+    In the template, you must replace the `ELASTIC-IP`, `SUBNET-ID`, `AVAILABILITY-ZONE`, `ACCESS-KEY-ID`, and `SECRET-ACCESS-KEY` properties. We describe replacing these properties in [Step 2: Prepare an AWS Account](#prepare-aws).
 
     <p class="note"><strong>Note</strong>: The example below uses several predefined password. We recommend to replace them with passwords of your choice.</p>
 
@@ -76,7 +76,7 @@ jobs:
 
   networks:
   - {name: private, static_ips: [10.10.0.6]}
-  - {name: public, static_ips: [ELASTIC-IP-ADDRESS]} # <--- Replace with Elastic IP
+  - {name: public, static_ips: [ELASTIC-IP]} # <--- Replace with Elastic IP
 
   properties:
     nats:
@@ -121,6 +121,7 @@ jobs:
     hm:
       http: {user: hm, password: hm-password}
       director_account: {user: admin, password: admin}
+      resurrector_enabled: true
 
     aws: &aws
       access_key_id: ACCESS-KEY-ID # <--- Replace with AWS Access Key ID
@@ -137,12 +138,12 @@ cloud_provider:
   template: {name: cpi, release: bosh-aws-cpi}
 
   ssh_tunnel:
-    host: ELASTIC-IP-ADDRESS # <--- Replace with your Elastic IP address
+    host: ELASTIC-IP # <--- Replace with your Elastic IP address
     port: 22
     user: vcap
     private_key: ./bosh.pem # Path relative to this manifest file
 
-  mbus: "https://mbus:mbus-password@ELASTIC-IP-ADDRESS:6868" # <--- Replace with Elastic IP
+  mbus: "https://mbus:mbus-password@ELASTIC-IP:6868" # <--- Replace with Elastic IP
 
   properties:
     aws: *aws
@@ -236,7 +237,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 
 1. In the Allocate Address dialog box, click **Yes, Allocate**.
 
-1. Replace `ELASTIC-IP-ADDRESS` in your deployment manifest with the allocated Elastic IP Address.
+1. Replace `ELASTIC-IP` in your deployment manifest with the allocated Elastic IP Address.
 
     <%= image_tag("images/deploy-microbosh-to-aws/list-elastic-ips.png") %>
 
@@ -335,7 +336,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you
 
 1. Install the [BOSH Command Line Interface (CLI)](./bosh-cli.html).
 
-1. Use `bosh target ELASTIC-IP-ADDRESS` to log into your new BOSH Director. The default username and password are `admin` and `admin`.
+1. Use `bosh target ELASTIC-IP` to log into your new BOSH Director. The default username and password are `admin` and `admin`.
 
     <pre class="terminal">
     $ bosh target 54.175.20.129
