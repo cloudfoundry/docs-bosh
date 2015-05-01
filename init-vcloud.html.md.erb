@@ -149,7 +149,7 @@ To prepare your vCloud environment find out and/or create any missing resources 
 
 - Replace `VCLOUD-USER` (e.g. 'root') and `VCLOUD-PASSWORD` (e.g. 'vmware') in your deployment manifest with vCloud user name and password. BOSH does not require user to be an admin; however, it does need certain user privileges.
 
-- Replace `NETWORK-NAME` (e.g. 'VM Network') with the name of the vCloud network. Deployment manifest is configured with `10.0.0.0/24` subnet.
+- Replace `NETWORK-NAME` (e.g. 'VM Network') with the name of the vCloud network. Deployment manifest assumes that this network is `10.0.0.0/24` and Director VM will be placed at `10.0.0.6`.
 
 - Replace `VDC-ORGANIZATION` (e.g. 'VDC-M127910816-4610-275')
 

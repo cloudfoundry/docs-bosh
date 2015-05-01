@@ -159,7 +159,7 @@ To prepare your vSphere environment, use the vSphere Web Client to find out and/
 
 - Replace `CLUSTER-NAME` (e.g. 'cluster1') with the name of the vSphere cluster. Create cluster under the chosen datacenter in the Clusters tab.
 
-- Replace `NETWORK-NAME` (e.g. 'VM Network') with the name of the vSphere network. Create network under the chosen datacenter in the Networks tab.
+- Replace `NETWORK-NAME` (e.g. 'VM Network') with the name of the vSphere network. Create network under the chosen datacenter in the Networks tab. Deployment manifest assumes that this network is `10.0.0.0/24` and Director VM will be placed at `10.0.0.6`.
 
 ---
 ## <a id="deploy"></a> Step 3: Deploy
