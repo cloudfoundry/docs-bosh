@@ -127,3 +127,15 @@ resource eipalloc-6a45950f is already associated with associate-id eipassoc-427b
 ```
 
 This error indicates that elastic IP specified in the manifest to be associated to the VM is in use by another VM. Check AWS console and decide whether other VM should be deleted to make elastic IP available for use.
+
+```
+Specifying an IP address is only valid for VPC instances and thus requires a subnet in which to launch
+```
+
+Make sure that each manual network subnet has `cloud_properties` key and its contents include `subnet` key with the AWS Subnet ID. (You may have accidently specified `cloud_properites` on the network itself.)
+
+```
+Arguments are not correct
+```
+
+This error may be raised when the deployment job instances is not assigned a static IP.
