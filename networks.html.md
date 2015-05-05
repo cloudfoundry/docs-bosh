@@ -82,11 +82,11 @@ Schema for manual network definition:
 * **type** [String, required]: Value should be `manual`
 * **subnets** [Array, required]: Lists subnets in this network
   * **range** [String, required]: Subnet IP range that includes all IPs from this subnet
-  * **gateway** [String, optional]: Subnet gateway IP
+  * **gateway** [String, required]: Subnet gateway IP
   * **dns** [Array, optional]: DNS IP addresses for this subnet
   * **reserved** [Array, optional]: Array of reserved IPs and/or IP ranges. BOSH does not assign IPs from this range to any VM
   * **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to jobs requesting static IPs. Only IPs specified here can be used for static IP reservations.
-  * **cloud_properties** [Hash, required]: Describes any IaaS-specific properties for the subnet. May be empty.
+  * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
 
 Example:
 
@@ -149,7 +149,7 @@ Schema for dynamic network definition:
 * **name** [String, required]: Name used to reference this network configuration
 * **type** [String, required]: Value should be `dynamic`
 * **dns** [Array, optional]: DNS IP addresses for this network
-* **cloud_properties** [Hash, required]: Describes any IaaS-specific properties for the network. May be empty.
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the network. Default is `{}` (empty Hash).
 
 Example:
 
@@ -174,7 +174,7 @@ Schema for VIP network definition:
 
 * **name** [String, required]: Name used to reference this network configuration
 * **type** [String, required]: Value should be `vip`
-* **cloud_properties** [Hash, required]: Describes any IaaS-specific properties for the network. May be empty.
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the network. Default is `{}` (empty Hash).
 
 Example:
 
@@ -182,7 +182,6 @@ Example:
 networks:
 - name: my-network
   type: vip
-  cloud_properties: {}
 
 jobs:
 - name: my-job
@@ -210,12 +209,10 @@ networks:
 - name: my-network-1
   type: dynamic
   dns: [8.8.8.8]
-  cloud_properties: {}
 
 - name: my-network-2
   type: dynamic
   dns: [4.4.4.4]
-  cloud_properties: {}
 
 jobs:
 - name: my-multi-homed-job
