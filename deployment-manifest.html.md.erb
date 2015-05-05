@@ -72,7 +72,7 @@ See [networks](networks.html) for more details.
 * **stemcell** [Hash, required]: The stemcell used to create resource pool VMs.
     * **name** [String, required]: The stemcell name
     * **version** [String, required]: The stemcell version
-* **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to create compilation VMs. Examples: `instance_type`, `availability_zone`
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create compilation VMs. Examples: `instance_type`, `availability_zone`. Default is `{}` (empty Hash).
 * **env** [Hash, optional]: Describes the VM environment and provides a specific VM environment to the CPI `create_stemcell` call. `env` data is available to BOSH Agents as VM settings. Default is `{}` (empty Hash).
 
 Example:
@@ -103,7 +103,7 @@ resource_pools:
 
 * **name** [String, required]: A unique name used to identify and reference the disk pool
 * **disk_size** [Integer, required]: Specifies the disk size. `disk_size` must be a positive integer. BOSH creates a [persistent disk](./persistent-disks.html) of that size in megabytes and attaches it to each job instance VM.
-* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create disks. Examples: `type`, `iops`
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create disks. Examples: `type`, `iops`. Default is `{}` (empty Hash).
 
 Example:
 
@@ -130,7 +130,7 @@ disk_pools:
 * **workers** [Integer, required]: The maximum number of compilation VMs.
 * **network** [String, required]: References a valid network name defined in the Networks block. BOSH assigns network properties to compilation VMs according to the type and properties of the specified network.
 * **reuse\_compilation\_vms** [Boolean, optional]: If `false`, BOSH creates a new compilation VM for each new package compilation and destroys the VM when compilation is complete. If `true`, compilation VMs are re-used when compiling packages. Defaults to `false`.
-* **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to create compilation VMs. Examples: `instance_type`, `availability_zone`
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create compilation VMs. Examples: `instance_type`, `availability_zone`. Default is `{}` (empty Hash).
 
 Example:
 
