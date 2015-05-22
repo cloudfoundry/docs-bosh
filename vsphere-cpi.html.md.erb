@@ -163,6 +163,13 @@ Or example that places VMs by default into `BOSH_RP` vSphere resource pool:
 ```
 
 ---
+## <a id='notes'></a> Notes
+
+* Assigned VM names (e.g. `vm-8dg349-s7cn74-...`) should not be manually changed since the CPI uses them to find created VMs. You can use [`bosh vms --details`](sysadmin-commands.html#health) to find which VM is assigned which job. VMs are also tagged with their assigned job, index and deployment.
+
+* Storage DRS is not supported since it moves and renames persistent disks without maintaining same names.
+
+---
 ## <a id='errors'></a> Errors
 
 ```
