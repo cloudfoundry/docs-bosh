@@ -260,9 +260,8 @@ The list displays the most recent build numbers of BOSH stemcells, organized by 
     Deployment set to ~/micro-deployment/manifest.yml
     </pre>
 
-    <p class="note"><strong>Notes</strong>:
-    * If you receive an <code>Unknown command</code> error message, you might not have installed the <a href="http://bosh.io/docs/bosh-cli.html">cf CLI MicroBOSH plugin</a>. Run <code>gem install bosh_cli_plugin_micro</code>. <code>bosh help</code> displays commands that begin with <code>micro</code> when you successfully install the plugin.
-    * BOSH displays a red <code>WARNING!</code> message that is not an error message. The message alerts you to a change in the targeted IP address.</p>
+    <p class="note"><strong>Note</strong>:
+    BOSH displays a red <code>WARNING!</code> message that is not an error message. The message alerts you to a change in the targeted IP address.</p>
 
 1. Run `bosh micro deploy STEMCELL-NAME` to deploy MicroBOSH.
 
@@ -323,8 +322,6 @@ The list displays the most recent build numbers of BOSH stemcells, organized by 
 
     No deployments
     </pre>
-
-1. Run `bosh upload stemcell STEMCELL-NAME` to upload the selected stemcell.
 
 1. Save the `manifest.yml` and the `bosh-deployments.yml` in the deployment directory so you can later update MicroBOSH with a new version of the stemcell.
 

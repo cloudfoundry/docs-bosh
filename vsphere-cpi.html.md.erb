@@ -89,7 +89,6 @@ Example of 10GB disk:
 disk_pools:
 - name: default
   disk_size: 10_240
-  cloud_properties: {}
 ```
 
 ---
@@ -162,3 +161,12 @@ Or example that places VMs by default into `BOSH_RP` vSphere resource pool:
     clusters:
     - BOSH_CL: {resource_pool: BOSH_RP}
 ```
+
+---
+## <a id='errors'></a> Errors
+
+```
+Field object_set is not optional
+```
+
+This error may occur when global CPI configuration references a cluster name (via `clusters` key) that cannot be found in the datacenter. Double check in vSphere that cluster exists.

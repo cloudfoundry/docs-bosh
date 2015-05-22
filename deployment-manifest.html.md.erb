@@ -47,6 +47,25 @@ releases:
 - {name: redis, version: 12}
 ```
 
+### <a id='bosh-init-releases'></a> Custom bosh-init Releases Block
+
+**releases** [Array, required]: The name, url and possibly SHA1 of each release in the deployment.
+
+  - **name** [String, required]: Name of a release name used in the deployment
+  - **url** [String, required]: URL of the release to use. URL may use the file protocol (`file://`) or HTTP(s) (`http(s)://`). File URLs can be absolute or relative to the current directory of `bosh-init` execution.
+  - **sha1** [String, required]: The SHA1 of the release tarball. SHA1 is only required when using HTTP(s) URLs.
+
+Example:
+
+```yaml
+releases:
+- name: bosh
+  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=158
+  sha1: a97811864b96bee096477961b5b4dadd449224b4
+- name: bosh-aws-cpi
+  url: file://bosh-aws-cpi-release-158.tgz
+```
+
 ---
 ## <a id='networks'></a>Networks Block
 
@@ -72,7 +91,7 @@ See [networks](networks.html) for more details.
 * **stemcell** [Hash, required]: The stemcell used to create resource pool VMs.
     * **name** [String, required]: The stemcell name
     * **version** [String, required]: The stemcell version
-* **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to create compilation VMs. Examples: `instance_type`, `availability_zone`
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create compilation VMs. Examples: `instance_type`, `availability_zone`. Default is `{}` (empty Hash).
 * **env** [Hash, optional]: Describes the VM environment and provides a specific VM environment to the CPI `create_stemcell` call. `env` data is available to BOSH Agents as VM settings. Default is `{}` (empty Hash).
 
 Example:
@@ -84,6 +103,27 @@ resource_pools:
   stemcell:
     name: bosh-aws-xen-ubuntu-trusty-go_agent
     version: 2708
+  cloud_properties:
+    instance_type: m1.small
+    availability_zone: us-east-1c
+```
+
+### <a id='bosh-init-stemcells'></a> Custom bosh-init Stemcell Key Schema
+
+**stemcell** [Hash, required]: The stemcell used to create resource pool VMs.
+
+  - **url** [String, required]: URL of the stemcell tarball. URL may use the file protocol (`file://`) or HTTP(s) (`http(s)://`). File URLs can be absolute or relative to the current directory of `bosh-init` execution.
+  - **sha1** [String, required]: The SHA1 of the stemcell tarball. SHA1 is only required when using HTTP(s) URLs.
+
+Example:
+
+```yaml
+resource_pools:
+- name: redis-servers
+  network: default
+  stemcell:
+    url: https://bosh.io/d/stemcells/bosh-aws-xen-ubuntu-trusty-go_agent?v=2950
+    sha1: 6489bff150d1ecbd12fda30267896f041dd279f0
   cloud_properties:
     instance_type: m1.small
     availability_zone: us-east-1c
@@ -103,7 +143,7 @@ resource_pools:
 
 * **name** [String, required]: A unique name used to identify and reference the disk pool
 * **disk_size** [Integer, required]: Specifies the disk size. `disk_size` must be a positive integer. BOSH creates a [persistent disk](./persistent-disks.html) of that size in megabytes and attaches it to each job instance VM.
-* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create disks. Examples: `type`, `iops`
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create disks. Examples: `type`, `iops`. Default is `{}` (empty Hash).
 
 Example:
 
@@ -130,7 +170,7 @@ disk_pools:
 * **workers** [Integer, required]: The maximum number of compilation VMs.
 * **network** [String, required]: References a valid network name defined in the Networks block. BOSH assigns network properties to compilation VMs according to the type and properties of the specified network.
 * **reuse\_compilation\_vms** [Boolean, optional]: If `false`, BOSH creates a new compilation VM for each new package compilation and destroys the VM when compilation is complete. If `true`, compilation VMs are re-used when compiling packages. Defaults to `false`.
-* **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to create compilation VMs. Examples: `instance_type`, `availability_zone`
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create compilation VMs. Examples: `instance_type`, `availability_zone`. Default is `{}` (empty Hash).
 
 Example:
 
@@ -213,7 +253,7 @@ Example:
 ---
 ## <a id='properties'></a>Properties Block
 
-**properties**: Describes global properties and general configuration information.
+**properties** [Hash, optional]: Describes global properties and general configuration information.
 
 Global properties allow BOSH to configure jobs to a specific environment. `properties` defined in the [Properties](#properties) block are accessible to all jobs. Any identically named `properties` in the [Jobs](#jobs) block will override the global property for that job.
 
@@ -243,3 +283,36 @@ properties:
 1. If an identically named property exists in the Properties sub-block of the [Jobs](#jobs) block of the deployment manifest, the value of this property overrides all previous values.
 
 <p class="note"><strong>Note</strong>: If you declare specific properties in a job template spec, BOSH ignores all other properties. If you do not declare any specific properties in a job template spec, BOSH applies all properties from the deployment manifest to the job. </p>
+
+---
+## <a id='cloud-provider'></a> Cloud Provider Block
+
+**cloud_provider** [Hash, required]: Specifies CPI configuration for the `bosh-init` to create VMs, etc. Regular deployment manifests cannot specify this block.
+
+* **template** [Hash, required]: Specifies the name of the CPI job and release where the CPI job exists. It will be used by the `bosh-init` to create VMs, persistent disks, etc.
+  * **name** [String, required]: The CPI job name.
+  * **release** [String, required]: The CPI release name.
+* **mbus** [String, required]: HTTPs URL used by the `bosh-init` to contact the Agent on a created VM. The URL includes basic auth credentials that should be customized for each deployment. Example: `"https://mbus:mbus-password@10.0.0.6:6868"`.
+* **properties** [Hash, required]: Properties required by the CPI job.
+
+Example from [Initializing BOSH environment on vSphere](init-vsphere.html):
+
+```yaml
+cloud_provider:
+  template: {name: cpi, release: bosh-vsphere-cpi}
+
+  mbus: "https://mbus:mbus-password@10.0.0.6:6868"
+
+  properties:
+    vcenter: { ... }
+
+    agent: {mbus: "https://mbus:mbus-password@0.0.0.0:6868"}
+
+    blobstore:
+      provider: local
+      path: /var/vcap/micro_bosh/data/cache
+
+    ntp:
+    - 0.pool.ntp.org
+    - 1.pool.ntp.org
+```

@@ -2,12 +2,15 @@
 title: BOSH Command Line Interface
 ---
 
-BOSH Command Line Interface (CLI) is used to interact with the Director. 
+BOSH Command Line Interface (CLI) is used to interact with the Director and to bootstrap new BOSH environments. The CLI is written in Ruby and is provided by the two gems:
 
-To install BOSH CLI with the MicroBOSH plugin:
+* `bosh_cli` contains main operator commands [<img src="https://badge.fury.io/rb/bosh_cli.png" />]
+* `bosh_cli_plugin_micro` contains bootstrapping commands [<img src="https://badge.fury.io/rb/bosh_cli_plugin_micro.png" />]
+
+To install both of these gems:
 
 <pre class="terminal">
-gem install bosh_cli bosh_cli_plugin_micro --no-ri --no-rdoc
+$ gem install bosh_cli bosh_cli_plugin_micro --no-ri --no-rdoc
 </pre>
 
 <p class='note'><strong>Note</strong>: Installing the BOSH CLI requires Ruby 1.9.3, 2.0.x, or 2.1.x.</p>
@@ -15,60 +18,60 @@ gem install bosh_cli bosh_cli_plugin_micro --no-ri --no-rdoc
 Use the following command to consult the BOSH CLI help and to verify that CLI can run:
 
 <pre class="terminal">
-bosh help
+$ bosh help
 </pre>
 
 ---
 ## <a id="troubleshooting"></a> Installation Troubleshooting
 
-If `bosh_cli` gem installation does not succeed, make sure pre-requisites for your OS are met.
+If gems installation does not succeed, make sure pre-requisites for your OS are met.
 
 ### Prerequisites on Ubuntu Trusty
 
 Make sure following packages are installed:
 
 <pre class="terminal">
-sudo apt-get install build-essential ruby ruby-dev libxml2-dev libsqlite3-dev libxslt1-dev libpq-dev libmysqlclient-dev
+$ sudo apt-get install build-essential ruby ruby-dev libxml2-dev libsqlite3-dev libxslt1-dev libpq-dev libmysqlclient-dev
 </pre>
 
 Use this table to resolve the errors listed on the left with the corresponding command on the right.
 
-<table border="1" class="nice">
+<table>
   <tr>
     <th>Error</th>
     <th>Command</th>
   </tr>
   <tr>
-    <td><code>Ruby not installed</code></td>
-    <td><code>sudo apt-get install ruby</code></td>
+    <td>Ruby not installed</td>
+    <td><code class="terminal">$ sudo apt-get install ruby</code></td>
   </tr>
   <tr>
-    <td><code>mkmf not found</code></td>
-    <td><code>sudo apt-get install ruby-dev</code></td>
+    <td>mkmf not found</td>
+    <td><code class="terminal">$ sudo apt-get install ruby-dev</code></td>
   </tr>
   <tr>
-    <td><code>libxml not found</code></td>
-    <td><code>sudo apt-get install libxml2-dev</code></td>
+    <td>libxml not found</td>
+    <td><code class="terminal">$ sudo apt-get install libxml2-dev</code></td>
   </tr>
   <tr>
-    <td><code>(compile.log:) make not found</code></td>
-    <td><code>sudo apt-get install build-essential</code></td>
+    <td>(compile.log:) make not found</td>
+    <td><code class="terminal">$ sudo apt-get install build-essential</code></td>
   </tr>
   <tr>
-    <td><code>libsqlite not found</code></td>
-    <td><code>sudo apt-get install libsqlite3-dev</code></td>
+    <td>libsqlite not found</td>
+    <td><code class="terminal">$ sudo apt-get install libsqlite3-dev</code></td>
   </tr>
   <tr>
-    <td><code>libxslt is missing</code></td>
-    <td><code>sudo apt-get install libxslt1-dev</code></td>
+    <td>libxslt is missing</td>
+    <td><code class="terminal">$ sudo apt-get install libxslt1-dev</code></td>
   </tr>
   <tr>
-    <td><code>Can't find libpq-fe.h header</code></td>
-    <td><code>sudo apt-get install libpq-dev</code></td>
+    <td>Can't find libpq-fe.h header</td>
+    <td><code class="terminal">$ sudo apt-get install libpq-dev</code></td>
   </tr>
   <tr>
-    <td><code>checking for mysql_query() ... no</code></td>
-    <td><code>sudo apt-get install libmysqlclient-dev</code></td>
+    <td>checking for mysql_query() ... no</td>
+    <td><code class="terminal">$ sudo apt-get install libmysqlclient-dev</code></td>
   </tr>
 </table>
 
@@ -77,14 +80,16 @@ Use this table to resolve the errors listed on the left with the corresponding c
 Make sure following packages are installed:
 
 <pre class="terminal">
-sudo yum install gcc ruby ruby-devel mysql-devel postgresql-devel postgresql-libs sqlite-devel libxslt-devel libxml2-devel yajl-ruby
+$ sudo yum install gcc ruby ruby-devel mysql-devel postgresql-devel postgresql-libs sqlite-devel libxslt-devel libxml2-devel yajl-ruby
 </pre>
 
 ---
-## Installing AWS Boostrap CLI (optional)
+## Installing AWS Boostrap CLI plugin (optional)
 
-Run this command to install AWS bootstrap plugin:
+AWS bootstrap plugin provides additional CLI commands to help bootstrap a new AWS environment.
 
 <pre class="terminal">
-gem install bosh_cli_plugin_aws --no-ri --no-rdoc
+$ gem install bosh_cli_plugin_aws --no-ri --no-rdoc
 </pre>
+
+This plugin has been originally designed for quickly bootstrapping AWS development environments. It does not provide extensible configuration options.

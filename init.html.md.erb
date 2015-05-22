@@ -1,0 +1,19 @@
+---
+title: Intializing an environment
+---
+
+A single BOSH environment consists of the Director and deployments that it orchestrates. To create an empty environment, we first need to deploy the Director. The Director VM will include all necessary BOSH components that will be used to manage different IaaS resources.
+
+Depending on your IaaS, choose your next step:
+
+- [Initializing on AWS](init-aws.html)
+- [Initializing on OpenStack](init-openstack.html)
+- [Initializing on vSphere](init-vsphere.html)
+- [Initializing on vCloud](init-vcloud.html)
+
+We recommend that you update your BOSH environment frequently to stay on the latest version of BOSH.
+
+Alternatively, if you want a local BOSH environment, you can try [BOSH Lite](https://github.com/cloudfoundry/bosh-lite). It comes as a pre-built [Vagrant](https://www.vagrantup.com/) box. The Director that comes with BOSH Lite uses Warden CPI which uses containers to emulate VMs. The usage of containers makes it an excellent choice for local development, testing, and general BOSH exploration.
+
+---
+Previous: [BOSH Components](bosh-components.html)

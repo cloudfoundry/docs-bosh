@@ -15,8 +15,24 @@ title: Index
 ---
 ## <a id="install"></a> Installing BOSH
 
+### Installing BOSH with bosh-init **[beta]**
+
  * [BOSH components](bosh-components.html)
- * [Bootstrapping an environment / What is MicroBOSH?](bootstrap.html)
+ * [Bootstrapping an environment](init.html)
+    * [On AWS](init-aws.html)
+    * [On OpenStack](init-openstack.html)
+    * [On vSphere](init-vsphere.html)
+    * [On vCloud](init-vcloud.html)
+    * [On Local machine using BOSH Lite](bosh-lite.html)
+ * bosh-init deploy step-by-step
+ * [Install bosh-init](install-bosh-init.html)
+ * [Using bosh-init](using-bosh-init.html)
+    * [Migrating to bosh-init from the micro CLI plugin](migrate-to-bosh-init.html)
+ * [Installing BOSH CLI](bosh-cli.html)
+
+### Installing BOSH with the micro CLI plugin
+
+ * [Bootstrapping an environment](bootstrap.html)
     * [On AWS](deploy-microbosh-to-aws.html)
        * CloudFormation template
     * [On OpenStack](deploy-microbosh-to-openstack.html)
@@ -26,14 +42,12 @@ title: Index
     * On vCloud
     * [On Local machine using BOSH Lite](bosh-lite.html)
  * BOSH micro deploy step-by-step
- * [Installing BOSH CLI](bosh-cli.html)
 
-### Advanced BOSH configuration
+### Advanced configuration
 
  * [User management on the Director](director-users.html)
- * [Connecting the Director to an External Postgres Database](connect-postgres-hadb.html)
- * Deploying multi-VM BOSH
-    * Difference between Microbosh, BOSH, and multi-VM BOSH
+ * [Configuring the Director to use External Database](connect-postgres-hadb.html)
+ * Configuring the Director to use External Blobstore
 
 ---
 ## <a id="basic-deploy"></a> Using BOSH to deploy software
