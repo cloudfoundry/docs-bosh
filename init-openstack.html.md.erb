@@ -72,8 +72,11 @@ jobs:
   persistent_disk_pool: disks
 
   networks:
-  - {name: private, static_ips: [PRIVATE-IP]} # <--- Replace with a private IP
-  - {name: public, static_ips: [FLOATING-IP]} # <--- Replace with a floating IP
+  - name: private
+    static_ips: [PRIVATE-IP] # <--- Replace with a private IP
+    default: [dns, gateway]
+  - name: public
+    static_ips: [FLOATING-IP] # <--- Replace with a floating IP
 
   properties:
     nats:

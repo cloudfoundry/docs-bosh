@@ -75,8 +75,11 @@ jobs:
   persistent_disk_pool: disks
 
   networks:
-  - {name: private, static_ips: [10.0.0.6]}
-  - {name: public, static_ips: [ELASTIC-IP]} # <--- Replace with Elastic IP
+  - name: private
+    static_ips: [10.0.0.6]
+    default: [dns, gateway]
+  - name: public
+    static_ips: [ELASTIC-IP] # <--- Replace with Elastic IP
 
   properties:
     nats:
