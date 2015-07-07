@@ -141,3 +141,9 @@ Address 10.10.16.251 is in use.
 ```
 
 This error indicates that unknown VM took up the IP that the Director is trying to assign to a new VM. Either let the Director know to not use this IP by including it in the reserved section of a subnet in your manual network, or make that IP available by terminating the unknown VM.
+
+```
+When specifying a security group you must specify a group id for each item.
+```
+
+Make sure all security groups in the CPI configuration and networks' `cloud_properties` sections are specified in the same format, as IDs (e.g. `sg-384fher`) or names (e.g. `cf-public`).
