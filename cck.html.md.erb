@@ -10,8 +10,8 @@ In addition to looking for those two types of problems, cck also checks correct 
 
 Once the deployment is set via `bosh deployment` command you can simply run `bosh cck`. Here is an example output when no problems are detected:
 
-<pre class="terminal">
-bosh cck
+<pre class="terminal wide">
+$ bosh cck
 
 Performing cloud check...
 
@@ -46,8 +46,8 @@ No problems found
 
 Assuming there was a deployment with a VM, somehow that VM was deleted from the IaaS outside of BOSH, here is what cck would report:
 
-<pre class="terminal">
-bosh cck
+<pre class="terminal wide">
+$ bosh cck
 
 Performing cloud check...
 
@@ -76,22 +76,22 @@ Scan is complete, checking if any problems found...
 Found 1 problem
 
 Problem 1 of 1: VM with cloud ID `i-914c046a' missing.
-  1. Ignore problem
-  2. Recreate VM using last known apply spec
-  3. Delete VM reference (DANGEROUS!)
+  1. Skip for now
+  2. Recreate VM
+  3. Delete VM reference
 Please choose a resolution [1 - 3]: 3
 
 Below is the list of resolutions you've provided
 Please make sure everything is fine and confirm your changes
 
   1. VM with cloud ID `i-914c046a' missing.
-     Delete VM reference (DANGEROUS!)
+     Delete VM reference
 
 Apply resolutions? (type 'yes' to continue): yes
 Applying resolutions...
 
 Director task 624
-  Started applying problem resolutions > missing_vm 168: Delete VM reference (DANGEROUS!). Done (00:00:00)
+  Started applying problem resolutions > missing_vm 168: Delete VM reference. Done (00:00:00)
 
 Task 624 done
 
@@ -103,23 +103,23 @@ Cloudcheck is finished
 
 cck determined that `i-914c046a` VM was missing. Possible options are:
 
-1. `Ignore problem`: the Director will not try to resolve this problem during 
+1. `Skip for now`: the Director will not try to resolve this problem right now
 
 2. `Recreate VM`: the Director will just create new VM, deploy specified releases according to deployed manifest and finally start release jobs
 
     Note on current behaviour: cck will not wait for all release job processes to start.
 
-3. `Delete VM reference`: the Director will not create new VM in its place. If cck is run again, it will not that VM is missing since it's not expected to exist. Running `bosh deploy` after cck will backfill missing VMs.
+3. `Delete VM reference`: the Director will not create new VM in its place. If cck is run again, it will not report that VM is missing since it's not expected to exist. Running `bosh deploy` after cck will backfill missing VMs.
 
 In the above example options 3 was picked and VM reference was deleted.
 
 ---
-### <a id="not-responsive-vm"></a> VM is not responsive
+### <a id="not-responsive-vm"></a> VM is not responsive (unresponsive agent)
 
 Assuming there was a deployment with a VM, somehow Agent is no longer responding to the Director. In this situation `bosh vms` will report VM's agent as `unresponsive agent`:
 
-<pre class="terminal">
-bosh vms simple-deployment --details
+<pre class="terminal wide">
+$ bosh vms simple-deployment --details
 
 Deployment `simple-deployment'
 
@@ -138,8 +138,8 @@ VMs total: 1
 
 Also `bosh deploy` will stop at `Binding existing deployment` stage since it is not able to communicate with unresponsive agent:
 
-<pre class="terminal">
-bosh deploy
+<pre class="terminal wide">
+$ bosh deploy
 
 ..snip...
 
@@ -162,13 +162,85 @@ Task 631 error
 For a more detailed error report, run: bosh task 631 --debug
 </pre>
 
+<pre class="terminal wide">
+$ bosh cck
+
+Performing cloud check...
+
+Processing deployment manifest
+------------------------------
+
+Director task 640
+  Started scanning 1 vms
+  Started scanning 1 vms > Checking VM states. Done (00:00:10)
+  Started scanning 1 vms > 0 OK, 1 unresponsive, 0 missing, 0 unbound, 0 out of sync. Done (00:00:00)
+     Done scanning 1 vms (00:00:10)
+
+  Started scanning 0 persistent disks
+  Started scanning 0 persistent disks > Looking for inactive disks. Done (00:00:00)
+  Started scanning 0 persistent disks > 0 OK, 0 missing, 0 inactive, 0 mount-info mismatch. Done (00:00:00)
+     Done scanning 0 persistent disks (00:00:00)
+
+Task 640 done
+
+Started   2015-01-09 23:33:45 UTC
+Finished  2015-01-09 23:33:55 UTC
+Duration  00:00:10
+
+Scan is complete, checking if any problems found...
+
+Found 1 problem
+
+Problem 1 of 1: dummy/0 (i-914c046a) is not responding.
+  1. Skip for now
+  2. Reboot VM
+  3. Recreate VM
+  4. Delete VM reference (forceful; may need to manually delete VM from the Cloud to avoid IP conflicts)
+Please choose a resolution [1 - 4]: 4
+
+Below is the list of resolutions you've provided
+Please make sure everything is fine and confirm your changes
+
+  1. dummy/0 (i-914c046a) is not responding.
+     Delete VM reference (forceful; may need to manually delete VM from the Cloud to avoid IP conflicts)
+
+Apply resolutions? (type 'yes' to continue): yes
+Applying resolutions...
+
+Director task 641
+  Started applying problem resolutions > unresponsive_agent 168: Delete VM reference (...). Done (00:00:05)
+
+Task 641 done
+
+Started   2015-01-09 23:35:20 UTC
+Finished  2015-01-09 23:35:25 UTC
+Duration  00:00:05
+Cloudcheck is finished
+</pre>
+
+cck determined that `i-914c046a` VM is unresponsive. Possible options are:
+
+1. `Skip for now`: the Director will not try to resolve this problem right now
+
+2. `Reboot VM`: the Director will power off and then power on existing VM
+
+    Note on current behaviour: cck will not wait for all release job processes to start.
+
+3. `Recreate VM`: the Director will delete existing VM, then create a new VM, deploy specified releases according to deployed manifest and finally start release jobs
+
+    Note on current behaviour: cck will not wait for all release job processes to start.
+
+4. `Delete VM reference`: the Director will not create new VM in its place. If cck is run again, it will not report that VM is unresponsive since it does not exist. Running `bosh deploy` after cck will backfill missing VMs.
+
+In the above example options 4 was picked and VM reference was deleted.
+
 ---
 ### <a id="unattached-persistent-disk"></a> Persistent Disk is not attached
 
 Assuming there was a deployment with a VM, somehow persistent disk got detached.
 
-<pre class="terminal">
-bosh cck
+<pre class="terminal wide">
+$ bosh cck
 
 Performing cloud check...
 
@@ -200,7 +272,7 @@ Problem 1 of 1: Inconsistent mount information:
 Record shows that disk 'vol-549f071f' should be mounted on i-4fcd99b4.
 However it is currently :
   Not mounted in any VM.
-  1. Ignore
+  1. Skip for now
   2. Reattach disk to instance
   3. Reattach disk and reboot instance
 Please choose a resolution [1 - 3]: 2
@@ -230,9 +302,9 @@ Cloudcheck is finished
 
 cck determined that `vol-549f071f` persistent disk is not attached to `i-4fcd99b4` VM. Possible options are:
 
-1. `Ignore`: the Director will not try to resolve this problem during 
+1. `Skip for now`: the Director will not try to resolve this problem during
 
-2. `Reattach disk to instance`: the Director will reattach persistent disk to the VM and mount it at its usual location `/var/vcap/store`. 
+2. `Reattach disk to instance`: the Director will reattach persistent disk to the VM and mount it at its usual location `/var/vcap/store`.
 
     Note on current behaviour: Release job processes will not be restarted when persistent disk is remounted.
 
@@ -251,3 +323,5 @@ Note: Not all CPIs implement needed functionality to determine if disk is missin
 Next: [Automatic repair with Resurrector](resurrector.html)
 
 Previous: [Process monitoring with Monit](vm-monit.html)
+
+Updated for bosh-release v183 (1.3010.0).
