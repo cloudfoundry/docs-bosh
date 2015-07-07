@@ -114,14 +114,7 @@ You need to create and attach an internet gateway to your VPC so that VMs can co
 Signature expired: 20141106T010406Z is now earlier than 20141106T011252Z (20141106T011752Z - 5 min.)
 ```
 
-This error is usually caused by out-of-sync system time. Use `ntpdate` to sync the clock on the machine where bosh-init is run:
-
-<pre class="terminal">
-$ sudo ntpdate pool.ntp.org
- 6 Nov 18:17:56 ntpdate[29268]: step time server 74.207.240.206 offset 0.598687 sec
-</pre>
-
-Alternatively make sure that `ntpd` is correctly configured and running.
+This error is usually caused by out-of-sync system time. Use `ntpdate` to sync the clock on the machine where bosh-init is run: `sudo ntpdate pool.ntp.org`. Alternatively make sure that `ntpd` is correctly configured and running.
 
 ```
 resource eipalloc-6a45950f is already associated with associate-id eipassoc-427beb26
@@ -139,4 +132,12 @@ Make sure that each manual network subnet has `cloud_properties` key and its con
 Arguments are not correct
 ```
 
-This error may be raised when the deployment job instances is not assigned a static IP.
+This error may be raised when:
+- `instance_type` is missing from the compilation or one of the resource pools' `cloud_properties` section
+- the deployment job instance is not assigned a static IP
+
+```
+Address 10.10.16.251 is in use.
+```
+
+This error indicates that unknown VM took up the IP that the Director is trying to assign to a new VM. Either let the Director know to not use this IP by including it in the reserved section of a subnet in your manual network, or make that IP available by terminating the unknown VM.
