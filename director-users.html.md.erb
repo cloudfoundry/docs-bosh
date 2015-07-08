@@ -6,6 +6,11 @@ The Director provides a very simple user management system for authentication of
 
 <p class="note"><strong>Note</strong>: We have future plans to integrate the Director with the UAA to provide more sophisticated authentication and authorization.</p>
 
+---
+## <a id="default"></a> Default Configuration
+
+<p class="note"><strong>Note</strong>: We are planning to remove this configuration. We recommend configuring the Director as described below in <a href="#preconfigured">Preconfigured Users</a> section.</p>
+
 Once installed, the Director comes without any configured users by default. When there are no configured users you can use `admin` / `admin` credentials to login into the Director.
 
 <pre class="terminal">
@@ -35,11 +40,45 @@ User `some-operator' has been deleted
 </pre>
 
 ---
+## <a id="preconfigured"></a> Preconfigured Users
+
+<p class="note"><strong>Note</strong>: This feature is available with bosh-release v177+ (1.2999.0).</p>
+
+In this configuration the Director is configured in advance with a list of users. There is no way to add or remove users without redeploying the Director.
+
+To configure the Director with a list of users:
+
+1. Change deployment manifest for the Director:
+
+    ```yaml
+    properties:
+      director:
+        user_management:
+          provider: local
+          local:
+            users:
+            - {name: admin, password: admin-password}
+            - {name: hm, password: hm-password}
+    ```
+
+1. Redeploy the Director with the updated manifest. Use whichever method you've used before to deploy the Director: bosh-init or micro CLI.
+
+    <p class="note"><strong>Note</strong>: When using micro CLI, <code>properties</code> key should be placed under <code>apply_spec</code> section.</p>
+
+---
+## <a id="uaa"></a> UAA Integration
+
+<p class="note"><strong>Note</strong>: Waiting for the official UAA release to be published.</p>
+
+---
 ## <a id="hm"></a> Director Tasks
 
-The Director records initiating user for each [director task](director-tasks.html). 
+The Director records initiating user for each [director task](director-tasks.html).
 
 ---
 ## <a id="hm"></a> Health Monitor Authentication
 
 The Health Monitor is configured to use custom user to query/submit requests to the Director. Since by default the Director does not come with any users, the Health Monitor is not able to successfully communicate with the Director. See the [Automatic repair with Resurrector](resurrector.html) topic for more details.
+
+---
+[Back to Table of Contents](index.html#director-config)
