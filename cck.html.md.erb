@@ -2,6 +2,8 @@
 title: Manual repair with Cloud Check
 ---
 
+<p class="note"><strong>Note</strong>: Updated for bosh-release v183 (1.3010.0).</p>
+
 BOSH provides the Cloud Check CLI command (a.k.a cck) to repair IaaS resources used by a specific deployment. It is not commonly used while normal operations; however, it becomes essential when some IaaS operations failed and the Director cannot resolve problems without a human decision or when the Resurrector is not enabled.
 
 As mentioned earlier the Resurrector will only try to recover a VM if it is missing from the IaaS or the if the Agent on the VM is not responding to commands. cck tool is similar to the Resurrector in that it also looks for those two conditions; however, instead of automatically trying to resolve these problems, it provides several options to the operator.
@@ -323,5 +325,3 @@ Note: Not all CPIs implement needed functionality to determine if disk is missin
 Next: [Automatic repair with Resurrector](resurrector.html)
 
 Previous: [Process monitoring with Monit](vm-monit.html)
-
-Updated for bosh-release v183 (1.3010.0).

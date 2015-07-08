@@ -15,7 +15,7 @@ Persistent disks are kept for deployment jobs under the following circumstances:
 Persistent disks are deleted for deployment jobs under the following circumstances:
 
 * When no longer specifying a persistent disk size or a disk pool
-* When scaled down 
+* When scaled down
 <p class="note"><strong>Note</strong>: Applies only to disks associated with removed instances.</p>
 * When implicitly renamed in the deployment manifest
 * When deleted from the deployment manifest
@@ -103,3 +103,6 @@ BOSH allows you to change disk types and sizes by modifying the deployment manif
 During the disk migration from one disk type and size to another, the BOSH Director communicates with the BOSH Agent to attach both existing and newly created disk to the same VM and copy over any existing data. After the transfer successfully completes, BOSH deletes the original disk and keeps the new disk attached to the VM instance.
 
 <p class="note"><strong>Note</strong>: An IaaS might disallow attaching particular disk types and sizes to certain VMs types. Consult your IaaS documentation for more information.</p>
+
+---
+[Back to Table of Contents](index.html#deployment-config)
