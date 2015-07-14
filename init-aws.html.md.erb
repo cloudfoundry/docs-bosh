@@ -24,18 +24,18 @@ name: bosh
 
 releases:
 - name: bosh
-  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=158
-  sha1: a97811864b96bee096477961b5b4dadd449224b4
+  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=184
+  sha1: 0209fdd72820ceed717e792988fe4b4984eb0e98
 - name: bosh-aws-cpi
-  url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-aws-cpi-release?v=7
-  sha1: 6545812c1c8245331b8c420f886dafd24b866eed
+  url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-aws-cpi-release?v=27
+  sha1: 25d386229c4fb43048d9b3c5e4bdda8ec1ea6df8
 
 resource_pools:
 - name: vms
   network: private
   stemcell:
-    url: https://bosh.io/d/stemcells/bosh-aws-xen-hvm-ubuntu-trusty-go_agent?v=2950
-    sha1: 6489bff150d1ecbd12fda30267896f041dd279f0
+    url: https://bosh.io/d/stemcells/bosh-aws-xen-hvm-ubuntu-trusty-go_agent?v=3012
+    sha1: 3380b55948abe4c437dee97f67d2d8df4eec3fc1
   cloud_properties:
     instance_type: m3.xlarge
     ephemeral_disk: {size: 25_000, type: gp2}
@@ -123,7 +123,6 @@ jobs:
       max_threads: 10
 
     hm:
-      http: {user: hm, password: hm-password}
       director_account: {user: admin, password: admin}
       resurrector_enabled: true
 

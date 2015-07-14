@@ -24,18 +24,18 @@ name: bosh
 
 releases:
 - name: bosh
-  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=158
-  sha1: a97811864b96bee096477961b5b4dadd449224b4
+  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=184
+  sha1: 0209fdd72820ceed717e792988fe4b4984eb0e98
 - name: bosh-openstack-cpi
-  url: http://bosh.io/d/github.com/cloudfoundry-incubator/bosh-openstack-cpi-release?v=4
-  sha1: f09b11aa0329a8054db9fd4b67d62992f1b8b974
+  url: http://bosh.io/d/github.com/cloudfoundry-incubator/bosh-openstack-cpi-release?v=9
+  sha1: 1402f7494a496220e0742b6c4cec04de7448d521
 
 resource_pools:
 - name: vms
   network: private
   stemcell:
-    url: https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-trusty-go_agent?v=2950
-    sha1: 7cd2a246ad24b2e8116686a89c5bd97fff815763
+    url: https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-trusty-go_agent?v=3012
+    sha1: e92f3bd5081301652005bdc3dd11bff545a304ef
   cloud_properties:
     instance_type: m1.xlarge
 
@@ -120,7 +120,6 @@ jobs:
       max_threads: 3
 
     hm:
-      http: {user: hm, password: hm-password}
       director_account: {user: admin, password: admin}
       resurrector_enabled: true
 

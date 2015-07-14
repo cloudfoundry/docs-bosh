@@ -22,18 +22,18 @@ name: bosh
 
 releases:
 - name: bosh
-  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=158
-  sha1: a97811864b96bee096477961b5b4dadd449224b4
+  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=184
+  sha1: 0209fdd72820ceed717e792988fe4b4984eb0e98
 - name: bosh-vsphere-cpi
-  url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release?v=3
-  sha1: cf529297a72c8d0ec489b06632725f638108ed33
+  url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release?v=6
+  sha1: 2a790cb95fb201bd3db4647f39d2a3681f50f9e2
 
 resource_pools:
 - name: vms
   network: private
   stemcell:
     url: https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-trusty-go_agent?v=2950
-    sha1: bf2752e1be480d75a34e127a0989b3b16a7ee9aa
+    sha1: 1153bc17fda0755fa8f99a3e360d952362170ac8
   cloud_properties:
     cpu: 2
     ram: 4_096
@@ -107,7 +107,6 @@ jobs:
       cpi_job: cpi
 
     hm:
-      http: {user: hm, password: hm-password}
       director_account: {user: admin, password: admin}
       resurrector_enabled: true
 
