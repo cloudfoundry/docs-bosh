@@ -1,0 +1,61 @@
+---
+title: UAA Integration for the Director
+---
+
+<p class="note"><strong>Note</strong>: This feature is currently experimental pending official UAA release.</p>
+
+In this configuration the Director is configured to delegate user management to the [UAA](https://github.com/cloudfoundry/uaa) server. The UAA server can be configured to manage its own list of users or work with an LDAP server, or a SAML provider. Regardless how the UAA server is configured the BOSH CLI will ask appropriate credentials and forward them to the UAA to request a token.
+
+---
+## <a id="configure"></a> Configuring the Director
+
+To configure the Director with a list of users:
+
+1. Change deployment manifest for the Director to specify how to contact the UAA server and how to verify an access token:
+
+    ```yaml
+    properties:
+      director:
+        user_management:
+          provider: uaa
+          uaa:
+            url: https://54.86.93.98
+            symmetric_key: uaa-secret-key
+            public_key: |
+              -----BEGIN PUBLIC KEY-----
+              MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC/85WUjM7WKxnSMkd/TtGo+WWX
+              ...
+              VRs5sM3o4r1UYUTD6wIDAQAB
+              -----END PUBLIC KEY-----
+    ```
+
+1. Redeploy the Director with the updated manifest. Use whichever method you've used before to deploy the Director: bosh-init or micro CLI.
+
+    <p class="note"><strong>Note</strong>: When using micro CLI, <code>properties</code> key should be placed under <code>apply_spec</code> section.</p>
+
+---
+## <a id="permissions"></a> Permissions
+
+All UAA users can log into the Director; however, their actions will be limited based on the presence of the following scopes in their UAA token:
+
+- `bosh.admin`: any Director provides admin access
+- `bosh.read`: any Director provides read access
+- `bosh.<DIRECTOR-UUID>.admin`: only Director with that UUID provides admin access
+- `bosh.<DIRECTOR-UUID>.read`: only Director with that UUID provides read access
+
+All users (even users without any of the above scopes) can use:
+
+- `bosh status`: show general infromation about targetted Director (authentication is not required)
+
+Users with read access can use following CLI commands:
+
+- `bosh deployments`: list of all deployments and releases/stemcells used
+- `bosh releases`: list of all releases and their versions
+- `bosh stemcells`: list of all stemcells and their versions
+- `bosh vms`: list of all VMs which includes job names, IPs, vitals, details, etc.
+- `bosh tasks`: list of all tasks summaries which includes task descriptions without access to debug logs
+
+Users with admin access can use all CLI commands.
+
+---
+[Back to Table of Contents](index.html#director-config)
