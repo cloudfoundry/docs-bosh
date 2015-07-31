@@ -19,7 +19,10 @@ resource_pools:
 
 ### <a id="create-stemcell"></a> `create_stemcell`
 
-Creates a reusable VM image in the IaaS from the stemcell image. It's used later for creating VMs. For example AWS CPI creates an AMI and returns AMI ID.
+Creates a reusable VM image in the IaaS from the [stemcell](stemcell.html) image. It's used later for creating VMs. For example AWS CPI creates an AMI and returns AMI ID. 
+Stemcell tarballs are currently specific to each Iaas/CPI (e.g. include cloud-init or hypervisor specific drivers). In the future, stemcells will become [universal](https://www.pivotaltracker.com/epic/show/927178) and CPI will bring in the Iaas specific bits before creating the VM image. 
+ 
+In the meantime, if you're developping a CPI for a new IaaS, you may consider reusing one of the officially generated stemcells, or forking the stemcell builder in bosh repo.
 
 #### Arguments
 
@@ -53,9 +56,15 @@ Creates a reusable VM image in the IaaS from the stemcell image. It's used later
 
 #### Related
 
-- light stemcells
+- light stemcells: A light stemcell is a stemcell that points to an existing image in the cloud.
 
-[Example create_stemcell.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/create_stemcell.go)
+Examples:
+   - in AWS light stemcells point to official BOSH published AMIs to avoid downloading stemcell images
+   - in OpenStack, light stemcell might point to a stemcell that OpenStack operator pre-uploaded and made available to all tenants (not yet implemented in OpenStack CPI)
+
+Light stemcells are particularly useful for cases where it is not possible to create virtual machines from outside of the Iaas (e.g. deploying MicroBOSH from non-AWS machine because it's not possible to create an AMI in certain cases). 
+
+- [Example create_stemcell.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/create_stemcell.go)
 
 ---
 ### <a id="delete-stemcell"></a> `delete_stemcell`
