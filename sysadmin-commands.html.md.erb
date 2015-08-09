@@ -92,6 +92,12 @@ Displays a table that provides an overview of the VMs in `DEPLOYMENT_NAME`. You 
 <pre class="terminal">$ bosh recreate JOB [INDEX] [--force]</pre>
 Stops the job process, power cycles the VM, recreates the job instance, then restarts the job process.
 
+<pre class="terminal">$ bosh stop JOB [INDEX] [--hard] [--force]</pre>
+Stops the job processes, and if `--hard` is specified deletes a VM keeping persistent disks.
+
+<pre class="terminal">$ bosh start JOB [INDEX] [--force]</pre>
+Creates a VM and reattaches persistent disks if VM does not exist, then starts the job processes.
+
 <a id="vm-resurrection"></a>
 
 <pre class="terminal">$ bosh vm resurrection [STATE]</pre>
@@ -160,12 +166,15 @@ Use these commands against the Director to create and update releases.
 ### <a id="main-release"></a> Release Creation
 
 <pre class="terminal">$ bosh create release [MANIFEST_FILE] [--force]</pre>
-Creates a dev release.
+Creates a development release.
 
 <pre class="terminal">$ bosh create release [MANIFEST_FILE] --final [--version VERSION] [--with-tarball] [--force] </pre>
 Creates a final release.
 
 ### <a id="blobs"></a> Blobs
+
+<pre class="terminal">$ bosh blobs</pre>
+Lists blobs pending an upload.
 
 <pre class="terminal">$ bosh upload blobs</pre>
 Uploads new and updated blobs to the blobstore.
