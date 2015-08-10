@@ -87,11 +87,19 @@ Example error response from `create_vm` CPI call:
 BOSH team maintains several CPIs written in Ruby. We currently take advantage of the `bosh_cpi` gem which provides `Bosh::Cpi::Cli` class that deserialized requests and serializes responses. If you are planning to write a CPI in Ruby, we recommend to take advantage of this gem.
 
 ---
+## <a id="testing"></a> Testing
+
+There are two test suites each CPI is expected to pass before it's considered to be production-ready:
+
+- its own [CPI Lifecycle Tests](https://github.com/cloudfoundry/bosh/blob/master/docs/running_tests.md#cpi-lifecycle-tests) which should provide integration level coverage for each CPI method
+- shared [BOSH Acceptance Tests (BATS)](https://github.com/cloudfoundry/bosh/blob/master/docs/running_tests.md#bosh-acceptance-tests-bats) (provided by the BOSH team) which verify high level Director behavior with the CPI activated
+
+---
 ## <a id="concurrency"></a> Concurrency
 
 The CPI is expected to handle multiple method calls concurrently (and in parallel) with a promise that arguments represent different IaaS resources. For example, multiple `create_vm` CPI method calls may be issued that all use the same stemcell cloud ID; however, `attach_disk` CPI method will never be called with the same VM cloud ID concurrently.
 
-Note: Since each CPI method call is a separate OS process, simple locking techniques (Ruby's `Mutex.new` for example) will not work.
+<p class="note">Note: Since each CPI method call is a separate OS process, simple locking techniques (Ruby's <code>Mutex.new</code> for example) will not work.</p>
 
 ---
 ## <a id="rate-limiting"></a> Rate Limiting

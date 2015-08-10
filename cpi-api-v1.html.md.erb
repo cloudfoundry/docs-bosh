@@ -2,7 +2,13 @@
 title: CPI API v1
 ---
 
-## Glossary
+For an overview of the sequence of CPI calls, the following resources are helpful:
+
+- [BOSH components](bosh-components.html) and its example component interaction diagram
+- [bosh-init architecture doc](https://github.com/cloudfoundry/bosh-init/blob/master/docs/architecture.md#deploy-command-flow) and [bosh-init deploy flow](https://github.com/cloudfoundry/bosh-init/blob/master/docs/init-cli-flow.png) where calls to the CPI are marked as `cloud`.
+
+---
+## <a id="glossary"></a> Glossary
 
 - **cloud ID** is an ID (string) that the Director uses to reference any created infrastructure resource; typically CPI methods return cloud IDs and later receive them. For example AWS CPI's `create_vm` method would return `i-f789df` and `attach_disk` would take it.
 
@@ -14,19 +20,14 @@ resource_pools:
   cloud_properties: {instance_type: r3.8xlarge}
 ```
 
-For an overview of the sequence of CPI calls, the following resources are helpful:
-- [bosh components](bosh-components.html) and its example component interaction during new vm creation
-- typical vm instantiation by bosh-init described in the [bosh-init architecture doc](https://github.com/cloudfoundry/bosh-init/blob/master/docs/architecture.md#deploy-command-flow) where calls to the cpi are mentioned as `cloud.` 
-
 ---
 ## <a id="stemcells"></a> Stemcell management
 
 ### <a id="create-stemcell"></a> `create_stemcell`
 
-Creates a reusable VM image in the IaaS from the [stemcell](stemcell.html) image. It's used later for creating VMs. For example AWS CPI creates an AMI and returns AMI ID. 
-Stemcell tarballs are currently specific to each Iaas/CPI (e.g. include cloud specific [bosh-agent bootstrap config](https://github.com/cloudfoundry/bosh/blob/ede389a2e112e1b4f2dbc4495c08977da4439483/stemcell_builder/stages/bosh_openstack_agent_settings/apply.sh#L12-L41) or [cloud-specific packages](https://github.com/cloudfoundry/bosh/blob/cdd7c7b333d076aa96c648825b1e9ba4ba7a22ba/bosh-stemcell/lib/bosh/stemcell/stage_collection.rb#L93-L94) such as hypervisor specific drivers). In the future, stemcells will become [universal](https://www.pivotaltracker.com/epic/show/927178) and CPI will bring in the Iaas specific bits before creating the VM image. 
- 
-In the meantime, if you're developing a CPI for a new IaaS, you may consider reusing one of the officially generated stemcells, or forking the stemcell builder in bosh repo.
+Creates a reusable VM image in the IaaS from the [stemcell](stemcell.html) image. It's used later for creating VMs. For example AWS CPI creates an AMI and returns AMI ID.
+
+See [Stemcell Building](build-stemcell.html) for more details.
 
 #### Arguments
 
@@ -58,17 +59,7 @@ In the meantime, if you're developing a CPI for a new IaaS, you may consider reu
 
 - **stemcell_cid** [String]: Cloud ID of the created stemcell (e.g. stemcells in AWS CPI are made into AMIs so cid .would be `ami-83fdflf`)
 
-#### Related
-
-- light stemcells: A light stemcell is a stemcell that points to an existing image in the cloud.
-
-Examples:
-   - in AWS, light stemcells point to official BOSH published AMIs to avoid downloading stemcell images. More specifically, the image file is empty and the stemcell metadata file (stemcell.MF) contains IDs of publicly available AMI images. 
-   - in OpenStack, a light stemcell might point to a stemcell that OpenStack operator pre-uploaded and made available to all tenants (not yet implemented in OpenStack CPI)
-
-Light stemcells are particularly useful for cases where it is not possible to create virtual machines from outside of the Iaas (e.g. deploying MicroBOSH from non-AWS machine because it's not possible to create an AMI in certain cases). 
-
-- [Example create_stemcell.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/create_stemcell.go)
+[Example create_stemcell.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/create_stemcell.go)
 
 ---
 ### <a id="delete-stemcell"></a> `delete_stemcell`
@@ -185,7 +176,9 @@ For the Agent to successfully start on the created VM, several bootstrapping set
 }
 ```
 
-Refer to [VM configuration locations](vm-config.html) for an overview of the bosh agent config files
+See [Agent Configuration](vm-config.html#agent) for an overview of the Agent configuration file locations.
+
+[Example create_vm.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/create_vm.go)
 
 ---
 ### <a id="delete-vm"></a> `delete_vm`
@@ -202,6 +195,8 @@ To avoid losing track of VMs, make sure to raise an error if VM deletion is not 
 
 No return value
 
+[Example delete_vm.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/delete_vm.go)
+
 ---
 ### <a id="has-vm"></a> `has_vm`
 
@@ -217,6 +212,8 @@ This method is mostly used by the consistency check tool (cloudcheck) to determi
 
 - **exists** [Boolean]: True if VM is present.
 
+[Example has_vm.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/has_vm.go)
+
 ---
 ### <a id="reboot-vm"></a> `reboot_vm`
 
@@ -231,6 +228,8 @@ Waiting for the VM to finish rebooting is not required because the Director wait
 #### Returned
 
 No return value
+
+[Example #reboot_vm](https://github.com/cloudfoundry/bosh/blob/1dfc5da695cdcfe3998e0c8b3bea4cda86e963c4/bosh_vsphere_cpi/lib/cloud/vsphere/cloud.rb#L193)
 
 ---
 ### <a id="set-vm-metadata"></a> `set_vm_metadata`
@@ -259,6 +258,8 @@ Sets VM's metadata to make it easier for operators to find categorize VMs when l
 #### Returned
 
 No return value
+
+[Example #set\_vm\_metadata](https://github.com/cloudfoundry/bosh/blob/1dfc5da695cdcfe3998e0c8b3bea4cda86e963c4/bosh_vsphere_cpi/lib/cloud/vsphere/cloud.rb#L217)
 
 ---
 ### <a id="configure-networks"></a> `configure_networks`
@@ -305,6 +306,8 @@ For infrastructures that do support network reconfiguration or when VM cannot be
 
 No return value
 
+[Example configure_networks.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/configure_networks.go)
+
 ---
 ## <a id="disk"></a> Disk management
 
@@ -335,6 +338,8 @@ Creates disk with specific size. Disk does not belong to any given VM.
 
 - **disk_cid** [String]: Cloud ID of the created disk.
 
+[Example create_disk.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/create_disk.go)
+
 ---
 ### <a id="delete-disk"></a> `delete_disk`
 
@@ -350,6 +355,8 @@ To avoid losing track of disks, make sure to raise an error if disk deletion is 
 
 No return value
 
+[Example delete_disk.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/delete_disk.go)
+
 ---
 ### <a id="has-disk"></a> `has_disk`
 
@@ -364,6 +371,8 @@ This method is mostly used by the consistency check tool (cloudcheck) to determi
 #### Returned
 
 - **exists** [Boolean]: True if disk is present.
+
+[Example #has_disk](https://github.com/cloudfoundry/bosh/blob/1dfc5da695cdcfe3998e0c8b3bea4cda86e963c4/bosh_vsphere_cpi/lib/cloud/vsphere/cloud.rb#L61)
 
 ---
 ### <a id="attach-disk"></a> `attach_disk`
@@ -414,6 +423,8 @@ For the Agent to eventually format, partition and mount attached disk, it needs 
 }
 ```
 
+[Example attach_disk.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/attach_disk.go)
+
 ---
 ### <a id="detach-disk"></a> `detach_disk`
 
@@ -429,6 +440,8 @@ Agent settings should have been updated to remove information about given disk.
 #### Returned
 
 No return value
+
+[Example detach_disk.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/detach_disk.go)
 
 ---
 ### <a id="get-disks"></a> `get_disks`
@@ -478,7 +491,7 @@ No return value
 
 Determines cloud ID of the VM executing the CPI code. Currently used in combination with `get_disks` by the Director to determine which disks to self-snapshot.
 
-Note: Do not implement; this method will be deprecated and removed.
+<p class="note">Note: Do not implement; this method will be deprecated and removed.</p>
 
 #### Arguments
 
@@ -489,6 +502,6 @@ No arguments
 - **vm_cid** [String]: Cloud ID of the VM.
 
 ---
-[Back to Table of Contents](index.html#extend)
+Next: [Building a Stemcell](build-stemcell.html)
 
 Previous: [Building a CPI](build-cpi.html)

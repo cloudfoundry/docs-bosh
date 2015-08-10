@@ -2,11 +2,9 @@
 title: Drain Scripts
 ---
 
-BOSH jobs can have drain scripts that BOSH runs when the job is
-restarted or stopped. These scripts allow the job to clean up and get into a
-state where it can be safely stopped.
+BOSH jobs can have drain scripts that BOSH runs when the job is restarted or stopped. These scripts allow the job to clean up and get into a state where it can be safely stopped.
 
-## <a id="job-configuration"></a> Job Configuration ##
+## <a id="job-configuration"></a> Job Configuration
 
 To add a drain script to a release job:
 
@@ -15,25 +13,22 @@ To add a drain script to a release job:
 
 Example:
 
-~~~yaml
+```yaml
 ---
 name: nginx
 templates:
   drain-web-requests.erb: bin/drain
-~~~
+```
 
-<p class="note"><strong>Notes</strong>:
-  <ul>
-    <li>BOSH currently only allows one drain script per release job.</li>
+<p class="note">Notes:</p>
+<ul class="note">
+  <li>BOSH currently only allows one drain script per release job.</li>
+  <li>For a job that contains many colocated jobs, BOSH executes the drain script only of the first colocated job. See <a href="https://www.pivotaltracker.com/story/show/70697490">Pivotal Tracker</a> to know when multiple colocated drain scripts are supported.</li>
+</ul>
 
-    <li>For a job that contains many colocated jobs, BOSH executes the drain script only of the first colocated job. See <a href="https://www.pivotaltracker.com/story/show/70697490">Pivotal Tracker</a> to know when multiple colocated drain scripts are supported.</li>
-  </ul>
-</p>
+## <a id="script-implementation"></a> Script Implementation
 
-## <a id="script-implementation"></a> Script Implementation ##
-
-You can write BOSH drain scripts in any interpreted language found on the
-job instance. Job instances inherit languages through release packages.
+You can write BOSH drain scripts in any interpreted language found on the job instance. Job instances inherit languages through release packages.
 
 Drain scripts are commonly implemented as shell scripts. The UNIX shebang line at the beginning is used to specify the interpreter.
 
@@ -52,7 +47,7 @@ You must ensure that your drain script exits in one of following ways:
 	<p class="note"><strong>Note</strong>: BOSH reruns a script indefinitely as long as the script exits with a status code <code>0</code> and outputs a negative integer.</p>
 
 
-## <a id="environment-variables"></a> Environment Variables ##
+## <a id="environment-variables"></a> Environment Variables
 
 When running, a drain script can access the following environment variables:
 
@@ -61,32 +56,22 @@ When running, a drain script can access the following environment variables:
   * `BOSH_JOB_NEXT_STATE`: JSON description of the new job state that is being
     applied
 
-Use this feature to monitor job properties.
-For example, a script can use this feature to determine if the size of the persistent disk changes and take a specified action.
+Use this feature to monitor job properties. For example, a script can use this feature to determine if the size of the persistent disk changes and take a specified action.
 
-## <a id="example"></a> Example ##
+## <a id="example"></a> Example
 
-~~~sh
+```sh
 #!/bin/sh
 
 pid_path=/var/vcap/sys/run/worker/worker.pid
 
 if [ -f $pid_path ]; then
   pid=$(cat $pid_path)
-
-  # process is running; kill it softly
-  kill $pid
-
-  # wait a bit
-  sleep 10
-
-  # kill it hard
-  kill -9 $pid
-
-  # remove pid file
-  rm -rf $pid_path
+  kill $pid        # process is running; kill it softly
+  sleep 10         # wait a bit
+  kill -9 $pid     # kill it hard
+  rm -rf $pid_path # remove pid file
 fi
 
-# ok to exit; do not wait for anything
-echo 0
-~~~
+echo 0 # ok to exit; do not wait for anything
+```
