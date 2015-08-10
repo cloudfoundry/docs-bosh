@@ -37,7 +37,10 @@ Deletes a specific user from the BOSH Director. Prompts you for a `USERNAME` if 
 <pre class="terminal">$ bosh releases [--jobs]</pre>
 Displays the list of available releases.
 
-<pre class="terminal">$ bosh upload release [RELEASE_FILE] [--rebase] [--skip-if-exists]</pre>
+<pre class="terminal">
+$ bosh upload release [RELEASE_FILE] [--rebase] [--skip-if-exists]
+$ bosh upload release RELEASE_URL
+</pre>
 Uploads the file that you specify as a release. If you do not provide a `RELEASE_FILE`, you must run this command from a valid release directory.
 
 <pre class="terminal">$ bosh delete release NAME [VERSION] [--force]</pre>
@@ -49,17 +52,14 @@ Deletes a release and associated jobs, packages, compiled packages, and all pack
 <pre class="terminal">$ bosh stemcells</pre>
 Displays the name, version, and CID of available stemcells.
 
-<pre class="terminal">$ bosh upload stemcell STEMCELL_LOCATION [--skip-if-exists]</pre>
-Uploads the stemcell that you specify. `STEMCELL_LOCATION` can be a local file path or a remote URL.
+<pre class="terminal">
+$ bosh upload stemcell STEMCELL_PATH [--skip-if-exists]
+$ bosh upload stemcell STEMCELL_URL
+</pre>
+Uploads specified stemcell. See [stemcells section of bosh.io](//bosh.io/stemcells) for all available stemcells.
 
 <pre class="terminal">$ bosh delete stemcell NAME VERSION [--force]</pre>
 Deletes a stemcell and all associated compiled packages. Fails if any deployment references this stemcell.
-
-<pre class="terminal">$ bosh public stemcells [--full] [--all]</pre>
-Displays a list of available public stemcells. Alternatively use [BOSH Artifacts](http://bosh-artifacts.cfapps.io) to see all available stemcells.
-
-<pre class="terminal">$ bosh download public stemcell STEMCELL_FILENAME</pre>
-Downloads the stemcell that you specify from the public blobstore to the machine running the CLI.
 
 ---
 ### <a id="deployment"></a> Deployment
@@ -100,8 +100,10 @@ Creates a VM and reattaches persistent disks if VM does not exist, then starts t
 
 <a id="vm-resurrection"></a>
 
-<pre class="terminal">$ bosh vm resurrection [STATE]</pre>
-<pre class="terminal">$ bosh vm resurrection JOB INDEX [STATE]</pre>
+<pre class="terminal">
+$ bosh vm resurrection [STATE]
+$ bosh vm resurrection JOB INDEX [STATE]
+</pre>
 Sets resurrection state (`on` or `off`) for all VMs managed by the Director or for a single deployment job instance.
 
 <pre class="terminal">$ bosh cck [DEPLOYMENT_NAME] [--auto] [--report]</pre>
@@ -149,14 +151,14 @@ Instructs the BOSH Director to run the named errand on a job instance on a VM.
 <pre class="terminal">$ bosh snapshots</pre>
 Displays the job, CID, and created date of all snapshots.
 
+<pre class="terminal">$ bosh take snapshot [JOB] [INDEX]</pre>
+Takes a snapshot of the job VM that you specify. If you do not specify a `JOB`, takes a snapshot of every VM in your deployment.
+
 <pre class="terminal">$ bosh delete snapshots</pre>
 Deletes all snapshots.
 
 <pre class="terminal">$ bosh delete snapshot SNAPSHOT_CID</pre>
 Deletes a snapshot.
-
-<pre class="terminal">$ bosh take snapshot [JOB] [INDEX]</pre>
-Takes a snapshot of the job VM that you specify. If you do not specify a `JOB`, takes a snapshot of every VM in your deployment.
 
 ---
 ## <a id="release-maintainers"></a> For Release Maintainers
@@ -165,11 +167,14 @@ Use these commands against the Director to create and update releases.
 
 ### <a id="main-release"></a> Release Creation
 
-<pre class="terminal">$ bosh create release [MANIFEST_FILE] [--force]</pre>
+<pre class="terminal">$ bosh create release [MANIFEST_FILE] [--name NAME] [--version VERSION] [--with-tarball] [--force]</pre>
 Creates a development release.
 
-<pre class="terminal">$ bosh create release [MANIFEST_FILE] --final [--version VERSION] [--with-tarball] [--force] </pre>
+<pre class="terminal">$ bosh create release [MANIFEST_FILE] [--name NAME] [--version VERSION] [--with-tarball] [--force] --final</pre>
 Creates a final release.
+
+<pre class="terminal">$ bosh finalize release RELEASE_PATH [--name NAME] [--version VERSION]</pre>
+Create a final release from a development release tarball (assumes current directory to be a release directory).
 
 ### <a id="blobs"></a> Blobs
 
