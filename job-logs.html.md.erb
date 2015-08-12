@@ -37,6 +37,8 @@ Logrotate is configured by the Agent and runs automatically with the following n
 * `copytruncate`: Copy log files, then truncate in place instead of creating new files
 * `size 50M`: Rotate log files when they exceed 50 MB in size
 
+Cron runs logrotate script every hour.
+
 ### <a id="monit-logs"></a> Monit Logs
 
 The Agent uses Monit to start, restart, and stop release job processes as specified by the release jobs. Monit detects errors and outputs often useful information to its log. Use `tail` to examine the `monit.log` on a VM:
