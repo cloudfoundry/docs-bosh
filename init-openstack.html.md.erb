@@ -18,17 +18,14 @@ This document shows how to initialize new [environment](terminology.html#environ
 
     <p class="note"><strong>Note</strong>: The example below uses several predefined password. We recommend to replace them with passwords of your choice.</p>
 
-```yaml
+<pre>
 ---
 name: bosh
 
-releases:
-- name: bosh
-  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=184
-  sha1: 0209fdd72820ceed717e792988fe4b4984eb0e98
-- name: bosh-openstack-cpi
-  url: http://bosh.io/d/github.com/cloudfoundry-incubator/bosh-openstack-cpi-release?v=9
-  sha1: 1402f7494a496220e0742b6c4cec04de7448d521
+releases:{{ range .Releases }}
+- name: {{ .Name }}
+  url: {{ .UserVisibleDownloadURL }}
+  sha1: {{ .TarballSHA1 }}{{ end }}
 
 resource_pools:
 - name: vms
@@ -151,7 +148,7 @@ cloud_provider:
     agent: {mbus: "https://mbus:mbus-password@0.0.0.0:6868"}
     blobstore: {provider: local, path: /var/vcap/micro_bosh/data/cache}
     ntp: *ntp
-```
+</pre>
 
 ---
 ## <a id="prepare-openstack"></a>Step 2: Prepare an OpenStack environment

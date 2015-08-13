@@ -16,17 +16,14 @@ This document shows how to initialize new [environment](terminology.html#environ
 
     <p class="note"><strong>Note</strong>: The example below uses several predefined password. We recommend to replace them with passwords of your choice.</p>
 
-```yaml
+<pre>
 ---
 name: bosh
 
-releases:
-- name: bosh
-  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=184
-  sha1: 0209fdd72820ceed717e792988fe4b4984eb0e98
-- name: bosh-vsphere-cpi
-  url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release?v=6
-  sha1: 2a790cb95fb201bd3db4647f39d2a3681f50f9e2
+releases:{{ range .Releases }}
+- name: {{ .Name }}
+  url: {{ .UserVisibleDownloadURL }}
+  sha1: {{ .TarballSHA1 }}{{ end }}
 
 resource_pools:
 - name: vms
@@ -137,7 +134,7 @@ cloud_provider:
     agent: {mbus: "https://mbus:mbus-password@0.0.0.0:6868"}
     blobstore: {provider: local, path: /var/vcap/micro_bosh/data/cache}
     ntp: *ntp
-```
+</pre>
 
 ---
 ## <a id="prepare"></a> Step 2: Prepare a vSphere Environment
