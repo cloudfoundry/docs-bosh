@@ -137,7 +137,6 @@ Example of a CPI configuration that will place VMs into `BOSH_CL` cluster within
 
     datastore_pattern: '\Aprod-ds\z'
     persistent_datastore_pattern: '\Aprod-ds\z'
-    allow_mixed_datastores: true
 
     clusters: [BOSH_CL]
 ```
@@ -159,7 +158,6 @@ Or example that places VMs by default into `BOSH_RP` vSphere resource pool:
 
     datastore_pattern: '\Aprod-ds\z'
     persistent_datastore_pattern: '\Aprod-ds\z'
-    allow_mixed_datastores: true
 
     clusters:
     - BOSH_CL: {resource_pool: BOSH_RP}
@@ -181,4 +179,7 @@ Or example that places VMs by default into `BOSH_RP` vSphere resource pool:
 Field object_set is not optional
 ```
 
-This error may occur when global CPI configuration references a cluster name (via `clusters` key) that cannot be found in the datacenter. Double check in vSphere that cluster exists.
+This error may occur when global CPI configuration references:
+
+- cluster (via `clusters` key) that cannot be found in the datacenter
+- stemcell that cannot be found in the templates folder
