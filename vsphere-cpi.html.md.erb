@@ -115,7 +115,6 @@ Schema:
 
     * **datastore_pattern** [String, required]: Pattern for selecting datastores for storing ephemeral disks and replicated stemcells.
     * **persistent\_datastore\_pattern** [String, required]: Pattern for selecting datastores for storing persistent disks.
-    * **allow\_mixed\_datastores** [Boolean, optional]: Flag to indicate if `datastore_pattern` and `persistent_datastore_pattern` can reference same datastores.
 
     * **clusters** [Array, required]: Array of clusters to use for VM placement.
         * **\<cluster name\>** [String, required]: Cluster name.
@@ -172,6 +171,8 @@ Or example that places VMs by default into `BOSH_RP` vSphere resource pool:
 * Assigned VM names (e.g. `vm-8dg349-s7cn74-...`) should not be manually changed since the CPI uses them to find created VMs. You can use [`bosh vms --details`](sysadmin-commands.html#health) to find which VM is assigned which job. VMs are also tagged with their assigned job, index and deployment.
 
 * Storage DRS is not supported since it moves and renames persistent disks without maintaining same names.
+
+* `allow_mixed_datastores` configuration has been deprecated in favor of setting same datastore pattern for `datastore_pattern` and `persistent_datastore_pattern` keys.
 
 ---
 ## <a id='errors'></a> Errors
