@@ -59,7 +59,7 @@ See [Stemcell Building](build-stemcell.html) for more details.
 
 - **stemcell_cid** [String]: Cloud ID of the created stemcell (e.g. stemcells in AWS CPI are made into AMIs so cid .would be `ami-83fdflf`)
 
-[Example create_stemcell.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/create_stemcell.go)
+[Example create_stemcell.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/create_stemcell.go)
 
 ---
 ### <a id="delete-stemcell"></a> `delete_stemcell`
@@ -74,7 +74,7 @@ Deletes previously created stemcell. Assume that none of the VMs require presenc
 
 No return value
 
-[Example delete_stemcell.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/delete_stemcell.go)
+[Example delete_stemcell.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/delete_stemcell.go)
 
 ---
 ## <a id="vm"></a> VM management
@@ -178,7 +178,7 @@ For the Agent to successfully start on the created VM, several bootstrapping set
 
 See [Agent Configuration](vm-config.html#agent) for an overview of the Agent configuration file locations.
 
-[Example create_vm.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/create_vm.go)
+[Example create_vm.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/create_vm.go)
 
 ---
 ### <a id="delete-vm"></a> `delete_vm`
@@ -195,7 +195,7 @@ To avoid losing track of VMs, make sure to raise an error if VM deletion is not 
 
 No return value
 
-[Example delete_vm.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/delete_vm.go)
+[Example delete_vm.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/delete_vm.go)
 
 ---
 ### <a id="has-vm"></a> `has_vm`
@@ -212,7 +212,7 @@ This method is mostly used by the consistency check tool (cloudcheck) to determi
 
 - **exists** [Boolean]: True if VM is present.
 
-[Example has_vm.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/has_vm.go)
+[Example has_vm.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/has_vm.go)
 
 ---
 ### <a id="reboot-vm"></a> `reboot_vm`
@@ -306,7 +306,7 @@ For infrastructures that do support network reconfiguration or when VM cannot be
 
 No return value
 
-[Example configure_networks.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/configure_networks.go)
+[Example configure_networks.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/configure_networks.go)
 
 ---
 ## <a id="disk"></a> Disk management
@@ -338,7 +338,7 @@ Creates disk with specific size. Disk does not belong to any given VM.
 
 - **disk_cid** [String]: Cloud ID of the created disk.
 
-[Example create_disk.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/create_disk.go)
+[Example create_disk.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/create_disk.go)
 
 ---
 ### <a id="delete-disk"></a> `delete_disk`
@@ -355,7 +355,7 @@ To avoid losing track of disks, make sure to raise an error if disk deletion is 
 
 No return value
 
-[Example delete_disk.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/delete_disk.go)
+[Example delete_disk.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/delete_disk.go)
 
 ---
 ### <a id="has-disk"></a> `has_disk`
@@ -423,7 +423,7 @@ For the Agent to eventually format, partition and mount attached disk, it needs 
 }
 ```
 
-[Example attach_disk.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/attach_disk.go)
+[Example attach_disk.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/attach_disk.go)
 
 ---
 ### <a id="detach-disk"></a> `detach_disk`
@@ -441,7 +441,7 @@ Agent settings should have been updated to remove information about given disk.
 
 No return value
 
-[Example detach_disk.go](https://github.com/cppforlife/bosh-warden-cpi/blob/master/action/detach_disk.go)
+[Example detach_disk.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/detach_disk.go)
 
 ---
 ### <a id="get-disks"></a> `get_disks`
