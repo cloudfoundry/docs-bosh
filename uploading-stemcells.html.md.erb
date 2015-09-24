@@ -6,35 +6,9 @@ title: Uploading Stemcells
 
 As described earlier, each resource pool references a specific stemcell on the Director. Before the Director can form a deployment, all referenced stemcells must be uploaded to the Director.
 
-## <a id='find'></a> Finding Official Stemcells
+## <a id='find'></a> Finding Stemcells
 
-You can download stemcells from two official sources:
-
-- [Stemcells section of bosh.io](//bosh.io/stemcells)
-- Using the `public stemcells` CLI command
-
-    To list the latest public stemcells:
-
-    <pre class="terminal">
-    $ bosh public stemcells
-
-    +-----------------------------------------------------------------+
-    | Name                                                            |
-    +-----------------------------------------------------------------+
-    | bosh-stemcell-2751-aws-xen-ubuntu-trusty-go_agent.tgz           |
-    | bosh-stemcell-2751-openstack-kvm-ubuntu-trusty-go_agent.tgz     |
-    +-----------------------------------------------------------------+
-
-    To download use `bosh download public stemcell <stemcell_name>'. For full url use --full.
-    </pre>
-
-    And to download the listed public stemcell into the `~/Downloads` directory:
-
-    <pre class="terminal">
-    $ cd ~/Downloads
-
-    $ bosh download public stemcell bosh-stemcell-2751-aws-xen-hvm-ubuntu-trusty-go_agent.tgz
-    </pre>
+The [stemcells section of bosh.io](//bosh.io/stemcells) lists official stemcells.
 
 ---
 ## <a id='upload'></a> Uploading to the Director
@@ -80,7 +54,7 @@ resource_pools:
 - name: redis-servers
   network: default
 
-  # Assocition with Ubuntu Trusty stemcell for AWS
+  # Association with Ubuntu Trusty stemcell for AWS
   stemcell:
     name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
     version: 2751
