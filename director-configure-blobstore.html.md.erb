@@ -1,0 +1,60 @@
+---
+title: Connecting the Director to an External Postgres Database
+---
+
+The Director stores uploaded releases, configuration files, logs and other data in a blobstore. A default DAV blobstore is sufficient for most BOSH environment; however, a highly-available external blobstore may be desired.
+
+## <a id="included"></a> Included DAV (default)
+
+By default the Director is configured to use included DAV blobstore job (see [Installing BOSH section](index.html#install) for example manifests). Here is how to configure it:
+
+1. Add blobstore release job and make sure that persistent disk is enabled:
+
+    ```yaml
+    jobs:
+    - name: bosh
+      templates:
+      - {name: blobstore, release: bosh}
+      # ...
+      persistent_disk: 25_000
+      # ...
+      networks:
+      - name: default
+        static_ips: [10.0.0.6]
+    ```
+
+1. Configure blobstore job. The blobstore's address must be reachable by the Agents:
+
+    ```yaml
+    properties:
+      blobstore:
+        provider: dav
+        address: 10.0.0.6
+        port: 25250
+        director:
+          user: director
+          password: DIRECTOR-PASSWORD
+        agent:
+          user: agent
+          password: AGENT-PASSWORD
+    ```
+
+Above configuration is used by the Director and the Agents.
+
+---
+## <a id="default"></a> S3
+
+The Director and the Agents can use S3 compatible blobstore. Here is how to configure it:
+
+1. Create a *private* S3 bucket
+
+1. Modify deployment manifest for the Director and specify S3 credentials and bucket name:
+
+    ```yaml
+    properties:
+      blobstore:
+        provider: s3
+        access_key_id: ACCESS-KEY-ID
+        secret_access_key: SECRET-ACCESS-KEY
+        bucket_name: test-bosh-bucket
+    ```
