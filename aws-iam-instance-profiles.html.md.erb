@@ -49,7 +49,7 @@ You may have to create one or more IAM instance profiles to limit access to AWS 
       aws: &aws
         credentials_source: env_or_profile
         # access_key_id and secret_access_key are not provided
-        ...
+        # ...
     ```
 
     <p class="note">Note: To use IAM instance profile as a credentials source when using bosh-init, you have to run bosh-init from a [jump box](terminology.html#jumpbox), an existing AWS instance with IAM instance profile (you can reuse `director` IAM role). Alternatively if you are deploying the Director VM from outside of the AWS, you can use hard coded credentials with bosh-init and have the AWS CPI on the Director VM use IAM instance profile as a credentials source.</p>
@@ -67,7 +67,10 @@ This configuration is similar to the previous one except that it's used when the
       "Statement": [{
         "Effect": "Allow",
         "Action": [ "s3:*" ],
-        "Resource": [ "arn:aws:s3:::<bosh_bucket_name>/*" ]
+        "Resource": [
+          "arn:aws:s3:::<bosh_bucket_name>",
+          "arn:aws:s3:::<bosh_bucket_name>/*",
+        ]
       }]
     }
     ```
@@ -92,7 +95,10 @@ This configuration is similar to the previous one except that it's used when the
       },{
         "Effect": "Allow",
         "Action": [ "s3:*" ],
-        "Resource": [ "arn:aws:s3:::<bosh_bucket_name>/*" ]
+        "Resource": [
+          "arn:aws:s3:::<bosh_bucket_name>",
+          "arn:aws:s3:::<bosh_bucket_name>/*",
+        ]
       }]
     }
     ```
@@ -104,7 +110,7 @@ This configuration is similar to the previous one except that it's used when the
       aws: &aws
         credentials_source: env_or_profile
         default_iam_instance_profile: deployed-vm
-        ...
+        # ...
     ```
 
     <p class="note">Note: <code>iam_instance_profile</code> key in resource pool's cloud_properties takes precedence over the default IAM instance profile, so that specific VMs can have greater access to the AWS resources.</p>
