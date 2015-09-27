@@ -51,6 +51,7 @@ Schema for `cloud_properties` section:
 * **key_name** [String, optional]: Key pair name. Defaults to key pair name specified by `default_key_name` in global CPI settings. Example: `bosh`.
 * **spot\_bid\_price** [Float, optional]: Bid price in dollars. Example: `0.03`.
 * **elbs** [Array, optional]: Array of ELB names that should be attached to created VMs. Example: `[prod-elb]`. Default is `[]`.
+* **iam\_instance\_profile** [String, optional]: Name of an [IAM instance profile](aws-iam-instance-profiles.html). Example: `director`.
 * **placement_group** [String, optional]: Name of a [placement group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html). Example: `my-group`.
 * **tenancy** [String, optional]: VM [tenancy](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/dedicated-instance.html) configuration. Example: `dedicated`. Default is `default`.
 * **ephemeral_disk** [Hash, optional]: EBS backed ephemeral disk of custom size for when instance storage is not large enough or not available for selected instance type.
@@ -58,7 +59,6 @@ Schema for `cloud_properties` section:
     * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `standard`.
         * `standard` stands for EBS magnetic drives
         * `gp2` stands for EBS general purpose drives (SSD)
-
 
 Example of a `m1.small` instance:
 
@@ -94,6 +94,47 @@ disk_pools:
   disk_size: 10_240
   cloud_properties:
     type: gp2
+```
+
+---
+## <a id='global'></a> Global Configuration
+
+The CPI can only talk to a single AWS region.
+
+Schema:
+
+* **credentials_source** [String, optional]: Selects credentials source between credentials provided in this configuration, or from an [IAM instance profile](aws-iam-instance-profiles.html). Default: `static`.
+* **access\_key\_id** [String, optional]: Accesss Key ID. Example: `AKI...`.
+* **secret\_access\_key** [String, optional]: Secret Access Key. Example: `0kwh...`.
+* **default\_key\_name** [String, required]: Name of the [Key Pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) that will be applied to all created VMs. Example: `bosh`
+* **default\_security\_groups** [Array, required]: Name of the [Security Group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) that will be applied to all created VMs. Example: `[bosh]`
+* **default\_iam\_instance\_profile** [String, optional]: Name of the [IAM instance profile](aws-iam-instance-profiles.html) that will be applied to all created VMs. Example: `director`.
+* **region** [String, required]: AWS region name. Example: `us-east-1`
+
+See [all configuration options](https://bosh.io/jobs/cpi?source=github.com/cloudfoundry-incubator/bosh-aws-cpi-release&version=30).
+
+Example with hard-coded credentials:
+
+```yaml
+properties:
+  aws:
+    access_key_id: ACCESS-KEY-ID
+    secret_access_key: SECRET-ACCESS-KEY
+    default_key_name: bosh
+    default_security_groups: [bosh]
+    region: us-east-1
+```
+
+Example when [IAM instance profiles](aws-iam-instance-profiles.html) are used:
+
+```yaml
+properties:
+  aws:
+    credentials_source: env_or_profile
+    default_key_name: bosh
+    default_security_groups: [bosh]
+    default_iam_instance_profile: deployed-vm
+    region: us-east-1
 ```
 
 ---
@@ -148,3 +189,9 @@ When specifying a security group you must specify a group id for each item.
 ```
 
 Make sure all security groups in the CPI configuration and networks' `cloud_properties` sections are specified in the same format, as IDs (e.g. `sg-384fher`) or names (e.g. `cf-public`).
+
+```
+You are not authorized to perform this operation. Encoded authorization failure message: vHU-KncL6Yo4pG5J9p...
+```
+
+See [IAM instance profiles errors](aws-iam-instance-profiles.html#errors).
