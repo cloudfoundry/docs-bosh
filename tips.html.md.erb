@@ -1,0 +1,22 @@
+---
+title: Tips
+---
+
+## Debugging Director database
+
+Rarely it's necessary to dive into the Director DB. The easiest way to do so is to SSH into the Director VM and use `director_ctl console`. For example:
+
+<pre class="terminal">
+$ ssh vcap@DIRECTOR-IP
+
+$ /var/vcap/jobs/director/bin/director_ctl console
+=> Loading /var/vcap/jobs/director/config/director.yml
+=> ruby-debug not found, debugger disabled
+=> Welcome to BOSH Director console
+=> You can use 'app' to access REST API
+=> You can also use 'cloud', 'blobstore', 'nats' helpers to query these services
+irb(main):001:0> Bosh::Director::Models::RenderedTemplatesArchive.count
+=> 3
+</pre>
+
+<p class="note">Note: It's not recommended to modify the Director database via this or other manual methods. Please let us know via GitHub issue if you need a certain feature in the BOSH CLI to do some operation.</p>
