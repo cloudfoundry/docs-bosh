@@ -87,6 +87,59 @@ Make sure following packages are installed:
 $ sudo yum install gcc ruby ruby-devel mysql-devel postgresql-devel postgresql-libs sqlite-devel libxslt-devel libxml2-devel yajl-ruby
 </pre>
 
+### Prerequisites on Mac OS X
+
+You may see an error like this:
+<strong>The compiler failed to generate an executable file. (RuntimeError)
+<br>
+You have to install development tools first.
+</strong>
+
+Make sure you have installed Xcode and the command-line developer tools, and agreed to the license.
+
+<pre class="terminal">
+$ xcode-select --install
+xcode-select: note: install requested for command line developer tools
+$
+</pre>
+
+A window will pop up saying:
+<strong>The "xcode-select" command requires the command line developer tools. Would you like to install the tools now?</strong>
+Choose Install to continue. Choose Get Xcode to install Xcode and the command line developer tools from the App Store.
+If you have already installed Xcode from the App Store, you can choose Install and it will install the cli tools.
+
+If you have successfully installed them, you will see this:
+
+<pre class="terminal">
+$ xcode-select --install
+xcode-select: error: command line tools are already installed, use "Software Update" to install updates
+$
+</pre>
+
+To agree to the license:
+
+<pre class="terminal">
+$ sudo xcodebuild -license
+
+
+You have not agreed to the Xcode license agreements. You must agree to both license agreements below in order to use Xcode.
+
+Hit the Enter key to view the license agreements at '/Applications/Xcode.app/Contents/Resources/English.lproj/License.rtf'
+
+Apple Inc.
+
+Xcode and Apple SDKs Agreement
+
+PLEASE SCROLL DOWN AND READ ALL OF THE FOLLOWING TERMS AND CONDITIONS CAREFULLY BEFORE USING THE APPLE SOFTWARE OR APPLE SERVICES.
+[...]
+By typing 'agree' you are agreeing to the terms of the software license agreements. Type 'print' to print them or anything else to cancel, [agree, print, cancel] <strong>agree</strong>
+
+You can view the license agreements in Xcode's About Box, or at /Applications/Xcode.app/Contents/Resources/English.lproj/License.rtf
+
+$
+</pre>
+
+
 ---
 ## Installing AWS Boostrap CLI plugin (optional)
 
