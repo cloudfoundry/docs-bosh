@@ -9,13 +9,15 @@ The micro CLI plugin will soon be deprecated and discontinued in a few months. `
 1. Review [Using bosh-init](using-bosh-init.html).
 
 1. Familiarize yourself with how to write a deployment manifest for the Director VM (previously referred to as MicroBOSH) following examples mentioned on one of these pages depending on your IaaS:
-	- [Initializing on AWS](init-aws.html)
-	- [Initializing on OpenStack](init-openstack.html)
-	- [Initializing on vSphere](init-vsphere.html)
-	- [Initializing on vCloud](init-vcloud.html)
-	<br/><br/>
+  - [Initializing on AWS](init-aws.html)
+  - [Initializing on OpenStack](init-openstack.html)
+  - [Initializing on vSphere](init-vsphere.html)
+  - [Initializing on vCloud](init-vcloud.html)
+  <br/><br/>
 
 1. Create a deployment manifest (for example `bosh.yml`) based on one of the above examples.
+
+    <p class="note">Note: Make sure that database settings used for the Director, registry, and DNS server match your previous configuration.</p>
 
 1. Copy `bosh-deployments.yml` to the deployment directory that contains your new deployment manifest. `bosh-deployments.yml` is a state file produced and updated by the micro CLI. It contains VM and persistent disk IDs of your current MicroBOSH VM.
 
