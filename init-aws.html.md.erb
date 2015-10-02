@@ -85,11 +85,12 @@ jobs:
       password: nats-password
 
     redis:
-      listen_addresss: 127.0.0.1
+      listen_address: 127.0.0.1
       address: 127.0.0.1
       password: redis-password
 
     postgres: &db
+      listen_address: 127.0.0.1
       host: 127.0.0.1
       user: postgres
       password: postgres-password
