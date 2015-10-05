@@ -2,9 +2,7 @@
 title: User management on the Director
 ---
 
-The Director provides a very simple user management system for authentication of operators and internal services (for example, the Health Monitor). The system does not currently allow to assign user roles/permissions.
-
-<p class="note"><strong>Note</strong>: We have future plans to integrate the Director with the UAA to provide more sophisticated authentication and authorization.</p>
+The Director provides a very simple built-in user management system for authentication of operators and internal services (for example, the Health Monitor). Alternatively, it can integrate with UAA for more advanced use cases.
 
 ---
 ## <a id="default"></a> Default Configuration
@@ -68,17 +66,17 @@ To configure the Director with a list of users:
 ---
 ## <a id="uaa"></a> UAA Integration
 
-<p class="note"><strong>Note</strong>: Waiting for the official UAA release to be published.</p>
+[Configure your director to use the UAA for user management](director-users-uaa.html)
 
 ---
 ## <a id="hm"></a> Director Tasks
 
-The Director records initiating user for each [director task](director-tasks.html).
+The director is recording the user initiating a [director task](director-tasks.html) in the task audit log.
 
 ---
 ## <a id="hm"></a> Health Monitor Authentication
 
-The Health Monitor is configured to use custom user to query/submit requests to the Director. Since by default the Director does not come with any users, the Health Monitor is not able to successfully communicate with the Director. See the [Automatic repair with Resurrector](resurrector.html) topic for more details.
+The Health Monitor is configured to use a custom user to query/submit requests to the Director. Since by default the Director does not come with any users, the Health Monitor is not able to successfully communicate with the Director. See the [Automatic repair with Resurrector](resurrector.html) topic for more details.
 
 ---
 [Back to Table of Contents](index.html#director-config)

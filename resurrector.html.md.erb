@@ -20,22 +20,18 @@ Resurrection can be turned off per specific deployment job instance or for all V
 
 To enable the Resurrector:
 
-1. Change deployment manifest for the Health Monitor (typically collocated with the Director):
+1. Change deployment manifest for the Health Monitor (typically colocated with the Director):
 
     ```yaml
     properties:
       hm:
         resurrector_enabled: true
-        director_account:
-          user: custom-user-for-hm
-          password: custom-password-for-hm
     ```
 
 1. Optionally change configuration values:
-
-  * **minimum\_down\_jobs** [Integer, optional]: If the total number of instances that are down in a deployment (within time interval T) is below this number, the Resurrector will _always_ request to fix instances. This decision takes precedence to the `percent_threshold` check. Default is 5.
-  * **percent_threshold** [Float, optional]: If the percentage of instances that are down in a deployment (within time interval T) is greater than the threshold percentage, the Resurrector will _not_ request to fix any instance. Going over this threshold is called "meltdown". Default is 0.2 (20%).
-  * **time_threshold** [Integer, optional]: Time interval (in seconds) used in the above calculations. Default is 600.
+    * **minimum\_down\_jobs** [Integer, optional]: If the total number of instances that are down in a deployment (within time interval T) is below this number, the Resurrector will _always_ request to fix instances. This decision takes precedence to the `percent_threshold` check. Default is 5.
+    * **percent_threshold** [Float, optional]: If the percentage of instances that are down in a deployment (within time interval T) is greater than the threshold percentage, the Resurrector will _not_ request to fix any instance. Going over this threshold is called "meltdown". Default is 0.2 (20%).
+    * **time_threshold** [Integer, optional]: Time interval (in seconds) used in the above calculations. Default is 600.
 
     ```yaml
     properties:
@@ -47,17 +43,61 @@ To enable the Resurrector:
           time_threshold: 600
     ```
 
+1. Depending on how you configured [Director user management](director-users.html), credentials are specified in the `user` and `password` properties or using a custom `client` to authenticate with the UAA.
+
+    ### <a id="uaa-client"></a> Option a) Using UAA User Management
+
+    Define an additional client in the `uaa.clients` section of your manifest:
+
+    ```yaml
+    properties:
+      uaa:
+        clients:
+          hm:
+            override: true
+            authorized-grant-types: client_credentials
+            scope: ""
+            authorities: bosh.admin
+            secret: "hm-password"
+    ```
+
+    Configure the Health Monitor to use the client with the defined secret to authenticate with the Director:
+
+    ```yaml
+    properties:
+      hm:
+        director_account:
+          client_id: hm
+          client_secret: "hm-password"
+    ```
+
+    ### Option b) Using Preconfigured Users
+
+    Create new Director user so that the Resurrector plugin can communicate with the Director and query/submit information about deployments.
+
+    ```yaml
+    properties:
+      director:
+        user_management:
+          provider: local
+          local:
+            users:
+            - {name: admin, password: admin-password}
+            - {name: hm, password: hm-password}
+    ```
+
+    Configure the Health Monitor to use the HM user and password to authenticate with the Director:
+
+    ```yaml
+    properties:
+      hm:
+        director_account:
+          user: hm
+          password: hm-password
+    ```
+
 1. Deploy.
 
-1. Create new Director user so that the Resurrector plugin can communicate with the Director and query/submit information about deployments. Credentials are specified in the `user` and `password` properties from step #1.
-
-    <pre class="terminal">
-    $ bosh create user custom-user-for-hm
-
-    Enter new password: ************
-    </pre>
-
-    Alternatively if you have [preconfigured users for the Director](director-users.html#preconfigured) you can just add that HM user to that list before redeploying the Director.
 
 ### <a id="customize"></a> Customizing for Your Deployment
 

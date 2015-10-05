@@ -103,9 +103,15 @@ jobs:
       name: my-bosh
       db: *db
       cpi_job: cpi
+      user_management:
+        provider: local
+        local:
+          users:
+          - {name: admin, password: admin}
+          - {name: hm, password: hm-password}
 
     hm:
-      director_account: {user: admin, password: admin}
+      director_account: {user: hm, password: hm-password}
       resurrector_enabled: true
 
     vcenter: &vcenter # <--- Replace values below

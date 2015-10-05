@@ -1,0 +1,94 @@
+---
+title: Director SSL Certificate Configuration
+---
+
+## Generate a CA Certificate and sign new SSL Certificates
+
+Depending on you configuration, there are up to three endpoints to be secured using SSL certificates: The Director, the UAA, and the SAML Service Provider on the UAA.
+
+<p class="note">Note: If you are using the UAA for user management, an SSL certificate is mandatory for the Director and the UAA.</p>
+
+You can use the following script to generate a rootCA certificate and use it to sign three generated SSL certificates:
+
+```bash
+#!/bin/bash
+
+set -e
+
+certs=`dirname $0`/certs
+
+rm -rf $certs && mkdir -p $certs
+
+cd $certs
+
+echo "Generating CA..."
+openssl genrsa -out rootCA.key 2048
+yes "" | openssl req -x509 -new -nodes -key rootCA.key \
+  -out rootCA.pem -days 99999
+
+function generateCert {
+  name=$1
+  ip=$2
+
+  cat >openssl-exts.conf <<-EOL
+extensions = san
+[san]
+subjectAltName = IP:${ip}
+EOL
+
+  echo "Generating certificate signing request for ${ip}..."
+  # golang requires to have SAN for the IP
+  openssl req -new -nodes -newkey rsa:2048 \
+    -out ${name}.csr -keyout ${name}.key \
+    -subj "/C=US/O=BOSH/CN=${ip}"
+
+  echo "Generating certificate ${ip}..."
+  openssl x509 -req -in ${name}.csr \
+    -CA rootCA.pem -CAkey rootCA.key -CAcreateserial \
+    -out ${name}.crt -days 99999 \
+    -extfile ./openssl-exts.conf
+
+  echo "Deleting certificate signing request and config..."
+  rm ${name}.csr
+  rm ./openssl-exts.conf
+}
+
+generateCert director 10.244.4.2 # <--- Replace with public Director IP
+generateCert uaa-web 10.244.4.2  # <--- Replace with public Director IP
+generateCert uaa-sp 10.244.4.2   # <--- Replace with public Director IP
+
+echo "Finished..."
+ls -la .
+
+```
+---
+## Put the certs in the Director deployment manifest:
+- `director.ssl.key`
+    - Private key for the Director (e.g. `certs/director.key`)
+- `director.ssl.cert`
+    - Associated certificate for the Director (e.g. `certs/director.crt`)
+- `hm.ca_cert`
+    - CA certificate used by the HM to verify the Director's certificate (e.g. `certs/ca.key`)
+
+If you are using the UAA for user management, additionally put certificates in these properties:
+
+- `uaa.sslPrivateKey`
+    - Private key for the UAA (e.g. `certs/uaa.key`)
+- `uaa.sslCertificate`
+    - Associated certificate for the UAA (e.g. `certs/uaa.crt`)
+- `login.saml.serviceProviderKey`
+    - Private key for the UAA (e.g. `certs/uaa.key`)
+- `login.saml.serviceProviderCertificate`
+    - Associated certificate for the UAA (e.g. `certs/uaa.crt`)
+
+---
+## Target the Director
+
+After you deployed your Director with the above changes, you need to specify `--ca-cert` when targeting the Director:
+
+<pre class="terminal">
+$ bosh target 10.244.4.2 --ca-cert certs/rootCA.pem
+</pre>
+
+---
+[Back to Table of Contents](index.html#install)

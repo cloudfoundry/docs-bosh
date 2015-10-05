@@ -1,17 +1,105 @@
 ---
-title: UAA Integration for the Director
+title: UAA Integration
 ---
 
-<p class="note"><strong>Note</strong>: This feature is currently experimental pending official UAA release.</p>
+<p class="note">Note: This feature is available with bosh-release v209+ (1.3088.0) colocated with uaa v1+.</p>
 
 In this configuration the Director is configured to delegate user management to the [UAA](https://github.com/cloudfoundry/uaa) server. The UAA server can be configured to manage its own list of users or work with an LDAP server, or a SAML provider. Regardless how the UAA server is configured the BOSH CLI will ask appropriate credentials and forward them to the UAA to request a token.
 
 ---
 ## <a id="configure"></a> Configuring the Director
 
-To configure the Director with a list of users:
+1. Change deployment manifest for the Director and add UAA release:
 
-1. Change deployment manifest for the Director to specify how to contact the UAA server and how to verify an access token:
+    ```yaml
+    releases:
+    - name: bosh
+      url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=209
+      sha1: a96833b6c68abda5aaa5d05ebdd0a5d394e6c15f
+    # ...
+    - name: uaa # <+++
+      url: https://bosh.io/d/github.com/cloudfoundry/uaa-release?v=1
+      sha1: 477289da17ffe105d0b6bde1bc10f61b1cb50fb4
+    ```
+
+1. Colocate UAA next to the Director:
+
+    ```yaml
+    jobs:
+    - name: bosh
+      instances: 1
+      templates:
+      - {name: nats, release: bosh}
+      - {name: redis, release: bosh}
+      - {name: postgres, release: bosh}
+      - {name: blobstore, release: bosh}
+      - {name: director, release: bosh}
+      - {name: health_monitor, release: bosh}
+      - {name: uaa, release: uaa} # <+++
+      resource_pool: default
+      # ...
+    ```
+
+1. Add `uaa` section to the deployment manifest:
+
+    ```yaml
+    properties:
+      uaa:
+        url: "https://54.236.100.56:8443"
+
+        scim:
+          users:
+          - admin|admin-password|scim.write,scim.read,bosh.admin
+
+        clients:
+          bosh_cli:
+            override: true
+            authorized-grant-types: password,refresh_token
+            # scopes the client may receive
+            scope: openid,bosh.admin,bosh.read,bosh.*.admin,bosh.*.read
+            authorities: uaa.none
+            access-token-validity: 60 # 1 min
+            refresh-token-validity: 86400 # re-login required once a day
+            secret: ""
+
+        admin: {client_secret: admin-password}
+        login: {client_secret: login-password}
+        zones: {internal: {hostnames: []}}
+    ```
+
+    To configure UAA to use LDAP, SAML, etc. see [uaa release job properties](http://bosh.io/jobs/uaa?source=github.com/cloudfoundry/uaa-release&version=1).
+
+1. Configure the Director Postgres server to have an additional database called `uaa`:
+
+    ```yaml
+    properties:
+      postgres: &db
+        host: 127.0.0.1
+        port: 5432
+        user: postgres
+        password: postgres-password
+        database: bosh
+        additional_databases: [uaa] # <+++
+        adapter: postgres
+    ```
+
+1. Configure the UAA server to point to that database:
+
+    ```yaml
+    properties:
+      uaadb:
+        address: 127.0.0.1
+        port: 5432
+        db_scheme: postgresql
+        databases:
+        - {tag: uaa, name: uaa}
+        roles:
+        - tag: admin
+          name: postgres
+          password: postgres-password
+    ```
+
+1. Change Director configuration to specify how to contact the UAA server and how to verify an access token. Since UAA will be on the same server we can use the same IP as the one used for the Director.
 
     ```yaml
     properties:
@@ -19,33 +107,99 @@ To configure the Director with a list of users:
         user_management:
           provider: uaa
           uaa:
-            url: https://54.86.93.98
-            symmetric_key: uaa-secret-key
-            public_key: |
-              -----BEGIN PUBLIC KEY-----
-              MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC/85WUjM7WKxnSMkd/TtGo+WWX
-              ...
-              VRs5sM3o4r1UYUTD6wIDAQAB
-              -----END PUBLIC KEY-----
+            url: "https://54.236.100.56:8443"
     ```
 
-1. Redeploy the Director with the updated manifest. Use whichever method you've used before to deploy the Director: bosh-init or micro CLI.
+    <p class="note">Note: The UAA URL given to the Director will be advertised to the CLI and the CLI will use it to ask for an access token. This means that the CLI must be able to reach that IP.</p>
 
-    <p class="note"><strong>Note</strong>: When using micro CLI, <code>properties</code> key should be placed under <code>apply_spec</code> section.</p>
+1. Configure Certificates and Keys
+
+    See [Director certificates configuration doc](director-certs.html) to find out how to generate necessary certificates.
+
+    To generate UAA signing (private key) and verification key (public key) in PEM format:
+
+    <pre class="terminal">
+    $ ssh-keygen -t rsa -b 4096 -f uaa
+    $ ssh-keygen -y -f uaa -e -m pem > uaa.pub
+    </pre>
+
+    Put the keys in the Director deployment manifest:
+    - `uaa.jwt.signing_key`
+        - Private key used to sign authorization tokens (e.g. `./uaa`)
+    - `uaa.jwt.verification_key`
+        - Public key used to verify tokens (e.g. `./uaa.pub`)
+    - `director.user_management.uaa.public_key`
+        - Public key used by the Director to verify tokens without contacting the UAA (e.g. `./uaa.pub`)
+
+1. Redeploy the Director with the updated manifest.
+
+---
+## <a id="user-login"></a> Logging into the Director as a user
+
+Depending on how the UAA is configured different prompts may be shown.
+
+<pre class="terminal">
+$ bosh login
+Email: admin
+Password: **************
+</pre>
+
+### <a id="uaac"></a> Adding/removing Users and Permissions
+
+An example of how to use [UAA CLI](https://rubygems.org/gems/cf-uaac) to add a new user that has readonly access on any Director. Enter the client secret provided for the UAA admin client in the manifest at `uaa.admin.client_secret`.
+
+<pre class="terminal">
+$ uaac target https://54.236.100.56:8443 --skip-ssl-validation
+$ uaac token client get admin
+Client secret:  **************
+$ uaac user add some-new-user --emails new.user@example.com
+</pre>
+
+You can add permissions to users by defining a group and adding users to that group:
+
+<pre class="terminal">
+$ uaac group add bosh.read
+$ uaac member add bosh.read some-new-user
+</pre>
+
+Remove permission by removing users from a group:
+
+<pre class="terminal">
+$ uaac member delete bosh.read some-new-user
+</pre>
+
+Remove users to revoke authentication completely:
+
+<pre class="terminal">
+$ uaac user delete some-new-user
+</pre>
+
+<p class="note">Note that changing group membership will take effect when a new access token is created for that user. New access are granted when their existing access token expires or when user logs out and logs in again. Hence it's recommended to set access token validity to a minute or so.</p>
+
+---
+## <a id="client-login"></a> Logging into the Director as a UAA client
+
+Non-interactive login, e.g. for scripts during a CI build is supported by the UAA by using a different UAA client allowing `client_credentials` grant type.
+
+<pre class="terminal">
+$ export BOSH_CLIENT=ci
+$ export BOSH_CLIENT_SECRET=ci-password
+$ bosh status
+</pre>
+
+See [the resurrector UAA client configuration](resurrector.html#uaa-client) for an example to set up an additional client.
 
 ---
 ## <a id="permissions"></a> Permissions
 
-All UAA users can log into the Director; however, their actions will be limited based on the presence of the following scopes in their UAA token:
+All UAA users can log into all Directors which can verify the access token. However, user actions will be limited based on the presence of the following scopes in their UAA token:
 
-- `bosh.admin`: any Director provides admin access
-- `bosh.read`: any Director provides read access
-- `bosh.<DIRECTOR-UUID>.admin`: only Director with that UUID provides admin access
-- `bosh.<DIRECTOR-UUID>.read`: only Director with that UUID provides read access
+- `bosh.admin`: user has admin access on any Director
+- `bosh.read`: user has read access on any Director
+- `bosh.<DIRECTOR-UUID>.admin`: user has admin access on the Director with the corresponding UUID
+- `bosh.<DIRECTOR-UUID>.read`: user has read access on the Director with the corresponding UUID
 
-All users (even users without any of the above scopes) can use:
-
-- `bosh status`: show general information about targeted Director (authentication is not required)
+Users with admin access can use all commands on all deployments.
 
 Users with read access can use following CLI commands:
 
@@ -55,7 +209,20 @@ Users with read access can use following CLI commands:
 - `bosh vms`: list of all VMs which includes job names, IPs, vitals, details, etc.
 - `bosh tasks`: list of all tasks summaries which includes task descriptions without access to debug logs
 
-Users with admin access can use all CLI commands.
+Users without any of the above scopes can use:
+
+- `bosh status`: show general information about targeted Director (authentication is not required)
+
+<p class="note">Note: If you use the same private key to sign keys on different UAAs, users might obtain a token from one UAA and use it on the Director configured with a different UAA. It is therefore highly recommended to lock down scopes to individual Directors and not re-use your private key used for signing on the UAA.</p>
+
+---
+## <a id="errors"></a> Errors
+
+```
+HTTP 401: Not authorized: '/deployments' requires one of the scopes: bosh.admin, bosh.UUID.admin, bosh.read, bosh.UUID.read
+```
+
+This error occurs if the user doesn't have the right scopes for the requested command. It might be the case that you created a user without adding it to any groups. See [Adding/removing users and scopes](#uaac) above.
 
 ---
 [Back to Table of Contents](index.html#director-config)

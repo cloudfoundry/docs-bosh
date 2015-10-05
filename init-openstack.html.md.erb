@@ -116,9 +116,15 @@ jobs:
       db: *db
       cpi_job: cpi
       max_threads: 3
+      user_management:
+        provider: local
+        local:
+          users:
+          - {name: admin, password: admin}
+          - {name: hm, password: hm-password}
 
     hm:
-      director_account: {user: admin, password: admin}
+      director_account: {user: hm, password: hm-password}
       resurrector_enabled: true
 
     openstack: &openstack
