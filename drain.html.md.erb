@@ -22,6 +22,7 @@ templates:
 
 <p class="note">Note: Drain script from each release job will run if they are deployed on 3093+ stemcells. Before only the first release job's drain script ran.</p>
 
+---
 ## <a id="script-implementation"></a> Script Implementation
 
 Drain script is usually just a regular shell script. Since drain script is executed in a similar way as other release job scripts (start, stop, pre-start scripts) you can use job's package dependencies.
@@ -51,10 +52,12 @@ Drain script can access the following environment variables:
 
 Use this feature to monitor job properties. For example drain script can use this feature to determine if the size of the persistent disk changes and take a specified action.
 
+---
 ## <a id="logging"></a> Logging
 
 Currently logs from the drain script are not redirected to any location. We are planning to eventually make it more consistent with pre-start script logging.
 
+---
 ## <a id="example"></a> Example
 
 ```sh

@@ -190,13 +190,17 @@ compilation:
 **update** [Hash, required]: This specifies instance update properties. These properties control how BOSH updates job instances during the deployment.
 
 * **canaries** [Integer, required]: The number of [canary](./terminology.html#canary) instances.
-* **canary\_watch\_time** [Integer or Range, required]: The time to wait for canary instances to declare an updated job healthy or unhealthy.
-  * If the `canary_watch_time` is an integer, the BOSH Director sleeps for that many seconds, then checks whether the canary instances are healthy.
-  * If the `canary_watch_time` is a range (low-high), the Director:
-    * Sleeps for `low` milliseconds
-    * Checks whether the canary instances are healthy, sleeps until `high` milliseconds pass if they are not, then checks again
-* **update\_watch\_time** [Integer or Range, required]: The time to wait for non-canary instances to declare an updated job healthy or unhealthy.
 * **max\_in\_flight** [Integer, required]: The maximum number of non-canary instances to update in parallel.
+* **canary\_watch\_time** [Integer or Range, required]
+    * If the `canary_watch_time` is an integer, the Director sleeps for that many milliseconds, then checks whether the canary instances are healthy.
+    * If the `canary_watch_time` is a range (low-high), the Director:
+        * Waits for `low` milliseconds
+        * Waits until instances are healthy or `high` milliseconds have passed since instances started updating
+* **update\_watch\_time** [Integer or Range, required]
+    * If the `update_watch_time` is an integer, the Director sleeps for that many milliseconds, then checks whether the instances are healthy.
+    * If the `update_watch_time` is a range (low-high), the Director:
+        * Waits for `low` milliseconds
+        * Waits until instances are healthy or `high` milliseconds have passed since instances started updating
 
 Example:
 
@@ -221,7 +225,7 @@ update:
 * **persistent_disk** [Integer, optional]: Specifies the persistent disk size; defaults to 0 (no persistent disk). If `persistent_disk` is a positive integer, BOSH creates a persistent disk of that size in megabytes and attaches it to each job instance VM. [Read more about persistent disks](./persistent-disks.html)
 * **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job, and override any identically named global properties.
 * **resource_pool** [String, required]: A valid resource pool name from the Resource Pools block. BOSH runs instances of this job in a VM from the named resource pool.
-* **update** [Hash, optional]: Specific update settings for this job. Use this to overriding global job update settings on a per-job basis.
+* **update** [Hash, optional]: Specific update settings for this job. Use this to overriding [global job update settings](#update) on a per-job basis.
 * **instances** [Integer, required]: The number of job instances. Each instance is a VM running this particular job.
 * **networks** [Array, required]: Specifies the networks this job requires. Each network can have the following properties specified:
   * **name** [String, required]: A valid network name from the Networks block
