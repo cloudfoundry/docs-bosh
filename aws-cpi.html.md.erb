@@ -59,6 +59,11 @@ Schema for `cloud_properties` section:
     * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `standard`.
         * `standard` stands for EBS magnetic drives
         * `gp2` stands for EBS general purpose drives (SSD)
+* **root_disk** [Hash, optional]: EBS backed root disk of custom size.
+    * **size** [Integer, required]: Specifies the disk size in megabytes.
+    * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `standard`.
+        * `standard` stands for EBS magnetic drives
+        * `gp2` stands for EBS general purpose drives (SSD)
 
 Example of a `m1.small` instance:
 
