@@ -20,11 +20,7 @@ templates:
   drain-web-requests.erb: bin/drain
 ```
 
-<p class="note">Notes:</p>
-<ul class="note">
-  <li>BOSH currently only allows one drain script per release job.</li>
-  <li>For a job that contains many colocated jobs, BOSH executes the drain script only of the first colocated job. See <a href="https://www.pivotaltracker.com/story/show/70697490">Pivotal Tracker</a> to know when multiple colocated drain scripts are supported.</li>
-</ul>
+<p class="note">Note: Drain script from each release job will run if they are deployed on 3093+ stemcells. Before only the first release job's drain script ran.</p>
 
 ## <a id="script-implementation"></a> Script Implementation
 
@@ -32,17 +28,17 @@ Drain script is usually just a regular shell script. Since drain script is execu
 
 You must ensure that your drain script exits in one of following ways:
 
-- exit with a non-`0` status code: This informs BOSH that draining failed.
+- exit with a non-`0` exit code to indicate drain script failed
 
-- exit with `0` status code: The drain script must also print an integer followed by a newline to `stdout`. BOSH interprets the `0` status code and integer as follows:
+- exit with `0` exit code and also print an integer followed by a newline to `stdout` (nothing else must be printed to `stdout`):
 
-    **static draining**: If the drain script prints a zero or a positive
-	integer, BOSH sleeps for that many seconds before continuing.
+    **static draining**: If the drain script prints a zero or a positive integer, BOSH sleeps for that many seconds before continuing.
 
-    **dynamic draining**: If the drain script prints a negative integer, BOSH
-	sleeps for that many seconds, then calls the drain script again.
+    **dynamic draining**: If the drain script prints a negative integer, BOSH sleeps for that many seconds, then calls the drain script again.
 
-	<p class="note"><strong>Note</strong>: BOSH re-runs a script indefinitely as long as the script exits with a status code <code>0</code> and outputs a negative integer.</p>
+	<p class="note">Note: BOSH re-runs a script indefinitely as long as the script exits with a exit code <code>0</code> and outputs a negative integer.</p>
+
+  <p class="note">Note: It's recommended to only use static draining as dynamic draining will be eventually deprecated.</p>
 
 ## <a id="environment-variables"></a> Environment Variables
 
@@ -75,6 +71,7 @@ if [ -f $pid_path ]; then
 fi
 
 echo 0 # ok to exit; do not wait for anything
+exit 0
 ```
 
 ---
