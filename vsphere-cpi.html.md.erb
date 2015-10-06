@@ -182,3 +182,9 @@ This error may occur when global CPI configuration references:
 
 - cluster (via `clusters` key) that cannot be found in the datacenter
 - stemcell that cannot be found in the templates folder
+
+```
+...should have the following properties: ["info.progress", "info.state", "info.result", "info.error"] (VSphereCloud::CloudSearcher::MissingPropertiesException), but they were missing these: #<Set: {"info.state"}>
+```
+
+Add `System.View` on vCenter server level so that persistent disks can be moved between the datastores.
