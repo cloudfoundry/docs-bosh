@@ -188,3 +188,10 @@ This error may occur when global CPI configuration references:
 ```
 
 Add `System.View` on vCenter server level so that persistent disks can be moved between the datastores.
+
+```
+Field counter_id is not optional
+...lib/cloud/vsphere/client.rb:270:in `fetch_perf_metric_names'
+```
+
+The CPI requires access to performance metrics from ESXi hosts. This error may be returned if one of the hosts in the cluster is not returning these metrics (e.g. `memory.usage.average`). Possible solution is to [restart management agents](http://www.running-system.com/no-cpu-and-memory-usage-data-from-host-available-in-vcenter/) on the hosts.
