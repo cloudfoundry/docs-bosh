@@ -24,13 +24,13 @@ Assuming that the CLI is already targeted at the Director, the CLI provides a si
 - If you have a URL to a release tarball (for example a URL provided by bosh.io):
 
 	<pre class="terminal">
-	$ bosh upload release https://bosh.io/d/github.com/cloudfoundry/cf-release --skip-if-exists
+	$ bosh upload release https://bosh.io/d/github.com/cloudfoundry/cf-release
 	</pre>
 
 	Alternatively, if you have a release tarball on your local machine:
 
 	<pre class="terminal">
-	$ bosh upload release ~/Downloads/redis-12.tgz --skip-if-exists
+	$ bosh upload release ~/Downloads/redis-12.tgz
 	</pre>
 
 - If you cloned a Git repository:
@@ -40,7 +40,7 @@ Assuming that the CLI is already targeted at the Director, the CLI provides a si
     <pre class="terminal">
 	$ cd ~/workspace/redis-boshrelease
 
-	$ bosh upload release releases/redis/redis-12.yml --skip-if-exists
+	$ bosh upload release releases/redis/redis-12.yml
 	</pre>
 
 	Alternatively, to build a release tarball locally from a release YAML file:
