@@ -131,6 +131,8 @@ In this configuration the Director is configured to delegate user management to 
     - `director.user_management.uaa.public_key`
         - Public key used by the Director to verify tokens without contacting the UAA (e.g. `./uaa.pub`)
 
+1. Allow access to 8443 port on the Director VM from your IaaS so that the CLI can access the UAA server.
+
 1. Redeploy the Director with the updated manifest.
 
 ---
