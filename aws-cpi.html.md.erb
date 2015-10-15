@@ -9,6 +9,7 @@ This topic describes cloud properties for different resources created by the AWS
 Schema for `cloud_properties` section used by dynamic network or manual network subnet:
 
 * **subnet** [String, required]: Subnet ID in which instance will be created. Example: `subnet-9be6c3f7`.
+* **security_groups** [Array, optional]: Array of security groups to apply for all VMs that are placed on this network. Defaults to security groups specified by `default_security_groups` in the global CPI settings. Consistently use either security group names or IDs.
 
 Example of manual network:
 
@@ -49,7 +50,7 @@ Schema for `cloud_properties` section:
 * **instance_type** [String, required]: Type of the [instance](http://aws.amazon.com/ec2/instance-types/). Example: `m1.small`.
 * **availability_zone** [String, required]: Availability zone to use for creating instances. Example: `us-east-1a`.
 * **key_name** [String, optional]: Key pair name. Defaults to key pair name specified by `default_key_name` in global CPI settings. Example: `bosh`.
-* **spot\_bid\_price** [Float, optional]: Bid price in dollars. Example: `0.03`.
+* **spot\_bid\_price** [Float, optional]: Bid price in dollars for [AWS spot instance](http://aws.amazon.com/ec2/purchasing-options/spot-instances/). Using this option will slow down VM creation. Example: `0.03`.
 * **elbs** [Array, optional]: Array of ELB names that should be attached to created VMs. Example: `[prod-elb]`. Default is `[]`.
 * **iam\_instance\_profile** [String, optional]: Name of an [IAM instance profile](aws-iam-instance-profiles.html). Example: `director`.
 * **placement_group** [String, optional]: Name of a [placement group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html). Example: `my-group`.
@@ -113,7 +114,7 @@ Schema:
 * **access\_key\_id** [String, optional]: Accesss Key ID. Example: `AKI...`.
 * **secret\_access\_key** [String, optional]: Secret Access Key. Example: `0kwh...`.
 * **default\_key\_name** [String, required]: Name of the [Key Pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) that will be applied to all created VMs. Example: `bosh`
-* **default\_security\_groups** [Array, required]: Name of the [Security Group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) that will be applied to all created VMs. Example: `[bosh]`
+* **default\_security\_groups** [Array, required]: Name of the [Security Group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) that will be applied to all created VMs. Consistently use either security group names or IDs. Example: `[bosh]`
 * **default\_iam\_instance\_profile** [String, optional]: Name of the [IAM instance profile](aws-iam-instance-profiles.html) that will be applied to all created VMs. Example: `director`.
 * **region** [String, required]: AWS region name. Example: `us-east-1`
 
