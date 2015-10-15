@@ -255,18 +255,22 @@ You must create and configure two Security Groups to restrict incoming network t
 
     <table border="1" class="nice" >
       <tr>
-        <th><b>Direction</b></th>
-        <th><b>Ether Type</b></th>
-        <th><b>IP Protocol</b></th>
-        <th><b>Port Range</b></th>
-        <th><b>Remote</b></th>
+        <th>Direction</th>
+        <th>Ether Type</th>
+        <th>IP Protocol</th>
+        <th>Port Range</th>
+        <th>Remote</th>
+        <th>Purpose</th>
       </tr>
-      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>1-65535</td><td>bosh</td></tr>
-      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>25555</td><td>0.0.0.0/0 (CIDR)</td></tr>
-      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>6868</td><td>0.0.0.0/0 (CIDR)</td></tr>
-      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>22</td><td>0.0.0.0/0 (CIDR)</td></tr>
+
+      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>22</td><td>0.0.0.0/0 (CIDR)</td><td>SSH access from bosh-init</td></tr>
+      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>6868</td><td>0.0.0.0/0 (CIDR)</td><td>BOSH Agent access from bosh-init</td></tr>
+      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>25555</td><td>0.0.0.0/0 (CIDR)</td><td>BOSH Director access from CLI</td></tr>
+
       <tr><td>Egress</td><td>IPv4</td><td>Any</td><td>-</td><td>0.0.0.0/0 (CIDR)</td></tr>
       <tr><td>Egress</td><td>IPv6</td><td>Any</td><td>-</td><td>::/0 (CIDR)</td></tr>
+
+      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>1-65535</td><td>bosh</td><td>Management and data access</td></tr>
     </table>
 
 ---
