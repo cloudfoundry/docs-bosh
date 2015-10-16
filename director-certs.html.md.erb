@@ -36,10 +36,13 @@ extensions = san
 subjectAltName = IP:${ip}
 EOL
 
+  echo "Generating private key..."
+  openssl genrsa -out ${name}.key 2048
+
   echo "Generating certificate signing request for ${ip}..."
   # golang requires to have SAN for the IP
-  openssl req -new -nodes -newkey rsa:2048 \
-    -out ${name}.csr -keyout ${name}.key \
+  openssl req -new -nodes -key ${name}.key \
+    -out ${name}.csr
     -subj "/C=US/O=BOSH/CN=${ip}"
 
   echo "Generating certificate ${ip}..."
