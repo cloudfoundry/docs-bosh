@@ -120,7 +120,7 @@ In this configuration the Director is configured to delegate user management to 
 
     <pre class="terminal">
     $ ssh-keygen -t rsa -b 4096 -f uaa
-    $ ssh-keygen -y -f uaa -e -m pem > uaa.pub
+    $ openssl rsa -in uaa -pubout > uaa.pub
     </pre>
 
     Put the keys in the Director deployment manifest:
