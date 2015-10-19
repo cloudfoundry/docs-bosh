@@ -122,44 +122,38 @@ Schema:
 Example of a CPI configuration that will place VMs into `BOSH_CL` cluster within `BOSH_DC`:
 
 ```yaml
-# ...snip...
-
-  host: 172.16.68.3
-  user: root
-  password: vmware
-
-  datacenters:
-  - name: BOSH_DC
-    vm_folder: prod-vms
-    template_folder: prod-templates
-    disk_path: prod-disks
-
-    datastore_pattern: '\Aprod-ds\z'
-    persistent_datastore_pattern: '\Aprod-ds\z'
-
-    clusters: [BOSH_CL]
+properties:
+  vsphere:
+    host: 172.16.68.3
+    user: root
+    password: vmware
+    datacenters:
+    - name: BOSH_DC
+      vm_folder: prod-vms
+      template_folder: prod-templates
+      disk_path: prod-disks
+      datastore_pattern: '\Aprod-ds\z'
+      persistent_datastore_pattern: '\Aprod-ds\z'
+      clusters: [BOSH_CL]
 ```
 
 Or example that places VMs by default into `BOSH_RP` vSphere resource pool:
 
 ```yaml
-# ...snip...
-
-  host: 172.16.68.3
-  user: root
-  password: vmware
-
-  datacenters:
-  - name: BOSH_DC
-    vm_folder: prod-vms
-    template_folder: prod-templates
-    disk_path: prod-disks
-
-    datastore_pattern: '\Aprod-ds\z'
-    persistent_datastore_pattern: '\Aprod-ds\z'
-
-    clusters:
-    - BOSH_CL: {resource_pool: BOSH_RP}
+properties:
+  vsphere:
+    host: 172.16.68.3
+    user: root
+    password: vmware
+    datacenters:
+    - name: BOSH_DC
+      vm_folder: prod-vms
+      template_folder: prod-templates
+      disk_path: prod-disks
+      datastore_pattern: '\Aprod-ds\z'
+      persistent_datastore_pattern: '\Aprod-ds\z'
+      clusters:
+      - BOSH_CL: {resource_pool: BOSH_RP}
 ```
 
 ---

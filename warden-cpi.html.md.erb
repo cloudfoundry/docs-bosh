@@ -68,24 +68,25 @@ The CPI uses containers to represent VMs and loopback devices to represent disks
 Example of a CPI configuration:
 
 ```yaml
-cpi:
-  loopback_range: [100, 130]
-  warden:
-    connect_network: tcp
-    connect_address: 127.0.0.1:7777
-  actions:
-    stemcells_dir: "/var/vcap/data/cpi/stemcells"
-    disks_dir: "/var/vcap/store/cpi/disks"
-    host_ephemeral_bind_mounts_dir: "/var/vcap/data/cpi/ephemeral_bind_mounts_dir"
-    host_persistent_bind_mounts_dir: "/var/vcap/data/cpi/persistent_bind_mounts_dir"
-  agent:
-    mbus: nats://nats:nats-password@10.244.8.2:4222
-    blobstore:
-      provider: dav
-      options:
-        endpoint: http://10.244.8.2:25251
-        user: agent
-        password: agent-password
+properties:
+  cpi:
+    loopback_range: [100, 130]
+    warden:
+      connect_network: tcp
+      connect_address: 127.0.0.1:7777
+    actions:
+      stemcells_dir: "/var/vcap/data/cpi/stemcells"
+      disks_dir: "/var/vcap/store/cpi/disks"
+      host_ephemeral_bind_mounts_dir: "/var/vcap/data/cpi/ephemeral_bind_mounts_dir"
+      host_persistent_bind_mounts_dir: "/var/vcap/data/cpi/persistent_bind_mounts_dir"
+    agent:
+      mbus: nats://nats:nats-password@10.244.8.2:4222
+      blobstore:
+        provider: dav
+        options:
+          endpoint: http://10.244.8.2:25251
+          user: agent
+          password: agent-password
 ```
 
 ---
