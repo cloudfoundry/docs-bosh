@@ -17,7 +17,7 @@ The micro CLI plugin will soon be deprecated and discontinued in a few months. `
 
 1. Create a deployment manifest (for example `bosh.yml`) based on one of the above examples.
 
-    <p class="note">Note: Make sure that database settings used for the Director, registry, and DNS server match your previous configuration.</p>
+    <p class="note">Note: Make sure NATS, blobstore, and database settings used by the Director, registry, and DNS server match your previous configuration.</p>
 
 1. Copy `bosh-deployments.yml` to the deployment directory that contains your new deployment manifest. `bosh-deployments.yml` is a state file produced and updated by the micro CLI. It contains VM and persistent disk IDs of your current MicroBOSH VM.
 
