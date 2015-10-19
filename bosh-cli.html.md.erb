@@ -13,7 +13,7 @@ To install both of these gems:
 $ gem install bosh_cli bosh_cli_plugin_micro --no-ri --no-rdoc
 </pre>
 
-<p class='note'>Note: Installing the BOSH CLI requires Ruby 2+</p>
+<p class="note">Note: BOSH CLI requires Ruby 2+</p>
 
 Use the following command to consult the BOSH CLI help and to verify that CLI can run:
 
@@ -31,53 +31,8 @@ If gems installation does not succeed, make sure pre-requisites for your OS are 
 Make sure following packages are installed:
 
 <pre class="terminal">
-$ sudo apt-get install build-essential ruby ruby-dev libxml2-dev libsqlite3-dev libxslt1-dev libpq-dev libmysqlclient-dev
+$ sudo apt-get install build-essential ruby ruby-dev libxml2-dev libsqlite3-dev libxslt1-dev libpq-dev libmysqlclient-dev zlib1g-dev
 </pre>
-
-Use this table to resolve the errors listed on the left with the corresponding command on the right.
-
-<table>
-  <tr>
-    <th>Error</th>
-    <th>Command</th>
-  </tr>
-  <tr>
-    <td>Ruby not installed</td>
-    <td><code class="terminal">$ sudo apt-get install ruby</code></td>
-  </tr>
-  <tr>
-    <td>mkmf not found</td>
-    <td><code class="terminal">$ sudo apt-get install ruby-dev</code></td>
-  </tr>
-  <tr>
-    <td>libxml not found</td>
-    <td><code class="terminal">$ sudo apt-get install libxml2-dev</code></td>
-  </tr>
-  <tr>
-    <td>(compile.log:) make not found</td>
-    <td><code class="terminal">$ sudo apt-get install build-essential</code></td>
-  </tr>
-  <tr>
-    <td>libsqlite not found</td>
-    <td><code class="terminal">$ sudo apt-get install libsqlite3-dev</code></td>
-  </tr>
-  <tr>
-    <td>libxslt is missing</td>
-    <td><code class="terminal">$ sudo apt-get install libxslt1-dev</code></td>
-  </tr>
-  <tr>
-    <td>Can't find libpq-fe.h header</td>
-    <td><code class="terminal">$ sudo apt-get install libpq-dev</code></td>
-  </tr>
-  <tr>
-    <td>checking for mysql_query() ... no</td>
-    <td><code class="terminal">$ sudo apt-get install libmysqlclient-dev</code></td>
-  </tr>
-  <tr>
-    <td>zlib is missing; necessary for building libxml2</td>
-    <td><code class="terminal">$ sudo apt-get install zlib1g-dev</code></td>
-  </tr>
-</table>
 
 ### Prerequisites on CentOS
 
@@ -89,64 +44,26 @@ $ sudo yum install gcc ruby ruby-devel mysql-devel postgresql-devel postgresql-l
 
 ### Prerequisites on Mac OS X
 
-You may see an error like this:
-<strong>The compiler failed to generate an executable file. (RuntimeError)
-<br>
-You have to install development tools first.
-</strong>
+You may see an error like this: <pre>The compiler failed to generate an executable file. (RuntimeError). You have to install development tools first.</pre>
 
 Make sure you have installed Xcode and the command-line developer tools, and agreed to the license.
 
 <pre class="terminal">
 $ xcode-select --install
 xcode-select: note: install requested for command line developer tools
-$
 </pre>
 
-A window will pop up saying:
-<strong>The "xcode-select" command requires the command line developer tools. Would you like to install the tools now?</strong>
-Choose Install to continue. Choose Get Xcode to install Xcode and the command line developer tools from the App Store.
-If you have already installed Xcode from the App Store, you can choose Install and it will install the cli tools.
+A window will pop up saying: <pre>The "xcode-select" command requires the command line developer tools. Would you like to install the tools now?</pre> Choose Install to continue. Choose Get Xcode to install Xcode and the command line developer tools from the App Store. If you have already installed Xcode from the App Store, you can choose Install and it will install the cli tools.
 
 If you have successfully installed them, you will see this:
 
 <pre class="terminal">
 $ xcode-select --install
 xcode-select: error: command line tools are already installed, use "Software Update" to install updates
-$
 </pre>
 
 To agree to the license:
 
 <pre class="terminal">
 $ sudo xcodebuild -license
-
-
-You have not agreed to the Xcode license agreements. You must agree to both license agreements below in order to use Xcode.
-
-Hit the Enter key to view the license agreements at '/Applications/Xcode.app/Contents/Resources/English.lproj/License.rtf'
-
-Apple Inc.
-
-Xcode and Apple SDKs Agreement
-
-PLEASE SCROLL DOWN AND READ ALL OF THE FOLLOWING TERMS AND CONDITIONS CAREFULLY BEFORE USING THE APPLE SOFTWARE OR APPLE SERVICES.
-[...]
-By typing 'agree' you are agreeing to the terms of the software license agreements. Type 'print' to print them or anything else to cancel, [agree, print, cancel] <strong>agree</strong>
-
-You can view the license agreements in Xcode's About Box, or at /Applications/Xcode.app/Contents/Resources/English.lproj/License.rtf
-
-$
 </pre>
-
-
----
-## Installing AWS Boostrap CLI plugin (optional)
-
-AWS bootstrap plugin provides additional CLI commands to help bootstrap a new AWS environment.
-
-<pre class="terminal">
-$ gem install bosh_cli_plugin_aws --no-ri --no-rdoc
-</pre>
-
-This plugin has been originally designed for quickly bootstrapping AWS development environments. It does not provide extensible configuration options.
