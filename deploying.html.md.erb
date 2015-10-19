@@ -21,7 +21,7 @@ $ bosh deploy
 After the deploy command completes with either success or failure you can run a command to list VMs created for this deployment:
 
 <pre class="terminal">
-$ bosh vms
+$ bosh instances
 
 Deployment `my-deployment'
 
@@ -30,12 +30,14 @@ Director task 10326
 Task 10326 done
 
 +----------------+---------+---------------+-------------+
-| Job/index      | State   | Resource Pool | IPs         |
+| Instance       | State   | Resource Pool | IPs         |
 +----------------+---------+---------------+-------------+
 | redis-master/0 | running | redis-servers | 10.10.30.71 |
 | redis-slave/0  | running | redis-servers | 10.10.30.72 |
 | redis-slave/1  | running | redis-servers | 10.10.30.73 |
 +----------------+---------+---------------+-------------+
+
+Instances total: 3
 </pre>
 
 ---
