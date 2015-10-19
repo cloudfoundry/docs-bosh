@@ -7,10 +7,10 @@ The Agent on each deployment job VM is responsible for managing lifecycle of eac
 ---
 ## <a id="check-status"></a> Check Status
 
-Assuming you have a deployment, run `bosh vms` to see aggregate status for each deployment job VM:
+Assuming you have a deployment, run `bosh instances` to see aggregate status for each deployment job VM:
 
 <pre class="terminal">
-$ bosh vms
+$ bosh instances
 
 Deployment `my-deployment'
 
@@ -19,7 +19,7 @@ Director task 10326
 Task 10326 done
 
 +----------------+---------+---------------+-------------+
-| Job/index      | State   | Resource Pool | IPs         |
+| Instance       | State   | Resource Pool | IPs         |
 +----------------+---------+---------------+-------------+
 | redis-master/0 | running | redis-servers | 10.10.30.71 |
 | redis-slave/0  | running | redis-servers | 10.10.30.72 |
