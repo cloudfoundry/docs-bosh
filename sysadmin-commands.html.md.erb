@@ -82,12 +82,20 @@ Deletes job instances, VMs, disks, snapshots, templates associated with the depl
 ---
 ### <a id="health"></a> Job/VM Health
 
+<pre class="terminal">$ bosh instances [--ps] [--details] [--dns] [--vitals]</pre>
+Displays a table that provides an overview of the instances in a current deployment. You can specify the following options:
+
+- **ps**: includes process information
+- **details**: includes VM cloud ID, agent ID
+- **dns**: includes the DNS A record
+- **vitals**: includes load, CPU, memory, swap, system disk, ephemeral disk, and persistent disk usage
+
 <pre class="terminal">$ bosh vms [DEPLOYMENT_NAME] [--details] [--dns] [--vitals]</pre>
 Displays a table that provides an overview of the VMs in `DEPLOYMENT_NAME`. You can specify the following options:
 
-- **Details**: Includes Cloud ID, Agent ID, and the status of the BOSH Resurrector for each VM.
-- **DNS**: Includes the DNS A record for each VM.
-- **Vitals**: Includes load, CPU, memory, swap, system disk, ephemeral disk, and persistent disk usage for each VM.
+- **details**: includes VM cloud ID, agent ID
+- **dns**: includes the DNS A record
+- **vitals**: includes load, CPU, memory, swap, system disk, ephemeral disk, and persistent disk usage
 
 <pre class="terminal">$ bosh recreate JOB [INDEX] [--force]</pre>
 Stops the job process, power cycles the VM, recreates the job instance, then restarts the job process.
