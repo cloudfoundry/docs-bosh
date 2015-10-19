@@ -17,7 +17,7 @@ In this configuration the Director is configured to delegate user management to 
       url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=209
       sha1: a96833b6c68abda5aaa5d05ebdd0a5d394e6c15f
     # ...
-    - name: uaa # <+++
+    - name: uaa # <---
       url: https://bosh.io/d/github.com/cloudfoundry/uaa-release?v=1
       sha1: 477289da17ffe105d0b6bde1bc10f61b1cb50fb4
     ```
@@ -35,7 +35,7 @@ In this configuration the Director is configured to delegate user management to 
       - {name: blobstore, release: bosh}
       - {name: director, release: bosh}
       - {name: health_monitor, release: bosh}
-      - {name: uaa, release: uaa} # <+++
+      - {name: uaa, release: uaa} # <---
       resource_pool: default
       # ...
     ```
@@ -79,7 +79,7 @@ In this configuration the Director is configured to delegate user management to 
         user: postgres
         password: postgres-password
         database: bosh
-        additional_databases: [uaa] # <+++
+        additional_databases: [uaa] # <---
         adapter: postgres
     ```
 
@@ -131,7 +131,7 @@ In this configuration the Director is configured to delegate user management to 
     - `director.user_management.uaa.public_key`
         - Public key used by the Director to verify tokens without contacting the UAA (e.g. `./uaa.pub`)
 
-1. Allow access to 8443 port on the Director VM from your IaaS so that the CLI can access the UAA server.
+1. Allow access to port 8443 on the Director VM from your IaaS so that the CLI can access the UAA server.
 
 1. Redeploy the Director with the updated manifest.
 
@@ -151,11 +151,13 @@ Password: **************
 An example of how to use [UAA CLI](https://rubygems.org/gems/cf-uaac) to add a new user that has readonly access on any Director. Enter the client secret provided for the UAA admin client in the manifest at `uaa.admin.client_secret`.
 
 <pre class="terminal">
-$ uaac target https://54.236.100.56:8443 --skip-ssl-validation
+$ uaac target https://54.236.100.56:8443 --ca-cert certs/rootCA.pem
 $ uaac token client get admin
 Client secret:  **************
 $ uaac user add some-new-user --emails new.user@example.com
 </pre>
+
+<p class="note">Note: Use UAA CLI v3.1.4+ to specify custom CA certificate.</p>
 
 You can add permissions to users by defining a group and adding users to that group:
 
