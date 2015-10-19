@@ -8,7 +8,7 @@ This topic describes how to build a CPI.
 
 CPIs are distributed as regular releases, typically with a release job called `cpi` and a few packages that provide compilation/runtime environment for that job if necessary (e.g. [bosh-aws-cpi-release](https://github.com/cloudfoundry-incubator/bosh-aws-cpi-release) includes Ruby and [bosh-warden-cpi-release](https://github.com/cppforlife/bosh-warden-cpi-release) includes golang). To qualify to be a CPI release, it must include a release job that has `bin/cpi` executable.
 
-Both bosh-init and the Director expect to be configured with a CPI release to function properly. In the case of bosh-init, specified CPI release is unpacked and installed on the machine running bosh-init. For the Director, CPI release job is collocated on the same VM, so that the director release job can access it.
+Both bosh-init and the Director expect to be configured with a CPI release to function properly. In the case of bosh-init, specified CPI release is unpacked and installed on the machine running bosh-init. For the Director, CPI release job is colocated on the same VM, so that the director release job can access it.
 
 CPIs written in Ruby:
 
