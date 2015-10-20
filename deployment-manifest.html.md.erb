@@ -201,7 +201,7 @@ compilation:
     * If the `update_watch_time` is a range (low-high), the Director:
         * Waits for `low` milliseconds
         * Waits until instances are healthy or `high` milliseconds have passed since instances started updating
-* **serial** [Boolean, optional]: If enabled, deployment jobs will be deployed in parallel. Instances within a deployment job will still follow `canary` and `max_in_flight` configuration. Defaults to `true`.
+* **serial** [Boolean, optional]: If disabled (set to `false`), deployment jobs will be deployed in parallel, otherwise - sequentially. Instances within a deployment job will still follow `canary` and `max_in_flight` configuration. Defaults to `true`.
 
 Example:
 
