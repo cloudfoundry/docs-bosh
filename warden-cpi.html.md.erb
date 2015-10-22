@@ -2,6 +2,8 @@
 title: Warden/Garden CPI
 ---
 
+<p class="note">Note: Updated for bosh-warden-cpi v28+.</p>
+
 This topic describes cloud properties for different resources created by the Warden/Garden CPI.
 
 ## <a id='networks'></a> Networks
@@ -69,7 +71,7 @@ Example of a CPI configuration:
 
 ```yaml
 properties:
-  cpi:
+  warden_cpi:
     loopback_range: [100, 130]
     warden:
       connect_network: tcp
