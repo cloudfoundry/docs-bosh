@@ -236,6 +236,11 @@ No return value
 
 Sets VM's metadata to make it easier for operators to find categorize VMs when looking at the IaaS management console. For example AWS CPI uses tags to store metadata for operators to see in the AWS Console.
 
+We recommend to set VM name based on the following conditions:
+
+- "<job>/<id>" if `job` and `id` are present
+- "<job>/<index>" if `job` and `index` are present and `id` is not present
+
 #### Arguments
 
 - **vm_cid** [String]: Cloud ID of the VM to modify; returned from `create_vm`.
@@ -247,10 +252,11 @@ Sets VM's metadata to make it easier for operators to find categorize VMs when l
 [
 	"i-387459",
 	{
-		"director":"director-784430",
-		"deployment":"redis",
-		"job":"redis",
-		"index":"0"
+		"director": "director-784430",
+		"deployment": "redis",
+		"job": "redis",
+		"id": "ce7d2040-212e-4d5a-a62d-952a12c50741",
+		"index": "1"
 	}
 ]
 ```
