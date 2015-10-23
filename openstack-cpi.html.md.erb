@@ -50,7 +50,7 @@ Schema for `cloud_properties` section:
 
 * **instance_type** [String, required]: Type of the instance. Example: `m1.small`.
 * **availability_zone** [String, required]: Availability zone to use for creating instances. Example: `us-east-1a`.
-* **security_groups** [Array, optional]: Array of security groups to apply for all VMs that are in this resource pool. Defaults to security groups specified by `default_security_groups` in the global CPI settings unless security groups are specified on one of the VM networks. Security groups can be specified either on a resource pool or on a network.
+* **security_groups** [Array, optional]: Array of security groups to apply for all VMs that are in this resource pool. Defaults to security groups specified by `default_security_groups` in the global CPI settings unless security groups are specified on one of the VM networks. Security groups can be specified either on a resource pool or on a network. Available in v16+.
 * **key_name** [String, optional]: Key pair name. Defaults to key pair name specified by `default_key_name` in the global CPI settings. Example: `bosh`.
 * **scheduler_hints** [Hash, optional]: Data passed to the OpenStack Filter scheduler to influence its decision where new VMs can be placed. See [VM Anti-Affinity](vm-anti-affinity.html#openstack) for a detailed example. Example: `{ group: af09abf2-2283... }`
 
