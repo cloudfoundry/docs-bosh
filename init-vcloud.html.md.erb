@@ -64,7 +64,7 @@ jobs:
   - {name: blobstore, release: bosh}
   - {name: director, release: bosh}
   - {name: health_monitor, release: bosh}
-  - {name: cpi, release: bosh-vcloud-cpi}
+  - {name: vcloud_cpi, release: bosh-vcloud-cpi}
 
   resource_pool: vms
   persistent_disk_pool: disks
@@ -102,7 +102,7 @@ jobs:
       address: 127.0.0.1
       name: my-bosh
       db: *db
-      cpi_job: cpi
+      cpi_job: vcloud_cpi
       max_threads: 4
       user_management:
         provider: local
@@ -133,7 +133,7 @@ jobs:
     ntp: &ntp [0.pool.ntp.org, 1.pool.ntp.org]
 
 cloud_provider:
-  template: {name: cpi, release: bosh-vcloud-cpi}
+  template: {name: vcloud_cpi, release: bosh-vcloud-cpi}
 
   mbus: "https://mbus:mbus-password@10.0.0.6:6868"
 

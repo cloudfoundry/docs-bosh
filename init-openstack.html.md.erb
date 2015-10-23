@@ -63,7 +63,7 @@ jobs:
   - {name: director, release: bosh}
   - {name: health_monitor, release: bosh}
   - {name: registry, release: bosh}
-  - {name: cpi, release: bosh-openstack-cpi}
+  - {name: openstack_cpi, release: bosh-openstack-cpi}
 
   resource_pool: vms
   persistent_disk_pool: disks
@@ -114,7 +114,7 @@ jobs:
       address: 127.0.0.1
       name: my-bosh
       db: *db
-      cpi_job: cpi
+      cpi_job: openstack_cpi
       max_threads: 3
       user_management:
         provider: local
@@ -140,7 +140,7 @@ jobs:
     ntp: &ntp [0.pool.ntp.org, 1.pool.ntp.org]
 
 cloud_provider:
-  template: {name: cpi, release: bosh-openstack-cpi}
+  template: {name: openstack_cpi, release: bosh-openstack-cpi}
 
   ssh_tunnel:
     host: FLOATING-IP # <--- Replace with a floating IP
