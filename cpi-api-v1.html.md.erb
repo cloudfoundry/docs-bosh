@@ -270,11 +270,9 @@ No return value
 ---
 ### <a id="configure-networks"></a> `configure_networks`
 
-Modifies VM network configuration. Assume that VM can be either be powered on or off at the time of the call.
+Recommened implementation is to raise `Bosh::Clouds::NotSupported` error. This method will be deprecated in API v2.
 
-Some infrastructures do not support network reconfiguration while VM is powered on. It's safe to power off the VM, then reconfigure networks and power it back on. Waiting for the VM to finish powering on is not required because Director waits until VM's agent returns a ping via NATS.
-
-For infrastructures that do support network reconfiguration or when VM cannot be reconfigured to a new state from its current state, `Bosh::Clouds::NotSupported` error should be raised. Director will delete the VM (via `delete_vm`) and create a new VM with desired network configuration (via `create_vm`).
+After the Director received NotSupported error, it will delete the VM (via `delete_vm`) and create a new VM with desired network configuration (via `create_vm`).
 
 #### Arguments
 
