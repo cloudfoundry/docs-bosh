@@ -1,0 +1,28 @@
+---
+title: Using Keystone API v3
+---
+
+<p class="note">Note: This feature is available with bosh-release v218+ (1.3120.0) colocated with bosh-openstack-cpi v15+.</p>
+
+[The default template](init-openstack.html#create-manifest) provided for bosh-init configure authentication using the Keystone v2 API. This document describes how to use Keystone v3, e.g. if you want to make use of Domains in your OpenStack installation.
+
+1. Configure OpenStack CPI
+
+  Modify [the default template](init-openstack.html#create-manifest). In `properties.openstack`:
+
+  - remove property `tenant`
+	- add properties `domain` and `project`
+	- switch property `auth_url` to use v3 endpoint. **Note** that the path is just `v3` whithout a minor version as it was in the previous version, i.e. `v2.0`!
+
+	```
+	openstack: &openstack
+      auth_url: https://keystone.my-openstack.com:5000/v3 # <--- Replace with Keystone URL
+      project: OPENSTACK-PROJECT # <--- Replace with OpenStack project name
+      domain: OPENSTACK-DOMAIN  # <--- Replace with OpenStack domain name
+			username: OPENSTACK-USERNAME # <--- Replace with OpenStack username
+			api_key: OPENSTACK-PASSWORD # <--- Replace with OpenStack password
+      default_key_name: bosh
+      default_security_groups: [bosh]
+	```
+
+1. Deploy the Director
