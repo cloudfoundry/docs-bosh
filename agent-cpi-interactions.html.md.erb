@@ -4,24 +4,24 @@ title: Interactions between CPIs and BOSH Agent
 
 This section details the interactions between CPIs and bosh agent
 
-Here is an overview schema of the interactions between the cpi and the bosh agent with CloudStack as an example.
-* The CPI drives the Iaas and the bosh-agent.
-* The bosh-agent is a versatile process which configures the operating system to leverage Iaas-provisionned resources (network interfaces, disks), and perform other bosh tasks (jobs compilation, jobs instanciation…)
-* The CPI asks the Iaas to instanciate vm templates, vms, volumes and possibly other constructs (floating Ips, security groups, connect LB…)
-* The bosh agent is initially driven by the CPI through the bosh-registry, and then by bosh through NATS-based messaging. The registry provides bosh-side meta data to the bosh agent.
+Here is an overview schema of the interactions between the CPI and the Agent with CloudStack as an example.
 
-<%= image_tag("images/cpi-interactions-overview.png") %><br />
+* The CPI drives the IaaS and the Agent.
+* The Agent is a versatile process which configures the OS to leverage IaaS-provisionned resources (network interfaces, disks, etc.), and perform other BOSH tasks (jobs compilation, jobs instanciation, etc.)
+* The CPI asks the IaaS to instanciate VM template, VMs, volumes and possibly other constructs (floating IPs, security groups, connect LBs, etc.)
+* The Agent is initially driven by the CPI through the bosh-registry, and then by the Director through NATS-based messaging. The registry provides Director-side meta data to the Agent.
+
+<div class="gray"><%= image_tag("images/cpi-interactions-overview.png") %></div>
 
 <%#
 Image source in Saas (no need to own a graffle license and run macos)
 https://www.gliffy.com/go/html5/9205487?toke=&app=1b5094b0-6042-11e2-bcfd-0800200c9a66&dev=false
 %>
 
-
 The following sequence diagram illustrates in more details the CPI, agent, and registry interactions,
-in the case of the [cloudstack_cpi](https://github.com/cloudfoundry-community/bosh-cloudstack-cpi-release)
+in the case of the [CloudStack CPI](https://github.com/cloudfoundry-community/bosh-cloudstack-cpi-release)
 
-<%= image_tag("images/cpi-sequence-diag.png") %><br />
+<div class="gray"><%= image_tag("images/cpi-sequence-diag.png") %></div>
 
 <%#
 Image source in plantuml format.
@@ -65,33 +65,31 @@ Render it online http://plantuml.com/plantuml/ or from a private plantuml instan
 
 %>
 
-
-
 ---
-## <a id="agent-config"></a> Bosh agent config file formats
+## <a id="agent-config"></a> Agent config file formats
 
-This section details the configuration and protocols supported by the bosh agent.
+This section details the configuration and protocols supported by the Agent.
 
-The [VM Configuration Locations](vm-config.html#agent) provides a list of the configuration files that the bosh agent and their roles.
-
+The [VM Configuration Locations](vm-config.html#agent) provides a list of the configuration files that the Agent and their roles.
 
 ----
-### <a id="agent-json"></a> agent.json
+### <a id="agent-json"></a> `agent.json` file
 
 `/var/vcap/bosh/agent.json`: Start up settings for the Agent that describe how to find bootstrap settings, and disable certain Agent functionality.
 
 The loading agent.json file is described into [config_test.go](https://github.com/cloudfoundry/bosh-agent/blob/master/app/config_test.go)
 
 The Platform part of the file is documented into [LinuxOptions](https://godoc.org/github.com/cloudfoundry/bosh-agent/platform#LinuxOptions)
-The Infrastructure part of the file is documented into [Options](https://godoc.org/github.com/cloudfoundry/bosh-agent/infrastructure#Options) and in particular
+
+The Infrastructure part of the file is documented into [Options](https://godoc.org/github.com/cloudfoundry/bosh-agent/infrastructure#Options) and in particular:
+
  * the sources of configuration with [SettingsOptions](https://godoc.org/github.com/cloudfoundry/bosh-agent/infrastructure#SettingsOptions):
+
     * [CDROM](https://godoc.org/github.com/cloudfoundry/bosh-agent/infrastructure#CDROMSourceOptions)
     * [ConfigDrive](https://godoc.org/github.com/cloudfoundry/bosh-agent/infrastructure#ConfigDriveSourceOptions)
     * [HTTP](https://godoc.org/github.com/cloudfoundry/bosh-agent/infrastructure#HTTPSourceOptions)
 
-
-Sample agent.json which configures the agent to read from an HTTP meta data service at a custom URL.
-
+Sample `agent.json` which configures the agent to read from an HTTP meta data service at a custom URL.
 
 ```json
 {
@@ -117,8 +115,7 @@ Sample agent.json which configures the agent to read from an HTTP meta data serv
 }
 ```
 
-Sample agent.json which configures the agent ot read from a config drive. See [reference sample config-drive json](https://github.com/cloudfoundry/bosh-agent/blob/cecf354d90f6cedf540799fb50395adb034b16d2/integration/assets/config-drive-agent.json)
-See [config drive integration test](https://github.com/cloudfoundry/bosh-agent/blob/cecf354d90f6cedf540799fb50395adb034b16d2/integration/config_drive_test.go)
+Sample `agent.json` which configures the agent ot read from a config drive. See [reference sample config-drive json](https://github.com/cloudfoundry/bosh-agent/blob/cecf354d90f6cedf540799fb50395adb034b16d2/integration/assets/config-drive-agent.json). See [config drive integration test](https://github.com/cloudfoundry/bosh-agent/blob/cecf354d90f6cedf540799fb50395adb034b16d2/integration/config_drive_test.go)
 
 ```json
 {
@@ -151,9 +148,8 @@ See [config drive integration test](https://github.com/cloudfoundry/bosh-agent/b
 }
 ```
 
-
 ----
-### <a id="meta-data"></a> meta-data server
+### <a id="meta-data"></a> Meta-data server
 
 The meta-data server initial serves the registry URL and DNS server to be able to resolve it.
 
@@ -167,32 +163,30 @@ Following is a sample content od the user-data part of the HTTP meta-data
 }
 ```
 
-The supported format of the meta-data server by the bosh-agent are documented into [UserDataContentsType](https://godoc.org/github.com/cloudfoundry/bosh-agent/infrastructure#UserDataContentsType) and [http_metadata_service_test.go](https://github.com/cloudfoundry/bosh-agent/blob/1dca3244702c18bf2c36483c529d4e7b3fb92b2e/infrastructure/http_metadata_service_test.go)
+The supported format of the meta-data server by the bosh-agent are documented into [UserDataContentsType](https://godoc.org/github.com/cloudfoundry/bosh-agent/infrastructure#UserDataContentsType) and [http\_metadata\_service_test.go](https://github.com/cloudfoundry/bosh-agent/blob/1dca3244702c18bf2c36483c529d4e7b3fb92b2e/infrastructure/http_metadata_service_test.go)
 along with the expected behavior of the bosh agent when reading this config.
 
 ----
-### <a id="registry"></a> registry
+### <a id="registry"></a> Registry
 
 The registry provides bosh-side meta data to the bosh agent.
 
-From [warden cpi doc]https://github.com/cppforlife/bosh-warden-cpi-release/blob/be1869737c0bfba96662dde3499c9181863f91a7/docs/bosh-micro-usage.md):
-* Registry is used by CPI to pass data to the agent. Registry is started on a server specified by registry properties.
-* SSH tunnel will be started if ssh tunnel options are provided. SSH tunnel will start reverse ssh tunnel from the micro BOSH VM to the registry port. That makes registry available to the agent on remote machine.
+From [Warden CPI doc](https://github.com/cppforlife/bosh-warden-cpi-release/blob/be1869737c0bfba96662dde3499c9181863f91a7/docs/bosh-micro-usage.md):
 
------
-#### <a id="registry-protocol"></a> registry HTTP protocol
+* Registry is used by CPI to pass data to the Agent. Registry is started on a server specified by registry properties.
+* SSH tunnel will be started if SSH tunnel options are provided. SSH tunnel will start reverse ssh tunnel from the micro BOSH VM to the registry port. That makes registry available to the agent on remote machine.
 
-The bosh agent expects to communicate with the bosh registry with a REST API documented into [api_controller_spec.rb](https://github.com/cloudfoundry/bosh/blob/2f73281f1a2a155ee807e7c0c9b8187c5a742f78/bosh-registry/spec/unit/bosh/registry/api_controller_spec.rb)
+#### <a id="registry-protocol"></a> Registry HTTP protocol
+
+The Agent expects to communicate with the bosh registry with a REST API documented into [api\_controller\_spec.rb](https://github.com/cloudfoundry/bosh/blob/2f73281f1a2a155ee807e7c0c9b8187c5a742f78/bosh-registry/spec/unit/bosh/registry/api_controller_spec.rb)
 
 Reference registry client and servers implementations are available in:
 * go-lang through [frodenas/bosh-registry](https://github.com/frodenas/bosh-registry)
 * java through [cloudfoundry-community/bosh-cloudstack-cpi-core](https://github.com/cloudfoundry-community/bosh-cloudstack-cpi-core/tree/44d14a5f184d2d5e8f1f2fcd6344e734d3344673/src/main/java/com/orange/oss/cloudfoundry/cscpi/boshregistry)
 
------
-#### <a id="registry-format"></a> registry settings json format
+#### <a id="registry-format"></a> Registry settings format
 
-
-The json payload of the settings stored in the registry are called settings, and their format supported by the bosh-agent is documented into [settings_test.go](https://github.com/cloudfoundry/bosh-agent/blob/ebf9a36dfddf783ffae5ae3748787d259a29374a/settings/settings_test.go)
+The JSON payload of the settings stored in the registry are called settings, and their format supported by the Agent is documented in [settings_test.go](https://github.com/cloudfoundry/bosh-agent/blob/ebf9a36dfddf783ffae5ae3748787d259a29374a/settings/settings_test.go)
 
 Following is a sample content of the registry
 
@@ -235,9 +229,9 @@ Following is a sample content of the registry
 }
 ```
 
------
-#### <a id="settings_json"></a> settings.json file
+----
+### <a id="settings_json"></a> `settings.json` file
 
 `/var/vcap/bosh/settings.json`: Local copy of the bootstrap settings used by the Agent to configure network, system properties for the VM. They are refreshed every time Agent is restarted.
 
-The settings.json payload format is the same as the settings format initially returned by the registry.
+The `settings.json` payload format is the same as the settings format initially returned by the registry.
