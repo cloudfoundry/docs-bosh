@@ -10,7 +10,7 @@ Depending on you configuration, there are up to three endpoints to be secured us
 
 You can use the following script to generate a rootCA certificate and use it to sign three generated SSL certificates:
 
-```bash
+<pre class="bash">
 #!/bin/bash
 
 set -e
@@ -62,8 +62,8 @@ generateCert uaa-sp 10.244.4.2   # <--- Replace with public Director IP
 
 echo "Finished..."
 ls -la .
+</pre>
 
-```
 ---
 ## Put the certs in the Director deployment manifest:
 - `director.ssl.key`

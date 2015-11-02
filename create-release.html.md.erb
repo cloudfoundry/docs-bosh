@@ -119,7 +119,7 @@ For each job, create a control script that configures the job to store logs in `
 
 The control script for the `web_ui` job looks like this:
 
-<pre type="terminal">
+<pre type="bash">
 #!/bin/bash
 
 RUN_DIR=/var/vcap/sys/run/web_ui
@@ -146,9 +146,7 @@ case $1 in
     ;;
 
   stop)
-
     kill -9 `cat $PIDFILE`
-
     rm -f $PIDFILE
 
     ;;
