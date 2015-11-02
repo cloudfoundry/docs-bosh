@@ -1,10 +1,8 @@
 ---
-title: Interactions between CPIs and BOSH Agent
+title: Agent-CPI Interactions
 ---
 
-This section details the interactions between CPIs and bosh agent
-
-Here is an overview schema of the interactions between the CPI and the Agent with CloudStack as an example.
+Here is an overview of the interactions between the CPI and the Agent on CloudStack as an example:
 
 * The CPI drives the IaaS and the Agent.
 * The Agent is a versatile process which configures the OS to leverage IaaS-provisionned resources (network interfaces, disks, etc.), and perform other BOSH tasks (jobs compilation, jobs instanciation, etc.)
@@ -235,3 +233,8 @@ Following is a sample content of the registry
 `/var/vcap/bosh/settings.json`: Local copy of the bootstrap settings used by the Agent to configure network, system properties for the VM. They are refreshed every time Agent is restarted.
 
 The `settings.json` payload format is the same as the settings format initially returned by the registry.
+
+---
+Next: [Building a Stemcell](build-stemcell.html)
+
+Previous: [CPI API v1](cpi-api-v1.html)

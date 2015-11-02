@@ -2,11 +2,11 @@
 title: Deployment Manifest Schema
 ---
 
-The BOSH deployment manifest is a YAML file that defines the components and properties of the deployment. When a BOSH operator initiates a new deployment using the BOSH CLI, the BOSH Director receives a version of the deployment manifest and creates a new deployment using this manifest.
+The deployment manifest is a YAML file that defines the components and properties of the deployment. When an operator initiates a new deployment using the CLI, the Director receives a version of the deployment manifest and creates a new deployment using this manifest.
 
-Contents of a BOSH deployment manifest:
+Contents of a deployment manifest:
 
-* [Deployment Identification](#deployment): A name for the deployment and the UUID of the BOSH Director managing the deployment
+* [Deployment Identification](#deployment): A name for the deployment and the UUID of the Director managing the deployment
 * [Releases Block](#releases): Name and version of each release in a deployment
 * [Networks Block](#networks): Network configuration information
 * [Resource Pools Block](#resource-pools): Properties of VMs that BOSH creates and manages
@@ -20,9 +20,9 @@ The examples below originate from a [sample deployment manifest](./sample-manife
 
 ## <a id='deployment'></a>Deployment Identification
 
-**name** [String, required]: The name of the deployment. A single BOSH Director can manage multiple deployments and distinguishes them by name.
+**name** [String, required]: The name of the deployment. A single Director can manage multiple deployments and distinguishes them by name.
 
-**director_uuid** [String, required]: This string must match the UUID of the currently targeted BOSH Director for the BOSH CLI to allow any operations on the deployment. Use `bosh status` to display the UUID of the currently targeted BOSH Director.
+**director_uuid** [String, required]: This string must match the UUID of the currently targeted Director for the CLI to allow any operations on the deployment. Use `bosh status` to display the UUID of the currently targeted Director.
 
 Example:
 
