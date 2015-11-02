@@ -202,3 +202,9 @@ You are not authorized to perform this operation. Encoded authorization failure 
 ```
 
 See [IAM instance profiles errors](aws-iam-instance-profiles.html#errors).
+
+```
+Non-Windows instances with a virtualization type of 'hvm' are currently not supported for this instance type.
+```
+
+You cannot use HVM stemcells with certain instance types. Review which instance type is specified in a referenced resource pool.
