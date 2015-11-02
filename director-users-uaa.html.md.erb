@@ -58,7 +58,7 @@ In this configuration the Director is configured to delegate user management to 
             # scopes the client may receive
             scope: openid,bosh.admin,bosh.read,bosh.*.admin,bosh.*.read
             authorities: uaa.none
-            access-token-validity: 60 # 1 min
+            access-token-validity: 600 # 10 min
             refresh-token-validity: 86400 # re-login required once a day
             secret: ""
 
@@ -66,6 +66,8 @@ In this configuration the Director is configured to delegate user management to 
         login: {client_secret: login-password}
         zones: {internal: {hostnames: []}}
     ```
+
+    <div class="note">Note: To avoid token expiration issues <code>access-token-validity</code> must be greater than largest expected duration for uploading a release (or any other asset) to the Director. See <a href="https://github.com/cloudfoundry/bosh/issues/1002">issue #1002</a> for more details.</div>
 
     To configure UAA to use LDAP, SAML, etc. see [uaa release job properties](http://bosh.io/jobs/uaa?source=github.com/cloudfoundry/uaa-release).
 
