@@ -8,21 +8,22 @@ title: Using Keystone API v3
 
 1. Configure OpenStack CPI
 
-  Modify [the default template](init-openstack.html#create-manifest). In `properties.openstack`:
+    Modify [the default template](init-openstack.html#create-manifest). In `properties.openstack`:
+    - switch property `auth_url` to use v3 endpoint.
+        <div class="note">Note: path is just `v3` whithout a minor version as it was in the previous version, i.e. `v2.0`!</div>
+    - remove property `tenant`
+    - add properties `domain` and `project`
 
-  - remove property `tenant`
-	- add properties `domain` and `project`
-	- switch property `auth_url` to use v3 endpoint. **Note** that the path is just `v3` whithout a minor version as it was in the previous version, i.e. `v2.0`!
-
-	```
-	openstack: &openstack
-      auth_url: https://keystone.my-openstack.com:5000/v3 # <--- Replace with Keystone URL
-      project: OPENSTACK-PROJECT # <--- Replace with OpenStack project name
-      domain: OPENSTACK-DOMAIN  # <--- Replace with OpenStack domain name
-			username: OPENSTACK-USERNAME # <--- Replace with OpenStack username
-			api_key: OPENSTACK-PASSWORD # <--- Replace with OpenStack password
-      default_key_name: bosh
-      default_security_groups: [bosh]
-	```
+    ```yaml
+    properties:
+      openstack: &openstack
+        auth_url: https://keystone.my-openstack.com:5000/v3 # <--- Replace with Keystone URL
+        project: OPENSTACK-PROJECT # <--- Replace with OpenStack project name
+        domain: OPENSTACK-DOMAIN  # <--- Replace with OpenStack domain name
+        username: OPENSTACK-USERNAME # <--- Replace with OpenStack username
+        api_key: OPENSTACK-PASSWORD # <--- Replace with OpenStack password
+        default_key_name: bosh
+        default_security_groups: [bosh]
+    ```
 
 1. Deploy the Director
