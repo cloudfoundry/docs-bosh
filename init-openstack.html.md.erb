@@ -173,7 +173,6 @@ To prepare your OpenStack project for deploying MicroBOSH, use the OpenStack GUI
     * [Havana](http://www.openstack.org/software/havana)
     * [Icehouse](http://www.openstack.org/software/icehouse)
     * [Juno](http://www.openstack.org/software/juno)
-    <br />
 
     <p class="note">Note: Juno has a <a href="https://bugs.launchpad.net/nova/+bug/1396854">bug</a> that prevents BOSH to assign specific IPs to VMs. You have to apply a Nova patch to avoid this problem.</p>
 
@@ -186,12 +185,10 @@ To prepare your OpenStack project for deploying MicroBOSH, use the OpenStack GUI
         BOSH stores stemcells using the Image service.
     * **(Optional)** [OpenStack Networking](http://www.openstack.org/software/openstack-networking/):
         Provides network scaling and automated management functions that are useful when deploying complex distributed systems.
-    <br /><br />
 
 1. The following OpenStack networks:
     * An external network with a subnet.
     * An private network with a subnet. The subnet must have an IP address allocation pool.
-    <br /><br />
 
 1. A new OpenStack project.
 
