@@ -2,29 +2,15 @@
 title: BOSH Command Line Interface
 ---
 
-BOSH Command Line Interface (CLI) is used to interact with the Director and to bootstrap new BOSH environments. The CLI is written in Ruby and is provided by the two gems:
-
-* `bosh_cli` contains main operator commands [<img src="https://badge.fury.io/rb/bosh_cli.png" />]
-* `bosh_cli_plugin_micro` contains bootstrapping commands [<img src="https://badge.fury.io/rb/bosh_cli_plugin_micro.png" />]
-
-To install both of these gems:
+BOSH Command Line Interface (CLI) is used to interact with the Director. The CLI is written in Ruby and is distributed via `bosh_cli` gem.
 
 <pre class="terminal">
-$ gem install bosh_cli bosh_cli_plugin_micro --no-ri --no-rdoc
+$ gem install bosh_cli --no-ri --no-rdoc
 </pre>
 
 <p class="note">Note: BOSH CLI requires Ruby 2+</p>
 
-Use the following command to consult the BOSH CLI help and to verify that CLI can run:
-
-<pre class="terminal">
-$ bosh help
-</pre>
-
----
-## <a id="troubleshooting"></a> Installation Troubleshooting
-
-If gems installation does not succeed, make sure pre-requisites for your OS are met.
+If gem installation does not succeed, make sure pre-requisites for your OS are met.
 
 ### Prerequisites on Ubuntu Trusty
 
