@@ -84,7 +84,9 @@ resource_pools:
 ---
 ## <a id='disk-pools'></a> Disk Pools
 
-Currently the CPI does not support any cloud properties for disks.
+Schema for `cloud_properties` section:
+
+* **type** [String, optional]: Type of the [disk](http://pubs.vmware.com/vi-sdk/visdk250/ReferenceGuide/vim.VirtualDiskManager.VirtualDiskType.html): `thick`, `thin`, `preallocated`, `eagerZeroedThick`. Defaults to `thick`. Available in v12.
 
 Example of 10GB disk:
 
@@ -92,6 +94,16 @@ Example of 10GB disk:
 disk_pools:
 - name: default
   disk_size: 10_240
+```
+
+Example of disk with type eagerZeroedThick:
+
+```yaml
+disk_pools:
+- name: default
+  disk_size: 10_240
+  cloud_properties:
+    type: eagerZeroedThick
 ```
 
 ---
