@@ -4,6 +4,7 @@ title: Drain Script
 
 Release job can have a drain script that will run when the job is restarted or stopped. This script allows the job to clean up and get into a state where it can be safely stopped. For example, when writing a release for a load balancer, each node can safely stop accepting new connections and drain existing connections before fully stopping.
 
+---
 ## <a id="job-configuration"></a> Job Configuration
 
 To add a drain script to a release job:
@@ -41,16 +42,15 @@ You must ensure that your drain script exits in one of following ways:
 
     <p class="note">Note: It's recommended to only use static draining as dynamic draining will be eventually deprecated.</p>
 
+---
 ## <a id="environment-variables"></a> Environment Variables
 
 Drain script can access the following environment variables:
 
-  * `BOSH_JOB_STATE`: JSON description of the current job state
+* `BOSH_JOB_STATE`: JSON description of the current job state
+* `BOSH_JOB_NEXT_STATE`: JSON description of the new job state that is being applied
 
-  * `BOSH_JOB_NEXT_STATE`: JSON description of the new job state that is being
-    applied
-
-Use this feature to monitor job properties. For example drain script can use this feature to determine if the size of the persistent disk changes and take a specified action.
+For example drain script can use this feature to determine if the size of the persistent disk changes and take a specified action.
 
 ---
 ## <a id="logs"></a> Logs
