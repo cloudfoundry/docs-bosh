@@ -2,15 +2,17 @@
 title: Configuring Health Monitor
 ---
 
-Sections below only show minimum configuration options to enable plugins. Add them to the deployment manifest for the Health Monitor. Full list of configuration options are listed in the [Health Monitor's release job spec](https://github.com/cloudfoundry/bosh/blob/master/release/jobs/health_monitor/spec).
+Sections below only show minimum configuration options to enable plugins. Add them to the deployment manifest for the Health Monitor. See [health_monitor release job properties](http://bosh.io/jobs/health_monitor?source=github.com/cloudfoundry/bosh) for more details.
 
 ---
 ## <a name="logger"></a> Event Logger
 
+Enabled by default. No way to turn it off.
+
 ---
 ## <a name="resurrector"></a> Resurrector
 
-Restarts VMs that have stopped heartbeating.
+Restarts VMs that have stopped heartbeating. See [Automatic repair with Resurrector](resurrector.html) for more details.
 
 ```yaml
 properties:
@@ -37,6 +39,34 @@ properties:
       auth:
       user:
       password:
+```
+
+---
+## <a name="tsdb"></a> OpenTSDB
+
+Plugin that forwards alerts and heartbeats to [OpenTSDB](http://opentsdb.net/).
+
+```yaml
+properties:
+  hm:
+    tsdb_enabled: true
+    tsdb:
+      address: tsdb.your.org
+      port: 4242
+```
+
+---
+## <a name="graphite"></a> Graphite
+
+Plugin that forwards heartbeats to [Graphite](https://graphite.readthedocs.org/en/latest/).
+
+```yaml
+properties:
+  hm:
+    graphite_enabled: true
+    graphite:
+      address: graphite.your.org
+      port: 2003
 ```
 
 ---
