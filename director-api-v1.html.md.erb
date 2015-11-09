@@ -1,0 +1,612 @@
+---
+title: Director API v1
+---
+
+<p class="note">Note: Before using the Director API directly, we strongly encourage to consider using the CLI for automatation such as performing a scheduled deploy from a CI. We hope that you will open a <a href="https://github.com/cloudfoundry/bosh/issues">GitHub issue</a> to share your use cases so that we can suggest or possibly make additions to the CLI.</a>
+
+This document lists common API endpoints provided by the Director.
+
+---
+## <a id="overview"></a> Overview
+
+### <a id="auth"></a> Security
+
+All API access should be done over verified HTTPS.
+
+The Director can be configured in two authentication modes: [basic auth](director-users.html#preconfigured) and [UAA](director-users-uaa.html). [Info endpoint](#info) does not require any authentication and can be used to determine which authentication mechanism to use. All other endpoints require authentication.
+
+`401 Unauthorized` will be returned for requests that contain an invalid basic auth credentials or an invalid/expired UAA access token.
+
+### <a id="http-verbs"></a> HTTP verbs
+
+Standard HTTP verb semantics are followed:
+
+| Verb | Description |
+-------|-------------|
+| GET  | Used for retrieving resources. |
+| POST/PUT | Used for creating/updating resources. |
+| DELETE | Used for deleting resources. |
+
+### <a id="http-verbs"></a> HTTP redirects
+
+Any request may result in a redirection. Receiving an HTTP redirection is not an error and clients should follow that redirect. Redirect responses will have a Location header field. Clients should use same authentication method when following a redirect.
+
+### <a id="rate-limiting"></a> Rate limiting
+
+Currently no rate limiting is performed.
+
+### <a id="pagination"></a> Pagination
+
+Currently none of the resources are paginated.
+
+### <a id="long-running-ops"></a> Long running operations (aka Director tasks)
+
+Certain requests result in complex and potentially long running operations against the IaaS, blobstore, or other resources. [`POST /deployments`](#post-deployment) is a good example. Such requests start a [Director task](director-tasks.html) and continue running on the Director after response is returned. Response to such request will be a `302 Moved Temporarily` redirect to a created task resource.
+
+Once a Director task is created, clients can follow its progress by polling [`GET /tasks/{id}`](#get-task) to find out its state. While waiting for the task to finish, different types of logs ([event](#get-task-event), [result](#get-task-result), [debug](#get-task-debug) information, etc.) can be followed to gain insight into what the task is doing.
+
+---
+## <a id="general"></a> General
+
+### <a id="info"></a> `GET /info`: Info
+
+#### Response body schema
+
+**[root]** [Hash]: Director details.
+
+- **name** [String]: Name of the Director.
+- **uuid** [String]: Unique ID of the Director.
+- **version** [String]: Version of the Director software.
+- **user** [String or null]: Logged in user's user name if authentication is provided, otherwise null.
+- **cpi** [String]: Name of the CPI the Director will use.
+- **user_authentication** [Hash]: Cloud ID of the stemcell.
+	- **type** [String]: Type of the authentication the Director is configured to expect.
+	- **options** [Hash]: Additional information provided to how authentication should be performed.
+
+#### Notes
+
+- This is the only endpoint that does not require authentication.
+- In future `version` will contain version of the deployed BOSH release.
+
+#### Example
+
+<pre class="terminal">
+$ curl -s -k https://192.168.50.4:25555/info | jq .
+</pre>
+
+```yaml
+{
+  "name": "Bosh Lite Director",
+  "uuid": "2daf673a-9755-4b4f-aa6d-3632fbed8012",
+  "version": "1.3126.0 (00000000)",
+  "user": null,
+  "cpi": "warden_cpi",
+  "user_authentication": {
+    "type": "basic",
+    "options": {}
+  }
+}
+```
+
+---
+## <a id="tasks"></a> Tasks
+
+### <a id="list-tasks"></a> `GET /tasks`: List all tasks
+
+#### Response body schema
+
+**[root]** [Array]: List of tasks.
+
+- **id** [Integer]: Numeric ID of the task.
+- **state** [String]: Current state of the task. Possible values are: `queued`, `processing`, `cancelled`, `cancelling`, `done`, `errored`.
+- **description** [String]: Description of the task's purpose.
+- **timestamp** [Integer]: todo.
+- **result** [String or null]: Description of the task's result. Will not be populated (string) unless tasks finishes.
+- **user** [String]: User which started the task.
+
+#### Example
+
+<pre class="terminal">
+$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?verbose=2&limit=3' | jq .
+</pre>
+
+```yaml
+[
+  {
+    "id": 1180,
+    "state": "processing",
+    "description": "run errand acceptance_tests from deployment cf-warden",
+    "timestamp": 1447033291,
+    "result": null,
+    "user": "admin"
+  },
+  {
+    "id": 1179,
+    "state": "done",
+    "description": "scan and fix",
+    "timestamp": 1447031334,
+    "result": "scan and fix complete",
+    "user": "admin"
+  },
+  {
+    "id": 1178,
+    "state": "done",
+    "description": "scan and fix",
+    "timestamp": 1447031334,
+    "result": "scan and fix complete",
+    "user": "admin"
+  }
+]
+```
+
+---
+### <a id="list-current-tasks"></a> `GET /tasks?state=...`: List currently running tasks
+
+#### Response body schema
+
+See schema [above](#list-tasks).
+
+#### Example
+
+<pre class="terminal">
+$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?state=queued,processing,cancelling&verbose=2' | jq .
+</pre>
+
+```yaml
+[
+  {
+    "id": 1180,
+    "state": "processing",
+    "description": "run errand acceptance_tests from deployment cf-warden",
+    "timestamp": 1447033291,
+    "result": null,
+    "user": "admin"
+  }
+]
+```
+
+---
+### <a id="get-task"></a> `GET /tasks/{id}`: Retrieve single task
+
+#### Response body schema
+
+**[root]** [Hash]: Task details.
+
+See additional schema details [above](#list-tasks).
+
+#### Example
+
+<pre class="terminal">
+$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1180' | jq .
+</pre>
+
+```yaml
+{
+  "id": 1180,
+  "state": "processing",
+  "description": "run errand acceptance_tests from deployment cf-warden",
+  "timestamp": 1447033291,
+  "result": null,
+  "user": "admin"
+}
+```
+
+---
+### <a id="get-task-debug"></a> `GET /tasks/{id}/output?type=debug`: Retrieve task's debug log
+
+#### Response body schema
+
+**[root]** [String]: Debug output for the chosen task.
+
+#### Example
+
+<pre class="terminal">
+$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1180/output?type=debug'
+</pre>
+
+```
+...
+D, [2015-11-09 02:19:36 #32545] [] DEBUG -- DirectorJobRunner: RECEIVED: director.37d8c089-853e-458c-8535-195085b4b7ed.459b05ae-8b69-4679-b2d5-b34e5fef2dcc {"value":{"agent_task_id":"c9f5b328-0656-41f1-631c-e17151be1e18","state":"running"}}
+D, [2015-11-09 02:19:36 #32545] [task:1180] DEBUG -- DirectorJobRunner: (0.000441s) SELECT NULL
+D, [2015-11-09 02:19:36 #32545] [task:1180] DEBUG -- DirectorJobRunner: (0.000317s) SELECT * FROM "tasks" WHERE "id" = 1180
+```
+
+---
+### <a id="get-task-event"></a> `GET /tasks/{id}/output?type=event`: Retrieve task's event log
+
+#### Response body schema
+
+**[root]** [String]: Result output for the chosen task. Newlines separate valid event JSON records.
+
+#### Example
+
+<pre class="terminal">
+$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=event'
+</pre>
+
+```
+...
+{
+  "time": 1446959491,
+  "stage": "Deleting errand instances",
+  "tags": [ "smoke_tests" ],
+  "total": 1,
+  "task": "59d5b228-a732-4c68-6017-31fe5bc9d8c5",
+  "index": 1,
+  "state": "started",
+  "progress": 0
+}
+{
+  "time": 1446959496,
+  "stage": "Deleting errand instances",
+  "tags": [ "smoke_tests" ],
+  "total": 1,
+  "task": "59d5b228-a732-4c68-6017-31fe5bc9d8c5",
+  "index": 1,
+  "state": "finished",
+  "progress": 100
+}
+```
+
+---
+### <a id="get-task-result"></a> `GET /tasks/{id}/output?type=result`: Retrieve task's result
+
+#### Response body schema
+
+**[root]** [String]: Result output for the chosen task. Contents depend on a type of task.
+
+#### Example of VM details task
+
+<pre class="terminal">
+$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=result'
+</pre>
+
+```
+...
+{"vm_cid":"ec974048-3352-4ba4-669d-beab87b16bcb","disk_cid":null,"ips":["10.244.0.142"],"dns":[],"agent_id":"c5e7c705-459e-41c0-b640-db32d8dc6e71","job_name":"doppler_z1","index":0,"job_state":"running","resource_pool":"medium_z1","vitals":{"cpu":{"sys":"9.1","user":"2.1","wait":"1.7"},"disk":{"ephemeral":{"inode_percent":"11","percent":"36"},"system":{"inode_percent":"11","percent":"36"}},"load":["0.61","0.74","1.10"],"mem":{"kb":"2520960","percent":"41"},"swap":{"kb":"102200","percent":"10"}},"processes":[{"name":"doppler","state":"running"},{"name":"syslog_drain_binder","state":"running"},{"name":"metron_agent","state":"running"}],"resurrection_paused":false}
+```
+
+---
+## <a id="stemcells"></a> Stemcells
+
+### <a id="list-stemcells"></a> `GET /stemcells`: List all uploaded stemcells
+
+#### Response body schema
+
+**[root]** [Array]: List of stemcells.
+
+- **name** [String]: Name of the stemcell.
+- **version** [String]: Version of the stemcell.
+- **operating_system** [String]: Operating system identifier. Example: `ubuntu-trusty` and `centos-7`.
+- **cid** [String]: Cloud ID of the stemcell.
+- **deployments** [Array]: List of deployments currently using this stemcell version.
+  - **name** [String]: Deployment name.
+
+#### Example
+
+<pre class="terminal">
+$ curl -v -s -k https://admin:admin@192.168.50.4:25555/stemcells | jq .
+</pre>
+
+```yaml
+[
+  {
+    "name": "bosh-warden-boshlite-ubuntu-trusty-go_agent",
+    "operating_system": "ubuntu-trusty",
+    "version": "3126",
+    "cid": "c3705a0d-0dd3-4b67-52b5-50533a432244",
+    "deployments": [
+      { "name": "cf-warden" }
+    ]
+  }
+]
+```
+
+---
+## <a id="releases"></a> Releases
+
+### <a id="list-releases"></a> `GET /releases`: List all uploaded releases
+
+#### Response body schema
+
+**[root]** [Array]: List of releases.
+
+- **name** [String]: Name of the release.
+- **release_versions** [Array]: List of versions available.
+  - **version** [String]: Version of the release version.
+  - **commit_hash** [String]: Identifier in the SCM repository for the release version source code.
+  - **uncommitted_changes** [Boolean]: Whether or not the release version was created from a SCM repository with unsaved changes.
+  - **currently_deployed** [Boolean]: Whether or not the release version is used by any deployments.
+  - **job_names** [Array of strings]: List of job names associated with the release version.
+
+#### Example
+
+<pre class="terminal">
+$ curl -v -s -k https://admin:admin@192.168.50.4:25555/releases | jq .
+</pre>
+
+```yaml
+[
+  {
+    "name": "bosh-warden-cpi",
+    "release_versions": [
+      {
+        "version": "28",
+        "commit_hash": "4c36884a",
+        "uncommitted_changes": false,
+        "currently_deployed": false,
+        "job_names": [ "warden_cpi" ]
+      }
+    ]
+  },
+  {
+    "name": "test",
+    "release_versions": [
+      {
+        "version": "0+dev.16",
+        "commit_hash": "31ef3167",
+        "uncommitted_changes": true,
+        "currently_deployed": false,
+        "job_names": [ "http_server", "service" ]
+      },
+      {
+        "version": "0+dev.17",
+        "commit_hash": "e5416248",
+        "uncommitted_changes": true,
+        "currently_deployed": true,
+        "job_names": [ "drain", "errand", "http_server", "pre_start", "service" ]
+      },
+    ]
+  }
+]
+```
+
+---
+## <a id="deployments"></a> Deployments
+
+### <a id="list-deployments"></a> `GET /deployments`: List all deployments
+
+#### Response body schema
+
+**[root]** [Array]: List of deployments.
+
+- **name** [String]: Name of the stemcell.
+- **cloud_config** [String]: Indicator whether latest cloud config is used for this deployment. Possible values: `none`, `outdated`, `latest`.
+- **releases** [Array]: List of release versions used by the deploymemt.
+	- **name** [String]: Name of the release.
+	- **version** [String]: Version of the release.
+- **stemcells** [Array]: List of stemcell versions used by the deploymemt.
+	- **name** [String]: Name of the stemcell.
+	- **version** [String]: Version of the stemcell.
+
+#### Example
+
+<pre class="terminal">
+$ curl -v -s -k https://admin:admin@192.168.50.4:25555/stemcells | jq .
+</pre>
+
+```yaml
+[
+  {
+    "name": "cf-warden",
+    "cloud_config": "none",
+    "releases": [
+      {
+        "name": "cf",
+        "version": "222"
+      },
+      {
+        "name": "cf",
+        "version": "223"
+      }
+    ],
+    "stemcells": [
+      {
+        "name": "bosh-warden-boshlite-ubuntu-trusty-go_agent",
+        "version": "2776"
+      },
+      {
+        "name": "bosh-warden-boshlite-ubuntu-trusty-go_agent",
+        "version": "3126"
+      }
+    ]
+  }
+]
+```
+
+---
+### <a id="post-deployment"></a> `POST /deployments`: Create/update single deployment
+
+#### Request query
+
+- **recreate** [Boolean]: Whether or not to ignore deletion errors. Possible values: `true` or not present. Default is not present.
+- **skip_drain** [String]: Comma separated list of job names that should not run drain scripts during the update. Possible values: `*` to represent all jobs, `<job1>,<job2>` to list job names, or not present. Default is not present.
+
+#### Request headers
+
+- **Content-Type** must be `text/yaml`.
+
+#### Request body scheme
+
+**[root]** [String]: Manifest string. Note that non-exact version values (`latest` value) for releases and stemcells must be resolved before making a request.
+
+#### Response
+
+Creating/updating a deployment is performed in a Director task. Response will be a redirect to a task resource.
+
+---
+### <a id="get-deployment"></a> `GET /deployments/{name}`: Retrieve single deployment
+
+#### Response body schema
+
+**[root]** [Hash]: Single deployment.
+
+- **manifest** [String]: Last successfully deployed manifest string.
+
+#### Example
+
+<pre class="terminal">
+$ curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments/cf-warden | jq .
+</pre>
+
+```yaml
+{
+  "manifest": "---\nname: cf-warden\n...",
+}
+```
+
+---
+### <a id="delete-deployment"></a> `DELETE /deployments/{name}`: Delete single deployment
+
+#### Request query
+
+- **force** [Boolean]: Whether or not to ignore deletion errors. Dangerous! Possible values: `true` or not present. Default is not present.
+
+#### Request body
+
+Empty.
+
+#### Response
+
+Deleting a deployment is performed in a Director task. Response will be a redirect to a task resource.
+
+---
+## <a id="vms"></a> VMs in a deployment
+
+### <a id="list-vms"></a> `GET /deployments/{name}/vms`: List all VMs
+
+#### Response body schema
+
+**[root]** [Array]: List of VMs.
+
+- **agent_id** [String]: Unique ID of the Agent associated with the VM.
+- **cid** [String]: Cloud ID of the VM.
+- **job** [String]: Name of the job.
+- **index** [Integer]: Numeric job index.
+
+#### Notes
+
+- This endpoint does not query Agents on the VMs, hence is returned immediately.
+
+#### Example
+
+<pre class="terminal">
+$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/cf-warden/vms' | jq .
+</pre>
+
+```yaml
+[
+  {
+    "agent_id": "c5e7c705-459e-41c0-b640-db32d8dc6e71",
+    "cid": "ec974048-3352-4ba4-669d-beab87b16bcb",
+    "job": "doppler_z1",
+    "index": 0
+  },
+  {
+    "agent_id": "81f7b585-f3d3-4dbc-8d7c-f76dbe861bdc",
+    "cid": "427c1995-2d06-42b2-4218-418150bc31c9",
+    "job": "api_z1",
+    "index": 0
+  }
+]
+```
+
+---
+### <a id="list-vms-detailed"></a> `GET /deployments/{name}/vms?format=full`: List VM details
+
+#### Response body schema
+
+**[root]** [String]: Each VM's details are separated by a newline.
+
+- **agent_id** [String]: Unique ID of the Agent associated with the VM.
+- **vm_cid** [String]: Cloud ID of the VM.
+- **resource_pool** [String]: Name of the resource pool used for the VM.
+- **disk_cid** [String or null]: Cloud ID of the associated persistent disk if one is attached.
+- **job_name** [String]: Name of the job.
+- **index** [Integer]: Numeric job index.
+- **resurrection_paused** [Boolean]: Whether or not ressurector will try to bring back the VM is it goes missing.
+- **job_state** [String]: Aggregate state of job. Possible values: `running` and other values that represent unhealthy state.
+- **ips** [Array of strings]: List of IPs.
+- **dns** [Array of strings]: List of DNS records.
+- **vitals** [Hash]: VM vitals.
+- **processes** [Array of hashes]: List of processes running as part of the job.
+
+#### Example
+
+<pre class="terminal">
+$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/cf-warden/vms?format=full'
+< HTTP/1.1 302 Moved Temporarily
+< Location: https://192.168.50.4:25555/tasks/1181
+...
+
+$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181' | jq .
+
+$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=result'
+</pre>
+
+```
+...
+{"vm_cid":"ec974048-3352-4ba4-669d-beab87b16bcb","disk_cid":null,"ips":["10.244.0.142"],"dns":[],"agent_id":"c5e7c705-459e-41c0-b640-db32d8dc6e71","job_name":"doppler_z1","index":0,"job_state":"running","resource_pool":"medium_z1","vitals":{"cpu":{"sys":"9.1","user":"2.1","wait":"1.7"},"disk":{"ephemeral":{"inode_percent":"11","percent":"36"},"system":{"inode_percent":"11","percent":"36"}},"load":["0.61","0.74","1.10"],"mem":{"kb":"2520960","percent":"41"},"swap":{"kb":"102200","percent":"10"}},"processes":[{"name":"doppler","state":"running"},{"name":"syslog_drain_binder","state":"running"},{"name":"metron_agent","state":"running"}],"resurrection_paused":false}
+```
+
+#### Example of a single VM details formatted
+
+```yaml
+{
+  "agent_id": "c5e7c705-459e-41c0-b640-db32d8dc6e71",
+
+  "vm_cid": "ec974048-3352-4ba4-669d-beab87b16bcb",
+  "resource_pool": "medium_z1",
+  "disk_cid": null,
+
+  "job_name": "doppler_z1",
+  "index": 0,
+  "resurrection_paused": false,
+
+  "job_state": "running",
+  "ips": [ "10.244.0.142" ],
+  "dns": [],
+
+  "vitals": {
+    "cpu": {
+      "sys": "9.1",
+      "user": "2.1",
+      "wait": "1.7"
+    },
+    "disk": {
+      "ephemeral": {
+        "inode_percent": "11",
+        "percent": "36"
+      },
+      "system": {
+        "inode_percent": "11",
+        "percent": "36"
+      }
+    },
+    "load": [ "0.61", "0.74", "1.10" ],
+    "mem": {
+      "kb": "2520960",
+      "percent": "41"
+    },
+    "swap": {
+      "kb": "102200",
+      "percent": "10"
+    }
+  },
+
+  "processes": [
+    {
+      "name": "doppler",
+      "state": "running"
+    },
+    {
+      "name": "syslog_drain_binder",
+      "state": "running"
+    },
+    {
+      "name": "metron_agent",
+      "state": "running"
+    }
+  ]
+}
+```
