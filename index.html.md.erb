@@ -4,66 +4,66 @@ title: Index
 
 ## <a id="intro"></a> Introduction
 
- * [What is BOSH?](about.html)
+* [What is BOSH?](about.html)
     * [What problems does BOSH solve?](problems.html)
-       * [Stemcell](stemcell.html)
-       * [Release](release.html)
-       * [Deployment](deployment.html)
+        * [Stemcell](stemcell.html)
+        * [Release](release.html)
+        * [Deployment](deployment.html)
     * Comparison to other tools
- * [Terminology](terminology.html)
+* [Terminology](terminology.html)
 
 ---
 ## <a id="install"></a> Install BOSH
 
 ### Install BOSH with bosh-init
 
- * [BOSH components](bosh-components.html)
- * [Bootstrapping an environment](init.html)
+* [BOSH components](bosh-components.html)
+* [Install bosh-init](install-bosh-init.html)
+    * [Using bosh-init](using-bosh-init.html)
+        * [Migrating to bosh-init from the micro CLI plugin](migrate-to-bosh-init.html)
+* [Install BOSH CLI](bosh-cli.html)
+* [Bootstrap an environment](init.html)
     * [On AWS](init-aws.html)
     * [On OpenStack](init-openstack.html)
     * [On vSphere](init-vsphere.html)
     * [On vCloud](init-vcloud.html)
     * [On Local machine using BOSH Lite](bosh-lite.html)
- * [Director SSL Certificate Configuration](director-certs.html)
- * [Install bosh-init](install-bosh-init.html)
- * [Using bosh-init](using-bosh-init.html)
-    * [Migrating to bosh-init from the micro CLI plugin](migrate-to-bosh-init.html)
- * [Install BOSH CLI](bosh-cli.html)
- * [Install BOSH with the micro CLI plugin **[deprecated, but supported]**](bootstrap.html)
 
 ### <a id="director-config"></a> Advanced Director configuration
 
- * [User management](director-users.html)
+* [User management](director-users.html)
     * [UAA Integration](director-users-uaa.html)
- * [Configuring External Database](director-configure-db.html)
- * [Configuring External Blobstore](director-configure-blobstore.html)
- * [Troubleshooting](tips.html)
+* [SSL certificate configuration](director-certs.html)
+* [Configuring external database](director-configure-db.html)
+* [Configuring external blobstore](director-configure-blobstore.html)
+* [Micro CLI plugin **[deprecated, but supported]**](bootstrap.html)
 
 ---
 ## <a id="basic-deploy"></a> Using BOSH to deploy software
 
- * [Basic workflow](basic-workflow.html)
+* [Basic workflow](basic-workflow.html)
     * [Deployment basics](deployment-basics.html)
-       * [Deployment manifest schema](deployment-manifest.html)
+        * [Deployment manifest schema](deployment-manifest.html)
     * [Uploading stemcells](uploading-stemcells.html)
     * [Uploading releases](uploading-releases.html)
     * [Deploying](deploying.html)
     * Running one off tasks
     * Updating deployment to deal with security vulnerabilities
- * [Deploying step-by-step](deploying-step-by-step.html)
- * [CLI Commands](sysadmin-commands.html)
- * [Director tasks](director-tasks.html)
+* [Deploying step-by-step](deploying-step-by-step.html)
+* [CLI commands](sysadmin-commands.html)
+* [Director tasks](director-tasks.html)
+* [Troubleshooting](tips.html)
 
-### <a id="deployment-config"></a> Detailed Deployment Configuration
+### <a id="deployment-config"></a> Detailed deployment configuration
 
- * Deployment Jobs
- * Resource Pools
+* Deployment Jobs
+* Resource Pools
     * [VM anti-affinity](vm-anti-affinity.html)
- * [Networks](networks.html)
- * [Persistent disks](persistent-disks.html)
- * [Trusted certificates](trusted-certs.html)
+* [Networks](networks.html)
+* [Persistent disks](persistent-disks.html)
+* [Trusted certificates](trusted-certs.html)
 
-### <a id="cpi-config"></a> Detailed CPI Configuration & Troubleshooting
+### <a id="cpi-config"></a> Detailed CPI configuration & troubleshooting
 
 * [AWS](aws-cpi.html)
     * [Using IAM instance profiles](aws-iam-instance-profiles.html)
@@ -75,50 +75,50 @@ title: Index
 * [Azure](azure-cpi.html) **[beta]**
 * [Warden/Garden](warden-cpi.html)
 
-### <a id="hm"></a> Health Management of VMs and Processes
+### <a id="hm"></a> Health management of VMs and processes
 
- * [Monitoring](monitoring.html)
+* [Monitoring](monitoring.html)
     * [Configuring Health Monitor](hm-config.html)
- * [Process monitoring with Monit](vm-monit.html)
- * [Manual repair with Cloud Check](cck.html)
- * [Automatic repair with Resurrector](resurrector.html)
- * [Persistent disk snapshotting](snapshots.html)
+* [Process monitoring with Monit](vm-monit.html)
+* [Manual repair with Cloud Check](cck.html)
+* [Automatic repair with Resurrector](resurrector.html)
+* [Persistent disk snapshotting](snapshots.html)
 
-### <a id="vm-config"></a> VM Configuration (Looking inside a Deployment)
+### <a id="vm-config"></a> VM configuration (looking inside a deployment)
 
- * [Structure of a BOSH VM](vm-struct.html)
-    * [VM Configuration Locations](vm-config.html)
- * [Location and use of logs](job-logs.html)
- * Debugging issues with jobs
+* [Structure of a managed VM](vm-struct.html)
+    * [VM configuration locations](vm-config.html)
+* [Location and use of logs](job-logs.html)
+* Debugging issues with jobs
 
 ---
 ## <a id="release"></a> Using BOSH to package and distribute software
 
- * What is a release?
+* What is a release?
     * [Creating a release](create-release.html)
     * Testing with dev releases
     * Cutting final releases
-       * Versioning of releases
- * What is a job?
+        * Versioning of releases
+* What is a job?
     * Creating a job
     * Job properties
     * [Job lifecycle](job-lifecycle.html)
         * [Pre-start script](pre-start.html)
         * [Drain script](drain.html)
- * What is a package?
+* What is a package?
     * [Creating a package](packages.html)
     * Relationship to release blobs
- * How do releases, jobs, and packages interact?
- * Managing release repository
+* How do releases, jobs, and packages interact?
+* Managing release repository
     * Release blobstore
-       * [Configuring S3 release blobstore](s3-release-blobstore.html)
+        * [Configuring S3 release blobstore](s3-release-blobstore.html)
 
 ---
 ## <a id="extend"></a> Extending BOSH
 
- * [Director API v1](director-api-v1.html)
- * What is a CPI?
- * [Building a CPI](build-cpi.html)
+* [Director API v1](director-api-v1.html)
+* What is a CPI?
+* [Building a CPI](build-cpi.html)
     * [CPI API v1](cpi-api-v1.html)
     * [Agent-CPI interactions](agent-cpi-interactions.html)
- * [Building a stemcell](build-stemcell.html)
+* [Building a stemcell](build-stemcell.html)

@@ -42,13 +42,17 @@ A repository where BOSH stores release artifacts, logs, stemcells, and other con
 
 The basic unit of work performed by the Director. You can get the status and logs for any task. You can monitor the task throughout its lifecycle, which progresses through states like started, running, done, and error.
 
+## <a id="director-vm"></a> Director VM (aka MicroBOSH)
+
+A single VM with the Director and other necessary components.
+
 ## <a id="disk-pools"></a> Disk Pools
 
 Disk pools are logical collections of disks, in a deployment, each created with the same configuration.
 
 ## <a id="environment"></a> Environment
 
-A single environment consists of a Director and deployments that it orchestrates. A good example of two separate environments are staging and production environments.</li></ul>
+A single environment consists of a Director and deployments that it orchestrates. A good example of two separate environments are staging and production environments.
 
 ## <a id="errand"></a> Errand
 
@@ -74,17 +78,13 @@ A VM that acts as a single access point for the Director and deployed VMs. For r
 
 A YAML file that identifies one or more release, one or more stemcells and specifies how to configure them for a given deployment.
 
-## <a id="microbosh"></a> MicroBOSH
-
-A complete BOSH environment that runs on a single VM. One use of the MicroBOSH is to orchestrate the deployment of a BOSH on multiple VMs.
-
 ## <a id="release"></a> Release
 
 A collection of configuration files, job definitions, source code, package definitions and accompanying information needed to make a software component deployable by BOSH. A self-contained release should have no dependencies that need to be fetched from the internet.
 
-## <a id="resource-pools"></a> Resource Pools
+## <a id="resource-pool"></a> Resource Pool
 
-Resource pools are collections of VMs created from the same stemcell, with the same configuration, in a deployment.
+Resource pool is collections of VMs created from the same stemcell, with the same configuration, in a deployment.
 
 ## <a id="stemcell"></a> Stemcell
 

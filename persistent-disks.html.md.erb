@@ -16,7 +16,9 @@ Persistent disks are deleted for deployment jobs under the following circumstanc
 
 * When no longer specifying a persistent disk size or a disk pool
 * When scaled down
-<p class="note"><strong>Note</strong>: Applies only to disks associated with removed instances.</p>
+
+    <p class="note">Note: Applies only to disks associated with removed instances.</p>
+
 * When implicitly renamed in the deployment manifest
 * When deleted from the deployment manifest
 
@@ -25,7 +27,8 @@ You can specify that a deployment job needs an attached persistent disk in one o
 * [Persistent Disk declaration](#persistent-disk)
 * [Persistent Disk Pool declaration](#persistent-disk-pool)
 
-## <a id='persistent-disk'></a>Persistent Disk Declaration ##
+---
+## <a id='persistent-disk'></a>Persistent Disk Declaration
 
 To specify that a deployment job needs an attached persistent disk, add a `persistent_disk` key-value pair to job in the [Jobs](deployment-manifest.html#jobs) block of your deployment manifest.
 
@@ -45,9 +48,10 @@ jobs:
   - name: default
 ```
 
-<p class="note"><strong>Note</strong>: If you use persistent disk declaration, you cannot specify the persistent disk type or size that the CPI attaches to your job VMs. Instead, the CPI uses its default disk configuration when deploying the VMs.</p>
+<p class="note">Note: If you use persistent disk declaration, you cannot specify the persistent disk type or size that the CPI attaches to your job VMs. Instead, the CPI uses its default disk configuration when deploying the VMs.</p>
 
-## <a id='persistent-disk-pool'></a>Persistent Disk Pool Declaration ##
+---
+## <a id='persistent-disk-pool'></a>Persistent Disk Pool Declaration
 
 To specify that a deployment job needs an attached persistent disk, add a [Disk Pool](deployment-manifest.html#disk-pools) block to your deployment manifest.
 
@@ -84,11 +88,13 @@ jobs:
   - name: default
 ```
 
-## <a id='checking-stats'></a>Checking Stats ##
+---
+## <a id='checking-stats'></a>Checking Stats
 
 After your deployment completes, run `bosh vms --vitals` from a terminal window to view persistent disk usage percentage values under `Persistent Disk Usage`.
 
-## <a id='accessing-persistent-disk'></a>Accessing Persistent Disks ##
+---
+## <a id='accessing-persistent-disk'></a>Accessing Persistent Disks
 
 The CPI mounts persistent disks `/var/vcap/store` on deployed VMs, and persists any files stored in `/var/vcap/store`.
 
@@ -96,13 +102,14 @@ You specify release jobs using the `templates` key when defining a deployment jo
 
 For example, a `redis` release job creates the following directory: `/var/vcap/store/redis`
 
-## <a id='changing-persistent-disk'></a>Changing Disk Properties ##
+---
+## <a id='changing-persistent-disk'></a>Changing Disk Properties
 
 BOSH allows you to change disk types and sizes by modifying the deployment manifest. As long as the deployment job name stays the same, existing persistent disks will be converted to match the requested disk type and size.
 
-During the disk migration from one disk type and size to another, the BOSH Director communicates with the BOSH Agent to attach both existing and newly created disk to the same VM and copy over any existing data. After the transfer successfully completes, BOSH deletes the original disk and keeps the new disk attached to the VM instance.
+During the disk migration from one disk type and size to another, the Director communicates with the Agent to attach both existing and newly created disk to the same VM and copy over any existing data. After the transfer successfully completes, the Director deletes the original disk and keeps the new disk attached to the VM instance.
 
-<p class="note"><strong>Note</strong>: An IaaS might disallow attaching particular disk types and sizes to certain VMs types. Consult your IaaS documentation for more information.</p>
+<p class="note">Note: An IaaS might disallow attaching particular disk types and sizes to certain VMs types. Consult your IaaS documentation for more information.</p>
 
 ---
 [Back to Table of Contents](index.html#deployment-config)

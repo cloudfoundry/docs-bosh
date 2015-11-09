@@ -2,13 +2,13 @@
 title: Director SSL Certificate Configuration
 ---
 
-## Generate a CA Certificate and sign new SSL Certificates
+## <a id="generate"></a> Generate SSL certificates
 
 Depending on you configuration, there are up to three endpoints to be secured using SSL certificates: The Director, the UAA, and the SAML Service Provider on the UAA.
 
 <p class="note">Note: If you are using the UAA for user management, an SSL certificate is mandatory for the Director and the UAA.</p>
 
-You can use the following script to generate a rootCA certificate and use it to sign three generated SSL certificates:
+You can use the following script to generate a root CA certificate and use it to sign three generated SSL certificates:
 
 <pre class="bash">
 #!/bin/bash
@@ -65,7 +65,10 @@ ls -la .
 </pre>
 
 ---
-## Put the certs in the Director deployment manifest:
+## <a id="configure"></a> Configure the Director to use certificates
+
+Update the Director deployment manifest:
+
 - `director.ssl.key`
     - Private key for the Director (e.g. `certs/director.key`)
 - `director.ssl.cert`
@@ -85,7 +88,7 @@ If you are using the UAA for user management, additionally put certificates in t
     - Associated certificate for the UAA (e.g. `certs/uaa-sp.crt`)
 
 ---
-## Target the Director
+## <a id="target"></a> Target the Director
 
 After you deployed your Director with the above changes, you need to specify `--ca-cert` when targeting the Director:
 
