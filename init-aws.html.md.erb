@@ -172,29 +172,10 @@ To configure your AWS account for MicroBOSH:
 * [Create a Key Pair](#create-key-pair)
 * [Create and Configure Security Group](#create-security)
 
+---
 ### <a id="credentials"></a> Obtain AWS Credentials
 
-Your AWS credentials consist of an Access Key ID and a Secret Access Key. If you already know your AWS credentials you can skip this step and replace `ACCESS-KEY-ID` and `SECRET-ACCESS-KEY` in your deployment manifest.
-
-1. Log into the AWS console: [https://console.aws.amazon.com/console/home](https://console.aws.amazon.com/console/home).
-
-    <%= image_tag("images/deploy-microbosh-to-aws/account-dashboard.png") %>
-
-1. Click your account name and select **Security Credentials**.
-
-    <%= image_tag("images/deploy-microbosh-to-aws/security-credentials-menu.png") %>
-
-1. If the AWS IAM confirmation box is presented, click **Continue to Security Credentials** to display the Security Credentials page.
-
-1. Expand the **Access Keys** section and click **Create New Access Key**.
-
-    <%= image_tag("images/deploy-microbosh-to-aws/security-credentials-dashboard.png") %>
-
-1. Replace `ACCESS-KEY-ID` and `SECRET-ACCESS-KEY` in your deployment manifest with the **Access Key ID** and **Secret Access Key** shown.
-
-    <%= image_tag("images/deploy-microbosh-to-aws/access-keys-modal.png") %>
-
-1. Close the dialog box.
+Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow [Creating IAM Users](aws-iam-users.html#create) to create a new IAM user and replace `ACCESS-KEY-ID` and `SECRET-ACCESS-KEY` in your deployment manifest.
 
 ---
 ### <a id="create-vpc"></a> Create a Virtual Private Cloud (VPC)
