@@ -15,14 +15,14 @@ This document lists several common problems. If you are looking for CPI specific
 $ bosh deploy
 ...
 
-	Failed creating bound missing vms > cloud_controller_worker/0: Timed out pinging to 013ce5c9-e7fc-4f1d-ac24-0c0eaab836ce after 600 seconds (00:16:03)
-  Failed creating bound missing vms > uaa/0: Timed out pinging to b029652d-14c3-4d68-98c7-6d3f4b267d17 after 600 seconds (00:16:12)
-  Failed creating bound missing vms > uaa/0: Timed out pinging to 1f56ddd1-7f2d-4afc-ae43-ec3ab973bffa after 600 seconds (00:16:23)
-  Failed creating bound missing vms > loggregator_trafficcontroller/0: Timed out pinging to 28790bac-99a2-4703-89ad-f697c2672ea3 after 600 seconds (00:16:25)
-  Failed creating bound missing vms > health_manager/0: Timed out pinging to 720b805b-928c-4bb7-b6dd-36d4f874e475 after 600 seconds (00:16:52)
+  Failed creating bound missing vms > cloud_controller_worker/0: Timed out pinging to 013ce5c9-e7fc-4f1d-ac24 after 600 seconds (00:16:03)
+  Failed creating bound missing vms > uaa/0: Timed out pinging to b029652d-14c3-4d68-98c7 after 600 seconds (00:16:12)
+  Failed creating bound missing vms > uaa/0: Timed out pinging to 1f56ddd1-7f2d-4afc-ae43 after 600 seconds (00:16:23)
+  Failed creating bound missing vms > loggregator_trafficcontroller/0: Timed out pinging to 28790bac-99a2-4703-89ad after 600 seconds (00:16:25)
+  Failed creating bound missing vms > health_manager/0: Timed out pinging to 720b805b-928c-4bb7-b6dd after 600 seconds (00:16:52)
   Failed creating bound missing vms (00:16:53)
 
-Error 450002: Timed out pinging to 013ce5c9-e7fc-4f1d-ac24-0c0eaab836ce after 600 seconds
+Error 450002: Timed out pinging to 013ce5c9-e7fc-4f1d-ac24 after 600 seconds
 
 Task 45 error
 
@@ -103,7 +103,8 @@ irb(main):001:0> Bosh::Director::Models::RenderedTemplatesArchive.count
 ---
 ## <a id="canceled-task"></a> Task X cancelled
 
-```
+<pre class="terminal">
+$ bosh deploy
 ...
 
   Started preparing package compilation > Finding packages to compile. Done (00:00:01)
@@ -112,6 +113,6 @@ irb(main):001:0> Bosh::Director::Models::RenderedTemplatesArchive.count
 Error 10001: Task 106 cancelled
 
 Task 106 cancelled
-```
+</pre>
 
 This problem typically occurs if the Director's system time is out of sync, or if the Director machine is underpowered.
