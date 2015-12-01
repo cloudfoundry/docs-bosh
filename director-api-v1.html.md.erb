@@ -2,7 +2,7 @@
 title: Director API v1
 ---
 
-<p class="note">Note: Before using the Director API directly, we strongly encourage to consider using the CLI for automatation such as performing a scheduled deploy from a CI. We hope that you will open a <a href="https://github.com/cloudfoundry/bosh/issues">GitHub issue</a> to share your use cases so that we can suggest or possibly make additions to the CLI.</a>
+<p class="note">Note: Before using the Director API directly, we strongly encourage to consider using the CLI for automation such as performing a scheduled deploy from a CI. We hope that you will open a <a href="https://github.com/cloudfoundry/bosh/issues">GitHub issue</a> to share your use cases so that we can suggest or possibly make additions to the CLI.</a>
 
 This document lists common API endpoints provided by the Director.
 
@@ -59,7 +59,7 @@ Once a Director task is created, clients can follow its progress by polling [`GE
 - **version** [String]: Version of the Director software.
 - **user** [String or null]: Logged in user's user name if authentication is provided, otherwise null.
 - **cpi** [String]: Name of the CPI the Director will use.
-- **user_authentication** [Hash]: Cloud ID of the stemcell.
+- **user_authentication** [Hash]:
 	- **type** [String]: Type of the authentication the Director is configured to expect.
 	- **options** [Hash]: Additional information provided to how authentication should be performed.
 
@@ -370,19 +370,19 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/releases | jq .
 
 **[root]** [Array]: List of deployments.
 
-- **name** [String]: Name of the stemcell.
+- **name** [String]: Name of the deployment.
 - **cloud_config** [String]: Indicator whether latest cloud config is used for this deployment. Possible values: `none`, `outdated`, `latest`.
-- **releases** [Array]: List of release versions used by the deploymemt.
+- **releases** [Array]: List of releases used by the deployment.
 	- **name** [String]: Name of the release.
 	- **version** [String]: Version of the release.
-- **stemcells** [Array]: List of stemcell versions used by the deploymemt.
+- **stemcells** [Array]: List of stemcells used by the deploymemt.
 	- **name** [String]: Name of the stemcell.
 	- **version** [String]: Version of the stemcell.
 
 #### Example
 
 <pre class="terminal">
-$ curl -v -s -k https://admin:admin@192.168.50.4:25555/stemcells | jq .
+$ curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments | jq .
 </pre>
 
 ```yaml
