@@ -58,7 +58,9 @@ resource_pools:
     disk: 10_240
 
     datacenters:
-    - {name: my-dc, clusters: [my-vsphere-cluster]}
+    - name: my-dc
+      clusters:
+      - my-vsphere-cluster: {}
 ```
 
 And an example of a VM asked to be placed into a specific cluster in a specified vSphere resource pool:
