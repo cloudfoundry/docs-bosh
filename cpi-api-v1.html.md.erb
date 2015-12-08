@@ -183,7 +183,9 @@ See [Agent Configuration](vm-config.html#agent) for an overview of the Agent con
 ---
 ### <a id="delete-vm"></a> `delete_vm`
 
-Deletes the VM. Assume that all disks were detached.
+Deletes the VM.
+
+This method will be called while the VM still has persistent disks attached. It's important to make sure that IaaS behaves appropriately in this case and properly disassociates persistent disks from the VM.
 
 To avoid losing track of VMs, make sure to raise an error if VM deletion is not absolutely certain.
 
@@ -236,10 +238,7 @@ No return value
 
 Sets VM's metadata to make it easier for operators to find categorize VMs when looking at the IaaS management console. For example AWS CPI uses tags to store metadata for operators to see in the AWS Console.
 
-We recommend to set VM name based on the following conditions:
-
-- "<job>/<id>" if `job` and `id` are present
-- "<job>/<index>" if `job` and `index` are present and `id` is not present
+We recommend to set VM name based on sometimes provided `name` key.
 
 #### Arguments
 
@@ -254,6 +253,7 @@ We recommend to set VM name based on the following conditions:
 	{
 		"director": "director-784430",
 		"deployment": "redis",
+		"name": "redis/ce7d2040-212e-4d5a-a62d-952a12c50741",
 		"job": "redis",
 		"id": "ce7d2040-212e-4d5a-a62d-952a12c50741",
 		"index": "1"
@@ -433,6 +433,8 @@ For the Agent to eventually format, partition and mount attached disk, it needs 
 ### <a id="detach-disk"></a> `detach_disk`
 
 Detaches disk from the VM.
+
+If the persistent disk is attached to a VM that will be deleted, it's more likely `delete_vm` CPI method will be called without a call to `detach_dis` with an expectation that `delete_vm` will make sure disks are disassociated from the VM upon its deletion.
 
 Agent settings should have been updated to remove information about given disk.
 
