@@ -8,7 +8,7 @@ This topic describes cloud properties for different resources created by the Ope
 
 Schema for `cloud_properties` section used by dynamic network or manual network subnet:
 
-* **net_id** [String, required]: Subnet ID in which the instance will be created. Example: `net-b98ab66e-6fae-4c6a-81af-566e630d21d1`.
+* **net_id** [String, required]: Network ID containing the subnet in which the instance will be created. Example: `net-b98ab66e-6fae-4c6a-81af-566e630d21d1`.
 * **security_groups** [Array, optional]: Array of security groups to apply for all VMs that are placed on this network. Defaults to security groups specified by `default_security_groups` in the global CPI settings unless security groups are specified on a resource pool for a VM. Security groups can be specified either on a resource pool or on a network.
 
 Example of manual network:
