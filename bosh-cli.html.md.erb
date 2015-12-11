@@ -30,6 +30,10 @@ $ sudo yum install gcc ruby ruby-devel mysql-devel postgresql-devel postgresql-l
 
 ### Prerequisites on Mac OS X
 
+You may see an error like this: <pre>ERROR:  While executing gem ... (Gem::FilePermissionError) ↵ You don't have write permissions for the /Library/Ruby/Gems/2.0.0 directory.</pre>
+
+Instead of using the system Ruby, install a separate Ruby for your own use, and switch to that one using a package like RVM, rbenv, or chruby.
+
 You may see an error like this: <pre>The compiler failed to generate an executable file. (RuntimeError). You have to install development tools first.</pre>
 
 Make sure you have installed Xcode and the command-line developer tools, and agreed to the license.
