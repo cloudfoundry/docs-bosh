@@ -226,7 +226,7 @@ update:
 * **persistent_disk** [Integer, optional]: Specifies the persistent disk size; defaults to 0 (no persistent disk). If `persistent_disk` is a positive integer, BOSH creates a persistent disk of that size in megabytes and attaches it to each job instance VM. [Read more about persistent disks](./persistent-disks.html)
 * **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job, and override any identically named global properties.
 * **resource_pool** [String, required]: A valid resource pool name from the Resource Pools block. BOSH runs instances of this job in a VM from the named resource pool.
-* **update** [Hash, optional]: Specific update settings for this job. Use this to overriding [global job update settings](#update) on a per-job basis.
+* **update** [Hash, optional]: Specific update settings for this job. Use this to override [global job update settings](#update) on a per-job basis.
 * **instances** [Integer, required]: The number of job instances. Each instance is a VM running this particular job.
 * **networks** [Array, required]: Specifies the networks this job requires. Each network can have the following properties specified:
   * **name** [String, required]: A valid network name from the Networks block
