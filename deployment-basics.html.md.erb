@@ -33,7 +33,7 @@ jobs:
 ---
 ## <a id='resource-pools'></a> Resource Pools
 
-Since each job instance will run on a single machine (a VM or a container), it needs to reference a stemcell. Hence each deployment job belongs to exactly one resource pool. A _resource pool_ is a collection of machines (VMs) that are created from a specific stemcell. Resource pools are also defined by the operator in the deployment manifest. In addition to specifying a stemcell, the resource pool definition allows the operator to specify VM size, instance type, and other IaaS-specific characteristics that are used when creating VMs. For example, the `redis-master` resource pool for Redis servers, referenced by the `redis-master` job in the above example, might look something like this on AWS:
+Since each job instance will run on a single machine (a VM or a container), it needs to reference a stemcell. Hence each deployment job belongs to exactly one resource pool. A _resource pool_ is a collection of machines (VMs) that are created from a specific stemcell. Resource pools are also defined by the operator in the deployment manifest. In addition to specifying a stemcell, the resource pool definition allows the operator to specify VM size, instance type, and other IaaS-specific characteristics that are used when creating VMs. For example, the `redis-servers` resource pool for Redis servers, referenced by the `redis-master` job in the above example, might look something like this on AWS:
 
 ```yaml
 resource_pools:
