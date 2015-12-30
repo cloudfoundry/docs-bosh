@@ -62,6 +62,10 @@ Schema for `cloud_properties` section:
     * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `standard`.
         * `standard` stands for EBS magnetic drives
         * `gp2` stands for EBS general purpose drives (SSD)
+        * `io1` stands for EBS provisioned IOPS drives (SSD)
+    * **iops** [Integer, optional]: Specifies the number of I/O operations per second to provision for the drive.
+        * Only valid for `io1` type drive.
+        * Required when `io1` type drive is specified.
 * **root_disk** [Hash, optional]: EBS backed root disk of custom size.
     * **size** [Integer, required]: Specifies the disk size in megabytes.
     * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `standard`.
@@ -90,6 +94,10 @@ Schema for `cloud_properties` section:
 * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `standard`.
   * `standard` stands for EBS magnetic drives
   * `gp2` stands for EBS general purpose drives (SSD)
+  * `io1` stands for EBS provisioned IOPS drives (SSD)
+* **iops** [Integer, optional]: Specifies the number of I/O operations per second to provision for the drive.
+  * Only valid for `io1` type drive.
+  * Required when `io1` type drive is specified.
 * **encrypted** [Boolean, optional]: Turns on [EBS volume encryption](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html) for this persistent disk. VM root and ephemeral disk are not encrypted. Defaults to `false`.
 
 EBS volumes are created in the availability zone of an instance that volume will be attached.
