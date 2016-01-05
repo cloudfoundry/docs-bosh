@@ -20,6 +20,19 @@ Make sure following packages are installed:
 $ sudo apt-get install build-essential ruby ruby-dev libxml2-dev libsqlite3-dev libxslt1-dev libpq-dev libmysqlclient-dev zlib1g-dev
 </pre>
 
+Troubleshooting:
+Even though you have installed ruby, you may see an error message lke this when installing bosh_cli. 
+
+<pre class="terminal">
+$ The program 'gem' can be found in the following packages:
+ * ruby
+ * rubygems
+Try: sudo apt-get install <selected package>
+</pre>
+
+This is because you have not added the gems environment to your path. Export the corresponding path and the issue will be resolved. 
+
+
 ### Prerequisites on CentOS
 
 Make sure following packages are installed:
