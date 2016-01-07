@@ -10,9 +10,8 @@ There are several stages that each release job goes through during a deployment 
 1. `monit start` is called for each process
 1. monit will automatically restart processes that exited
 1. `monit unmonitor` is called for each process
-	- (waits for all pre-start scripts to finish)
 1. [drain scripts](drain.html) run for all release jobs
-	- (waits for all pre-start scripts to finish)
+	- (waits for all drain scripts to finish)
 1. `monit stop` is called for each process
 
 ---
