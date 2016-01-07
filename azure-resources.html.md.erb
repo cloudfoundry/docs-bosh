@@ -1,0 +1,232 @@
+---
+title: Creating Azure Resources
+---
+
+## <a id="subscription"></a> Subscription
+
+To find out subscription and tenant ID use following commands:
+
+<pre class="terminal">
+$ azure config mode arm
+
+$ azure login
+
+$ azure account list --json
+[
+  {
+    "id": "3c39a033-c306-4615-a4cb-260418d63879",
+    "name": "subscription-anme",
+    "user": { "name": "Sample Account", "type": "user" },
+    "tenantId": "0412d4fa-43d2-414b-b392-25d5ca46561da",
+    "state": "Enabled",
+    "isDefault": true,
+    "registeredProviders": [],
+    "environmentName": "AzureCloud"
+  }
+]
+</pre>
+
+<p class="note">Note: If `tenantId` is not present, you may be using a personal account to log in to your Azure subscription. Switch to using work or school account.</p>
+
+Once you've determined your subscription ID, switch to using that account:
+
+<pre class="terminal">
+$ azure account set 3c39a033-c306-4615-a4cb-260418d63879
+</pre>
+
+---
+## <a id="client"></a> Client
+
+Azure CPI needs client ID and secret to make authenticated requests.
+
+<pre class="terminal extra-wide">
+$ azure ad app create --name "BOSH CPI" --password client-secret --identifier-uris "http://BOSHAzureCPI" --home-page "http://BOSHAzureCPI"
+info:    Executing command ad app create
++ Creating application Service Principal for BOSH
+data:    Application Id:          33e56099-0bde-8z93-a005-89c0f6df7465
+data:    Application Object Id:   a4f0d442-af80-4d98-9cba-6bf1459ad1ea
+data:    Application Permissions:
+data:                             claimValue:  user_impersonation
+data:                             description:  Allow the application to access Service Principal for BOSH on behalf of the signed-in user.
+data:                             directAccessGrantTypes:
+data:                             displayName:  Access Service Principal for BOSH
+data:                             impersonationAccessGrantTypes:  impersonated=User, impersonator=Application
+data:                             isDisabled:
+data:                             origin:  Application
+data:                             permissionId:  1a1eb6d1-26ca-47de-abdb-365f54560e55
+data:                             resourceScopeType:  Personal
+data:                             userConsentDescription:  Allow the applicationto access Service Principal for BOSH on your behalf.
+data:                             userConsentDisplayName:  Access Service Principal for BOSH
+data:                             lang:
+info:    ad app create command OK
+</pre>
+
+Application ID (`33e56099-0bde-8z93-a005-89c0f6df7465` in the above output) is the client ID and specified password (`client-secret` in above example) is the client secret.
+
+Finally create service principle to enable authenticated access:
+
+<pre class="terminal">
+$ azure ad sp create 33e56099-0bde-8z93-a005-89c0f6df7465
+$ azure role assignment create --roleName "Contributor" --spn "http://BOSHAzureCPI" --subscription 3c39a033-c306-4615-a4cb-260418d63879
+</pre>
+
+---
+## <a id="res-group"></a> Resource Group
+
+Create a resource group in one of the supported [Azure locations](http://azure.microsoft.com/en-us/regions/):
+
+<pre class="terminal">
+$ azure group create --name bosh-res-group --location "Central US"
+
+$ azure group show --name bosh-res-group
+info:    Executing command group show
++ Listing resource groups
++ Listing resources for the group
+data:    Id:                  /subscriptions/3c39a033-c306-4615-a4cb-260418d63879/resourceGroups/bosh-res-group
+data:    Name:                bosh-res-group
+data:    Location:            eastasia
+data:    Provisioning State:  Succeeded
+data:    Tags: null
+data:    Resources:  []
+data:    Permissions:
+data:      Actions: *
+data:      NotActions: Microsoft.Authorization/*/Write,Microsoft.Authorization/*/Delete
+data:
+info:    group show command OK
+</pre>
+
+Make sure to wait for 'Provisioning State' to become `Succeeded`.
+
+---
+## <a id="virtual-network"></a> Virtual Network & Subnet
+
+Create a virtual network:
+
+<pre class="terminal extra-wide">
+$ azure network vnet create --name boshnet --address-prefixes 10.0.0.0/8 --resource-group bosh-res-group --location "Central US"
+$ azure network vnet subnet create --name bosh --address-prefix 10.0.0.0/24 --vnet-name boshnet --resource-group bosh-res-group
+
+$ azure network vnet show --name boshnet --resource-group bosh-res-group
+info:    Executing command network vnet show
++ Looking up virtual network "boshvnet-crp"
+data:    Id                              : /subscriptions/3c39a033-c306-4615-a4cb-260418d63879/resourceGroups/bosh-res-group/providers/Microsoft.Network/virtualNetworks/boshvnet-crp
+data:    Name                            : boshvnet-crp
+data:    Type                            : Microsoft.Network/virtualNetworks
+data:    Location                        : eastasia
+data:    ProvisioningState               : Succeeded
+data:    Address prefixes:
+data:      10.0.0.0/8
+data:    Subnets:
+data:      Name                          : BOSH
+data:      Address prefix                : 10.0.0.0/20
+data:
+data:      Name                          : CloudFoundry
+data:      Address prefix                : 10.0.16.0/20
+data:
+info:    network vnet show command OK
+</pre>
+
+---
+## <a id="storage-account"></a> Storage Account
+
+Create a default storage account to hold root disks, persistent disks, stemcells, etc.:
+
+<pre class="terminal">
+$ azure storage account create boshstore --resource-group bosh-res-group --location "Central US"
+
+$ azure storage account show boshstore --resource-group bosh-res-group
++ Getting storage account
+data:    Name: boshstore
+data:    Url: /subscriptions/3c39a033-c306-4615-a4cb-260418d63879/resourceGroups/bosh-res-group/providers/Microsoft.Storage/storageAccounts/boshstore
+data:    Type: Standard_GRS
+data:    Resource Group: bosh-res-group
+data:    Location: East Asia
+data:    Provisioning State: Succeeded
+data:    Primary Location: East Asia
+data:    Primary Status: available
+data:    Secondary Location: Southeast Asia
+data:    Creation Time: 2015-11-02T05:35:27.0572370Z
+data:    Primary Endpoints: blob https://boshstore.blob.core.windows.net/
+data:    Primary Endpoints: queue https://boshstore.queue.core.windows.net/
+data:    Primary Endpoints: table https://boshstore.table.core.windows.net/
+info:    storage account show command OK
+</pre>
+
+<p class="note">Note: Even if create command returns an error, check whether the storage account is created successfully via `storage account show` command.</a>
+
+Once storage account is created you can retrieve primary storage access key:
+
+<pre class="terminal">
+$ azure storage account keys list boshstore --resource-group bosh-res-group
+info:    Executing command storage account keys list
+Resource group name: bosh-res-group
++ Getting storage account keys
+data:    Primary: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+data:    Secondary: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+info:    storage account keys list command OK
+</pre>
+
+---
+### <a id="storage-account-container"></a> Storage Account Containers
+
+CPI expects to find `bosh` and `stemcell` containers within a default storage account:
+
+- `bosh` container is used for storing root and persistent disks.
+- `stemcell` container is used for storing uploaded stemcells.
+
+<p class="note">Note: If you are planning to use multiple storage accounts, make sure to set stemcell container permissions to "Public read access for blobs only".</a>
+
+<pre class="terminal">
+$ azure storage container create --container bosh     --account-name boshstore --account-key xxx
+$ azure storage container create --container stemcell --account-name boshstore --account-key xxx --permission Blob
+
+$ azure storage container list --account-name boshstore --account-key xxx
+info:    Executing command storage container list
++ Getting storage containers
+data:    Name      Public-Access  Last-Modified
+data:    --------  -------------  -----------------------------
+data:    bosh      Off            Mon, 02 Nov 2015 01:52:33 GMT
+data:    stemcell  Blob           Mon, 02 Nov 2015 02:02:59 GMT
+info:    storage container list command OK
+</pre>
+
+---
+### <a id="storage-account-tables"></a> Storage Account Tables
+
+To support multiple storage accounts, you need to create the following tables in the default storage account:
+
+- `stemcells` is used to store metadata of stemcells in multiple storage accounts
+
+<pre class="terminal">
+$ azure storage table create --table stemcells --account-name boshstore --account-key xxx
+
+$ azure storage table list --account-name boshstore --account-key xxx
+info:    Executing command storage table list
++ Getting storage tables
+data:    Name
+data:    ---------
+data:    stemcells
+info:    storage table list command OK
+</pre>
+
+---
+## <a id="public-ips"></a> Public IPs
+
+To make certain VMs publicly accessible, you will need to create a Public IP:
+
+<pre class="terminal extra-wide">
+$ azure network public-ip create --name my-public-ip --allocation-method Static --resource-group bosh-res-group --location "Central US"
+
+$ azure network public-ip show --name my-public-ip --resource-group bosh-res-group
+info:    Executing command network public-ip show
++ Looking up the public ip "my-public-ip"
+data:    Id                              : /subscriptions/3c39a033-c306-4615-a4cb-260418d63879/resourceGroups/bosh-res-group/providers/Microsoft.Network/publicIPAddresses/my-public-ip
+data:    Name                            : my-public-ip
+data:    Type                            : Microsoft.Network/publicIPAddresses
+data:    Location                        : eastasia
+data:    Provisioning state              : Succeeded
+data:    Allocation method               : Static
+data:    Idle timeout                    : 4
+data:    IP Address                      : 23.99.103.110
+info:    network public-ip show command OK
+</pre>

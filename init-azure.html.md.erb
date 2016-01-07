@@ -1,0 +1,230 @@
+---
+title: Initializing BOSH environment on Azure
+---
+
+This document shows how to initialize new [environment](terminology.html#environment) on Microsoft Azure.
+
+## <a id="create-manifest"></a>Step 1: Create a Deployment Manifest
+
+1. Create a deployment directory.
+
+    <pre class='terminal'>
+    $ mkdir ~/my-bosh
+    </pre>
+
+1. Create a deployment manifest file named `bosh.yml` in the deployment directory based on the template below.
+
+    In the template, you must fill in relevant properties to your Azure accout. We describe replacing them below.
+
+    <p class="note"><strong>Note</strong>: The example below uses several predefined passwords. We strongly recommend replacing them with uniquely generated passwords.</p>
+
+<pre>
+---
+name: bosh
+
+releases:{{ range .Releases }}
+- name: {{ .Name }}
+  url: {{ .UserVisibleDownloadURL }}
+  sha1: {{ .TarballSHA1 }}{{ end }}
+
+resource_pools:
+- name: vms
+  network: private
+  stemcell:
+    url: https://bosh.io/d/stemcells/bosh-azure-hyperv-ubuntu-trusty-go_agent?v=3169
+    sha1: ff13c47ac7ce121dee6153c1564bd8965edf9f59
+  cloud_properties:
+    instance_type: Standard_D1
+
+disk_pools:
+- name: disks
+  disk_size: 20_000
+
+networks:
+- name: private
+  type: manual
+  subnets:
+  - range: 10.0.0.0/24
+    gateway: 10.0.0.1
+    dns: [8.8.8.8]
+    cloud_properties:
+      virtual_network_name: VNET-NAME # <--- Replace
+      subnet_name: SUBNET-NAME # <--- Replace
+
+jobs:
+- name: bosh
+  instances: 1
+
+  templates:
+  - {name: nats, release: bosh}
+  - {name: redis, release: bosh}
+  - {name: postgres, release: bosh}
+  - {name: blobstore, release: bosh}
+  - {name: director, release: bosh}
+  - {name: health_monitor, release: bosh}
+  - {name: registry, release: bosh}
+  - {name: cpi, release: bosh-azure-cpi}
+
+  resource_pool: vms
+  persistent_disk_pool: disks
+
+  networks:
+  - name: private
+    static_ips: [10.0.0.4]
+    default: [dns, gateway]
+
+  properties:
+    nats:
+      address: 127.0.0.1
+      user: nats
+      password: nats-password
+
+    redis:
+      listen_address: 127.0.0.1
+      address: 127.0.0.1
+      password: redis-password
+
+    postgres: &db
+      listen_address: 127.0.0.1
+      host: 127.0.0.1
+      user: postgres
+      password: postgres-password
+      database: bosh
+      adapter: postgres
+
+    registry:
+      address: 10.0.0.4
+      host: 10.0.0.4
+      db: *db
+      http: {user: admin, password: admin, port: 25777}
+      username: admin
+      password: admin
+      port: 25777
+
+    blobstore:
+      address: 10.0.0.4
+      port: 25250
+      provider: dav
+      director: {user: director, password: director-password}
+      agent: {user: agent, password: agent-password}
+
+    director:
+      address: 127.0.0.1
+      name: my-bosh
+      db: *db
+      cpi_job: cpi
+      max_threads: 10
+      user_management:
+        provider: local
+        local:
+          users:
+          - {name: admin, password: admin}
+          - {name: hm, password: hm-password}
+
+    hm:
+      director_account: {user: hm, password: hm-password}
+      resurrector_enabled: true
+
+    azure: &azure
+      environment: AzureCloud
+      subscription_id: SUBSCRIPTION-ID # <--- Replace
+      tenant_id: TENANT-ID # <--- Replace
+      client_id: CLIENT-ID # <--- Replace
+      client_secret: CLIENT-SECRET # <--- Replace
+      resource_group_name: RESOURCE-GROUP-NAME # <--- Replace
+      storage_account_name: STORAGE-ACCOUNT-NAME # <--- Replace
+      storage_access_key: STORAGE-ACCESS-KEY # <--- Replace
+      ssh_user: vcap
+      ssh_certificate: SSH-CERTIFICATE # <--- Replace
+
+    agent: {mbus: "nats://nats:nats-password@10.0.0.4:4222"}
+
+    ntp: &ntp [0.pool.ntp.org, 1.pool.ntp.org]
+
+cloud_provider:
+  template: {name: cpi, release: bosh-azure-cpi}
+
+  ssh_tunnel:
+    host: 10.0.0.4
+    port: 22
+    user: vcap
+    private_key: ./bosh.pem # Path relative to this manifest file
+
+  mbus: "https://mbus:mbus-password@10.0.0.4:6868"
+
+  properties:
+    azure: *azure
+    agent: {mbus: "https://mbus:mbus-password@0.0.0.0:6868"}
+    blobstore: {provider: local, path: /var/vcap/micro_bosh/data/cache}
+    ntp: *ntp
+</pre>
+
+---
+## <a id="prepare"></a> Step 2: Prepare an Azure Environment
+
+To prepare your Azure environment find out and/or create any missing resources in Azure used in the manifest. If you are not familiar with Azure take a look at [Creating Azure resources](azure-resources.html) page for more details on how to create and configure necessary resources:
+
+- Replace `SUBSCRIPTION-ID` (e.g. '3c39a033-c306-4615-a4cb-260418d63879')
+
+- Replace `TENANT-ID` (e.g. '0412d4fa-43d2-414b-b392-25d5ca46561da')
+
+- Replace `CLIENT-ID` (e.g. '33e56099-0bde-8z93-a005-89c0f6df7465')
+
+- Replace `CLIENT-SECRET` (e.g. 'client-secret')
+
+- Replace `RESOURCE-GROUP-NAME` (e.g. 'bosh-res-group')
+
+- Replace `STORAGE-ACCOUNT-NAME` (e.g. 'boshstore')
+
+- Replace `STORAGE-ACCESS-KEY` (e.g. '+o9EVnno8ja5OzQim6...fQkVGbvoQmazl+Nlg==')
+
+- Replace `VNET-NAME` (e.g. 'boshnet') with a name of created Virtual Network.
+
+- Replace `SUBNET-NAME` (e.g. 'bosh'). Deployment manifest assumes that the subnet is `10.0.0.0/24` and Director VM will be placed at `10.0.0.4`.
+
+- Replace `SSH-CERTIFICATE` with a generated SSH certificate (found in `./bosh.crt`):
+
+    <pre class="terminal">
+    $ openssl genrsa -out ./bosh.pem 2048
+    $ openssl req -new -x509 -days 365 -key ./bosh.pem -out ./bosh.crt
+    </pre>
+
+    Keep `bosh.pem` next to `bosh.yml` as it will be used by bosh-init during the deploy.
+
+---
+## <a id="deploy"></a> Step 3: Deploy
+
+1. Install [bosh-init](./install-bosh-init.html).
+
+1. Run `bosh-init deploy ./bosh.yml` to start the deployment process.
+
+    <pre class='terminal'>
+    $ bosh-init deploy ./bosh.yml
+    ...
+    </pre>
+
+    See [Azure CPI errors](azure-cpi.html#errors) for list of common errors and resolutions.
+
+1. Install the [BOSH Command Line Interface (CLI)](./bosh-cli.html).
+
+1. Use `bosh target 10.0.0.4` to log into your new BOSH Director. Above manifest specifies username and password as `admin`.
+
+    <pre class="terminal">
+    $ bosh target 10.0.0.4
+
+    Target set to 'bosh'
+    Your username: admin
+    Enter password: *****
+    Logged in as 'admin'
+
+    $ bosh vms
+
+    No deployments
+    </pre>
+
+1. Save the deployment state file and `bosh.pem` left in your deployment directory so you can later update/delete your Director. See [Deployment state](using-bosh-init.html#deployment-state) section of 'Using bosh-init' for more details.
+
+---
+[Back to Table of Contents](index.html#install)
+
+Previous: [Bootstrapping an environment](init.html)
