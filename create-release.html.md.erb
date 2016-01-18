@@ -446,7 +446,7 @@ packaging script.
 
 * Begin each script with a `set -e -x` line.
 This aids debugging at compile time by causing the script to exit immediately
-if an error occurs.
+if a command exits with a non-zero exit code.
 
 * Ensure that any copying, installing or compiling delivers resulting code to
  the install target directory (represented as the `BOSH_INSTALL_TARGET`
