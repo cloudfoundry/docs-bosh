@@ -160,19 +160,12 @@ cloud_provider:
 ---
 ## <a id="prepare-openstack"></a>Step 2: Prepare an OpenStack environment
 
-To prepare your OpenStack project for deploying BOSH, use the OpenStack GUI to perform the following tasks:
-
-* Verify [Prerequisites](#prerequisites)
-* Create a [Keypair](#keypair).
-* Create and configure [Security Groups](#security-groups).
-* Allocate a [floating IP address](#floating-ip).
-
 ### <a id="prerequisites"></a> Prerequisites
 
 1. An OpenStack environment running one of the following supported releases:
-    * [Havana](http://www.openstack.org/software/havana)
     * [Icehouse](http://www.openstack.org/software/icehouse)
     * [Juno](http://www.openstack.org/software/juno)
+    * [Kilo](http://www.openstack.org/software/kilo)
 
     <p class="note">Note: Juno has a <a href="https://bugs.launchpad.net/nova/+bug/1396854">bug</a> that prevents BOSH to assign specific IPs to VMs. You have to apply a Nova patch to avoid this problem.</p>
 
@@ -193,6 +186,16 @@ To prepare your OpenStack project for deploying BOSH, use the OpenStack GUI to p
 1. A new OpenStack project.
 
 <p class="note"><strong>Note</strong>: See the <a href="http://docs.openstack.org/">OpenStack documentation</a> for help finding more information.</p>
+
+
+You need to prepare your OpenStack project for deploying BOSH:
+* Create a [Keypair](#keypair).
+* Create and configure [Security Groups](#security-groups).
+* Allocate a [floating IP address](#floating-ip).
+
+You can achieve this in two ways:
+* use the [Terraform enviroment template](https://github.com/cloudfoundry-incubator/bosh-openstack-environment-templates/tree/master/bosh-init-tf)
+* use the OpenStack GUI to perform the steps described below manually
 
 ---
 ### <a id="keypair"></a>Create a Keypair
