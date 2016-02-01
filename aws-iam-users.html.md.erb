@@ -40,20 +40,37 @@ title: Creating IAM Users
 
     <%= image_tag("images/deploy-microbosh-to-aws/add-iam-inline-policy.png") %>
 
-    For example your aws-cpi's inline policy allows full EC2 and ELB access:
+    For example your aws-cpi's inline policy allows EC2 and full ELB access:
 
     ```yaml
     {
       "Version": "2012-10-17",
       "Statement": [
         {
-          "Sid": "Stmt1448388791000",
+          "Action": [
+            "ec2:AssociateAddress",
+            "ec2:AttachVolume",
+            "ec2:CreateVolume",
+            "ec2:DeleteSnapshot",
+            "ec2:DeleteVolume",
+            "ec2:DescribeAddresses",
+            "ec2:DescribeImages",
+            "ec2:DescribeInstances",
+            "ec2:DescribeRegions",
+            "ec2:DescribeSecurityGroups",
+            "ec2:DescribeSnapshots",
+            "ec2:DescribeSubnets",
+            "ec2:DescribeVolumes",
+            "ec2:DetachVolume",
+            "ec2:CreateSnapshot",
+            "ec2:CreateTags",
+            "ec2:RunInstances",
+            "ec2:TerminateInstances"
+          ],
           "Effect": "Allow",
-          "Action": [ "ec2:*" ],
-          "Resource": [ "*" ]
+          "Resource": "*"
         },
         {
-          "Sid": "Stmt1448389431000",
           "Effect": "Allow",
           "Action": [ "elasticloadbalancing:*" ],
           "Resource": [ "*" ]

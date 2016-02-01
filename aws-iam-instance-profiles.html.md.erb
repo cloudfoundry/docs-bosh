@@ -18,7 +18,26 @@ You may have to create one or more IAM instance profiles to limit access to AWS 
     {
       "Version": "2012-10-17",
       "Statement": [{
-        "Action": "ec2:*",
+        "Action": [
+          "ec2:AssociateAddress",
+          "ec2:AttachVolume",
+          "ec2:CreateVolume",
+          "ec2:DeleteSnapshot",
+          "ec2:DeleteVolume",
+          "ec2:DescribeAddresses",
+          "ec2:DescribeImages",
+          "ec2:DescribeInstances",
+          "ec2:DescribeRegions",
+          "ec2:DescribeSecurityGroups",
+          "ec2:DescribeSnapshots",
+          "ec2:DescribeSubnets",
+          "ec2:DescribeVolumes",
+          "ec2:DetachVolume",
+          "ec2:CreateSnapshot",
+          "ec2:CreateTags",
+          "ec2:RunInstances",
+          "ec2:TerminateInstances"
+        ],
         "Effect": "Allow",
         "Resource": "*"
       },{
@@ -87,7 +106,26 @@ This configuration is similar to the previous one except that it's used when the
     {
       "Version": "2012-10-17",
       "Statement": [{
-        "Action": "ec2:*",
+        "Action": [
+          "ec2:AssociateAddress",
+          "ec2:AttachVolume",
+          "ec2:CreateVolume",
+          "ec2:DeleteSnapshot",
+          "ec2:DeleteVolume",
+          "ec2:DescribeAddresses",
+          "ec2:DescribeImages",
+          "ec2:DescribeInstances",
+          "ec2:DescribeRegions",
+          "ec2:DescribeSecurityGroups",
+          "ec2:DescribeSnapshots",
+          "ec2:DescribeSubnets",
+          "ec2:DescribeVolumes",
+          "ec2:DetachVolume",
+          "ec2:CreateSnapshot",
+          "ec2:CreateTags",
+          "ec2:RunInstances",
+          "ec2:TerminateInstances"
+        ],
         "Effect": "Allow",
         "Resource": "*"
       },{
