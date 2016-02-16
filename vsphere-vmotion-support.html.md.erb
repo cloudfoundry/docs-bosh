@@ -4,7 +4,7 @@ title: Storage DRS and vMotion Support
 
 <p class="note">Note: Storage DRS and vMotion can be used with bosh-vsphere-cpi v18+.</p>
 
-Prior to bosh-vsphere-cpi v18, storage DRS and vMotion were not supported since as the CPI was unable to located renamed disks.
+Prior to bosh-vsphere-cpi v18, Storage DRS and vMotion were not supported since the CPI was unable to locate renamed disks.
 Later versions of the CPI are able to locate disks migrated by vSphere as long as the disk is still attached to the expected VM.
 
 <p class="note">Warning: If a VM was accidentally deleted after a disk was migrated via DRS or vMotion, BOSH may be unable to locate the disk.</p>
