@@ -1,0 +1,19 @@
+---
+title: Storage DRS and vMotion Support
+---
+
+<p class="note">Note: Storage DRS and vMotion can be used with bosh-vsphere-cpi v18+.</p>
+
+Prior to bosh-vsphere-cpi v18, storage DRS and vMotion were not supported since as the CPI was unable to located renamed disks.
+Later versions of the CPI are able to locate disks migrated by vSphere as long as the disk is still attached to the expected VM.
+
+<p class="note">Warning: If a VM was accidentally deleted after a disk was migrated via DRS or vMotion, BOSH may be unable to locate the disk.</p>
+
+It is possible to recover the disk by following these steps:
+1. Locate the disk in the deleted VM's datastore. The folder will be named with the old VM's CID.
+1. Move the disk back to the `disk_path` folder specified in the manifest and rename the disk to the original disk CID.
+1. Run `bosh cck` to re-attach this disk to a new VM.
+---
+[Back to Table of Contents](index.html#cpi-config)
+
+Previous: [Migrating from one datastore to another](vsphere-migrate-datastores.html)
