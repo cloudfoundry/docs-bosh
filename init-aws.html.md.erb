@@ -18,6 +18,7 @@ This document shows how to initialize new [environment](terminology.html#environ
 
     <p class="note"><strong>Note</strong>: The example below uses several predefined passwords. We recommend replacing them with passwords of your choice.</p>
 
+<a id="bosh-manifest"></a>
 <pre>
 ---
 name: bosh
@@ -135,7 +136,7 @@ jobs:
       secret_access_key: SECRET-ACCESS-KEY # <--- Replace with AWS Secret Key
       default_key_name: bosh
       default_security_groups: [bosh]
-      region: us-east-1
+      region: REGION  # <--- Replace with Region
 
     agent: {mbus: "nats://nats:nats-password@10.0.0.6:4222"}
 
