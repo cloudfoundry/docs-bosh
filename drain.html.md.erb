@@ -28,6 +28,8 @@ templates:
 
 Drain script is usually just a regular shell script. Since drain script is executed in a similar way as other release job scripts (start, stop, pre-start scripts) you can use job's package dependencies.
 
+Drain script should be idempotent. It may be called multiple times before or after process is stopped.
+
 You must ensure that your drain script exits in one of following ways:
 
 - exit with a non-`0` exit code to indicate drain script failed
@@ -80,4 +82,4 @@ exit 0
 ---
 [Back to Table of Contents](index.html#release)
 
-Previous: [Pre-start script](pre-start.html)
+Previous: [Post-start script](post-start.html)

@@ -4,6 +4,27 @@ title: vSphere CPI
 
 This topic describes cloud properties for different resources created by the vSphere CPI.
 
+## <a id='azs'></a> AZs
+
+Schema for `cloud_properties` section:
+
+* **datacenters** [Array, optional]: Array of datacenters to use for VM placement. Must have only one and it must match datacenter configured in global CPI options.
+    * **name** [String, required]: Datacenter name.
+    * **clusters** [Array, required]: Array of clusters to use for VM placement.
+
+Example:
+
+```yaml
+azs:
+- name: z1
+  cloud_properties:
+    datacenters:
+    - name: my-dc
+      clusters:
+      - {my-vsphere-cluster: {resource_pool: my-vsphere-res-pool}}
+```
+
+---
 ## <a id='networks'></a> Networks
 
 Schema for `cloud_properties` section used by manual network subnet:
@@ -26,7 +47,7 @@ networks:
 vSphere CPI does not support dynamic or vip networks.
 
 ---
-## <a id='resource-pools'></a> Resource Pools
+## <a id='resource-pools'></a> Resource Pools / VM Types
 
 Schema for `cloud_properties` section:
 
@@ -84,11 +105,11 @@ resource_pools:
 ```
 
 ---
-## <a id='disk-pools'></a> Disk Pools
+## <a id='disk-pools'></a> Disk Pools / Disk Types
 
 Schema for `cloud_properties` section:
 
-* **type** [String, optional]: Type of the [disk](http://pubs.vmware.com/vi-sdk/visdk250/ReferenceGuide/vim.VirtualDiskManager.VirtualDiskType.html): `thick`, `thin`, `preallocated`, `eagerZeroedThick`. Defaults to `thick`. Available in v12.
+* **type** [String, optional]: Type of the [disk](http://pubs.vmware.com/vi-sdk/visdk250/ReferenceGuide/vim.VirtualDiskManager.VirtualDiskType.html): `thick`, `thin`, `preallocated`, `eagerZeroedThick`. Defaults to `preallocated`. Available in v12.
 
 Example of 10GB disk:
 
@@ -168,6 +189,63 @@ properties:
       persistent_datastore_pattern: '\Aprod-ds\z'
       clusters:
       - BOSH_CL: {resource_pool: BOSH_RP}
+```
+
+---
+## <a id='cloud-config'></a> Example Cloud Config
+
+```yaml
+azs:
+- name: z1
+  cloud_properties:
+    datacenters:
+    - clusters: [z1]
+- name: z2
+  cloud_properties:
+    datacenters:
+    - clusters: [z2]
+
+vm_types:
+- name: small
+  cloud_properties:
+    cpu: 2
+    ram: 1024
+    disk: 3240
+- name: large
+  cloud_properties:
+    cpu: 2
+    ram: 4096
+    disk: 30_240
+
+disk_types:
+- name: small
+  disk_size: 3000
+- name: large
+  disk_size: 50_000
+
+networks:
+- name: private
+  type: manual
+  subnets:
+  - range: 10.10.0.0/24
+    gateway: 10.10.0.1
+    az: z1
+    dns: [8.8.8.8]
+    cloud_properties:
+      name: vm-net1
+  - range: 10.10.1.0/24
+    gateway: 10.10.1.1
+    az: z1
+    dns: [8.8.8.8]
+    cloud_properties:
+      name: vm-net2
+
+compilation:
+  workers: 5
+  reuse_compilation_vms: true
+  az: z1
+  vm_type: large
+  network: private
 ```
 
 ---

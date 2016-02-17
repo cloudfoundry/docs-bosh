@@ -2,6 +2,10 @@
 title: Terminology
 ---
 
+## <a id="addon"></a> Addon
+
+A release job that is colocated on all VMs managed by the Director. Addons are configured in the runtime config.
+
 ## <a id="agent"></a> Agent
 
 A process that runs continuously on each VM that BOSH deploys (one Agent process per VM). The Agent executes tasks in response to messages it receives from the Director.
@@ -17,6 +21,10 @@ Canary instances are instances updated before other instances. Any update error 
 ## <a id="cli"></a> CLI
 
 The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. You must [install](./bosh-cli.html) the CLI to use BOSH. Run `bosh help --all` to view the help.
+
+## <a id="cloud-config"></a> Cloud Config
+
+The cloud config is a YAML file that defines IaaS specific configuration used by the Director and all deployments. It allows to separate IaaS specific configuration into its own file and keep deployment manifests IaaS agnostic.
 
 ## <a id="cpi"></a> CPI
 
@@ -85,6 +93,10 @@ A collection of configuration files, job definitions, source code, package defin
 ## <a id="resource-pool"></a> Resource Pool
 
 Resource pool is collections of VMs created from the same stemcell, with the same configuration, in a deployment.
+
+## <a id="runtime-config"></a> Runtime Config
+
+The runtime config is a YAML file that defines global configuration used by the Director and all deployments. It allows to specify addons.
 
 ## <a id="stemcell"></a> Stemcell
 

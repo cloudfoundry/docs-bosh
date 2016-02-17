@@ -1,0 +1,212 @@
+---
+title: Cloud Config
+---
+
+<p class="note">Note: This feature is available with bosh-release v241+. Once you opt into using cloud config all deployments must be converted to use new format. There is no way to opt out of the cloud config once you opt in.</p>
+
+Previously each deployment manifest specified IaaS and IaaS agnostic configuration in a single file. As more deployments are managed by the Director, it becomes inconvenient to keep shared IaaS configuration in sync in all deployment manifests. In addition multiple deployments typically want to use the same network subnet, hence IP ranges need to be separated and reserved.
+
+The cloud config is a YAML file that defines IaaS specific configuration used by the Director and all deployments. It allows to separate IaaS specific configuration into its own file and keep deployment manifests IaaS agnostic.
+
+---
+## <a id='update'></a> Updating and retrieving cloud config
+
+To update cloud config on the Director use [`bosh update cloud-config`](sysadmin-commands.html#cloud-config) CLI command.
+
+<p class="note">Note: See [example cloud config](#example) for AWS below.</p>
+
+<pre class="terminal">
+$ bosh update cloud-config cloud.yml
+
+$ bosh cloud-config
+Acting as user 'admin' on 'micro'
+
+azs:
+- name: z1
+  cloud_properties: {availability_zone: us-east-1b}
+- name: z2
+  cloud_properties: {availability_zone: us-east-1c}
+...
+</pre>
+
+Once cloud config is updated all existing deployments will be considered outdated. `bosh deployments` shows that. The Director will apply cloud config changes to each deployment during the next `bosh deploy` for that deployment.
+
+<pre class="terminal">
+$ bosh deployments
+
++-------+------------+----------------------------------------------+--------------+
+| Name  | Release(s) | Stemcell(s)                                  | Cloud Config |
++-------+------------+----------------------------------------------+--------------+
+| etcd  | etcd/7     | bosh-aws-xen-hvm-ubuntu-trusty-go_agent/3181 | outdated     |
++-------+------------+----------------------------------------------+--------------+
+| redis | redis/13   | bosh-aws-xen-hvm-ubuntu-trusty-go_agent/3181 | latest       |
++-------+------------+----------------------------------------------+--------------+
+</pre>
+
+---
+## <a id='example'></a> Example
+
+```yaml
+azs:
+- name: z1
+  cloud_properties: {availability_zone: us-east-1a}
+- name: z2
+  cloud_properties: {availability_zone: us-east-1b}
+
+vm_types:
+- name: small
+  cloud_properties:
+    instance_type: t2.micro
+    ephemeral_disk: {size: 3000, type: gp2}
+- name: medium
+  cloud_properties:
+    instance_type: m3.medium
+    ephemeral_disk: {size: 30000, type: gp2}
+
+disk_types:
+- name: small
+  disk_size: 3000
+  cloud_properties: {type: gp2}
+- name: large
+  disk_size: 50_000
+  cloud_properties: {type: gp2}
+
+networks:
+- name: private
+  type: manual
+  subnets:
+  - range: 10.10.0.0/24
+    gateway: 10.10.0.1
+    az: z1
+    static: [10.10.0.62]
+    dns: [10.10.0.2]
+    cloud_properties: {subnet: subnet-f2744a86}
+  - range: 10.10.64.0/24
+    gateway: 10.10.64.1
+    az: z2
+    static: [10.10.64.121, 10.10.64.122]
+    dns: [10.10.0.2]
+    cloud_properties: {subnet: subnet-eb8bd3ad}
+- name: vip
+  type: vip
+
+compilation:
+  workers: 5
+  reuse_compilation_vms: true
+  az: z1
+  vm_type: medium
+  network: private
+```
+
+- [See AWS CPI example](aws-cpi.html#cloud-config)
+- [See OpenStack CPI example](openstack-cpi.html#cloud-config)
+- [See vSphere CPI example](vsphere-cpi.html#cloud-config)
+
+---
+## <a id='azs'></a> AZs Block
+
+**azs** [Array, required]: Specifies the AZs available to deployments. At least one should be specified.
+
+* **name** [String, required]: Name of an AZ within the Director.
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to associated with AZ; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#az-cloud-properties) below. Example: `availability_zone`. Default is `{}` (empty Hash).
+
+Example:
+
+```yaml
+azs:
+- name: z1
+  cloud_properties: {availability_zone: us-east-1c}
+- name: z2
+  cloud_properties: {availability_zone: us-east-1d}
+```
+
+### <a id='azs-cloud-properties'></a> CPI Specific `cloud_properties`
+
+- [See AWS CPI AZ cloud properties](aws-cpi.html#azs)
+- [See OpenStack CPI AZ cloud properties](openstack-cpi.html#azs)
+- [See vSphere CPI AZ cloud properties](vsphere-cpi.html#azs)
+- [See vCloud CPI AZ cloud properties](vcloud-cpi.html#azs)
+
+---
+## <a id='networks'></a> Networks Block
+
+**networks** [Array, required]: Each sub-block listed in the Networks block specifies a network configuration that jobs can reference. There are three different network types: `manual`, `dynamic`, and `vip`. At least one should be specified.
+
+See [networks](networks.html) for more details.
+
+### <a id='networks-cloud-properties'></a> CPI Specific `cloud_properties`
+
+- [See AWS CPI network cloud properties](aws-cpi.html#networks)
+- [See OpenStack CPI network cloud properties](openstack-cpi.html#networks)
+- [See vSphere CPI network cloud properties](vsphere-cpi.html#networks)
+- [See vCloud CPI network cloud properties](vcloud-cpi.html#networks)
+
+---
+## <a id='resource-pools'></a> VM Types Block
+
+**vm_types** [Array, required]: Specifies the [VM types](./terminology.html#vm-type) available to deployments. At least one should be specified.
+
+* **name** [String, required]: A unique name used to identify and reference the VM type
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create VMs; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#resource-pools-cloud-properties) below. Examples: `instance_type`. Default is `{}` (empty Hash).
+
+Example:
+
+```yaml
+vm_types:
+- name: default
+  cloud_properties: {instance_type: m1.small}
+```
+
+### <a id='resource-pools-cloud-properties'></a> CPI Specific `cloud_properties`
+
+- [See AWS CPI VM types cloud properties](aws-cpi.html#resource-pools)
+- [See OpenStack CPI VM types cloud properties](openstack-cpi.html#resource-pools)
+- [See vSphere CPI VM types cloud properties](vsphere-cpi.html#resource-pools)
+- [See vCloud CPI VM types cloud properties](vcloud-cpi.html#resource-pools)
+
+---
+## <a id='disk-pools'></a> Disk Types Block
+
+**disk_types** [Array, required]: Specifies the [disk types](./terminology.html#disk-types) available to deployments. At least one should be specified.
+
+* **name** [String, required]: A unique name used to identify and reference the disk type
+* **disk_size** [Integer, required]: Specifies the disk size. `disk_size` must be a positive integer. BOSH creates a [persistent disk](./persistent-disks.html) of that size in megabytes and attaches it to each job instance VM.
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create disks. Examples: `type`, `iops`. Default is `{}` (empty Hash).
+
+Example:
+
+```yaml
+disk_types:
+- name: default
+  disk_size: 2
+  cloud_properties: {type: gp2}
+```
+
+### <a id='disk-pools-cloud-properties'></a> CPI Specific `cloud_properties`
+
+- [See AWS CPI disk type cloud properties](aws-cpi.html#disk-pools)
+- [See OpenStack CPI disk type cloud properties](openstack-cpi.html#disk-pools)
+- [See vSphere CPI disk type cloud properties](vsphere-cpi.html#disk-pools)
+- [See vCloud CPI disk type cloud properties](vcloud-cpi.html#disk-pools)
+
+---
+## <a id='compilation'></a> Compilation Block
+
+**compilation** [Hash, required]: Properties of compilation VMs.
+
+* **workers** [Integer, required]: The maximum number of compilation VMs.
+* **az** [String, required]: Name of the AZ defined in AZs section to use for creating compilation VMs.
+* **vm_type** [String, required]: Name of the VM type defined in VM types section to use for creating compilation VMs.
+* **network** [String, required]: References a valid network name defined in the Networks block. BOSH assigns network properties to compilation VMs according to the type and properties of the specified network.
+* **reuse\_compilation\_vms** [Boolean, optional]: If `false`, BOSH creates a new compilation VM for each new package compilation and destroys the VM when compilation is complete. If `true`, compilation VMs are re-used when compiling packages. Defaults to `false`.
+
+Example:
+
+```yaml
+compilation:
+  workers: 2
+  reuse_compilation_vms: true
+  az: z1
+  vm_type: default
+  network: private
+```

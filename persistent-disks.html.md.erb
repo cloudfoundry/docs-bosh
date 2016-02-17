@@ -1,26 +1,29 @@
 ---
-title: Persistent Disks
+title: Persistent and Orphaned Disks
 ---
+
+<p class="note">Note: This document was updated to mention orphaned disks introduced in bosh-release v241+ (1.3163.0).</p>
 
 Deployment jobs may need to store persistent data.
 
 If you attach a persistent disk to a virtual machine and then stop, terminate, or delete the VM, your persistent disk data remains intact. Attaching the persistent disk to another VM allows you to access your data.
 
-Persistent disks are kept for deployment jobs under the following circumstances:
+Persistent disks are kept for each deployment jobs under following circumstances when:
 
-* When updated with new stemcells
-* If accidentally deleted from the IaaS and later recreated
-* When stopped
+* updating deployment to use new releases or stemcells
+* using cloud check to recover deleted VMs
+* deployment jobs are hard stopped and later started again
 
-Persistent disks are deleted for deployment jobs under the following circumstances:
+As of bosh-release v241+ (1.3163.0), the Director no longer deletes persistent disks that are no longer needed. Unnecessary persistent disks will be marked as orphaned so that they can be garbage collected after 5 days.
 
-* When no longer specifying a persistent disk size or a disk pool
-* When scaled down
+Following conditions result in persistent disks to be marked as orphaned when:
 
-    <p class="note">Note: Applies only to disks associated with removed instances.</p>
-
-* When implicitly renamed in the deployment manifest
-* When deleted from the deployment manifest
+* deployment job no longer specifies a persistent disk size or a disk pool
+* deployment job changes size or cloud properties of a disk
+* deployment job is renamed without `migrated_from` configuration
+* deployment job is scaled down
+* deployment job is deleted or AZ assignment is removed
+* deployment is deleted
 
 You can specify that a deployment job needs an attached persistent disk in one of two ways:
 
@@ -28,7 +31,7 @@ You can specify that a deployment job needs an attached persistent disk in one o
 * [Persistent Disk Pool declaration](#persistent-disk-pool)
 
 ---
-## <a id='persistent-disk'></a>Persistent Disk Declaration
+## <a id='persistent-disk'></a> Persistent Disk Declaration
 
 To specify that a deployment job needs an attached persistent disk, add a `persistent_disk` key-value pair to job in the [Jobs](deployment-manifest.html#jobs) block of your deployment manifest.
 
@@ -51,7 +54,7 @@ jobs:
 <p class="note">Note: If you use persistent disk declaration, you cannot specify the persistent disk type or size that the CPI attaches to your job VMs. Instead, the CPI uses its default disk configuration when deploying the VMs.</p>
 
 ---
-## <a id='persistent-disk-pool'></a>Persistent Disk Pool Declaration
+## <a id='persistent-disk-pool'></a> Persistent Disk Pool Declaration
 
 To specify that a deployment job needs an attached persistent disk, add a [Disk Pool](deployment-manifest.html#disk-pools) block to your deployment manifest.
 
@@ -89,12 +92,12 @@ jobs:
 ```
 
 ---
-## <a id='checking-stats'></a>Checking Stats
+## <a id='checking-stats'></a> Checking Stats
 
 After your deployment completes, run `bosh vms --vitals` from a terminal window to view persistent disk usage percentage values under `Persistent Disk Usage`.
 
 ---
-## <a id='accessing-persistent-disk'></a>Accessing Persistent Disks
+## <a id='accessing-persistent-disk'></a> Accessing Persistent Disks
 
 The CPI mounts persistent disks `/var/vcap/store` on deployed VMs, and persists any files stored in `/var/vcap/store`.
 
@@ -103,13 +106,20 @@ You specify release jobs using the `templates` key when defining a deployment jo
 For example, a `redis` release job creates the following directory: `/var/vcap/store/redis`
 
 ---
-## <a id='changing-persistent-disk'></a>Changing Disk Properties
+## <a id='changing-persistent-disk'></a> Changing Disk Properties
 
-BOSH allows you to change disk types and sizes by modifying the deployment manifest. As long as the deployment job name stays the same, existing persistent disks will be converted to match the requested disk type and size.
+BOSH allows you to change disk types and sizes by modifying the deployment manifest. As long as the deployment job name stays the same, data on existing persistent disks will be migrated onto new persistent disks. Old persistent disks will be marked as orphaned.
 
 During the disk migration from one disk type and size to another, the Director communicates with the Agent to attach both existing and newly created disk to the same VM and copy over any existing data. After the transfer successfully completes, the Director deletes the original disk and keeps the new disk attached to the VM instance.
 
 <p class="note">Note: An IaaS might disallow attaching particular disk types and sizes to certain VMs types. Consult your IaaS documentation for more information.</p>
+
+---
+## <a id='orphaned-disks'></a> Orphaned Disks
+
+Orphaned persistent disks are not attached to any VM and are not associated with any deployment. You can list orphaned disks known to the Director via [`bosh disks --orphaned` command](sysadmin-commands.html#disks). If deployment changes were done erroneously and you would like to recover specific orphaned persistent disk, upcoming `bosh attach disk` command could be used to bring back deleted persistent disk.
+
+Orphaned disks are deleted after [5 days by default](http://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.disks).
 
 ---
 [Back to Table of Contents](index.html#deployment-config)

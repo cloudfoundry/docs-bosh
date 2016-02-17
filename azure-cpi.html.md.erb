@@ -4,6 +4,18 @@ title: Azure CPI
 
 This topic describes cloud properties for different resources created by the Azure CPI.
 
+## <a id='azs'></a> AZs
+
+Currently the CPI does not support any cloud properties for AZs.
+
+Example:
+
+```yaml
+azs:
+- name: z1
+```
+
+---
 ## <a id="networks"></a> Networks
 
 Schema for `cloud_properties` section used by dynamic network or manual network subnet:
@@ -46,7 +58,7 @@ networks:
 ```
 
 ---
-## <a id="resource-pools"></a> Resource Pools
+## <a id="resource-pools"></a> Resource Pools / VM Types
 
 Schema for `cloud_properties` section:
 
@@ -73,9 +85,9 @@ resource_pools:
 ```
 
 ---
-## <a id="disk-pools"></a> Disk Pools
+## <a id="disk-pools"></a> Disk Pools / Disk Types
 
-Currently the CPI does not support any cloud properties for networks.
+Currently the CPI does not support any cloud properties for disks.
 
 Example of 10GB disk:
 

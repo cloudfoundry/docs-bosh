@@ -8,6 +8,8 @@ There are several stages that each release job goes through during a deployment 
 1. [pre-start scripts](pre-start.html) run for all release jobs
 	- (waits for all pre-start scripts to finish)
 1. `monit start` is called for each process
+1. [post-start scripts](post-start.html) run for all release jobs
+	- (waits for all post-start scripts to finish)
 1. monit will automatically restart processes that exited
 1. `monit unmonitor` is called for each process
 1. [drain scripts](drain.html) run for all release jobs

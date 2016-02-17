@@ -30,11 +30,15 @@ templates:
 
 Pre-start script is usually just a regular shell script. Since pre-start script is executed in a similar way as other release job scripts (start, stop, drain scripts) you can use job's package dependencies.
 
+Pre-start script should be idempotent. It may be called multiple times before process is successfully started.
+
 Unlike a drain script, a pre-start script uses an exit code to indicate its success (exit code 0) or failure (any other exit code).
 
 Pre-start script is called every time before job is started via monit, which means that pre-start script should perform its operations in an idempotent way.
 
-Pre-start scripts from a single deployment job, which typically is composed of multiple release jobs, are executed in parallel.
+<p class="note">Note: Running `monit start` directly on a VM will not trigger pre-start scripts.</p>
+
+Pre-start scripts in a single deployment job (typically is composed of multiple release jobs) are executed in parallel.
 
 ---
 ## <a id="logs"></a> Logs
@@ -47,6 +51,6 @@ You can find logs for each release job's pre-start script in the following locat
 Since pre-start script will be called multiple times, new output will be appended to the files above. Standard [log rotation policy](job-logs.html#log-rotation) applies.
 
 ---
-Next: [Drain script](drain.html)
+Next: [Post-start script](post-start.html)
 
-Previous: [Pre-start script](pre-start.html)
+Previous: [Job lifecycle](job-lifecycle.html)

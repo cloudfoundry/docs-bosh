@@ -4,6 +4,22 @@ title: OpenStack CPI
 
 This topic describes cloud properties for different resources created by the OpenStack CPI.
 
+## <a id='azs'></a> AZs
+
+Schema for `cloud_properties` section:
+
+* **availability_zone** [String, required]: Availability zone to use for creating instances. Example: `east`.
+
+Example:
+
+```yaml
+azs:
+- name: z1
+  cloud_properties:
+    availability_zone: east
+```
+
+---
 ## <a id='networks'></a> Networks
 
 Schema for `cloud_properties` section used by dynamic network or manual network subnet:
@@ -44,12 +60,12 @@ networks:
 ```
 
 ---
-## <a id='resource-pools'></a> Resource Pools
+## <a id='resource-pools'></a> Resource Pools / VM Types
 
 Schema for `cloud_properties` section:
 
 * **instance_type** [String, required]: Type of the instance. Example: `m1.small`.
-* **availability_zone** [String, required]: Availability zone to use for creating instances. Example: `us-east-1a`.
+* **availability_zone** [String, required]: Availability zone to use for creating instances. Example: `east`.
 * **security_groups** [Array, optional]: Array of security groups to apply for all VMs that are in this resource pool. Defaults to security groups specified by `default_security_groups` in the global CPI settings unless security groups are specified on one of the VM networks. Security groups can be specified either on a resource pool or on a network. Available in v16+.
 * **key_name** [String, optional]: Key pair name. Defaults to key pair name specified by `default_key_name` in the global CPI settings. Example: `bosh`.
 * **scheduler_hints** [Hash, optional]: Data passed to the OpenStack Filter scheduler to influence its decision where new VMs can be placed. See [VM Anti-Affinity](vm-anti-affinity.html#openstack) for a detailed example. Example: `{ group: af09abf2-2283... }`
@@ -65,7 +81,7 @@ resource_pools:
     version: latest
   cloud_properties:
     instance_type: m1.small
-    availability_zone: us-east-1a
+    availability_zone: east
 ```
 
 Example of a `m1.small` instance locked down by specific security groups:
@@ -79,12 +95,12 @@ resource_pools:
     version: latest
   cloud_properties:
     instance_type: m1.small
-    availability_zone: us-east-1a
+    availability_zone: east
     security_groups: [web-workers]
 ```
 
 ---
-## <a id='disk-pools'></a> Disk Pools
+## <a id='disk-pools'></a> Disk Pools / Disk Types
 
 Schema for `cloud_properties` section:
 
@@ -134,6 +150,59 @@ properties:
     region: RegionOne
     default_key_name: bosh
     default_security_groups: [bosh]
+```
+
+---
+## <a id='cloud-config'></a> Example Cloud Config
+
+```yaml
+azs:
+- name: z1
+  cloud_properties:
+    availability_zone: east1
+- name: z2
+  cloud_properties:
+    availability_zone: east2
+
+vm_types:
+- name: small
+  cloud_properties:
+    instance_type: small
+- name: large
+  cloud_properties:
+    instance_type: large
+
+disk_types:
+- name: small
+  disk_size: 3000
+- name: large
+  disk_size: 50_000
+
+networks:
+- name: private
+  type: manual
+  subnets:
+  - range: 10.10.0.0/24
+    gateway: 10.10.0.1
+    az: z1
+    dns: [8.8.8.8]
+    cloud_properties:
+      net_id: net-b98ab66e-6fae-4c6a-81af-566e630d21d1
+  - range: 10.10.1.0/24
+    gateway: 10.10.1.1
+    az: z2
+    dns: [8.8.8.8]
+    cloud_properties:
+      net_id: net-85940t48-8ffe-3c3a-81af-27d499ff9842
+- name: vip
+  type: vip
+
+compilation:
+  workers: 5
+  reuse_compilation_vms: true
+  az: z1
+  vm_type: large
+  network: private
 ```
 
 ---

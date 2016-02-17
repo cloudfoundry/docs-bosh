@@ -62,6 +62,24 @@ Uploads specified stemcell. See [stemcells section of bosh.io](//bosh.io/stemcel
 Deletes a stemcell and all associated compiled packages. Fails if any deployment references this stemcell.
 
 ---
+### <a id="cloud-config"></a> Cloud config
+
+<pre class="terminal">$ bosh cloud-config</pre>
+Displays current cloud config saved in the Director.
+
+<pre class="terminal">$ bosh update cloud-config FILE_PATH</pre>
+Updates currently saved cloud config in the Director. See [cloud config description](cloud-config.html).
+
+---
+### <a id="runtime-config"></a> Runtime config
+
+<pre class="terminal">$ bosh runtime-config</pre>
+Displays current runtime config saved in the Director.
+
+<pre class="terminal">$ bosh update runtime-config FILE_PATH</pre>
+Updates currently saved runtime config in the Director. See [runtime config description](runtime-config.html).
+
+---
 ### <a id="deployment"></a> Deployment
 
 <pre class="terminal">$ bosh deployments</pre>
@@ -152,6 +170,12 @@ Displays a table that lists all available errands for the set deployment.
 
 <pre class="terminal">$ bosh run errand ERRAND_NAME [--download-logs] [--logs-dir DESTINATION_DIRECTORY]</pre>
 Instructs the BOSH Director to run the named errand on a job instance on a VM.
+
+---
+### <a id="disks"></a> Disks
+
+<pre class="terminal">$ bosh disks --orphaned</pre>
+Displays disk CID, previous deployment and instance, and orphaned date of all orphaned persistent disks.
 
 ---
 ### <a id="snapshots"></a> Snapshots

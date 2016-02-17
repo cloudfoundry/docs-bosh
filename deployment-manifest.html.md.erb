@@ -37,8 +37,8 @@ director_uuid: cf8dc1fc-9c42-4ffc-96f1-fbad983a6ce6
 
 **releases** [Array, required]: The name and version of each release in the deployment.
 
-  - **name** [String, required]: Name of a release name used in the deployment
-  - **version** [String, required]: The version of the release to use. Version can be `latest`.
+* **name** [String, required]: Name of a release name used in the deployment
+* **version** [String, required]: The version of the release to use. Version can be `latest`.
 
 Example:
 
@@ -51,9 +51,9 @@ releases:
 
 **releases** [Array, required]: The name, url and possibly SHA1 of each release in the deployment.
 
-  - **name** [String, required]: Name of a release name used in the deployment
-  - **url** [String, required]: URL of the release to use. URL may use the file protocol (`file://`) or HTTP(s) (`http(s)://`). File URLs can be absolute or relative to the current directory of `bosh-init` execution.
-  - **sha1** [String, required]: The SHA1 of the release tarball. SHA1 is only required when using HTTP(s) URLs.
+* **name** [String, required]: Name of a release name used in the deployment
+* **url** [String, required]: URL of the release to use. URL may use the file protocol (`file://`) or HTTP(s) (`http(s)://`). File URLs can be absolute or relative to the current directory of `bosh-init` execution.
+* **sha1** [String, required]: The SHA1 of the release tarball. SHA1 is only required when using HTTP(s) URLs.
 
 Example:
 
