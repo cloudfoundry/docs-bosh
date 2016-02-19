@@ -71,6 +71,22 @@ blobstore:
 
 <p class="note"><strong>Note</strong>: When you first create a bucket, it might take a little while for Amazon to be able to route requests correctly to the bucket and so downloads may fail with an obscure "Broken Pipe" error. The solution is to wait for some time before trying.
 
+## <a id="setting-region"></a> Setting S3 region
+
+By default, Amazon S3 buckets resolve to the `us-east-1` (North Virginia) region. If your blobstore bucket resides in a different region, override the region and endpoint settings in `config/final.yml`. For example, a bucket in `eu-west-1` would be as follows:
+
+```yaml
+---
+blobstore:
+  provider: s3
+  options:
+    bucket_name: <blobs_bucket_name>
+    region: eu-west-1
+    endpoint: https://s3-eu-west-1.amazonaws.com
+```
+
+A full list of S3 regions and endpoints is available [here](http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region).
+
 ## <a id="usage"></a> Usage
 
 Once the S3 bucket and IAM user are configured with correct access rules, `bosh upload blobs` should succeed and the S3 bucket should contain uploaded blobs. Running `bosh create release --final` will also place additional blobs into the bucket.
