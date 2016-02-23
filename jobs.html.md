@@ -2,7 +2,7 @@
 title: Jobs
 ---
 
-Each release job represents a specific chunk of work that the release performs. For example a DHCP release may have a "dhcp_server" job, and a Postgres release may have "postgres" and "periodic_backup" jobs. A release can define one or more jobs. 
+Each release job represents a specific chunk of work that the release performs. For example a DHCP release may have a "dhcp\_server" job, and a Postgres release may have "postgres" and "periodic\_backup" jobs. A release can define one or more jobs.
 
 A job typically includes:
 
@@ -78,7 +78,7 @@ There are several job lifecycle events that a job can react to: pre-start, post-
 
 ### <a id="properties"></a> Use of Properties
 
-Each template file is evaluated with [ERB](http://apidock.com/ruby/ERB) before being sent to each instance. 
+Each template file is evaluated with [ERB](http://apidock.com/ruby/ERB) before being sent to each instance.
 
 Basic ERB syntax includes:
 

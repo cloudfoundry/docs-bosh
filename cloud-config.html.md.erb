@@ -110,7 +110,7 @@ See [first class AZs](azs.html) for more details.
 **azs** [Array, required]: Specifies the AZs available to deployments. At least one should be specified.
 
 * **name** [String, required]: Name of an AZ within the Director.
-* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to associated with AZ; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#az-cloud-properties) below. Example: `availability_zone`. Default is `{}` (empty Hash).
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to associated with AZ; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#azs-cloud-properties) below. Example: `availability_zone`. Default is `{}` (empty Hash).
 
 Example:
 
@@ -149,7 +149,7 @@ See [networks](networks.html) for more details.
 **vm_types** [Array, required]: Specifies the [VM types](./terminology.html#vm-type) available to deployments. At least one should be specified.
 
 * **name** [String, required]: A unique name used to identify and reference the VM type
-* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create VMs; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#resource-pools-cloud-properties) below. Examples: `instance_type`. Default is `{}` (empty Hash).
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create VMs; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#vm-types-cloud-properties) below. Examples: `instance_type`. Default is `{}` (empty Hash).
 
 Example:
 

@@ -13,7 +13,7 @@ Links provide a solution to the above problem by making the Director be responsi
 
 Instead of defining properties that accept list of IPs or DNS names, each release job can define links it consumes and provides.
 
-For example here is how "web" release job which receives HTTP traffic and talks to at least one database server may be defined. To connect to a database it consumes "primary_db" and "secondary_db" links of type "db". It also exposes an "incoming" link of type "http" so that other services can connect to it.
+For example here is how "web" release job which receives HTTP traffic and talks to at least one database server may be defined. To connect to a database it consumes "primary\_db" and "secondary\_db" links of type "db". It also exposes an "incoming" link of type "http" so that other services can connect to it.
 
 ```yaml
 name: web
@@ -34,7 +34,7 @@ provides:
 properties: {...}
 ```
 
-Note that "secondary_db" link has been marked as optional, to indicate that "web" release job will work correctly even if operator does not provide "secondary_db" link. Providing "secondary_db" link may enable some addtional functionality.
+Note that "secondary\_db" link has been marked as optional, to indicate that "web" release job will work correctly even if operator does not provide "secondary_db" link. Providing "secondary\_db" link may enable some addtional functionality.
 
 Example Postgres release job that provides "conn" link of type "db".
 
@@ -163,7 +163,7 @@ jobs:
 
 ### <a id="self"></a> Self linking
 
-A release job can consume a link that it provides. It's could be used to determine its own peers. 
+A release job can consume a link that it provides. It's could be used to determine its own peers.
 
 Implicit linking also applies.
 

@@ -33,7 +33,14 @@ AZs schema:
 * **azs** [Array, required]: List of AZs.
 
 * **name** [String, required]: Name of an AZ within the Director.
-* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to associated with AZ; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#az-cloud-properties) below. Example: `availability_zone`. Default is `{}` (empty Hash).
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to associated with AZ; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#azs-cloud-properties) below. Example: `availability_zone`. Default is `{}` (empty Hash).
+
+### <a id='azs-cloud-properties'></a> CPI Specific `cloud_properties`
+
+- [See AWS CPI AZ cloud properties](aws-cpi.html#azs)
+- [See OpenStack CPI AZ cloud properties](openstack-cpi.html#azs)
+- [See vSphere CPI AZ cloud properties](vsphere-cpi.html#azs)
+- [See vCloud CPI AZ cloud properties](vcloud-cpi.html#azs)
 
 ---
 ## <a id='config'></a> Assigning AZs to deployment jobs

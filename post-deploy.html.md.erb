@@ -1,0 +1,56 @@
+---
+title: Post-deploy Script
+---
+
+<p class="note">Note: This feature is available with bosh-release ? and only for releases deployed with 3125+ stemcells. bosh-lite support is planned but currently is not available since latest available stemcell for bosh-lite is 2774.</p>
+
+<p class="note">Note: Releases that make use of post-deploy scripts and are deployed on older stemcells or with an older Director may potentially deploy; however, post-deploy script will not be called.</p>
+
+Release job can have a post-deploy script that will run after all jobs in the deployments successfully started (and ran post-start scripts). This script allows the job to execute any additional commands against a whole deployment before considering deploy finished.
+
+---
+## <a id="job-configuration"></a> Job Configuration
+
+To add a post-deploy script to a release job:
+
+1. Create a script with any name in the templates directory of a release job.
+1. In the `templates` section of the release job spec file, add the script name and the `bin/post-deploy` directory as a key value pair.
+
+Example:
+
+```yaml
+---
+name: cassandra_node
+templates:
+  post-deploy.erb: bin/post-deploy
+```
+
+---
+## <a id="script-implementation"></a> Script Implementation
+
+Post-deploy script is usually just a regular shell script. Since post-deploy script is executed in a similar way as other release job scripts (start, stop, drain scripts) you can use job's package dependencies.
+
+Post-deploy script should be idempotent. It may be called multiple times after process is successfully started.
+
+Unlike a drain script, a post-deploy script uses an exit code to indicate its success (exit code 0) or failure (any other exit code).
+
+Post-deploy script is called every time after job is started via monit, which means that post-deploy script should perform its operations in an idempotent way.
+
+<p class="note">Note: Running `monit start` directly on a VM will not trigger post-deploy scripts.</p>
+
+Post-deploy scripts in a deployment are executed in parallel.
+
+---
+## <a id="logs"></a> Logs
+
+You can find logs for each release job's post-deploy script in the following locations:
+
+- stdout in `/var/vcap/sys/log/<job-name>/post-deploy.stdout.log`
+- stderr in `/var/vcap/sys/log/<job-name>/post-deploy.stderr.log`
+
+Since post-deploy script will be called multiple times, new output will be appended to the files above. Standard [log rotation policy](job-logs.html#log-rotation) applies.
+
+---
+Next: [Drain script](drain.html)
+
+Previous: [Post-start script](post-start.html)
