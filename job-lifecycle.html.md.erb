@@ -4,18 +4,34 @@ title: Job Lifecycle
 
 There are several stages that each job goes through during a deployment process:
 
+## When start is issued
+
 1. release job and its dependent packages are downloaded and placed on a machine
+
 1. [pre-start scripts](pre-start.html) run for all jobs on the VM in parallel
 	- (waits for all pre-start scripts to finish)
+
 1. `monit start` is called for each process
+
 1. [post-start scripts](post-start.html) run for all jobs on the VM in parallel
 	- (waits for all post-start scripts to finish)
+
 1. [post-deploy scripts](post-deploy.html) run for all jobs on *all* VMs in parallel
 	- (waits for all post-deploy scripts to finish)
+
+---
+## When job is running
+
 1. monit will automatically restart processes that exited
+
+---
+## When stop is issued (or before update and subsequent start happens)
+
 1. `monit unmonitor` is called for each process
-1. [drain scripts](drain.html) run for all jobs on the VM
+
+1. [drain scripts](drain.html) run for all jobs on the VM in parallel
 	- (waits for all drain scripts to finish)
+
 1. `monit stop` is called for each process
 
 ---
