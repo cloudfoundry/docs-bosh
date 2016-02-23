@@ -1,40 +1,42 @@
 ---
-title: Renaming/migrating Deployment Jobs
+title: Renaming/migrating instance groups
 ---
 
-Occasionally it's convenient to rename one or more deployment jobs as their purpose changes or as better names are found. In most cases it's desirable to maintain existing persistent data by keeping existing persistent disks.
+Occasionally it's convenient to rename one or more instance groups as their purpose changes or as better names are found. In most cases it's desirable to maintain existing persistent data by keeping existing persistent disks.
 
-Previously the CLI provided `rename job` command to rename specific job one at a time. That approach worked OK in an non-automated, non-frequently updated environments, but it was inconvenient for automated, frequently updated environments. As a replacement `migrated_from` directive was added to allow renames to happen in a more systematic way.
+Previously the CLI provided `rename job` command to rename specific instance group one at a time. That approach worked OK in an non-automated, non-frequently updated environments, but it was inconvenient for automated, frequently updated environments. As a replacement `migrated_from` directive was added to allow renames to happen in a more systematic way.
 
-Additionally `migrated_from` directive can be used to migrate deployment jobs to using first class AZs.
+Additionally `migrated_from` directive can be used to migrate instance groups to use first class AZs.
 
 ---
-## <a id="rename"></a> Renaming Jobs
+## <a id="rename"></a> Renaming Instance Groups
 
-1. Given follow deployment job `etcd`:
+1. Given follow deployment instance group `etcd`:
 
     ```yaml
-    jobs:
+    instance_groups:
     - name: etcd-primary
       instances: 2
-      templates:
+      jobs:
       - {name: etcd, release: etcd}
+      vm_type: default
+      stemcell: default
       persistent_disk: 10_240
-      resource_pool: medium
       networks:
       - name: default
     ```
 
-1. Change job's name to `etcd` and add `migrated_from` with a previous name.
+1. Change instance group's name to `etcd` and add `migrated_from` with a previous name.
 
     ```yaml
-    jobs:
+    instance_groups:
     - name: etcd
       instances: 2
-      templates:
+      jobs:
       - {name: etcd, release: etcd}
+      vm_type: default
+      stemcell: default
       persistent_disk: 10_240
-      resource_pool: medium
       networks:
       - name: default
       migrated_from:
@@ -44,17 +46,17 @@ Additionally `migrated_from` directive can be used to migrate deployment jobs to
 1. Deploy.
 
 ---
-## <a id="migrate"></a> Migrating Jobs (to first class AZs)
+## <a id="migrate"></a> Migrating Instance Groups (to first class AZs)
 
-Before the introduction of first class AZs, each deployment job was associated with a resource pool that typically defined some CPI specific AZ configuration in its `cloud_properties`. Typically there would be multiple deployment jobs that mostly differed by their name, for example `etcd_z1` and `etcd_z2`. With first class AZs, multiple deployment jobs typically should be collapsed to simplify the deployment.
+Before the introduction of first class AZs, each instance group was associated with a resource pool that typically defined some CPI specific AZ configuration in its `cloud_properties`. Typically there would be multiple instance groups that mostly differed by their name, for example `etcd_z1` and `etcd_z2`. With first class AZs, multiple instance groups typically should be collapsed to simplify the deployment.
 
-1. Given following deployment jobs `etcd_z1` and `etcd_z2` with AZ specific resource pools and networks:
+1. Given following instance groups `etcd_z1` and `etcd_z2` with AZ specific resource pools and networks:
 
     ```yaml
-    jobs:
+    instance_groups:
     - name: etcd_z1
       instances: 2
-      templates:
+      jobs:
       - {name: etcd, release: etcd}
       persistent_disk: 10_240
       resource_pool: medium_z1
@@ -63,7 +65,7 @@ Before the introduction of first class AZs, each deployment job was associated w
 
     - name: etcd_z2
       instances: 1
-      templates:
+      jobs:
       - {name: etcd, release: etcd}
       persistent_disk: 10_240
       resource_pool: medium_z2
@@ -71,16 +73,17 @@ Before the introduction of first class AZs, each deployment job was associated w
       - name: default_z2
     ```
 
-1. Collapse both jobs into a single job `etcd` and use `migrated_from` with previous job names.
+1. Collapse both instance groups into a single instance group `etcd` and use `migrated_from` with previous group names.
 
     ```yaml
-    jobs:
+    instance_groups:
     - name: etcd
       instances: 3
-      templates:
+      jobs:
       - {name: etcd, release: etcd}
+      vm_type: default
+      stemcell: default
       persistent_disk: 10_240
-      resource_pool: medium
       networks:
       - name: default
       migrated_from:

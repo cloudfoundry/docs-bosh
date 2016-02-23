@@ -13,7 +13,7 @@ The cloud config is a YAML file that defines IaaS specific configuration used by
 
 To update cloud config on the Director use [`bosh update cloud-config`](sysadmin-commands.html#cloud-config) CLI command.
 
-<p class="note">Note: See [example cloud config](#example) for AWS below.</p>
+<p class="note">Note: See <a href="#example">example cloud config</a> for AWS below.</p>
 
 <pre class="terminal">
 $ bosh update cloud-config cloud.yml
@@ -105,12 +105,12 @@ compilation:
 ---
 ## <a id='azs'></a> AZs Block
 
-See [first class AZs](azs.html) for more details.
-
 **azs** [Array, required]: Specifies the AZs available to deployments. At least one should be specified.
 
 * **name** [String, required]: Name of an AZ within the Director.
 * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to associated with AZ; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#azs-cloud-properties) below. Example: `availability_zone`. Default is `{}` (empty Hash).
+
+See [first class AZs](azs.html) for more details.
 
 Example:
 

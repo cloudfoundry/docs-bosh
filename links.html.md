@@ -105,9 +105,9 @@ Available `instance` object methods:
 Given release job examples above ("web" and "postgres") one can configure a deployment that connects a web app to the database.
 
 ```yaml
-jobs:
+instance_groups:
 - name: app
-  templates:
+  jobs:
   - name: web
     release: my-app
     consumes:
@@ -115,7 +115,7 @@ jobs:
       secondary_db: nil
 
 - name: data_db
-  templates:
+  jobs:
   - name: postgres
     release: postgres
     provides:
@@ -123,16 +123,16 @@ jobs:
 ```
 
 ```yaml
-jobs:
+instance_groups:
 - name: app
-  templates:
+  jobs:
   - name: web
     release: my-app
     consumes:
       secondary_db: nil
 
 - name: data_db
-  templates:
+  jobs:
   - name: postgres
     release: postgres
 ```
@@ -148,15 +148,15 @@ Implicit linking does not happen across deployments.
 In the following example, it's unnecessary to explicitly specify that web release job consumes "primary_db" link of type "db" from the postgres release job, since postgres release job is the only one that provides link of type "db".
 
 ```yaml
-jobs:
+instance_groups:
 - name: app
-  templates:
+  jobs:
   - name: web
     release: my-app
     consumes: {secondary_db: nil}
 
 - name: data_db
-  templates:
+  jobs:
   - name: postgres
     release: postgres
 ```
@@ -168,9 +168,9 @@ A release job can consume a link that it provides. It's could be used to determi
 Implicit linking also applies.
 
 ```yaml
-jobs:
+instance_groups:
 - name: diego-etcd
-  templates:
+  jobs:
   - name: etcd
     release: etcd
     consumes:
@@ -186,9 +186,9 @@ By default links include network addresses on producer's default link network. T
 For example "web" release job will receive "data_db"'s network addresses on its "vip" network, instead of receiving network addresses from "private" network.
 
 ```yaml
-jobs:
+instance_groups:
 - name: app
-  templates:
+  jobs:
   - name: web
     release: my-app
     consumes:
@@ -198,7 +198,7 @@ jobs:
   - name: private
 
 - name: data_db
-  templates:
+  jobs:
   - name: postgres
     release: postgres
     provides:
@@ -223,7 +223,7 @@ Deployment that provides a database:
 name: data-dep
 jobs:
 - name: db
-  templates:
+  jobs:
   - name: postgres
     release: postgres
     provides:
@@ -233,9 +233,9 @@ jobs:
 App deployment that expects to use the database from the deployment above:
 
 ```yaml
-jobs:
+instance_groups:
 - name: app
-  templates:
+  jobs:
   - name: web
     release: my-app
     consumes:

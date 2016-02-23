@@ -2,6 +2,8 @@
 title: Deployment Manifest Schema
 ---
 
+<p class="note">Note: Once you opt into using cloud config all deployments must be converted to use manifest v2 format that disallows IaaS specific configuration. See <a href="manifest-v2.html">manifest v2 schema</a> for allowed configurations.</p>
+
 The deployment manifest is a YAML file that defines the components and properties of the deployment. When an operator initiates a new deployment using the CLI, the Director receives a version of the deployment manifest and creates a new deployment using this manifest.
 
 Contents of a deployment manifest:
@@ -18,6 +20,7 @@ Contents of a deployment manifest:
 
 The examples below originate from a [sample deployment manifest](./sample-manifest.html).
 
+---
 ## <a id='deployment'></a>Deployment Identification
 
 **name** [String, required]: The name of the deployment. A single Director can manage multiple deployments and distinguishes them by name.
@@ -37,7 +40,7 @@ director_uuid: cf8dc1fc-9c42-4ffc-96f1-fbad983a6ce6
 
 **releases** [Array, required]: The name and version of each release in the deployment.
 
-* **name** [String, required]: Name of a release name used in the deployment
+* **name** [String, required]: Name of a release used in the deployment.
 * **version** [String, required]: The version of the release to use. Version can be `latest`.
 
 Example:
@@ -51,7 +54,7 @@ releases:
 
 **releases** [Array, required]: The name, url and possibly SHA1 of each release in the deployment.
 
-* **name** [String, required]: Name of a release name used in the deployment
+* **name** [String, required]: Name of a release used in the deployment.
 * **url** [String, required]: URL of the release to use. URL may use the file protocol (`file://`) or HTTP(s) (`http(s)://`). File URLs can be absolute or relative to the current directory of `bosh-init` execution.
 * **sha1** [String, required]: The SHA1 of the release tarball. SHA1 is only required when using HTTP(s) URLs.
 

@@ -1,0 +1,179 @@
+---
+title: Manifest v2 Schema
+---
+
+<p class="note">Note: This feature is available with bosh-release ?.</p>
+
+<p class="note">Note: Once you opt into using cloud config all deployments must be converted to use manifest v2 format that disallows IaaS specific configuration.</p>
+
+The deployment manifest is a YAML file that defines the components and properties of the deployment. When an operator initiates a new deployment using the CLI, the Director receives a manifest and creates or updates a deployment with matching name.
+
+Assuming that you are using [cloud config](cloud-config.html), manifest is expected to have:
+
+* [Deployment Identification](#deployment): A name for the deployment and the UUID of the Director managing the deployment
+* [Releases Block](#releases): Name and version of each release in a deployment
+* [Stemcells Block](#stemcells): Name and version of each stemcell in a deployment
+* [Update Block](#update): Defines how BOSH updates instances during deployment
+* [Instance Groups Block](#instance-groups): Configuration and resource information for instance groups
+* [Properties Block](#properties): Describes global properties and generalized configuration information
+
+---
+## <a id='deployment'></a> Deployment Identification
+
+**name** [String, required]: The name of the deployment. A single Director can manage multiple deployments and distinguishes them by name.
+
+**director_uuid** [String, required]: This string must match the UUID of the currently targeted Director for the CLI to allow any operations on the deployment. Use `bosh status` to display the UUID of the currently targeted Director.
+
+Example:
+
+```yaml
+name: my-redis
+director_uuid: cf8dc1fc-9c42-4ffc-96f1-fbad983a6ce6
+```
+
+---
+## <a id='releases'></a> Releases Block
+
+**releases** [Array, required]: The name and version of each release in the deployment.
+
+* **name** [String, required]: Name of a release used in the deployment.
+* **version** [String, required]: The version of the release to use. Version can be `latest`.
+
+Example:
+
+```yaml
+releases:
+- {name: redis, version: 12}
+```
+
+---
+## <a id='stemcells'></a> Stemcells Block
+
+**stemcells** [Array, required]: The name and version of each stemcell in the deployment.
+
+* **alias** [String, required]: Name of a stemcell used in the deployment
+* **os** [String, optional]: Operating system of a matching stemcell. Example: `ubuntu-trusty`.
+* **version** [String, required]: The version of a matching stemcell. Version can be `latest`.
+* **name** [String, optional]: Full name of a matching stemcell. Either `name` or `os` keys can be specified.
+
+Example:
+
+```yaml
+stemcells:
+- alias: default
+  os: ubuntu-trusty
+  version: 3147
+- alias: default2
+  name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+  version: 3149
+```
+
+---
+## <a id='update'></a> Update Block
+
+**update** [Hash, required]: This specifies instance update properties. These properties control how BOSH updates instances during the deployment.
+
+* **canaries** [Integer, required]: The number of [canary](./terminology.html#canary) instances.
+* **max\_in\_flight** [Integer, required]: The maximum number of non-canary instances to update in parallel.
+* **canary\_watch\_time** [Integer or Range, required]
+    * If the `canary_watch_time` is an integer, the Director sleeps for that many milliseconds, then checks whether the canary instances are healthy.
+    * If the `canary_watch_time` is a range (low-high), the Director:
+        * Waits for `low` milliseconds
+        * Waits until instances are healthy or `high` milliseconds have passed since instances started updating
+* **update\_watch\_time** [Integer or Range, required]
+    * If the `update_watch_time` is an integer, the Director sleeps for that many milliseconds, then checks whether the instances are healthy.
+    * If the `update_watch_time` is a range (low-high), the Director:
+        * Waits for `low` milliseconds
+        * Waits until instances are healthy or `high` milliseconds have passed since instances started updating
+* **serial** [Boolean, optional]: If disabled (set to `false`), instance groups will be deployed in parallel, otherwise - sequentially. Instances within a group will still follow `canary` and `max_in_flight` configuration. Defaults to `true`.
+
+Example:
+
+```yaml
+update:
+  canaries: 1
+  max_in_flight: 10
+  canary_watch_time: 1000-30000
+  update_watch_time: 1000-30000
+```
+
+---
+## <a id='instance-groups'></a> Instance Groups Block
+
+**instance_groups** [Array, required]: Specifies the mapping between release [jobs](./terminology.html#job) and instance groups.
+
+* **name** [String, required]: A unique name used to identify and reference instance group.
+* **instances** [Integer, required]: The number of instances in this group. Each instance is a VM.
+* **jobs** [Array, required]: Specifies the name and release of jobs that will be installed on each instance.
+  * **name** [String, required]: The job name
+  * **release** [String, required]: The release where the job exists
+  * **consumes** [Hash, optional]: Links consumes by the job. [Read more about link configuration](links.html#deployment)
+  * **provides** [Hash, optional]: Links provided by the job. [Read more about link configuration](links.html#deployment)
+* **vm_type** [String, required]: A valid VM type name from the cloud config.
+* **stemcell** [String, required]: A valid stemcell alias from the Stemcells Block.
+* **persistent\_disk\_type** [String, optional]: A valid disk type name from the cloud config. [Read more about persistent disks](./persistent-disks.html)
+* **networks** [Array, required]: Specifies the networks this instance requires. Each network can have the following properties specified:
+  * **name** [String, required]: A valid network name from the cloud config.
+  * **static_ips** [Array, optional]: Array of IP addresses reserved for the instances on the network.
+  * **default** [Array, optional]: Specifies which network components (DNS, Gateway) BOSH populates by default from this network. This property is required if more than one network is specified.
+* **update** [Hash, optional]: Specific update settings for this instance group. Use this to override [global job update settings](#update) on a per-instance-group basis.
+* **migrated_from** [Array, optional]: Specific migration settings for this instance group. Use this to [rename and/or migrate instance groups](migrated-from.html).
+* **lifecycle** [String, optional]: Specifies the kind of workload the instance group represents. Valid values are `service` and `errand`; defaults to `service`. A `service` runs indefinitely and restarts if it fails. An `errand` starts with a manual trigger and does not restart if it fails.
+* **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job, and override any identically named global properties.
+
+Example:
+
+```yaml
+instance_groups:
+- name: redis-master
+  instances: 1
+  jobs:
+  - name: redis-server
+    release: redis
+  vm_type: medium
+  stemcell: default
+  persistent_disk_type: medium
+  networks:
+  - name: default
+
+- name: redis-slave
+  instances: 2
+  jobs:
+  - name: redis-server
+    release: redis
+  vm_type: medium
+  stemcell: default
+  persistent_disk_type: medium
+  networks:
+  - name: default
+```
+
+---
+## <a id='properties'></a> Properties Block
+
+**properties** [Hash, optional]: Describes global properties and general configuration information.
+
+Global properties allow BOSH to configure jobs to a specific environment. `properties` defined in the [Properties](#properties) block are accessible to all jobs. Any identically named `properties` in the [Instance groups](#instance-groups) block will override the global property for the jobs in that instance group.
+
+By default, general configuration information resides in the template spec file of a release job. If you move this information from the release into the manifest, you can reconfigure a deployment by changing the manifest instead of the release. To do this, add the general configuration information to the manifest in a sub-block of the Properties block.
+
+Typical general configuration information includes but is not limited to:
+
+* Port numbers
+* Account names
+* Shared secrets
+* Passwords
+
+Example:
+
+```yaml
+properties:
+  redis:
+    max_connections: 10
+```
+
+### Job Property Precedence
+
+1. BOSH applies the properties in the job's spec file as defined by the release author.
+1. If an identically named property exists in the [Properties](#properties) block of the deployment manifest, the value of this property overrides the previous value.
+1. If an identically named property exists in the Properties sub-block of the [Instance groups](#instance-groups) block of the deployment manifest, the value of this property overrides all previous values.
