@@ -2,7 +2,7 @@
 title: Creating BOSH Packages
 ---
 
-A BOSH package is a component of a BOSH release that contains a packaging `spec` file and a packaging script. 
+A package is a component of a BOSH release that contains a packaging `spec` file and a packaging script. 
 Each package also references source code or pre-compiled software that you store in the `src` directory of a BOSH [release  
 directory](./create-release.html).
 
@@ -96,8 +96,6 @@ popd
 ${BOSH&#95;INSTALL&#95;TARGET}/bin/gem install ruby&#95;1.9.3/bundler-1.2.1.gem --no-ri --no-rdoc
 </pre>
 
-
-    
 Example script referencing pre-compiled code:
 <pre class='code'>
 tar zxf myfile.tar.gz

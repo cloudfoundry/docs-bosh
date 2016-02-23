@@ -4,13 +4,6 @@ title: Runtime Config
 
 <p class="note">Note: This feature is available with bosh-release ?.</p>
 
-Operators typically want to ensure that certain software runs on all VMs managed by the Director. Examples of such software are:
-
-- security agents like Tripwire, IPsec, etc.
-- anti-viruses like McAfee
-- custom health monitoring agents like Datadog
-- logging agents like Loggregator's Metron
-
 As of bosh-release ? the Director has a way to specify global configuration for all VMs in all deployments. The runtime config is a YAML file that defines IaaS agnostic configuration that applies to all deployments.
 
 ---
@@ -57,7 +50,7 @@ addons:
 ```
 
 ---
-## <a id='azs'></a> Releases Block
+## <a id='releases'></a> Releases Block
 
 **releases** [Array, required]: Specifies the releases used by the addons.
 
@@ -72,7 +65,16 @@ releases:
 ```
 
 ---
-## <a id='networks'></a> Addons Block
+## <a id='addons'></a> Addons Block
+
+Operators typically want to ensure that certain software runs on all VMs managed by the Director. Examples of such software are:
+
+- security agents like Tripwire, IPsec, etc.
+- anti-viruses like McAfee
+- custom health monitoring agents like Datadog
+- logging agents like Loggregator's Metron
+
+An addon is a release job that is colocated on all VMs managed by the Director.
 
 **addons** [Array, optional]: Specifies the [addons](./terminology.html#addon) to be applied to all deployments.
 

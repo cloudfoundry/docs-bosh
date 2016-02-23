@@ -105,6 +105,8 @@ compilation:
 ---
 ## <a id='azs'></a> AZs Block
 
+See [first class AZs](azs.html) for more details.
+
 **azs** [Array, required]: Specifies the AZs available to deployments. At least one should be specified.
 
 * **name** [String, required]: Name of an AZ within the Director.
@@ -142,7 +144,7 @@ See [networks](networks.html) for more details.
 - [See vCloud CPI network cloud properties](vcloud-cpi.html#networks)
 
 ---
-## <a id='resource-pools'></a> VM Types Block
+## <a id='vm-types'></a> VM Types Block
 
 **vm_types** [Array, required]: Specifies the [VM types](./terminology.html#vm-type) available to deployments. At least one should be specified.
 
@@ -157,7 +159,7 @@ vm_types:
   cloud_properties: {instance_type: m1.small}
 ```
 
-### <a id='resource-pools-cloud-properties'></a> CPI Specific `cloud_properties`
+### <a id='vm-types-cloud-properties'></a> CPI Specific `cloud_properties`
 
 - [See AWS CPI VM types cloud properties](aws-cpi.html#resource-pools)
 - [See OpenStack CPI VM types cloud properties](openstack-cpi.html#resource-pools)
@@ -165,7 +167,7 @@ vm_types:
 - [See vCloud CPI VM types cloud properties](vcloud-cpi.html#resource-pools)
 
 ---
-## <a id='disk-pools'></a> Disk Types Block
+## <a id='disk-types'></a> Disk Types Block
 
 **disk_types** [Array, required]: Specifies the [disk types](./terminology.html#disk-types) available to deployments. At least one should be specified.
 
@@ -182,7 +184,7 @@ disk_types:
   cloud_properties: {type: gp2}
 ```
 
-### <a id='disk-pools-cloud-properties'></a> CPI Specific `cloud_properties`
+### <a id='disk-types-cloud-properties'></a> CPI Specific `cloud_properties`
 
 - [See AWS CPI disk type cloud properties](aws-cpi.html#disk-pools)
 - [See OpenStack CPI disk type cloud properties](openstack-cpi.html#disk-pools)

@@ -46,6 +46,12 @@ Uploads the file that you specify as a release. If you do not provide a `RELEASE
 <pre class="terminal">$ bosh delete release NAME [VERSION] [--force]</pre>
 Deletes a release and associated jobs, packages, compiled packages, and all package metadata. Fails if a deployment references this release.
 
+<pre class="terminal">$ bosh inspect release NAME/VERSION</pre>
+Prints release jobs and packages and their associated blobstore records as known by the Director.
+
+<pre class="terminal">$ bosh export release NAME/VERSION OS/VERSION</pre>
+Exports given release as a tarball, including compiled packages for stemcell that matches OS and version.
+
 ---
 ### <a id="dir-stemcells"></a> Stemcells
 
