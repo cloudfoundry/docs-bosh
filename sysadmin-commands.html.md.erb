@@ -156,11 +156,11 @@ Displays the status of a task that you specify and tracks its output. You can tr
 ---
 ### <a id="ssh"></a> SSH
 
-<pre class="terminal">$ bosh ssh [--public_key FILE] [--gateway_host HOST] [--gateway_user USER] [--gateway_identity_file FILE] [--default_password PASSWORD]</pre>
-When you provide arguments with an option flag, the BOSH Director starts an interactive session, passing the specified arguments to a job VM. For example, `bosh ssh --public_key mykey.pub` instructs the BOSH Director to launch an interactive session with a job VM and pass the specified key to the VM.
+<pre class="terminal">$ bosh ssh [--gateway_host HOST] [--gateway_user USER] [--gateway_identity_file FILE] [--default_password PASSWORD]</pre>
+Executes a command or starts an interactive shell via SSH. You can tunnel the SSH connection over a `gateway` by specifying additional options.
 
 <pre class="terminal">$ bosh ssh JOB [INDEX] [COMMANDS]</pre>
-When you provide arguments without an option flag, the Director executes the arguments as commands on the job VM. For example, `bosh redis ssh ls -R` runs the `ls -R` command on the redis job VM.
+When you provide arguments without an option flag, the Director executes the arguments as commands on the job VM. For example, `bosh ssh redis 0 ls -R` runs the `ls -R` command on the redis/0 job VM.
 
 ---
 ### <a id="logs"></a> Logs
