@@ -160,7 +160,7 @@ Displays the status of a task that you specify and tracks its output. You can tr
 When you provide arguments with an option flag, the BOSH Director starts an interactive session, passing the specified arguments to a job VM. For example, `bosh ssh --public_key mykey.pub` instructs the BOSH Director to launch an interactive session with a job VM and pass the specified key to the VM.
 
 <pre class="terminal">$ bosh ssh JOB [INDEX] [COMMANDS]</pre>
-When you provide arguments without an option flag, the Director executes the arguments as commands on the job VM. For example, `bosh redis ssh ls -R` runs the `ls -R` command on the redis job VM.
+When you provide arguments without an option flag, the Director executes the arguments as commands on the job VM. For example, `bosh ssh redis 0 "ls -R"` runs the `ls -R` command on the redis job VM.
 
 ---
 ### <a id="logs"></a> Logs
