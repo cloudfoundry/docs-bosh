@@ -257,6 +257,13 @@ compilation:
 
 * `allow_mixed_datastores` configuration has been deprecated in favor of setting same datastore pattern for `datastore_pattern` and `persistent_datastore_pattern` keys.
 
+* The vSphere CPI requires access to port 80/443 for all the ESXi hosts in your
+vSphere resource pool(s).  In order to upload stemcells to vSphere, the
+vSphere CPI makes use of an API call that returns a URL that the CPI should
+make a `POST` request to in order to upload the stemcell. This URL could have
+a hostname that resolves to any one of the ESXi hosts that are associated
+with your vSphere resource pool(s).
+
 ---
 ## <a id='errors'></a> Errors
 
