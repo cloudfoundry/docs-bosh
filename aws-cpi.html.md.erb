@@ -24,8 +24,8 @@ azs:
 
 Schema for `cloud_properties` section used by dynamic network or manual network subnet:
 
-* **subnet** [String, required]: Subnet ID in which instance will be created. Example: `subnet-9be6c3f7`.
-* **security_groups** [Array, optional]: Array of security groups to apply for all VMs that are placed on this network. Defaults to security groups specified by `default_security_groups` in the global CPI settings. Consistently use either security group names or IDs.
+* **subnet** [String, required]: Subnet ID in which the instance will be created. Example: `subnet-9be6c3f7`.
+* **security_groups** [Array, optional]: Array of security groups to apply to all VMs placed on this network. Defaults to security groups specified by `default_security_groups` in the global CPI settings. Use either security group names or IDs, but be consistent.
 
 Example of manual network:
 
@@ -63,7 +63,7 @@ networks:
 
 Schema for `cloud_properties` section:
 
-* **instance_type** [String, required]: Type of the [instance](http://aws.amazon.com/ec2/instance-types/). Example: `m1.small`.
+* **instance_type** [String, required]: Type of the [instance](http://aws.amazon.com/ec2/instance-types/). Example: `m3.medium`.
 * **availability_zone** [String, required]: Availability zone to use for creating instances. Example: `us-east-1a`.
 * **key_name** [String, optional]: Key pair name. Defaults to key pair name specified by `default_key_name` in global CPI settings. Example: `bosh`.
 * **spot\_bid\_price** [Float, optional]: Bid price in dollars for [AWS spot instance](http://aws.amazon.com/ec2/purchasing-options/spot-instances/). Using this option will slow down VM creation. Example: `0.03`.
@@ -72,7 +72,7 @@ Schema for `cloud_properties` section:
 * **iam\_instance\_profile** [String, optional]: Name of an [IAM instance profile](aws-iam-instance-profiles.html). Example: `director`.
 * **placement_group** [String, optional]: Name of a [placement group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html). Example: `my-group`.
 * **tenancy** [String, optional]: VM [tenancy](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/dedicated-instance.html) configuration. Example: `dedicated`. Default is `default`.
-* **raw\_instance\_storage** [Boolean, optional]: Exposes all available [instance storage via labeled disks](aws-instance-storage.html).
+* **raw\_instance\_storage** [Boolean, optional]: Exposes all available [instance storage via labeled disks](aws-instance-storage.html). Defaults to `false`.
 * **ephemeral_disk** [Hash, optional]: EBS backed ephemeral disk of custom size for when instance storage is not large enough or not available for selected instance type.
     * **size** [Integer, required]: Specifies the disk size in megabytes.
     * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `standard`.
@@ -88,7 +88,7 @@ Schema for `cloud_properties` section:
         * `standard` stands for EBS magnetic drives
         * `gp2` stands for EBS general purpose drives (SSD)
 
-Example of a `m2.medium` instance:
+Example of an `m3.medium` instance:
 
 ```yaml
 resource_pools:
