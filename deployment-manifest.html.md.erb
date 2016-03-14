@@ -94,7 +94,7 @@ See [networks](networks.html) for more details.
 * **stemcell** [Hash, required]: The stemcell used to create resource pool VMs.
     * **name** [String, required]: The stemcell name
     * **version** [String, required]: The stemcell version
-* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create VMs; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#resource-pools-cloud-properties) below. Examples: `instance_type`, `availability_zone`. Default is `{}` (empty Hash).
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create VMs. Most IaaSes require this. See [CPI Specific `cloud_properties`](#resource-pools-cloud-properties) below. Examples: `instance_type`, `availability_zone`. Default is `{}` (empty Hash).
 * **env** [Hash, optional]: Describes the VM environment and provides a specific VM environment to the CPI `create_stemcell` call. `env` data is available to BOSH Agents as VM settings. Default is `{}` (empty Hash).
 
 Example:
