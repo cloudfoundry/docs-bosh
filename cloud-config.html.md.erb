@@ -167,6 +167,27 @@ vm_types:
 - [See vCloud CPI VM types cloud properties](vcloud-cpi.html#resource-pools)
 
 ---
+## <a id='vm-extensions'></a> VM Extenstions Block
+
+<p class="note">Note: This feature is available with bosh-release v255.4+.</p>
+
+**vm_extensions** [Array, optional]: Specifies the [VM extensions](./terminology.html#vm-extension) available to deployments.
+
+* **name** [String, required]: A unique name used to identify and reference the VM extension
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to configure VMs. Example: `elbs: [...]`. Default is `{}` (empty Hash).
+
+Example:
+
+```yaml
+vm_extensions:
+- name: pub-lbs
+  cloud_properties:
+    elbs: [main]
+```
+
+Any IaaS specific configuration could be placed into a VM extension's `cloud_properties`.
+
+---
 ## <a id='disk-types'></a> Disk Types Block
 
 **disk_types** [Array, required]: Specifies the [disk types](./terminology.html#disk-types) available to deployments. At least one should be specified.

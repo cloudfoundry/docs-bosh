@@ -134,6 +134,10 @@ The runtime config is a YAML file that defines global configuration used by the 
 
 A generic VM image that BOSH clones and configures to during deployment. A stemcell is a template from which BOSH creates whatever VMs are needed for a wide variety of components and products.
 
+## <a id="vm-extension"></a> VM Extension
+
+VM extension is a named Virtual Machine configuration in the cloud config that allows to specify arbitrary IaaS specific configuration such as associated security groups and load balancers. [See usage details](cloud-config.html#vm-extensions).
+
 ## <a id="vm-type"></a> VM Type
 
 VM type is a named Virtual Machine size configuration in the cloud config. [See usage details](cloud-config.html#vm-types).
