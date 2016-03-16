@@ -99,5 +99,5 @@ Each template can also access special `spec` object for instance specific config
 - `<% spec.bootstrap %>`: Allow to evaluate if this instance is a the first instance of its group.
 
 - `<%= spec.az %>`: Inserts instance AZ.
-- `<%= spec.address %>`: Inserts default instance network address (IPv4, IPv6 or DNS record). Available in bosh-release ?+.
+- `<%= spec.address %>`: Inserts default instance network address (IPv4, IPv6 or DNS record). Available in bosh-release v255.4+.
 - `<% spec.networks %>`: Allows to evaluate instance's network information.
