@@ -90,6 +90,8 @@ Templates have access to merged job property values, built by merging default pr
 - `<%= p("some.property") %>`: Insert the property `some.property` value, else a default value from the job spec file. If `some.property` does not have a default in the spec file, error will be raised to the user specifying that property value is missing.
 - `<% if_p("some.property") do |prop| %>...<% end %>` - Evaluates the block only if `some.property` property has been provided. The property value is available in the variable `prop`. Multiple properties can be specified: `<% if_p("prop1", "prop2") do |prop1, prop2| %>`.
 
+<a id="properties-spec"></a>
+
 Each template can also access special `spec` object for instance specific configuration:
 
 - `<%= spec.job %>`: Inserts instance name.
