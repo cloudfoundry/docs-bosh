@@ -110,6 +110,7 @@ update:
   * **consumes** [Hash, optional]: Links consumes by the job. [Read more about link configuration](links.html#deployment)
   * **provides** [Hash, optional]: Links provided by the job. [Read more about link configuration](links.html#deployment)
 * **vm_type** [String, required]: A valid VM type name from the cloud config.
+* **vm_extensions** [Array, required]: A valid list of VM extension names from the cloud config.
 * **stemcell** [String, required]: A valid stemcell alias from the Stemcells Block.
 * **persistent\_disk\_type** [String, optional]: A valid disk type name from the cloud config. [Read more about persistent disks](./persistent-disks.html)
 * **networks** [Array, required]: Specifies the networks this instance requires. Each network can have the following properties specified:
@@ -131,6 +132,7 @@ instance_groups:
   - name: redis-server
     release: redis
   vm_type: medium
+  vm_extensions: [public-lbs]
   stemcell: default
   persistent_disk_type: medium
   networks:
