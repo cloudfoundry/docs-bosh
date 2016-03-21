@@ -264,10 +264,12 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
 
     <%= image_tag("images/deploy-microbosh-to-aws/list-security-groups.png") %>
 
-1. Complete the Create Security Group form with the following information and click **Create**:
+1. Complete the Create Security Group form with the following information:
     * **Security group name**: bosh
     * **Description**: BOSH deployed VMs
     * **VPC**: Select the "bosh" VPC that you created in [Create a Virtual Private Cloud](#create-vpc).
+
+1. Click **Create**
 
     <%= image_tag("images/deploy-microbosh-to-aws/create-security-group.png") %>
 
@@ -293,11 +295,11 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
       <tr><td>Custom TCP Rule</td><td>6868</td><td>(My IP)</td><td>BOSH Agent access from bosh-init</td></tr>
       <tr><td>Custom TCP Rule</td><td>25555</td><td>(My IP)</td><td>BOSH Director access from CLI</td></tr>
 
-      <tr><td>All TCP</td><td>ALL</td><td>ID of this security group</td><td>Management and data access</td></tr>
-      <tr><td>All UDP</td><td>ALL</td><td>ID of this security group</td><td>Management and data access</td></tr>
+      <tr><td>All TCP</td><td>0 - 65535</td><td>ID of this security group</td><td>Management and data access</td></tr>
+      <tr><td>All UDP</td><td>0 - 65535</td><td>ID of this security group</td><td>Management and data access</td></tr>
     </table>
 
-    <p class="note"><strong>Note</strong>: To enter ID of the "bosh" security group just start typing "bosh" and the AWS Console will autocomplete the name with its ID.</p>
+    <p class="note"><strong>Note</strong>:  To enter your security group as a *Source*, select *Custom IP*, and enter "bosh". Note: The AWS Console should autocomplete the security group ID (e.g. "sg-12ab34cd").</p>
 
     <%= image_tag("images/deploy-microbosh-to-aws/edit-security-group-rules.png") %>
 
