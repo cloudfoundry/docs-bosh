@@ -4,16 +4,16 @@ title: Links
 
 <p class="note">Note: This feature is available with bosh-release v255.5+.</p>
 
-Before links for a release job to communicate with another release job, release authors had to add properties to their releases to accept other job's network addresses (e.g. "db_ips"). Operators then had to explicitly assign static IPs or DNS names for each deployment job and fill out properties. Such configuration typically relied on some helper tool like spiff or manual configuration. It also lead to incosistent network configuration as different jobs named their properties differently. All of that did not make it easy to automate and operate multiple environments.
+If network communication is required between jobs, release authors had to add job properties to accept other job's network addresses (e.g. "db_ips" property). Operators then had to explicitly assign static IPs or DNS names for each instance group and fill out network address properties. Such configuration typically relied on some helper tool like spiff or just manual configuration. It also lead to incosistent network configuration as different jobs named their properties differently. All of that did not make it easy to automate and operate multiple environments.
 
 Links provide a solution to the above problem by making the Director be responsible for the IP management. Release authors get a consistent way to retrieve networking (and topology) configuration, and operators have a way to consistently connect components.
 
 ---
 ## <a id="definition"></a> Release Definitions
 
-Instead of defining properties that accept list of IPs or DNS names, each release job can define links it consumes and provides.
+Instead of defining properties that accept list of IPs or DNS names, each job can define links it consumes and provides.
 
-For example here is how "web" release job which receives HTTP traffic and talks to at least one database server may be defined. To connect to a database it consumes "primary\_db" and "secondary\_db" links of type "db". It also exposes an "incoming" link of type "http" so that other services can connect to it.
+For example here is how "web" job which receives HTTP traffic and talks to at least one database server may be defined. To connect to a database it consumes "primary\_db" and "secondary\_db" links of type "db". It also exposes an "incoming" link of type "http" so that other services can connect to it.
 
 ```yaml
 name: web
@@ -34,9 +34,9 @@ provides:
 properties: {...}
 ```
 
-Note that "secondary\_db" link has been marked as optional, to indicate that "web" release job will work correctly even if operator does not provide "secondary_db" link. Providing "secondary\_db" link may enable some addtional functionality.
+Note that "secondary\_db" link has been marked as optional, to indicate that "web" job will work correctly even if operator does not provide "secondary_db" link. Providing "secondary\_db" link may enable some addtional functionality.
 
-Example Postgres release job that provides "conn" link of type "db".
+Example Postgres job that provides "conn" link of type "db".
 
 ```yaml
 name: postgres
@@ -56,7 +56,7 @@ Once release is configured to consume links, `link` template accessor allows to 
 - `link("...")` allows to access linked instances and their properties
 - `if_link("...")` allows to conditionally access link (useful for optional links)
 
-Besides just collecting all network addresses, information available in a link such as AZs may be useful to determine which instances release job should be selectively communicating.
+Besides just collecting all network addresses, links include information that may be useful to determine which instances should be selectively communicating (e.g. based on AZ affinity).
 
 ```ruby
 <%=
@@ -102,7 +102,7 @@ Available `instance` object methods:
 ---
 ## <a id="deployment"></a> Deployment Configuration
 
-Given release job examples above ("web" and "postgres") one can configure a deployment that connects a web app to the database.
+Given job examples above ("web" and "postgres") one can configure a deployment that connects a web app to the database.
 
 ```yaml
 instance_groups:
@@ -139,13 +139,13 @@ instance_groups:
 
 ### <a id="implicit"></a> Implicit linking
 
-If a link type is provided by only one release job within a deployment, all release jobs in that deployment that consume links of that type will be implicitly connected to that provider.
+If a link type is provided by only one job within a deployment, all release jobs in that deployment that consume links of that type will be implicitly connected to that provider.
 
 Optional links are also implicitly connected; however, if no provider can be found, it continues to be `nil`.
 
 Implicit linking does not happen across deployments.
 
-In the following example, it's unnecessary to explicitly specify that web release job consumes "primary_db" link of type "db" from the postgres release job, since postgres release job is the only one that provides link of type "db".
+In the following example, it's unnecessary to explicitly specify that web job consumes "primary_db" link of type "db" from the postgres release job, since postgres job is the only one that provides link of type "db".
 
 ```yaml
 instance_groups:
@@ -163,7 +163,7 @@ instance_groups:
 
 ### <a id="self"></a> Self linking
 
-A release job can consume a link that it provides. It's could be used to determine its own peers.
+A job can consume a link that it provides. It's could be used to determine its own peers.
 
 Implicit linking also applies.
 
@@ -183,7 +183,7 @@ instance_groups:
 
 By default links include network addresses on producer's default link network. The default link network is a network marked with `default: [gateway]`. Release job can consume a link over a different network.
 
-For example "web" release job will receive "data_db"'s network addresses on its "vip" network, instead of receiving network addresses from "private" network.
+For example "web" job will receive "data_db"'s network addresses on its "vip" network, instead of receiving network addresses from "private" network.
 
 ```yaml
 instance_groups:
@@ -211,9 +211,9 @@ instance_groups:
 
 ### <a id="cross-deployment"></a> Cross-deployment linking
 
-Links can be formed between jobs between different deployments as long as link is marked as `shared`.
+Links can be formed between jobs from different deployments as long as link is marked as `shared`.
 
-Unlike links within a deployment, updating a link producing job in one deployment does not affect a link consuming job in another deployment until that deployment is redeployed. To do so run `bosh deploy` command.
+Unlike links within a deployment, updating a link producing job in one deployment does not affect a link consuming job in another deployment *until* that deployment is redeployed. To do so run `bosh deploy` command.
 
 Implicit linking does not happen across deployments.
 
