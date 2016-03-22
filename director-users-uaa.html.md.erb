@@ -198,28 +198,7 @@ See [the resurrector UAA client configuration](resurrector.html#uaa-client) for 
 ---
 ## <a id="permissions"></a> Permissions
 
-All UAA users can log into all Directors which can verify the access token. However, user actions will be limited based on the presence of the following scopes in their UAA token:
-
-- `bosh.admin`: user has admin access on any Director
-- `bosh.read`: user has read access on any Director
-- `bosh.<DIRECTOR-UUID>.admin`: user has admin access on the Director with the corresponding UUID
-- `bosh.<DIRECTOR-UUID>.read`: user has read access on the Director with the corresponding UUID
-
-Users with admin access can use all commands on all deployments.
-
-Users with read access can use following CLI commands:
-
-- `bosh deployments`: list of all deployments and releases/stemcells used
-- `bosh releases`: list of all releases and their versions
-- `bosh stemcells`: list of all stemcells and their versions
-- `bosh vms`: list of all VMs which includes job names, IPs, vitals, details, etc.
-- `bosh tasks`: list of all tasks summaries which includes task descriptions without access to debug logs
-
-Users without any of the above scopes can use:
-
-- `bosh status`: show general information about targeted Director (authentication is not required)
-
-<p class="note">Note: If you use the same private key to sign keys on different UAAs, users might obtain a token from one UAA and use it on the Director configured with a different UAA. It is therefore highly recommended to lock down scopes to individual Directors and not re-use your private key used for signing on the UAA.</p>
+See [UAA permissions](director-users-uaa-perms.html) to limit access to resources.
 
 ---
 ## <a id="errors"></a> Errors

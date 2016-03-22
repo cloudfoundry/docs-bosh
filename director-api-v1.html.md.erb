@@ -166,6 +166,34 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?state=queued,proce
 ```
 
 ---
+### <a id="list-deployment-tasks"></a> `GET /tasks?deployment=...`: List tasks associated with a deployment
+
+Other tasks query params can be applied.
+
+#### Response body schema
+
+See schema [above](#list-tasks).
+
+#### Example
+
+<pre class="terminal">
+$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?deploymet=cf-warden' | jq .
+</pre>
+
+```yaml
+[
+  {
+    "id": 1180,
+    "state": "processing",
+    "description": "run errand acceptance_tests from deployment cf-warden",
+    "timestamp": 1447033291,
+    "result": null,
+    "user": "admin"
+  }
+]
+```
+
+---
 ### <a id="get-task"></a> `GET /tasks/{id}`: Retrieve single task
 
 #### Response body schema
