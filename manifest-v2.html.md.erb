@@ -109,6 +109,7 @@ update:
   * **release** [String, required]: The release where the job exists
   * **consumes** [Hash, optional]: Links consumes by the job. [Read more about link configuration](links.html#deployment)
   * **provides** [Hash, optional]: Links provided by the job. [Read more about link configuration](links.html#deployment)
+  * **properties** [Hash, required]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job. Only properties specified here will be provided to the job.
 * **vm_type** [String, required]: A valid VM type name from the cloud config.
 * **vm_extensions** [Array, required]: A valid list of VM extension names from the cloud config.
 * **stemcell** [String, required]: A valid stemcell alias from the Stemcells Block.
@@ -120,7 +121,7 @@ update:
 * **update** [Hash, optional]: Specific update settings for this instance group. Use this to override [global job update settings](#update) on a per-instance-group basis.
 * **migrated_from** [Array, optional]: Specific migration settings for this instance group. Use this to [rename and/or migrate instance groups](migrated-from.html).
 * **lifecycle** [String, optional]: Specifies the kind of workload the instance group represents. Valid values are `service` and `errand`; defaults to `service`. A `service` runs indefinitely and restarts if it fails. An `errand` starts with a manual trigger and does not restart if it fails.
-* **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job, and override any identically named global properties.
+* **properties** [Hash, optional]: Specifies instance group properties. Deprecated in favor of job level properties and links.
 
 Example:
 
@@ -131,6 +132,8 @@ instance_groups:
   jobs:
   - name: redis-server
     release: redis
+    properties:
+      port: 3606
   vm_type: medium
   vm_extensions: [public-lbs]
   stemcell: default
@@ -143,6 +146,7 @@ instance_groups:
   jobs:
   - name: redis-server
     release: redis
+    properties: {}
   vm_type: medium
   stemcell: default
   persistent_disk_type: medium
@@ -153,29 +157,4 @@ instance_groups:
 ---
 ## <a id='properties'></a> Properties Block
 
-**properties** [Hash, optional]: Describes global properties and general configuration information.
-
-Global properties allow BOSH to configure jobs to a specific environment. `properties` defined in the [Properties](#properties) block are accessible to all jobs. Any identically named `properties` in the [Instance groups](#instance-groups) block will override the global property for the jobs in that instance group.
-
-By default, general configuration information resides in the template spec file of a release job. If you move this information from the release into the manifest, you can reconfigure a deployment by changing the manifest instead of the release. To do this, add the general configuration information to the manifest in a sub-block of the Properties block.
-
-Typical general configuration information includes but is not limited to:
-
-* Port numbers
-* Account names
-* Shared secrets
-* Passwords
-
-Example:
-
-```yaml
-properties:
-  redis:
-    max_connections: 10
-```
-
-### Job Property Precedence
-
-1. BOSH applies the properties in the job's spec file as defined by the release author.
-1. If an identically named property exists in the [Properties](#properties) block of the deployment manifest, the value of this property overrides the previous value.
-1. If an identically named property exists in the Properties sub-block of the [Instance groups](#instance-groups) block of the deployment manifest, the value of this property overrides all previous values.
+**properties** [Hash, optional]: Describes global properties. Deprecated in favor of job level properties and links.
