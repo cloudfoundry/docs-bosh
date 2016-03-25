@@ -25,7 +25,7 @@ azs:
 Schema for `cloud_properties` section used by dynamic network or manual network subnet:
 
 * **subnet** [String, required]: Subnet ID in which the instance will be created. Example: `subnet-9be6c3f7`.
-* **security_groups** [Array, optional]: Array of security groups to apply to all VMs placed on this network. Defaults to security groups specified by `default_security_groups` in the global CPI settings. Use either security group names or IDs, but be consistent.
+* **security_groups** [Array, optional]: Array of security groups to apply to all VMs placed on this network. Defaults to security groups specified by `default_security_groups` in the global CPI settings unless security groups are specified on a resource pool for a VM. Use either security group names or IDs, but be consistent. Security groups can be specified either on a resource pool or on a network.
 
 Example of manual network:
 
@@ -65,6 +65,7 @@ Schema for `cloud_properties` section:
 
 * **instance_type** [String, required]: Type of the [instance](http://aws.amazon.com/ec2/instance-types/). Example: `m3.medium`.
 * **availability_zone** [String, required]: Availability zone to use for creating instances. Example: `us-east-1a`.
+* **security_groups** [Array, optional]: Array of security groups to apply for all VMs that are in this resource pool. Defaults to security groups specified by `default_security_groups` in the global CPI settings unless security groups are specified on one of the VM networks. Security groups can be specified either on a resource pool or on a network. Available in v46+.
 * **key_name** [String, optional]: Key pair name. Defaults to key pair name specified by `default_key_name` in global CPI settings. Example: `bosh`.
 * **spot\_bid\_price** [Float, optional]: Bid price in dollars for [AWS spot instance](http://aws.amazon.com/ec2/purchasing-options/spot-instances/). Using this option will slow down VM creation. Example: `0.03`.
 * **spot\_ondemand\_fallback** [Boolean, optional]: Set to `true` to use an on demand instance if a spot instance is not available during VM creation. Defaults to `false`. Available in v36.
