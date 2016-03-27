@@ -4,9 +4,9 @@ title: Cloud Config
 
 <p class="note">Warning: Once you opt into using cloud config all deployments must be converted to use new format. There is no way to opt out of the cloud config once you opt in. Check all deployment manifest generation you use in your director are "cloud-config friendly" before opt-in. This feature is available with bosh-release v241+. </p>
 
-Previously each deployment manifest specified IaaS and IaaS agnostic configuration in a single file. As more deployments are managed by the Director, it becomes inconvenient to keep shared IaaS configuration in sync in all deployment manifests. In addition multiple deployments typically want to use the same network subnet, hence IP ranges need to be separated and reserved.
+Previously each deployment manifest specified IaaS and IaaS agnostic configuration in a single file. As more deployments are managed by the Director, it becomes inconvenient to keep shared IaaS configuration in sync in all deployment manifests. In addition, multiple deployments typically want to use the same network subnet, hence IP ranges need to be separated and reserved.
 
-The cloud config is a YAML file that defines IaaS specific configuration used by the Director and all deployments. It allows to separate IaaS specific configuration into its own file and keep deployment manifests IaaS agnostic.
+The cloud config is a YAML file that defines IaaS specific configuration used by the Director and all deployments. It allows us to separate IaaS specific configuration into its own file and keep deployment manifests IaaS agnostic.
 
 ---
 ## <a id='update'></a> Updating and retrieving cloud config
@@ -29,7 +29,7 @@ azs:
 ...
 </pre>
 
-Once cloud config is updated all existing deployments will be considered outdated. `bosh deployments` shows that. The Director will apply cloud config changes to each deployment during the next `bosh deploy` for that deployment.
+Once cloud config is updated, all existing deployments will be considered outdated, as indicated by `bosh deployments`. The Director will apply cloud config changes to each deployment during the next `bosh deploy` for that deployment.
 
 <pre class="terminal">
 $ bosh deployments

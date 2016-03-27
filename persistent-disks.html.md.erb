@@ -8,7 +8,7 @@ Deployment jobs may need to store persistent data.
 
 If you attach a persistent disk to a virtual machine and then stop, terminate, or delete the VM, your persistent disk data remains intact. Attaching the persistent disk to another VM allows you to access your data.
 
-Persistent disks are kept for each deployment jobs under following circumstances when:
+Persistent disks are kept for each deployment job under the following circumstances:
 
 * updating deployment to use new releases or stemcells
 * using cloud check to recover deleted VMs
@@ -16,10 +16,10 @@ Persistent disks are kept for each deployment jobs under following circumstances
 
 As of bosh-release v241+ (1.3163.0), the Director no longer deletes persistent disks that are no longer needed. Unnecessary persistent disks will be marked as orphaned so that they can be garbage collected after 5 days.
 
-Following conditions result in persistent disks to be marked as orphaned when:
+The following conditions result in persistent disks to be marked as orphaned:
 
 * deployment job no longer specifies a persistent disk size or a disk pool
-* deployment job changes size or cloud properties of a disk
+* deployment job changes the size or cloud properties of a disk
 * deployment job is renamed without `migrated_from` configuration
 * deployment job is scaled down
 * deployment job is deleted or AZ assignment is removed
@@ -33,7 +33,7 @@ You can specify that a deployment job needs an attached persistent disk in one o
 ---
 ## <a id='persistent-disk'></a> Persistent Disk Declaration
 
-To specify that a deployment job needs an attached persistent disk, add a `persistent_disk` key-value pair to job in the [Jobs](deployment-manifest.html#jobs) block of your deployment manifest.
+To specify that a deployment job needs an attached persistent disk, add a `persistent_disk` key-value pair to the job in the [Jobs](deployment-manifest.html#jobs) block of your deployment manifest.
 
 The `persistent_disk` key-value pair specifies the persistent disk size, and defaults to 0 (no persistent disk). If the `persistent_disk` value is a positive integer, BOSH creates a persistent disk of that size in megabytes and attaches it to each instance VM for the job.
 
