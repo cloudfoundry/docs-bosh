@@ -113,7 +113,7 @@ You provide that by writing a control script and updating the `monit` file.
 The control script:
 
 * Includes a start command and a stop command.
-* Is an ERb template stored in the `templates` directory for the relevant job.
+* Is an ERB template stored in the `templates` directory for the relevant job.
 
 For each job, create a control script that configures the job to store logs in `/var/vcap/sys/log/JOB_NAME`. Save this script as `ctl.erb` in the `templates` directory for its job.
 
