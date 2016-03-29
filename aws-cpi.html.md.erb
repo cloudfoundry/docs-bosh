@@ -182,7 +182,7 @@ azs:
   cloud_properties: {availability_zone: us-east-1b}
 
 vm_types:
-- name: small
+- name: default
   cloud_properties:
     instance_type: t2.micro
     ephemeral_disk: {size: 3000, type: gp2}
@@ -192,7 +192,7 @@ vm_types:
     ephemeral_disk: {size: 30000, type: gp2}
 
 disk_types:
-- name: small
+- name: default
   disk_size: 3000
   cloud_properties: {type: gp2}
 - name: large
@@ -200,7 +200,7 @@ disk_types:
   cloud_properties: {type: gp2}
 
 networks:
-- name: private
+- name: default
   type: manual
   subnets:
   - range: 10.10.0.0/24
@@ -223,7 +223,7 @@ compilation:
   reuse_compilation_vms: true
   az: z1
   vm_type: large
-  network: private
+  network: default
 ```
 
 ---

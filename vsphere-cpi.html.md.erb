@@ -206,7 +206,7 @@ azs:
     - clusters: [z2]
 
 vm_types:
-- name: small
+- name: default
   cloud_properties:
     cpu: 2
     ram: 1024
@@ -218,13 +218,13 @@ vm_types:
     disk: 30_240
 
 disk_types:
-- name: small
+- name: default
   disk_size: 3000
 - name: large
   disk_size: 50_000
 
 networks:
-- name: private
+- name: default
   type: manual
   subnets:
   - range: 10.10.0.0/24
@@ -245,7 +245,7 @@ compilation:
   reuse_compilation_vms: true
   az: z1
   vm_type: large
-  network: private
+  network: default
 ```
 
 ---
