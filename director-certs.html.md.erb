@@ -8,6 +8,7 @@ Depending on you configuration, there are up to three endpoints to be secured us
 
 <p class="note">Note: If you are using the UAA for user management, an SSL certificate is mandatory for the Director and the UAA.</p>
 
+Note: If you are using trusted root, you should skip this certificate generation section.
 You can use the following script to generate a root CA certificate and use it to sign three generated SSL certificates:
 
 <pre class="bash">
@@ -72,16 +73,16 @@ Update the Director deployment manifest:
 - `director.ssl.key`
     - Private key for the Director (e.g. `certs/director.key`)
 - `director.ssl.cert`
-    - Associated certificate for the Director (e.g. `certs/director.crt`)
+    - Associated certificate for the Director (e.g. `certs/director.crt`) #If using trusted cert, include all intermediate certs
 - `hm.director_account.ca_cert`
-    - CA certificate used by the HM to verify the Director's certificate (e.g. `certs/rootCA.pem`)
+    - CA certificate used by the HM to verify the Director's certificate (e.g. `certs/rootCA.pem`) #Leave empty for trusted cert
 
 If you are using the UAA for user management, additionally put certificates in these properties:
 
 - `uaa.sslPrivateKey`
     - Private key for the UAA (e.g. `certs/uaa-web.key`)
 - `uaa.sslCertificate`
-    - Associated certificate for the UAA (e.g. `certs/uaa-web.crt`)
+    - Associated certificate for the UAA (e.g. `certs/uaa-web.crt`) #If using trusted cert, include all intermediate certs
 - `login.saml.serviceProviderKey`
     - Private key for the UAA (e.g. `certs/uaa-sp.key`)
 - `login.saml.serviceProviderCertificate`
@@ -91,7 +92,7 @@ If you are using the UAA for user management, additionally put certificates in t
 ## <a id="target"></a> Target the Director
 
 After you deployed your Director with the above changes, you need to specify `--ca-cert` when targeting the Director:
-
+Note: Skip --ca-cert for trusted cert and target the domain name for the director
 <pre class="terminal">
 $ bosh target 10.244.4.2 --ca-cert certs/rootCA.pem
 </pre>
