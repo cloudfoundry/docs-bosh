@@ -1,4 +1,4 @@
----
+I---
 title: UAA Integration
 ---
 
@@ -46,7 +46,6 @@ In this configuration the Director is configured to delegate user management to 
     properties:
       uaa:
         url: "https://54.236.100.56:8443"
-
         scim:
           users:
           - admin|admin-password|scim.write,scim.read,bosh.admin
@@ -60,18 +59,22 @@ In this configuration the Director is configured to delegate user management to 
             authorities: uaa.none
             access-token-validity: 600 # 10 min
             refresh-token-validity: 86400 # re-login required once a day
-            secret: ""
+            secret: "" # Secret needs to be empty for the bosh_cli
 
-        admin: {client_secret: admin-password}
+        admin: {client_secret: admin-password}  # UAA admin password for bosh
         login: {client_secret: login-password}
         zones: {internal: {hostnames: []}}
     ```
+
+    <div class="note">Note: If you are using a trusted SSL certificate you want `properties.uaa.url` to be the domain name of your bosh director, otherwise the certificate will NOT be trusted.</div>
 
     <div class="note">Note: To avoid token expiration issues <code>access-token-validity</code> must be greater than largest expected duration for uploading a release (or any other asset) to the Director. See <a href="https://github.com/cloudfoundry/bosh/issues/1002">issue #1002</a> for more details.</div>
 
     To configure UAA to use LDAP, SAML, etc. see [uaa release job properties](http://bosh.io/jobs/uaa?source=github.com/cloudfoundry/uaa-release).
 
 1. Configure the Director Postgres server to have an additional database called `uaa`:
+
+   Note: If you use a database that is NOT provided by BOSH for your BOSH director you should skip this section
 
     ```yaml
     properties:
@@ -81,9 +84,11 @@ In this configuration the Director is configured to delegate user management to 
         user: postgres
         password: postgres-password
         database: bosh
-        additional_databases: [uaa] # <---
+        additional_databases: [uaadb] # <---
         adapter: postgres
     ```
+
+
 
 1. Configure the UAA server to point to that database:
 
@@ -94,7 +99,7 @@ In this configuration the Director is configured to delegate user management to 
         port: 5432
         db_scheme: postgresql
         databases:
-        - {tag: uaa, name: uaa}
+        - {tag: uaa, name: uaadb} # tag should be 'uaa' and name is the database name
         roles:
         - tag: admin
           name: postgres
@@ -111,6 +116,7 @@ In this configuration the Director is configured to delegate user management to 
           uaa:
             url: "https://54.236.100.56:8443"
     ```
+    <div class="note">Note: If you are using a trusted SSL certificate you want `properties.director.user_management.uaa.url` to be the domain name of your bosh director, otherwise the certificate will NOT be trusted by the BOSH cli.</div>
 
     <p class="note">Note: The UAA URL given to the Director will be advertised to the CLI and the CLI will use it to ask for an access token. This means that the CLI must be able to reach that IP.</p>
 
@@ -153,7 +159,7 @@ Password: **************
 An example of how to use [UAA CLI](https://rubygems.org/gems/cf-uaac) to add a new user that has readonly access on any Director. Enter the client secret provided for the UAA admin client in the manifest at `uaa.admin.client_secret`.
 
 <pre class="terminal">
-$ uaac target https://54.236.100.56:8443 --ca-cert certs/rootCA.pem
+$ uaac target https://54.236.100.56:8443 --ca-cert certs/rootCA.pem  #Skip --ca-cert flag for trusted certs
 $ uaac token client get admin
 Client secret:  **************
 $ uaac user add some-new-user --emails new.user@example.com
