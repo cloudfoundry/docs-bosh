@@ -11,9 +11,13 @@ Links provide a solution to the above problem by making the Director responsible
 ---
 ## <a id="definition"></a> Release Definitions
 
-Instead of defining properties that accept lists of IPs or DNS names, each job can define links that it consumes and provides.
+Instead of defining properties for every instance group, a job can declare links. (The job either 'consumes' a link provided by another job, or it can 'provide' itself so that any jobs, [including itself](#self) can 'consume' it).
 
-For example, here is how a "web" job which receives HTTP traffic and talks to at least one database server may be defined. To connect to a database, it consumes "primary\_db" and "secondary\_db" links of type "db". It also exposes an "incoming" link of type "http" so that other services can connect to it.
+In the below yaml snippet the `name` field is used to differentiate between two links of the same `type` (`db`). Both the `name` and `type` that are provided can be arbitrarily defined by release authors. Other releases which consume these links must match the `type` specified.
+
+For example, here is how a "web" job which receives HTTP traffic and talks to at least one database server may be defined. To connect to a database, it consumes `primary_db` and `secondary_db` links of type `db`. It also exposes an "incoming" link of type `http` so that other services can connect to it.
+
+\*\*Note that when the `web`job is 'consuming' db links, the name of the link does not have to match the name of the provided db link (i.e. postgres has a link called `conn` while the web job consumes `primary_db` and/or `secondary_db`). The mapping between the provided link named `conn` and the consumed link named `primary_db` is done in the [deployment manifest file](#deployment).
 
 ```yaml
 name: web
@@ -34,9 +38,9 @@ provides:
 properties: {...}
 ```
 
-Note that the "secondary\_db" link has been marked as optional, to indicate that the "web" job will work correctly, even if the operator does not provide a "secondary_db" link. Providing the "secondary\_db" link may enable some additional functionality.
+\*\*Note that the `secondary_db` link has been marked as optional, to indicate that the "web" job will work correctly, even if the operator does not provide a "secondary_db" link. Providing the `secondary_db` link may enable some additional functionality.
 
-Here is an example Postgres job that provides a "conn" link of type "db".
+Here is an example Postgres job that provides a `conn` link of type `db`.
 
 ```yaml
 name: postgres
@@ -102,7 +106,7 @@ Available `instance` object methods:
 ---
 ## <a id="deployment"></a> Deployment Configuration
 
-Given the "web" and "postgres" job examples above, one can configure a deployment that connects a web app to the database.
+Given the "web" and "postgres" job examples above, one can configure a deployment that connects a web app to the database. The following example demonstrates linking defined explicitly in the manifest by saying which jobs provide and consume a link `data_db`.
 
 ```yaml
 instance_groups:
@@ -120,21 +124,6 @@ instance_groups:
     release: postgres
     provides:
       conn: {as: data_db}
-```
-
-```yaml
-instance_groups:
-- name: app
-  jobs:
-  - name: web
-    release: my-app
-    consumes:
-      secondary_db: nil
-
-- name: data_db
-  jobs:
-  - name: postgres
-    release: postgres
 ```
 
 ### <a id="implicit"></a> Implicit linking
@@ -179,7 +168,7 @@ instance_groups:
       etcd: {as: diego-etcd}
 ```
 
-### <a id="self"></a> Custom network linking
+### <a id="custom-network"></a> Custom network linking
 
 By default, links include network addresses on the producer's default link network. The default link network is a network marked with `default: [gateway]`. A release job can also consume a link over a different network.
 
