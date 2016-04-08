@@ -22,8 +22,7 @@ Schema for `cloud_properties` section used by dynamic network or manual network 
 
 * **virtual\_network\_name** [String, required]: Name of a virtual network. Example: `boshnet`.
 * **subnet_name** [String, required]: Name of a subnet within virtual network.
-* **tcp_endpoints** [Array, optional]: Array of port pairs. Only used with vip networks to expose specific ports.
-* **udp_endpoints** [Array, optional]: Array of port pairs. Only used with vip networks to expose specific ports.
+* **security_group** [String, optional]: The security group to apply to all VMs placed on this network. Default to the security group specified by default_security_group in the global CPI settings unless a security group is specified on a resource pool for a VM. The security group can be specified either in a resource pool or on a network.
 
 See [how to create a virtual network and subnets](azure-resources.html#virtual-network).
 
@@ -70,6 +69,7 @@ Schema for `cloud_properties` section:
     If you use DS-series or GS-series as instance_type, you should set this to a premium storage account.
     See more information about [Azure premium storage](https://azure.microsoft.com/en-us/documentation/articles/storage-premium-storage-preview-portal/). See [avaliable regions](http://azure.microsoft.com/en-us/regions/#services) where you can create premium storage accounts.
 * **availability_set** [String, optional]: Name of an availability set to use for VMs. If available set does not exist, it will be automatically created. [More details](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/blob/master/docs/get-started/deploy-cloudfoundry-for-enterprise.md#availability-set).
+* **security_group** [String, optional]: The security group to apply to all VMs placed in this resource pool. Default to the security group specified by default_security_group in the global CPI settings unless a security group is specified on one of the VM networks. The security group can be specified either in a resource pool or on a network.
 
 Example of a `Standard_A2` instance:
 
@@ -112,7 +112,8 @@ Schema:
 * **resource\_group\_name** [String, required]: Resource group name.
 * **storage\_account\_name** [String, required]: Storage account name. It will be used as a default storage account for VM disks and stemcells.
 * **ssh_user** [String, required]: SSH username. Default: `vcap`.
-* **ssh_certificate** [String, required]: SSH certificate.
+* **ssh_public_key** [String, required]: SSH public key.
+* **default_security_group** [String, required]: Name of the default security group that will be applied to all created VMs.
 
 See [all configuration options](https://bosh.io/jobs/cpi?source=github.com/cloudfoundry-incubator/bosh-azure-cpi-release).
 
@@ -132,12 +133,8 @@ properties:
     storage_account_name: boshstore
     storage_access_key: "+o9EVnno8ja5OzQim6...fQkVGbvoQmazl+Nlg=="
     ssh_user: vcap
-    ssh_certificate: |
-      -----BEGIN CERTIFICATE-----
-      MIIDXTCCAkWgAwIBAgIJAPZyC7JqbUo4MA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV
-      ...
-      QAoeQbGmV50ZQk/VsgmFMBoFXntIs5EKkjO6fL4MsD9QtSkiHMkqwIQ20+NNqp3j
-      -----END CERTIFICATE-----
+    ssh_public_key: "ssh-rsa AAAAB3N...6HySEF6IkbJ"
+    default_security_group: nsg-azure
 ```
 
 ---
