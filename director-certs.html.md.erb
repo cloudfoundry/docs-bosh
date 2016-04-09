@@ -73,6 +73,7 @@ Update the Director deployment manifest:
     - Private key for the Director (e.g. `certs/director.key`)
 - `director.ssl.cert`
     - Associated certificate for the Director (e.g. `certs/director.crt`)
+    - Include all intermediate certificates if necessary
 - `hm.director_account.ca_cert`
     - CA certificate used by the HM to verify the Director's certificate (e.g. `certs/rootCA.pem`)
 
@@ -82,6 +83,7 @@ If you are using the UAA for user management, additionally put certificates in t
     - Private key for the UAA (e.g. `certs/uaa-web.key`)
 - `uaa.sslCertificate`
     - Associated certificate for the UAA (e.g. `certs/uaa-web.crt`)
+    - Include all intermediate certificates if necessary
 - `login.saml.serviceProviderKey`
     - Private key for the UAA (e.g. `certs/uaa-sp.key`)
 - `login.saml.serviceProviderCertificate`
@@ -95,6 +97,8 @@ After you deployed your Director with the above changes, you need to specify `--
 <pre class="terminal">
 $ bosh target 10.244.4.2 --ca-cert certs/rootCA.pem
 </pre>
+
+<p class="note">Note: If your certificates are trusted via system installed CA certificates, there is no need to provide `--ca-cert` option.</p>
 
 ---
 [Back to Table of Contents](index.html#install)

@@ -58,16 +58,16 @@ In this configuration the Director is configured to delegate user management to 
             # scopes the client may receive
             scope: openid,bosh.admin,bosh.read,bosh.*.admin,bosh.*.read
             authorities: uaa.none
-            access-token-validity: 600 # 10 min
+            access-token-validity: 120 # 2 min
             refresh-token-validity: 86400 # re-login required once a day
-            secret: ""
+            secret: "" # CLI expects this secret to be empty
 
         admin: {client_secret: admin-password}
         login: {client_secret: login-password}
         zones: {internal: {hostnames: []}}
     ```
 
-    <div class="note">Note: To avoid token expiration issues <code>access-token-validity</code> must be greater than largest expected duration for uploading a release (or any other asset) to the Director. See <a href="https://github.com/cloudfoundry/bosh/issues/1002">issue #1002</a> for more details.</div>
+    <p class="note">Note: Make sure UAA URL corresponds to the Director and UAA certificate subjects.</p>
 
     To configure UAA to use LDAP, SAML, etc. see [uaa release job properties](http://bosh.io/jobs/uaa?source=github.com/cloudfoundry/uaa-release).
 
@@ -84,6 +84,8 @@ In this configuration the Director is configured to delegate user management to 
         additional_databases: [uaa] # <---
         adapter: postgres
     ```
+
+    <p class="note">Note: If you are using externally configured database, you should skip this section.</p>
 
 1. Configure the UAA server to point to that database:
 
@@ -113,6 +115,8 @@ In this configuration the Director is configured to delegate user management to 
     ```
 
     <p class="note">Note: The UAA URL given to the Director will be advertised to the CLI and the CLI will use it to ask for an access token. This means that the CLI must be able to reach that IP.</p>
+
+    <p class="note">Note: Make sure UAA URL corresponds to the UAA certificate subject.</p>
 
 1. Configure Certificates and Keys
 
