@@ -22,7 +22,7 @@ Schema for `cloud_properties` section used by dynamic network or manual network 
 
 * **virtual\_network\_name** [String, required]: Name of a virtual network. Example: `boshnet`.
 * **subnet_name** [String, required]: Name of a subnet within virtual network.
-* **security_group** [String, optional]: The security group to apply to all VMs placed on this network. Default to the security group specified by default_security_group in the global CPI settings unless a security group is specified on a resource pool for a VM. The security group can be specified either in a resource pool or on a network.
+* **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to all VMs placed on this network. Default to the security group specified by default_security_group in the global CPI settings unless a security group is specified on a resource pool for a VM. The security group can be specified either in a resource pool or on a network.
 
 See [how to create a virtual network and subnets](azure-resources.html#virtual-network).
 
@@ -48,12 +48,6 @@ Example of vip network:
 networks:
 - name: public
   type: vip
-  cloud_properties:
-    tcp_endpoints:
-    - "22:22"
-    - "80:80"
-    udp_endpoints:
-    - "68:68"
 ```
 
 ---
@@ -61,15 +55,19 @@ networks:
 
 Schema for `cloud_properties` section:
 
-* **instance_type** [String, required]: Type of the [instance](https://azure.microsoft.com/en-us/pricing/details/virtual-machines/#Linux). Example: `Standard_A2`.
+* **instance_type** [String, required]: Type of the [instance](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-sizes/). Example: `Standard_A2`.
 * **storage\_account\_name** [String, optional]: Storage account for VMs. If this is not set, the VMs will be created in the default storage account. See [this document](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/blob/master/docs/get-started/deploy-cloudfoundry-for-enterprise.md#multiple-storage-accounts) for more details on why this option exists. If you use a different storage account which must be in the same resource group, please make sure:
     1. the permissions for the container 'stemcell' in the default storage account is set to 'Public read access for blobs only'.
     1. a table 'stemcells' is created in the default storage account.
     1. two containers 'bosh' and 'stemcell' are created in the new storage account.
     If you use DS-series or GS-series as instance_type, you should set this to a premium storage account.
     See more information about [Azure premium storage](https://azure.microsoft.com/en-us/documentation/articles/storage-premium-storage-preview-portal/). See [avaliable regions](http://azure.microsoft.com/en-us/regions/#services) where you can create premium storage accounts.
-* **availability_set** [String, optional]: Name of an availability set to use for VMs. If available set does not exist, it will be automatically created. [More details](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/blob/master/docs/get-started/deploy-cloudfoundry-for-enterprise.md#availability-set).
-* **security_group** [String, optional]: The security group to apply to all VMs placed in this resource pool. Default to the security group specified by default_security_group in the global CPI settings unless a security group is specified on one of the VM networks. The security group can be specified either in a resource pool or on a network.
+* **availability_set** [String, optional]: Name of an [availability set](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) to use for VMs. If available set does not exist, it will be automatically created. [More details](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#availability-set).
+* **platform_update_domain_count** [Integer, optional]: The count of [update domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. Default value is 5.
+* **platform_fault_domain_count** [Integer, optional]: The count of [fault domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. Default value is 3.
+* **load_balancer** [String, optional]: Name of an [load balancer](https://azure.microsoft.com/en-us/documentation/articles/load-balancer-overview/) the VMs should belong to. You need to create the load balancer manually before configuring it.
+* **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to all VMs placed in this resource pool. Default to the security group specified by default_security_group in the global CPI settings unless a security group is specified on one of the VM networks. The security group can be specified either in a resource pool or on a network.
+* **caching** [String, optional]: Type of the disk caching of the VMs' OS disks. It can be either 'None', 'ReadOnly' or 'ReadWrite'. Default is 'ReadWrite'
 
 Example of a `Standard_A2` instance:
 
@@ -87,7 +85,9 @@ resource_pools:
 ---
 ## <a id="disk-pools"></a> Disk Pools / Disk Types
 
-Currently the CPI does not support any cloud properties for disks.
+Schema for `cloud_properties` section:
+
+* **caching** [String, optional]: Type of the disk caching. It can be either 'None', 'ReadOnly' or 'ReadWrite'. Default is 'None'. Only 'None' and 'ReadOnly' are supported for premium disks.
 
 Example of 10GB disk:
 
@@ -113,7 +113,7 @@ Schema:
 * **storage\_account\_name** [String, required]: Storage account name. It will be used as a default storage account for VM disks and stemcells.
 * **ssh_user** [String, required]: SSH username. Default: `vcap`.
 * **ssh_public_key** [String, required]: SSH public key.
-* **default_security_group** [String, required]: Name of the default security group that will be applied to all created VMs.
+* **default_security_group** [String, required]: Name of the default [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) that will be applied to all created VMs.
 
 See [all configuration options](https://bosh.io/jobs/cpi?source=github.com/cloudfoundry-incubator/bosh-azure-cpi-release).
 
@@ -160,7 +160,7 @@ networks:
   subnets:
   - range: 10.10.0.0/24
     gateway: 10.10.0.1
-    dns: [8.8.8.8]
+    dns: [168.63.129.16]
     azs: [z1, z2]
     cloud_properties:
       virtual_network_name: boshnet
