@@ -265,12 +265,12 @@ In the above example, VM allocated to `my-multi-homed-job` deployment job will h
 
 The Director does not enforce how many networks can be assigned to each job instance; however, each CPI might impose custom requirements either due to the IaaS limitations or simply because support was not yet implemented.
 
-|           | manual network            | dynamic network         | vip network                          |
-|-----------|---------------------------|-------------------------|--------------------------------------|
-| AWS       | Single per job instance   | Single per job instance | Single, corresponds to an elastic IP |
-| OpenStack | Multiple per job instance | Single per job instance | Single, corresponds to a floating IP |
-| vSphere   | Multiple per job instance | Not supported           | Not supported                        |
-| vCloud    | Multiple per job instance | Not supported           | Not supported                        |
+|           | manual network                                                | dynamic network         | vip network                          |
+|-----------|---------------------------------------------------------------|-------------------------|--------------------------------------|
+| AWS       | Single per job instance                                       | Single per job instance | Single, corresponds to an elastic IP |
+| OpenStack | [Multiple per job instance](openstack-multiple-networks.html) | Single per job instance | Single, corresponds to a floating IP |
+| vSphere   | Multiple per job instance                                     | Not supported           | Not supported                        |
+| vCloud    | Multiple per job instance                                     | Not supported           | Not supported                        |
 
 ---
 ## <a id='cloud-properties'></a> CPI Specific `cloud_properties`
