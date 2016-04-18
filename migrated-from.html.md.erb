@@ -78,6 +78,7 @@ Before the introduction of first class AZs, each instance group was associated w
     ```yaml
     instance_groups:
     - name: etcd
+      azs: [z1, z2]
       instances: 3
       jobs:
       - {name: etcd, release: etcd}
