@@ -119,7 +119,7 @@ During the disk migration from one disk type and size to another, the Director c
 
 Orphaned persistent disks are not attached to any VM and are not associated with any deployment. You can list orphaned disks known to the Director via [`bosh disks --orphaned` command](sysadmin-commands.html#disks). If deployment changes were done erroneously and you would like to recover specific orphaned persistent disk, upcoming `bosh attach disk` command could be used to bring back deleted persistent disk.
 
-Orphaned disks are deleted after [5 days by default](http://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.disks).
+Orphaned disks are deleted after [5 days by default](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.disks).
 
 ---
 [Back to Table of Contents](index.html#deployment-config)
