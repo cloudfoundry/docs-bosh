@@ -207,7 +207,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
 
 1. Click **Create VPC** and click **OK** once VPC is successfully created.
 
-1. Click **Subnets** and locate the "public" subnet in the VPC. Replace `SUBNET-ID` and `AVAILABILITY-ZONE` in your deployment manifest with the "public" subnet **Subnet ID** and **Availability Zone**.
+1. Click **Subnets** and locate the "public" subnet in the VPC. Replace `SUBNET-ID`, `REGION` (e.g., us-east-1) and `AVAILABILITY-ZONE` (e.g. us-east-1a) in your deployment manifest with the "public" subnet **Subnet ID**, **Availability Zone** and **Region** (the Availability Zone without the trailing character).
 
     <%= image_tag("images/deploy-microbosh-to-aws/list-subnets.png") %>
 
