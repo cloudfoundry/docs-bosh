@@ -239,23 +239,24 @@ update:
 Example:
 
 ```yaml
-- name: redis-master
-  instances: 1
-  templates:
-  - {name: redis-server, release: redis}
-  persistent_disk: 10_240
-  resource_pool: redis-servers
-  networks:
-  - name: default
+jobs:
+  - name: redis-master
+    instances: 1
+    templates:
+    - {name: redis-server, release: redis}
+    persistent_disk: 10_240
+    resource_pool: redis-servers
+    networks:
+    - name: default
 
-- name: redis-slave
-  instances: 2
-  templates:
-  - {name: redis-server, release: redis}
-  persistent_disk: 10_240
-  resource_pool: redis-servers
-  networks:
-  - name: default
+  - name: redis-slave
+    instances: 2
+    templates:
+    - {name: redis-server, release: redis}
+    persistent_disk: 10_240
+    resource_pool: redis-servers
+    networks:
+    - name: default
 ```
 
 ---
