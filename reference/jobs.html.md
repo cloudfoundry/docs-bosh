@@ -43,7 +43,7 @@ For advanced users, each job template can access the `spec` object to learn more
 
 - `<%= spec.deployment %>` - Inserts the current deployment name from the deployment manifest
 - `<%= spec.dns_domain_name %>` - Inserts the root DNS domain name for BOSH DNS. This value can also be learned from running `bosh status`.
-- `<%= spec.networks.send(spec.networks.methods(false).first).ip %>` - Inserts the IP of the first network bound to this VM (typically its the only network).
+- `<%= spec.networks.to_h.values.first.ip %>` - Inserts the IP of the first network bound to this VM (typically its the only network).
 
 <a id="the-job-of-a-vm"></a> The Job of a VM
 --------------------------------------------
