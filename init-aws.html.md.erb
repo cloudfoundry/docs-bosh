@@ -14,7 +14,7 @@ This document shows how to initialize new [environment](terminology.html#environ
 
 1. Create a deployment manifest file named `bosh.yml` in the deployment directory based on the template below.
 
-    In the template, you must replace the `ELASTIC-IP`, `SUBNET-ID`, `AVAILABILITY-ZONE`, `ACCESS-KEY-ID`, and `SECRET-ACCESS-KEY` properties. We describe replacing these properties in [Step 2: Prepare an AWS Account](#prepare-aws).
+    In the template, you must replace the `ELASTIC-IP`, `SUBNET-ID`, `REGION` (e.g. us-east-1), `AVAILABILITY-ZONE` (e.g. us-east-1a), `ACCESS-KEY-ID`, and `SECRET-ACCESS-KEY` properties. We describe replacing these properties in [Step 2: Prepare an AWS Account](#prepare-aws).
 
     <p class="note"><strong>Note</strong>: The example below uses several predefined passwords. We recommend replacing them with passwords of your choice.</p>
 
@@ -207,7 +207,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
 
 1. Click **Create VPC** and click **OK** once VPC is successfully created.
 
-1. Click **Subnets** and locate the "public" subnet in the VPC. Replace `SUBNET-ID` and `AVAILABILITY-ZONE` in your deployment manifest with the "public" subnet **Subnet ID** and **Availability Zone**.
+1. Click **Subnets** and locate the "public" subnet in the VPC. Replace `SUBNET-ID` and `AVAILABILITY-ZONE` in your deployment manifest with the "public" subnet **Subnet ID**, **Availability Zone** and **Region** (AZ without the trailing character).
 
     <%= image_tag("images/deploy-microbosh-to-aws/list-subnets.png") %>
 
