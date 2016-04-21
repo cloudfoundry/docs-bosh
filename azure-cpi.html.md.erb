@@ -104,7 +104,7 @@ The CPI can only use single resource group.
 
 Schema:
 
-* **environment** [String, required]: Azure environment name. Possible values are: `AzureCloud` and `AzureChinaCloud`.
+* **environment** [String, required]: Azure environment name. Possible values are: `AzureCloud`, `AzureChinaCloud` or `AzureStack`.
 * **subscription_id** [String, required]: Subscription ID.
 * **tenant_id** [String, required]: Tenant ID of the service principal.
 * **client_id** [String, required]: Client ID of the service principal.
@@ -114,6 +114,8 @@ Schema:
 * **ssh_user** [String, required]: SSH username. Default: `vcap`.
 * **ssh_public_key** [String, required]: SSH public key.
 * **default_security_group** [String, required]: Name of the default [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) that will be applied to all created VMs.
+* **azure_stack_domain** [String, optional]: The domain for your AzureStack deployment.
+* **azure_stack_authentication** [String, optional]: The authentication type for your AzureStack deployment. Possible values are: `AzureAD`, `AzureStackAD` or `AzureStack`.
 
 See [all configuration options](https://bosh.io/jobs/cpi?source=github.com/cloudfoundry-incubator/bosh-azure-cpi-release).
 
