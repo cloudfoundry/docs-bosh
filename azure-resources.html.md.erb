@@ -9,7 +9,7 @@ To find out subscription and tenant ID use following commands:
 <pre class="terminal">
 $ azure config mode arm
 
-$ azure login
+$ azure login --environment AzureCloud
 
 $ azure account list --json
 [
@@ -26,7 +26,11 @@ $ azure account list --json
 ]
 </pre>
 
-<p class="note">Note: If `tenantId` is not present, you may be using a personal account to log in to your Azure subscription. Switch to using work or school account.</p>
+<p class="note">
+Note:
+If `tenantId` is not present, you may be using a personal account to log in to your Azure subscription. Switch to using work or school account.
+If you are using Azure cloud in China, you should switch the environment from `AzureCloud` to `AzureChinaCloud`.
+</p>
 
 Once you've determined your subscription ID, switch to using that account:
 
