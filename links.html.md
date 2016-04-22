@@ -4,7 +4,7 @@ title: Links
 
 <p class="note">Note: This feature is available with bosh-release v255.5+.</p>
 
-Perviously, if network communication was required between jobs, release authors had to add job properties to accept other job's network addresses (e.g. a "db_ips" property). Operators then had to explicitly assign static IPs or DNS names for each instance group and fill out network address properties. Such configuration typically relied on some helper tool like spiff or careful manual configuration. It also lead to inconsistent network configuration as different jobs named their properties differently. All of that did not make it easy to automate and operate multiple environments.
+Previously, if network communication was required between jobs, release authors had to add job properties to accept other job's network addresses (e.g. a "db_ips" property). Operators then had to explicitly assign static IPs or DNS names for each instance group and fill out network address properties. Such configuration typically relied on some helper tool like spiff or careful manual configuration. It also lead to inconsistent network configuration as different jobs named their properties differently. All of that did not make it easy to automate and operate multiple environments.
 
 Links provide a solution to the above problem by making the Director responsible for the IP management. Release authors get a consistent way of retrieving networking (and topology) configuration, and operators have a way to consistently connect components.
 
