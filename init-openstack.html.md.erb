@@ -183,19 +183,19 @@ cloud_provider:
     * An external network with a subnet.
     * An private network with a subnet. The subnet must have an IP address allocation pool.
 
-1. A new OpenStack project.
+1. Configuration of a new OpenStack Tenant
+    1. Automated configuration
 
-<p class="note"><strong>Note</strong>: See the <a href="http://docs.openstack.org/">OpenStack documentation</a> for help finding more information.</p>
+        You can use a [Terraform enviroment template](https://github.com/cloudfoundry-incubator/bosh-openstack-environment-templates/tree/master/bosh-init-tf) to configure your OpenStack tenant.
 
+    1. Manual configuration
 
-You need to prepare your OpenStack project for deploying BOSH:
-  * Create a [Keypair](#keypair).
-  * Create and configure [Security Groups](#security-groups).
-  * Allocate a [floating IP address](#floating-ip).
+        <p class="note"><strong>Note</strong>: See the <a href="http://docs.openstack.org/">OpenStack documentation</a> for help finding more information.</p>
 
-You can achieve this in two ways:
-  * use the [Terraform enviroment template](https://github.com/cloudfoundry-incubator/bosh-openstack-environment-templates/tree/master/bosh-init-tf)
-  * use the OpenStack GUI to perform the steps described below manually
+        Alternatively, you can to the following things manually as described below:
+        * Create a [Keypair](#keypair).
+        * Create and configure [Security Groups](#security-groups).
+        * Allocate a [floating IP address](#floating-ip).
 
 ---
 ### <a id="keypair"></a>Create a Keypair
