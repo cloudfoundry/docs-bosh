@@ -60,7 +60,7 @@ Schema for `cloud_properties` section:
     * **name** [String, required]: Datacenter name.
     * **clusters** [Array, required]: Array of clusters to use for VM placement.
         * **\<cluster name\>** [String, required]: Cluster name.
-            * **drs_rulers** [Array, optional]: Array of DRS rules applied to [constrain VM placement](vm-anti-affinity.html#vsphere). Must have only one.
+            * **drs_rules** [Array, optional]: Array of DRS rules applied to [constrain VM placement](vm-anti-affinity.html#vsphere). Must have only one.
                 * **name** [String, required]: Name of a DRS rule that the Director will create.
                 * **type** [String, required]: Type of a DRS rule. Currently only `separate_vms` is supported.
 
