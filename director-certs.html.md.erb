@@ -95,7 +95,7 @@ If you are using the UAA for user management, additionally put certificates in t
 After you deployed your Director with the above changes, you need to specify `--ca-cert` when targeting the Director:
 
 <pre class="terminal">
-$ bosh target 10.244.4.2 --ca-cert certs/rootCA.pem
+$ bosh --ca-cert certs/rootCA.pem target 10.244.4.2
 </pre>
 
 <p class="note">Note: If your certificates are trusted via system installed CA certificates, there is no need to provide `--ca-cert` option.</p>
