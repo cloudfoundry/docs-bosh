@@ -11,6 +11,11 @@ Schema for `cloud_properties` section:
 * **datacenters** [Array, optional]: Array of datacenters to use for VM placement. Must have only one and it must match datacenter configured in global CPI options.
     * **name** [String, required]: Datacenter name.
     * **clusters** [Array, required]: Array of clusters to use for VM placement.
+        * **\<cluster name\>** [String, required]: Cluster name.
+            * **resource_pool** [String, optional]: Name of vSphere Resource Pool to use for VM placement.
+            * **drs_rules** [Array, optional]: Array of DRS rules applied to [constrain VM placement](vm-anti-affinity.html#vsphere). Must have only one.
+                * **name** [String, required]: Name of a DRS rule that the Director will create.
+                * **type** [String, required]: Type of a DRS rule. Currently only `separate_vms` is supported.
 
 Example:
 
@@ -58,15 +63,9 @@ Schema for `cloud_properties` section:
 * **memory_hot_add_enabled** [Boolean, optional]: Allows operator to add additional memory resources while the VM is on. Default: `false`.
 * **nested\_hardware\_virtualization** [Boolean, optional]: Exposes hardware assisted virtualization to the VM. Default: `false`.
 
-* **datacenters** [Array, optional]: Array of datacenters to use for VM placement. Must have only one and it must match datacenter configured in global CPI options.
-    * **name** [String, required]: Datacenter name.
-    * **clusters** [Array, required]: Array of clusters to use for VM placement.
-        * **\<cluster name\>** [String, required]: Cluster name.
-            * **drs_rules** [Array, optional]: Array of DRS rules applied to [constrain VM placement](vm-anti-affinity.html#vsphere). Must have only one.
-                * **name** [String, required]: Name of a DRS rule that the Director will create.
-                * **type** [String, required]: Type of a DRS rule. Currently only `separate_vms` is supported.
+* **datacenters** [Array, optional]: Used to override the VM placement specified under `azs.cloud_properties`. The format is the same as under [`AZs`](#azs).
 
-Example of a VM with 1 CPU, 1GB RAM, and 10GB ephemeral disk asked to be placed into a specific cluster:
+Example of a VM asked to be placed into a specific vSphere resource pool:
 
 ```yaml
 resource_pools:
@@ -83,27 +82,7 @@ resource_pools:
     datacenters:
     - name: my-dc
       clusters:
-      - my-vsphere-cluster: {}
-```
-
-And an example of a VM asked to be placed into a specific cluster in a specified vSphere resource pool:
-
-```yaml
-resource_pools:
-- name: default
-  network: default
-  stemcell:
-    name: bosh-vsphere-esxi-ubuntu-trusty-go_agent
-    version: latest
-  cloud_properties:
-    cpu: 1
-    ram: 1_024
-    disk: 10_240
-
-    datacenters:
-    - name: my-dc
-      clusters:
-      - my-vsphere-cluster: {resource_pool: my-vsphere-res-pool}
+      - my-vsphere-cluster: {resource_pool: other-vsphere-res-pool}
 ```
 
 ---
