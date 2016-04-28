@@ -80,7 +80,7 @@ jobs:
     static_ips: [10.0.0.4]
     default: [dns, gateway]
   - name: public
-    static_ips: [PUBLIC-IP]}
+    static_ips: [PUBLIC-IP] # <--- Replace
 
   properties:
     nats:
@@ -149,12 +149,12 @@ cloud_provider:
   template: {name: cpi, release: bosh-azure-cpi}
 
   ssh_tunnel:
-    host: PUBLIC-IP
+    host: PUBLIC-IP # <--- Replace
     port: 22
     user: vcap
     private_key: ./bosh # Path relative to this manifest file
 
-  mbus: "https://mbus:mbus-password@PUBLIC-IP:6868"
+  mbus: "https://mbus:mbus-password@PUBLIC-IP:6868" # <--- Replace
 
   properties:
     azure: *azure
