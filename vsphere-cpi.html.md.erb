@@ -59,8 +59,8 @@ Schema for `cloud_properties` section:
 * **cpu** [Integer, required]: Number of CPUs. Example: `1`.
 * **ram** [Integer, required]: RAM in megabytes. Example: `1024`.
 * **disk** [Integer, required]: Ephemeral disk size in megabytes. Example: `10240`.
-* **cpu_hot_add_enabled** [Boolean, optional]: Allows operator to add additional CPU resources while the VM is on. Default: `false`.
-* **memory_hot_add_enabled** [Boolean, optional]: Allows operator to add additional memory resources while the VM is on. Default: `false`.
+* **cpu_hot_add_enabled** [Boolean, optional]: Allows operator to add additional CPU resources while the VM is on. Default: `false`. Available in v21+.
+* **memory_hot_add_enabled** [Boolean, optional]: Allows operator to add additional memory resources while the VM is on. Default: `false`. Available in v21+.
 * **nested\_hardware\_virtualization** [Boolean, optional]: Exposes hardware assisted virtualization to the VM. Default: `false`.
 
 * **datacenters** [Array, optional]: Used to override the VM placement specified under `azs.cloud_properties`. The format is the same as under [`AZs`](#azs).
