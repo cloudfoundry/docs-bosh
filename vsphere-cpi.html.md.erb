@@ -54,6 +54,8 @@ Schema for `cloud_properties` section:
 * **cpu** [Integer, required]: Number of CPUs. Example: `1`.
 * **ram** [Integer, required]: RAM in megabytes. Example: `1024`.
 * **disk** [Integer, required]: Ephemeral disk size in megabytes. Example: `10240`.
+* **cpu_hot_add_enabled** [Boolean, optional]: Allows operator to add additional CPU resources while the VM is on. Default: `false`.
+* **memory_hot_add_enabled** [Boolean, optional]: Allows operator to add additional memory resources while the VM is on. Default: `false`.
 * **nested\_hardware\_virtualization** [Boolean, optional]: Exposes hardware assisted virtualization to the VM. Default: `false`.
 
 * **datacenters** [Array, optional]: Array of datacenters to use for VM placement. Must have only one and it must match datacenter configured in global CPI options.
