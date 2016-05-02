@@ -103,6 +103,7 @@ update:
 **instance_groups** [Array, required]: Specifies the mapping between release [jobs](./terminology.html#job) and instance groups.
 
 * **name** [String, required]: A unique name used to identify and reference instance group.
+* **azs** [Array, required]: List of AZs associated with this instance group (should only be used when using [first class AZs](azs.html)). Example: `[z1, z2]`.
 * **instances** [Integer, required]: The number of instances in this group. Each instance is a VM.
 * **jobs** [Array, required]: Specifies the name and release of jobs that will be installed on each instance.
   * **name** [String, required]: The job name
