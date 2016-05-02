@@ -19,15 +19,16 @@ addons:
   - name: syslog_forwarder
     release: syslog
   properties:
-    address: logs4.papertrail.com
-    transport: tcp
-    port: 38559
-    tls_enabled: true
-    permitted_peer: "*.papertrail.com"
-    ca_cert: |
-      -----BEGIN CERTIFICATE-----
-      MIIClTCCAf4CCQDc6hJtvGB8RjANBgkqhkiG9w0BAQUFADCBjjELMAk...
-      -----END CERTIFICATE-----
+    syslog:
+      address: logs4.papertrail.com
+      transport: tcp
+      port: 38559
+      tls_enabled: true
+      permitted_peer: "*.papertrail.com"
+      ca_cert: |
+        -----BEGIN CERTIFICATE-----
+        MIIClTCCAf4CCQDc6hJtvGB8RjANBgkqhkiG9w0BAQUFADCBjjELMAk...
+        -----END CERTIFICATE-----
 ```
 
 See [syslog_forwarder job](https://bosh.io/jobs/syslog_forwarder?source=github.com/cloudfoundry/syslog-release).
