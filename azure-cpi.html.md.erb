@@ -63,13 +63,13 @@ Schema for `cloud_properties` section:
     If you use DS-series or GS-series as instance_type, you should set this to a premium storage account.
     See more information about [Azure premium storage](https://azure.microsoft.com/en-us/documentation/articles/storage-premium-storage-preview-portal/). See [avaliable regions](http://azure.microsoft.com/en-us/regions/#services) where you can create premium storage accounts.
 * **availability_set** [String, optional]: Name of an [availability set](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) to use for VMs. If available set does not exist, it will be automatically created. [More details](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#availability-set).
-* **platform_update_domain_count** [Integer, optional]: The count of [update domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. Default value is 5.
-* **platform_fault_domain_count** [Integer, optional]: The count of [fault domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. Default value is 3.
+* **platform\_update\_domain_count** [Integer, optional]: The count of [update domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. Default value is 5.
+* **platform\_fault\_domain_count** [Integer, optional]: The count of [fault domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. Default value is 3.
 * **load_balancer** [String, optional]: Name of an [load balancer](https://azure.microsoft.com/en-us/documentation/articles/load-balancer-overview/) the VMs should belong to. You need to create the load balancer manually before configuring it.
 * **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to all VMs placed in this resource pool. Default to the security group specified by default_security_group in the global CPI settings unless a security group is specified on one of the VM networks. The security group can be specified either in a resource pool or on a network.
 * **caching** [String, optional]: Type of the disk caching of the VMs' OS disks. It can be either 'None', 'ReadOnly' or 'ReadWrite'. Default is 'ReadWrite'
 * **ephemeral_disk** [Hash, optional]: Ephemeral disk to apply for all VMs that are in this resource pool. If this option is not set, a data disk will be created as the ephemeral disk. The size of the data disk is 15_000 megabytes.
-    * **use_temporary_disk** [String, optional]: Whether to use Azure temporary  disk as the ephemeral disk. Default is false. When this option is not set or set to false, a data disk will be created as the ephemeral disk.
+    * **use\_temporary\_disk** [String, optional]: Whether to use Azure temporary  disk as the ephemeral disk. Default is false. When this option is not set or set to false, a data disk will be created as the ephemeral disk.
     * **size** [Integer, optional]: Specifies the disk size in megabytes. Default is 15_000 megabytes. This value is valid only when use_temporary_disk is not set or set to false. The size of the ephemeral disk for the BOSH VM should be larger or equal than 15_000 megabytes.
 
 Example of a `Standard_A2` instance:
@@ -118,10 +118,10 @@ Schema:
 * **resource\_group\_name** [String, required]: Resource group name.
 * **storage\_account\_name** [String, required]: Storage account name. It will be used as a default storage account for VM disks and stemcells.
 * **ssh_user** [String, required]: SSH username. Default: `vcap`.
-* **ssh_public_key** [String, required]: SSH public key.
-* **default_security_group** [String, required]: Name of the default [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) that will be applied to all created VMs.
-* **azure_stack_domain** [String, optional]: The domain for your AzureStack deployment.
-* **azure_stack_authentication** [String, optional]: The authentication type for your AzureStack deployment. Possible values are: `AzureAD`, `AzureStackAD` or `AzureStack`.
+* **ssh\_public\_key** [String, required]: SSH public key.
+* **default\_security\_group** [String, required]: Name of the default [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) that will be applied to all created VMs.
+* **azure\_stack\_domain** [String, optional]: The domain for your AzureStack deployment.
+* **azure\_stack\_authentication** [String, optional]: The authentication type for your AzureStack deployment. Possible values are: `AzureAD`, `AzureStackAD` or `AzureStack`.
 
 See [all configuration options](https://bosh.io/jobs/cpi?source=github.com/cloudfoundry-incubator/bosh-azure-cpi-release).
 
