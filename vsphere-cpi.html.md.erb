@@ -62,6 +62,7 @@ Schema for `cloud_properties` section:
 * **cpu_hot_add_enabled** [Boolean, optional]: Allows operator to add additional CPU resources while the VM is on. Default: `false`. Available in v21+.
 * **memory_hot_add_enabled** [Boolean, optional]: Allows operator to add additional memory resources while the VM is on. Default: `false`. Available in v21+.
 * **nested\_hardware\_virtualization** [Boolean, optional]: Exposes hardware assisted virtualization to the VM. Default: `false`.
+* **datastores** [Array, optional]: Allows operator to specify a list of ephemeral datastores for the VM. These names are exact datastore names and not regex patterns. At least one of these datastores must be accessible from clusters provided in `resource_pools.cloud_properties`/`azs.cloud_properties` or in the global CPI configuration. Available in v23+.
 
 * **datacenters** [Array, optional]: Used to override the VM placement specified under `azs.cloud_properties`. The format is the same as under [`AZs`](#azs).
 
@@ -78,6 +79,7 @@ resource_pools:
     cpu: 1
     ram: 1_024
     disk: 10_240
+    datastores: [prod-ds-1, prod-ds-2]
 
     datacenters:
     - name: my-dc
