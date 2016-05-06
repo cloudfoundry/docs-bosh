@@ -56,12 +56,12 @@ networks:
 Schema for `cloud_properties` section:
 
 * **instance_type** [String, required]: Type of the [instance](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-sizes/). Example: `Standard_A2`.
-* **storage\_account\_name** [String, optional]: Storage account for VMs. If this is not set, the VMs will be created in the default storage account. See [this document](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/blob/master/docs/get-started/deploy-cloudfoundry-for-enterprise.md#multiple-storage-accounts) for more details on why this option exists. If you use a different storage account which must be in the same resource group, please make sure:
-    1. the permissions for the container `stemcell` in the default storage account is set to `Public read access for blobs only`.
-    1. a table `stemcells` is created in the default storage account.
-    1. two containers `bosh` and `stemcell` are created in the new storage account.
-    If you use `DS-series` or `GS-series` as `instance_type`, you should set this to a premium storage account.
-    See more information about [Azure premium storage](https://azure.microsoft.com/en-us/documentation/articles/storage-premium-storage-preview-portal/). See [avaliable regions](http://azure.microsoft.com/en-us/regions/#services) where you can create premium storage accounts.
+* **storage\_account\_name** [String, optional]: Storage account for VMs. If this is not set, the VMs will be created in the default storage account. See [this document](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#multiple-storage-accounts) for more details on why this option exists.
+    * If you use `DS-series` or `GS-series` as `instance_type`, you should set this to a premium storage account. See more information about [Azure premium storage](https://azure.microsoft.com/en-us/documentation/articles/storage-premium-storage-preview-portal/). See [avaliable regions](http://azure.microsoft.com/en-us/regions/#services) where you can create premium storage accounts.
+    * If you use a different storage account which must be in the same resource group, please make sure:
+      1. the permissions for the container `stemcell` in the default storage account is set to `Public read access for blobs only`.
+      1. a table `stemcells` is created in the default storage account.
+      1. two containers `bosh` and `stemcell` are created in the new storage account.
 * **availability_set** [String, optional]: Name of an [availability set](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) to use for VMs. If available set does not exist, it will be automatically created. [More details](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#availability-set).
 * **platform\_update\_domain_count** [Integer, optional]: The count of [update domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. Default value is `5`.
 * **platform\_fault\_domain_count** [Integer, optional]: The count of [fault domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. Default value is `3`.
