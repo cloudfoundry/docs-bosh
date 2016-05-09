@@ -82,24 +82,24 @@ Each template file is evaluated with [ERB](http://apidock.com/ruby/ERB) before b
 
 Basic ERB syntax includes:
 
-- `&lt;%= "value" %&gt;`: Inserts string "value".
-- `&lt;% expression %&gt;`: Evaluates `expression` but does not insert content into the template. Useful for `if/else/end` statements.
+- `<%%= "value" %>`: Inserts string "value".
+- `<%% expression %>`: Evaluates `expression` but does not insert content into the template. Useful for `if/else/end` statements.
 
 Templates have access to merged job property values, built by merging default property values and operator specified property values in the deployment manifest. To access properties `p` and `if_p` ERB helpers are available:
 
-- `&lt;%= p("some.property") %&gt;`: Insert the property `some.property` value, else a default value from the job spec file. If `some.property` does not have a default in the spec file, error will be raised to the user specifying that property value is missing.
-- `&lt;% if_p("some.property") do |prop| %&gt;...&lt;% end %&gt;` - Evaluates the block only if `some.property` property has been provided. The property value is available in the variable `prop`. Multiple properties can be specified: `&lt;% if_p("prop1", "prop2") do |prop1, prop2| %&gt;`.
+- `<%%= p("some.property") %>`: Insert the property `some.property` value, else a default value from the job spec file. If `some.property` does not have a default in the spec file, error will be raised to the user specifying that property value is missing.
+- `<%% if_p("some.property") do |prop| %>...<%% end %>` - Evaluates the block only if `some.property` property has been provided. The property value is available in the variable `prop`. Multiple properties can be specified: `<%% if_p("prop1", "prop2") do |prop1, prop2| %>`.
 
 <a id="properties-spec"></a>
 
 Each template can also access special `spec` object for instance specific configuration:
 
-- `&lt;%= spec.job %&gt;`: Inserts instance name.
-- `&lt;%= spec.id %&gt;`: Inserts instance ID.
+- `<%%= spec.job %>`: Inserts instance name.
+- `<%%= spec.id %>`: Inserts instance ID.
 
-- `&lt;%= spec.index %&gt;`: Inserts instance index. Use `spec.bootstrap` instead of checking for index being 0.
-- `&lt;% spec.bootstrap %&gt;`: Allow to evaluate if this instance is a the first instance of its group.
+- `<%%= spec.index %>`: Inserts instance index. Use `spec.bootstrap` instead of checking for index being 0.
+- `<%% spec.bootstrap %>`: Allow to evaluate if this instance is a the first instance of its group.
 
-- `&lt;%= spec.az %&gt;`: Inserts instance AZ.
-- `&lt;%= spec.address %&gt;`: Inserts default instance network address (IPv4, IPv6 or DNS record). Available in bosh-release v255.4+.
-- `&lt;% spec.networks %&gt;`: Allows to evaluate instance's network information.
+- `<%%= spec.az %>`: Inserts instance AZ.
+- `<%%= spec.address %>`: Inserts default instance network address (IPv4, IPv6 or DNS record). Available in bosh-release v255.4+.
+- `<%% spec.networks %>`: Allows to evaluate instance's network information.
