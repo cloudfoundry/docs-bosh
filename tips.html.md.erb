@@ -116,3 +116,30 @@ Task 106 cancelled
 </pre>
 
 This problem typically occurs if the Director's system time is out of sync, or if the Director machine is underpowered.
+
+---
+## <a id="upload-release-entity-too-large"></a> Upload release fails 
+
+<pre class="terminal">
+$ bosh upload release blah.tgz
+...
+  Started creating new packages > blah_package/f9098f452f46fb072a6000b772166f349ffe27da. Failed: Could not create object, 413/<html>
+<head><title>413 Request Entity Too Large</title></head>
+<body bgcolor="white">
+<center><h1>413 Request Entity Too Large</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+ (00:02:10)
+
+Error 100: Could not create object, 413/<html>
+<head><title>413 Request Entity Too Large</title></head>
+<body bgcolor="white">
+<center><h1>413 Request Entity Too Large</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+...
+</pre>
+
+This failure occurs due to nginx configuration problems with the director and the nginx blobstore. This can be remedied by configuring the `max_upload_size` property on the director and blobstore jobs.
