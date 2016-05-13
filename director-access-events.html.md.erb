@@ -45,9 +45,12 @@ cs5=Not authorized: '/deployments'
 cs5Label=statusReason
 ```
 
+---
+## <a id="enable"></a> Enabling Logging
+
 To enable this feature:
 
-1. Add [log_access_events_to_syslog](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.log_access_events_to_syslog) deployment manifest for the Director:
+1. Add [director.log_access_events_to_syslog](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.log_access_events_to_syslog) deployment manifest for the Director:
 
     ```yaml
     properties:

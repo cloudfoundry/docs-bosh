@@ -142,6 +142,24 @@ Sets resurrection state (`on` or `off`) for all VMs managed by the Director or f
 Scans for differences between the VM state database that the Director maintains and the actual state of the VMs. For each difference the scan detects, `bosh cck` offers possible repair options.
 
 ---
+### <a id="errand"></a> Errands
+
+<pre class="terminal">$ bosh errands</pre>
+Displays a table that lists all available errands for the set deployment.
+
+<pre class="terminal">$ bosh run errand ERRAND_NAME [--download-logs] [--logs-dir DESTINATION_DIRECTORY]</pre>
+Instructs the BOSH Director to run the named errand on a job instance on a VM.
+
+---
+### <a id="ssh"></a> SSH
+
+<pre class="terminal">$ bosh ssh [--gateway_host HOST] [--gateway_user USER] [--gateway_identity_file FILE] [--default_password PASSWORD]</pre>
+Executes a command or starts an interactive shell via SSH. You can tunnel the SSH connection over a `gateway` by specifying additional options.
+
+<pre class="terminal">$ bosh ssh JOB [INDEX] [COMMANDS]</pre>
+When you provide arguments without an option flag, the Director executes the arguments as commands on the job VM. For example, `bosh ssh redis 0 ls -R` runs the `ls -R` command on the redis/0 job VM.
+
+---
 ### <a id="tasks"></a> Director Tasks
 
 <pre class="terminal">$ bosh tasks [--no-filter] </pre>
@@ -154,28 +172,16 @@ Displays a table that lists the following for the last `COUNT` tasks: ID number,
 Displays the status of a task that you specify and tracks its output. You can track only one of the following log types at a time: event, CPI, debug, or result. Defaults to event.
 
 ---
-### <a id="ssh"></a> SSH
-
-<pre class="terminal">$ bosh ssh [--gateway_host HOST] [--gateway_user USER] [--gateway_identity_file FILE] [--default_password PASSWORD]</pre>
-Executes a command or starts an interactive shell via SSH. You can tunnel the SSH connection over a `gateway` by specifying additional options.
-
-<pre class="terminal">$ bosh ssh JOB [INDEX] [COMMANDS]</pre>
-When you provide arguments without an option flag, the Director executes the arguments as commands on the job VM. For example, `bosh ssh redis 0 ls -R` runs the `ls -R` command on the redis/0 job VM.
-
----
 ### <a id="logs"></a> Logs
 
 <pre class="terminal">$ bosh logs JOB [INDEX] [--agent] [--job] [--only filter1,filter2,...] [--dir DESTINATION_DIRECTORY]</pre>
 Fetches a job or agent log from a VM. Supports custom filtering only for job logs.
 
 ---
-### <a id="errand"></a> Errands
+### <a id="events"></a> Events
 
-<pre class="terminal">$ bosh errands</pre>
-Displays a table that lists all available errands for the set deployment.
-
-<pre class="terminal">$ bosh run errand ERRAND_NAME [--download-logs] [--logs-dir DESTINATION_DIRECTORY]</pre>
-Instructs the BOSH Director to run the named errand on a job instance on a VM.
+<pre class="terminal">$ bosh events [--before-id ID] [--deployment NAME] [--task ID] [--instance NAME/ID]</pre>
+Displays table that lists events based on filters specified. See [events details](events.html).
 
 ---
 ### <a id="disks"></a> Disks
