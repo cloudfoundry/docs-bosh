@@ -17,7 +17,7 @@ In the below yaml snippet the `name` field is used to differentiate between two 
 
 For example, here is how a "web" job which receives HTTP traffic and talks to at least one database server may be defined. To connect to a database, it consumes `primary_db` and `secondary_db` links of type `db`. It also exposes an "incoming" link of type `http` so that other services can connect to it.
 
-\*\*Note that when the `web`job is 'consuming' db links, the name of the link does not have to match the name of the provided db link (i.e. postgres has a link called `conn` while the web job consumes `primary_db` and/or `secondary_db`). The mapping between the provided link named `conn` and the consumed link named `primary_db` is done in the [deployment manifest file](#deployment).
+Note that when the `web` job is 'consuming' db links, the name of the link does not have to match the name of the provided db link (i.e. postgres has a link called `conn` while the web job consumes `primary_db` and/or `secondary_db`). The mapping between the provided link named `conn` and the consumed link named `primary_db` is done in the [deployment manifest file](#deployment).
 
 ```yaml
 name: web
@@ -38,7 +38,7 @@ provides:
 properties: {...}
 ```
 
-\*\*Note that the `secondary_db` link has been marked as optional, to indicate that the "web" job will work correctly, even if the operator does not provide a "secondary_db" link. Providing the `secondary_db` link may enable some additional functionality.
+Note that the `secondary_db` link has been marked as optional, to indicate that the "web" job will work correctly, even if the operator does not provide a "secondary_db" link. Providing the `secondary_db` link may enable some additional functionality.
 
 Here is an example Postgres job that provides a `conn` link of type `db`.
 
@@ -168,6 +168,8 @@ instance_groups:
       etcd: {as: diego-etcd}
 ```
 
+[Example of self linking in Zookeeper release](https://github.com/cppforlife/zookeeper-release/blob/master/jobs/zookeeper/spec).
+
 ### <a id="custom-network"></a> Custom network linking
 
 By default, links include network addresses on the producer's default link network. The default link network is a network marked with `default: [gateway]`. A release job can also consume a link over a different network.
@@ -231,3 +233,6 @@ instance_groups:
       primary_db: {from: data-dep.db}
       secondary_db: nil
 ```
+
+---
+[Back to Table of Contents](index.html#deployment-config)
