@@ -128,7 +128,7 @@ Stops the job process, power cycles the VM, recreates the job instance, then res
 Stops the job processes, and if `--hard` is specified deletes a VM keeping persistent disks.
 
 <pre class="terminal">$ bosh start JOB [INDEX] [--force]</pre>
-Creates a VM and reattaches persistent disks if VM does not exist, then starts the job processes.
+Creates a VM and reattaches active persistent disk if VM does not exist, then starts the job processes.
 
 <a id="vm-resurrection"></a>
 
@@ -182,6 +182,9 @@ Instructs the BOSH Director to run the named errand on a job instance on a VM.
 
 <pre class="terminal">$ bosh disks --orphaned</pre>
 Displays disk CID, previous deployment and instance, and orphaned date of all orphaned persistent disks.
+
+<pre class="terminal">$ bosh attach disk DISK_ID INSTANCE_NAME/ID</pre>
+Attaches persistent disk to given instance. Instance must be in the stopped state.
 
 ---
 ### <a id="snapshots"></a> Snapshots
