@@ -59,8 +59,8 @@ Schema for `cloud_properties` section:
 * **cpu** [Integer, required]: Number of CPUs. Example: `1`.
 * **ram** [Integer, required]: RAM in megabytes. Example: `1024`.
 * **disk** [Integer, required]: Ephemeral disk size in megabytes. Example: `10240`.
-* **cpu_hot_add_enabled** [Boolean, optional]: Allows operator to add additional CPU resources while the VM is on. Default: `false`. Available in v21+.
-* **memory_hot_add_enabled** [Boolean, optional]: Allows operator to add additional memory resources while the VM is on. Default: `false`. Available in v21+.
+* **cpu\_hot\_add\_enabled** [Boolean, optional]: Allows operator to add additional CPU resources while the VM is on. Default: `false`. Available in v21+.
+* **memory\_hot\_add\_enabled** [Boolean, optional]: Allows operator to add additional memory resources while the VM is on. Default: `false`. Available in v21+.
 * **nested\_hardware\_virtualization** [Boolean, optional]: Exposes hardware assisted virtualization to the VM. Default: `false`.
 * **datastores** [Array, optional]: Allows operator to specify a list of ephemeral datastores for the VM. These names are exact datastore names and not regex patterns. At least one of these datastores must be accessible from clusters provided in `resource_pools.cloud_properties`/`azs.cloud_properties` or in the global CPI configuration. Available in v23+.
 
