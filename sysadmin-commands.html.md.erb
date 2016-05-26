@@ -128,7 +128,7 @@ Stops the job process, power cycles the VM, recreates the job instance, then res
 Stops the job processes, and if `--hard` is specified deletes a VM keeping persistent disks.
 
 <pre class="terminal">$ bosh start JOB [INDEX] [--force]</pre>
-Creates a VM and reattaches persistent disks if VM does not exist, then starts the job processes.
+Creates a VM and reattaches active persistent disk if VM does not exist, then starts the job processes.
 
 <a id="vm-resurrection"></a>
 
@@ -140,6 +140,24 @@ Sets resurrection state (`on` or `off`) for all VMs managed by the Director or f
 
 <pre class="terminal">$ bosh cck [DEPLOYMENT_NAME] [--auto] [--report]</pre>
 Scans for differences between the VM state database that the Director maintains and the actual state of the VMs. For each difference the scan detects, `bosh cck` offers possible repair options.
+
+---
+### <a id="errand"></a> Errands
+
+<pre class="terminal">$ bosh errands</pre>
+Displays a table that lists all available errands for the set deployment.
+
+<pre class="terminal">$ bosh run errand ERRAND_NAME [--download-logs] [--logs-dir DESTINATION_DIRECTORY]</pre>
+Instructs the BOSH Director to run the named errand on a job instance on a VM.
+
+---
+### <a id="ssh"></a> SSH
+
+<pre class="terminal">$ bosh ssh [--gateway_host HOST] [--gateway_user USER] [--gateway_identity_file FILE] [--default_password PASSWORD]</pre>
+Executes a command or starts an interactive shell via SSH. You can tunnel the SSH connection over a `gateway` by specifying additional options.
+
+<pre class="terminal">$ bosh ssh JOB [INDEX] [COMMANDS]</pre>
+When you provide arguments without an option flag, the Director executes the arguments as commands on the job VM. For example, `bosh ssh redis 0 ls -R` runs the `ls -R` command on the redis/0 job VM.
 
 ---
 ### <a id="tasks"></a> Director Tasks
@@ -154,34 +172,25 @@ Displays a table that lists the following for the last `COUNT` tasks: ID number,
 Displays the status of a task that you specify and tracks its output. You can track only one of the following log types at a time: event, CPI, debug, or result. Defaults to event.
 
 ---
-### <a id="ssh"></a> SSH
-
-<pre class="terminal">$ bosh ssh [--gateway_host HOST] [--gateway_user USER] [--gateway_identity_file FILE] [--default_password PASSWORD]</pre>
-Executes a command or starts an interactive shell via SSH. You can tunnel the SSH connection over a `gateway` by specifying additional options.
-
-<pre class="terminal">$ bosh ssh JOB [INDEX] [COMMANDS]</pre>
-When you provide arguments without an option flag, the Director executes the arguments as commands on the job VM. For example, `bosh ssh redis 0 ls -R` runs the `ls -R` command on the redis/0 job VM.
-
----
 ### <a id="logs"></a> Logs
 
 <pre class="terminal">$ bosh logs JOB [INDEX] [--agent] [--job] [--only filter1,filter2,...] [--dir DESTINATION_DIRECTORY]</pre>
 Fetches a job or agent log from a VM. Supports custom filtering only for job logs.
 
 ---
-### <a id="errand"></a> Errands
+### <a id="events"></a> Events
 
-<pre class="terminal">$ bosh errands</pre>
-Displays a table that lists all available errands for the set deployment.
-
-<pre class="terminal">$ bosh run errand ERRAND_NAME [--download-logs] [--logs-dir DESTINATION_DIRECTORY]</pre>
-Instructs the BOSH Director to run the named errand on a job instance on a VM.
+<pre class="terminal">$ bosh events [--before-id ID] [--deployment NAME] [--task ID] [--instance NAME/ID]</pre>
+Displays table that lists events based on filters specified. See [events details](events.html).
 
 ---
 ### <a id="disks"></a> Disks
 
 <pre class="terminal">$ bosh disks --orphaned</pre>
 Displays disk CID, previous deployment and instance, and orphaned date of all orphaned persistent disks.
+
+<pre class="terminal">$ bosh attach disk DISK_ID INSTANCE_NAME/ID</pre>
+Attaches persistent disk to given instance. Instance must be in the stopped state.
 
 ---
 ### <a id="snapshots"></a> Snapshots

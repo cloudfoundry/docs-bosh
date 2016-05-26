@@ -82,13 +82,22 @@ An errand is a short-lived job that an operator can run multiple times after the
 - comprehensive test suites
 - CF service broker binding and unbinding
 
+## <a id="event"></a> Event
+
+Actions taken by the Director (via user or system control) are recorded as events to the Director database. Examples:
+
+- VM create/delete
+- cloud config update
+
+[See details](events.html).
+
 ## <a id="iaas"></a> IaaS
 
 Short for Infrastructure as a Service. BOSH enables the Cloud Foundry PaaS and other software deployed with BOSH to support multiple IaaS providers.
 
 ## <a id="instance"></a> Instance
 
-An instance corresponds to a single VM that performs specific jobs. Each instance group is a part of an instance group.
+An instance corresponds to a single VM that performs specific jobs. Each instance is a part of an instance group.
 
 ## <a id="instance-group"></a> Instance Group (previously known as Deployment Job)
 

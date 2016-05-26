@@ -2,7 +2,7 @@
 title: Post-deploy Script
 ---
 
-<p class="note">Note: This feature is available with bosh-release v255.4+ and only for releases deployed with 3125+ stemcells. bosh-lite support is planned but currently is not available since latest available stemcell for bosh-lite is 2774.</p>
+<p class="note">Note: This feature is available with bosh-release v255.4+ and only for releases deployed with 3125+ stemcells.</p>
 
 <p class="note">Note: Releases that make use of post-deploy scripts and are deployed on older stemcells or with an older Director may potentially deploy; however, post-deploy script will not be called.</p>
 
@@ -11,7 +11,7 @@ Release job can have a post-deploy script that will run after all jobs in the de
 ---
 ## <a id="director-configuration"></a> Director Configuration
 
-Currently the Director does run post deploy scripts by default. Use [`director.enable_post_deploy` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.enable_post_deploy) to enable running scripts.
+Currently the Director does not run post deploy scripts by default. Use [`director.enable_post_deploy` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.enable_post_deploy) to enable running scripts.
 
 ---
 ## <a id="job-configuration"></a> Job Configuration

@@ -112,14 +112,20 @@ BOSH allows you to change disk types and sizes by modifying the deployment manif
 
 During the disk migration from one disk type and size to another, the Director communicates with the Agent to attach both existing and newly created disk to the same VM and copy over any existing data. After the transfer successfully completes, the Director deletes the original disk and keeps the new disk attached to the VM instance.
 
-<p class="note">Note: An IaaS might disallow attaching particular disk types and sizes to certain VMs types. Consult your IaaS documentation for more information.</p>
+<p class="note">Note: An IaaS might disallow attaching particular disk types and sizes to certain VM types. Consult your IaaS documentation for more information.</p>
 
 ---
 ## <a id='orphaned-disks'></a> Orphaned Disks
 
-Orphaned persistent disks are not attached to any VM and are not associated with any deployment. You can list orphaned disks known to the Director via [`bosh disks --orphaned` command](sysadmin-commands.html#disks). If deployment changes were done erroneously and you would like to recover specific orphaned persistent disk, upcoming `bosh attach disk` command could be used to bring back deleted persistent disk.
+Orphaned persistent disks are not attached to any VM and are not associated with any deployment. You can list orphaned disks known to the Director via [`bosh disks --orphaned` command](sysadmin-commands.html#disks). If deployment changes were done erroneously and you would like to reattach specific orphaned persistent disk to an instance follow these steps:
 
-Orphaned disks are deleted after [5 days by default](http://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.disks).
+- run `bosh stop name/id` command to stop instance (or multiple instances) for repair
+- run [`bosh attach disk disk-id name/id` command](sysadmin-commands.html#disks) to attach disk to given instance
+- run `bosh start name/id` command to resume running instance workload
+
+<p class="note">Note: Attach disk command can also attach available disks found the IaaS. They don't have to be listed in the orphaned disks list.</p>
+
+Orphaned disks are deleted after [5 days by default](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.disks).
 
 ---
 [Back to Table of Contents](index.html#deployment-config)

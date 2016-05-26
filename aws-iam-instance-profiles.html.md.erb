@@ -36,7 +36,9 @@ You may have to create one or more IAM instance profiles to limit access to AWS 
           "ec2:CreateSnapshot",
           "ec2:CreateTags",
           "ec2:RunInstances",
-          "ec2:TerminateInstances"
+          "ec2:TerminateInstances",
+          "ec2:RegisterImage",
+          "ec2:DeregisterImage"
         ],
         "Effect": "Allow",
         "Resource": "*"
@@ -123,7 +125,9 @@ This configuration is similar to the previous one except that it's used when the
           "ec2:CreateSnapshot",
           "ec2:CreateTags",
           "ec2:RunInstances",
-          "ec2:TerminateInstances"
+          "ec2:TerminateInstances",
+          "ec2:RegisterImage",
+          "ec2:DeregisterImage"
         ],
         "Effect": "Allow",
         "Resource": "*"

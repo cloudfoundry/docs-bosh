@@ -17,7 +17,7 @@ are checked into a source code repository
 The following instructions use an example release that includes two jobs:
 a web UI and a background worker.
 The two jobs split up the functionality provided by single Ruby app,
-`ardo_app`.
+`ardo_app` (you can use simple [gist](https://gist.github.com/antonsoroko/974924e0692aa2171229dafa5f2561b2) as app).
 
 ---
 ## <a id="prep"></a>Preparation ##
@@ -34,6 +34,7 @@ release to be, and run:
 
   `bosh init release <release_name>`
 
+Also you can add `--git` option to initialize git repository.
 Use dashes in the release name.
 Use underscores for all other filenames in the release.
 
@@ -134,7 +135,7 @@ case $1 in
 
     echo $$ > $PIDFILE
 
-    cd /var/vcap/packages/web_ui
+    cd /var/vcap/packages/ardo_app
 
     export PATH=/var/vcap/packages/ruby_1.9.3/bin:$PATH
 
@@ -338,6 +339,13 @@ dependencies together in a single package, though that is not recommended.
 
 <p class="note"><strong>Note</strong>: Use of the <code>pre_packaging</code> file is not recommended, and is not discussed in this tutorial.</p>
 
+Without using `pre_packaging` for our `ardo_app` we need to pack gems manually for further usage:
+
+<pre class="terminal">
+$ cd src/ardo_app/
+$ bundle package
+</pre>
+
 ### <a id="update-pkging-specs"></a> Update packaging specs ###
 
 Within each package directory, there is a `spec` file which states:
@@ -402,7 +410,7 @@ dependencies:
 
 files:
 - ruby_1.9.3/ruby-1.9.3-p484.tar.gz # http://cache.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p484.tar.gz
-- ruby_1.9.3/rubygems-1.8.24.tgz    # http://rubyforge.org/frs/download.php/76073/rubygems-1.8.24.tgz
+- ruby_1.9.3/rubygems-1.8.24.tgz    # http://production.cf.rubygems.org/rubygems/rubygems-1.8.24.tgz
 - ruby_1.9.3/bundler-1.2.1.gem      # https://rubygems.org/downloads/bundler-1.2.1.gem
 ~~~
 
@@ -410,13 +418,13 @@ files:
 
 ~~~yaml
 ---
-name: ardo_web
+name: ardo_app
 
 dependencies:
 - ruby_1.9.3
 
 files:
-- ardo_web/**/*
+- ardo_app/**/*
 ~~~
 
 ### <a id="pkg-scripts"></a> Create packaging scripts ###
@@ -597,7 +605,7 @@ blobstore:
   provider: local
   options:
     blobstore_path: /tmp/ardo-blobs
-final_name: ardo_blobstore
+final_name: ardo_app
 ~~~
 
 Example `private.yml`:
@@ -648,6 +656,10 @@ Now you are ready to inform BOSH about these blobs.
 For each blob, run:
 
 `bosh add blob <path_to_blob_on_local_system> <package_name>`
+
+e.g.
+
+`bosh add blob ~/Downloads/yaml-0.1.4.tar.gz libyaml_0.1.4`
 
 The `bosh add blob` command adds a local blob to the collection your release
 recognizes as BOSH blobs.
@@ -755,6 +767,7 @@ See what releases are available:
 
 If BOSH is already pointing to a release, edit the BOSH deployment manifest.
 Otherwise, create a manifest. See [BOSH Deployment Manifest](./deployment-manifest.html) for more information.
+Simple manifest for `ardo_app` can be found [here](https://gist.github.com/antonsoroko/3be4c70b38f846b1d79eca7192a5ab58).
 
 Upload the new dev release.
 
