@@ -74,7 +74,7 @@ Schema for `cloud_properties` section:
 * **placement_group** [String, optional]: Name of a [placement group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html). Example: `my-group`.
 * **tenancy** [String, optional]: VM [tenancy](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/dedicated-instance.html) configuration. Example: `dedicated`. Default is `default`.
 * **raw\_instance\_storage** [Boolean, optional]: Exposes all available [instance storage via labeled disks](aws-instance-storage.html). Defaults to `false`.
-* **ephemeral_disk** [Hash, optional]: EBS backed ephemeral disk of custom size for when instance storage is not large enough or not available for selected instance type.
+* **ephemeral_disk** [Hash, optional]: EBS backed ephemeral disk of custom size. Default disk size is either the size of first instance storage disk, if the instance_type offers it, or 10GB. Before v53: Used EBS only if instance storage is not large enough or not available for selected instance type.
     * **size** [Integer, required]: Specifies the disk size in megabytes.
     * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `standard`.
         * `standard` stands for EBS magnetic drives
@@ -83,6 +83,8 @@ Schema for `cloud_properties` section:
     * **iops** [Integer, optional]: Specifies the number of I/O operations per second to provision for the drive.
         * Only valid for `io1` type drive.
         * Required when `io1` type drive is specified.
+    * **encrypted** [Boolean, optional] Enables encryption for the EBS backed ephemeral disk. An error is raised, if the `instance_type` does not support it. Since v53. Defaults to `false`.
+    * **use\_instance\_storage** [Boolean, optional] Forces the usage of instance storage as ephemeral disk backing. Will raise an error, if the used `instance_type` does not have instance storage. Cannot be combined with any other option under `ephemeral_disk` or with `raw_instance_storage`. Since v53. Defaults to `false`.
 * **root_disk** [Hash, optional]: EBS backed root disk of custom size.
     * **size** [Integer, required]: Specifies the disk size in megabytes.
     * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `standard`.
