@@ -1,8 +1,8 @@
 ---
-title: Initializing BOSH environment on vCloud
+title: Initializing BOSH environment on SoftLayer
 ---
 
-This document shows how to initialize new [environment](terminology.html#environment) on vCloud.
+This document shows how to initialize new [environment](terminology.html#environment) on SoftLayer.
 
 ## <a id="create-manifest"></a>Step 1: Create a Deployment Manifest
 
@@ -29,9 +29,9 @@ resource_pools:
 - name: vms
   network: private
   stemcell:
-    url: https://bosh.io/d/stemcells/bosh-vcloud-esxi-ubuntu-trusty-go_agent?v=3232.4
+    url: https://bosh.io/d/stemcells/bosh-softlayer-esxi-ubuntu-trusty-go_agent?v=3232.4
     sha1: 1eda65c06cea25c3619eca0067a2d82dc100f0f4
-  cloud_properties:
+  cloud_properties: #TODO replace with SL specific cloud properties
     cpu: 2
     ram: 4_096
     disk: 20_000
@@ -44,9 +44,9 @@ disk_pools:
 - name: disks
   disk_size: 20_000
 
-networks:
+networks: #TODO replace with SL specific networks configs
 - name: private
-  type: manual
+  type: dynamic
   subnets:
   - range: 10.0.0.0/24
     gateway: 10.0.0.1
@@ -63,7 +63,7 @@ jobs:
   - {name: blobstore, release: bosh}
   - {name: director, release: bosh}
   - {name: health_monitor, release: bosh}
-  - {name: vcloud_cpi, release: bosh-vcloud-cpi}
+  - {name: softlayer_cpi, release: bosh-softlayer-cpi}
 
   resource_pool: vms
   persistent_disk_pool: disks
@@ -96,7 +96,7 @@ jobs:
       address: 127.0.0.1
       name: my-bosh
       db: *db
-      cpi_job: vcloud_cpi
+      cpi_job: softlayer_cpi
       max_threads: 4
       user_management:
         provider: local
@@ -109,18 +109,11 @@ jobs:
       director_account: {user: hm, password: hm-password}
       resurrector_enabled: true
 
-    vcd: &vcd # <--- Replace values below
-      url: VCLOUD-URL
-      user: VCLOUD-USER
-      password: VCLOUD-PASSWORD
-      entities:
-        organization: VDC-ORGANIZATION
-        virtual_datacenter: VDC-NAME
-        vapp_catalog: bosh-catalog
-        media_catalog: bosh-catalog
-        media_storage_profile: '*'
-        vm_metadata_key: bosh-meta
-      control: {wait_max: 900}
+    #TODO: add all required and optional props here and note optional
+    softlayer: &softlayer # <--- Replace values below
+      user_id: SOFTLAYER-USER-ID
+      api_key: SOFTLAYER-API-KEY
+      datacenter: SOFTLAYER-DATACENTER-NAME
 
     agent: {mbus: "nats://nats:nats-password@10.0.0.6:4222"}
 
@@ -132,26 +125,19 @@ cloud_provider:
   mbus: "https://mbus:mbus-password@10.0.0.6:6868"
 
   properties:
-    vcd: *vcd
+    softlayer: *softlayer
     agent: {mbus: "https://mbus:mbus-password@0.0.0.0:6868"}
     blobstore: {provider: local, path: /var/vcap/micro_bosh/data/cache}
     ntp: *ntp
 </pre>
 
 ---
-## <a id="prepare"></a> Step 2: Prepare a vCloud Environment
+## <a id="prepare"></a> Step 2: Prepare a SoftLayer Environment
 
-To prepare your vCloud environment find out and/or create any missing resources listed below:
+To prepare your SoftLayer environment find out and/or create any missing resources listed below:
 
-- Replace `VCLOUD-URL` (e.g. 'https://jf629-vcd.vchs.vmware.com') with the URL of the vCloud Director.
-
-- Replace `VCLOUD-USER` (e.g. 'root') and `VCLOUD-PASSWORD` (e.g. 'vmware') in your deployment manifest with vCloud user name and password. BOSH does not require user to be an admin; however, it does need certain user privileges.
-
-- Replace `NETWORK-NAME` (e.g. 'VM Network') with the name of the vCloud network. Deployment manifest assumes that this network is `10.0.0.0/24` and Director VM will be placed at `10.0.0.6`.
-
-- Replace `VDC-ORGANIZATION` (e.g. 'VDC-M127910816-4610-275')
-
-- Replace `VDC-NAME` (e.g. 'VDC-M127910816-4610-275')
+- Replace `SOFTLAYER-USER-ID` (e.g., 'you@your.organization.com') and `SOFTLAYER-API-KEY` (e.g., 'FAQadfas22314567') in your deployment manifest with SoftLayer user ID and API Key.
+- Replace `SOFTLAYER-DATACENTER-NAME` (e.g., dal01) is the name of the datacenter for your environment
 
 ---
 ## <a id="deploy"></a> Step 3: Deploy
@@ -167,7 +153,7 @@ To prepare your vCloud environment find out and/or create any missing resources 
     ...
     </pre>
 
-    See [vCloud CPI errors](vcloud-cpi.html#errors) for list of common errors and resolutions.
+    See [SoftLayer CPI errors](softlayer-cpi.html#errors) for list of common errors and resolutions.
 
 1. Install the [BOSH Command Line Interface (CLI)](./bosh-cli.html).
 
