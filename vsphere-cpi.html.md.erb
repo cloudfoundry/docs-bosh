@@ -94,6 +94,8 @@ Schema for `cloud_properties` section:
 
 * **type** [String, optional]: Type of the [disk](http://pubs.vmware.com/vi-sdk/visdk250/ReferenceGuide/vim.VirtualDiskManager.VirtualDiskType.html): `thick`, `thin`, `preallocated`, `eagerZeroedThick`. Defaults to `preallocated`. Available in v12.
 
+* **datastores** [Array, optional]: List of datastore names for storing persistent disks. Overrides the global `persistent_datastore_pattern`. These names are exact datastore names and not regex patterns. Available in v23+.
+
 Example of 10GB disk:
 
 ```yaml
@@ -110,6 +112,16 @@ disk_pools:
   disk_size: 10_240
   cloud_properties:
     type: eagerZeroedThick
+```
+
+Example of disk stored in specific datastores:
+
+```yaml
+disk_pools:
+- name: default
+  disk_size: 10_240
+  cloud_properties:
+    datastores: ['prod-ds-1', 'prod-ds-2']
 ```
 
 ---
