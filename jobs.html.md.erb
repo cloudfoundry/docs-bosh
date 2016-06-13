@@ -94,7 +94,7 @@ Templates have access to merged job property values, built by merging default pr
 
 Each template can also access special `spec` object for instance specific configuration:
 
-- `<%%= spec.job %>`: Inserts instance name.
+- `<%%= spec.job.name %>`: Inserts instance name.
 - `<%%= spec.id %>`: Inserts instance ID.
 
 - `<%%= spec.index %>`: Inserts instance index. Use `spec.bootstrap` instead of checking for index being 0.
