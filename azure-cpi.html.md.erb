@@ -18,8 +18,11 @@ azs:
 ---
 ## <a id="networks"></a> Networks
 
-Schema for `cloud_properties` section used by dynamic network or manual network subnet:
+### Dynamic Network or Manual Network
 
+Schema for `cloud_properties` section:
+
+* **resource\_group\_name** [String, optional]: Name of a resource group. If it is set, Azure CPI will search the virtual network and security group in this resource group. Otherwise, Azure CPI will search the virtual network and security group in `resource_group_name` in the global CPI settings.
 * **virtual\_network\_name** [String, required]: Name of a virtual network. Example: `boshnet`.
 * **subnet_name** [String, required]: Name of a subnet within virtual network.
 * **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to all VMs placed on this network. Default to the security group specified by `default_security_group` in the global CPI settings unless a security group is specified on a resource pool for a VM. The security group can be specified either in a resource pool or on a network.
@@ -36,9 +39,16 @@ networks:
   - range: 10.10.0.0/24
     gateway: 10.10.0.1
     cloud_properties:
+      resource_group_name: my-resource-group
       virtual_network_name: boshnet
       subnet_name: boshsub
 ```
+
+### Vip Network
+
+Schema for `cloud_properties` section:
+
+* **resource\_group\_name** [String, optional]: Name of a resource group. If it is set, Azure CPI will search the public IP in this resource group. Otherwise, Azure CPI will search the public IP in `resource_group_name` in the global CPI settings.
 
 See [how to create public IP](azure-resources.html#public-ips) to use with vip networks.
 
@@ -48,6 +58,8 @@ Example of vip network:
 networks:
 - name: public
   type: vip
+  cloud_properties:
+    resource_group_name: my-resource-group
 ```
 
 ---
