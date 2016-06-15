@@ -4,9 +4,6 @@ title: Deploying Step-by-step
 
 The Director will do the following steps when `bosh deploy` command runs:
 
-1. Check if `director_uuid` field matches the Director's UUID
-    - if no, return an error to make sure the deployment is not accidentally modified on a wrong Director
-
 1. Check if there is a deployment with the name specified by the deployment manifest
     - if no, create a deployment
     - if yes, lock the deployment so that no other operation can modify it
@@ -14,21 +11,17 @@ The Director will do the following steps when `bosh deploy` command runs:
 1. Validate the deployment manifest syntactically and semantically
     - if invalid, return an error to the user describing the problem(s)
 
-1. Contact all existing VMs associated with this deployment to determine their network configuration, stemcell configuration, and job configuration if any
+1. Contact all existing VMs associated with this deployment to determine their network, configuration, and job configurations
     - if the Director cannot contact all VMs, return an error to the user. This results in a "Timed out sending `get_state` error" during the 'Binding existing deployment' stage. At this point the operator is expected to use `bosh cck` command to determine why certain VMs are not accessible.
 
 1. Determine requested networking changes to the existing and new VMs
     - if network changes cannot be resolved (e.g. currently the Director does not support swapping of static IP reservations), return an error to the user
     - if network changes require more IPs than the deployment's networks allow, return an error to the user
 
-1. Delete empty VMs that are no longer needed
-    - issue delete_vm CPI call for each VM
-
-1. Delete deployment jobs that are no longer specified by the deployment manifest
+1. Delete instance groups that are no longer specified by the deployment manifest
     - issue unmount_disk Agent call for attached disks
-    - issue detach_disk CPI call for attached persistent disks
     - issue delete_vm CPI call for each VM
-    - issue delete_disk CPI call for persistent disks
+    - orphan persistent disks
 
 1. Create compilation worker VMs based on as specified by `compilation` section
     - issue create_vm CPI call
@@ -39,59 +32,56 @@ The Director will do the following steps when `bosh deploy` command runs:
 1. Delete all compilation worker VMs
     - issue delete_vm CPI call
 
-1. Create empty VMs for new deployment jobs
+1. Create empty VMs for new instance groups
 
-1. Create empty VMs for deployment jobs that increased in instance size
+1. Create empty VMs for instance groups that increased in instance size
 
-1. Update each one of the deployment jobs:
+1. Update each one of the instance groups:
 
-    Subset of job instances is selected to be updated first based on the update options for the deployment job or global update options. That group of job instances are called canaries.
+    Subset of instances (within an instance group) is selected to be updated first based on the update options for the instance group or global update options. That group of instances are called canaries.
 
-    1. check if the deployment job instance previously existed
+    1. check if the instance previously existed
         - if no, select a VM and assign assign it to be this instance
         - if yes, check to see what has changed since last time it was updated
 
-    1. download updated packages onto the VM
+    1. download updated jobs and packages onto the VM
         - issue prepare Agent call
 
-    1. run drain script to safely stop job processes on the VM
+    1. run drain scripts to safely stop processes on the VM
         - issue drain Agent call
 
-    1. stop remaining job processes on the VM
+    1. stop remaining processes on the VM
         - issue stop Agent call
 
     1. take persistent disks snapshot associated with the job instance
-        - issue take_snapshot CPI call
+        - issue take_snapshot CPI call if Director has snapshotting enabled
 
-    1. check if the deployment job's resource pool still uses the same stemcell
+    1. check if the instance group still uses the same stemcell
         - if no, create a new VM based on a correct stemcell
+            - issue delete_vm CPI call
             - issue create_vm CPI call
         - if yes, do nothing
 
-    1. check if the deployment job's network configuration changed
+    1. check if the instance group's network configuration changed
         - if no, do nothing
         - if yes, reconfigure running VM to match new configuration
-            - issue prepare\_configure\_networks Agent call
-            - issue configure_networks CPI call
-            - issue configure_networks Agent call
+            - issue delete_vm CPI call
+            - issue create_vm CPI call
 
-    1. update DNS A record for this job instance with new IP
+    1. update DNS A record for this instance with new IP
 
-    1. check if the deployment job's persistent disk or type changed
+    1. check if the instance group's persistent disk changed
         - if no, do nothing
         - if yes, create a new persistent disk with correct size and type and copy data from the old persistent disk
             - issue create_disk CPI call for the new disk
             - issue attach_disk CPI call on a new disk
             - issue mount_disk Agent call on a new disk
             - issue migrate_disk Agent call on a new disk
-            - issue delete_disk CPI call on the old disk
+            - orphan the old disk
 
-    1. configure VM to have new set of job templates
+    1. configure VM to have new set of jobs
         - issue apply Agent call
 
-    1. start job processes on the VM and wait up to specified amount of time by the `update_watch_time` or `canary_watch_time`
+    1. start processes on the VM and wait up to specified amount of time by the `update_watch_time` or `canary_watch_time`
         - issue start Agent call
         - issue get_state Agent call until job state is running or times out
-
-1. Creates empty VMs to fill remaining capacity of each resource pool
-
