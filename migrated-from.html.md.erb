@@ -9,6 +9,14 @@ Previously, the CLI provided the `rename job` command to rename a specific insta
 Additionally `migrated_from` directive can be used to migrate instance groups to use first class AZs.
 
 ---
+## <a id='schema'></a> Schema
+
+**migrated_from** [Array, required]: The name and AZ of each instance group that should be used to form new instance group.
+
+* **name** [String, required]: Name of an instance group that used to exist in the manifest.
+* **az** [String, optional]: Availability zone that was used for the named instance group. This key is optional for instance groups that used first class AZs (via `azs` key). If first class AZ was not used, then this key must specify first class AZ that matches actual IaaS AZ configuration.
+
+---
 ## <a id="rename"></a> Renaming Instance Groups
 
 1. Given follow deployment instance group `etcd`:
