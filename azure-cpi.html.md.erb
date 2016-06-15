@@ -68,8 +68,8 @@ Schema for `cloud_properties` section:
 * **load_balancer** [String, optional]: Name of an [load balancer](https://azure.microsoft.com/en-us/documentation/articles/load-balancer-overview/) the VMs should belong to. You need to create the load balancer manually before configuring it.
 * **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to all VMs placed in this resource pool. Default to the security group specified by `default_security_group` in the global CPI settings unless a security group is specified on one of the VM networks. The security group can be specified either in a resource pool or on a network.
 * **caching** [String, optional]: Type of the disk caching of the VMs' OS disks. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `ReadWrite`.
-* **ephemeral_disk** [Hash, optional]: Ephemeral disk to apply for all VMs that are in this resource pool. A data disk will be created as the ephemeral disk.
-    * **size** [Integer, optional]: Specifies the disk size in megabytes. Default is 15_360 megabytes. The size of the ephemeral disk for the BOSH VM should be larger or equal than 15_360 megabytes.
+* **ephemeral_disk** [Hash, optional]: Ephemeral disk to apply for all VMs that are in this resource pool. If this option is not set, a data disk will be created as the ephemeral disk. The size of the data disk is `30720` megabytes.
+    * **size** [Integer, optional]: Specifies the disk size in megabytes. Default is `30720` megabytes. This value is valid only when use_temporary_disk is not set or set to false. The size of the ephemeral disk for the BOSH VM should be larger or equal than `30720` megabytes.
 
 Example of a `Standard_A2` instance:
 
@@ -83,7 +83,7 @@ resource_pools:
   cloud_properties:
     instance_type: Standard_A2
     ephemeral_disk:
-      size: 20_480
+      size: 30_720
 ```
 
 ---
@@ -120,6 +120,8 @@ Schema:
 * **default\_security\_group** [String, required]: Name of the default [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) that will be applied to all created VMs.
 * **azure\_stack\_domain** [String, optional]: The domain for your AzureStack deployment.
 * **azure\_stack\_authentication** [String, optional]: The authentication type for your AzureStack deployment. Possible values are: `AzureAD`, `AzureStackAD` or `AzureStack`.
+* **parallel\_upload\_thread\_num** [Integer, optional]: The number of threads to upload stemcells in parallel. The default value is 16.
+* **debug_mode** [Boolean, optional]: Enable debug mode to log all raw HTTP requests/responses. The default value is false.
 
 See [all configuration options](https://bosh.io/jobs/cpi?source=github.com/cloudfoundry-incubator/bosh-azure-cpi-release).
 
