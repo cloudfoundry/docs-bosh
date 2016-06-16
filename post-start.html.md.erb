@@ -2,6 +2,8 @@
 title: Post-start Script
 ---
 
+(See [Job Lifecycle](job-lifecycle.html) for an explanation of when post-start scripts run.)
+
 <p class="note">Note: This feature is available with bosh-release v255.4+ and only for releases deployed with 3125+ stemcells.</p>
 
 <p class="note">Note: Releases that make use of post-start scripts and are deployed on older stemcells or with an older Director may potentially deploy; however, post-start script will not be called.</p>
@@ -34,7 +36,7 @@ Post-start script should be idempotent. It may be called multiple times after pr
 
 Unlike a drain script, a post-start script uses an exit code to indicate its success (exit code 0) or failure (any other exit code).
 
-Post-start script is called every time after job is started via monit, which means that post-start script should perform its operations in an idempotent way.
+Post-start script is called every time after job is started (ctl script is called) by the Director, which means that post-start script should perform its operations in an idempotent way.
 
 <p class="note">Note: Running `monit start` directly on a VM will not trigger post-start scripts.</p>
 
