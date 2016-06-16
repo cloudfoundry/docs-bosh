@@ -2,16 +2,19 @@
 title: Job Lifecycle
 ---
 
-There are several stages that each job goes through during a deployment process:
+There are several stages that all jobs (and their associated processes) on each VM go through during a deployment process:
 
-## When start is issued
+## <a id="start"></a> When start is issued
 
-1. release job and its dependent packages are downloaded and placed on a machine
+1. persistent disks are mounted on the VM if configured, and not already mounted
+
+1. all jobs and their dependent packages are downloaded and placed onto a machine
 
 1. [pre-start scripts](pre-start.html) run for all jobs on the VM in parallel
 	- (waits for all pre-start scripts to finish)
 
-1. `monit start` is called for each process
+1. `monit start` is called for each process in no particular order
+  - each job can specify zero or more processes
 
 1. [post-start scripts](post-start.html) run for all jobs on the VM in parallel
 	- (waits for all post-start scripts to finish)
@@ -19,13 +22,16 @@ There are several stages that each job goes through during a deployment process:
 1. [post-deploy scripts](post-deploy.html) run for all jobs on *all* VMs in parallel
 	- (waits for all post-deploy scripts to finish)
 
----
-## When job is running
-
-1. monit will automatically restart processes that exited
+Note that scripts should not rely on the order they are run. Agent may decide to run them serially or in parallel.
 
 ---
-## When stop is issued (or before update and subsequent start happens)
+## <a id="running"></a> When processes are running
+
+1. monit will automatically restart processes that failed their associated checks
+  - a common pattern used is a PID check
+
+---
+## <a id="stop"></a> When stop is issued (or before update and subsequent start happens)
 
 1. `monit unmonitor` is called for each process
 
@@ -33,6 +39,8 @@ There are several stages that each job goes through during a deployment process:
 	- (waits for all drain scripts to finish)
 
 1. `monit stop` is called for each process
+
+1. persistent disks are unmounted on the VM if configured
 
 ---
 Next: [Pre-start script](pre-start.html)

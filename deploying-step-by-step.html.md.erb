@@ -2,7 +2,7 @@
 title: Deploying Step-by-step
 ---
 
-The Director will do the following steps when `bosh deploy` command runs:
+The Director will do the following [steps](https://www.youtube.com/watch?v=ay6GjmiJTPM) when `bosh deploy` (or its related commands such as start, stop and recreate) command runs:
 
 1. Check if there is a deployment with the name specified by the deployment manifest
     - if no, create a deployment
@@ -40,6 +40,8 @@ The Director will do the following steps when `bosh deploy` command runs:
 
     Subset of instances (within an instance group) is selected to be updated first based on the update options for the instance group or global update options. That group of instances are called canaries.
 
+    Even if only one job or package changed in the instance group, stopping and starting procedure will apply to all of the jobs on the instances in that group. One of the future enhancements is to make this procedure more surgical and only affect jobs that have changed.
+
     1. check if the instance previously existed
         - if no, select a VM and assign assign it to be this instance
         - if yes, check to see what has changed since last time it was updated
@@ -47,10 +49,8 @@ The Director will do the following steps when `bosh deploy` command runs:
     1. download updated jobs and packages onto the VM
         - issue prepare Agent call
 
-    1. run drain scripts to safely stop processes on the VM
+    1. [run drain and stop scripts to safely stop processes on the VM](job-lifecycle.html#stop)
         - issue drain Agent call
-
-    1. stop remaining processes on the VM
         - issue stop Agent call
 
     1. take persistent disks snapshot associated with the job instance
@@ -82,6 +82,6 @@ The Director will do the following steps when `bosh deploy` command runs:
     1. configure VM to have new set of jobs
         - issue apply Agent call
 
-    1. start processes on the VM and wait up to specified amount of time by the `update_watch_time` or `canary_watch_time`
+    1. [start processes on the VM and wait up to specified amount of time by the `update_watch_time` or `canary_watch_time`](job-lifecycle.html#start)
         - issue start Agent call
         - issue get_state Agent call until job state is running or times out
