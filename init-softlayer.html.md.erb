@@ -27,31 +27,36 @@ releases:{{ range .Releases }}
 
 resource_pools:
 - name: vms
-  network: private
+  network: default
   stemcell:
-    url: https://bosh.io/d/stemcells/bosh-softlayer-esxi-ubuntu-trusty-go_agent?v=3232.4
-    sha1: 1eda65c06cea25c3619eca0067a2d82dc100f0f4
-  cloud_properties: #TODO replace with SL specific cloud properties
-    cpu: 2
-    ram: 4_096
-    disk: 20_000
-  env:
-    bosh:
-      # c1oudc0w is a default password for vcap user
-      password: "$6$4gDD3aV0rdqlrKC$2axHCxGKIObs6tAmMTqYCspcdvQXh3JJcvWOY2WGb4SrdXtnCyNaWlrf3WEqvYR2MYizEGp3kMmbpwBC6jsHt0"
+    url: file://./light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent.tgz # <--- Replace with the one in bosh.io when it come to public
+  cloud_properties:
+    Domain: softlayer.com
+    VmNamePrefix: bosh-softlayer
+    EphemeralDiskSize: 100
+    StartCpus: 4
+    MaxMemory: 8192
+    Datacenter:
+       Name: SOFTLAYER-DATACENTER-NAME # <--- Replace with the datacenter (like lon02) for your environment
+    HourlyBillingFlag: true
+    PrimaryNetworkComponent:
+       NetworkVlan:
+          Id: SOFTLAYER-PUBLIC-VLAN # <--- Replace with the public vlan id for your environment
+    PrimaryBackendNetworkComponent:
+       NetworkVlan:
+          Id: SOFTLAYER-PRIVATE-VLAN # <--- Replace with the private vlan id for your environment
+    NetworkComponents:
+    - MaxSpeed: 1000
 
 disk_pools:
 - name: disks
-  disk_size: 20_000
+  disk_size: 40_000
 
-networks: #TODO replace with SL specific networks configs
-- name: private
+networks:
+- name: default
   type: dynamic
-  subnets:
-  - range: 10.0.0.0/24
-    gateway: 10.0.0.1
-    dns: [10.0.0.2]
-    cloud_properties: {name: NETWORK-NAME} # <--- Replace with Network name
+  dns: 
+  - 8.8.8.8
 
 jobs:
 - name: bosh
@@ -63,70 +68,105 @@ jobs:
   - {name: blobstore, release: bosh}
   - {name: director, release: bosh}
   - {name: health_monitor, release: bosh}
+  - {name: powerdns, release: bosh}
   - {name: softlayer_cpi, release: bosh-softlayer-cpi}
 
   resource_pool: vms
   persistent_disk_pool: disks
 
   networks:
-  - {name: private, static_ips: [10.0.0.6]}
+  - name: default
 
   properties:
     nats:
-      address: 127.0.0.1
       user: nats
       password: nats-password
+      auth_timeout: 3
+      address: 127.0.0.1
+      listen_address: 0.0.0.0
+      port: 4222
+      no_epoll: false
+      no_kqueue: true
+      ping_interval: 5
+      ping_max_outstanding: 2
+      http:
+        port: 9222
 
-    postgres: &db
-      listen_address: 127.0.0.1
-      host: 127.0.0.1
+    postgres: &20585760
       user: postgres
-      password: postgres-password
+      password: postges-password
+      host: 127.0.0.1
       database: bosh
       adapter: postgres
 
     blobstore:
-      address: 10.0.0.6
+      address: 127.0.0.1
+      director:
+        user: director
+        password: director-password
+      agent:
+        user: agent
+        password: agent-password
       port: 25250
       provider: dav
-      director: {user: director, password: director-password}
-      agent: {user: agent, password: agent-password}
 
     director:
-      address: 127.0.0.1
-      name: my-bosh
-      db: *db
       cpi_job: softlayer_cpi
-      max_threads: 4
-      user_management:
-        provider: local
-        local:
-          users:
-          - {name: admin, password: admin}
-          - {name: hm, password: hm-password}
+      address: 127.0.0.1
+      name: bosh
+      db:
+        adapter: postgres
+        database: bosh
+        host: 127.0.0.1
+        password: postges-password
+        user: postgres
+      enable_virtual_delete_vms: true
 
     hm:
-      director_account: {user: hm, password: hm-password}
-      resurrector_enabled: true
+      http:
+        user: hm
+        password: hm-password
+        port: 25923
+      director_account:
+        user: admin
+        password: admin-password
+      intervals:
+        log_stats: 300
+        agent_timeout: 180
+        rogue_agent_alert: 180
+        prune_events: 30
+        poll_director: 60
+        poll_grace_period: 30
+        analyze_agents: 60
+      pagerduty_enabled: false
+      resurrector_enabled: false
 
-    #TODO: add all required and optional props here and note optional
-    softlayer: &softlayer # <--- Replace values below
-      user_id: SOFTLAYER-USER-ID
-      api_key: SOFTLAYER-API-KEY
-      datacenter: SOFTLAYER-DATACENTER-NAME
+    dns:
+      address: 127.0.0.1
+      domain_name: microbosh
+      db: *20585760
+      webserver:
+        port: 8081
+        address: 0.0.0.0
 
-    agent: {mbus: "nats://nats:nats-password@10.0.0.6:4222"}
+   softlayer: &softlayer
+      username: SOFTLAYER-USER-ID # <--- Replace with your softlayer user id
+      apiKey: SOFTLAYER-API-KEY # <--- Replace with your softlayer api key
 
-    ntp: &ntp [0.pool.ntp.org, 1.pool.ntp.org]
+    agent: {mbus: "nats://nats:nats-password@127.0.0.1:4222"}
+
+    ntp: &ntp []
 
 cloud_provider:
-  template: {name: vcloud_cpi, release: bosh-vcloud-cpi}
+  template: {name: softlayer_cpi, release: bosh-softlayer-cpi}
 
-  mbus: "https://mbus:mbus-password@10.0.0.6:6868"
+  # Tells bosh-init how to contact remote agent
+  mbus: https://admin:admin-password@bosh-softlayer.softlayer.com:6868
 
   properties:
     softlayer: *softlayer
-    agent: {mbus: "https://mbus:mbus-password@0.0.0.0:6868"}
+    # Tells CPI how agent should listen for bosh-init requests
+    agent: {mbus: "https://admin:admin-password@bosh-softlayer.softlayer.com:6868"}
     blobstore: {provider: local, path: /var/vcap/micro_bosh/data/cache}
     ntp: *ntp
 </pre>
