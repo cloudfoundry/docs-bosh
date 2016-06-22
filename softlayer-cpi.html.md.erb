@@ -6,7 +6,7 @@ This topic describes cloud properties for different resources created by the Sof
 
 ## <a id='azs'></a> AZs
 
-Currently CPI does not support any cloud properties for AZs.
+Currently SoftLayer CPI does not support any cloud properties for AZs.
 
 Example:
 
@@ -18,47 +18,68 @@ azs:
 ---
 ## <a id='networks'></a> Networks
 
-Schema for `cloud_properties` section used by manual network subnet:
 
-* **name** [String, required]: Name of vApp network in which instance will be created. Example: `VPC_BOSH`.
+Currently SoftLayer CPI does not support any cloud properties for Networks.
 
-Example of manual network:
+Example of dynamic network:
 
 ```yaml
 networks:
 - name: default
-  type: manual
-  subnets:
-  - range: 10.10.0.0/24
-    gateway: 10.10.0.1
-    cloud_properties:
-      name: VPC_BOSH
+  type: dynamic
+  dns: 
+  - 8.8.8.8
 ```
 
-vCloud CPI does not support dynamic or vip networks.
+Currently SoftLayer CPI does not support manual or vip networks.
 
 ---
 ## <a id='resource-pools'></a> Resource Pools / VM Types
 
 Schema for `cloud_properties` section:
 
-* **cpu** [Integer, required]: Number of CPUs. Example: `1`.
-* **ram** [Integer, required]: RAM in megabytes. Example: `1024`.
-* **disk** [Integer, required]: Ephemeral disk size in megabytes. Example: `10240`
+* **Domain** [String, required]: Name of the domain. Example: `softlayer.com`.
+* **VmNamePrefix** [String, required]: Prefix of the vm name. Example: `bosh-softlayer`.
+* **EphemeralDiskSize** [Integer, required]: Ephemeral disk size in gigabyte. Example: `100`.
+* **StartCpus** [Integer, required]: Number of CPUs. Example: `4`.
+* **MaxMemory** [Integer, required]: Memory in megabytes. Example: `8192`.
+* **Datacenter** :
+    * **Name** [String, required]: Name of the datacenter. Example: `lon02`.
+* **HourlyBillingFlag** [Boolean, optional]: If the vm is hourly billing. Default is `false`. 
+* **PrimaryNetworkComponent** :
+    * **NetworkVlan** : 
+        * **Id** [Integer, required]: Id of the public VLAN. Example: `524956`.
+* **PrimaryBackendNetworkComponent** :
+    * **NetworkVlan** : 
+        * **Id** [Integer, required]: Id of the private VLAN. Example: `524954`.
+* **NetworkComponents** :
+    * **MaxSpeed** [Integer, optional]: Max speed of the network in Mbps. Default is `100`.
 
-Example of a VM with 1 CPU, 1GB RAM, and 10GB ephemeral disk:
+Example:
 
 ```yaml
 resource_pools:
-- name: default
+- name: vms
   network: default
   stemcell:
-    name: bosh-SoftLayer-esxi-ubuntu-trusty-go_agent
-    version: latest
+    url: light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent
   cloud_properties:
-    cpu: 1
-    ram: 1_024
-    disk: 10_240
+    Domain: softlayer.com
+    VmNamePrefix: bosh-softlayer
+    EphemeralDiskSize: 100
+    StartCpus: 4
+    MaxMemory: 8192
+    Datacenter:
+       Name: lon02
+    HourlyBillingFlag: true
+    PrimaryNetworkComponent:
+       NetworkVlan:
+          Id: 524956
+    PrimaryBackendNetworkComponent:
+       NetworkVlan:
+          Id: 524954
+    NetworkComponents:
+    - MaxSpeed: 1000
 ```
 
 ---
@@ -66,12 +87,12 @@ resource_pools:
 
 Currently the CPI does not support any cloud properties for disks.
 
-Example of 10GB disk:
+Example of 100GB disk:
 
 ```yaml
 disk_pools:
-- name: default
-  disk_size: 10_240
+- name: disks
+  disk_size: 100_000
 ```
 
 ---
