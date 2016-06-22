@@ -174,12 +174,37 @@ cloud_provider:
 ---
 ## <a id="prepare"></a> Step 2: Prepare a SoftLayer Environment
 
-To prepare your SoftLayer environment find out and/or create any missing resources listed below:
+To prepare your SoftLayer environment:
 
-- Replace `SOFTLAYER-USER-ID` (e.g., 'you@your.organization.com') and `SOFTLAYER-API-KEY` (e.g., 'FAQadfas22314567') in your deployment manifest with SoftLayer user ID and API Key.
-- Replace `SOFTLAYER-DATACENTER-NAME` (e.g., dal01) is the name of the datacenter for your environment
+* [Create a SoftLayer account](#account)
+* [Generate an API Key](#api-key)
+* [Access SoftLayer VPN](#vpn)
+* [Order VLANs](#vlan)
 
 ---
+### <a id="account"></a> Create a Softlayer account
+
+If you do not have an SoftLayer account, [create one for one month free](https://www.softlayer.com/promo/freeCloud).
+
+Use the login credentials received in your provided email to login to SoftLayer [Customer Portal](https://control.softlayer.com).
+
+---
+### <a id="api-key"></a> Generate an API Key
+
+API keys are used to securely access the SoftLayer API. Follow [Generate an API Key](http://knowledgelayer.softlayer.com/procedure/generate-api-key) to generate your API key.
+
+---
+### <a id="vpn"></a> Access SoftLayer VPN
+
+To access SoftLayer Private network, you need to access SoftLayer VPN. You can get your VPN password from your [user profile](https://control.softlayer.com/account/user/profile). Follow [VPN Access](http://www.softlayer.com/vpn-access) to access the VPN.
+
+---
+### <a id="vlan"></a> Order VLANs
+
+VLANs provide the ability to partition devices and subnets on the network. To order VLANs, login to SoftLayer [Customer Portal](https://control.softlayer.com) and navigate to Network > IP Management > VLANs. Once on the page, click the "Order VLAN" link in the top-right corner. Fill in the pop-up window to order the VLANs as you need. The VLAN IDs are needed in the deployment manifest.
+
+---
+
 ## <a id="deploy"></a> Step 3: Deploy
 
 <p class="note">Note: See <a href="migrate-to-bosh-init.html">Migrating to bosh-init from the micro CLI plugin</a> if you have an existing MicroBOSH.</p>
