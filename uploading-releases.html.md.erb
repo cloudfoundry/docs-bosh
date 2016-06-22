@@ -8,13 +8,13 @@ As described earlier, each deployment references one or many releases on the Dir
 
 ## <a id='find'></a> Finding Releases
 
-Releases are distributed in two ways: as a release tarball or through a source code repository. The [releases section of bosh.io](//bosh.io/releases) provides a good list of available releases and their tarballs.
+Releases are distributed in two ways: as a release tarball or through a source code repository. The [releases section of bosh.io](http://bosh.io/releases) provides a good list of available releases and their tarballs.
 
 Here are a few popular releases:
 
-- [cf-release](//bosh.io/releases/github.com/cloudfoundry/cf-release) provides CloudFoundry
-- [cf-mysql-release](//bosh.io/releases/github.com/cloudfoundry/cf-mysql-release) provides highly-available MySQL
-- [cf-rabbitmq-release](//bosh.io/releases/github.com/pivotal-cf/cf-rabbitmq-release) provides RabbitMQ
+- [cf-release](http://bosh.io/releases/github.com/cloudfoundry/cf-release) provides CloudFoundry
+- [cf-mysql-release](http://bosh.io/releases/github.com/cloudfoundry/cf-mysql-release) provides highly-available MySQL
+- [cf-rabbitmq-release](http://bosh.io/releases/github.com/pivotal-cf/cf-rabbitmq-release) provides RabbitMQ
 
 ---
 ## <a id='upload'></a> Uploading to the Director
@@ -24,7 +24,7 @@ Assuming that the CLI is already targeted at the Director, the CLI provides a si
 - If you have a URL to a release tarball (for example a URL provided by bosh.io):
 
 	<pre class="terminal">
-	$ bosh upload release https://bosh.io/d/github.com/cloudfoundry/cf-release
+	$ bosh upload release https:http://bosh.io/d/github.com/cloudfoundry/cf-release
 	</pre>
 
 	Alternatively, if you have a release tarball on your local machine:
