@@ -96,4 +96,61 @@ disk_pools:
 ```
 
 ---
+## <a id='cloud-config'></a> Example Cloud Config
+
+```yaml
+azs:
+- name: lon02
+  cloud_properties:
+    Datacenter: { Name: lon02  }
+    PrimaryNetworkComponent: { NetworkVlan: { Id: 524956  } }
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id: 524954  } }
+
+vm_types:
+- name: compilation
+  cloud_properties:
+    Bosh_ip: 10.1.2.3
+    StartCpus:  4
+    MaxMemory:  8192
+    EphemeralDiskSize: 100
+    HourlyBillingFlag: true
+    VmNamePrefix: sl-compilation-worker-
+- name: sl-server
+  cloud_properties:
+    Bosh_ip: 10.1.2.3
+    StartCpus:  4
+    MaxMemory:  8192
+    EphemeralDiskSize: 100
+    HourlyBillingFlag: true
+    VmNamePrefix: sl-
+
+vm_extensions:
+- name: lon02-vlan-id
+  cloud_properties:
+    Datacenter: { Name: lon02  }
+    PrimaryNetworkComponent: { NetworkVlan: { Id: 524956  } }
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id: 524954  } }
+
+disk_types:
+- name: small
+  disk_size: 50_000
+- name: large
+  disk_size: 500_000
+
+networks:
+- name: default
+  type: dynamic
+  subnets:
+  - az: lon02
+  - dns: [10.1.2.3, 8.8.8.8, 10.0.80.11, 10.0.80.12]
+
+compilation:
+  workers: 5
+  reuse_compilation_vms: true
+  az: lon02
+  vm_type: compilation
+  network: default
+```
+
+---
 [Back to Table of Contents](index.html#cpi-config)
