@@ -100,7 +100,7 @@ disk_pools:
 
 ```yaml
 azs:
-- name: lon02
+- name: z1
   cloud_properties:
     Datacenter: { Name: lon02  }
     PrimaryNetworkComponent: { NetworkVlan: { Id: 524956  } }
@@ -132,7 +132,7 @@ vm_extensions:
     PrimaryBackendNetworkComponent: { NetworkVlan: { Id: 524954  } }
 
 disk_types:
-- name: small
+- name: default
   disk_size: 50_000
 - name: large
   disk_size: 500_000
