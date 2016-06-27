@@ -37,10 +37,10 @@ resource_pools:
     StartCpus: 4
     MaxMemory: 8192
     Datacenter:
-       Name: SOFTLAYER-DATACENTER-NAME # <--- Replace with the datacenter (like lon02) for your environment
+      Name: SOFTLAYER-DATACENTER-NAME # <--- Replace with the datacenter (like lon02) for your environment
     HourlyBillingFlag: true
     PrimaryNetworkComponent:
-       NetworkVlan:
+      NetworkVlan:
           Id: SOFTLAYER-PUBLIC-VLAN # <--- Replace with the public vlan id for your environment
     PrimaryBackendNetworkComponent:
        NetworkVlan:
@@ -94,7 +94,7 @@ jobs:
 
     postgres: &20585760
       user: postgres
-      password: postges-password
+      password: postgres-password
       host: 127.0.0.1
       database: bosh
       adapter: postgres
