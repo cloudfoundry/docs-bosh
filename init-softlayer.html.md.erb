@@ -87,8 +87,6 @@ jobs:
       port: 4222
       no_epoll: false
       no_kqueue: true
-      ping_interval: 5
-      ping_max_outstanding: 2
       http:
         port: 9222
 
@@ -134,12 +132,6 @@ jobs:
         log_stats: 300
         agent_timeout: 180
         rogue_agent_alert: 180
-        prune_events: 30
-        poll_director: 60
-        poll_grace_period: 30
-        analyze_agents: 60
-      pagerduty_enabled: false
-      resurrector_enabled: false
 
     dns:
       address: 127.0.0.1
@@ -225,7 +217,7 @@ VLANs provide the ability to partition devices and subnets on the network. To or
 1. Use `bosh target DIRECTOR-IP` to log into your new BOSH Director. The default username and password are `admin` and `admin`.
 
     <pre class="terminal">
-    $ bosh target 10.112.116.110
+    $ bosh target DIRECTOR-IP
 
     Target set to 'bosh'
     Your username: admin
