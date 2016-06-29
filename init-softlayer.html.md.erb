@@ -41,10 +41,10 @@ resource_pools:
     HourlyBillingFlag: true
     PrimaryNetworkComponent:
       NetworkVlan:
-          Id: SOFTLAYER-PUBLIC-VLAN # <--- Replace with the public vlan id for your environment
+        Id: SOFTLAYER-PUBLIC-VLAN # <--- Replace with the public vlan id for your environment
     PrimaryBackendNetworkComponent:
-       NetworkVlan:
-          Id: SOFTLAYER-PRIVATE-VLAN # <--- Replace with the private vlan id for your environment
+      NetworkVlan:
+        Id: SOFTLAYER-PRIVATE-VLAN # <--- Replace with the private vlan id for your environment
     NetworkComponents:
     - MaxSpeed: 1000
 
@@ -141,7 +141,7 @@ jobs:
         port: 8081
         address: 0.0.0.0
 
-   softlayer: &softlayer
+    softlayer: &softlayer
       username: SOFTLAYER-USER-ID # <--- Replace with your softlayer user id
       apiKey: SOFTLAYER-API-KEY # <--- Replace with your softlayer api key
 
