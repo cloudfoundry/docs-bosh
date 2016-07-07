@@ -10,9 +10,9 @@ If you are deploying a large, production instance of Cloud Foundry you may prefe
 BOSH deploys software from a subdirectory under a deployments directory.
 Here we create both and name them appropriately. (In our example we named the subdirectory micro01).
 
-	mkdir deployments
-	cd deployments
-	mkdir micro01
+    mkdir deployments
+    cd deployments
+    mkdir micro01
 
 BOSH needs a deployment manifest for MicroBOSH.
 It must be named `micro_bosh.yml`.
@@ -31,8 +31,8 @@ The list displays the most recent build numbers of BOSH stemcells, organized by 
 
 Change to the deployments directory and set the deployment. This assumes you named the directory micro01.
 
-	cd deployments
-	bosh micro deployment micro01
+    cd deployments
+    bosh micro deployment micro01
 
 This should give you output as follows:
 
@@ -44,19 +44,19 @@ Deployment set to '/var/vcap/deployments/micro01/micro_bosh.yml'
 
 Next, deploy a stemcell for MicroBOSH.
 
-	bosh micro deploy bosh-stemcell-XXXX-vcloud-esxi-ubuntu.tgz
+    bosh micro deploy bosh-stemcell-XXXX-vcloud-esxi-ubuntu.tgz
 
 
 ## <a id="verify"></a>Checking Status of a MicroBOSH Deploy ##
 
 To check the status of the MicroBOSH, first **target** the MicroBOSH (specifically, the Director process)
 
-	bosh target <ip_address_from_your_micro_bosh_manifest:25555>
+    bosh target <ip_address_from_your_micro_bosh_manifest:25555>
 
 
 Next **login** with user `admin` and password `admin` as follows:
 
-	bosh login admin
+    bosh login admin
 
 Here's how it looks:
 <pre class="terminal">
@@ -67,7 +67,7 @@ Logged in as `admin'
 
 If you want to change the user id and password, use the `create user` command:
 
-	bosh create user
+    bosh create user
 
 Here's an example:
 
@@ -84,7 +84,7 @@ After creating this user the original `admin` user is deleted and you can no lon
 The `status` command will show the persisted state for a given MicroBOSH
 instance.
 
-	bosh micro status
+    bosh micro status
 
 Here's an example:
 <pre class="terminal">
@@ -102,7 +102,7 @@ Target         https://10.146.21.150:25555 #IP Address of the Director
 
 The `deployments` command prints a table view of `bosh-deployments.yml`:
 
-	bosh micro deployments
+    bosh micro deployments
 
 The files in your current directory need to be saved if you later want to be able to update your MicroBOSH instance. They are all text files, so you can commit them to a git repository to make sure they are safe in case your bootstrap VM goes away.
 
@@ -111,7 +111,7 @@ The files in your current directory need to be saved if you later want to be abl
 The `bosh` CLI can send messages over HTTP to the agent using the `agent`
 command.
 
-	bosh micro agent ping
+    bosh micro agent ping
 
 For example:
 

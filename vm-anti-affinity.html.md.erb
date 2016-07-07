@@ -55,8 +55,8 @@ If the vSphere CPI does not place the VMs on different hosts, check that you hav
 <div class="note">
   Notes:
 
-	<ul>
-	  <li>The vSphere CPI currently only supports
+    <ul>
+      <li>The vSphere CPI currently only supports
 one DRS rule per BOSH resource pool.</li>
     <li>If a BOSH resource pool contains only one VM, the vSphere CPI does not create a DRS rule. After BOSH adds a second VM, the vSphere CPI will create and apply a DRS rule to all VMs in the BOSH resource pool.</li>
   </ul>

@@ -7,7 +7,7 @@ Example cloud properties:
 cloud:
   plugin: vsphere
   properties:
-	...
+    ...
     vcenters:
       - host: vcenter-host.example.com
         user: admin
@@ -25,21 +25,21 @@ cloud:
                   resource_pool: RESOURCE_POOL_NAME
 ```
 * `vcenters`
-	* `host` - the hostname or ip address of the vCenter server
-	* `user` - the vCenter username
-	* `password` - the vCenter password for the above user
-	* `datacenters`
-		* `name` - the name of the datacenter you wish to use
-		* `vm_folder` - inventory folder where VMs will be created
-		* `template_folder` - inventory folder where stemcells will be created
-		* `disk_path` - where VMDKs are stored on persistent datastores
-		* `datastore_pattern` - a real Ruby RegEx which defines where VMs and ephemeral disks are stored
-		* `persistent_datastore_pattern` - a real Ruby RegEx which defined where persistent disks are stored
-		* `allow_mixed_datastores` - required to be true if datastore\_pattern and persistent\_datastore\_pattern RegExs overlap
+    * `host` - the hostname or ip address of the vCenter server
+    * `user` - the vCenter username
+    * `password` - the vCenter password for the above user
+    * `datacenters`
+        * `name` - the name of the datacenter you wish to use
+        * `vm_folder` - inventory folder where VMs will be created
+        * `template_folder` - inventory folder where stemcells will be created
+        * `disk_path` - where VMDKs are stored on persistent datastores
+        * `datastore_pattern` - a real Ruby RegEx which defines where VMs and ephemeral disks are stored
+        * `persistent_datastore_pattern` - a real Ruby RegEx which defined where persistent disks are stored
+        * `allow_mixed_datastores` - required to be true if datastore\_pattern and persistent\_datastore\_pattern RegExs overlap
 
-		* `clusters`
-  			* `CLUSTER_NAME` - the name of the cluster in your datacenter
-  				* `resource_pool` - the name of the resource pool used for allocating VMs
+        * `clusters`
+              * `CLUSTER_NAME` - the name of the cluster in your datacenter
+                  * `resource_pool` - the name of the resource pool used for allocating VMs
 
 
 ### vCenters

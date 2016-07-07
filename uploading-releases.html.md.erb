@@ -23,35 +23,35 @@ Assuming that the CLI is already targeted at the Director, the CLI provides a si
 
 - If you have a URL to a release tarball (for example a URL provided by bosh.io):
 
-	<pre class="terminal">
-	$ bosh upload release https:http://bosh.io/d/github.com/cloudfoundry/cf-release
-	</pre>
+    <pre class="terminal">
+    $ bosh upload release https:http://bosh.io/d/github.com/cloudfoundry/cf-release
+    </pre>
 
-	Alternatively, if you have a release tarball on your local machine:
+    Alternatively, if you have a release tarball on your local machine:
 
-	<pre class="terminal">
-	$ bosh upload release ~/Downloads/redis-12.tgz
-	</pre>
+    <pre class="terminal">
+    $ bosh upload release ~/Downloads/redis-12.tgz
+    </pre>
 
 - If you cloned a Git repository:
 
     Note that all release repositories have a `releases/` folder that contains release YAML files. These files have all the required information about how to assemble a specific version of a release (provided that the release maintainers produce and commit that version to the repository). You can use the YAML files to either directly upload a release, or to create a release tarball locally and then upload it.
 
     <pre class="terminal">
-	$ cd ~/workspace/redis-boshrelease
+    $ cd ~/workspace/redis-boshrelease
 
-	$ bosh upload release releases/redis/redis-12.yml
-	</pre>
+    $ bosh upload release releases/redis/redis-12.yml
+    </pre>
 
-	Alternatively, to build a release tarball locally from a release YAML file:
+    Alternatively, to build a release tarball locally from a release YAML file:
 
-	<pre class="terminal">
-	$ cd ~/workspace/redis-boshrelease
+    <pre class="terminal">
+    $ cd ~/workspace/redis-boshrelease
 
-	$ bosh create release releases/redis/redis-12.yml --with-tarball
+    $ bosh create release releases/redis/redis-12.yml --with-tarball
 
-	$ bosh upload release releases/redis/redis-12.tgz
-	</pre>
+    $ bosh upload release releases/redis/redis-12.tgz
+    </pre>
 
 Once the command succeeds, you can view all uploaded releases in the Director:
 

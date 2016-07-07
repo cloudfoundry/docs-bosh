@@ -278,12 +278,12 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
     <p class="note"><strong>Note</strong>: It highly discouraged to run any production environment with <code>0.0.0.0/0</code> source or to make any BOSH management ports publicly accessible.</p>
 
     <table border="1" class="nice">
-    	<tr>
-    		<th>Type</th>
-    		<th>Port Range</th>
-    		<th>Source</th>
-    		<th>Purpose</th>
-    	</tr>
+        <tr>
+            <th>Type</th>
+            <th>Port Range</th>
+            <th>Source</th>
+            <th>Purpose</th>
+        </tr>
 
       <tr><td>Custom TCP Rule</td><td>22</td><td>(My IP)</td><td>SSH access from bosh-init</td></tr>
       <tr><td>Custom TCP Rule</td><td>6868</td><td>(My IP)</td><td>BOSH Agent access from bosh-init</td></tr>

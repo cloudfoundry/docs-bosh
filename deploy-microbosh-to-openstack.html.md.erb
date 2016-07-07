@@ -21,18 +21,18 @@ Create a manifest for your deployment as follows:
 1. Create a deployment manifest YAML file.
 
     The example below is a MicroBOSH deployment manifest template.
-	Copy and paste the template into a text editor and save the manifest to your
-	deployment directory.
+    Copy and paste the template into a text editor and save the manifest to your
+    deployment directory.
 
     In the template, you must replace the `NETWORK-UUID`,
-	`SUBNET-POOL-IP-ADDRESS`, `FLOATING-IP`, `OPENSTACK-PASSWORD`,
-	`IDENTITY-API-ENDPOINT`, `OPENSTACK-TENANT`, and `OPENSTACK-USERNAME`
-	properties.
-	We describe replacing these properties in [Step 2: Prepare an OpenStack environment](#prepare-openstack).
+    `SUBNET-POOL-IP-ADDRESS`, `FLOATING-IP`, `OPENSTACK-PASSWORD`,
+    `IDENTITY-API-ENDPOINT`, `OPENSTACK-TENANT`, and `OPENSTACK-USERNAME`
+    properties.
+    We describe replacing these properties in [Step 2: Prepare an OpenStack environment](#prepare-openstack).
 
     <p class="note"><strong>Note</strong>: The example below has the file name
-	<code>manifest.yml</code>, which we reference in other examples in this
-	topic.</p>
+    <code>manifest.yml</code>, which we reference in other examples in this
+    topic.</p>
 
 ```yaml
 ---
@@ -90,16 +90,16 @@ to perform the following tasks:
 1. The following OpenStack services:
     * [Identity](http://www.openstack.org/software/openstack-shared-services/):
         MicroBOSH authenticates credentials and retrieves the endpoint URLs for
-		other OpenStack services.
+        other OpenStack services.
     * [Compute](http://www.openstack.org/software/openstack-compute/):
         MicroBOSH boots new VMs, assigns floating IPs to VMs, and creates and
-		attaches volumes to VMs.
+        attaches volumes to VMs.
     * [Image](http://www.openstack.org/software/openstack-shared-services/):
         MicroBOSH stores stemcells using the Image service.
     * **(Optional)** [OpenStack
-		Networking](http://www.openstack.org/software/openstack-networking/):
+        Networking](http://www.openstack.org/software/openstack-networking/):
         Provides network scaling and automated management functions that are
-		useful when deploying complex distributed systems.
+        useful when deploying complex distributed systems.
 
 1. The following OpenStack networks:
     * An external network with a subnet.
@@ -108,7 +108,7 @@ to perform the following tasks:
 1. A new OpenStack project.
 
 <p class="note"><strong>Note</strong>: See the <a href="http://docs.openstack.org/">OpenStack documentation</a> for help finding
-	more information.</p>
+    more information.</p>
 
 ---
 ### <a id="keypair"></a>Create a Keypair ###
@@ -175,95 +175,95 @@ traffic to the BOSH VMs.
         <th><b>Remote</b></th>
       </tr>
       <tr>
-	    <td>Ingress</td>
-	    <td>IPv4</td>
-	    <td>TCP</td>
-	    <td>1-65535</td>
-	    <td>bosh</td>
-	  </tr>
+        <td>Ingress</td>
+        <td>IPv4</td>
+        <td>TCP</td>
+        <td>1-65535</td>
+        <td>bosh</td>
+      </tr>
       <tr>
-	    <td>Ingress</td>
-	    <td>IPv4</td>
-	    <td>TCP</td>
-	    <td>25777</td>
-	    <td>0.0.0.0/0 (CIDR)</td>
-	  </tr>
+        <td>Ingress</td>
+        <td>IPv4</td>
+        <td>TCP</td>
+        <td>25777</td>
+        <td>0.0.0.0/0 (CIDR)</td>
+      </tr>
       <tr>
-	    <td>Ingress</td>
-	    <td>IPv4</td>
-	    <td>TCP</td>
-	    <td>25555</td>
-	    <td>0.0.0.0/0 (CIDR)</td>
-	  </tr>
+        <td>Ingress</td>
+        <td>IPv4</td>
+        <td>TCP</td>
+        <td>25555</td>
+        <td>0.0.0.0/0 (CIDR)</td>
+      </tr>
       <tr>
-	    <td>Ingress</td>
-	    <td>IPv4</td>
-	    <td>TCP</td>
-	    <td>25250</td>
-	    <td>0.0.0.0/0 (CIDR)</td>
-	  </tr>
+        <td>Ingress</td>
+        <td>IPv4</td>
+        <td>TCP</td>
+        <td>25250</td>
+        <td>0.0.0.0/0 (CIDR)</td>
+      </tr>
       <tr>
-	    <td>Ingress</td>
-	    <td>IPv4</td>
-	    <td>TCP</td>
-	    <td>6868</td>
-	    <td>0.0.0.0/0 (CIDR)</td>
-	  </tr>
+        <td>Ingress</td>
+        <td>IPv4</td>
+        <td>TCP</td>
+        <td>6868</td>
+        <td>0.0.0.0/0 (CIDR)</td>
+      </tr>
       <tr>
-	    <td>Ingress</td>
-	    <td>IPv4</td>
-	    <td>TCP</td>
-	    <td>4222</td>
-	    <td>0.0.0.0/0 (CIDR)</td>
-	  </tr>
+        <td>Ingress</td>
+        <td>IPv4</td>
+        <td>TCP</td>
+        <td>4222</td>
+        <td>0.0.0.0/0 (CIDR)</td>
+      </tr>
       <tr>
-	    <td>Ingress</td>
-	    <td>IPv4</td>
-	    <td>UDP</td>
-	    <td>68</td>
-	    <td>0.0.0.0/0 (CIDR)</td>
-	  </tr>
+        <td>Ingress</td>
+        <td>IPv4</td>
+        <td>UDP</td>
+        <td>68</td>
+        <td>0.0.0.0/0 (CIDR)</td>
+      </tr>
       <tr>
-	    <td>Ingress</td>
-	    <td>IPv4</td>
-	    <td>TCP</td>
-	    <td>53</td>
-	    <td>0.0.0.0/0 (CIDR)</td>
-	  </tr>
+        <td>Ingress</td>
+        <td>IPv4</td>
+        <td>TCP</td>
+        <td>53</td>
+        <td>0.0.0.0/0 (CIDR)</td>
+      </tr>
       <tr>
-	    <td>Ingress</td>
-	    <td>IPv4</td>
-	    <td>UDP</td>
-	    <td>53</td>
-	    <td>0.0.0.0/0 (CIDR)</td>
-	  </tr>
+        <td>Ingress</td>
+        <td>IPv4</td>
+        <td>UDP</td>
+        <td>53</td>
+        <td>0.0.0.0/0 (CIDR)</td>
+      </tr>
       <tr>
-	    <td>Ingress</td>
-	    <td>IPv4</td>
-	    <td>TCP</td>
-	    <td>22</td>
-	    <td>0.0.0.0/0 (CIDR)</td>
-	  </tr>
+        <td>Ingress</td>
+        <td>IPv4</td>
+        <td>TCP</td>
+        <td>22</td>
+        <td>0.0.0.0/0 (CIDR)</td>
+      </tr>
       <tr>
-	    <td>Egress</td>
-	    <td>IPv4</td>
-	    <td>Any</td>
-	    <td>-</td>
-	    <td>0.0.0.0/0 (CIDR)</td>
-	  </tr>
+        <td>Egress</td>
+        <td>IPv4</td>
+        <td>Any</td>
+        <td>-</td>
+        <td>0.0.0.0/0 (CIDR)</td>
+      </tr>
       <tr>
-	    <td>Egress</td>
-	    <td>IPv6</td>
-	    <td>Any</td>
-	    <td>-</td>
-	    <td>::/0 (CIDR)</td>
-	  </tr>
+        <td>Egress</td>
+        <td>IPv6</td>
+        <td>Any</td>
+        <td>-</td>
+        <td>::/0 (CIDR)</td>
+      </tr>
     </table>
 
     <p class="note"><strong>Note</strong>: Production environments should have
-	MicroBOSH deployed without a floating IP address on the private subnet. We
-	highly recommend against running any production environment with
-	<code>0.0.0.0/0</code> source IP addresses.</p>
+    MicroBOSH deployed without a floating IP address on the private subnet. We
+    highly recommend against running any production environment with
+    <code>0.0.0.0/0</code> source IP addresses.</p>
 
 ---
 ###<a id="floating-ip"></a>Allocate a Floating IP Address ###

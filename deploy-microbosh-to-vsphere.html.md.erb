@@ -21,12 +21,12 @@ Create a manifest for your deployment as follows:
 1. Create a deployment manifest YAML file.
 
     The example below is a MicroBOSH deployment manifest template.
-	Copy and paste the template into a text editor and save the manifest to your
-	deployment directory.
+    Copy and paste the template into a text editor and save the manifest to your
+    deployment directory.
 
     <p class="note"><strong>Note</strong>: The example below has the file name
-	<code>manifest.yml</code>, which we reference in other examples in this
-	topic.</p>
+    <code>manifest.yml</code>, which we reference in other examples in this
+    topic.</p>
 
 ```yaml
 ---
@@ -119,15 +119,15 @@ deployment directory to instruct MicroBOSH to use your manifest file.
     </pre>
 
     <p class="note"><strong>Note</strong>: BOSH displays a red
-  	<code>WARNING!</code> message. This is not an error message.
-  	The message alerts you to a change in the targeted IP address.</p>
+      <code>WARNING!</code> message. This is not an error message.
+      The message alerts you to a change in the targeted IP address.</p>
 
 1. Run `bosh micro deploy STEMCELL-NAME` to deploy MicroBOSH.
 
-  	<p class="note"><strong>Note</strong>: BOSH may displays a red
-  	<code>No bosh-deployments.yml file found</code> message.
-  	If prompted to allow MicroBOSH to the save state in the current directory,
-  	type <code>yes</code>.</p>
+      <p class="note"><strong>Note</strong>: BOSH may displays a red
+      <code>No bosh-deployments.yml file found</code> message.
+      If prompted to allow MicroBOSH to the save state in the current directory,
+      type <code>yes</code>.</p>
 
     <pre class='terminal'>
     $ bosh micro deploy bosh-stemcell-3012-vsphere-esxi-ubuntu-trusty-go_agent.tgz

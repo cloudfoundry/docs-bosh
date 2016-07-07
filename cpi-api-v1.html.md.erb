@@ -38,20 +38,20 @@ See [Stemcell Building](build-stemcell.html) for more details.
 
 ```yaml
 [
-	"/tmp/extracted-stemcell-348754vdsn87fr/image",
-	{
-		"name:" "bosh-openstack-esxi-ubuntu-trusty-go_agent",
-		"version": "2972",
-		"infrastructure": "openstack",
-		"hypervisor": "esxi",
-		"disk:" 3072,
-		"disk_format": "ovf",
-		"container_format": "bare",
-		"os_type": "linux",
-		"os_distro": "ubuntu",
-		"architecture": "x86_64",
-		"auto_disk_config": true
-	}
+    "/tmp/extracted-stemcell-348754vdsn87fr/image",
+    {
+        "name:" "bosh-openstack-esxi-ubuntu-trusty-go_agent",
+        "version": "2972",
+        "infrastructure": "openstack",
+        "hypervisor": "esxi",
+        "disk:" 3072,
+        "disk_format": "ovf",
+        "container_format": "bare",
+        "os_type": "linux",
+        "os_distro": "ubuntu",
+        "architecture": "x86_64",
+        "auto_disk_config": true
+    }
 ]
 ```
 
@@ -100,30 +100,30 @@ Make sure to properly delete created resources if VM cannot be successfully crea
 
 ```yaml
 [
-	"4149ba0f-38d9-4485-476f-1581be36f290",
-	"ami-478585",
-	{ "instance_type": "m1.small" },
-	{
-		"private": {
-			"type": "manual",
-			"netmask": "255.255.255.0",
-			"gateway": "10.230.13.1",
-			"ip": "10.230.13.6",
-			"default": [ "dns", "gateway" ],
-			"cloud_properties": { "net_id": "subnet-48rt54" }
-	  	},
-	  	"private2": {
-			"type": "dynamic",
-			"cloud_properties": { "net_id": "subnet-e12364" }
-		}
-		"public": {
-			"type": "vip",
-			"ip": "173.101.112.104",
-			"cloud_properties": {}
-		}
-	},
-	[ "vol-3475945" ],
-	{}
+    "4149ba0f-38d9-4485-476f-1581be36f290",
+    "ami-478585",
+    { "instance_type": "m1.small" },
+    {
+        "private": {
+            "type": "manual",
+            "netmask": "255.255.255.0",
+            "gateway": "10.230.13.1",
+            "ip": "10.230.13.6",
+            "default": [ "dns", "gateway" ],
+            "cloud_properties": { "net_id": "subnet-48rt54" }
+          },
+          "private2": {
+            "type": "dynamic",
+            "cloud_properties": { "net_id": "subnet-e12364" }
+        }
+        "public": {
+            "type": "vip",
+            "ip": "173.101.112.104",
+            "cloud_properties": {}
+        }
+    },
+    [ "vol-3475945" ],
+    {}
 ]
 ```
 
@@ -137,42 +137,42 @@ For the Agent to successfully start on the created VM, several bootstrapping set
 
 ```yaml
 {
-	"agent_id": "4149ba0f-38d9-4485-476f-1581be36f290",
+    "agent_id": "4149ba0f-38d9-4485-476f-1581be36f290",
 
-	"vm": { "name": "i-347844" },
+    "vm": { "name": "i-347844" },
 
-	"networks": {
-		"private": {
-			"type": "manual",
-			"netmask": "255.255.255.0",
-			"gateway": "10.230.13.1",
-			"ip": "10.230.13.6",
-			"default": [ "dns", "gateway" ],
-			"cloud_properties": { "net_id": "d29fdb0d-44d8-4e04-818d-5b03888f8eaa" }
-		},
-		"public": {
-			"type": "vip",
-			"ip": "173.101.112.104",
-			"cloud_properties": {}
-		}
-	},
+    "networks": {
+        "private": {
+            "type": "manual",
+            "netmask": "255.255.255.0",
+            "gateway": "10.230.13.1",
+            "ip": "10.230.13.6",
+            "default": [ "dns", "gateway" ],
+            "cloud_properties": { "net_id": "d29fdb0d-44d8-4e04-818d-5b03888f8eaa" }
+        },
+        "public": {
+            "type": "vip",
+            "ip": "173.101.112.104",
+            "cloud_properties": {}
+        }
+    },
 
-	"disks": {
-		"system": "/dev/sda",
-		"ephemeral": "/dev/sdb",
-		"persistent": {}
-	},
+    "disks": {
+        "system": "/dev/sda",
+        "ephemeral": "/dev/sdb",
+        "persistent": {}
+    },
 
-	"mbus": "https://mbus:mbus-password@0.0.0.0:6868"
+    "mbus": "https://mbus:mbus-password@0.0.0.0:6868"
 
-	"ntp": [ "0.pool.ntp.org", "1.pool.ntp.org" ],
+    "ntp": [ "0.pool.ntp.org", "1.pool.ntp.org" ],
 
-	"blobstore": {
-		"provider": "local",
-		"options": { "blobstore_path": "/var/vcap/micro_bosh/data/cache" }
-	},
+    "blobstore": {
+        "provider": "local",
+        "options": { "blobstore_path": "/var/vcap/micro_bosh/data/cache" }
+    },
 
-	"env": {},
+    "env": {},
 }
 ```
 
@@ -249,15 +249,15 @@ We recommend to set VM name based on *sometimes* provided `name` key.
 
 ```yaml
 [
-	"i-387459",
-	{
-		"director": "director-784430",
-		"deployment": "redis",
-		"name": "redis/ce7d2040-212e-4d5a-a62d-952a12c50741",
-		"job": "redis",
-		"id": "ce7d2040-212e-4d5a-a62d-952a12c50741",
-		"index": "1"
-	}
+    "i-387459",
+    {
+        "director": "director-784430",
+        "deployment": "redis",
+        "name": "redis/ce7d2040-212e-4d5a-a62d-952a12c50741",
+        "job": "redis",
+        "id": "ce7d2040-212e-4d5a-a62d-952a12c50741",
+        "index": "1"
+    }
 ]
 ```
 
@@ -283,26 +283,26 @@ After the Director received NotSupported error, it will delete the VM (via `dele
 
 ```yaml
 [
-	"i-238445",
-	{
-		"private": {
-			"type": "manual",
-			"netmask": "255.255.255.0",
-			"gateway": "10.230.13.1",
-			"ip": "10.230.13.6",
-			"default": [ "dns", "gateway" ],
-			"cloud_properties": { "net_id": "subnet-48rt54" }
-	  	},
-	  	"private2": {
-			"type": "dynamic",
-			"cloud_properties": { "net_id": "subnet-e12364" }
-		}
-		"public": {
-			"type": "vip",
-			"ip": "173.247.112.104",
-			"cloud_properties": {}
-		}
-	}
+    "i-238445",
+    {
+        "private": {
+            "type": "manual",
+            "netmask": "255.255.255.0",
+            "gateway": "10.230.13.1",
+            "ip": "10.230.13.6",
+            "default": [ "dns", "gateway" ],
+            "cloud_properties": { "net_id": "subnet-48rt54" }
+          },
+          "private2": {
+            "type": "dynamic",
+            "cloud_properties": { "net_id": "subnet-e12364" }
+        }
+        "public": {
+            "type": "vip",
+            "ip": "173.247.112.104",
+            "cloud_properties": {}
+        }
+    }
 ]
 ```
 
@@ -329,12 +329,12 @@ Creates disk with specific size. Disk does not belong to any given VM.
 
 ```yaml
 [
-	25000,
-	{
-		"type": "gp2",
-		"encrypted": true
-	},
-	"i-2387475"
+    25000,
+    {
+        "type": "gp2",
+        "encrypted": true
+    },
+    "i-2387475"
 ]
 ```
 
@@ -402,28 +402,28 @@ For the Agent to eventually format, partition and mount attached disk, it needs 
 
 ```yaml
 {
-	"agent_id": "4149ba0f-38d9-4485-476f-1581be36f290",
+    "agent_id": "4149ba0f-38d9-4485-476f-1581be36f290",
 
-	"vm": { "name": "i-347844" },
+    "vm": { "name": "i-347844" },
 
-	"networks": { ... },
+    "networks": { ... },
 
-	"disks": {
-		"system": "/dev/sda",
-		"ephemeral": "/dev/sdb",
-		"persistent": {
-			"vol-3475945": { "volume_id": "3" },
-			"vol-7447851": { "path": "/dev/sdd" },
-		}
-	},
+    "disks": {
+        "system": "/dev/sda",
+        "ephemeral": "/dev/sdb",
+        "persistent": {
+            "vol-3475945": { "volume_id": "3" },
+            "vol-7447851": { "path": "/dev/sdd" },
+        }
+    },
 
-	"mbus": "https://mbus:mbus-password@0.0.0.0:6868"
+    "mbus": "https://mbus:mbus-password@0.0.0.0:6868"
 
-	"ntp": [ ... ],
+    "ntp": [ ... ],
 
-	"blobstore": { ... },
+    "blobstore": { ... },
 
-	"env": {},
+    "env": {},
 }
 ```
 
