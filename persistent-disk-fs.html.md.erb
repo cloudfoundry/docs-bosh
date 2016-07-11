@@ -18,8 +18,7 @@ instance_groups:
   # ...
   persistent_disk: 10_000
   env:
-    bosh:
-      persistent_disk_fs: xfs
+    persistent_disk_fs: xfs
 ```
 
 Currently this configuration lives in the instance group `env` configuration. (Eventually we will move this configuration onto the disk type where it belongs.) There are few gotchas:
