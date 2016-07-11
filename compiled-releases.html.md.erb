@@ -15,7 +15,7 @@ Any release can be exported as a compiled release by using the Director and [bos
 ---
 ## <a id="export"></a> Using export release command
 
-To export a release: 
+To export a release:
 
 1. Create an empty deployment (or use an existing one). This deployment will hold compilation VMs if compilation is necessary.
 
@@ -52,3 +52,5 @@ To export a release:
 1. Run `bosh export release` command. In our example: `bosh export release uaa/6 ubuntu-trusty/3197`. If release is not already compiled it will create necessary compilation VMs and compile all packages.
 
 1. Find exported release tarball in the current directory. Compiled release tarball can be now imported into any other Director via `bosh upload release` command.
+
+1. Optionally use `bosh inspect release` command to view associated compiled packages on the Director. In our example: `bosh inspect release uaa/6`.
