@@ -74,6 +74,11 @@ Schema for `cloud_properties` section:
       1. the permissions for the container `stemcell` in the default storage account is set to `Public read access for blobs only`.
       1. a table `stemcells` is created in the default storage account.
       1. two containers `bosh` and `stemcell` are created in the new storage account.
+    * If this storage account does not exist, it can be created automatically by Azure CPI. But you must specify storage\_account\_type and make sure:
+      1. The name must be **unique within Azure**.
+      1. **The name must be between 3 and 24 characters in length and use numbers and lower-case letters only**.
+* **storage\_account\_type** [String, optional]: Storage account type. It is required if the storage account does not exist. It can be either `Standard_LRS`, `Standard_ZRS`, `Standard_GRS`, `Standard_RAGRS` or `Premium_LRS`. You can click [**HERE**](http://azure.microsoft.com/en-us/pricing/details/storage/) to learn more about the type of Azure storage account.
+* **storage\_account\_location** [String, optional]: Location of the storage account. It is needed if the storage account does not exist. If it is not set, the location of the default resource group will be used. For more information, see [List all of the available geo-locations](http://azure.microsoft.com/en-us/regions/). For `AzureChinaCloud`, you should only use the regions in China, `chinanorth` or `chinaeast`.
 * **availability_set** [String, optional]: Name of an [availability set](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) to use for VMs. If available set does not exist, it will be automatically created. [More details](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#availability-set).
 * **platform\_update\_domain_count** [Integer, optional]: The count of [update domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. Default value is `5`.
 * **platform\_fault\_domain_count** [Integer, optional]: The count of [fault domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. Default value is `3`.
