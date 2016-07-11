@@ -50,7 +50,7 @@ cs5Label=statusReason
 
 To enable this feature:
 
-1. Add [director.log_access_events_to_syslog](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.log_access_events_to_syslog) deployment manifest for the Director:
+1. Add [`director.log_access_events_to_syslog`](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.log_access_events_to_syslog) deployment manifest for the Director:
 
     ```yaml
     properties:
@@ -58,7 +58,7 @@ To enable this feature:
         log_access_events_to_syslog: true
     ```
 
-1. Optionally colocate [syslog-release's syslog_forwarder job](http://bosh.io/jobs/syslog_forwarder?source=github.com/cloudfoundry/syslog-release) with the Director to forward logs to a remote location.
+1. Optionally colocate [syslog-release's `syslog_forwarder` job](http://bosh.io/jobs/syslog_forwarder?source=github.com/cloudfoundry/syslog-release) with the Director to forward logs to a remote location.
 
 1. Redeploy the Director.
 
