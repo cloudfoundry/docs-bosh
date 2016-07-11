@@ -1,5 +1,5 @@
 ---
-title: Connecting the Director to an External Postgres Database
+title: Connecting the Director to an External Blobstore
 ---
 
 The Director stores uploaded releases, configuration files, logs and other data in a blobstore. A default DAV blobstore is sufficient for most BOSH environments; however, a highly-available external blobstore may be desired.
@@ -47,6 +47,8 @@ Above configuration is used by the Director and the Agents.
 The Director and the Agents can use S3 compatible blobstore. Here is how to configure it:
 
 1. Create a *private* S3 bucket
+
+1. Ensure that access to the bucket is protected, as the Director may store sensitive information.
 
 1. Modify deployment manifest for the Director and specify S3 credentials and bucket name:
 
