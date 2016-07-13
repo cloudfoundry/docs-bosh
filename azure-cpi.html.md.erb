@@ -85,9 +85,11 @@ Schema for `cloud_properties` section:
 * **load_balancer** [String, optional]: Name of an [load balancer](https://azure.microsoft.com/en-us/documentation/articles/load-balancer-overview/) the VMs should belong to. You need to create the load balancer manually before configuring it.
 * **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to all VMs placed in this resource pool. Default to the security group specified by `default_security_group` in the global CPI settings unless a security group is specified on one of the VM networks. The security group can be specified either in a resource pool or on a network.
 * **caching** [String, optional]: Type of the disk caching of the VMs' OS disks. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `ReadWrite`.
-* **ephemeral_disk** [Hash, optional]: Ephemeral disk to apply for all VMs that are in this resource pool. If this option is not set, a data disk will be created as the ephemeral disk. The size of the data disk is `30720` megabytes.
-    * **size** [Integer, optional]: Specifies the disk size in megabytes. Default is `30720` megabytes. This value is valid only when use_temporary_disk is not set or set to false. The size of the ephemeral disk for the BOSH VM should be larger or equal than `30720` megabytes.
-
+* **ephemeral_disk** [Hash, optional]: Ephemeral disk to apply for all VMs that are in this resource pool. By default a data disk with the default size as below will be created as the ephemeral disk.
+    * **size** [Integer, optional]: Specifies the disk size in megabytes. If this is not set, the default size as below will be used. The size of the ephemeral disk for the BOSH VM should be larger than or equal to `30*1024` megabytes.
+      * If the Azure temporary disk size for the instance type is less than `30*1024` megabytes, the default size is `30*1024` megabytes because the space may not be enough.
+      * If the Azure temporary disk size for the instance type is larger than `1023*1024` megabytes, the default size is `1023*1024` megabytes because max data disk size is `1023*1024` megabytes on Azure.
+      * Otherwise, the Azure temporary disk size will be used as the default size. See more information about [Azure temporary disk size](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-sizes/).
 Example of a `Standard_A2` instance:
 
 ```yaml
@@ -111,6 +113,8 @@ Schema for `cloud_properties` section:
 * **caching** [String, optional]: Type of the disk caching. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `None`. Only `None` and `ReadOnly` are supported for premium disks.
 
 Example of 10GB disk:
+
+* **disk_size** [Integer, required]: Size of the disk in megabytes. On Azure the disk size must be in the range [1 * 1024, 1023 * 1024].
 
 ```yaml
 disk_pools:
