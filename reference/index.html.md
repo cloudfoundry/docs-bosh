@@ -52,14 +52,14 @@ Published final releases have a simple versioning system. Each has a single inte
 
 A BOSH Release is built from a directory tree with the contents described in this section. A typical release repository has the following subdirectories. Click on a directory link for more details.
 
-| Directory     | Contents     |
-| ------------    | ----------    |
-| [releases](releases.html)     | publish final releases     |
-| [.final_builds](final_builds.html)     | final release builds in blobstore     |
-| [config](config.html)     | release configuration files     |
-| [jobs](jobs.html)     | job definitions     |
-| [packages](../packages.html)     | package definitions     |
-| [src](src.html)     | source code for packages     |
-| [blobs](blobs.html)     | local cache of large source code bundles     |
+| Directory                                | Contents                                     |
+| ------------                             | ----------                                   |
+| [releases](releases.html)                | publish final releases                       |
+| [.final_builds](final_builds.html)       | final release builds in blobstore            |
+| [config](config.html)                    | release configuration files                  |
+| [jobs](jobs.html)                        | job definitions                              |
+| [packages](../packages.html)             | package definitions                          |
+| [src](src.html)                          | source code for packages                     |
+| [blobs](blobs.html)                      | local cache of large source code bundles     |
 
 
