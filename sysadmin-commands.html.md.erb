@@ -157,7 +157,7 @@ Instructs the BOSH Director to run the named errand on a job instance on a VM.
 Executes a command or starts an interactive shell via SSH. You can tunnel the SSH connection over a `gateway` by specifying additional options.
 
 <pre class="terminal">$ bosh ssh JOB [INDEX] [COMMANDS]</pre>
-When you provide arguments without an option flag, the Director executes the arguments as commands on the job VM. For example, `bosh ssh redis 0 ls -R` runs the `ls -R` command on the redis/0 job VM.
+When you provide arguments without an option flag, the Director executes the arguments as commands on the job VM. For example, `bosh ssh redis 0 "ls -R"` runs the `ls -R` command on the redis/0 job VM.
 
 ---
 ### <a id="tasks"></a> Director Tasks
