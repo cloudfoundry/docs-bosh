@@ -78,7 +78,7 @@ Schema for `cloud_properties` section:
 * **raw\_instance\_storage** [Boolean, optional]: Exposes all available [instance storage via labeled disks](aws-instance-storage.html). Defaults to `false`.
 * **ephemeral_disk** [Hash, optional]: EBS backed ephemeral disk of custom size. Default disk size is either the size of first instance storage disk, if the instance_type offers it, or 10GB. Before v53: Used EBS only if instance storage is not large enough or not available for selected instance type.
     * **size** [Integer, required]: Specifies the disk size in megabytes.
-    * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `standard`.
+    * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `gp2`.
         * `standard` stands for EBS magnetic drives
         * `gp2` stands for EBS general purpose drives (SSD)
         * `io1` stands for EBS provisioned IOPS drives (SSD)
@@ -89,7 +89,7 @@ Schema for `cloud_properties` section:
     * **use\_instance\_storage** [Boolean, optional] Forces the usage of instance storage as ephemeral disk backing. Will raise an error, if the used `instance_type` does not have instance storage. Cannot be combined with any other option under `ephemeral_disk` or with `raw_instance_storage`. Since v53. Defaults to `false`.
 * **root_disk** [Hash, optional]: EBS backed root disk of custom size.
     * **size** [Integer, required]: Specifies the disk size in megabytes.
-    * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `standard`.
+    * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `gp2`.
         * `standard` stands for EBS magnetic drives
         * `gp2` stands for EBS general purpose drives (SSD)
 
@@ -112,7 +112,7 @@ resource_pools:
 
 Schema for `cloud_properties` section:
 
-* **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `standard`.
+* **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `gp2`.
   * `standard` stands for EBS magnetic drives
   * `gp2` stands for EBS general purpose drives (SSD)
   * `io1` stands for EBS provisioned IOPS drives (SSD)
