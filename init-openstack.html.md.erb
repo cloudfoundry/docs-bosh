@@ -31,8 +31,8 @@ resource_pools:
 - name: vms
   network: private
   stemcell:
-    url: https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-trusty-go_agent?v=3232.4
-    sha1: 7f974927463bb44d3580ee16f4a0e8b9fe89202d
+    url: {{ .Stemcell.UserVisibleDownloadURL }}
+    sha1: {{ .Stemcell.SHA1 }}
   cloud_properties:
     instance_type: m1.xlarge
 

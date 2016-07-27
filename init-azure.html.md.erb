@@ -37,8 +37,8 @@ resource_pools:
 - name: vms
   network: private
   stemcell:
-    url: https://bosh.io/d/stemcells/bosh-azure-hyperv-ubuntu-trusty-go_agent?v=3232.5
-    sha1: d71b1092f0edc68544f0e1796e75491d0d3678ce
+    url: {{ .Stemcell.UserVisibleDownloadURL }}
+    sha1: {{ .Stemcell.SHA1 }}
   cloud_properties:
     instance_type: Standard_D1
 
