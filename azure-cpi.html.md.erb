@@ -208,7 +208,7 @@ compilation:
 ---
 ## <a id="errors"></a> Errors
 
-1. Invalid service principal
+* Invalid service principal
 
   ```
   http_get_response - get_token - http error: 400
@@ -226,7 +226,7 @@ compilation:
 
   2. Then choose your service principal, select `Configure` -- > `keys` -- > add a new key.
 
-1. Exceeding quota limits of Core
+* Exceeding quota limits of Core
 
   ```
   http_put - error: 409 message: {
@@ -239,7 +239,7 @@ compilation:
 
   Either upgrade your trial account, or file a support ticket in the Azure portal to raise account quotas.
 
-1. NicInUse
+* NicInUse
 
   ```
   http_delete - error: 400 message: {
@@ -253,7 +253,7 @@ compilation:
 
   This error indicates that unknown VM (to the Director) took up the IP that the Director is trying to assign to a new VM. Either let the Director know to not use this IP by including it in the reserved section of a subnet in your manual network, or make that IP available by terminating the unknown VM.
 
-1. Limits of Premium Storage blob snapshots
+* Limits of Premium Storage blob snapshots
 
   ```
   Error 100: Unknown CPI error 'Unknown' with message 'SnaphotOperationRateExceeded (409): The rate of snapshot blob calls is exceeded.
@@ -270,7 +270,7 @@ compilation:
       enable_snapshots: true
     ```
 
-  * The time between consecutive snapshots by BOSH is less than **10 minutes**. The limits are documented in [Snapshots and Copy Blob for Premium Storage](https://azure.microsoft.com/en-us/documentation/articles/storage-premium-storage/#snapshots-and-copy-blob). 
+  * The time between consecutive snapshots by BOSH is less than **10 minutes**. The limits are documented in [Snapshots and Copy Blob for Premium Storage](https://azure.microsoft.com/en-us/documentation/articles/storage-premium-storage/#snapshots-and-copy-blob).
 
   The workaround is:
 
@@ -283,19 +283,13 @@ compilation:
 
   * Adjust the snapshot interval to more than 10 minutes.
 
-1. Version mismatch between CPI and Stemcell
+* Version mismatch between CPI and Stemcell
 
   For CPI v11 or later, the compatible stemcell version is v3181 or later. If the stemcell version is older than v3181, you may hit the following failure when deploying BOSH.
 
   ```
-  Command 'deploy' failed:
-    Deploying:
-      Creating instance 'bosh/0':
-        Waiting until instance is ready:
-          Sending ping to the agent:
-            Performing request to agent endpoint 'https://mbus-user:mbus-password@10.0.0.4:6868/agent':
-              Performing POST request:
-                Post https://mbus-user:mbus-password@10.0.0.4:6868/agent: dial tcp 10.0.0.4:6868: getsockopt: connection refused
+  Performing POST request:
+    Post https://mbus-user:mbus-password@10.0.0.4:6868/agent: dial tcp 10.0.0.4:6868: getsockopt: connection refused
   ```
 
   It is recommended to use the latest version. For example, Stemcell v3232.5 or later, and CPI v12 or later. You may hit the issue [#135](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/issues/135) if you still use an older stemcell than v3232.5.
