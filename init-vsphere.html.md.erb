@@ -144,7 +144,8 @@ To prepare your vSphere environment, use the vSphere Web Client to find out and/
 
 - Replace `VCENTER-IP` (e.g. '192.168.0.10') with the IP of the vCenter.
 
-- Replace `VCENTER-USER` (e.g. 'root') and `VCENTER-PASSWORD` (e.g. 'vmware') in your deployment manifest with vCenter user name and password. BOSH does not require user to be an admin; however, it does need certain user privileges.
+- Replace `VCENTER-USER` (e.g. 'root') and `VCENTER-PASSWORD` (e.g. 'vmware') in your deployment manifest with vCenter user name and password.
+  BOSH does not require user to be an admin, but it does require the following [privileges](https://github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release/blob/master/docs/required_vcenter_privileges.md).
 
 - Replace `DATACENTER-NAME` (e.g. 'my-dc') with the name of the datacenter the Director will use for VM creation.
 
