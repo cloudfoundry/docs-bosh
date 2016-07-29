@@ -144,7 +144,8 @@ To prepare your vSphere environment, use the vSphere Web Client to find out and/
 
 - Replace `VCENTER-IP` (e.g. '192.168.0.10') with the IP of the vCenter.
 
-- Replace `VCENTER-USER` (e.g. 'root') and `VCENTER-PASSWORD` (e.g. 'vmware') in your deployment manifest with vCenter user name and password. BOSH does not require user to be an admin; however, it does need certain user privileges.
+- Replace `VCENTER-USER` (e.g. 'root') and `VCENTER-PASSWORD` (e.g. 'vmware') in your deployment manifest with vCenter user name and password.
+  BOSH does not require user to be an admin, but it does require the following [privileges](#privileges).
 
 - Replace `DATACENTER-NAME` (e.g. 'my-dc') with the name of the datacenter the Director will use for VM creation.
 
@@ -157,6 +158,14 @@ To prepare your vSphere environment, use the vSphere Web Client to find out and/
 - Replace `CLUSTER-NAME` (e.g. 'cluster1') with the name of the vSphere cluster. Create cluster under the chosen datacenter in the Clusters tab.
 
 - Replace `NETWORK-NAME` (e.g. 'VM Network') with the name of the vSphere network. Create network under the chosen datacenter in the Networks tab. Deployment manifest assumes that this network is `10.0.0.0/24` and Director VM will be placed at `10.0.0.6`.
+
+<a id="privileges"></a>
+<%
+require 'net/http'
+
+uri = URI('https://raw.githubusercontent.com/cloudfoundry-incubator/bosh-vsphere-cpi-release/master/docs/required_vcenter_privileges.md')
+%>
+<%= Net::HTTP.get(uri) %>
 
 ---
 ## <a id="deploy"></a> Step 3: Deploy
