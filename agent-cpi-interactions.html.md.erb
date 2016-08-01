@@ -5,8 +5,8 @@ title: Agent-CPI Interactions
 Here is an overview of the interactions between the CPI and the Agent on CloudStack as an example:
 
 * The CPI drives the IaaS and the Agent.
-* The Agent is a versatile process which configures the OS to leverage IaaS-provisionned resources (network interfaces, disks, etc.), and perform other BOSH tasks (jobs compilation, jobs instanciation, etc.)
-* The CPI asks the IaaS to instanciate VM template, VMs, volumes and possibly other constructs (floating IPs, security groups, connect LBs, etc.)
+* The Agent is a versatile process which configures the OS to leverage IaaS-provisionned resources (network interfaces, disks, etc.), and perform other BOSH tasks (job compilation, job instantiation, etc.)
+* The CPI asks the IaaS to instantiate VM template, VMs, volumes and possibly other constructs (floating IPs, security groups, connect LBs, etc.)
 * The Agent is initially driven by the CPI through the bosh-registry, and then by the Director through NATS-based messaging. The registry provides Director-side meta data to the Agent.
 
 <div class="gray"><%= image_tag("images/cpi-interactions-overview.png") %></div>
