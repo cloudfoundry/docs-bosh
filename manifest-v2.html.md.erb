@@ -129,6 +129,7 @@ Example:
 ```yaml
 instance_groups:
 - name: redis-master
+  azs: [z1]
   instances: 1
   jobs:
   - name: redis-server
@@ -143,6 +144,7 @@ instance_groups:
   - name: default
 
 - name: redis-slave
+  azs: [z1]
   instances: 2
   jobs:
   - name: redis-server
