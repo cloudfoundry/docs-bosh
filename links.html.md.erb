@@ -230,7 +230,7 @@ instance_groups:
   - name: web
     release: my-app
     consumes:
-      primary_db: {from: data-dep.db}
+      primary_db: {from: db, deployment: data-dep}
       secondary_db: nil
 ```
 
