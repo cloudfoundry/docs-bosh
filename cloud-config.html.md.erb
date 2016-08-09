@@ -2,7 +2,7 @@
 title: Cloud Config
 ---
 
-<p class="note">Warning: Once you opt into using cloud config all deployments must be converted to use new format. There is no way to opt out of the cloud config once you opt in. Check all deployment manifest generation you use in your director are "cloud-config friendly" before opt-in. This feature is available with bosh-release v241+. </p>
+<p class="note">Warning: If you are using director version between v241 and v256, once you opt into using cloud config all deployments must be converted to use new format. If you want to deploy both v1 and v2 manifests, update to director v257+.</p>
 
 Previously each deployment manifest specified IaaS and IaaS agnostic configuration in a single file. As more deployments are managed by the Director, it becomes inconvenient to keep shared IaaS configuration in sync in all deployment manifests. In addition, multiple deployments typically want to use the same network subnet, hence IP ranges need to be separated and reserved.
 
