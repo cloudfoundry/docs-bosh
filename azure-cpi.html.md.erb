@@ -102,14 +102,14 @@ Schema for `cloud_properties` section:
 * **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to all VMs placed in this resource pool. Default to the security group specified by `default_security_group` in the global CPI settings unless a security group is specified on one of the VM networks. The security group can be specified either in a resource pool or on a network.
 * **caching** [String, optional]: Type of the disk caching of the VMs' OS disks. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `ReadWrite`.
 * **root_disk** [Hash, optional]: OS disk of custom size.
-    * **size** [Integer, optional]: Specifies the disk size in mebibytes.
+    * **size** [Integer, optional]: Specifies the disk size in MiB.
       * The size must be in the range [3 * 1024, 1023 * 1024]. Please always use `N * 1024` as the size because Azure always uses GiB but not MiB.
       * It has a default value `30 * 1024` only when ephemeral_disk.use\_root\_disk is set to true.
 * **ephemeral_disk** [Hash, optional]: Ephemeral disk to apply for all VMs that are in this resource pool. By default a data disk with the default size as below will be created as the ephemeral disk.
     * **use\_root\_disk** [Boolean, optional]: Enable to use OS disk to store the ephemeral data. The default value is false. When it is true, ephemeral_disk.size will not be used.
-    * **size** [Integer, optional]: Specifies the disk size in mebibytes. If this is not set, the default size as below will be used. The size of the ephemeral disk for the BOSH VM should be larger than or equal to `30*1024` mebibytes. Please always use `N * 1024` as the size because Azure always uses GiB not MiB.
-      * If the Azure temporary disk size for the instance type is less than `30*1024` mebibytes, the default size is `30*1024` mebibytes because the space may not be enough.
-      * If the Azure temporary disk size for the instance type is larger than `1023*1024` mebibytes, the default size is `1023*1024` mebibytes because max data disk size is `1023*1024` mebibytes on Azure.
+    * **size** [Integer, optional]: Specifies the disk size in MiB. If this is not set, the default size as below will be used. The size of the ephemeral disk for the BOSH VM should be larger than or equal to `30*1024` MiB. Please always use `N * 1024` as the size because Azure always uses GiB not MiB.
+      * If the Azure temporary disk size for the instance type is less than `30*1024` MiB, the default size is `30*1024` MiB because the space may not be enough.
+      * If the Azure temporary disk size for the instance type is larger than `1023*1024` MiB, the default size is `1023*1024` MiB because max data disk size is `1023*1024` MiB on Azure.
       * Otherwise, the Azure temporary disk size will be used as the default size. See more information about [Azure temporary disk size](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-sizes/).
 
 Example of `env.bosh.group_name`:
@@ -148,7 +148,7 @@ Schema for `cloud_properties` section:
 
 Example of 10GB disk:
 
-* **disk_size** [Integer, required]: Size of the disk in mebibytes. On Azure the disk size must be in the range [1 * 1024, 1023 * 1024]. Please always use `N * 1024` as the size because Azure always uses GiB not MiB.
+* **disk_size** [Integer, required]: Size of the disk in MiB. On Azure the disk size must be in the range [1 * 1024, 1023 * 1024]. Please always use `N * 1024` as the size because Azure always uses GiB not MiB.
 
 ```yaml
 disk_pools:
