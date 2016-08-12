@@ -77,6 +77,20 @@ Schema for `cloud_properties` section:
     * If this storage account does not exist, it can be created automatically by Azure CPI. But you must specify storage\_account\_type and make sure:
       1. The name must be **unique within Azure**.
       1. **The name must be between 3 and 24 characters in length and use numbers and lower-case letters only**.
+    * If you use a pattern `*keyword*`. CPI will filter all storage accounts under the default resource group by the pattern and pick one available storage account to create the VM.
+      1. The pattern must start with `*` and end with `*`.
+      1. The keyword must only contain numbers and lower-case letters because of the naming rule of storage account name.
+      1. The rule to select an available storage account is to check the number of disks under the container `bosh` does not exceed the limitation.
+      1. The default number of disks limitation is 30 but you can specify it in **storage\_account\_max\_disk\_number**.
+* **storage\_account\_max\_disk\_number** [Integer, optional]: Number of disks limitation in a storage account. Default value is 30. This will be used only when **storage\_account\_name** is a pattern.
+    * Every storage account has a limitation to host disks. You may hit the performance issue if you create too many disks in one storage account.
+    * The maximum number of disks of a standard storage account is 40 because the maximum IOPS of a standard storage account is 20,000 and the maximum IOPS of a standard disk is 500.
+    * If you are using premium storage account, Azure maps the disk size (rounded up) to the nearest Premium Storage Disk option (P10, P20 and P30). For example, a disk of size 100 GiB is classified as a P10 option.
+      1. The maximum number of disks of a premium storage account is 280 if you are using P10 (128 GiB) as your disk type.
+      1. The maximum number of disks of a premium storage account is 70 if you are using P20 (512 GiB) as your disk type.
+      1. The maximum number of disks of a premium storage account is 35 if you are using P30 (1024 GiB) as your disk type.
+    * **storage\_account\_max\_disk\_number** should be less than the maximum number. Suggest you to use (MAX - 10) as the value because CPI always creates VMs in parallel.
+    * Please see more information about [azure-subscription-service-limits](https://azure.microsoft.com/en-us/documentation/articles/azure-subscription-service-limits/).
 * **storage\_account\_type** [String, optional]: Storage account type. It is required if the storage account does not exist. It can be either `Standard_LRS`, `Standard_ZRS`, `Standard_GRS`, `Standard_RAGRS` or `Premium_LRS`. You can click [**HERE**](http://azure.microsoft.com/en-us/pricing/details/storage/) to learn more about the type of Azure storage account.
 * **storage\_account\_location** [String, optional]: Location of the storage account. It is needed if the storage account does not exist. If it is not set, the location of the default resource group will be used. For more information, see [List all of the available geo-locations](http://azure.microsoft.com/en-us/regions/). For `AzureChinaCloud`, you should only use the regions in China, `chinanorth` or `chinaeast`.
 * **availability_set** [String, optional]: Name of an [availability set](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) to use for VMs. If available set does not exist, it will be automatically created. [More details](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#availability-set).
