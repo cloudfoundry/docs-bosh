@@ -123,7 +123,8 @@ jobs:
 
     openstack: &openstack
       auth_url: IDENTITY-API-ENDPOINT # <--- Replace with OpenStack Identity API endpoint
-      tenant: OPENSTACK-TENANT # <--- Replace with OpenStack tenant name
+      project: OPENSTACK-PROJECT # <--- Replace with OpenStack project name
+      domain: OPENSTACK-DOMAIN # <--- Replace with OpenStack domain name
       username: OPENSTACK-USERNAME # <--- Replace with OpenStack username
       api_key: OPENSTACK-PASSWORD # <--- Replace with OpenStack password
       default_key_name: bosh

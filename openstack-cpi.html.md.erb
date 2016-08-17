@@ -141,20 +141,6 @@ disk_pools:
 
 See [CPI job configuration](https://bosh.io/jobs/openstack_cpi?source=github.com/cloudfoundry-incubator/bosh-openstack-cpi-release) for details.
 
-Example with Keystone V2:
-
-```yaml
-properties:
-  openstack:
-    auth_url: http://pistoncloud.com:5000/v2.0
-    username: christopher
-    api_key: QRoqsenPsNGX6
-    tenant: Bosh
-    region: RegionOne
-    default_key_name: bosh
-    default_security_groups: [bosh]
-```
-
 Example with Keystone V3:
 
 ```yaml
@@ -165,6 +151,20 @@ properties:
     api_key: QRoqsenPsNGX6
     project: Bosh
     domain: sample-domain
+    region: RegionOne
+    default_key_name: bosh
+    default_security_groups: [bosh]
+```
+
+Example with Keystone V2:
+
+```yaml
+properties:
+  openstack:
+    auth_url: http://pistoncloud.com:5000/v2.0
+    username: christopher
+    api_key: QRoqsenPsNGX6
+    tenant: Bosh
     region: RegionOne
     default_key_name: bosh
     default_security_groups: [bosh]
@@ -256,4 +256,4 @@ It's possible that image was deleted from OpenStack directly and BOSH is not awa
 ---
 [Back to Table of Contents](index.html#cpi-config)
 
-Next: [Using Keystone v3 API](openstack-keystonev3.html)
+Next: [Using Keystone v2 API](openstack-keystonev2.html)
