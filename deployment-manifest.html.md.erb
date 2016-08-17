@@ -2,7 +2,7 @@
 title: Deployment Manifest Schema
 ---
 
-<p class="note">Note: Once you opt into using cloud config all deployments must be converted to use manifest v2 format that disallows IaaS specific configuration. See <a href="manifest-v2.html">manifest v2 schema</a> for allowed configurations.</p>
+<p class="note">Note: Once you opt into using cloud config all deployments must be converted to use manifest v2 format that disallows IaaS specific configuration. See <a href="manifest-v2.html">manifest v2 schema</a> for allowed configurations. v257+ supports deploying both v1 and v2 manifests to the same director.</p>
 
 The deployment manifest is a YAML file that defines the components and properties of the deployment. When an operator initiates a new deployment using the CLI, the Director receives a version of the deployment manifest and creates a new deployment using this manifest.
 
