@@ -93,7 +93,9 @@ Schema for `cloud_properties` section:
     * Please see more information about [azure-subscription-service-limits](https://azure.microsoft.com/en-us/documentation/articles/azure-subscription-service-limits/).
 * **storage\_account\_type** [String, optional]: Storage account type. It is required if the storage account does not exist. It can be either `Standard_LRS`, `Standard_ZRS`, `Standard_GRS`, `Standard_RAGRS` or `Premium_LRS`. You can click [**HERE**](http://azure.microsoft.com/en-us/pricing/details/storage/) to learn more about the type of Azure storage account.
 * **storage\_account\_location** [String, optional]: Location of the storage account. It is needed if the storage account does not exist. If it is not set, the location of the default resource group will be used. For more information, see [List all of the available geo-locations](http://azure.microsoft.com/en-us/regions/). For `AzureChinaCloud`, you should only use the regions in China, `chinanorth` or `chinaeast`.
-* **availability_set** [String, optional]: Name of an [availability set](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) to use for VMs. If available set does not exist, it will be automatically created. [More details](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#availability-set).
+* **availability_set** [String, optional]: Name of an [availability set](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) to use for VMs. [More details](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#availability-set).
+    * If available set does not exist, it will be automatically created.
+    * If `availability_set` is not specified, Azure CPI will search `env.bosh.group_name` as the name of availability set. If neither `availability_set` nor `env.bosh.group_name` exists, VMs in this resource_pool won't be in any availability set.
 * **platform\_update\_domain_count** [Integer, optional]: The count of [update domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. Default value is `5`.
 * **platform\_fault\_domain_count** [Integer, optional]: The count of [fault domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. Default value is `3`.
 * **load_balancer** [String, optional]: Name of an [load balancer](https://azure.microsoft.com/en-us/documentation/articles/load-balancer-overview/) the VMs should belong to. You need to create the load balancer manually before configuring it.
@@ -104,6 +106,12 @@ Schema for `cloud_properties` section:
       * If the Azure temporary disk size for the instance type is less than `30*1024` megabytes, the default size is `30*1024` megabytes because the space may not be enough.
       * If the Azure temporary disk size for the instance type is larger than `1023*1024` megabytes, the default size is `1023*1024` megabytes because max data disk size is `1023*1024` megabytes on Azure.
       * Otherwise, the Azure temporary disk size will be used as the default size. See more information about [Azure temporary disk size](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-sizes/).
+
+Example of `env.bosh.group_name`:
+* **env** [Hash, optional]:
+    * **bosh** [Hash, optional]:
+      * **group_name** [String, optional]: This will be used as the name of availability set for VMs when `cloud_properties.availability_set` does not exist.
+
 Example of a `Standard_A2` instance:
 
 ```yaml
@@ -115,8 +123,12 @@ resource_pools:
     version: latest
   cloud_properties:
     instance_type: Standard_A2
+    availability_set: <availability-set-name>
     ephemeral_disk:
       size: 30_720
+  env:
+    bosh:
+      group_name: <availability-set-name>
 ```
 
 ---
