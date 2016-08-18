@@ -42,35 +42,35 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
 
     Even if only one job or package changed in the instance group, stopping and starting procedure will apply to all of the jobs on the instances in that group. One of the future enhancements is to make this procedure more surgical and only affect jobs that have changed.
 
-    1. check if the instance previously existed
+    1. Check if the instance previously existed
         - if no, select a VM and assign assign it to be this instance
         - if yes, check to see what has changed since last time it was updated
 
-    1. download updated jobs and packages onto the VM
+    1. Download updated jobs and packages onto the VM
         - issue prepare Agent call
 
     1. [run drain and stop scripts to safely stop processes on the VM](job-lifecycle.html#stop)
         - issue drain Agent call
         - issue stop Agent call
 
-    1. take persistent disks snapshot associated with the job instance
+    1. Take persistent disks snapshot associated with the job instance
         - issue take_snapshot CPI call if Director has snapshotting enabled
 
-    1. check if the instance group still uses the same stemcell
+    1. Check if the instance group still uses the same stemcell
         - if no, create a new VM based on a correct stemcell
             - issue delete_vm CPI call
             - issue create_vm CPI call
         - if yes, do nothing
 
-    1. check if the instance group's network configuration changed
+    1. Check if the instance group's network configuration changed
         - if no, do nothing
         - if yes, reconfigure running VM to match new configuration
             - issue delete_vm CPI call
             - issue create_vm CPI call
 
-    1. update DNS A record for this instance with new IP
+    1. Update DNS A record for this instance with new IP
 
-    1. check if the instance group's persistent disk changed
+    1. Check if the instance group's persistent disk changed
         - if no, do nothing
         - if yes, create a new persistent disk with correct size and type and copy data from the old persistent disk
             - issue create_disk CPI call for the new disk
@@ -79,7 +79,7 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
             - issue migrate_disk Agent call on a new disk
             - orphan the old disk
 
-    1. configure VM to have new set of jobs
+    1. Configure VM to have new set of jobs
         - issue apply Agent call
 
     1. [start processes on the VM and wait up to specified amount of time by the `update_watch_time` or `canary_watch_time`](job-lifecycle.html#start)

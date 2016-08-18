@@ -6,9 +6,9 @@ There are several stages that all jobs (and their associated processes) on each 
 
 ## <a id="start"></a> When start is issued
 
-1. persistent disks are mounted on the VM if configured, and not already mounted
+1. Persistent disks are mounted on the VM if configured, and not already mounted
 
-1. all jobs and their dependent packages are downloaded and placed onto a machine
+1. All jobs and their dependent packages are downloaded and placed onto a machine
 
 1. [pre-start scripts](pre-start.html) run for all jobs on the VM in parallel
 	- (waits for all pre-start scripts to finish)
@@ -27,7 +27,7 @@ Note that scripts should not rely on the order they are run. Agent may decide to
 ---
 ## <a id="running"></a> When processes are running
 
-1. monit will automatically restart processes that failed their associated checks
+1. Monit will automatically restart processes that failed their associated checks
   - a common pattern used is a PID check
 
 ---
@@ -40,7 +40,7 @@ Note that scripts should not rely on the order they are run. Agent may decide to
 
 1. `monit stop` is called for each process
 
-1. persistent disks are unmounted on the VM if configured
+1. Persistent disks are unmounted on the VM if configured
 
 ---
 Next: [Pre-start script](pre-start.html)

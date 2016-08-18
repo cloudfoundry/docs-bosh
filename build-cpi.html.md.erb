@@ -27,12 +27,12 @@ CPIs written in golang:
 
 Since CPI is just an executable, following takes place for each CPI method call:
 
-1. callee starts a new CPI executable OS process (shells out)
-1. callee sends a [single JSON request](#request) over STDIN
+1. Callee starts a new CPI executable OS process (shells out)
+1. Callee sends a [single JSON request](#request) over STDIN
    - CPI optionally starts logging debugging information to STDERR
 1. CPI responds with a [single JSON response](#response) over STDOUT
 1. CPI executable exits
-1. callee parses and interprets JSON response ignoring process exit code
+1. Callee parses and interprets JSON response ignoring process exit code
 
 As a reference the Director's implementation is in [bosh_cpi's external\_cpi.rb](https://github.com/cloudfoundry/bosh/blob/master/bosh_cpi/lib/cloud/external_cpi.rb) and bosh-init implements it in [cpi\_cmd\_runner.go](https://github.com/cloudfoundry/bosh-init/blob/master/cloud/cpi_cmd_runner.go).
 

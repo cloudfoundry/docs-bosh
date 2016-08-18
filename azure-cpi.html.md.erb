@@ -71,9 +71,9 @@ Schema for `cloud_properties` section:
 * **storage\_account\_name** [String, optional]: Storage account for VMs. If this is not set, the VMs will be created in the default storage account. See [this document](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#multiple-storage-accounts) for more details on why this option exists.
     * If you use `DS-series` or `GS-series` as `instance_type`, you should set this to a premium storage account. See more information about [Azure premium storage](https://azure.microsoft.com/en-us/documentation/articles/storage-premium-storage-preview-portal/). See [avaliable regions](http://azure.microsoft.com/en-us/regions/#services) where you can create premium storage accounts.
     * If you use a different storage account which must be in the same resource group, please make sure:
-      1. the permissions for the container `stemcell` in the default storage account is set to `Public read access for blobs only`.
-      1. a table `stemcells` is created in the default storage account.
-      1. two containers `bosh` and `stemcell` are created in the new storage account.
+      1. The permissions for the container `stemcell` in the default storage account is set to `Public read access for blobs only`.
+      1. A table `stemcells` is created in the default storage account.
+      1. Two containers `bosh` and `stemcell` are created in the new storage account.
     * If this storage account does not exist, it can be created automatically by Azure CPI. But you must specify storage\_account\_type and make sure:
       1. The name must be **unique within Azure**.
       1. **The name must be between 3 and 24 characters in length and use numbers and lower-case letters only**.
