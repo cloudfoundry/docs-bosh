@@ -7,20 +7,11 @@ title: CLI v2 vs v1
 | Before                      | After
 |-----------------------------|-----------------------------
 | bosh-init deploy <manifest> | bosh create-env <manifest>
-| bosh-init delete <manifest> | bosh delete-env <manifest>
-|-----------------------------|-----------------------------
-| Motivation: bosh-init CLI is not absorbed by the bosh CLI. One binary!
-|-----------------------------|-----------------------------
+| bosh-init delete <manifest> | bosh delete-env <manifest> [1]
 | bosh target <ip>            | bosh env <ip>
-| bosh status                 | bosh env
-|-----------------------------|-----------------------------
-| Motivation: Use 'environment' term consistently. Matches with create-env/delete-env commands.
-|-----------------------------|-----------------------------
+| bosh status                 | bosh env [2]
 | bosh -t dir ...             | bosh -e dir ...
-| bosh -d manifest-path ...   | bosh -d deployment-name ...
-|-----------------------------|-----------------------------
-| Motivation: Most of the time users had to download manifest just to be able to run other commands. Instead of downloading manifest just provide a deployment name.
-|-----------------------------|-----------------------------
+| bosh -d manifest-path ...   | bosh -d deployment-name ... [3]
 | bosh deployment <manifest>  | bosh deployment <name>
 | bosh deploy                 | bosh deploy <manifest>
 | bosh delete deployment      | bosh delete-deployment (uses currently set deployment)
@@ -28,6 +19,10 @@ title: CLI v2 vs v1
 | bosh tasks --no-filter      | bosh tasks -a
 | bosh download manifest dep  | bosh manifest (uses currently set deployment)
 | bosh vms dep                | bosh instances (uses currently set deployment)
+
+[1] bosh-init CLI is not absorbed by the bosh CLI. One binary!
+[2] Use 'environment' term consistently. Matches with create-env/delete-env commands.
+[3] Most of the time users had to download manifest just to be able to run other commands. Instead of downloading manifest just provide a deployment name.
 
 ---
 ## <a id="general"></a> General differences
@@ -80,3 +75,28 @@ title: CLI v2 vs v1
 - `bosh add-blob`
   - requires a path to its release destination
   - no longer uses symlinks to manage blobs but rather places file directly into `blobs/`
+
+---
+## <a id="interpolation"></a> Interpolation
+
+`create-end`, `delete-env`, `deploy`, `update-cloud-config` and `update-runtime-config` commands allow to interpolate manifest variables via `--var` (`-v`) and `--var-files` (`-l`) flags. Currently interpolation requires all variables to be specified or command raises an error. Eventually for Director level commands missing variables will be sent to the Director to be looked up against a config server. Variable values could be any valid YAML value (strings, booleans, maps, etc.).
+
+Example manifest:
+
+```yaml
+name: ((name))
+
+networks:
+- name: private
+  cloud_properties: ((private_cloud_properties))
+```
+
+Example variables file:
+
+```yaml
+name: my-name
+private_cloud_properties:
+  subnet_id: subnet-2rq4t8s4
+```
+
+You can use `build-manifest` command to see what client side interpolation will do.
