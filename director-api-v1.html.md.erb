@@ -501,7 +501,7 @@ Deleting a deployment is performed in a Director task. Response will be a redire
 ---
 ## <a id="instances"></a> Instances in a deployment
 
-[Instances](https://bosh.io/docs/terminology.html#instance) represent the expected state of the VMs of a deployment. The actual state of the VMs can be retrieved with the [`vms` endpoints](#vms)
+[Instances](https://bosh.io/docs/terminology.html#instance) represent the expected state of the VMs of a deployment. The actual state of the VMs can be retrieved with the [`vms` endpoints](#vms). `instances` is similar to `vms`, but also contains instances that do not have a VM.
 
 ### <a id="list-instances"></a> `GET /deployments/{name}/instances`: List all instances
 
@@ -509,8 +509,8 @@ Deleting a deployment is performed in a Director task. Response will be a redire
 
 **[root]** [Array]: List of instances.
 
-- **agent_id** [String]: Unique ID of the Agent associated with the VM. Could be nil if there is no VM for this instance.
-- **cid** [String]: Cloud ID of the VM. Could be nil if there is no VM for this instance.
+- **agent_id** [String]: Unique ID of the Agent associated with the VM. Could be `nil` if there is no VM for this instance.
+- **cid** [String]: Cloud ID of the VM. Could be `nil` if there is no VM for this instance.
 - **job** [String]: Name of the job.
 - **index** [Integer]: Numeric job index.
 - **id** [String]: ID of the instance.
@@ -552,7 +552,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/example/inst
 
 #### Response body schema
 
-**[root]** [String]: Each VM's details are separated by a newline.
+**[root]** [String]: For each instance there is one line of JSON. The JSON contains the following details.
 
 - **agent_id** [String]: Unique ID of the Agent associated with the VM.
 - **vm_cid** [String]: Cloud ID of the VM.
@@ -560,7 +560,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/example/inst
 - **disk_cid** [String or null]: Cloud ID of the associated persistent disk if one is attached.
 - **job_name** [String]: Name of the job.
 - **index** [Integer]: Numeric job index.
-- **resurrection_paused** [Boolean]: Whether or not ressurector will try to bring back the VM is it goes missing.
+- **resurrection_paused** [Boolean]: Whether or not resurrector will try to bring back the VM is it goes missing.
 - **job_state** [String]: Aggregate state of job. Possible values: `running` and other values that represent unhealthy state.
 - **ips** [Array of strings]: List of IPs.
 - **dns** [Array of strings]: List of DNS records.
@@ -571,7 +571,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/example/inst
 - **az** [String]: Name of [availability zone](https://bosh.io/docs/terminology.html#az)
 - **id** [String]: ID of instance
 - **bootstrap** [Boolean]: bootstrap property of [instance specific configuration](https://bosh.io/docs/jobs.html#properties-spec)
-- **ignore** [Boolean]: Ignore this instance if set to true
+- **ignore** [Boolean]: Ignore this instance if set to `true`
 
 #### Example
 
@@ -592,7 +592,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1287/output?type=r
 {"vm_cid":"86eb5e7e-a1c8-4f7b-a20c-cd696bf80938","disk_cid":"70b3c01c-729e-4335-9630-1f1985a40c99","ips":["10.0.1.5"],"dns":[],"agent_id":"7a54d3bb-f77b-412f-b662-dbff7733a823","job_name":"example_errand","index":0,"job_state":"stopped","state":"stopped","resource_pool":"resource_pool_1","vm_type":"resource_pool_1","vitals":{"cpu":{"sys":"1.3","user":"4.9","wait":"0.1"},"disk":{"ephemeral":{"inode_percent":"0","percent":"0"},"persistent":{"inode_percent":"0","percent":"67"},"system":{"inode_percent":"34","percent":"48"}},"load":["0.00","0.03","0.05"],"mem":{"kb":"227028","percent":"6"},"swap":{"kb":"25972","percent":"1"}},"processes":[{"name":"postgresql","state":"running","uptime":{"secs":1212309},"mem":{"kb":489836,"percent":12.1},"cpu":{"total":0}}],"resurrection_paused":true,"az":null,"id":"548d7aa0-eb8f-4890-bd3a-e9b526f3aeeb","bootstrap":false,"ignore":false}
 ```
 
-#### Example of a single VM details formatted
+#### Formatted example of details of a single instance
 
 ```yaml
 {
@@ -721,7 +721,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/cf-warden/vm
 - **disk_cid** [String or null]: Cloud ID of the associated persistent disk if one is attached.
 - **job_name** [String]: Name of the job.
 - **index** [Integer]: Numeric job index.
-- **resurrection_paused** [Boolean]: Whether or not ressurector will try to bring back the VM is it goes missing.
+- **resurrection_paused** [Boolean]: Whether or not resurrector will try to bring back the VM is it goes missing.
 - **job_state** [String]: Aggregate state of job. Possible values: `running` and other values that represent unhealthy state.
 - **ips** [Array of strings]: List of IPs.
 - **dns** [Array of strings]: List of DNS records.
