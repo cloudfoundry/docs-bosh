@@ -74,7 +74,7 @@ Schema for `cloud_properties` section:
 * **iam\_instance\_profile** [String, optional]: Name of an [IAM instance profile](aws-iam-instance-profiles.html). Example: `director`.
 * **placement_group** [String, optional]: Name of a [placement group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html). Example: `my-group`.
 * **tenancy** [String, optional]: VM [tenancy](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/dedicated-instance.html) configuration. Example: `dedicated`. Default is `default`.
-* **auto_assign_public_ip** [Boolean, optional]: Assigns a public IP address to the created VM. This IP is ephemeral and may change; use an [Elastic IP](networks.html#vip) instead for a persistent address. Defaults to `false`. Available in v55+.
+* **auto\_assign\_public\_ip** [Boolean, optional]: Assigns a public IP address to the created VM. This IP is ephemeral and may change; use an [Elastic IP](networks.html#vip) instead for a persistent address. Defaults to `false`. Available in v55+.
 * **raw\_instance\_storage** [Boolean, optional]: Exposes all available [instance storage via labeled disks](aws-instance-storage.html). Defaults to `false`.
 * **ephemeral_disk** [Hash, optional]: EBS backed ephemeral disk of custom size. Default disk size is either the size of first instance storage disk, if the instance_type offers it, or 10GB. Before v53: Used EBS only if instance storage is not large enough or not available for selected instance type.
     * **size** [Integer, required]: Specifies the disk size in megabytes.
