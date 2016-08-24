@@ -8,16 +8,27 @@ Depending on you configuration, there are up to three endpoints to be secured us
 
 <p class="note">Note: If you are using the UAA for user management, an SSL certificate is mandatory for the Director and the UAA.</p>
 
-You can use the following script to generate a root CA certificate and use it to sign three generated SSL certificates:
+You can use the following script `director_certs.sh` to generate a root CA certificate and use it to sign three generated SSL certificates:
 
 <pre class="bash">
 #!/bin/bash
 
 set -e
 
-certs=`dirname $0`/certs
+ip=$1
+if [[ "${ip}X" == "X" ]]; then
+  echo "USAGE: ./director_certs.sh [public IP | path to bosh-init manifest]"
+  exit 1
+fi
+if [[ -f ${ip} ]]; then
+  ip=$(cat ${ip} | yaml2json | jq -r ".jobs[] | select(.templates[].name | contains(\"director\")).networks[0].static_ips[0]")
+fi
+echo "Generating certs for ${ip}"
 
-rm -rf $certs && mkdir -p $certs
+mkdir -p tmp
+certs=`dirname $0`/certs/${ip}
+
+rm -rf $certs &amp;&amp; mkdir -p $certs
 
 cd $certs
 
@@ -56,18 +67,70 @@ EOL
   rm ./openssl-exts.conf
 }
 
-generateCert director 10.244.4.2 # <--- Replace with public Director IP
-generateCert uaa-web 10.244.4.2  # <--- Replace with public Director IP
-generateCert uaa-sp 10.244.4.2   # <--- Replace with public Director IP
+generateCert director ${ip}
+generateCert uaa-web ${ip}
+generateCert uaa-sp ${ip}
 
-echo "Finished..."
-ls -la .
+echo "Generating spruce template..."
+certs=`dirname $0`/certs/${ip}
+
+function indent() {
+  c='s/^/        /'
+  case $(uname) in
+    Darwin) sed -l "$c";;
+    *)      sed -u "$c";;
+  esac
+}
+
+
+cat > certs-${ip}.yml <<EOF
+---
+properties:
+  director:
+    ssl:
+      key: |
+$(cat director.key | indent)
+
+      cert: |
+$(cat director.crt | indent)
+
+  uaa:
+    sslPrivateKey: |
+$(cat uaa-web.key | indent)
+
+    sslCertificate: |
+$(cat uaa-web.crt | indent)
+
+  login:
+    saml:
+      serviceProviderKey: |
+$(cat uaa-sp.key | indent)
+
+      serviceProviderCertificate: |
+$(cat uaa-sp.crt | indent)
+
+  hm:
+    director_account:
+      ca_cert:
+$(cat rootCA.pem | indent)
+EOF
+
+echo "Combine manifest template below with your BOSH manifest:"
+cat certs-${ip}.yml
+echo
+</pre>
+
+Either run the script with the public IP of the director; or with a manifest for BOSH as the argument:
+
+<pre>
+./director_certs.sh 10.244.4.2
+./director_certs.sh bosh.yml
 </pre>
 
 ---
-## <a id="configure"></a> Configure the Director to use certificates
+## <a id="configure"></a>Configure the Director to use certificates
 
-Update the Director deployment manifest:
+Update the Director deployment manifest (using the generated template above or with your own CA certs):
 
 - `director.ssl.key`
     - Private key for the Director (e.g. `certs/director.key`)
