@@ -162,8 +162,8 @@ properties:
       vm_folder: prod-vms
       template_folder: prod-templates
       disk_path: prod-disks
-      datastore_pattern: '\Aprod-ds\z'
-      persistent_datastore_pattern: '\Aprod-ds\z'
+      datastore_pattern: '^prod-ds$'
+      persistent_datastore_pattern: '^prod-ds$'
       clusters: [BOSH_CL]
 ```
 

@@ -116,8 +116,8 @@ jobs:
       - name: DATACENTER-NAME
         vm_folder: VMS-FOLDER-NAME
         template_folder: TEMPLATES-FOLDER-NAME
-        datastore_pattern: DATASTORE-NAME
-        persistent_datastore_pattern: DATASTORE-NAME
+        datastore_pattern: DATASTORE-NAME-PATTERN
+        persistent_datastore_pattern: DATASTORE-NAME-PATTERN
         disk_path: DISK-FOLDER-NAME
         clusters: [CLUSTER-NAME]
 
@@ -151,7 +151,7 @@ To prepare your vSphere environment, use the vSphere Web Client to find out and/
 
 - Replace `VMS-FOLDER-NAME` (e.g. 'my-bosh-vms') and `TEMPLATES-FOLDER-NAME` (e.g. 'my-bosh-templates') with the name of the folder created to hold VMs and the name of the folder created to hold stemcells. Folders will be automatically created under the chosen datacenter.
 
-- Replace `DATASTORE-NAME` (e.g. 'datastore1') with the name of the datastore the Director will use for storing VMs and associated persistent disks.
+- Replace `DATASTORE-NAME-PATTERN` (e.g. 'datastore[1-9]') with a regex matching the names of potential datastores the Director will use for storing VMs and associated persistent disks.
 
 - Replace `DISK-FOLDER-NAME` (e.g. 'my-bosh-disks') with the name of the VMs folder. Disk folder will be automatically created in the chosen datastore.
 
