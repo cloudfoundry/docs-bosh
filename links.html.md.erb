@@ -103,6 +103,57 @@ Available `instance` object methods:
 * **address** [String, non-empty]: IPv4, IPv6 or DNS record.
 * **bootstrap** [Boolean]: Whether or not this instance is a bootstrap instance.
 
+### <a id="properties"></a> Properties
+
+In addition to including networking information links can also export properties. To define which properties are exported `provides` directive needs to be updated:
+
+```yaml
+name: postgres
+
+templates: {...}
+
+provides:
+- name: conn
+  type: db
+  properties:
+  - listen_port
+  - username
+  - password
+
+properties:
+  listen_port:
+    description: Port server listens on
+    default: 5432
+  username:
+    description: Username for connecting to the database
+    default: postgres
+  password:
+    description: Password for connecting to the database
+```
+
+Properties not specified in the `provides` directive will not be included.
+
+Jobs that consume link with exported properties are able to access properties via standard `p` and `if_p` accessors defined on a link. For example:
+
+```ruby
+<%%=
+
+primary_db = link("primary_db")
+
+JSON.dump(
+  "primary" => primary_db.instances.map do |instance|
+    {
+      "address" => instance.address,
+      "port" => primary_db.p("listen_port"),
+      "username" => primary_db.p("username"),
+      "password" => primary_db.p("password"),
+    }
+  end
+)
+
+%>
+```
+
 ---
 ## <a id="deployment"></a> Deployment Configuration
 
