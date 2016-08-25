@@ -20,9 +20,9 @@ title: CLI v2 vs v1
 | bosh download manifest dep  | bosh manifest (uses currently set deployment)
 | bosh vms dep                | bosh instances (uses currently set deployment)
 
-[1] bosh-init CLI is not absorbed by the bosh CLI. One binary!
+[1] bosh-init CLI is now absorbed by the bosh CLI. One binary!
 [2] Use 'environment' term consistently. Matches with create-env/delete-env commands.
-[3] Most of the time users had to download manifest just to be able to run other commands. Instead of downloading manifest just provide a deployment name.
+[3] Most of the time users had to download manifest just to be able to run deployment commands. Instead of downloading manifest just provide a deployment name.
 
 ---
 ## <a id="general"></a> General differences
@@ -37,7 +37,7 @@ title: CLI v2 vs v1
 - `--no-track` has been removed from the bosh task command
 - Sorts tables in a more consistent manner
 - Stores configuration file in `~/.bosh/config`
-- Most of the output formatting such as tables
+- Most of the output formatting
 
 ---
 ## <a id="commands"></a> Differences per command
@@ -79,7 +79,7 @@ title: CLI v2 vs v1
 ---
 ## <a id="interpolation"></a> Interpolation
 
-`create-end`, `delete-env`, `deploy`, `update-cloud-config` and `update-runtime-config` commands allow to interpolate manifest variables via `--var` (`-v`) and `--var-files` (`-l`) flags. Currently interpolation requires all variables to be specified or command raises an error. Eventually for Director level commands missing variables will be sent to the Director to be looked up against a config server. Variable values could be any valid YAML value (strings, booleans, maps, etc.).
+`create-env`, `delete-env`, `deploy`, `update-cloud-config` and `update-runtime-config` commands allow to interpolate manifest variables via `--var` (`-v`) and `--var-files` (`-l`) flags. Currently interpolation requires all variables to be specified or command raises an error. Eventually for Director level commands missing variables will be sent to the Director to be looked up against a config server. Variable values could be any valid YAML value (strings, booleans, maps, etc.).
 
 Example manifest:
 
