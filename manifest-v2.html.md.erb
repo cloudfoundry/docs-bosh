@@ -130,6 +130,7 @@ Example:
 instance_groups:
 - name: redis-master
   instances: 1
+  azs: [z1, z2]
   jobs:
   - name: redis-server
     release: redis
@@ -144,6 +145,7 @@ instance_groups:
 
 - name: redis-slave
   instances: 2
+  azs: [z1, z2]
   jobs:
   - name: redis-server
     release: redis
