@@ -92,7 +92,10 @@ resource_pools:
 
 Schema for `cloud_properties` section:
 
-* **type** [String, optional]: Type of the [disk](http://pubs.vmware.com/vi-sdk/visdk250/ReferenceGuide/vim.VirtualDiskManager.VirtualDiskType.html): `thick`, `thin`, `preallocated`, `eagerZeroedThick`. Defaults to `preallocated`. Available in v12.
+* **type** [String, optional]: Type of the
+  [disk](http://pubs.vmware.com/vi-sdk/visdk250/ReferenceGuide/vim.VirtualDiskManager.VirtualDiskType.html):
+  `thick`, `thin`, `preallocated`, `eagerZeroedThick`. Defaults to
+  `preallocated`. Available in v12. Overrides the global `default_disk_type`.
 
 * **datastores** [Array, optional]: List of datastore names for storing persistent disks. Overrides the global `persistent_datastore_pattern`. These names are exact datastore names and not regex patterns. Available in v23+.
 
@@ -134,6 +137,12 @@ Schema:
 * **host** [String, required]: IP address of the vCenter. Example: `172.16.68.3`.
 * **user** [String, required]: Username for the API access. Example: `root`.
 * **password** [String, required]: Password for the API access. Example: `vmware`
+* **default_disk_type** [String, optional]: Sets the default
+  [disk type](https://www.vmware.com/support/developer/converter-sdk/conv51_apireference/vim.VirtualDiskManager.VirtualDiskType.html).
+  Can be either `thin` or `preallocated`, defaults to `preallocated`. `preallocated`
+  sets "all space allocated at [VM] creation time and the space is zeroed on demand as the space is used",
+  and `thin`, "virtual disk is allocated and zeroed on demand as the space is used."
+  Applies to both ephemeral and persistent disks.
 
 * **datacenters** [Array, optional]: Array of datacenters to use for VM placement. Must have only one.
     * **name** [String, required]: Datacenter name.
@@ -175,6 +184,7 @@ properties:
     host: 172.16.68.3
     user: root
     password: vmware
+    default_disk_type: thin
     datacenters:
     - name: BOSH_DC
       vm_folder: prod-vms
