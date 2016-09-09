@@ -25,7 +25,7 @@ Schema for `cloud_properties` section:
 * **resource\_group\_name** [String, optional]: Name of a resource group. If it is set, Azure CPI will search the virtual network and security group in this resource group. Otherwise, Azure CPI will search the virtual network and security group in `resource_group_name` in the global CPI settings.
 * **virtual\_network\_name** [String, required]: Name of a virtual network. Example: `boshnet`.
 * **subnet_name** [String, required]: Name of a subnet within virtual network.
-* **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to all VMs placed on this network. Default to the security group specified by `default_security_group` in the global CPI settings unless a security group is specified on a resource pool for a VM. The security group can be specified either in a resource pool or on a network.
+* **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to network interfaces of all VMs placed in this network. The security group of a network interface can be specified either in a resource pool(higher priority) or a network configuration(lower priority); if it is not specified, the default security group (specified by `default_security_group` in the global CPI settings) will be used.
 
 See [how to create a virtual network and subnets](azure-resources.html#virtual-network).
 
@@ -99,7 +99,7 @@ Schema for `cloud_properties` section:
 * **platform\_update\_domain_count** [Integer, optional]: The count of [update domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. Default value is `5`.
 * **platform\_fault\_domain_count** [Integer, optional]: The count of [fault domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. Default value is `3`.
 * **load_balancer** [String, optional]: Name of an [load balancer](https://azure.microsoft.com/en-us/documentation/articles/load-balancer-overview/) the VMs should belong to. You need to create the load balancer manually before configuring it.
-* **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to all VMs placed in this resource pool. Default to the security group specified by `default_security_group` in the global CPI settings unless a security group is specified on one of the VM networks. The security group can be specified either in a resource pool or on a network.
+* **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to network interfaces of all VMs placed in this resource pool. The security group of a network interface can be specified either in a resource pool(higher priority) or a network configuration(lower priority); if it is not specified, the default security group (specified by `default_security_group` in the global CPI settings) will be used.
 * **caching** [String, optional]: Type of the disk caching of the VMs' OS disks. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `ReadWrite`.
 * **root_disk** [Hash, optional]: OS disk of custom size.
     * **size** [Integer, optional]: Specifies the disk size in MiB.
