@@ -34,7 +34,7 @@ release to be, and run:
 
   `bosh init release <release_name>`
 
-Also you can add `--git` option to initialize git repository.
+You can add the `--git` option to initialize a git repository.
 Use dashes in the release name.
 Use underscores for all other filenames in the release.
 
@@ -555,7 +555,7 @@ packages:
 ---
 ## <a id="blobs"></a> Step 4: Add Blobs ##
 
-When creating a release, you likely use a source code repository.
+When creating a release, you will likely use a source code repository.
 But releases often use tar files or other binaries, also known as blobs.
 Checking blobs into a repository is problematic if your repository
 unsuited to dealing with large binaries (as is true of Git, for example).
@@ -627,7 +627,7 @@ If you have a `private.yml` file:
 <p class="note"><strong>Note</strong>: The <code>blobstore_secret</code> is required for the <code>local</code> type blobstore.
 This is true even though the <code>blobstore_secret</code> line is deprecated and its
 content does not matter.
-There is never <code>blobstore_secret</code> line for blobstores of types other than
+There is never a <code>blobstore_secret</code> line for blobstores of types other than
 <code>local</code>.</p>
 
 ### <a id="inform"></a> Inform BOSH where blobs are ###
