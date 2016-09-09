@@ -79,6 +79,11 @@ Schema for `cloud_properties` section:
   * **table\_id** [String, required]: ID of the route table in which to create the route (e.g. `rt-abcdef123`).
   * **destination** [String, required]: Destination CIDR for the route. All traffic with a destination within this CIDR will be routed through the created BOSH VM.
 * **raw\_instance\_storage** [Boolean, optional]: Exposes all available [instance storage via labeled disks](aws-instance-storage.html). Defaults to `false`.
+* **source\_dest\_check** [Boolean, optional]: Specifies whether the instance
+  must be the source or destination of any traffic it sends or receives. If set
+  to `false`, the instance does *not* need to be the source or destination.
+  Used for network address translation (NAT) boxes, frequently to communicate
+  between VPCs. Defaults to `true`. Available in v59+.
 * **ephemeral_disk** [Hash, optional]: EBS backed ephemeral disk of custom size. Default disk size is either the size of first instance storage disk, if the instance_type offers it, or 10GB. Before v53: Used EBS only if instance storage is not large enough or not available for selected instance type.
     * **size** [Integer, required]: Specifies the disk size in megabytes.
     * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `gp2`.
