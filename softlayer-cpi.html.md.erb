@@ -152,5 +152,7 @@ compilation:
   network: default
 ```
 
+The ``Bosh_ip`` property specified under ``cloud_properties`` is used for Softlayer CPI to differentiate the director and common vms. The one with cloud_property ``Bosh_ip`` is a common vm. The one without ``Bosh_ip`` is the director.
+
 ---
 [Back to Table of Contents](index.html#cpi-config)
