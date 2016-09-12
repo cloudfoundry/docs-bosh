@@ -123,7 +123,7 @@ Orphaned persistent disks are not attached to any VM and are not associated with
 - run [`bosh attach disk disk-id name/id` command](sysadmin-commands.html#disks) to attach disk to given instance
 - run `bosh start name/id` command to resume running instance workload
 
-<p class="note">Note: Attach disk command can also attach available disks found the IaaS. They don't have to be listed in the orphaned disks list.</p>
+<p class="note">Note: Attach disk command can also attach available disks found in the IaaS. They don't have to be listed in the orphaned disks list.</p>
 
 Orphaned disks are deleted after [5 days by default](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.disks).
 
