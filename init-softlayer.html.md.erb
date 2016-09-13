@@ -144,7 +144,7 @@ jobs:
       username: SOFTLAYER-USER-ID # <--- Replace with your softlayer user id
       apiKey: SOFTLAYER-API-KEY # <--- Replace with your softlayer api key
 
-    agent: {mbus: "nats://nats:nats-password@127.0.0.1:4222"}
+    agent: {mbus: "nats://nats:nats-password@bosh-softlayer.softlayer.com:4222"}
 
     ntp: &ntp []
 
@@ -161,6 +161,8 @@ cloud_provider:
     blobstore: {provider: local, path: /var/vcap/micro_bosh/data/cache}
     ntp: *ntp
 </pre>
+
+We need to specify the director hostname ``bosh-softlayer.softlayer.com`` in ``mbus: "nats://nats:nats-password@bosh-softlayer.softlayer.com:4222”`` or ``mbus: https://admin:admin-password@bosh-softlayer.softlayer.com:6868``. This is Softlayer specific. Before the director is created, we don't know its IP. Softlayer CPI will change the hostname to IP after the director is created.
 
 ---
 ## <a id="prepare"></a> Step 2: Prepare a SoftLayer Environment
