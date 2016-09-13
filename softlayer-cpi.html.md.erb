@@ -6,20 +6,17 @@ This topic describes cloud properties for different resources created by the Sof
 
 ## <a id='azs'></a> AZs
 
-Currently SoftLayer CPI does not support any cloud properties for AZs.
-
 Example:
 
 ```yaml
 azs:
 - name: z1
+  cloud_properties:
+    Datacenter: { Name: lon02 }
 ```
 
 ---
 ## <a id='networks'></a> Networks
-
-
-Currently SoftLayer CPI does not support any cloud properties for Networks.
 
 Example of dynamic network:
 
@@ -27,8 +24,15 @@ Example of dynamic network:
 networks:
 - name: default
   type: dynamic
-  dns: 
-  - 8.8.8.8
+  subnets:
+  - {az: az1, dns: [ 10.113.189.78, 8.8.8.8, 10.0.80.11, 10.0.80.12 ]}
+  cloud_properties:
+    PrimaryNetworkComponent:
+       NetworkVlan:
+          Id: 524956
+    PrimaryBackendNetworkComponent:
+       NetworkVlan:
+          Id: 524954
 ```
 
 Currently SoftLayer CPI does not support manual or vip networks.
@@ -72,14 +76,6 @@ resource_pools:
     Datacenter:
        Name: lon02
     HourlyBillingFlag: true
-    PrimaryNetworkComponent:
-       NetworkVlan:
-          Id: 524956
-    PrimaryBackendNetworkComponent:
-       NetworkVlan:
-          Id: 524954
-    NetworkComponents:
-    - MaxSpeed: 1000
 ```
 
 ---
@@ -103,8 +99,6 @@ azs:
 - name: z1
   cloud_properties:
     Datacenter: { Name: lon02  }
-    PrimaryNetworkComponent: { NetworkVlan: { Id: 524956  } }
-    PrimaryBackendNetworkComponent: { NetworkVlan: { Id: 524954  } }
 
 vm_types:
 - name: compilation
@@ -124,13 +118,6 @@ vm_types:
     HourlyBillingFlag: true
     VmNamePrefix: sl-
 
-vm_extensions:
-- name: lon02-vlan-id
-  cloud_properties:
-    Datacenter: { Name: lon02  }
-    PrimaryNetworkComponent: { NetworkVlan: { Id: 524956  } }
-    PrimaryBackendNetworkComponent: { NetworkVlan: { Id: 524954  } }
-
 disk_types:
 - name: default
   disk_size: 50_000
@@ -141,13 +128,20 @@ networks:
 - name: default
   type: dynamic
   subnets:
-  - az: lon02
+  - az: z1
   - dns: [10.1.2.3, 8.8.8.8, 10.0.80.11, 10.0.80.12]
+  cloud_properties:
+    PrimaryNetworkComponent:
+       NetworkVlan:
+          Id: 524956
+    PrimaryBackendNetworkComponent:
+       NetworkVlan:
+          Id: 524954
 
 compilation:
   workers: 5
   reuse_compilation_vms: true
-  az: lon02
+  az: z1
   vm_type: compilation
   network: default
 ```
