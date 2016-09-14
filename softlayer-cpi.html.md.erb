@@ -25,7 +25,8 @@ networks:
 - name: default
   type: dynamic
   subnets:
-  - {az: az1, dns: [ 10.113.189.78, 8.8.8.8, 10.0.80.11, 10.0.80.12 ]}
+  - az: z1
+  - dns: [10.1.2.3, 10.0.80.11, 10.0.80.12]
   cloud_properties:
     PrimaryNetworkComponent:
        NetworkVlan:
@@ -35,7 +36,29 @@ networks:
           Id: 524954
 ```
 
-Currently SoftLayer CPI does not support manual or vip networks.
+Example of manual network:
+
+```yaml
+networks:
+- name: manual_network
+  type: manual
+  subnets:
+  - range: 10.112.166.128/26
+    gateway: 10.112.166.129
+    dns:
+    - 10.1.2.3
+    - 10.0.80.11
+    - 10.0.80.12
+    reserved:
+    - 10.112.166.128
+    - 10.112.166.129
+    - 10.112.166.130
+    - 10.112.166.131
+    static:
+    - 10.112.166.132 - 10.112.166.162
+```
+
+Currently SoftLayer CPI does not support vip network.
 
 ---
 ## <a id='resource-pools'></a> Resource Pools / VM Types
@@ -121,7 +144,7 @@ networks:
   type: dynamic
   subnets:
   - az: z1
-  - dns: [10.1.2.3, 8.8.8.8, 10.0.80.11, 10.0.80.12]
+  - dns: [10.1.2.3, 10.0.80.11, 10.0.80.12]
   cloud_properties:
     PrimaryNetworkComponent:
        NetworkVlan:
