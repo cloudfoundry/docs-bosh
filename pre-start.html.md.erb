@@ -30,7 +30,9 @@ templates:
 ---
 ## <a id="script-implementation"></a> Script Implementation
 
-Pre-start script is usually just a regular shell script. Since pre-start script is executed in a similar way as other release job scripts (start, stop, drain scripts) you can use job's package dependencies.
+Pre-start script is usually just a regular shell script. ERB tags may be used for templating. Since pre-start script is executed in a similar way as other release job scripts (start, stop, drain scripts) you can use job's package dependencies.
+
+<p class="note">After templating, the pre-start script must have its shebang on the first line.</p>
 
 Pre-start script should be idempotent. It may be called multiple times before process is successfully started.
 
