@@ -44,7 +44,7 @@ Above configuration is used by the Director and the Agents.
 ---
 ## <a id="default"></a> S3
 
-The Director and the Agents can use S3 compatible blobstore. Here is how to configure it:
+The Director and the Agents can use an S3 compatible blobstore. Here is how to configure it:
 
 1. Create a *private* S3 bucket
 
@@ -59,4 +59,16 @@ The Director and the Agents can use S3 compatible blobstore. Here is how to conf
         access_key_id: ACCESS-KEY-ID
         secret_access_key: SECRET-ACCESS-KEY
         bucket_name: test-bosh-bucket
+    ```
+
+1. For an S3 compatible blobstore you need to additionally specify the host:
+
+    ```yaml
+    properties:
+      blobstore:
+        provider: s3
+        access_key_id: ACCESS-KEY-ID
+        secret_access_key: SECRET-ACCESS-KEY
+        bucket_name: test-bosh-bucket
+        host: objects.dreamhost.com
     ```
