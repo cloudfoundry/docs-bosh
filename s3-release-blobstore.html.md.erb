@@ -23,8 +23,6 @@ S3 bucket is used for storing release blobs and generated final release blobs. I
 }
 ```
 
-<p class="note"><strong>Note</strong>: S3 buckets have a global namespace. If you create a bucket, that name has been forever consumed for everyone using S3. If you choose to delete that bucket, the name will not be added back to the global pool of names. It is gone forever.</p>
-
 ## <a id="iam-user"></a> Creating IAM User for the Maintainer
 
 An IAM user is used to download and upload blobs to a created S3 bucket.
@@ -86,6 +84,19 @@ blobstore:
 ```
 
 A full list of S3 regions and endpoints is available [here](http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region).
+
+## <a id="setting-folder"></a> Setting S3 folder
+
+By default, blobs are stored in the bucket root. If you need to use a single bucket for more than one purpose, you can use the `folder` option to specify a prefix used for all blobs. Do not include a starting or ending slash.
+
+```yaml
+---
+blobstore:
+  provider: s3
+  options:
+    bucket_name: <blobs_bucket_name>
+    folder: my-release-name/with-custom-blobs-folder
+```
 
 ## <a id="usage"></a> Usage
 
