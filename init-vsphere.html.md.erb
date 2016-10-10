@@ -107,6 +107,8 @@ jobs:
     hm:
       director_account: {user: hm, password: hm-password}
       resurrector_enabled: true
+      intervals:
+        agent_timeout: 180
 
     vcenter: &vcenter # <--- Replace values below
       address: VCENTER-IP
