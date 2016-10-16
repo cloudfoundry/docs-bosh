@@ -38,6 +38,14 @@ Once you've determined your subscription ID, switch to using that account:
 $ azure account set 3c39a033-c306-4615-a4cb-260418d63879
 </pre>
 
+Register the required providers:
+
+<pre class="terminal">
+$ azure provider register Microsoft.Network
+$ azure provider register Microsoft.Storage
+$ azure provider register Microsoft.Compute
+</pre>
+
 ---
 ## <a id="client"></a> Client
 
@@ -70,7 +78,7 @@ Application ID (`33e56099-0bde-8z93-a005-89c0f6df7465` in the above output) is t
 Finally create service principal to enable authenticated access:
 
 <pre class="terminal">
-$ azure ad sp create 33e56099-0bde-8z93-a005-89c0f6df7465
+$ azure ad sp create service_principal --applicationId 33e56099-0bde-8z93-a005-89c0f6df7465
 $ azure role assignment create --roleName "Contributor" --spn "http://BOSHAzureCPI" --subscription 3c39a033-c306-4615-a4cb-260418d63879
 </pre>
 
@@ -151,7 +159,8 @@ $ azure network nsg rule create --resource-group bosh-res-group --nsg-name nsg-c
 ---
 ## <a id="storage-account"></a> Storage Account
 
-Create a default storage account to hold root disks, persistent disks, stemcells, etc.:
+Create a default storage account to hold root disks, persistent disks, stemcells, etc.
+If unsure of desired SKU Name, choose `LRS`, desired Kind, choose `Storage`:
 
 <pre class="terminal">
 $ azure storage account create boshstore --resource-group bosh-res-group --location "Central US"
