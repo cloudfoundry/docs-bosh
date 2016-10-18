@@ -29,7 +29,7 @@ To edit a package spec file:
 
 1. Identify all compile-time dependencies.
     A compile-time dependency occurs when a package depends on another package. 
-	For more information, refer to the [Make  Dependency Graphs](./create-release.html#graph) section of the Creating a BOSH 
+    For more information, refer to the [Make  Dependency Graphs](./create-release.html#graph) section of the Creating a BOSH 
 Release topic.
 1. Run `bosh generate package PACKAGE_NAME` for each compile-time dependency. 
 1. Copy all files that the package requires to the `src` directory of the BOSH release directory.
@@ -45,7 +45,7 @@ has no compile-time dependencies.
     The example shows an edited Ruby spec file with dependencies and file names. 
     Ruby 1.9.3 has a compile-time dependency on libyaml\_0.1.4, and the ruby\_1.9.3 source code consists of three files.
 
-	
+    
     Example Ruby package spec file:
 
 <pre class='code'>
@@ -59,8 +59,8 @@ has no compile-time dependencies.
   - ruby&#95;1.9.3/rubygems-1.8.24.tgz
   - ruby&#95;1.9.3/bundler-1.2.1.gem
 </pre>
-	 
-	 
+     
+     
 ## <a id="create-a-packaging-script"></a>Create a Packaging Script ##
 
 BOSH automatically creates a packaging script file template when you run the `bosh generate package PACKAGE_NAME` command. Each 

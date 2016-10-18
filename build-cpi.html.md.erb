@@ -46,9 +46,9 @@ Example:
 
 ```yaml
 {
-	"method": "delete_disk",
-	"arguments": ["vol-1b7fb8fd"],
-	"context": { "director_uuid":"fefb87c8-38d1-46a5-4552-9749d6b1195c" }
+    "method": "delete_disk",
+    "arguments": ["vol-1b7fb8fd"],
+    "context": { "director_uuid":"fefb87c8-38d1-46a5-4552-9749d6b1195c" }
 }
 ```
 
@@ -56,7 +56,7 @@ Example:
 
 * **result** [Null or simple values]: Single return value. It must be null if `error` is returned.
 * **error** [Null or hash]: Occurred error. It must be null if `result` is returned.
-	* **type** [String]: Type of the error.
+    * **type** [String]: Type of the error.
     * **message** [String]: Description of the error.
     * **ok\_to\_retry** [Boolean]: Indicates whether callee should try calling the method again without changing any of the arguments.
 * **log** [String]: Additional information that may be useful for auditing, debugging and understanding what actions CPI took while executing a method. Typically includes info and debug logs, error backtraces.
@@ -65,9 +65,9 @@ Example successful response from `create_vm` CPI call:
 
 ```yaml
 {
-	"result": "i-384959",
-	"error": null,
-	"log": ""
+    "result": "i-384959",
+    "error": null,
+    "log": ""
 }
 ```
 
@@ -75,13 +75,13 @@ Example error response from `create_vm` CPI call:
 
 ```yaml
 {
-	"result": null,
-	"error": {
-		"type": "Bosh::Clouds::CloudError",
-		"message": "Flavor `m1.2xlarge' not found",
-		"ok_to_retry": false
-	},
-	"log": "Rescued error: 'Flavor `m1.2xlarge' not found'. Backtrace: ~/.bosh_init/ins..."
+    "result": null,
+    "error": {
+        "type": "Bosh::Clouds::CloudError",
+        "message": "Flavor `m1.2xlarge' not found",
+        "ok_to_retry": false
+    },
+    "log": "Rescued error: 'Flavor `m1.2xlarge' not found'. Backtrace: ~/.bosh_init/ins..."
 }
 ```
 

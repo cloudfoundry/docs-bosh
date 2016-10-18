@@ -81,14 +81,14 @@ To prepare a domain:
 1. Choose a domain name for your deployment.
 
     For example, if you choose **cloud.example.com**, services that you later
-	deploy using BOSH become available as **service-name.cloud.example.com**.
+    deploy using BOSH become available as **service-name.cloud.example.com**.
 
 1. Use the [Route 53 control panel](https://console.aws.amazon.com/route53) to
 create an AWS Route 53 Hosted Zone for your domain.
 Delegate DNS authority for your domain to the addresses in the **delegation set** field that appears in the control panel.
 
-	For example, if your domain is **cloud.example.com**, create an NS record in
-	the DNS server for `example.com` for each address in the delegation set.
+    For example, if your domain is **cloud.example.com**, create an NS record in
+    the DNS server for `example.com` for each address in the delegation set.
 
 ##<a id="environment"></a>Step 5: Set Environment Variables ##
 
@@ -99,23 +99,23 @@ To set the environment variables required for deploying to AWS:
 1. Add the following information, replacing the value for each line to match
 your configuration.
 
-	The values shown correspond to the earlier Route 53 **cloud.example.com**
-	example.
+    The values shown correspond to the earlier Route 53 **cloud.example.com**
+    example.
 
     <p class="note"><strong>Note</strong>: <code>BOSH_VPC_DOMAIN</code> and
-	<code>BOSH_VPC_SUBDOMAIN</code> must correspond to the domain name you set
-	up when you configured Route 53. The only supported value for
-	<code>BOSH_AWS_REGION</code> is <code>us-east-1</code>.</p>
+    <code>BOSH_VPC_SUBDOMAIN</code> must correspond to the domain name you set
+    up when you configured Route 53. The only supported value for
+    <code>BOSH_AWS_REGION</code> is <code>us-east-1</code>.</p>
 
     ```
-	export BOSH_VPC_DOMAIN=example.com
-	export BOSH_VPC_SUBDOMAIN=mycloud
-	export BOSH_AWS_ACCESS_KEY_ID=AWS_ACCESS_KEY_ID
-	export BOSH_AWS_SECRET_ACCESS_KEY=AWS_SECRET_ACCESS_KEY
-	export BOSH_AWS_REGION=us-east-1
-	export BOSH_VPC_SECONDARY_AZ=us-east-1a
-	export BOSH_VPC_PRIMARY_AZ=us-east-1d
-	```
+    export BOSH_VPC_DOMAIN=example.com
+    export BOSH_VPC_SUBDOMAIN=mycloud
+    export BOSH_AWS_ACCESS_KEY_ID=AWS_ACCESS_KEY_ID
+    export BOSH_AWS_SECRET_ACCESS_KEY=AWS_SECRET_ACCESS_KEY
+    export BOSH_AWS_REGION=us-east-1
+    export BOSH_VPC_SECONDARY_AZ=us-east-1a
+    export BOSH_VPC_PRIMARY_AZ=us-east-1d
+    ```
 
 1. Choose availability zones that are listed as “operating normally” on the [AWS Console Status Health Section](https://console.aws.amazon.com/ec2/v2/home?region=us-east-1) for your
 region.
@@ -131,25 +131,25 @@ environment variables for the current shell.
 
 1. In a terminal window, run `bosh aws create` to create your AWS infrastructure.
 
-	The `bosh aws create` command generates the receipt files
-	`aws_rds_receipt.yml` and `aws_vpc_receipt.yml`, a VPC Internet Gateway, VPC
-	subnets, three RDS databases, and a NAT VM.
-	Remove the NAT VM if you do not plan to deploy Cloud Foundry.
+    The `bosh aws create` command generates the receipt files
+    `aws_rds_receipt.yml` and `aws_vpc_receipt.yml`, a VPC Internet Gateway, VPC
+    subnets, three RDS databases, and a NAT VM.
+    Remove the NAT VM if you do not plan to deploy Cloud Foundry.
 
-	<p class="note"><strong>Note</strong>: RDS database creation might take
-		longer than twenty minutes to complete.</p>
+    <p class="note"><strong>Note</strong>: RDS database creation might take
+        longer than twenty minutes to complete.</p>
 
     <pre class="terminal">
-	$ bosh aws create
-	Executing migration CreateKeyPairs
-	allocating 1 KeyPair(s)
-	Executing migration CreateVpc
-	. . .
-	details in S3 receipt: aws_rds_receipt and file: aws_rds_receipt.yml
-	Executing migration CreateS3
-	creating bucket xxxx-bosh-blobstore
-	creating bucket xxxx-bosh-artifacts
-	</pre>
+    $ bosh aws create
+    Executing migration CreateKeyPairs
+    allocating 1 KeyPair(s)
+    Executing migration CreateVpc
+    . . .
+    details in S3 receipt: aws_rds_receipt and file: aws_rds_receipt.yml
+    Executing migration CreateS3
+    creating bucket xxxx-bosh-blobstore
+    creating bucket xxxx-bosh-artifacts
+    </pre>
 
 ##<a id="private-subnet"></a>Step 7: (Optional) Restrict Public Access with a Private Subnet ##
 
@@ -163,9 +163,9 @@ To allow a VM in a private subnet to access the Internet, you must do one of the
 following:
 
 * Route the private subnet traffic through a network address translation (NAT)
-	VM that you deploy to a public subnet
+    VM that you deploy to a public subnet
 * Route the private subnet traffic through an Elastic Load Balancer (ELB) that
-	you deploy to a public subnet
+    you deploy to a public subnet
 
 ###<a id="deploy-vms"></a>Deploy VMs to a Private Subnet ###
 
@@ -209,25 +209,25 @@ Add the following entries to the route table:
 
 <table border="1" class="nice" >
   <tr>
-	<th>Destination</th>
-	<th>Target</th>
-	<th>Purpose</th>
+    <th>Destination</th>
+    <th>Target</th>
+    <th>Purpose</th>
   </tr>
   <tr>
     <td>IP address range of your VPC, specified as a CIDR block.<br />
-		Example: <code>10.0.0.0/16</code>
-	</td>
-	<td><code>local</code></td>
-	<td>Enables VMs in the private subnet to communicate with other VMs in
-		the VPC
-	</td>
+        Example: <code>10.0.0.0/16</code>
+    </td>
+    <td><code>local</code></td>
+    <td>Enables VMs in the private subnet to communicate with other VMs in
+        the VPC
+    </td>
   </tr>
   <tr>
     <td><code>0.0.0.0/0</code></td>
-	<td>Your NAT VM, specified using AWS-assigned identifiers.<br />
-		Example: <code>eni-1a2b3c4d / i-1a2b3c4d</code>
-	</td>
-	<td>Sends all non-local traffic to the NAT VM</td>
+    <td>Your NAT VM, specified using AWS-assigned identifiers.<br />
+        Example: <code>eni-1a2b3c4d / i-1a2b3c4d</code>
+    </td>
+    <td>Sends all non-local traffic to the NAT VM</td>
   </tr>
 </table>
 
