@@ -2,6 +2,8 @@
 title: Recovery from an ESXi Host Failure
 ---
 
+<p class="note">Note: Do not follow this procedure if vSphere HA is enabled and bosh-vsphere-cpi is v30+; vSphere HA will automatically recreate VMs that were on the failed host.</p>
+
 This topic describes how to recreate VMs in the event of an ESXi host failure.
 The BOSH Resurrector is unable to recreate a VM on a failed ESXi host without
 manual intervention.
@@ -48,6 +50,6 @@ The following steps will allow the Resurrector to recreate these VMs on a health
 ---
 [Back to Table of Contents](index.html#cpi-config)
 
-Previous: [Storage DRS and vMotion Support](vsphere-vmotion-support.html)
+Previous: [vSphere HA](vsphere-ha.html)
 
 Next: [Recovery from a vSphere Network Partitioning Fault](vsphere-network-partition.html)
