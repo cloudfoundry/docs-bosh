@@ -94,11 +94,11 @@ Make sure to properly delete created resources if VM cannot be successfully crea
 - **cloud_properties** [Hash]: Cloud properties hash specified in the deployment manifest under VM's resource pool.
 - **networks** [Hash]: Networks hash that specifies which VM networks must be configured.
 - **disk_cids** [Array of strings] Array of disk cloud IDs for each disk that created VM will most _likely_ be attached; they could be used to optimize VM placement so that disks are located nearby.
-- **environment** [Hash]: Resource pool's env hash specified in deployment manifest.
+- **environment** [Hash]: Resource pool's env hash specified in deployment manifest including initial properties added by the BOSH director as shown below.
 
 ##### Example
 
-```yaml
+```json
 [
 	"4149ba0f-38d9-4485-476f-1581be36f290",
 	"ami-478585",
@@ -115,7 +115,7 @@ Make sure to properly delete created resources if VM cannot be successfully crea
 	  	"private2": {
 			"type": "dynamic",
 			"cloud_properties": { "net_id": "subnet-e12364" }
-		}
+		},
 		"public": {
 			"type": "vip",
 			"ip": "173.101.112.104",
@@ -123,7 +123,15 @@ Make sure to properly delete created resources if VM cannot be successfully crea
 		}
 	},
 	[ "vol-3475945" ],
-	{}
+	{
+		"bosh": {
+			"group": "my-group",
+			"groups": [
+				"my-second-group",
+				"another-group"
+			]
+		}
+	}
 ]
 ```
 
