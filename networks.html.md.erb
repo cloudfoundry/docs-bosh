@@ -223,7 +223,7 @@ A deployment job can be configured to have multiple IP addresses (multiple NICs)
 
 Schema for `default` property:
 
-* **default** [Array, optional]: Configures this network to provide its settings for specific category as a default. Possible values are: `dns` and `gateway`. Both values can be specified together.
+* **default** [Array, optional]: Configures this network to provide its settings for specific category as a default. Possible values are: `dns`, `gateway` and since bosh-release v258 `addressable`. All values can be specified together. `addressable` can be used to specify which IP address other jobs see.
 
 Example:
 

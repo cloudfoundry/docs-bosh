@@ -103,3 +103,4 @@ Each template can also access special `spec` object for instance specific config
 - `<%%= spec.az %>`: Inserts instance AZ.
 - `<%%= spec.address %>`: Inserts default instance network address (IPv4, IPv6 or DNS record). Available in bosh-release v255.4+.
 - `<%% spec.networks %>`: Allows to evaluate instance's network information.
+- `<%% spec.ip %>`: Inserts IP address of the instance. In case of multiple IP addresses available, the IP of the [addressable or default network](networks.html#multi-homed) is used. Available in bosh-release v258+.
