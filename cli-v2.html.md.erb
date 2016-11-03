@@ -2,27 +2,28 @@
 title: CLI v2 vs v1
 ---
 
-<p class="note">Note: Applies to CLI v2 alpha 1.</p>
+<p class="note">Note: Applies to <a href="https://main.bosh-ci.cf-app.com/teams/main/pipelines/bosh:cli/resources/release-bucket-darwin">CLI v2 v0.0.96+</a>.</p>
 
 | Before                      | After
 |-----------------------------|-----------------------------
 | bosh-init deploy <manifest> | bosh create-env <manifest>
 | bosh-init delete <manifest> | bosh delete-env <manifest> [1]
-| bosh target <ip>            | bosh env <ip>
+| bosh target <ip>            | bosh alias-env name -e <ip>
 | bosh status                 | bosh env [2]
 | bosh -t dir ...             | bosh -e dir ...
 | bosh -d manifest-path ...   | bosh -d deployment-name ... [3]
 | bosh deployment <manifest>  | bosh deployment <name>
 | bosh deploy                 | bosh deploy <manifest>
-| bosh delete deployment      | bosh delete-deployment (uses currently set deployment)
+| bosh delete deployment      | bosh delete-deployment
 | bosh tasks recent 1000      | bosh tasks -r=1000
 | bosh tasks --no-filter      | bosh tasks -a
-| bosh download manifest dep  | bosh manifest (uses currently set deployment)
-| bosh vms dep                | bosh instances (uses currently set deployment)
+| bosh download manifest dep  | bosh manifest
+| bosh vms dep                | bosh instances
 
-[1] bosh-init CLI is now absorbed by the bosh CLI. One binary!
-[2] Use 'environment' term consistently. Matches with create-env/delete-env commands.
-[3] Most of the time users had to download manifest just to be able to run deployment commands. Instead of downloading manifest just provide a deployment name.
+- Most commands require specifying `--environment` (`-e`) and possibly `--deployment` (`-d`) explicitly to avoid accidently using wrong environment/deployment.
+- [1] bosh-init CLI is now absorbed by the bosh CLI. One binary!
+- [2] Use 'environment' term consistently. Matches with create-env/delete-env commands.
+- [3] Most of the time users had to download manifest just to be able to run deployment commands. Instead of downloading manifest just provide a deployment name.
 
 ---
 ## <a id="general"></a> General differences
@@ -42,11 +43,11 @@ title: CLI v2 vs v1
 ---
 ## <a id="commands"></a> Differences per command
 
-- `bosh env`
+- `bosh alias-env` and all commands
   - only allows connections to Director configured with verifiable certificates
   - no longer asks to log-in
 
-- `bosh login`
+- `bosh log-in`
   - doesn't accept positional arguments for username/password
 
 - `bosh deploy`
@@ -71,6 +72,9 @@ title: CLI v2 vs v1
 
 - `bosh vms`
   - removed second param for specifying deployment
+
+- `bosh delete-deployment`
+  - removed second param for specifying deployment since -d is used for deployment selection
 
 - `bosh add-blob`
   - requires a path to its release destination
