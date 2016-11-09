@@ -69,9 +69,7 @@ Schema for `cloud_properties` section:
 * **memory\_hot\_add\_enabled** [Boolean, optional]: Allows operator to add additional memory resources while the VM is on. Default: `false`. Available in v21+.
 * **nested\_hardware\_virtualization** [Boolean, optional]: Exposes hardware assisted virtualization to the VM. Default: `false`.
 * **datastores** [Array, optional]: Allows operator to specify a list of ephemeral datastores for the VM. These names are exact datastore names and not regex patterns. At least one of these datastores must be accessible from clusters provided in `resource_pools.cloud_properties`/`azs.cloud_properties` or in the global CPI configuration. Available in v23+.
-
 * **datacenters** [Array, optional]: Used to override the VM placement specified under `azs.cloud_properties`. The format is the same as under [`AZs`](#azs).
-
 * **nsx** [Dictionary, optional]: [VMWare NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v30+ and NSX v6.1+.
   * **security_groups** [Array, optional]: A collection of [security group](https://pubs.vmware.com/NSX-6/index.jsp#com.vmware.nsx.admin.doc/GUID-16B3134E-DDF1-445A-8646-BB0E98C3C9B5.html) names that the instances should belong to. The CPI will create the security groups if they do not exist.
   BOSH will also automatically create security groups based on metadata such as deployment name and instance group name. The full list of groups can be seen under [create_vm's environment groups](cpi-api-v1.html#create-vm).
@@ -86,7 +84,7 @@ Example of a VM asked to be placed into a specific vSphere resource pool with NS
 
 ```yaml
 resource_pools:
-- name: default
+- name: nsx
   network: default
   stemcell:
     name: bosh-vsphere-esxi-ubuntu-trusty-go_agent
@@ -178,13 +176,12 @@ Schema:
     * **clusters** [Array, required]: Array of clusters to use for VM placement.
         * **&lt;cluster name&gt;** [String, required]: Cluster name.
             * **resource_pool** [String, optional]: Specific vSphere resource pool to use within the cluster.
-
 * **nsx** [Dictionary, optional]: NSX configuration options.  This is required if the other NSX features are used below (e.g. 'security\_groups' for `resource\_pools`).
     * **address** [String, required]: The NSX server's address. Can be a hostname (e.g. `nsx-server.example.com`) or an IP address.
     * **user** [String, required]: The login username for the NSX server.
     * **password** [String, required]: The login password for the NSX server.
     * **ca_cert** [String, optional]: A CA certificate that can authenticate the NSX server certificate. **Required** if the NSX Manager has a self-signed SSL certificate. Must be in PEM format.
-
+* **enable_auto_anti_affinity_drs_rules** [Boolean, optional]: Creates DRS rule to place VMs on separate hosts. DRS Automation Level must be set to "Fully Automated"; does not work when DRS is set to "Partially Automated" or "Manual". May cause VMs to fail to power on if there are more VMs than hosts after initial deployment. Default: `false`. Available in v33+.
 <p class="note">Note: If the NSX Manager has a self-signed certificate, the certificate must be set in the `ca_cert` property.</p>
 
 Example of a CPI configuration that will place VMs into `BOSH_CL` cluster within `BOSH_DC`:
@@ -205,7 +202,7 @@ properties:
       clusters: [BOSH_CL]
 ```
 
-Or example that places VMs by default into `BOSH_RP` vSphere resource pool with NSX integration:
+Example that places VMs by default into `BOSH_RP` vSphere resource pool with NSX integration and enables VM anti-affinity DRS rule:
 
 ```yaml
 properties:
@@ -214,6 +211,7 @@ properties:
     user: root
     password: vmware
     default_disk_type: thin
+    enable_auto_anti_affinity_drs_rules: true
     datacenters:
     - name: BOSH_DC
       vm_folder: prod-vms
@@ -301,6 +299,8 @@ vSphere CPI makes use of an API call that returns a URL that the CPI should
 make a `POST` request to in order to upload the stemcell. This URL could have
 a hostname that resolves to any one of the ESXi hosts that are associated
 with your vSphere resource pool(s).
+
+* Setting `enable_auto_anti_affinity_drs_rules` to true may cause `bosh deploy` to fail after the initial deployment if there are more VMs than hosts. A workaround is to set `enable_auto_anti_affinity_drs_rules` to false to perform subsequent deployments.
 
 ---
 ## <a id='errors'></a> Errors
