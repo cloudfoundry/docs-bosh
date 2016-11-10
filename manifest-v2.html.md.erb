@@ -163,3 +163,15 @@ instance_groups:
 ## <a id='properties'></a> Properties Block
 
 **properties** [Hash, optional]: Describes global properties. Deprecated in favor of job level properties and links.
+
+---
+## <a id='tags'></a> Tags Block
+
+**tags** [Hash, optional]: Specifies key value pairs to be sent to the CPI for VM tagging. Combined with runtime config level tags during the deploy. Available in bosh-release v258+.
+
+Example:
+
+```yaml
+tags:
+  project: cf
+```

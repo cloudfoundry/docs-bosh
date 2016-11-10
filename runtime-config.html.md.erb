@@ -101,3 +101,16 @@ addons:
 ```
 
 See [common addons list](addons-common.html) for several examples.
+
+---
+## <a id='tags'></a> Tags Block
+
+**tags** [Hash, optional]: Specifies key value pairs to be sent to the CPI for VM tagging. Combined with deployment level tags during the deploy. Available in bosh-release v260+.
+
+Example:
+
+```yaml
+tags:
+  business_unit: marketing
+  email_contact: ops@marketing.co.com
+```
