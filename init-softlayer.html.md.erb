@@ -29,7 +29,8 @@ resource_pools:
 - name: vms
   network: default
   stemcell:
-    url: file://./light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent.tgz # <--- Replace with the one in bosh.io when it come to public
+    url: {{ .Stemcell.UserVisibleDownloadURL }}
+    sha1: {{ .Stemcell.SHA1 }}
   cloud_properties:
     Domain: softlayer.com
     VmNamePrefix: bosh-softlayer
@@ -37,14 +38,14 @@ resource_pools:
     StartCpus: 4
     MaxMemory: 8192
     Datacenter:
-      Name: SOFTLAYER-DATACENTER-NAME # <--- Replace with the datacenter (like lon02) for your environment
+      Name: SOFTLAYER-DATACENTER-NAME # <--- Replace with the datacenter (eg lon02)
     HourlyBillingFlag: true
     PrimaryNetworkComponent:
       NetworkVlan:
-        Id: SOFTLAYER-PUBLIC-VLAN # <--- Replace with the public vlan id for your environment
+        Id: SOFTLAYER-PUBLIC-VLAN # <--- Replace with the public VLAN ID
     PrimaryBackendNetworkComponent:
       NetworkVlan:
-        Id: SOFTLAYER-PRIVATE-VLAN # <--- Replace with the private vlan id for your environment
+        Id: SOFTLAYER-PRIVATE-VLAN # <--- Replace with the private VLAN ID
     NetworkComponents:
     - MaxSpeed: 1000
 
@@ -55,8 +56,7 @@ disk_pools:
 networks:
 - name: default
   type: dynamic
-  dns:
-  - 8.8.8.8
+  dns: [8.8.8.8]
 
 jobs:
 - name: bosh
@@ -79,59 +79,49 @@ jobs:
 
   properties:
     nats:
+      address: 127.0.0.1
       user: nats
       password: nats-password
-      auth_timeout: 3
-      address: 127.0.0.1
-      listen_address: 0.0.0.0
-      port: 4222
-      no_epoll: false
-      no_kqueue: true
-      http:
-        port: 9222
 
-    postgres: &20585760
+    postgres: &db
+      listen_address: 127.0.0.1
+      host: 127.0.0.1
       user: postgres
       password: postgres-password
-      host: 127.0.0.1
       database: bosh
       adapter: postgres
 
     blobstore:
       address: 127.0.0.1
+      port: 25250
+      provider: dav
       director:
         user: director
         password: director-password
       agent:
         user: agent
         password: agent-password
-      port: 25250
-      provider: dav
 
     director:
-      cpi_job: softlayer_cpi
       address: 127.0.0.1
       name: bosh
-      db:
-        adapter: postgres
-        database: bosh
-        host: 127.0.0.1
-        password: postges-password
-        user: postgres
+      cpi_job: softlayer_cpi
+      db: *db
+      user_management:
+        provider: local
+        local:
+          users:
+          - {name: admin, password: admin}
+          - {name: hm, password: hm-password}
 
     hm:
-      director_account:
-        user: admin
-        password: admin-password
-      intervals:
-        log_stats: 300
-        agent_timeout: 180
-        rogue_agent_alert: 180
+      director_account: {user: hm, password: hm-password}
+      resurrector_enabled: true
 
     dns:
       address: 127.0.0.1
-      domain_name: microbosh
-      db: *20585760
+      domain_name: bosh
+      db: *db
       webserver:
         port: 8081
         address: 0.0.0.0
@@ -142,17 +132,15 @@ jobs:
 
     agent: {mbus: "nats://nats:nats-password@bosh-softlayer.softlayer.com:4222"}
 
-    ntp: &ntp []
+    ntp: &ntp [0.pool.ntp.org, 1.pool.ntp.org]
 
 cloud_provider:
   template: {name: softlayer_cpi, release: bosh-softlayer-cpi}
 
-  # Tells bosh-init how to contact remote agent
   mbus: https://admin:admin-password@bosh-softlayer.softlayer.com:6868
 
   properties:
     softlayer: *softlayer
-    # Tells CPI how agent should listen for bosh-init requests
     agent: {mbus: "https://admin:admin-password@bosh-softlayer.softlayer.com:6868"}
     blobstore: {provider: local, path: /var/vcap/micro_bosh/data/cache}
     ntp: *ntp
