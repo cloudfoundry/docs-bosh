@@ -14,7 +14,7 @@ This document shows how to initialize new [environment](terminology.html#environ
 
 1. Create a deployment manifest file named `bosh.yml` in the deployment directory based on the template below.
 
-    In the template, you must replace the `NETWORK-UUID`, `PRIVATE-IP`, `PRIVATE-CIDR`, `PRIVATE-GATEWAY-IP`, `DNS-IP`, `FLOATING-IP`, `OPENSTACK-PASSWORD`, `IDENTITY-API-ENDPOINT`, `OPENSTACK-TENANT`, and `OPENSTACK-USERNAME` properties. We describe replacing these properties in [Step 2: Prepare an OpenStack environment](#prepare-openstack).
+    In the template, you must replace the `NETWORK-UUID`, `PRIVATE-IP`, `PRIVATE-CIDR`, `PRIVATE-GATEWAY-IP`, `DNS-IP`, `FLOATING-IP`, `OPENSTACK-PASSWORD`, `IDENTITY-API-ENDPOINT`, `OPENSTACK-PROJECT`, `OPENSTACK-DOMAIN`, and `OPENSTACK-USERNAME` properties. We describe replacing these properties in [Step 2: Prepare an OpenStack environment](#prepare-openstack).
 
     <p class="note"><strong>Note</strong>: The example below uses several predefined passwords. We recommend replacing them with passwords of your choice.</p>
 
@@ -179,10 +179,10 @@ cloud_provider:
     * An external network with a subnet.
     * An private network with a subnet. The subnet must have an IP address allocation pool.
 
-1. Configuration of a new OpenStack Tenant
+1. Configuration of a new OpenStack Project
     1. Automated configuration
 
-        You can use a [Terraform enviroment template](https://github.com/cloudfoundry-incubator/bosh-openstack-environment-templates/tree/master/bosh-init-tf) to configure your OpenStack tenant.
+        You can use a [Terraform enviroment template](https://github.com/cloudfoundry-incubator/bosh-openstack-environment-templates/tree/master/bosh-init-tf) to configure your OpenStack project.
 
     1. Manual configuration
 
