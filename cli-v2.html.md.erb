@@ -2,28 +2,7 @@
 title: CLI v2 vs v1
 ---
 
-<p class="note">Note: Applies to <a href="https://main.bosh-ci.cf-app.com/teams/main/pipelines/bosh:cli/resources/release-bucket-darwin">CLI v2 v0.0.96+</a>.</p>
-
-| Before                      | After
-|-----------------------------|-----------------------------
-| bosh-init deploy <manifest> | bosh create-env <manifest>
-| bosh-init delete <manifest> | bosh delete-env <manifest> [1]
-| bosh target <ip>            | bosh alias-env name -e <ip>
-| bosh status                 | bosh env [2]
-| bosh -t dir ...             | bosh -e dir ...
-| bosh -d manifest-path ...   | bosh -d deployment-name ... [3]
-| bosh deployment <manifest>  | bosh deployment <name>
-| bosh deploy                 | bosh deploy <manifest>
-| bosh delete deployment      | bosh delete-deployment
-| bosh tasks recent 1000      | bosh tasks -r=1000
-| bosh tasks --no-filter      | bosh tasks -a
-| bosh download manifest dep  | bosh manifest
-| bosh vms dep                | bosh instances
-
-- Most commands require specifying `--environment` (`-e`) and possibly `--deployment` (`-d`) explicitly to avoid accidently using wrong environment/deployment.
-- [1] bosh-init CLI is now absorbed by the bosh CLI. One binary!
-- [2] Use 'environment' term consistently. Matches with create-env/delete-env commands.
-- [3] Most of the time users had to download manifest just to be able to run deployment commands. Instead of downloading manifest just provide a deployment name.
+<p class="note">Note: Applies to CLI v2 v0.0.96+.</p>
 
 ---
 ## <a id="install"></a> Install
@@ -44,8 +23,25 @@ title: CLI v2 vs v1
 ---
 ## <a id="general"></a> General differences
 
-- All commands respect `-e` (environment) and `-d` (deployment) flags
+| Before                      | After
+|-----------------------------|-----------------------------
+| bosh-init deploy <manifest> | bosh create-env <manifest>
+| bosh-init delete <manifest> | bosh delete-env <manifest>
+| bosh target <ip>            | bosh alias-env name -e <ip>
+| bosh status                 | bosh env
+| bosh -t dir ...             | bosh -e dir ...
+| bosh -d manifest-path ...   | bosh -d deployment-name ... [3]
+| bosh deployment <manifest>  | bosh deployment <name>
+| bosh deploy                 | bosh deploy <manifest>
+| bosh delete deployment      | bosh delete-deployment
+| bosh tasks recent 1000      | bosh tasks -r=1000
+| bosh tasks --no-filter      | bosh tasks -a
+| bosh download manifest dep  | bosh manifest
+| bosh vms dep                | bosh instances
+
+- Most commands require `-e` (environment) and `-d` (deployment) flags
 - `-d` (deployment) flag accepts a deployment name instead of a manifest
+- bosh-init CLI is now absorbed by the bosh CLI. One binary!
 - Variety of commands (create-env/delete-env/deploy/recreate/etc.) accept simple interpolation flags (`-v/-l`)
 - All commands support friendlier non TTY output, forceful TTY output and `--json` formatting
 - All commands now use dashes instead of spaces
