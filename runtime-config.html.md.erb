@@ -82,6 +82,7 @@ An addon is a release job that is colocated on all VMs managed by the Director.
 * **jobs** [Hash, requires]: Specifies the name and release of release jobs to be colocated.
   * **name** [String, required]: The job name.
   * **release** [String, required]: The release where the job exists.
+* **include** [Hash, optional]: Specifies placement rules. (Rules for exclusions are coming soon.)
 * **properties** [Hash, optional]: Specifies job properties. Properties allow the Director to configure jobs to a specific environment. `properties` specified on an addon are only accessible to addons.
 
 Example:
@@ -94,10 +95,24 @@ addons:
     release: strongswan
   - name: syslog_drain
     release: syslog
+  include:
+    deployments: [dep1, dep2]
   properties:
     strongswan:
       ca_cert: ...
     syslog_drain_ips: [10.10.0.20]
+```
+
+Possible `include` rules:
+
+```yaml
+include:
+  deployments: [dep1, dep2]
+  jobs:
+  - name: redis
+    release: redis-release
+  stemcell:
+    os: ubuntu-trusty
 ```
 
 See [common addons list](addons-common.html) for several examples.
