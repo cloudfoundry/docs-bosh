@@ -26,6 +26,22 @@ title: CLI v2 vs v1
 - [3] Most of the time users had to download manifest just to be able to run deployment commands. Instead of downloading manifest just provide a deployment name.
 
 ---
+## <a id="install"></a> Install
+
+1. Download the binary for your platform ([darwin](https://main.bosh-ci.cf-app.com/teams/main/pipelines/bosh:cli/resources/release-bucket-darwin) and [linux](https://main.bosh-ci.cf-app.com/teams/main/pipelines/bosh:cli/resources/release-bucket-linux)) and place it on your `PATH`. For example on UNIX machines:
+
+  <pre class="terminal">
+  $ chmod +x ~/Downloads/bosh-cli-*
+  $ sudo mv ~/Downloads/bosh-cli-* /usr/local/bin/bosh
+  </pre>
+
+1. Check `bosh` version to make sure it is properly installed:
+
+  <pre class="terminal">
+  $ bosh -v
+  </pre>
+
+---
 ## <a id="general"></a> General differences
 
 - All commands respect `-e` (environment) and `-d` (deployment) flags
