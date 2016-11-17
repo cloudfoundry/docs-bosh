@@ -81,13 +81,13 @@ jobs:
     nats:
       address: 127.0.0.1
       user: nats
-      password: nats-password
+      # password: nats-password # <--- Uncomment & change
 
     postgres: &db
       listen_address: 127.0.0.1
       host: 127.0.0.1
       user: postgres
-      password: postgres-password
+      # password: postgres-password # <--- Uncomment & change
       database: bosh
       adapter: postgres
 
@@ -97,10 +97,10 @@ jobs:
       provider: dav
       director:
         user: director
-        password: director-password
+        # password: director-password # <--- Uncomment & change
       agent:
         user: agent
-        password: agent-password
+        # password: agent-password # <--- Uncomment & change
 
     director:
       address: 127.0.0.1
@@ -111,11 +111,13 @@ jobs:
         provider: local
         local:
           users:
-          - {name: admin, password: admin}
-          - {name: hm, password: hm-password}
+          # - {name: admin, password: admin} # <--- Uncomment & change
+          # - {name: hm, password: hm-password} # <--- Uncomment & change
 
     hm:
-      director_account: {user: hm, password: hm-password}
+      director_account:
+        user: hm
+        # password: hm-password # <--- Uncomment & change
       resurrector_enabled: true
 
     dns:
@@ -130,18 +132,18 @@ jobs:
       username: SOFTLAYER-USER-ID # <--- Replace with your softlayer user id
       apiKey: SOFTLAYER-API-KEY # <--- Replace with your softlayer api key
 
-    agent: {mbus: "nats://nats:nats-password@bosh-softlayer.softlayer.com:4222"}
+    # agent: {mbus: "nats://nats:nats-password@bosh-softlayer.softlayer.com:4222"} # <--- Uncomment & change
 
     ntp: &ntp [0.pool.ntp.org, 1.pool.ntp.org]
 
 cloud_provider:
   template: {name: softlayer_cpi, release: bosh-softlayer-cpi}
 
-  mbus: https://admin:admin-password@bosh-softlayer.softlayer.com:6868
+  # mbus: https://admin:admin-password@bosh-softlayer.softlayer.com:6868 # <--- Uncomment & change
 
   properties:
     softlayer: *softlayer
-    agent: {mbus: "https://admin:admin-password@bosh-softlayer.softlayer.com:6868"}
+    # agent: {mbus: "https://admin:admin-password@bosh-softlayer.softlayer.com:6868"} # <--- Uncomment & change
     blobstore: {provider: local, path: /var/vcap/micro_bosh/data/cache}
     ntp: *ntp
 </pre>

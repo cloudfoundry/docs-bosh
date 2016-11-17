@@ -81,13 +81,13 @@ jobs:
     nats:
       address: 127.0.0.1
       user: nats
-      password: nats-password
+      # password: nats-password # <--- Uncomment & change
 
     postgres: &db
       listen_address: 127.0.0.1
       host: 127.0.0.1
       user: postgres
-      password: postgres-password
+      # password: postgres-password # <--- Uncomment & change
       database: bosh
       adapter: postgres
 
@@ -95,17 +95,24 @@ jobs:
       address: 10.0.0.6
       host: 10.0.0.6
       db: *db
-      http: {user: admin, password: admin, port: 25777}
+      http:
+        user: admin
+        # password: admin # <--- Uncomment & change
+        port: 25777
       username: admin
-      password: admin
+      # password: admin # <--- Uncomment & change
       port: 25777
 
     blobstore:
       address: 10.0.0.6
       port: 25250
       provider: dav
-      director: {user: director, password: director-password}
-      agent: {user: agent, password: agent-password}
+      director:
+        user: director
+        # password: director-password # <--- Uncomment & change
+      agent:
+        user: agent
+        # password: agent-password # <--- Uncomment & change
 
     director:
       address: 127.0.0.1
@@ -117,11 +124,13 @@ jobs:
         provider: local
         local:
           users:
-          - {name: admin, password: admin}
-          - {name: hm, password: hm-password}
+          # - {name: admin, password: admin} # <--- Uncomment & change
+          # - {name: hm, password: hm-password} # <--- Uncomment & change
 
     hm:
-      director_account: {user: hm, password: hm-password}
+      director_account:
+        user: hm
+        # password: hm-password # <--- Uncomment & change
       resurrector_enabled: true
 
     aws: &aws
@@ -131,7 +140,7 @@ jobs:
       default_security_groups: [bosh]
       region: REGION  # <--- Replace with Region
 
-    agent: {mbus: "nats://nats:nats-password@10.0.0.6:4222"}
+    # agent: {mbus: "nats://nats:nats-password@10.0.0.6:4222"} # <--- Uncomment & change
 
     ntp: &ntp [0.pool.ntp.org, 1.pool.ntp.org]
 
@@ -144,11 +153,11 @@ cloud_provider:
     user: vcap
     private_key: ./bosh.pem # Path relative to this manifest file
 
-  mbus: "https://mbus:mbus-password@ELASTIC-IP:6868" # <--- Replace with Elastic IP
+  # mbus: "https://mbus:mbus-password@ELASTIC-IP:6868" # <--- Uncomment & change
 
   properties:
     aws: *aws
-    agent: {mbus: "https://mbus:mbus-password@0.0.0.0:6868"}
+    # agent: {mbus: "https://mbus:mbus-password@0.0.0.0:6868"} # <--- Uncomment & change
     blobstore: {provider: local, path: /var/vcap/micro_bosh/data/cache}
     ntp: *ntp
 </pre>
