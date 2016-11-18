@@ -96,7 +96,10 @@ resource_pools:
 ---
 ## <a id='disk-pools'></a> Disk Pools / Disk Types
 
-Currently the CPI does not support any cloud properties for disks.
+Schema for `cloud_properties` section:
+
+* **Iops** [Integer, optional]: input/output operations per second (IOPS) value. Example: `1000`. If it's not set, a medium IOPS value of the specified disk size will be chosen.
+* **UseHourlyPricing** [Boolean, optional]: If the disk is hourly pricing. Default is `false`.
 
 Example of 100GB disk:
 
@@ -104,6 +107,9 @@ Example of 100GB disk:
 disk_pools:
 - name: disks
   disk_size: 100_000
+  cloud_properties:
+    Iops: 1000
+    UseHourlyPricing: true
 ```
 
 ---
