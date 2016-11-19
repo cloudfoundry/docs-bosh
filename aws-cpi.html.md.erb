@@ -128,7 +128,7 @@ Schema for `cloud_properties` section:
   * Only valid for `io1` type drive.
   * Required when `io1` type drive is specified.
 * **encrypted** [Boolean, optional]: Turns on [EBS volume encryption](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html) for this persistent disk. VM root and ephemeral disk are not encrypted. Defaults to `false`.
-* **kms_key_arn** [String, optional]: Encrypts the disk using an encryption key stored in the [AWS Key Management Service (KMS)](https://aws.amazon.com/kms/). The format of the ID is `XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX`. Be sure to use the Key ID, not the Alias. If this property is omitted and `encrypted` is `true`, the disk will be encrypted using your account's default `aws/ebs` encryption key.
+* **kms\_key\_arn** [String, optional]: Encrypts the disk using an encryption key stored in the [AWS Key Management Service (KMS)](https://aws.amazon.com/kms/). The format of the ID is `XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX`. Be sure to use the Key ID, not the Alias. If this property is omitted and `encrypted` is `true`, the disk will be encrypted using your account's default `aws/ebs` encryption key.
 
 EBS volumes are created in the availability zone of an instance that volume will be attached.
 
