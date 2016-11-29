@@ -141,6 +141,10 @@ disk_pools:
 
 See [CPI job configuration](https://bosh.io/jobs/openstack_cpi?source=github.com/cloudfoundry-incubator/bosh-openstack-cpi-release) for details.
 
+Schema:
+
+* **default_volume_type** [String, optional]: sets volume type for persistent disks unless overridden in resource pool/VM Type. `cinder type-list` will return the available volume types. Example: `SSD`.
+
 Example with Keystone V3:
 
 ```yaml
@@ -156,7 +160,7 @@ properties:
     default_security_groups: [bosh]
 ```
 
-Example with Keystone V2:
+Example with Keystone V2 and default volume type `ceph`:
 
 ```yaml
 properties:
@@ -168,6 +172,7 @@ properties:
     region: RegionOne
     default_key_name: bosh
     default_security_groups: [bosh]
+    default_volume_type: ceph
 ```
 
 ---
