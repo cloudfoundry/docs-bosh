@@ -182,7 +182,7 @@ cloud_provider:
     * [Image](http://www.openstack.org/software/openstack-shared-services/):
         BOSH stores stemcells using the Image service.
     * **(Optional)** [OpenStack Networking](http://www.openstack.org/software/openstack-networking/):
-        Provides network scaling and automated management functions that are useful when deploying complex distributed systems.
+        Provides network scaling and automated management functions that are useful when deploying complex distributed systems. **Note:** OpenStack networking is used as default as of v28 of the OpenStack CPI. To disable the use of the OpenStack Networking project, see [using nova-networking](openstack-nova-networking.html).
 
 1. The following OpenStack networks:
     * An external network with a subnet.
