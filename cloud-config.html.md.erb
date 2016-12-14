@@ -55,13 +55,13 @@ azs:
 
 vm_types:
 - name: small
-  cloud_properties:
-    instance_type: t2.micro
-    ephemeral_disk: {size: 3000, type: gp2}
+  cpu: 1
+  ram: 1024
+  ephemeral_disk_size: 3000
 - name: medium
-  cloud_properties:
-    instance_type: m3.medium
-    ephemeral_disk: {size: 30000, type: gp2}
+  cpu: 2
+  ram: 4096
+  ephemeral_disk_size: 30000
 
 disk_types:
 - name: small
@@ -151,7 +151,10 @@ See [networks](networks.html) for more details.
 
 **vm_types** [Array, required]: Specifies the [VM types](./terminology.html#vm-type) available to deployments. At least one should be specified.
 
-* **name** [String, required]: A unique name used to identify and reference the VM type
+* **name** [String, required]: A unique name used to identify and reference the VM type.
+* **cpu** [Integer, optional]: Number of CPUs to give the target VM. The `cpu`, `ram`, and `ephemeral_disk_size` properties will be used to determine a supported machine type in your target IaaS, such as an Instance Type on AWS or a Flavor in OpenStack, that meets the specified requirements.
+* **ram** [Integer, optional]: Amount of RAM in MB to give the target VM.
+* **ephemeral_disk_size** [Integer, optional]: Size of ephemeral disk in MB to give the target VM. Note that some portion of the ephemeral partition will be used for swap.
 * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create VMs; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#vm-types-cloud-properties) below. Example: `instance_type: m3.medium`. Default is `{}` (empty Hash).
 
 Example:
@@ -159,7 +162,10 @@ Example:
 ```yaml
 vm_types:
 - name: default
-  cloud_properties: {instance_type: m1.small, availability_zone: us-east-1c}
+  cpu: 2
+  ram: 4096
+  ephemeral_disk_size: 10000
+  cloud_properties: {availability_zone: us-east-1c}
 ```
 
 ### <a id='vm-types-cloud-properties'></a> CPI Specific `cloud_properties`
