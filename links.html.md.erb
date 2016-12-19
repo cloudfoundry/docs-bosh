@@ -51,7 +51,7 @@ Then, in the application job's templates, it can use the connection information 
 #!/bin/bash
 # Application's templated control script.
 # ...
-export DATABASE_HOST="<%= link('db_conn').address %>"
+export DATABASE_HOST="<%= link('db_conn').instances[0].address %>"
 export DATABASE_PORT="<%= link('db_conn').p('port') %>"
 # ...
 ```
@@ -97,6 +97,7 @@ instance_groups:
       frontend_database: {from: db1}
       backend_database: {from: db2}
 # ...
+```
 
 ---
 ## <a id="definition"></a> Release Definitions
