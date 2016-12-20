@@ -56,7 +56,7 @@ export DATABASE_PORT="<%= link('db_conn').p('port') %>"
 # ...
 ```
 
-If the application uses two database connections, each provided by a separate database_job instance, the link becomes ambiguous and we must resolve the ambiguity in the deployment manifest. In this case, the application job's spec file could look like:
+If the application uses two database connections, each provided by a separate database instance group, the link becomes ambiguous and we must resolve the ambiguity in the deployment manifest. In this case, the application job's spec file could look like:
 
 ```yaml
 # Application job spec file.
@@ -69,7 +69,7 @@ consumes:
   type: conn
 ```
 
-And then in the deployment manifest, we disambiguate the links with `provides` and `consumes` declarations on the jobs. The database jobs name their `database_conn` links. The application job uses these names to specify which database it will use for each of its links.
+And then in the deployment manifest, we disambiguate the links with `provides` and `consumes` declarations on the jobs. The database instance groupd name their `database_conn` links. The application job uses these names to specify which database it will use for each of its links.
 
 ```yaml
 # ...
