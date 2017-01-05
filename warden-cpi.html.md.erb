@@ -46,19 +46,34 @@ networks:
 The CPI does not support vip networks.
 
 ---
-## <a id='resource-pools'></a> Resource Pools
+## <a id='resource-pools'></a> Resource Pools / VM Types
 
-Currently the CPI does not support any cloud properties for resource pools.
+Schema for `cloud_properties` section:
 
-Example of a resource pool:
+* **ports** [Array, optional]: Allows to define port mapping between host and associated containers. Available in v30+.
+  **host** [String, required]: Port or range of ports. Example: `80`.
+  **container** [String, optional]: Port or range of ports. Defaults to `host` defined port or range. Example: `80`.
+  **protocol** [String, optional]: Connection protocol. Defaults to `tcp`. Example: `udp`.
+
+We may add simple load balancing via iptables for testing if ports is forwarded to multiple containers.
+
+Example:
 
 ```yaml
-resource_pools:
-- name: default
-  network: default
-  stemcell:
-    name: bosh-warden-boshlite-ubuntu-trusty-go_agent
-    version: latest
+vm_extensions:
+- name: external-access
+  cloud_properties:
+    ports:
+    # Forward 80 to 80 tcp
+    - host: 80
+    # Forward 443 to 8443 tcp
+    - host: 443
+      container: 8443
+    # Forward 53 to 53 udp
+    - host: 53
+      protocol: udp
+    # Forward 1000-2000 to 1000-2000 tcp
+    - host: 1000-2000
 ```
 
 ---
@@ -106,34 +121,7 @@ properties:
 ---
 ## <a id='cloud-config'>Example Cloud Config</a>
 
-```yaml
-azs:
-- name: z1
-- name: z2
-
-vm_types:
-- name: default
-
-disk_types:
-- name: default
-  disk_size: 1024
-
-compilation:
-  workers: 5
-  az: z1
-  reuse_compilation_vms: true
-  vm_type: default
-  network: default
-
-networks:
-- name: default
-  type: manual
-  subnets:
-    - azs: [z1, z2]
-      range: 10.244.0.0/24
-      reserved: [10.244.0.1]
-      static: [10.244.0.34]
-```
+See [bosh-deployment](https://github.com/cloudfoundry/bosh-deployment/blob/master/warden/cloud-config.yml).
 
 ---
 ## <a id='notes'></a> Notes
