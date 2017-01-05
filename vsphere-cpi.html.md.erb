@@ -159,6 +159,7 @@ Schema:
 * **host** [String, required]: IP address of the vCenter. Example: `172.16.68.3`.
 * **user** [String, required]: Username for the API access. Example: `root`.
 * **password** [String, required]: Password for the API access. Example: `vmware`
+* **http_logging** [Boolean, optional]: Enables logging all HTTP requests and responses to vSphere API. Default: `false`. Available in v37+.
 * **default\_disk\_type** [String, optional]: Sets the default
   [disk type](https://www.vmware.com/support/developer/converter-sdk/conv51_apireference/vim.VirtualDiskManager.VirtualDiskType.html).
   Can be either `thin` or `preallocated`, defaults to `preallocated`. `preallocated`
@@ -181,7 +182,7 @@ Schema:
     * **user** [String, required]: The login username for the NSX server.
     * **password** [String, required]: The login password for the NSX server.
     * **ca_cert** [String, optional]: A CA certificate that can authenticate the NSX server certificate. **Required** if the NSX Manager has a self-signed SSL certificate. Must be in PEM format.
-* **enable_auto_anti_affinity_drs_rules** [Boolean, optional]: Creates DRS rule to place VMs on separate hosts. DRS Automation Level must be set to "Fully Automated"; does not work when DRS is set to "Partially Automated" or "Manual". May cause VMs to fail to power on if there are more VMs than hosts after initial deployment. Default: `false`. Available in v33+.
+* **enable\_auto\_anti\_affinity\_drs\_rules** [Boolean, optional]: Creates DRS rule to place VMs on separate hosts. DRS Automation Level must be set to "Fully Automated"; does not work when DRS is set to "Partially Automated" or "Manual". May cause VMs to fail to power on if there are more VMs than hosts after initial deployment. Default: `false`. Available in v33+.
 <p class="note">Note: If the NSX Manager has a self-signed certificate, the certificate must be set in the `ca_cert` property.</p>
 
 Example of a CPI configuration that will place VMs into `BOSH_CL` cluster within `BOSH_DC`:
