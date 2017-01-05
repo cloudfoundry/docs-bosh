@@ -9,6 +9,97 @@ Previously, if network communication was required between jobs, release authors 
 Links provide a solution to the above problem by making the Director responsible for the IP management. Release authors get a consistent way of retrieving networking (and topology) configuration, and operators have a way to consistently connect components.
 
 ---
+## <a id="overview"></a> Overview
+First, we provide an overview of the capabilities and logistics of links through a simple example. Here, we have two jobs: an application job and a database job. The database provides its connection information through a link, which the application consumes.
+
+In the database job's spec file, it declares that it provides the connection information:
+
+```yaml
+# Database job spec file.
+name: database_job
+# ...
+provides:
+- name: database_conn
+  type: conn
+  # Links always carry certain information, like its address and AZ.
+  # Optionally, the provider can specify other properties in the link.
+  properties:
+  - port
+  - adapter
+  - username
+  - password
+  - name
+properties:
+- name: port
+# ...
+```
+
+Likewise, the application job's spec file declares that it consumes connection information:
+
+```yaml
+# Application job spec file.
+name: application_job
+# ...
+consumes:
+- name: database_conn
+  type: conn
+```
+
+Then, in the application job's templates, it can use the connection information from the link:
+
+```sh
+#!/bin/bash
+# Application's templated control script.
+# ...
+export DATABASE_HOST="<%= link('db_conn').instances[0].address %>"
+export DATABASE_PORT="<%= link('db_conn').p('port') %>"
+# ...
+```
+
+If the application uses two database connections, each provided by a separate database instance group, the link becomes ambiguous and we must resolve the ambiguity in the deployment manifest. In this case, the application job's spec file could look like:
+
+```yaml
+# Application job spec file.
+name: application_job_two_db
+# ...
+consumes:
+- name: frontend_database
+  type: conn
+- name: backend_database
+  type: conn
+```
+
+And then in the deployment manifest, we disambiguate the links with `provides` and `consumes` declarations on the jobs. The database instance groupd name their `database_conn` links. The application job uses these names to specify which database it will use for each of its links.
+
+```yaml
+# ...
+instance_groups:
+- name: database_1
+  jobs:
+  - name: database_job_1
+    templates:
+    - name: database_job
+      release: ...
+    provides:
+      database_conn: {as: db1}
+- name: database_2
+    templates:
+    - name: database_job
+      release: ...
+  jobs:
+  - name: database_job_2
+    provides:
+      database_conn: {as: db2}
+- name: application_ig
+  jobs:
+  - name: application_job_two_db
+    consumes:
+      frontend_database: {from: db1}
+      backend_database: {from: db2}
+# ...
+```
+
+---
 ## <a id="definition"></a> Release Definitions
 
 Instead of defining properties for every instance group, a job can declare links. (The job either 'consumes' a link provided by another job, or it can 'provide' itself so that any jobs, [including itself](#self) can 'consume' it).
