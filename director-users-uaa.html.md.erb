@@ -18,8 +18,8 @@ In this configuration the Director is configured to delegate user management to 
       sha1: a96833b6c68abda5aaa5d05ebdd0a5d394e6c15f
     # ...
     - name: uaa # <---
-      url: https://bosh.io/d/github.com/cloudfoundry/uaa-release?v=1
-      sha1: 477289da17ffe105d0b6bde1bc10f61b1cb50fb4
+      url: https://bosh.io/d/github.com/cloudfoundry/uaa-release?v=24
+      sha1: d0feb5494153217f3d62b346f426ad2b2f43511a
     ```
 
 1. Colocate UAA next to the Director:
@@ -49,7 +49,12 @@ In this configuration the Director is configured to delegate user management to 
 
         scim:
           users:
-          - admin|admin-password|scim.write,scim.read,bosh.admin
+          - name: admin
+            password: admin-password
+            groups:
+              - scim.write
+              - scim.read
+              - bosh.admin
 
         clients:
           bosh_cli:
@@ -120,7 +125,8 @@ In this configuration the Director is configured to delegate user management to 
 
 1. Configure Certificates and Keys
 
-    See [Director certificates configuration doc](director-certs.html) to find out how to generate necessary certificates.
+    See [Director certificates configuration doc](director-certs.html) to find out how to generate necessary certificates.       
+    Note, however, that login.saml.serviceProviderKeyPassword may need to be set to "", [see](https://bosh.io/releases/github.com/cloudfoundry/uaa-release?version=24).
 
     To generate UAA signing (private key) and verification key (public key) in PEM format:
 
