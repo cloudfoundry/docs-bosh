@@ -18,8 +18,8 @@ In this configuration the Director is configured to delegate user management to 
       sha1: a96833b6c68abda5aaa5d05ebdd0a5d394e6c15f
     # ...
     - name: uaa # <---
-      url: https://bosh.io/d/github.com/cloudfoundry/uaa-release?v=1
-      sha1: 477289da17ffe105d0b6bde1bc10f61b1cb50fb4
+      url: https://bosh.io/d/github.com/cloudfoundry/uaa-release?v=24
+      sha1: d0feb5494153217f3d62b346f426ad2b2f43511a
     ```
 
 1. Colocate UAA next to the Director:
@@ -49,7 +49,12 @@ In this configuration the Director is configured to delegate user management to 
 
         scim:
           users:
-          - admin|admin-password|scim.write,scim.read,bosh.admin
+          - name: admin
+            # password: admin-password # <--- Uncomment & change
+            groups:
+            - scim.write
+            - scim.read
+            - bosh.admin
 
         clients:
           bosh_cli:
@@ -62,8 +67,10 @@ In this configuration the Director is configured to delegate user management to 
             refresh-token-validity: 86400 # re-login required once a day
             secret: "" # CLI expects this secret to be empty
 
-        admin: {client_secret: admin-password}
-        login: {client_secret: login-password}
+        admin:
+          # client_secret: admin-password # <--- Uncomment & change
+        login:
+          # client_secret: login-password # <--- Uncomment & change
         zones: {internal: {hostnames: []}}
     ```
 
@@ -79,7 +86,7 @@ In this configuration the Director is configured to delegate user management to 
         host: 127.0.0.1
         port: 5432
         user: postgres
-        password: postgres-password
+        # password: postgres-password # <--- Uncomment & change
         database: bosh
         additional_databases: [uaa] # <---
         adapter: postgres
@@ -100,7 +107,7 @@ In this configuration the Director is configured to delegate user management to 
         roles:
         - tag: admin
           name: postgres
-          password: postgres-password
+          # password: postgres-password # <--- Uncomment & change
     ```
 
 1. Change Director configuration to specify how to contact the UAA server and how to verify an access token. Since UAA will be on the same server we can use the same IP as the one used for the Director.
@@ -121,6 +128,7 @@ In this configuration the Director is configured to delegate user management to 
 1. Configure Certificates and Keys
 
     See [Director certificates configuration doc](director-certs.html) to find out how to generate necessary certificates.
+    Note, however, that `login.saml.serviceProviderKeyPassword` may need to be set to "", [see](https://bosh.io/releases/github.com/cloudfoundry/uaa-release?version=24).
 
     To generate UAA signing (private key) and verification key (public key) in PEM format:
 
