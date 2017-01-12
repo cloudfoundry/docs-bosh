@@ -10,6 +10,7 @@ Links provide a solution to the above problem by making the Director responsible
 
 ---
 ## <a id="overview"></a> Overview
+
 First, we provide an overview of the capabilities and logistics of links through a simple example. Here, we have two jobs: an application job and a database job. The database provides its connection information through a link, which the application consumes.
 
 In the database job's spec file, it declares that it provides the connection information:
@@ -29,8 +30,10 @@ provides:
   - username
   - password
   - name
+
 properties:
-- name: port
+  port:
+    default: 8080
 # ...
 ```
 
@@ -43,6 +46,7 @@ name: application_job
 consumes:
 - name: database_conn
   type: conn
+# ...
 ```
 
 Then, in the application job's templates, it can use the connection information from the link:
@@ -51,8 +55,8 @@ Then, in the application job's templates, it can use the connection information 
 #!/bin/bash
 # Application's templated control script.
 # ...
-export DATABASE_HOST="<%= link('db_conn').instances[0].address %>"
-export DATABASE_PORT="<%= link('db_conn').p('port') %>"
+export DATABASE_HOST="<%= link('database_conn').instances[0].address %>"
+export DATABASE_PORT="<%= link('database_conn').p('port') %>"
 # ...
 ```
 
