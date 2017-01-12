@@ -72,24 +72,44 @@ ls -la .
 Update the Director deployment manifest:
 
 - `director.ssl.key`
-    - Private key for the Director (e.g. `certs/director.key`)
+    - Private key for the Director (e.g. content of `certs/director.key`)
 - `director.ssl.cert`
-    - Associated certificate for the Director (e.g. `certs/director.crt`)
+    - Associated certificate for the Director (e.g. content of `certs/director.crt`)
     - Include all intermediate certificates if necessary
 - `hm.director_account.ca_cert`
-    - CA certificate used by the HM to verify the Director's certificate (e.g. `certs/rootCA.pem`)
+    - CA certificate used by the HM to verify the Director's certificate (e.g. content of `certs/rootCA.pem`)
+
+Example manifest excerpt:
+```yaml
+...
+jobs:
+- name: bosh
+  properties:
+    director:
+      ssl:
+        key: |
+          -----BEGIN RSA PRIVATE KEY-----
+          MII...
+          -----END RSA PRIVATE KEY-----
+        cert: |
+          -----BEGIN CERTIFICATE-----
+          MII...
+          -----END CERTIFICATE-----
+...
+```
+<p class="note">Note: A `path` to the key or certificate file is not supported.</p>
 
 If you are using the UAA for user management, additionally put certificates in these properties:
 
 - `uaa.sslPrivateKey`
-    - Private key for the UAA (e.g. `certs/uaa-web.key`)
+    - Private key for the UAA (e.g. content of `certs/uaa-web.key`)
 - `uaa.sslCertificate`
-    - Associated certificate for the UAA (e.g. `certs/uaa-web.crt`)
+    - Associated certificate for the UAA (e.g. content of `certs/uaa-web.crt`)
     - Include all intermediate certificates if necessary
 - `login.saml.serviceProviderKey`
-    - Private key for the UAA (e.g. `certs/uaa-sp.key`)
+    - Private key for the UAA (e.g. content of `certs/uaa-sp.key`)
 - `login.saml.serviceProviderCertificate`
-    - Associated certificate for the UAA (e.g. `certs/uaa-sp.crt`)
+    - Associated certificate for the UAA (e.g. content of `certs/uaa-sp.crt`)
 
 ---
 ## <a id="target"></a> Target the Director
