@@ -2,12 +2,15 @@
 title: CLI v2 vs v1
 ---
 
-<p class="note">Note: Applies to CLI v2 v0.0.96+.</p>
+<p class="note">Note: Applies to CLI v2 v0.0.147+.</p>
 
 ---
 ## <a id="install"></a> Install
 
-1. Download the binary for your platform ([darwin](https://main.bosh-ci.cf-app.com/teams/main/pipelines/bosh:cli/resources/release-bucket-darwin) and [linux](https://main.bosh-ci.cf-app.com/teams/main/pipelines/bosh:cli/resources/release-bucket-linux)) and place it on your `PATH`. For example on UNIX machines:
+1. Download the binary for your platform and place it on your `PATH`. For example on UNIX machines:
+
+  - [bosh-cli-0.0.147-darwin-amd64](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-0.0.147-darwin-amd64) <span class="sha1">sha1: 8ebb656e9c177a0fba7fa9d768cc84957728688a</span>
+  - [bosh-cli-0.0.147-linux-amd64](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-0.0.147-linux-amd64) <span class="sha1">sha1: 533342d7663c3e5dc731769e157608c74dd9eccb</span>
 
   <pre class="terminal">
   $ chmod +x ~/Downloads/bosh-cli-*
@@ -115,4 +118,4 @@ private_cloud_properties:
   subnet_id: subnet-2rq4t8s4
 ```
 
-You can use `build-manifest` command to see what client side interpolation will do.
+You can use `interpolate` command to see what client side interpolation will do.
