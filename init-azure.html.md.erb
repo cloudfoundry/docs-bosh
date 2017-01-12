@@ -40,7 +40,7 @@ resource_pools:
     url: {{ .Stemcell.UserVisibleDownloadURL }}
     sha1: {{ .Stemcell.SHA1 }}
   cloud_properties:
-    instance_type: Standard_D1
+    instance_type: Standard_D1 # Instance size must have 1.75GiB RAM or greater (do not use Standard_A0).
 
 disk_pools:
 - name: disks
