@@ -17,10 +17,16 @@ If gem installation does not succeed, make sure pre-requisites for your OS are m
 Make sure following packages are installed:
 
 <pre class="terminal">
-$ sudo apt-get install build-essential ruby ruby-dev libxml2-dev libsqlite3-dev libxslt1-dev libpq-dev libmysqlclient-dev zlib1g-dev
+$ sudo apt-get install build-essential ruby2.0 ruby2.0-dev libxml2-dev libsqlite3-dev libxslt1-dev libpq-dev libmysqlclient-dev zlib1g-dev
 </pre>
 
-Make sure `ruby` and `gem` binaries are on your path before continuing.
+<p class="note">Note: on Ubuntu trusty, the default ruby interpreter is 1.9.  The above command installs ruby 2.0.</p>
+
+Make sure `ruby2.0` and `gem2.0` binaries are on your path before continuing.  Then:
+
+<pre class="terminal">
+  $ sudo gem2.0 install bosh_cli --no-ri --no-rdoc
+</pre>
 
 ### Prerequisites on CentOS
 
