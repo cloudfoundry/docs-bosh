@@ -190,6 +190,8 @@ VLANs provide the ability to partition devices and subnets on the network. To or
 
 1. Install [bosh-init](./install-bosh-init.html).
 
+1. Establish VPN connection between your host and Softlayer. The machine where to run bosh-init needs to communicate with the target director VM over the SoftLayer private network.
+
 1. Run `bosh-init deploy ./bosh.yml` with sudo to start the deployment process. The reason why need to run `bosh-init deploy` with sudo is that it needs to update `/etc/hosts` file which needs suffient permission. 
 
     <pre class='terminal'>
