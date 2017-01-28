@@ -55,8 +55,8 @@ Then, in the application job's templates, it can use the connection information 
 #!/bin/bash
 # Application's templated control script.
 # ...
-export DATABASE_HOST="<%= link('database_conn').instances[0].address %>"
-export DATABASE_PORT="<%= link('database_conn').p('port') %>"
+export DATABASE_HOST="<%%= link('database_conn').instances[0].address %>"
+export DATABASE_PORT="<%%= link('database_conn').p('port') %>"
 # ...
 ```
 
