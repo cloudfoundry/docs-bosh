@@ -62,6 +62,11 @@ Once a Director task is created, clients can follow its progress by polling [`GE
 - **user_authentication** [Hash]:
 	- **type** [String]: Type of the authentication the Director is configured to expect.
 	- **options** [Hash]: Additional information provided to how authentication should be performed.
+- **features** [Hash]:
+	- **config_server** [Hash]:
+		- **status** [Boolean]: Default false.
+		- **extras** [Hash]:
+			- **urls** [Array]: List of URLs for the Config Server.
 
 #### Notes
 
