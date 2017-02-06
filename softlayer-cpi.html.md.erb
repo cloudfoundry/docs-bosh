@@ -82,7 +82,7 @@ Currently SoftLayer CPI does not support vip network.
 Schema for `cloud_properties` section:
 
 * **Domain** [String, required]: Name of the domain. Example: `softlayer.com`.
-* **VmNamePrefix** [String, required]: Prefix of the vm name. Example: `bosh-softlayer`.
+* **VmNamePrefix** [String, required]: Prefix of the vm name. Example: `bosh-softlayer`. Please note that, for bosh director, this property is the full hostname, and for other VMs in deployments, a timestamp will be appended to the property value to make the hostname.
 * **EphemeralDiskSize** [Integer, required]: Ephemeral disk size in gigabyte. Example: `100`.
 * **StartCpus** [Integer, required]: Number of CPUs. Example: `4`.
 * **MaxMemory** [Integer, required]: Memory in megabytes. Example: `8192`.
