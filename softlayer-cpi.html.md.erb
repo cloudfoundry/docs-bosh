@@ -18,7 +18,7 @@ azs:
 ---
 ## <a id='networks'></a> Networks
 
-Example of dynamic network:
+Example of dynamic network (both public and private networks are available):
 
 ```yaml
 networks:
@@ -31,6 +31,22 @@ networks:
     PrimaryNetworkComponent:
        NetworkVlan:
           Id: 524956
+    PrimaryBackendNetworkComponent:
+       NetworkVlan:
+          Id: 524954
+```
+
+Example of dynamic network (only private network is available):
+
+```yaml
+networks:
+- name: default
+  type: dynamic
+  subnets:
+  - az: z1
+  - dns: [10.1.2.3, 10.0.80.11, 10.0.80.12]
+  cloud_properties:
+    PrivateNetworkOnlyFlag: true
     PrimaryBackendNetworkComponent:
        NetworkVlan:
           Id: 524954
