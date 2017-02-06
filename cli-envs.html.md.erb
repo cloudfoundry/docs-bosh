@@ -1,0 +1,38 @@
+---
+title: CLI Environments
+---
+
+<p class="note">Note: Examples require CLI v2.</p>
+
+An environment consists of a Director and deployments that it orchestrates.
+
+`bosh create-env` command is used to create an environment. See [Create an environment](init.html) for more details. Once Director VM is created you can check its basic information:
+
+<pre class="terminal">
+$ bosh -e 10.0.0.6 --ca-cert <(bosh int creds.yml --path /director_ssl/ca) env
+</pre>
+
+Instead of specifying Director VM address via `-e` (`--environment`) flag and a CA certificate via `--ca-cert` flag in subsequent commands, a local alias can be created for environment with `bosh alias-env` command.
+
+<pre class="terminal">
+$ bosh alias-env aws -e 10.0.0.6 --ca-cert <(bosh int creds.yml --path /director_ssl/ca)
+</pre>
+
+Use `bosh envs` command to list local aliases:
+
+<pre class="terminal">
+$ bosh envs
+URL            Alias
+10.0.0.6       aws
+192.168.50.6   vbox
+
+2 environments
+
+Succeeded
+</pre>
+
+Subsequent commands can just reference created alias.
+
+<pre class="terminal">
+$ bosh -e aws env
+</pre>

@@ -2,6 +2,8 @@
 title: Setting up an S3 Release Blobstore
 ---
 
+<p class="note">Note: Examples require CLI v2.</p>
+
 This topic is written for release maintainers and describes how to set up a S3 bucket for storing release artifacts.
 
 ## <a id="bucket"></a> Creating S3 Bucket
@@ -36,7 +38,7 @@ An IAM user is used to download and upload blobs to a created S3 bucket.
 ```yaml
 ---
 blobstore:
-  s3:
+  options:
     access_key_id: <access_key_id>
     secret_access_key: <secret_access_key>
 ```
@@ -60,11 +62,8 @@ blobstore:
   "Version": "2012-10-17",
   "Statement": [{
     "Effect": "Allow",
-    "Action": [ "s3:*" ],
-    "Resource": [
-      "arn:aws:s3:::<blobs_bucket_name>",
-      "arn:aws:s3:::<blobs_bucket_name>/*"
-    ]
+    "Action": [ "s3:PutObject" ],
+    "Resource": [ "arn:aws:s3:::<blobs_bucket_name>/*" ]
   }]
 }
 ```
@@ -86,6 +85,8 @@ blobstore:
 ```
 
 A full list of S3 regions and endpoints is available [here](http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region).
+
+See [S3 CLI Usage](https://github.com/pivotal-golang/s3cli#usage) for additional configuration options.
 
 ## <a id="usage"></a> Usage
 
