@@ -201,7 +201,7 @@ VLANs provide the ability to partition devices and subnets on the network. To or
 
 1. Install the [BOSH Command Line Interface (CLI)](./bosh-cli.html).
 
-1. Use `bosh target DIRECTOR-IP` to log into your new BOSH Director. You can get the DIRECTOR-IP from /etc/hosts on boshcli vm. The default username and password are `admin` and `admin`.
+1. Use `bosh target DIRECTOR-IP` to log into your new BOSH Director. You can get the DIRECTOR-IP from /etc/hosts on boshcli vm. The default username and password are `admin` and `admin` if no user is configured in manifest in advance when deploying director or created by `bosh create user` command.
 
     <pre class="terminal">
     $ bosh target DIRECTOR-IP
