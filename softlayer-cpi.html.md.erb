@@ -18,7 +18,7 @@ azs:
 ---
 ## <a id='networks'></a> Networks
 
-Example of dynamic network:
+Example of dynamic network (both public and private networks are available):
 
 ```yaml
 networks:
@@ -31,6 +31,22 @@ networks:
     PrimaryNetworkComponent:
        NetworkVlan:
           Id: 524956
+    PrimaryBackendNetworkComponent:
+       NetworkVlan:
+          Id: 524954
+```
+
+Example of dynamic network (only private network is available):
+
+```yaml
+networks:
+- name: default
+  type: dynamic
+  subnets:
+  - az: z1
+  - dns: [10.1.2.3, 10.0.80.11, 10.0.80.12]
+  cloud_properties:
+    PrivateNetworkOnlyFlag: true
     PrimaryBackendNetworkComponent:
        NetworkVlan:
           Id: 524954
@@ -66,7 +82,7 @@ Currently SoftLayer CPI does not support vip network.
 Schema for `cloud_properties` section:
 
 * **Domain** [String, required]: Name of the domain. Example: `softlayer.com`.
-* **VmNamePrefix** [String, required]: Prefix of the vm name. Example: `bosh-softlayer`.
+* **VmNamePrefix** [String, required]: Prefix of the vm name. Example: `bosh-softlayer`. Please note that, for bosh director, this property is the full hostname, and for other VMs in deployments, a timestamp will be appended to the property value to make the hostname.
 * **EphemeralDiskSize** [Integer, required]: Ephemeral disk size in gigabyte. Example: `100`.
 * **StartCpus** [Integer, required]: Number of CPUs. Example: `4`.
 * **MaxMemory** [Integer, required]: Memory in megabytes. Example: `8192`.
@@ -168,6 +184,8 @@ compilation:
 ```
 
 The ``Bosh_ip`` property specified under ``cloud_properties`` is used for Softlayer CPI to differentiate the director and common vms. The one with cloud_property ``Bosh_ip`` is a common vm. The one without ``Bosh_ip`` is the director.
+
+Please notice that when the VM hostname length is exactly 64, the deployment is failing due to ssh problem. This is Softlayer’s limitation which can’t be fixed in a short term. We have a work around in the CPI that when the hostname with 64 characters is identified, a padding "-1" is appended to make it longer than 64.
 
 ---
 [Back to Table of Contents](index.html#cpi-config)
