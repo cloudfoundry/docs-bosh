@@ -108,6 +108,7 @@ $ curl -s -k https://192.168.50.4:25555/info | jq .
 - **timestamp** [Integer]: todo.
 - **result** [String or null]: Description of the task's result. Will not be populated (string) unless tasks finishes.
 - **user** [String]: User which started the task.
+- **context_id** [String or null]: Context ID of the task, if provided when task was created.
 
 #### Example
 
@@ -123,7 +124,8 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?verbose=2&limit=3'
     "description": "run errand acceptance_tests from deployment cf-warden",
     "timestamp": 1447033291,
     "result": null,
-    "user": "admin"
+    "user": "admin",
+    "context_id": null
   },
   {
     "id": 1179,
@@ -131,7 +133,8 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?verbose=2&limit=3'
     "description": "scan and fix",
     "timestamp": 1447031334,
     "result": "scan and fix complete",
-    "user": "admin"
+    "user": "admin",
+    "context_id": null
   },
   {
     "id": 1178,
@@ -139,7 +142,8 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?verbose=2&limit=3'
     "description": "scan and fix",
     "timestamp": 1447031334,
     "result": "scan and fix complete",
-    "user": "admin"
+    "user": "admin",
+    "context_id": null
   }
 ]
 ```
@@ -165,7 +169,8 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?state=queued,proce
     "description": "run errand acceptance_tests from deployment cf-warden",
     "timestamp": 1447033291,
     "result": null,
-    "user": "admin"
+    "user": "admin",
+    "context_id": null
   }
 ]
 ```
@@ -193,7 +198,37 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?deploymet=cf-warde
     "description": "run errand acceptance_tests from deployment cf-warden",
     "timestamp": 1447033291,
     "result": null,
-    "user": "admin"
+    "user": "admin",
+    "context_id": null
+  }
+]
+```
+
+---
+### <a id="list-context-tasks"></a> `GET /tasks?context_id=...`: List tasks associated with a context ID
+
+Other tasks query params can be applied.
+
+#### Response body schema
+
+See schema [above](#list-tasks).
+
+#### Example
+
+<pre class="terminal">
+$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?context_id=4528' | jq .
+</pre>
+
+```yaml
+[
+  {
+    "id": 1180,
+    "state": "processing",
+    "description": "run errand acceptance_tests from deployment cf-warden",
+    "timestamp": 1447033291,
+    "result": null,
+    "user": "admin",
+    "context_id": "4528"
   }
 ]
 ```
@@ -220,7 +255,8 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1180' | jq .
   "description": "run errand acceptance_tests from deployment cf-warden",
   "timestamp": 1447033291,
   "result": null,
-  "user": "admin"
+  "user": "admin",
+  "context_id": null
 }
 ```
 
@@ -458,6 +494,7 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments | jq .
 #### Request headers
 
 - **Content-Type** must be `text/yaml`.
+- **X-Bosh-Context-Id** can be optionally configured with a Context ID that can be used to link related BOSH requests
 
 #### Request body scheme
 
