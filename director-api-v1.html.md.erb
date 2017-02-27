@@ -108,7 +108,7 @@ $ curl -s -k https://192.168.50.4:25555/info | jq .
 - **timestamp** [Integer]: todo.
 - **result** [String or null]: Description of the task's result. Will not be populated (string) unless tasks finishes.
 - **user** [String]: User which started the task.
-- **context_id** [String or null]: Context ID of the task, if provided when task was created.
+- **context_id** [String]: Context ID of the task, if provided when task was created, otherwise empty string.
 
 #### Example
 
@@ -125,7 +125,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?verbose=2&limit=3'
     "timestamp": 1447033291,
     "result": null,
     "user": "admin",
-    "context_id": null
+    "context_id": ""
   },
   {
     "id": 1179,
@@ -134,7 +134,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?verbose=2&limit=3'
     "timestamp": 1447031334,
     "result": "scan and fix complete",
     "user": "admin",
-    "context_id": null
+    "context_id": ""
   },
   {
     "id": 1178,
@@ -143,7 +143,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?verbose=2&limit=3'
     "timestamp": 1447031334,
     "result": "scan and fix complete",
     "user": "admin",
-    "context_id": null
+    "context_id": ""
   }
 ]
 ```
@@ -170,7 +170,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?state=queued,proce
     "timestamp": 1447033291,
     "result": null,
     "user": "admin",
-    "context_id": null
+    "context_id": ""
   }
 ]
 ```
@@ -199,7 +199,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?deploymet=cf-warde
     "timestamp": 1447033291,
     "result": null,
     "user": "admin",
-    "context_id": null
+    "context_id": ""
   }
 ]
 ```
@@ -256,7 +256,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1180' | jq .
   "timestamp": 1447033291,
   "result": null,
   "user": "admin",
-  "context_id": null
+  "context_id": ""
 }
 ```
 
