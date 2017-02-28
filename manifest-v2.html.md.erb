@@ -125,6 +125,9 @@ update:
 * **migrated_from** [Array, optional]: Specific migration settings for this instance group. Use this to [rename and/or migrate instance groups](migrated-from.html).
 * **lifecycle** [String, optional]: Specifies the kind of workload the instance group represents. Valid values are `service` and `errand`; defaults to `service`. A `service` runs indefinitely and restarts if it fails. An `errand` starts with a manual trigger and does not restart if it fails.
 * **properties** [Hash, optional]: Specifies instance group properties. Deprecated in favor of job level properties and links.
+* **env** [Hash, optional]: Specifies advanced BOSH Agent configuration for each instance in the group.
+  * **bosh** [Hash, optional]:
+    * **password** [String, optional]: Crypted password for `vcap/root` user (will be placed into /etc/shadow on Linux).
 
 Example:
 
