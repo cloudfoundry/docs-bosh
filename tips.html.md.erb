@@ -144,3 +144,23 @@ Error 100: Could not create object, 413/<html>
 </pre>
 
 This failure occurs due to nginx configuration problems with the director and the nginx blobstore. This can be remedied by configuring the `max_upload_size` property on the director and blobstore jobs.
+
+---
+##
+<a id="persistent-disk-not-found"></a> Persistent Disk with id <UUID> not found
+
+<pre class="terminal">
+$ bosh create-env (or bosh-init deploy)
+(...)
+Command 'deploy' failed:
+  Deploying:
+    Creating instance 'bosh/0':
+      Updating instance disks:
+        Updating disks:
+          Deploying disk:
+            Mounting disk:
+              Sending 'get_task' to the agent:
+                Agent responded with error: Action Failed get_task: Task 7e4d289d-b97c-4464-40d4-ecc90cc2a94b result: Persistent disk with volume id '14128b61-e046-48ae-b48a-fc0324716b83' could not be found
+</pre>
+
+The SSH tunnel between your machine and the VM in the cloud can be terminated prematurly, see [corresponding bug](https://github.com/cloudfoundry/bosh-cli/issues/110). Update bosh to version >= v2.0.2 bosh-init to version >= v0.0.100 to fix this.
