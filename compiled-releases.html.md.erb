@@ -54,3 +54,10 @@ To export a release:
 1. Find exported release tarball in the current directory. Compiled release tarball can be now imported into any other Director via `bosh upload release` command.
 
 1. Optionally use `bosh inspect release` command to view associated compiled packages on the Director. In our example: `bosh inspect release uaa/6`.
+
+---
+## <a id="floating"></a> Floating stemcells
+
+Compiled releases are built against a particular stemcell version. Director allows compiled releases to be installed on any minor version of the major stemcell version that the compiled release was exported against. CLI v2 (and bosh-init) require exact stemcell match unlike the Director.
+
+For example UAA release 27 compiled against stemcell version 3233.10 will work on any 3233 stemcell, but the Director will refuse to install it on 3234.
