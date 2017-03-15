@@ -68,7 +68,7 @@ networks:
 Schema for `cloud_properties` section:
 
 * **instance_type** [String, required]: Type of the [instance](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-sizes/). Example: `Standard_A2`.
-* **storage\_account\_name** [String, optional]: Storage account for VMs. If this is not set, the VMs will be created in the default storage account. See [this document](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#multiple-storage-accounts) for more details on why this option exists.
+* **storage\_account\_name** [String, optional]: Storage account for VMs. Valid only when `use_managed_disks` is `false`. If this is not set, the VMs will be created in the default storage account. See [this document](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#multiple-storage-accounts) for more details on why this option exists.
     * If you use `DS-series` or `GS-series` as `instance_type`, you should set this to a premium storage account. See more information about [Azure premium storage](https://azure.microsoft.com/en-us/documentation/articles/storage-premium-storage-preview-portal/). See [avaliable regions](http://azure.microsoft.com/en-us/regions/#services) where you can create premium storage accounts.
     * If you use a different storage account which must be in the same resource group, please make sure:
       1. The permissions for the container `stemcell` in the default storage account is set to `Public read access for blobs only`.
@@ -82,7 +82,7 @@ Schema for `cloud_properties` section:
       1. The keyword must only contain numbers and lower-case letters because of the naming rule of storage account name.
       1. The rule to select an available storage account is to check the number of disks under the container `bosh` does not exceed the limitation.
       1. The default number of disks limitation is 30 but you can specify it in **storage\_account\_max\_disk\_number**.
-* **storage\_account\_max\_disk\_number** [Integer, optional]: Number of disks limitation in a storage account. Default value is 30. This will be used only when **storage\_account\_name** is a pattern.
+* **storage\_account\_max\_disk\_number** [Integer, optional]: Number of disks limitation in a storage account. Valid only when `use_managed_disks` is `false`. Default value is 30. This will be used only when **storage\_account\_name** is a pattern.
     * Every storage account has a limitation to host disks. You may hit the performance issue if you create too many disks in one storage account.
     * The maximum number of disks of a standard storage account is 40 because the maximum IOPS of a standard storage account is 20,000 and the maximum IOPS of a standard disk is 500.
     * If you are using premium storage account, Azure maps the disk size (rounded up) to the nearest Premium Storage Disk option (P10, P20 and P30). For example, a disk of size 100 GiB is classified as a P10 option.
@@ -91,13 +91,13 @@ Schema for `cloud_properties` section:
       1. The maximum number of disks of a premium storage account is 35 if you are using P30 (1024 GiB) as your disk type.
     * **storage\_account\_max\_disk\_number** should be less than the maximum number. Suggest you to use (MAX - 10) as the value because CPI always creates VMs in parallel.
     * Please see more information about [azure-subscription-service-limits](https://azure.microsoft.com/en-us/documentation/articles/azure-subscription-service-limits/).
-* **storage\_account\_type** [String, optional]: Storage account type. It is required if the storage account does not exist. It can be either `Standard_LRS`, `Standard_ZRS`, `Standard_GRS`, `Standard_RAGRS` or `Premium_LRS`. You can click [**HERE**](http://azure.microsoft.com/en-us/pricing/details/storage/) to learn more about the type of Azure storage account.
+* **storage\_account\_type** [String, optional]: Storage account type. Valid only when `use_managed_disks` is `false`. It is required if the storage account does not exist. It can be either `Standard_LRS`, `Standard_ZRS`, `Standard_GRS`, `Standard_RAGRS` or `Premium_LRS`. You can click [**HERE**](http://azure.microsoft.com/en-us/pricing/details/storage/) to learn more about the type of Azure storage account.
 * **storage\_account\_location** [String, optional]: Location of the storage account. It is needed if the storage account does not exist. If it is not set, the location of the default resource group will be used. For more information, see [List all of the available geo-locations](http://azure.microsoft.com/en-us/regions/). You can also use azure cli to get the list of available regions: `azure location list`.
 * **availability_set** [String, optional]: Name of an [availability set](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) to use for VMs. [More details](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#availability-set).
     * If available set does not exist, it will be automatically created.
     * If `availability_set` is not specified, Azure CPI will search `env.bosh.group` as the name of availability set. If neither `availability_set` nor `env.bosh.group` exists, VMs in this resource_pool won't be in any availability set.
 * **platform\_update\_domain_count** [Integer, optional]: The count of [update domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. Default value is `5`.
-* **platform\_fault\_domain_count** [Integer, optional]: The count of [fault domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. Default value is `3`.
+* **platform\_fault\_domain_count** [Integer, optional]: The count of [fault domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. For unmanaged availability set, default value is `3`. For managed availability set, default value is `2`, because [some regions don't support 3 fault domains for now](https://docs.microsoft.com/en-us/azure/virtual-machines/virtual-machines-windows-manage-availability#configure-multiple-virtual-machines-in-an-availability-set-for-redundancy)
 * **load_balancer** [String, optional]: Name of an [load balancer](https://azure.microsoft.com/en-us/documentation/articles/load-balancer-overview/) the VMs should belong to. You need to create the load balancer manually before configuring it.
 * **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to network interfaces of all VMs placed in this resource pool. The security group of a network interface can be specified either in a resource pool(higher priority) or a network configuration(lower priority); if it is not specified, the default security group (specified by `default_security_group` in the global CPI settings) will be used.
 * **caching** [String, optional]: Type of the disk caching of the VMs' OS disks. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `ReadWrite`.
@@ -146,7 +146,8 @@ resource_pools:
 
 Schema for `cloud_properties` section:
 
-* **caching** [String, optional]: Type of the disk caching. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `None`. Only `None` and `ReadOnly` are supported for premium disks.
+* **caching** [String, optional]: Type of the disk caching. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `None`.
+* **storage\_account\_type** [String, optional]: Storage account type. Valid only when `use_managed_disks` is `true`. It can be either `Standard_LRS` or `Premium_LRS`. You can click [**HERE**](http://azure.microsoft.com/en-us/pricing/details/storage/) to learn more about the type of Azure storage account.
 
 Example of 10GB disk:
 
@@ -171,7 +172,7 @@ Schema:
 * **client_id** [String, required]: Client ID of the service principal.
 * **client_secret** [String, required]: Client secret of the service principal.
 * **resource\_group\_name** [String, required]: Resource group name.
-* **storage\_account\_name** [String, required]: Storage account name. It will be used as a default storage account for VM disks and stemcells.
+* **storage\_account\_name** [String, optional]: Storage account name. It will be used as a default storage account for VM disks and stemcells. If `use_managed_disks` is `false`, `storage_account_name` is required. Otherwise, `storage_account_name` is optional.
 * **ssh_user** [String, required]: SSH username. Default: `vcap`.
 * **ssh\_public\_key** [String, required]: SSH public key.
 * **default\_security\_group** [String, required]: Name of the default [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) that will be applied to all created VMs.
@@ -179,6 +180,7 @@ Schema:
 * **azure\_stack\_authentication** [String, optional]: The authentication type for your AzureStack deployment. Possible values are: `AzureAD`, `AzureStackAD` or `AzureStack`.
 * **parallel\_upload\_thread\_num** [Integer, optional]: The number of threads to upload stemcells in parallel. The default value is 16.
 * **debug_mode** [Boolean, optional]: Enable debug mode to log all raw HTTP requests/responses. The default value is false.
+* **use\_managed\_disks** [Boolean, optional]: Enable managed disks. The default value is `false`. Available in V21+.
 
 See [all configuration options](https://bosh.io/jobs/cpi?source=github.com/cloudfoundry-incubator/bosh-azure-cpi-release).
 
