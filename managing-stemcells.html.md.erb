@@ -5,9 +5,12 @@ title: Managing stemcells
 (See [What is a Stemcell?](stemcell.html) and [Uploading stemcells](uploading-stemcells.html) for an introduction.)
 
 ---
-## <a id="overview"></a> Overview
+## <a id="versioning"></a> Stemcell versioning
 
-Each stemcell is uniquely identified by its name and version.
+Each stemcell is uniquely identified by its name and version. Currently stemcell versions are in MAJOR.MINOR format. Major version is incremented when new features are added to stemcells (or any components that stemcells typically include such as BOSH Agent). Minor versions are incremented if certain security fixes and/or features are backported on top of existing stemcell line. We recommend to continiously bump to the latest major stemcell version to receive latest updates.
+
+---
+## <a id="overview"></a> Overview
 
 You can identify stemcell version from inside the VM via following files:
 
