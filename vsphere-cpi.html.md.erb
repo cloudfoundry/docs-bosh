@@ -190,7 +190,7 @@ Example of a CPI configuration that will place VMs into `BOSH_CL` cluster within
 ```yaml
 properties:
   vcenter:
-    host: 172.16.68.3
+    address: 172.16.68.3
     user: root
     password: vmware
     datacenters:
@@ -208,7 +208,7 @@ Example that places VMs by default into `BOSH_RP` vSphere resource pool with NSX
 ```yaml
 properties:
   vcenter:
-    host: 172.16.68.3
+    address: 172.16.68.3
     user: root
     password: vmware
     default_disk_type: thin
