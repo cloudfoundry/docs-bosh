@@ -6,6 +6,11 @@ title: Creating Azure Resources
 
 To find out subscription and tenant ID use following commands:
 
+<p class="note">
+Note:
+All azure commands were tested with the azure-cli v[0.10.11] on Ubuntu 14.04. The azure commands may vary based on your version and OS.
+</p>
+
 <pre class="terminal">
 $ azure config mode arm
 
@@ -15,7 +20,7 @@ $ azure account list --json
 [
   {
     "id": "3c39a033-c306-4615-a4cb-260418d63879",
-    "name": "subscription-anme",
+    "name": "subscription-name",
     "user": { "name": "Sample Account", "type": "user" },
     "tenantId": "0412d4fa-43d2-414b-b392-25d5ca46561da",
     "state": "Enabled",
@@ -116,7 +121,7 @@ Make sure to wait for 'Provisioning State' to become `Succeeded`.
 Create a virtual network:
 
 <pre class="terminal extra-wide">
-$ azure network vnet create --name boshnet --address-prefixes 10.0.0.0/8 --resource-group bosh-res-group --location "Central US"
+$ azure network vnet create --name boshnet --address-prefixes 10.0.0.0/8 --resource-group bosh-res-group --location "Central US" --dns-server 168.64.129.16
 $ azure network vnet subnet create --name bosh --address-prefix 10.0.0.0/24 --vnet-name boshnet --resource-group bosh-res-group
 
 $ azure network vnet show --name boshnet --resource-group bosh-res-group
