@@ -14,8 +14,7 @@ Stemcell tarballs are currently specific to an IaaS-OS/CPI because they may:
 
 In the future, BOSH team will investigate how to best consolidate stemcells into a single OS image. In the meantime, if you're developing a CPI for a new IaaS, you may consider reusing one of the officially generated stemcells, or making changes to the following projects:
 
-- [bosh-stemcell](https://github.com/cloudfoundry/bosh/tree/master/src/bosh-stemcell)
-- [stemcell_builder](https://github.com/cloudfoundry/bosh/tree/master/src/stemcell_builder)
+- [bosh-linux-stemcell-builder](https://github.com/cloudfoundry/bosh-linux-stemcell-builder)
 - [bosh-agent](https://github.com/cloudfoundry/bosh-agent)
 
 ---
@@ -89,7 +88,7 @@ In such cases CPI must use already imported OS image and that's where light stem
 
 There are two test suites each stemcell is expected to pass before it's considered to be production-ready:
 
-- shared [Stemcell Tests](https://github.com/cloudfoundry/bosh/tree/master/bosh-stemcell/spec) which verify that proper packages and configurations are installed
+- shared [Stemcell Tests](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/tree/master/bosh-stemcell/spec) which verify that proper packages and configurations are installed
 - shared [BOSH Acceptance Tests (BATS)](https://github.com/cloudfoundry/bosh/blob/master/docs/running_tests.md#bosh-acceptance-tests-bats) (provided by the BOSH team) which verify high level Director behavior with the stemcell being used
 
 ---
