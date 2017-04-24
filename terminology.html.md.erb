@@ -30,6 +30,10 @@ The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. You 
 
 Same as Infrastructure as a Service.
 
+## <a id="cid"></a> Cloud ID (CID)
+
+ID returned from the Cloud identifying particular resource such as VM or disk.
+
 ## <a id="cloud-config"></a> Cloud Config
 
 The cloud config is a YAML file that defines IaaS specific configuration used by the Director and all deployments. It allows to separate IaaS specific configuration into its own file and keep deployment manifests IaaS agnostic. [See usage details](cloud-config.html).
@@ -119,6 +123,14 @@ A YAML file that identifies one or more release, one or more stemcells and speci
 
 A user that sets up and/or uses the Director (via BOSH CLI or Director API) to manage cloud resources.
 
+## <a id="operations-file"></a> Operations file (ops file)
+
+A YAML file that includes multiple operations to be applied to a configuration file. Several CLI commands such as `create-env` and `interpolate` allow to provide multiple operations files via `--ops-file` flag.
+
+## <a id="operation"></a> Operation
+
+A single directive in an operations file. An operation describes one change to make to a YAML structure. Currently there are two types of operations: replace and remove.
+
 ## <a id="orphaned-disk"></a> Orphaned (Persistent) Disk
 
 An orphaned disk is a persistent disk that will be garbage collected after a few days unless it's reattached to an instance.
@@ -150,6 +162,10 @@ A generic VM image that BOSH clones and configures to during deployment. A stemc
 ## <a id="team"></a> Team
 
 Each deployment can be managed by specific teams. A logged in UAA user can belong to one or more teams. [See details](director-users-uaa-perms.html#team-admin).
+
+## <a id="variable"></a> Variable (var)
+
+Variable points to a saved value in some store. Variables are typically used in configuration files (manifests) to decouple sensitive (passwords, certificates) or volatile (bucket name, number of instances) data from more static content (general configuration). Variables are denoted with double parens -- `((namespace/var-name))`.
 
 ## <a id="vm-extension"></a> VM Extension
 

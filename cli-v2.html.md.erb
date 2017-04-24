@@ -96,3 +96,313 @@ title: CLI v2 vs v1
   - no longer uses symlinks to manage blobs but rather places file directly into `blobs/`
 
 CLI v2 has features not available in v1, for example, CLI v2 can be used to [repack stemcells](repack-stemcell.html)
+
+---
+### <a id="env-mgmt"></a> Environment management
+
+<a id="alias-env"></a>
+<pre class="terminal">bosh environments</pre>
+Lists aliased environments known to the CLI. Aliasing is done via `alias-env` command. Alias: `envs`.
+
+<pre class="terminal">
+$ bosh envs
+URL              Alias
+104.154.171.255  gcp
+192.168.56.6     vbox
+
+2 environments
+
+Succeeded
+</pre>
+
+<a id="create-env"></a>
+<pre class="terminal">bosh create-env manifest.yml [--state path] [-v ...] [-o ...] [--vars-store path]</pre>
+Creates single VM based on the manifest. Typically used to create a Director environment. Operation files and variables can be provided to adjust and fill in manifest before doing a deploy.
+
+`create-env` command replaces `bosh-init deploy` CLI command.
+
+<pre class="terminal">
+$ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
+  --state state.json \
+  --vars-store ./creds.yml
+  -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
+  -o ~/workspace/bosh-deployment/virtualbox/outbound-network.yml \
+  -o ~/workspace/bosh-deployment/bosh-lite.yml \
+  -o ~/workspace/bosh-deployment/jumpbox-user.yml \
+  -v director_name=vbox \
+  -v internal_ip=192.168.56.6 \
+  -v internal_gw=192.168.56.1 \
+  -v internal_cidr=192.168.56.0/24 \
+  -v network_name=vboxnet0 \
+  -v outbound_network_name=NatNetwork
+</pre>
+
+<a id="alias-env"></a>
+<pre class="terminal">bosh alias-env name -e location [--ca-cert=location]</pre>
+Assigns a name to the created environment for easier access in subsequent CLI commands. Instead of specifying Director location and possibly a CA certificate, subsequent commands can just take given name via `--environment` flag (`-e`).
+
+<pre class="terminal">
+$ bosh alias-env gcp -e 104.154.171.255 --ca-cert <(bosh int creds.yml --path /director_ssl/ca)
+</pre>
+
+<a id="env"></a>
+<pre class="terminal">bosh -e location environment</pre>
+Shows Director information in the deployment environment. Alias: `env`.
+
+<pre class="terminal">
+$ bosh -e vbox env
+Using environment '192.168.56.6' as '?'
+
+Name      vbox
+UUID      eeb27cc6-467e-4c1d-a8f9-f1a8de759f52
+Version   260.5.0 (00000000)
+CPI       warden_cpi
+Features  compiled_package_cache: disabled
+          dns: disabled
+          snapshots: disabled
+User      admin
+
+Succeeded
+</pre>
+
+<a id="delete-env"></a>
+<pre class="terminal">bosh delete-env manifest.yml [--state path] [-v ...] [-o ...] [--vars-store path]</pre>
+Deletes previously created VM based on the manifest. Same flags provided to `create-env` command should be given to the `delete-env` command.
+
+`delete-env` command replaces `bosh-init delete` CLI command.
+
+<pre class="terminal">
+$ bosh delete-env ~/workspace/bosh-deployment/bosh.yml \
+  --state state.json \
+  --vars-store ./creds.yml
+  -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
+  -o ~/workspace/bosh-deployment/virtualbox/outbound-network.yml \
+  -o ~/workspace/bosh-deployment/bosh-lite.yml \
+  -o ~/workspace/bosh-deployment/jumpbox-user.yml \
+  -v director_name=vbox \
+  -v internal_ip=192.168.56.6 \
+  -v internal_gw=192.168.56.1 \
+  -v internal_cidr=192.168.56.0/24 \
+  -v network_name=vboxnet0 \
+  -v outbound_network_name=NatNetwork
+</pre>
+
+---
+### <a id="session-mgmt"></a> Session management
+
+<a id="log-in"></a>
+<pre class="terminal">bosh log-in</pre>
+Logs in given user into the Director. Alias: `l`, `login`.
+
+This command can only be used interactively. If non-interactive use is necessary (for example in scripts) please set `BOSH_CLIENT` and `BOSH_CLIENT_SECRET` environment variables instead of using this command. Note that if the Director is configured with UAA authentication you cannot use UAA users with BOSH_* environment variables but rather have to use UAA clients.
+
+<pre class="terminal">
+$ bosh -e my-env l
+User (): admin
+Password (): 
+</pre>
+
+<a id="log-out"></a>
+<pre class="terminal">bosh log-out</pre>
+Logs out currently logged in user. Alias: `logout`.
+
+---
+### <a id="stemcell-mgmt"></a> Stemcell management
+
+See [Uploading Stemcells](uploading-stemcells.html).
+
+<a id="stemcells"></a>
+<pre class="terminal">bosh -e my-env stemcells</pre>
+Lists stemcells previously uploaded into the Director. Shows their names, versions and CIDs. Alias: `ss`.
+
+<pre class="terminal">
+$ bosh -e my-env stemcells
+Using environment '192.168.56.6' as '?'
+
+Name                                         Version  OS             CPI  CID
+bosh-warden-boshlite-ubuntu-trusty-go_agent  3363*    ubuntu-trusty  -    6cbb176a-6a43-42...
+~                                            3312     ubuntu-trusty  -    43r3496a-4rt3-52...
+bosh-warden-boshlite-centos-7-go_agent       3363*    centos-7       -    38yr83gg-349r-94...
+
+(*) Currently deployed
+
+1 stemcells
+
+Succeeded
+</pre>
+
+<a id="upload-stemcell"></a>
+<pre class="terminal">bosh -e my-env upload-stemcell location [--sha1=digest] [--fix]</pre>
+Uploads stemcell to the Director. Succeedes even if stemcell is already imported. Alias: `us`.
+
+Stemcell location may be local file system path or an HTTP/HTTPS URL.
+
+`--fix` flag allows to replace previously uploaded stemcell with the same name and version to repair stemcells that might have been corrupted in the cloud.
+
+<pre class="terminal">
+$ bosh -e my-env upload-stemcell ~/Downloads/bosh-stemcell-3363-warden-boshlite-ubuntu-trusty-go_agent.tgz
+$ bosh -e my-env upload-stemcell https://bosh.io/d/stemcells/bosh-stemcell-warden-boshlite-ubuntu-trusty-go_agent?v=3363
+</pre>
+
+<a id="delete-stemcell"></a>
+<pre class="terminal">bosh -e my-env delete-stemcell name/version</pre>
+Deletes uploaded stemcell from the Director. Succeedes even if stemcell is not found.
+
+<pre class="terminal">
+$ bosh -e my-env delete-stemcell [bosh-warden-boshlite-ubuntu-trusty-go_agent/3363]
+</pre>
+
+---
+### <a id="release-creation"></a> Release creation
+
+  create-release         Create release (aliases: cr)
+  finalize-release       Create final release from dev release tarball (aliases: finr)
+  init-release           Initialize release
+  reset-release          Reset release
+  generate-job           Generate job
+  generate-package       Generate package
+
+---
+### <a id="blob-mgmt"></a> Release blob management
+
+See [Release Blobs](release-blobs.html) for a detailed workflow.
+
+<a id="blobs"></a>
+<pre class="terminal">bosh blobs</pre>
+Lists tracked blobs from `config/blobs.yml`. Shows uploaded and not-yet-uploaded blobs. 
+
+<pre class="terminal">
+$ cd release-dir
+$ bosh blobs
+Path                               Size     Blobstore ID         Digest
+golang/go1.6.2.linux-amd64.tar.gz  81 MiB   f1833f76-ad8b-4b...  b8318b0...
+stress/stress-1.0.4.tar.gz         187 KiB  (local)              e1533bc...
+
+2 blobs
+
+Succeeded
+</pre>
+
+<a id="add-blob"></a>
+<pre class="terminal">bosh add-blob src-path dst-path</pre>
+Sarts tracking blob in `config/blobs.yml` for inclusion in packages.
+
+<pre class="terminal">
+$ cd release-dir
+$ bosh add-blob ~/Downloads/stress-1.0.4.tar.gz stress/stress-1.0.4.tar.gz
+</pre>
+
+<a id="remove-blob"></a>
+<pre class="terminal">bosh remove-blob blob-path</pre>
+Stops tracking blob in `config/blobs.yml`. Does not remove previously uploaded copies from the blobstore as older release versions may still want to reference it.
+
+<pre class="terminal">
+$ cd release-dir
+$ bosh remove-blob stress/stress-1.0.4.tar.gz
+</pre>
+
+<a id="upload-blob"></a>
+<pre class="terminal">bosh upload-blobs</pre>
+Uploads previously added blobs that were not yet uploaded to the blobstore. Updates `config/blobs.yml` with returned blobstore IDs. Before creating a final release it's strongly recommended to upload blobs so that other release contributors can rebuild a release from scratch.
+
+<pre class="terminal">
+$ cd release-dir
+$ bosh upload-blobs
+</pre>
+
+<a id="sync-blob"></a>
+<pre class="terminal">bosh sync-blobs</pre>
+Downloads blobs into `blobs/` based on `config/blobs.yml`.
+
+<pre class="terminal">
+$ cd release-dir
+$ bosh sync-blobs
+</pre>
+
+---
+### <a id="release-mgmt"></a> Release management
+
+  releases               List releases (aliases: rs, rels)
+  upload-release         Upload release (aliases: ur)
+  delete-release         Delete release (aliases: delr)
+  export-release         Export the compiled release to a tarball (aliases: expr)
+  inspect-release        List all jobs, packages, and compiled packages associated with a release (
+
+---
+### <a id="cloud-config-mgmt"></a> Cloud config management
+
+  cloud-config           Show current cloud config (aliases: cc)
+  update-cloud-config    Update current cloud config (aliases: ucc)
+
+---
+### <a id="runtime-config-mgmt"></a> Runtime config management
+
+runtime-config         Show current runtime config (aliases: rc)
+update-runtime-config  Update current runtime config (aliases: urc)
+
+---
+### <a id="cpi-config-mgmt"></a> CPI config management
+
+cpi-config         Show current cpi config
+update-cpi-config  Update current cpi config
+
+---
+### <a id="deployment-mgmt"></a> Deployment management
+
+  deployments            List deployments (aliases: ds, deps)
+  deployment             Show deployment information (aliases: dep)
+  deploy                 Deploy according to the currently selected deployment manifest (aliases: d)
+  delete-deployment      Delete deployment (aliases: deld)
+  manifest               Download deployment manifest locally (aliases: m, man, download-manifest)
+  recreate               Recreate instance(s)
+  restart                Restart instance(s)
+  logs                   Fetch logs from instance(s)
+  scp                    SCP to/from instance(s)
+  ssh                    SSH into instance(s)
+  start                  Start instance(s)
+  stop                   Stop instance(s)
+  unignore               Unignore an instance
+  ignore                 Ignore an instancealiases: insr)
+  instances              List all instances in a deployment (aliases: is, ins)
+  vms                    List all VMs in all deployments
+  events                 List events
+  variables              List variables (aliases: vars)
+
+---
+### <a id="errand-mgmt"></a> Errand management
+
+  run-errand             Run errand (aliases: re)
+  errands                List errands (aliases: es, errs)
+
+---
+### <a id="task-mgmt"></a> Task management
+
+  task                   Show task status and start tracking its output (aliases: t)
+  tasks                  List running or recent tasks (aliases: ts)
+  cancel-task            Cancel task at its next checkpoint (aliases: ct)
+
+---
+### <a id="snapshot-mgmt"></a> Snapshot management
+
+  delete-snapshot        Delete snapshot (aliases: delsnap)
+  delete-snapshots       Delete all snapshots in a deployment (aliases: delsnaps)
+  snapshots              List snapshots (aliases: snaps)
+  take-snapshot          Take snapshot (aliases: tsnap)
+
+---
+### <a id="deployment-recovery"></a> Deployment recovery
+
+  delete-disk            Delete disk
+  delete-vm              Delete VM
+  attach-disk            Attaches an disk to an instance and replaces the current disk
+  clean-up               Clean up releases, stemcells, disks, etc.
+  cloud-check            Cloud consistency check and interactive repair (aliases: cck, cloudcheck)
+  update-resurrection    Enable/disable resurrection
+  locks                  List current locks
+  disks                  List disks
+
+---
+### <a id="misc"></a> Misc
+
+  help                   Show this help message
+  interpolate            Interpolates variables into a manifest (aliases: int)
