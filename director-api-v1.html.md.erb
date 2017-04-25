@@ -771,6 +771,12 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/cf-warden/vm
 - **dns** [Array of strings]: List of DNS records.
 - **vitals** [Hash]: VM vitals.
 - **processes** [Array of hashes]: List of processes running as part of the job.
+- **state** [String]: State of the VM
+- **vm_type** [String]: Name of [VM type](https://bosh.io/docs/terminology.html#vm-type)
+- **az** [String]: Name of [availability zone](https://bosh.io/docs/terminology.html#az)
+- **id** [String]: ID of the VM
+- **bootstrap** [Boolean]: bootstrap property of [VM specific configuration](https://bosh.io/docs/jobs.html#properties-spec)
+- **ignore** [Boolean]: Ignore this VM if set to `true`
 
 #### Example
 
@@ -787,7 +793,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=r
 
 ```
 ...
-{"vm_cid":"ec974048-3352-4ba4-669d-beab87b16bcb","disk_cid":null,"ips":["10.244.0.142"],"dns":[],"agent_id":"c5e7c705-459e-41c0-b640-db32d8dc6e71","job_name":"doppler_z1","index":0,"job_state":"running","resource_pool":"medium_z1","vitals":{"cpu":{"sys":"9.1","user":"2.1","wait":"1.7"},"disk":{"ephemeral":{"inode_percent":"11","percent":"36"},"system":{"inode_percent":"11","percent":"36"}},"load":["0.61","0.74","1.10"],"mem":{"kb":"2520960","percent":"41"},"swap":{"kb":"102200","percent":"10"}},"processes":[{"name":"doppler","state":"running"},{"name":"syslog_drain_binder","state":"running"},{"name":"metron_agent","state":"running"}],"resurrection_paused":false}
+{"vm_cid":"3938cc70-8f5e-4318-ad05-24d991e0e66e","disk_cid":null,"ips":["10.0.1.3"],"dns":[],"agent_id":"d927e75b-2a2d-4015-b5cc-306a067e94e9","job_name":"example_service","index":0,"job_state":"running","state":"started","resource_pool":"resource_pool_1","vm_type":"resource_pool_1","vitals":{"cpu":{"sys":"0.3","user":"0.1","wait":"0.0"},"disk":{"ephemeral":{"inode_percent":"5","percent":"32"},"persistent":{"inode_percent":"3","percent":"67"},"system":{"inode_percent":"34","percent":"66"}},"load":["0.00","0.01","0.10"],"mem":{"kb":"605008","percent":"7"},"swap":{"kb":"75436","percent":"1"}},"processes":[{"name":"beacon","state":"running","uptime":{"secs":1212184},"mem":{"kb":776,"percent":0},"cpu":{"total":0}},{"name":"baggageclaim","state":"running","uptime":{"secs":1212152},"mem":{"kb":8920,"percent":0.1},"cpu":{"total":0}},{"name":"garden","state":"running","uptime":{"secs":1212153},"mem":{"kb":235004,"percent":2.8},"cpu":{"total":0.2}}],"resurrection_paused":true,"az":null,"id":"abe6a4e9-cfca-490b-8515-2893f9e54d20","bootstrap":false,"ignore":false}
 ```
 
 #### Example of a single VM details formatted
