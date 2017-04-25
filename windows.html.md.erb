@@ -1,0 +1,51 @@
+---
+title: BOSH on Windows
+---
+
+BOSH can deploy jobs on Windows VMs. Currently available Windows stemcells
+can be found on the [Bosh.io Stemcell Page](http://bosh.io/stemcells). Additionally, there is open source tooling and documentation available to build
+[vSphere](https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/blob/master/create-manual-vsphere-stemcells.md) and [Openstack](https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/blob/master/create-manual-openstack-stemcells.md) stemcells for Windows.
+
+In general Windows BOSH Releases work in the same way as a standard BOSH release. The main difference is that the [monit file](create-release.html#monit) for Linux Releases is structured differently on Windows. Below are specific concerns for jobs on Windows.
+
+---
+## <a id="Releases"></a> Releases
+
+The structure of a BOSH release for Windows is identical to [Linux BOSH Releases](http://bosh.io/docs/create-release.html).  This means the structure of a Windows BOSH release will be:
+
+- metadata that specifies available configuration options
+- ERB configuration files
+- a Monit file that describes how to start, stop and monitor processes
+- start and stop scripts for each process
+- additional hook scripts
+
+---
+## <a id="Jobs"></a> Jobs
+
+The structure of a BOSH job for Windows is similar to the [Standard Linux BOSH Job Lifecycle](http://bosh.io/docs/job-lifecycle.html), only with processes monitored by [Windows Service Wrapper](https://github.com/kohsuke/winsw) instead of monit.
+
+The monit file for Windows is a JSON config file that describes processes to run:
+
+```json
+{
+  "processes": [
+    {
+      "name": "say-hello",
+      "executable": "powershell",
+      "args": [ "/var/vcap/jobs/say-hello/bin/start.ps1" ],
+      "env": {
+        "FOO": "BAR"
+      }
+    }
+  ]
+}
+```
+
+The above monit file will execute the file `C:\var\vcap\jobs\say-hello\bin\start.ps1` with the environment variable `FOO` set to `BAR`. The BOSH agent ensures the process is running by executing within a [service wrapper](https://github.com/kohsuke/winsw).
+
+Also, note that Pre-Start, Post-Start, Drain, and Post-Deploy scripts (described in the [job lifecycle](http://bosh.io/docs/job-lifecycle.html)) must be powershell scripts and end with the `.ps1` extension, i.e., `pre-start.ps1`, `post-start.ps1`, `drain.ps1`, and `post-deploy.ps1`.
+
+---
+## Sample BOSH Windows Release
+
+Please see [the next page](windows-sample-release.html) for a sample BOSH Windows release.
