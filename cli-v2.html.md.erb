@@ -4,24 +4,28 @@ title: CLI v2 vs v1
 
 <p class="note">Note: Applies to CLI v2 v2.0.1+.</p>
 
----
 ## <a id="install"></a> Install
 
-1. Download the binary for your platform and place it on your `PATH`. For example on UNIX machines:
+1. Download the binary for your platform and place it on your `PATH`:
 
   - [bosh-cli-2.0.13-darwin-amd64](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.13-darwin-amd64) <span class="sha1">sha1: 0098ee608f89ed3588452d58ee5fa576530dd065</span>
   - [bosh-cli-2.0.13-linux-amd64](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.13-linux-amd64) <span class="sha1">sha1: c14ffe1074990427f51d1b06f2f8e5b6b0388bb0</span>
 
-  <pre class="terminal">
-  $ chmod +x ~/Downloads/bosh-cli-*
-  $ sudo mv ~/Downloads/bosh-cli-* /usr/local/bin/bosh
-</pre>
+    <pre class="terminal">
+    $ chmod +x ~/Downloads/bosh-cli-*
+    $ sudo mv ~/Downloads/bosh-cli-* /usr/local/bin/bosh
+    </pre>
 
 1. Check `bosh` version to make sure it is properly installed:
 
-  <pre class="terminal">
-  $ bosh -v
-</pre>
+    <pre class="terminal">
+    $ bosh -v
+    version 2.0.x-f73c244-2017-03-27T18:02:15Z
+    </pre>
+
+    If the output does not begin with `version 2.0...` you are probably executing CLI v1 (Ruby based).
+
+Alternatively, refer to [cloudfoundry/homebrew-tap](https://github.com/cloudfoundry/homebrew-tap) to install CLI via Homebrew on OS X. We currently do not publish CLI via apt or yum repositories.
 
 ---
 ## <a id="cmds"></a> Commands
@@ -67,12 +71,13 @@ See [Environments](cli-envs.html).
       -v outbound_network_name=NatNetwork
     </pre>
 
-- <a id="alias-env"></a> `bosh alias-env name -e location [--ca-cert=location]`
+- <a id="alias-env"></a> `bosh alias-env name -e location [--ca-cert=path]`
 
     Assigns a name to the created environment for easier access in subsequent CLI commands. Instead of specifying Director location and possibly a CA certificate, subsequent commands can just take given name via `--environment` flag (`-e`).
 
     <pre class="terminal">
-    $ bosh alias-env gcp -e 104.154.171.255 --ca-cert <(bosh int creds.yml --path /director_ssl/ca)
+    $ bosh alias-env gcp -e bosh.corp.com
+    $ bosh alias-env gcp -e 10.0.0.6 --ca-cert <(bosh int creds.yml --path /director_ssl/ca)
     </pre>
 
 - <a id="env"></a> `bosh -e location environment` (Alias: `env`)
@@ -156,7 +161,7 @@ See [Uploading Stemcells](uploading-stemcells.html).
 
     (*) Currently deployed
 
-    1 stemcells
+    3 stemcells
 
     Succeeded
     </pre>
@@ -179,18 +184,71 @@ See [Uploading Stemcells](uploading-stemcells.html).
     Deletes uploaded stemcell from the Director. Succeedes even if stemcell is not found.
 
     <pre class="terminal">
-    $ bosh -e my-env delete-stemcell [bosh-warden-boshlite-ubuntu-trusty-go_agent/3363]
+    $ bosh -e my-env delete-stemcell bosh-warden-boshlite-ubuntu-trusty-go_agent/3363
     </pre>
 
 ---
 ### <a id="release-creation"></a> Release creation
 
-  create-release         Create release (aliases: cr)
-  finalize-release       Create final release from dev release tarball (aliases: finr)
-  init-release           Initialize release
-  reset-release          Reset release
-  generate-job           Generate job
-  generate-package       Generate package
+- <a id="init-release"></a> `bosh init-release [--git] [--dir=dir]`
+
+    Creates an empty release skeleton for a release in `dir`. By default `dir` is the current directory.
+
+    `--git` flag initializes release skeleton as a Git repository, adding appropriate `.gitignore` file.
+
+    <pre class="terminal">
+    $ bosh init-release --git --dir release-dir
+    $ cd release-dir
+    </pre>
+
+- <a id="generate-job"></a> `bosh generate-job name [--dir=dir]`
+
+    Creates an empty job skeleton for a release in `dir`. Includes bare `spec` and an empty `monit` file.
+
+- <a id="generate-package"></a> `bosh generate-package name [--dir=dir]`
+
+    Creates an empty package skeleton for a release in `dir`. Includes bare `spec` and an empty `packaging` file.
+
+- <a id="create-release"></a> `bosh create-release [--force] [--version=ver] [--timestamp-version] [--final] [--tarball=path] [--dir=dir]` (Alias: `cr`)
+
+    Creates new version of a release stored in `dir`
+
+    - `--force` flag specifies to ignore uncommitted changes in the release directory; it should only be used when building dev releases
+    - `--version` flag allows to provide custom release version
+    - `--timestamp-version` flag will produce timestamp based dev release version
+    - `--tarball` flag specifies destination of a release tarball; if not specified, release tarball will not be produced
+
+    While iterating on a release it's common to run `bosh create-release --force && bosh -e my-env upload-release && bosh -e my-env -d my-dep deploy manifest.yml` command sequence.
+
+    In a CI pipeline it's common to use this command to create a release tarball and pass it into acceptance or end-to-end tests. Once release tarball goes through appropriate tests it can be finalized with a `finalize-release` command and shared with release consumers.
+
+    <pre class="terminal">
+    $ cd release-dir
+    $ bosh create-release --force
+    $ bosh create-release --timestamp-version
+    $ bosh create-release --version 9+dev.10
+    $ bosh create-release --tarball /tmp/my-release.tgz
+    $ bosh create-release --final
+    $ bosh create-release --version 20 --final
+    </pre>
+
+- <a id="finalize-release"></a> `bosh finalize-release release.tgz [--force] [--version=ver] [--dir=dir]`
+
+    Records contents of a release tarball as a final release with an optionally given version. Once `.final_builds` and `releases` directories are updates it's strongly recommend to commit your changes to version control.
+
+    Typically this command is used as a final step in the CI pipeline to save the final artifact once it passed appropriate tests.
+
+    <pre class="terminal">
+    $ cd release-dir
+    $ bosh finalize-release /tmp/my-release.tgz
+    $ bosh finalize-release /tmp/my-release.tgz --version 20
+    $ git commit -am 'Final release 20'
+    $ git push origin master
+    </pre>
+
+- <a id="reset-release"></a> `bosh reset-release [--dir=dir]`
+
+    Removes temporary artifacts such as dev releases, blobs, etc. kept in the release directory `dir`.
 
 ---
 ### <a id="blob-mgmt"></a> Release blob
@@ -252,72 +310,320 @@ See [Release Blobs](release-blobs.html) for a detailed workflow.
 ---
 ### <a id="release-mgmt"></a> Release
 
-  releases               List releases (aliases: rs, rels)
-  upload-release         Upload release (aliases: ur)
-  delete-release         Delete release (aliases: delr)
-  export-release         Export the compiled release to a tarball (aliases: expr)
-  inspect-release        List all jobs, packages, and compiled packages associated with a release (
+See [Uploading Releases](uploading-releases.html).
+
+- <a id="releases"></a> `bosh -e my-env releases` (Alias: `rs`)
+
+    Lists releases previously uploaded into the Director. Shows their names and versions.
+
+    <pre class="terminal">
+    $ bosh -e my-env rs
+    Using environment '192.168.56.6' as client 'admin'
+
+    Name                      Version                    Commit Hash
+    capi                      1.21.0*                    716aa812
+    cf-mysql                  34*                        e0508b5
+    cf-smoke-tests            11*                        a6dad6e
+    cflinuxfs2-rootfs         1.52.0*                    4827ef51+
+    consul                    155*                       22515a98+
+    diego                     1.8.1*                     0cca668e
+    dns                       3*                         57e27da
+    etcd                      94*                        57c81e16
+    garden-runc               1.2.0*                     2b3dedc5
+    loggregator               78*                        773a3ba
+    nats                      15*                        d4dfc4c1+
+    routing                   0.145.0*                   dfb44c41+
+    statsd-injector           1.0.20*                    552926d
+    syslog                    9                          ac2172f
+    uaa                       25*                        86ec7568
+
+    (*) Currently deployed
+    (+) Uncommitted changes
+
+    15 releases
+
+    Succeeded
+    </pre>
+
+- <a id="upload-release"></a> `bosh -e my-env upload-release [location] [--version=ver] [--sha1=digest] [--fix]` (Alias: `ur`)
+
+    Uploads release to the Director. Succeedes even if release is already imported.
+
+    Release location may be local file system path, HTTP/HTTPS URL or a git URL.
+
+    `--fix` flag allows to replace previously uploaded release with the same name and version to repair releases that might have been corrupted.
+
+    <pre class="terminal">
+    $ bosh -e my-env upload-release
+    $ bosh -e my-env upload-release https://bosh.io/d/github.com/concourse/concourse?v=2.7.3
+    $ bosh -e my-env upload-release git+https://github.com/concourse/concourse --version 2.7.3
+    </pre>
+
+- <a id="delete-release"></a> `bosh -e my-env delete-release name/version`
+
+    Deletes uploaded release from the Director. Succeedes even if release is not found.
+
+    <pre class="terminal">
+    $ bosh -e my-env delete-release cf-smoke-tests/94
+    </pre>
+
+- <a id="export-release"></a> `bosh -e my-env -d my-dep export-release name/version os/version [--dir=dir]`
+
+    Compiles and exports a release against a particular stemcell version.
+
+    Requires to operate with a deployment so that compilation resources (VMs) are properly tracked.
+
+    Destination directory default to the current directory.
+
+    <pre class="terminal">
+    $ bosh -e my-env -d my-dep export-release cf-smoke-tests/94 ubuntu-trusty/3369
+    </pre>
+
+- <a id="inspect-release"></a> `bosh -e my-env inspect-release name/version`
+
+    Lists all jobs, job metadata (such as links), packages, and compiled packages associated with a release version.
+
+    <pre class="terminal extra-wide">
+    $ bosh -e gcp-test inspect-release consul/155
+    Using environment '192.168.56.6' as client 'admin'
+
+    Job                                                                    Blobstore ID       Digest       Links Consumed    Links Provided
+    acceptance-tests/943c6083581e623dc66c7d9126d8e5989c4c2b31              0f3cd013-1d3d-...  17e5e4fc...  -                 -
+    consul-test-consumer-windows/6748c0675da2292c680da03e89b738a9d5818370  7461c74c-745d-...  9809861c...  -                 -
+    consul-test-consumer/7263db87ba85eaf0dd41bd198359c8597e961839          8bde4572-8e8b-...  7b08b059...  -                 -
+    consul_agent/b4872109282347700eaa884dcfe93f3a03dc22dd                  e41f705e-2cb7-...  a8db2c76...  - name: consul    - name: consul
+                                                                                                             type: consul      type: consul
+                                                                                                             optional: true
+    consul_agent_windows/a0b91cb0aa1029734d77fcf064dafdb67f14ada6          3a8755d0-7a39-...  17f07ec0...  - name: consul    - name: consul
+                                                                                                             type: consul      type: consul
+                                                                                                             optional: true
+    fake-dns-server/a1ea5f64de0860512470ace7ce2376aa9470f9b1               5bb53f17-eba9-...  0565f9af...  -                 -
+
+    6 jobs
+
+    Package                                                            Compiled for          Blobstore ID            Digest
+    acceptance-tests-windows/e36cef763e5cfd4e28738ad314807e6d1e13b960  (source)              03589024-2596-49fc-...  96eaaf4ba...
+    acceptance-tests/9d56ac03d7410dcdfd96a8c96bbc79eb4b53c864          (source)              79fb9ba7-cd23-4b93-...  e08ee88f5...
+    confab-windows/52b117effcd95138eca94c789530bcd6499cff9d            (source)              53d4b206-b064-462d-...  43f92c8d0...
+    confab/b2ff0bbd68b7d600ecb1ffaf41f59af073e894fd                    (source)              b93214eb-a816-4029-...  4b627d264...
+    ~                                                                  ubuntu-trusty/3363.9  f66fe541-8c21-4fe3-...  8e662c2e2...
+    consul-windows/2a8e0b7ce1424d1d5efe5c7184791481a0c26424            (source)              9516870b-801e-42ea-...  19db18127...
+    consul/6049d3016cd34ac64ccbf7837b06b6db81942102                    (source)              04aa38af-e883-4842-...  c42cacfc7...
+    ~                                                                  ubuntu-trusty/3363.9  ab4afda6-881e-46b1-...  27c1390fa...
+    golang1.7-windows/1a80382e081cd429cf518f0c783f4e4172cac79e         (source)              d7670210-7038-4749-...  b91caa06a...
+    golang1.7/181f7537c2ec17ac2406d9f2eb3322fd80fa2a1c                 (source)              ac8aa36a-8965-46e9-...  ca440d716...
+    ~                                                                  ubuntu-trusty/3363.9  9d40794f-0c50-4d0c-...  9d6e29221...
+
+    11 packages
+
+    Succeeded
+    </pre>
 
 ---
 ### <a id="cloud-config-mgmt"></a> Cloud config
 
-  cloud-config           Show current cloud config (aliases: cc)
-  update-cloud-config    Update current cloud config (aliases: ucc)
+See [Cloud config](cloud-config.html).
+
+- <a id="cloud-config"></a> `bosh -e my-env cloud-config` (Alias: `cc`)
+
+    Show current cloud config on the Director.
+
+- <a id="update-cloud-config"></a> `bosh -e my-env update-cloud-config config.yml [-v ...] [-o ...]` (Alias: `ucc`)
+
+    Update current cloud config on the Director.
 
 ---
 ### <a id="runtime-config-mgmt"></a> Runtime config
 
-runtime-config         Show current runtime config (aliases: rc)
-update-runtime-config  Update current runtime config (aliases: urc)
+See [Runtime config](runtime-config.html).
+
+- <a id="runtime-config"></a> `bosh -e my-env runtime-config` (Alias: `rc`)
+
+    Show current runtime config on the Director.
+
+- <a id="update-runtime-config"></a> `bosh -e my-env update-runtime-config config.yml [-v ...] [-o ...]` (Alias: `urc`)
+
+    Update current runtime config on the Director.
 
 ---
 ### <a id="cpi-config-mgmt"></a> CPI config
 
-cpi-config         Show current cpi config
-update-cpi-config  Update current cpi config
+See [CPI config](cpi-config.html).
+
+- <a id="cpi-config"></a> `bosh -e my-env cpi-config`
+
+    Show current CPI config on the Director.
+
+- <a id="update-cpi-config"></a> `bosh -e my-env update-cpi-config config.yml [-v ...] [-o ...]`
+
+    Update current CPI config on the Director.
 
 ---
 ### <a id="deployment-mgmt"></a> Deployment
 
-  deployments            List deployments (aliases: ds, deps)
-  deployment             Show deployment information (aliases: dep)
-  deploy                 Deploy according to the currently selected deployment manifest (aliases: d)
-  delete-deployment      Delete deployment (aliases: deld)
-  manifest               Download deployment manifest locally (aliases: m, man, download-manifest)
+- <a id="deployments"></a> `bosh -e my-env deployments` (Alias: `ds`)
+
+    Lists deployments tracked by the Director. Shows their names, used releases and stemcells.
+
+    <pre class="terminal extra-wide">
+    $ bosh -e my-env ds
+    Using environment '192.168.56.6' as client 'admin'
+
+    Name                                Release(s)                Stemcell(s)                                         Team(s)  Cloud Config
+    cf                                  binary-buildpack/1.0.9    bosh-warden-boshlite-ubuntu-trusty-go_agent/3363.9  -        latest
+                                        capi/1.21.0
+                                        cf-mysql/34
+                                        cf-smoke-tests/11
+                                        cflinuxfs2-rootfs/1.52.0
+                                        consul/155
+                                        diego/1.8.1
+                                        etcd/94
+                                        garden-runc/1.2.0
+                                        loggregator/78
+                                        nats/15
+                                        routing/0.145.0
+                                        statsd-injector/1.0.20
+                                        uaa/25
+    service-instance_0d4140a0-42b7-...  mysql/0.6.0               bosh-warden-boshlite-ubuntu-trusty-go_agent/3363.9  -        latest
+
+    2 deployments
+
+    Succeeded
+    </pre>
+
+- <a id="deployment"></a> `bosh -e my-env -d my-dep deployment` (Alias: `dep`)
+
+    Shows general deployment information for a given deployment.
+
+    Can be used to determine if Director has a deployment with a given name.
+
+    <pre class="terminal extra-wide">
+    $ bosh -e vbox -d cf dep
+    Using environment '192.168.56.6' as client 'admin'
+
+    Name  Release(s)              Stemcell(s)                                         Team(s)  Cloud Config
+    cf    binary-buildpack/1.0.9  bosh-warden-boshlite-ubuntu-trusty-go_agent/3363.9  -        latest
+          capi/1.21.0
+          cf-mysql/34
+          cf-smoke-tests/11
+          uaa/25
+          dns/3
+          ...
+
+    1 deployments
+
+    Succeeded
+    </pre>
+
+- <a id="deploy"></a> `bosh -e my-env -d my-dep deploy manifest.yml [-v ...] [-o ...]`
+
+    Create or update specified deployment according to the provided manifest. Operation files and variables can be provided to adjust and fill in manifest before deploy begins.
+
+    Currently name provided via `--deployment` (`-d`) flag must match name specified in the manifest.
+
+    <pre class="terminal">
+    $ bosh -e vbox -d cf deploy cf.yml -v system_domain=sys.example.com -o large-footprint.yml
+    </pre>
+
+- <a id="delete-deployment"></a> `bosh -e my-env -d my-dep delete-deployment [--force]` (Alias: `deld`)
+
+    Deletes specified deployment. If `--force` is provided, ignores variety of errors (from IaaS, blobstore, database) when deleting.
+
+    Note that if you've deleted your deployment, not all resources may have been freed. For example "deleted" persistent disks will be deleted after a few days to avoid accidental data loss. See [Persistent and Orphaned Disks](persistent-disks.html) for more details.
+
+    Succeedes even if deployment is not found.
+
+    <pre class="terminal">
+    $ bosh -e vbox -d cf deld
+    $ bosh -e vbox -d cf deld --force
+    </pre>
+
+- <a id="instances"></a> `bosh -e my-env [-d my-dep] instances [--ps] [--details] [--vitals] [--failing]` (Alias: `is`)
+
+    Lists all instances managed by the Director or in a single deployment. Show instance names, IPs, and VM and process health.
+
+    - `--details` (`-i`) flag includes VM CID, persistent disk CIDs, and other instance level details
+    - `--ps` flag includes per process health information
+    - `--vitals` flag shows basic VM and process usage such RAM, CPU and disk.
+    - `--failing` flag hides all healthy instances and processes leaving only non-healthy ones; useful for scripting
+
+    <pre class="terminal">
+    $ bosh -e vbox is -i
+    $ bosh -e vbox is --ps --vitals
+    $ bosh -e vbox -d cf is
+    $ bosh -e vbox -d cf is --ps
+    $ bosh -e vbox -d cf is --ps --vitals
+    </pre>
+
+- <a id="vms"></a> `bosh -e my-env [-d my-dep] vms [--vitals]`
+
+    Lists all VMs managed by the Director or VMs in a single deployment. Show instance names, IPs and VM CIDs.
+
+    `--vitals` flag shows basic VM usage such RAM, CPU and disk.
+
+    <pre class="terminal">
+    $ bosh -e vbox vms
+    $ bosh -e vbox -d cf vms
+    $ bosh -e vbox -d cf vms --vitals
+    </pre>
+
+- <a id="manifest"></a> `bosh -e my-env -d my-dep manifest` (Alias: `man`)
+
+    Prints deployment manifest to `stdout`.
+
+    <pre class="terminal">
+    $ bosh -e vbox -d cf man
+    Using environment '192.168.56.6' as client 'admin'
+
+    Using deployment 'cf'
+
+    instance_groups:
+    - azs: [z1]
+    ...
+    </pre>
+
   recreate               Recreate instance(s)
   restart                Restart instance(s)
-  logs                   Fetch logs from instance(s)
-  scp                    SCP to/from instance(s)
-  ssh                    SSH into instance(s)
   start                  Start instance(s)
   stop                   Stop instance(s)
   unignore               Unignore an instance
   ignore                 Ignore an instancealiases: insr)
-  instances              List all instances in a deployment (aliases: is, ins)
-  vms                    List all VMs in all deployments
+
+  logs                   Fetch logs from instance(s)
   events                 List events
   variables              List variables (aliases: vars)
 
 ---
+### <a id="errand-mgmt"></a> SSH
+
+- <a id="ssh"></a> `bosh -e my-env -d my-dep ssh [-r] [-c=cmd] [--opts=opts] [--gw- ...]`
+
+    SSH into instance(s)
+
+- <a id="scp"></a> `bosh -e my-env -d my-dep scp [-r] [-c=cmd] [--opts=opts] [--gw- ...]`
+
+    SCP to/from instance(s)
+
+---
 ### <a id="errand-mgmt"></a> Errand
 
-  run-errand             Run errand (aliases: re)
   errands                List errands (aliases: es, errs)
+  run-errand             Run errand (aliases: re)
 
 ---
 ### <a id="task-mgmt"></a> Task
 
-  task                   Show task status and start tracking its output (aliases: t)
   tasks                  List running or recent tasks (aliases: ts)
+  task                   Show task status and start tracking its output (aliases: t)
   cancel-task            Cancel task at its next checkpoint (aliases: ct)
 
 ---
 ### <a id="snapshot-mgmt"></a> Snapshot
 
-  delete-snapshot        Delete snapshot (aliases: delsnap)
-  delete-snapshots       Delete all snapshots in a deployment (aliases: delsnaps)
   snapshots              List snapshots (aliases: snaps)
   take-snapshot          Take snapshot (aliases: tsnap)
+  delete-snapshot        Delete snapshot (aliases: delsnap)
+  delete-snapshots       Delete all snapshots in a deployment (aliases: delsnaps)
 
 ---
 ### <a id="deployment-recovery"></a> Deployment recovery
