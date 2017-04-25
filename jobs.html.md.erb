@@ -92,15 +92,14 @@ Templates have access to merged job property values, built by merging default pr
 
 <a id="properties-spec"></a>
 
-Each template can also access special `spec` object for instance specific configuration:
+Each template can also access the special `spec` object for instance-specific configuration:
 
-- `<%%= spec.name %>`: Inserts instance name.
-- `<%%= spec.id %>`: Inserts instance ID.
-
-- `<%% spec.bootstrap %>`: Allow to evaluate if this instance is a the first instance of its group.
-- `<%%= spec.index %>`: Inserts instance index. Use `spec.bootstrap` instead of checking for index being 0. Additionally there is no guarantee that all instances won't have gaps in their indices.
-
-- `<%%= spec.az %>`: Inserts instance AZ.
-- `<%%= spec.address %>`: Inserts default instance network address (IPv4, IPv6 or DNS record). Available in bosh-release v255.4+.
-- `<%% spec.networks %>`: Allows to evaluate instance's network information.
-- `<%%= spec.ip %>`: Inserts IP address of the instance. In case of multiple IP addresses available, the IP of the [addressable or default network](networks.html#multi-homed) is used. Available in bosh-release v258+.
+- `spec.address`: Default network address (IPv4, IPv6 or DNS record) for the instance. Available in bosh-release v255.4+.
+- `spec.az`: Availability zone of the instance.
+- `spec.bootstrap`: True if this instance is the first instance of its group.
+- `spec.deployment`: Name of the BOSH deployment containing this instance.
+- `spec.id`: ID of the instance.
+- `spec.index`: Instance index. Use `spec.bootstrap` to determine the first instead of checking whether the index is 0. Additionally, there is no guarantee that instances will be numbered consecutively, so that there are no gaps between different indices.
+- `spec.ip`: IP address of the instance. In case multiple IP addresses are available, the IP of the [addressable or default network](networks.html#multi-homed) is used. Available in bosh-release v258+.
+- `spec.name`: Name of the instance.
+- `spec.networks`: Entire set of network information for the instance.
