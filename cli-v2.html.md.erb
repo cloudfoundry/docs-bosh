@@ -24,233 +24,163 @@ title: CLI v2 vs v1
 </pre>
 
 ---
-## <a id="general"></a> General differences
+## <a id="cmds"></a> Commands
 
-| Before                      | After
-|-----------------------------|-----------------------------
-| bosh-init deploy <manifest> | bosh create-env <manifest>
-| bosh-init delete <manifest> | bosh delete-env <manifest>
-| bosh target <ip>            | bosh alias-env name -e <ip>
-| bosh status                 | bosh env
-| bosh -t dir ...             | bosh -e dir ...
-| bosh -d manifest-path ...   | bosh -d deployment-name ... [3]
-| bosh deployment <manifest>  | bosh deployment <name>
-| bosh deploy                 | bosh deploy <manifest>
-| bosh delete deployment      | bosh delete-deployment
-| bosh tasks recent 1000      | bosh tasks -r=1000
-| bosh tasks --no-filter      | bosh tasks -a
-| bosh download manifest dep  | bosh manifest
-| bosh vms dep                | bosh instances
+### <a id="env-mgmt"></a> Environment
 
-- Most commands require `-e` (environment) and `-d` (deployment) flags
-- `-d` (deployment) flag accepts a deployment name instead of a manifest
-- bosh-init CLI is now absorbed by the bosh CLI. One binary!
-- Variety of commands (create-env/delete-env/deploy/recreate/etc.) accept simple interpolation flags (`-v/-l`)
-- All commands support friendlier non TTY output, forceful TTY output and `--json` formatting
-- All commands now use dashes instead of spaces
-- All commands expect 'piece1/piece2' formatting for instances, releases, and stemcells
-- `^+C` doesnt ask for task cancellation and just exits CLI command (task continue to run)
-- `--no-track` has been removed from the bosh task command
-- Sorts tables in a more consistent manner
-- Stores configuration file in `~/.bosh/config`
-- Most of the output formatting
+See [Environments](cli-envs.html).
 
----
-## <a id="commands"></a> Differences per command
+- <a id="envs"></a> `bosh environments` (Alias: `envs`)
 
-- `bosh alias-env` and all commands
-  - only allows connections to Director configured with verifiable certificates
-  - no longer asks to log-in
+    Lists aliased environments known to the CLI. Aliasing is done via `alias-env` command.
 
-- `bosh log-in`
-  - doesn't accept positional arguments for username/password
+    <pre class="terminal">
+    $ bosh envs
+    URL              Alias
+    104.154.171.255  gcp
+    192.168.56.6     vbox
 
-- `bosh deploy`
-  - no longer checks or requires `director_uuid`
-    - to achieve similar safety make sure to give unique deployment names across environments
+    2 environments
 
-- `bosh tasks`
-  - sane arguments syntax (`-r` for recent and `-a` for all)
+    Succeeded
+    </pre>
 
-- `bosh ssh`
-  - sane arguments syntax, use `ssh --help` for more info
-  - support for running commands against multiple machines
-  - adds `--ssh-opts` flag to pass through options to ssh command for port forwarding etc.
-  - adds `-r` flag to collate results from multiple machines
+- <a id="create-env"></a> `bosh create-env manifest.yml [--state path] [-v ...] [-o ...] [--vars-store path]`
 
-- `bosh logs`
-  - adds -f flag similar to `tail -f` (uses bosh ssh underneath)
+    Creates single VM based on the manifest. Typically used to create a Director environment. Operation files and variables can be provided to adjust and fill in manifest before doing a deploy.
 
-- `bosh scp`
-  - sane arguments syntax
-  - support for running command against multiple machines
+    `create-env` command replaces `bosh-init deploy` CLI command.
 
-- `bosh vms`
-  - removed second param for specifying deployment
+    <pre class="terminal">
+    $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
+      --state state.json \
+      --vars-store ./creds.yml
+      -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
+      -o ~/workspace/bosh-deployment/virtualbox/outbound-network.yml \
+      -o ~/workspace/bosh-deployment/bosh-lite.yml \
+      -o ~/workspace/bosh-deployment/jumpbox-user.yml \
+      -v director_name=vbox \
+      -v internal_ip=192.168.56.6 \
+      -v internal_gw=192.168.56.1 \
+      -v internal_cidr=192.168.56.0/24 \
+      -v network_name=vboxnet0 \
+      -v outbound_network_name=NatNetwork
+    </pre>
 
-- `bosh delete-deployment`
-  - removed second param for specifying deployment since -d is used for deployment selection
+- <a id="alias-env"></a> `bosh alias-env name -e location [--ca-cert=location]`
 
-- `bosh add-blob`
-  - requires a path to its release destination
-  - no longer uses symlinks to manage blobs but rather places file directly into `blobs/`
+    Assigns a name to the created environment for easier access in subsequent CLI commands. Instead of specifying Director location and possibly a CA certificate, subsequent commands can just take given name via `--environment` flag (`-e`).
 
-CLI v2 has features not available in v1, for example, CLI v2 can be used to [repack stemcells](repack-stemcell.html)
+    <pre class="terminal">
+    $ bosh alias-env gcp -e 104.154.171.255 --ca-cert <(bosh int creds.yml --path /director_ssl/ca)
+    </pre>
 
----
-### <a id="env-mgmt"></a> Environment management
+- <a id="env"></a> `bosh -e location environment` (Alias: `env`)
 
-<a id="alias-env"></a>
-<pre class="terminal">bosh environments</pre>
-Lists aliased environments known to the CLI. Aliasing is done via `alias-env` command. Alias: `envs`.
+    Shows Director information in the deployment environment.
 
-<pre class="terminal">
-$ bosh envs
-URL              Alias
-104.154.171.255  gcp
-192.168.56.6     vbox
+    <pre class="terminal">
+    $ bosh -e vbox env
+    Using environment '192.168.56.6' as '?'
 
-2 environments
+    Name      vbox
+    UUID      eeb27cc6-467e-4c1d-a8f9-f1a8de759f52
+    Version   260.5.0 (00000000)
+    CPI       warden_cpi
+    Features  compiled_package_cache: disabled
+              dns: disabled
+              snapshots: disabled
+    User      admin
 
-Succeeded
-</pre>
+    Succeeded
+    </pre>
 
-<a id="create-env"></a>
-<pre class="terminal">bosh create-env manifest.yml [--state path] [-v ...] [-o ...] [--vars-store path]</pre>
-Creates single VM based on the manifest. Typically used to create a Director environment. Operation files and variables can be provided to adjust and fill in manifest before doing a deploy.
+- <a id="delete-env"></a> `bosh delete-env manifest.yml [--state path] [-v ...] [-o ...] [--vars-store path]`
 
-`create-env` command replaces `bosh-init deploy` CLI command.
+    Deletes previously created VM based on the manifest. Same flags provided to `create-env` command should be given to the `delete-env` command.
 
-<pre class="terminal">
-$ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
-  --state state.json \
-  --vars-store ./creds.yml
-  -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
-  -o ~/workspace/bosh-deployment/virtualbox/outbound-network.yml \
-  -o ~/workspace/bosh-deployment/bosh-lite.yml \
-  -o ~/workspace/bosh-deployment/jumpbox-user.yml \
-  -v director_name=vbox \
-  -v internal_ip=192.168.56.6 \
-  -v internal_gw=192.168.56.1 \
-  -v internal_cidr=192.168.56.0/24 \
-  -v network_name=vboxnet0 \
-  -v outbound_network_name=NatNetwork
-</pre>
+    `delete-env` command replaces `bosh-init delete` CLI command.
 
-<a id="alias-env"></a>
-<pre class="terminal">bosh alias-env name -e location [--ca-cert=location]</pre>
-Assigns a name to the created environment for easier access in subsequent CLI commands. Instead of specifying Director location and possibly a CA certificate, subsequent commands can just take given name via `--environment` flag (`-e`).
-
-<pre class="terminal">
-$ bosh alias-env gcp -e 104.154.171.255 --ca-cert <(bosh int creds.yml --path /director_ssl/ca)
-</pre>
-
-<a id="env"></a>
-<pre class="terminal">bosh -e location environment</pre>
-Shows Director information in the deployment environment. Alias: `env`.
-
-<pre class="terminal">
-$ bosh -e vbox env
-Using environment '192.168.56.6' as '?'
-
-Name      vbox
-UUID      eeb27cc6-467e-4c1d-a8f9-f1a8de759f52
-Version   260.5.0 (00000000)
-CPI       warden_cpi
-Features  compiled_package_cache: disabled
-          dns: disabled
-          snapshots: disabled
-User      admin
-
-Succeeded
-</pre>
-
-<a id="delete-env"></a>
-<pre class="terminal">bosh delete-env manifest.yml [--state path] [-v ...] [-o ...] [--vars-store path]</pre>
-Deletes previously created VM based on the manifest. Same flags provided to `create-env` command should be given to the `delete-env` command.
-
-`delete-env` command replaces `bosh-init delete` CLI command.
-
-<pre class="terminal">
-$ bosh delete-env ~/workspace/bosh-deployment/bosh.yml \
-  --state state.json \
-  --vars-store ./creds.yml
-  -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
-  -o ~/workspace/bosh-deployment/virtualbox/outbound-network.yml \
-  -o ~/workspace/bosh-deployment/bosh-lite.yml \
-  -o ~/workspace/bosh-deployment/jumpbox-user.yml \
-  -v director_name=vbox \
-  -v internal_ip=192.168.56.6 \
-  -v internal_gw=192.168.56.1 \
-  -v internal_cidr=192.168.56.0/24 \
-  -v network_name=vboxnet0 \
-  -v outbound_network_name=NatNetwork
-</pre>
+    <pre class="terminal">
+    $ bosh delete-env ~/workspace/bosh-deployment/bosh.yml \
+      --state state.json \
+      --vars-store ./creds.yml
+      -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
+      -o ~/workspace/bosh-deployment/virtualbox/outbound-network.yml \
+      -o ~/workspace/bosh-deployment/bosh-lite.yml \
+      -o ~/workspace/bosh-deployment/jumpbox-user.yml \
+      -v director_name=vbox \
+      -v internal_ip=192.168.56.6 \
+      -v internal_gw=192.168.56.1 \
+      -v internal_cidr=192.168.56.0/24 \
+      -v network_name=vboxnet0 \
+      -v outbound_network_name=NatNetwork
+    </pre>
 
 ---
-### <a id="session-mgmt"></a> Session management
+### <a id="session-mgmt"></a> Session
 
-<a id="log-in"></a>
-<pre class="terminal">bosh log-in</pre>
-Logs in given user into the Director. Alias: `l`, `login`.
+- <a id="log-in"></a> `bosh log-in` (Alias: `l`, `login`)
 
-This command can only be used interactively. If non-interactive use is necessary (for example in scripts) please set `BOSH_CLIENT` and `BOSH_CLIENT_SECRET` environment variables instead of using this command. Note that if the Director is configured with UAA authentication you cannot use UAA users with BOSH_* environment variables but rather have to use UAA clients.
+    Logs in given user into the Director.
 
-<pre class="terminal">
-$ bosh -e my-env l
-User (): admin
-Password (): 
-</pre>
+    This command can only be used interactively. If non-interactive use is necessary (for example in scripts) please set `BOSH_CLIENT` and `BOSH_CLIENT_SECRET` environment variables instead of using this command. Note that if the Director is configured with UAA authentication you cannot use UAA users with BOSH_* environment variables but rather have to use UAA clients.
 
-<a id="log-out"></a>
-<pre class="terminal">bosh log-out</pre>
-Logs out currently logged in user. Alias: `logout`.
+    <pre class="terminal">
+    $ bosh -e my-env l
+    User (): admin
+    Password ():
+    </pre>
+
+- <a id="log-out"></a> `bosh log-out` (Alias: `logout`)
+
+    Logs out currently logged in user.
 
 ---
-### <a id="stemcell-mgmt"></a> Stemcell management
+### <a id="stemcell-mgmt"></a> Stemcell
 
 See [Uploading Stemcells](uploading-stemcells.html).
 
-<a id="stemcells"></a>
-<pre class="terminal">bosh -e my-env stemcells</pre>
-Lists stemcells previously uploaded into the Director. Shows their names, versions and CIDs. Alias: `ss`.
+- <a id="stemcells"></a> `bosh -e my-env stemcells` (Alias: `ss`)
 
-<pre class="terminal">
-$ bosh -e my-env stemcells
-Using environment '192.168.56.6' as '?'
+    Lists stemcells previously uploaded into the Director. Shows their names, versions and CIDs.
 
-Name                                         Version  OS             CPI  CID
-bosh-warden-boshlite-ubuntu-trusty-go_agent  3363*    ubuntu-trusty  -    6cbb176a-6a43-42...
-~                                            3312     ubuntu-trusty  -    43r3496a-4rt3-52...
-bosh-warden-boshlite-centos-7-go_agent       3363*    centos-7       -    38yr83gg-349r-94...
+    <pre class="terminal">
+    $ bosh -e my-env stemcells
+    Using environment '192.168.56.6' as '?'
 
-(*) Currently deployed
+    Name                                         Version  OS             CPI  CID
+    bosh-warden-boshlite-ubuntu-trusty-go_agent  3363*    ubuntu-trusty  -    6cbb176a-6a43-42...
+    ~                                            3312     ubuntu-trusty  -    43r3496a-4rt3-52...
+    bosh-warden-boshlite-centos-7-go_agent       3363*    centos-7       -    38yr83gg-349r-94...
 
-1 stemcells
+    (*) Currently deployed
 
-Succeeded
-</pre>
+    1 stemcells
 
-<a id="upload-stemcell"></a>
-<pre class="terminal">bosh -e my-env upload-stemcell location [--sha1=digest] [--fix]</pre>
-Uploads stemcell to the Director. Succeedes even if stemcell is already imported. Alias: `us`.
+    Succeeded
+    </pre>
 
-Stemcell location may be local file system path or an HTTP/HTTPS URL.
+- <a id="upload-stemcell"></a> `bosh -e my-env upload-stemcell location [--sha1=digest] [--fix]` (Alias: `us`)
 
-`--fix` flag allows to replace previously uploaded stemcell with the same name and version to repair stemcells that might have been corrupted in the cloud.
+    Uploads stemcell to the Director. Succeedes even if stemcell is already imported.
 
-<pre class="terminal">
-$ bosh -e my-env upload-stemcell ~/Downloads/bosh-stemcell-3363-warden-boshlite-ubuntu-trusty-go_agent.tgz
-$ bosh -e my-env upload-stemcell https://bosh.io/d/stemcells/bosh-stemcell-warden-boshlite-ubuntu-trusty-go_agent?v=3363
-</pre>
+    Stemcell location may be local file system path or an HTTP/HTTPS URL.
 
-<a id="delete-stemcell"></a>
-<pre class="terminal">bosh -e my-env delete-stemcell name/version</pre>
-Deletes uploaded stemcell from the Director. Succeedes even if stemcell is not found.
+    `--fix` flag allows to replace previously uploaded stemcell with the same name and version to repair stemcells that might have been corrupted in the cloud.
 
-<pre class="terminal">
-$ bosh -e my-env delete-stemcell [bosh-warden-boshlite-ubuntu-trusty-go_agent/3363]
-</pre>
+    <pre class="terminal">
+    $ bosh -e my-env upload-stemcell ~/Downloads/bosh-stemcell-3363-warden-boshlite-ubuntu-trusty-go_agent.tgz
+    $ bosh -e my-env upload-stemcell https://bosh.io/d/stemcells/bosh-stemcell-warden-boshlite-ubuntu-trusty-go_agent?v=3363
+    </pre>
+
+- <a id="delete-stemcell"></a> `bosh -e my-env delete-stemcell name/version`
+
+    Deletes uploaded stemcell from the Director. Succeedes even if stemcell is not found.
+
+    <pre class="terminal">
+    $ bosh -e my-env delete-stemcell [bosh-warden-boshlite-ubuntu-trusty-go_agent/3363]
+    </pre>
 
 ---
 ### <a id="release-creation"></a> Release creation
@@ -263,64 +193,64 @@ $ bosh -e my-env delete-stemcell [bosh-warden-boshlite-ubuntu-trusty-go_agent/33
   generate-package       Generate package
 
 ---
-### <a id="blob-mgmt"></a> Release blob management
+### <a id="blob-mgmt"></a> Release blob
 
 See [Release Blobs](release-blobs.html) for a detailed workflow.
 
-<a id="blobs"></a>
-<pre class="terminal">bosh blobs</pre>
-Lists tracked blobs from `config/blobs.yml`. Shows uploaded and not-yet-uploaded blobs. 
+- <a id="blobs"></a> `bosh blobs`
 
-<pre class="terminal">
-$ cd release-dir
-$ bosh blobs
-Path                               Size     Blobstore ID         Digest
-golang/go1.6.2.linux-amd64.tar.gz  81 MiB   f1833f76-ad8b-4b...  b8318b0...
-stress/stress-1.0.4.tar.gz         187 KiB  (local)              e1533bc...
+    Lists tracked blobs from `config/blobs.yml`. Shows uploaded and not-yet-uploaded blobs.
 
-2 blobs
+    <pre class="terminal">
+    $ cd release-dir
+    $ bosh blobs
+    Path                               Size     Blobstore ID         Digest
+    golang/go1.6.2.linux-amd64.tar.gz  81 MiB   f1833f76-ad8b-4b...  b8318b0...
+    stress/stress-1.0.4.tar.gz         187 KiB  (local)              e1533bc...
 
-Succeeded
-</pre>
+    2 blobs
 
-<a id="add-blob"></a>
-<pre class="terminal">bosh add-blob src-path dst-path</pre>
-Sarts tracking blob in `config/blobs.yml` for inclusion in packages.
+    Succeeded
+    </pre>
 
-<pre class="terminal">
-$ cd release-dir
-$ bosh add-blob ~/Downloads/stress-1.0.4.tar.gz stress/stress-1.0.4.tar.gz
-</pre>
+- <a id="add-blob"></a> `bosh add-blob src-path dst-path`
 
-<a id="remove-blob"></a>
-<pre class="terminal">bosh remove-blob blob-path</pre>
-Stops tracking blob in `config/blobs.yml`. Does not remove previously uploaded copies from the blobstore as older release versions may still want to reference it.
+    Sarts tracking blob in `config/blobs.yml` for inclusion in packages.
 
-<pre class="terminal">
-$ cd release-dir
-$ bosh remove-blob stress/stress-1.0.4.tar.gz
-</pre>
+    <pre class="terminal">
+    $ cd release-dir
+    $ bosh add-blob ~/Downloads/stress-1.0.4.tar.gz stress/stress-1.0.4.tar.gz
+    </pre>
 
-<a id="upload-blob"></a>
-<pre class="terminal">bosh upload-blobs</pre>
-Uploads previously added blobs that were not yet uploaded to the blobstore. Updates `config/blobs.yml` with returned blobstore IDs. Before creating a final release it's strongly recommended to upload blobs so that other release contributors can rebuild a release from scratch.
+- <a id="remove-blob"></a> `bosh remove-blob blob-path`
 
-<pre class="terminal">
-$ cd release-dir
-$ bosh upload-blobs
-</pre>
+    Stops tracking blob in `config/blobs.yml`. Does not remove previously uploaded copies from the blobstore as older release versions may still want to reference it.
 
-<a id="sync-blob"></a>
-<pre class="terminal">bosh sync-blobs</pre>
-Downloads blobs into `blobs/` based on `config/blobs.yml`.
+    <pre class="terminal">
+    $ cd release-dir
+    $ bosh remove-blob stress/stress-1.0.4.tar.gz
+    </pre>
 
-<pre class="terminal">
-$ cd release-dir
-$ bosh sync-blobs
-</pre>
+- <a id="upload-blob"></a> `bosh upload-blobs`
+
+    Uploads previously added blobs that were not yet uploaded to the blobstore. Updates `config/blobs.yml` with returned blobstore IDs. Before creating a final release it's strongly recommended to upload blobs so that other release contributors can rebuild a release from scratch.
+
+    <pre class="terminal">
+    $ cd release-dir
+    $ bosh upload-blobs
+    </pre>
+
+- <a id="sync-blob"></a> `bosh sync-blobs`
+
+    Downloads blobs into `blobs/` based on `config/blobs.yml`.
+
+    <pre class="terminal">
+    $ cd release-dir
+    $ bosh sync-blobs
+    </pre>
 
 ---
-### <a id="release-mgmt"></a> Release management
+### <a id="release-mgmt"></a> Release
 
   releases               List releases (aliases: rs, rels)
   upload-release         Upload release (aliases: ur)
@@ -329,25 +259,25 @@ $ bosh sync-blobs
   inspect-release        List all jobs, packages, and compiled packages associated with a release (
 
 ---
-### <a id="cloud-config-mgmt"></a> Cloud config management
+### <a id="cloud-config-mgmt"></a> Cloud config
 
   cloud-config           Show current cloud config (aliases: cc)
   update-cloud-config    Update current cloud config (aliases: ucc)
 
 ---
-### <a id="runtime-config-mgmt"></a> Runtime config management
+### <a id="runtime-config-mgmt"></a> Runtime config
 
 runtime-config         Show current runtime config (aliases: rc)
 update-runtime-config  Update current runtime config (aliases: urc)
 
 ---
-### <a id="cpi-config-mgmt"></a> CPI config management
+### <a id="cpi-config-mgmt"></a> CPI config
 
 cpi-config         Show current cpi config
 update-cpi-config  Update current cpi config
 
 ---
-### <a id="deployment-mgmt"></a> Deployment management
+### <a id="deployment-mgmt"></a> Deployment
 
   deployments            List deployments (aliases: ds, deps)
   deployment             Show deployment information (aliases: dep)
@@ -369,20 +299,20 @@ update-cpi-config  Update current cpi config
   variables              List variables (aliases: vars)
 
 ---
-### <a id="errand-mgmt"></a> Errand management
+### <a id="errand-mgmt"></a> Errand
 
   run-errand             Run errand (aliases: re)
   errands                List errands (aliases: es, errs)
 
 ---
-### <a id="task-mgmt"></a> Task management
+### <a id="task-mgmt"></a> Task
 
   task                   Show task status and start tracking its output (aliases: t)
   tasks                  List running or recent tasks (aliases: ts)
   cancel-task            Cancel task at its next checkpoint (aliases: ct)
 
 ---
-### <a id="snapshot-mgmt"></a> Snapshot management
+### <a id="snapshot-mgmt"></a> Snapshot
 
   delete-snapshot        Delete snapshot (aliases: delsnap)
   delete-snapshots       Delete all snapshots in a deployment (aliases: delsnaps)
@@ -404,5 +334,33 @@ update-cpi-config  Update current cpi config
 ---
 ### <a id="misc"></a> Misc
 
-  help                   Show this help message
-  interpolate            Interpolates variables into a manifest (aliases: int)
+- `bosh help`
+
+    Shows list of available commands and global options. Consider using `-h` flag for individual commands.
+
+- <a id="interpolate"></a> `bosh interpolate manifest.yml [-v ...] [-o ...] [--vars-store path] [--path op-path]` (Alias: `int`)
+
+    Interpolates variables into a manifest. Operation files and variables can be provided to adjust and fill in manifest before doing a deploy.
+
+    <pre class="terminal">
+    $ bosh int bosh-deployment/bosh.yml \
+      --vars-store ./creds.yml
+      -o bosh-deployment/virtualbox/cpi.yml \
+      -o bosh-deployment/virtualbox/outbound-network.yml \
+      -o bosh-deployment/bosh-lite.yml \
+      -o bosh-deployment/jumpbox-user.yml \
+      -v director_name=vbox \
+      -v internal_ip=192.168.56.6 \
+      -v internal_gw=192.168.56.1 \
+      -v internal_cidr=192.168.56.0/24 \
+      -v network_name=vboxnet0 \
+      -v outbound_network_name=NatNetwork
+
+    $ bosh int creds.yml --path /admin_password
+    skh32i7rdfji4387hg
+
+    $ bosh int creds.yml --path /director_ssl/ca
+    -----BEGIN CERTIFICATE-----
+    ...
+    </pre>
+
