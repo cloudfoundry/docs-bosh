@@ -181,6 +181,7 @@ Schema:
 * **parallel\_upload\_thread\_num** [Integer, optional]: The number of threads to upload stemcells in parallel. The default value is 16.
 * **debug_mode** [Boolean, optional]: Enable debug mode to log all raw HTTP requests/responses. The default value is false.
 * **use\_managed\_disks** [Boolean, optional]: Enable managed disks. The default value is `false`. Available in V21+.
+* **pip\_idle\_timeout\_in\_minutes** [Integer, optional]: Set idle timeouts in minutes for dynamic public IPs. It must be in the range [4, 30]. The default value is 4. It is only used when **assign\_dynamic\_public\_ip** is set to `true` in **resouce_pool**. Available in V24+.
 
 See [all configuration options](https://bosh.io/jobs/cpi?source=github.com/cloudfoundry-incubator/bosh-azure-cpi-release).
 
