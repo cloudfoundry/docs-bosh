@@ -35,9 +35,7 @@ To configure the Director with trusted certificates:
           -----END CERTIFICATE-----
     ```
 
-1. Redeploy the Director with the updated manifest. Use whichever method you've used before to deploy the Director: bosh-init or micro CLI.
-
-    <p class="note"><strong>Note</strong>: When using micro CLI, <code>properties</code> key should be placed under <code>apply_spec</code> section.</p>
+1. Redeploy the Director with the updated manifest.
 
     <p class="note"><strong>Note</strong>: Currently only VMs managed by the Director will be updated with the trusted certificates. The Director VM will not have trusted certificates installed.</p>
 

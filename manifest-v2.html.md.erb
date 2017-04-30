@@ -16,6 +16,8 @@ Assuming that you are using [cloud config](cloud-config.html), your deployment m
 * [Update Block](#update): Defines how BOSH updates instances during deployment
 * [Instance Groups Block](#instance-groups): Configuration and resource information for instance groups
 * [Properties Block](#properties): Describes global properties and generalized configuration information
+* [Variables Block](#variables): Variables configuration
+* [Tags Block](#tags): Sets additional tags for the deployment
 
 ---
 ## <a id='deployment'></a> Deployment Identification
@@ -110,7 +112,7 @@ update:
 * **jobs** [Array, required]: Specifies the name and release of jobs that will be installed on each instance.
   * **name** [String, required]: The job name
   * **release** [String, required]: The release where the job exists
-  * **consumes** [Hash, optional]: Links consumes by the job. [Read more about link configuration](links.html#deployment)
+  * **consumes** [Hash, optional]: Links consumed by the job. [Read more about link configuration](links.html#deployment)
   * **provides** [Hash, optional]: Links provided by the job. [Read more about link configuration](links.html#deployment)
   * **properties** [Hash, required]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job. Only properties specified here will be provided to the job.
 * **vm_type** [String, required]: A valid VM type name from the cloud config.
@@ -166,6 +168,36 @@ instance_groups:
 ## <a id='properties'></a> Properties Block
 
 **properties** [Hash, optional]: Describes global properties. Deprecated in favor of job level properties and links.
+
+---
+## <a id='variables'></a> Variables Block
+
+**variables** [Array, optional]: Describes variables.
+
+* **name** [String, required]: Unique name used to identify a variable. Example: `admin_password`
+* **type** [String, required]: Type of a variable. Currently supported variable types are `certificate`, `password`, `rsa`, and `ssh`. Example: `password`.
+* **options** [Hash, optional]: Specifies generation options used for generating variable value if variable is not found. Example: `{is_ca: true, common_name: some-ca}`
+
+Example:
+
+```
+variables:
+- name: admin_password
+  type: password
+- name: default_ca
+  type: certificate
+  options:
+    is_ca: true
+    common_name: some-ca
+- name: director_ssl
+  type: certificate
+  options:
+    ca: default_ca
+    common_name: cc.cf.internal
+    alternative_names: [cc.cf.internal]
+```
+
+See [CLI Variable Interpolation](cli-int.html) for more details about variables.
 
 ---
 ## <a id='tags'></a> Tags Block

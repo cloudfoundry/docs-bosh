@@ -58,6 +58,6 @@ To export a release:
 ---
 ## <a id="floating"></a> Floating stemcells
 
-Compiled releases are built against a particular stemcell version. Director allows compiled releases to be installed on any minor version of the major stemcell version that the compiled release was exported against. CLI v2 (and bosh-init) require exact stemcell match unlike the Director.
+Compiled releases are built against a particular stemcell version. Director allows compiled releases to be installed on any minor version of the major stemcell version that the compiled release was exported against. `bosh create-env` command requires exact stemcell match unlike the Director.
 
 For example UAA release 27 compiled against stemcell version 3233.10 will work on any 3233 stemcell, but the Director will refuse to install it on 3234.

@@ -12,14 +12,14 @@ title: CLI Global Flags
 ---
 ## <a id="version"></a> Version flag
 
-`-v` flag shows CLI version.
+- `-v` flag shows CLI version.
 
 <p class="note">Note: To see Director version use `bosh env` command.</p>
 
 ---
 ## <a id="env"></a> Environment flags
 
-- `-e` (`--environment`) flag allows to specify Director VM address or environment alias
+- `--environment` (`-e`) flag allows to specify Director VM address or environment alias
 - `--ca-cert` flag allows to specify CA certificate used for connecting for Director and UAA
 
 CLI does not provide a way to skip SSL certificate validation to encourage secure Director configuration.
@@ -47,9 +47,14 @@ CLI makes a distinction between decorative text (table headings) and primary con
 ---
 ## <a id="deployment"></a> Deployment flag
 
-`-d` (`--deployment`) flag allows to specify deployment for a command
+- `--deployment` (`-d`) flag allows to specify deployment for a command
 
 Several commands that can operate in a Director and a deployment context (such as `bosh tasks` command) account for presence of this flag and filter their output based on a deployment.
+
+---
+## <a id="tunnel"></a> SOCKS5 Tunneling
+
+See [tunneling](cli-tunnel.html) for details.
 
 ---
 ## <a id="logging"></a> Logging

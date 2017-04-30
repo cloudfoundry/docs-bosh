@@ -261,7 +261,7 @@ Make sure that the `region` specified in the global CPI configuration matches th
 Signature expired: 20141106T010406Z is now earlier than 20141106T011252Z (20141106T011752Z - 5 min.)
 ```
 
-This error is usually caused by out-of-sync system time. Use `ntpdate` to sync the clock on the machine where bosh-init is run: `sudo ntpdate pool.ntp.org`. Alternatively make sure that `ntpd` is correctly configured and running.
+This error is usually caused by out-of-sync system time. Use `ntpdate` to sync the clock on the machine where BOSH CLI is run: `sudo ntpdate pool.ntp.org`. Alternatively make sure that `ntpd` is correctly configured and running.
 
 ```
 resource eipalloc-6a45950f is already associated with associate-id eipassoc-427beb26

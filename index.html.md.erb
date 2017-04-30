@@ -17,21 +17,18 @@ See [Recent Additions and Updates](recent.html).
 ---
 ## <a id="install"></a> Install BOSH
 
-### Install BOSH with bosh-init
+### Create BOSH environment
 
-* [BOSH components](bosh-components.html)
-* [Install bosh-init](install-bosh-init.html)
-    * [Using bosh-init](using-bosh-init.html)
-        * [Migrating to bosh-init from the micro CLI plugin](migrate-to-bosh-init.html)
-* [Install BOSH CLI](bosh-cli.html)
-* [Bootstrap an environment](init.html)
+* [Components](bosh-components.html)
+* [Creating an environment](init.html)
     * [On AWS](init-aws.html)
+      * [Exposing Director on a Public IP](init-external-ip.html)
     * [On Azure](init-azure.html)
     * [On OpenStack](init-openstack.html)
     * [On vSphere](init-vsphere.html)
     * [On vCloud](init-vcloud.html)
     * [On SoftLayer](init-softlayer.html)
-    * On Google Compute Engine (coming soon)
+    * [On Google Compute Platform](init-google.html)
     * [On RackHD](rackhd-cpi.html)
     * [On Local machine using BOSH Lite](bosh-lite.html)
 
@@ -63,10 +60,14 @@ See [Recent Additions and Updates](recent.html).
     * [Managing releases](managing-releases.html)
     * [Managing stemcells](managing-stemcells.html)
 * [Deploying step-by-step](deploying-step-by-step.html)
-* [CLI v1](sysadmin-commands.html)
 * [CLI v2](cli-v2.html)
+    * [Dependencies](cli-deps.html)
+    * [Differences between CLI v2 vs v1](cli-global-flags.html)
     * [Global Flags](cli-global-flags.html)
-    * [CLI Environments](cli-envs.html)
+    * [Environments](cli-envs.html)
+    * [Operations files](cli-ops-files.html)
+    * [Variable Interpolation](cli-int.html)
+    * [Tunneling](cli-tunnel.html)
 * [Director tasks](director-tasks.html)
 * [Troubleshooting](tips.html)
 
@@ -171,3 +172,13 @@ See [Recent Additions and Updates](recent.html).
     * [CPI API v1](cpi-api-v1.html)
     * [Agent-CPI interactions](agent-cpi-interactions.html)
 * [Building a stemcell](build-stemcell.html)
+    * [Repacking Stemcells](repack-stemcell.html)
+
+---
+## <a id="old-cli"></a> CLI v1
+
+* [Install bosh-init](install-bosh-init.html)
+    * [Using bosh-init](using-bosh-init.html)
+        * [Migrating to bosh-init from the micro CLI plugin](migrate-to-bosh-init.html)
+* [Install BOSH CLI](bosh-cli.html)
+* [CLI v1](sysadmin-commands.html)

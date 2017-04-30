@@ -8,7 +8,7 @@ This topic describes how to migrate VMs and persistent disks from one datastore 
 
 1. Attach new datastore(s) to the hosts where the VMs are running while keeping the old datastore(s) attached to the same hosts.
 
-1. Change deployment manifest for the Director (typically used with bosh-init) to configure vSphere CPI to reference new datastore(s).
+1. Change deployment manifest for the Director to configure vSphere CPI to reference new datastore(s).
 
     ```json
     properties:

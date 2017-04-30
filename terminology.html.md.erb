@@ -16,15 +16,19 @@ A process that runs continuously on each VM that BOSH deploys (one Agent process
 
 ## <a id="bosh-init"></a> bosh-init
 
-bosh-init is tool used for creating and updating the Director (its VM and persistent disk) in an environment.
+bosh-init is tool used for creating and updating the Director (its VM and persistent disk) in an environment. It is superseded by CLI v2's `bosh create-env` and `bosh delete-env` commands.
 
 ## <a id="canary"></a> Canary (Instance)
 
 Canary instances are first instances updated within an instance group. Any update error in a canary instance causes the deployment to stop. Since only canaries are affected before an update stops, problem jobs and packages are prevented from taking over all instances.
 
-## <a id="cli"></a> CLI
+## <a id="cli"></a> CLI (v1)
 
-The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. You must [install](./bosh-cli.html) the CLI to use BOSH. Run `bosh help --all` to view the help.
+The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. You must [install](./bosh-cli.html) the CLI to use BOSH. Run `bosh help --all` to view the help. It is superseded by CLI v2.
+
+## <a id="cli-v2"></a> CLI v2
+
+The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. CLI v2 is a new major version of CLI. It also replaces bosh-init CLI to manage Director VM. It's the recommended way to interact with the Director. [See usage details](cli-v2.html).
 
 ## <a id="cloud"></a> Cloud
 
@@ -107,11 +111,19 @@ An instance corresponds to a single VM that performs specific jobs. Each instanc
 
 An instance group is a collection of instances tasked to perform same jobs. Each instance group has an associated VM type, persistent disk type, a stemcell and a set of jobs. Instance groups are configured in the manifest.
 
+## <a id="instance-lifecycle"></a> Instance Lifecycle
+
+Stages that all jobs (and their associated processes) go through during a deployment process on one instance. For example: pre-start, start, drain, etc. [See details](job-lifecycle.html).
+
 ## <a id="job"></a> Job (aka Release Job)
 
 A job is part of a release. It contains startup, shutdown scripts, and configuration files that tell the Agent how to start, run and monitor software on a VM. Jobs can depend on packages for necessary software.
 
-## <a id="jumpbox"></a> Jump box
+## <a id="job-lifecycle"></a> Job Lifecycle
+
+Stages that all jobs (and their associated processes) go through during a deployment process on one instance. For example: pre-start, start, drain, etc. [See details](job-lifecycle.html).
+
+## <a id="jumpbox"></a> Jumpbox
 
 A VM that acts as a single access point for the Director and deployed VMs. For resilience, there should be more than one jump box. Allowing access through jump boxes and disabling direct access to the other VMs is a common security measure.
 
@@ -125,11 +137,11 @@ A user that sets up and/or uses the Director (via BOSH CLI or Director API) to m
 
 ## <a id="operations-file"></a> Operations file (ops file)
 
-A YAML file that includes multiple operations to be applied to a configuration file. Several CLI commands such as `create-env` and `interpolate` allow to provide multiple operations files via `--ops-file` flag.
+A YAML file that includes multiple operations to be applied to a different YAML file. Several CLI commands such as `create-env` and `interpolate` allow to provide multiple operations files via `--ops-file` flag. [See details](cli-ops-files.html).
 
 ## <a id="operation"></a> Operation
 
-A single directive in an operations file. An operation describes one change to make to a YAML structure. Currently there are two types of operations: replace and remove.
+A single directive in an operations file. An operation describes one change to make to a YAML structure. Currently there are two types of operations: replace and remove. [See details](cli-ops-files.html).
 
 ## <a id="orphaned-disk"></a> Orphaned (Persistent) Disk
 

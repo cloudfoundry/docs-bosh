@@ -79,7 +79,7 @@ Failed compiling packages > dea_next/3e95ef8425be45468e044c05cc9aa65494281ab5: A
 ', stderr: '': exit status 1 (00:03:16)
 </pre>
 
-This problem can occur if the Director is configured to use built-in blobstore and does not have enough space on its persistent disk. You can use `bosh-init` to redeploy the Director with a larger persistent disk. Alternatively you can remove unused releases by running `bosh cleanup` command.
+This problem can occur if the Director is configured to use built-in blobstore and does not have enough space on its persistent disk. You can redeploy the Director with a larger persistent disk. Alternatively you can remove unused releases by running `bosh cleanup` command.
 
 ---
 ## <a id="director-db"></a> Debugging Director database

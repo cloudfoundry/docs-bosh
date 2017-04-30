@@ -1,0 +1,41 @@
+---
+title: CLI `create-env` Dependencies
+---
+
+<p class="note">Note: Applies to CLI v2.</p>
+
+`bosh create-env` (and `bosh delete-env`) command requires some additional dependencies (similar to `bosh-init`).
+
+1. Depending on your platform install following packages:
+
+  **Ubuntu Trusty**
+
+  <pre class="terminal">
+  $ sudo apt-get install -y build-essential zlibc zlib1g-dev ruby ruby-dev openssl libxslt-dev libxml2-dev libssl-dev libreadline6 libreadline6-dev libyaml-dev libsqlite3-dev sqlite3
+  </pre>
+
+  **CentOS**
+
+  <pre class="terminal">
+  $ sudo yum install gcc gcc-c++ ruby ruby-devel mysql-devel postgresql-devel postgresql-libs sqlite-devel libxslt-devel libxml2-devel patch openssl
+  $ gem install yajl-ruby
+  </pre>
+
+  **Mac OS X**
+
+  Install Apple Command Line Tools:
+  <pre class="terminal">
+  $ xcode-select --install
+  </pre>
+
+  Use [Homebrew](http://brew.sh) to install OpenSSL:
+  <pre class="terminal">
+  $ brew install openssl
+  </pre>
+
+1. Make sure any version of Ruby is installed:
+
+  <pre class="terminal">
+  $ ruby -v
+  ruby 2.2.3p173 (2015-08-18 revision 51636) [x86_64-darwin14]
+  </pre>

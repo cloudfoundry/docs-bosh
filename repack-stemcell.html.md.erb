@@ -2,20 +2,19 @@
 title: Repacking Stemcells
 ---
 
-The [Golang-based BOSH CLI](cli-v2.html) includes a command to repack stemcells; this enables
-limited customization of a stemcell including the following:
-
-- stemcell name
-- stemcell version
-- stemcell cloud properties
-
 <p class="note">Note: Applies to CLI v2 v2.0.12+.</p>
+
+The [CLI v2](cli-v2.html) includes a command to repack stemcells; this enables limited customization of a stemcell including the following:
+
+- name
+- version
+- cloud properties
 
 ---
 ## <a id="syntax"></a> Syntax
 
 <pre class="terminal extra-wide">
-bosh repack-stemcell [--name=new_name] [--version=new_version] [--cloud-properties=JSON_string] original_stemcell_tarball target_stemcell_tarball
+$ bosh repack-stemcell src.tgz dst.tgz [--name=new_name] [--version=new_version] [--cloud-properties=json-string]
 </pre>
 
 ## <a id="examples"></a> Examples
@@ -60,9 +59,7 @@ The cloud properties will be merged with the existing cloud properties. It won't
 
 ## <a id="technical_details"></a> Technical Details
 
-The `repack-stemcell` works by modifying the stemcell manifest file (`stemcell.MF`) located within the stemcell tarball.
-It does not modify any other aspect of the stemcell. For example, it will not make any change to the root partition
-(it won't add new users or new packages). It does not modify the filesystem image.
+The `repack-stemcell` works by modifying the stemcell manifest file (`stemcell.MF`) located within the stemcell tarball. It does not modify any other aspect of the stemcell. For example, it will not make any change to the root partition (it won't add new users or new packages). It does not modify the filesystem image.
 
 The stemcell's manifest may be examined by extracting the `stemcell.MF` file from the stemcell tarball:
 

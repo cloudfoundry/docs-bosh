@@ -1,9 +1,12 @@
 ---
-title: CLI v2 vs v1
+title: CLI v2
 ---
 
-<p class="note">Note: Applies to CLI v2 v2.0.1+.</p>
+<p class="note">Note: Applies to CLI v2 v2.0.13+.</p>
 
+The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. CLI v2 is a new major version of CLI.
+
+---
 ## <a id="install"></a> Install
 
 1. Download the binary for your platform and place it on your `PATH`:
@@ -25,16 +28,18 @@ title: CLI v2 vs v1
 
     If the output does not begin with `version 2.0...` you are probably executing CLI v1 (Ruby based).
 
+1. [Install OS specified dependencies](cli-env-deps.html) for `bosh create-env` command
+
 Alternatively, refer to [cloudfoundry/homebrew-tap](https://github.com/cloudfoundry/homebrew-tap) to install CLI via Homebrew on OS X. We currently do not publish CLI via apt or yum repositories.
 
 ---
 ## <a id="cmds"></a> Commands
 
-### <a id="env-mgmt"></a> Environment
+### <a id="env-mgmt"></a> Environments
 
 See [Environments](cli-envs.html).
 
-- <a id="envs"></a> `bosh environments` (Alias: `envs`)
+- <a id="environments"></a> `bosh environments` (Alias: `envs`)
 
     Lists aliased environments known to the CLI. Aliasing is done via `alias-env` command.
 
@@ -80,7 +85,7 @@ See [Environments](cli-envs.html).
     $ bosh alias-env gcp -e 10.0.0.6 --ca-cert <(bosh int creds.yml --path /director_ssl/ca)
     </pre>
 
-- <a id="env"></a> `bosh -e location environment` (Alias: `env`)
+- <a id="environment"></a> `bosh -e location environment` (Alias: `env`)
 
     Shows Director information in the deployment environment.
 
@@ -142,7 +147,7 @@ See [Environments](cli-envs.html).
     Logs out currently logged in user.
 
 ---
-### <a id="stemcell-mgmt"></a> Stemcell
+### <a id="stemcell-mgmt"></a> Stemcells
 
 See [Uploading Stemcells](uploading-stemcells.html).
 
@@ -151,7 +156,7 @@ See [Uploading Stemcells](uploading-stemcells.html).
     Lists stemcells previously uploaded into the Director. Shows their names, versions and CIDs.
 
     <pre class="terminal">
-    $ bosh -e my-env stemcells
+    $ bosh -e my-env ss
     Using environment '192.168.56.6' as '?'
 
     Name                                         Version  OS             CPI  CID
@@ -175,8 +180,8 @@ See [Uploading Stemcells](uploading-stemcells.html).
     `--fix` flag allows to replace previously uploaded stemcell with the same name and version to repair stemcells that might have been corrupted in the cloud.
 
     <pre class="terminal">
-    $ bosh -e my-env upload-stemcell ~/Downloads/bosh-stemcell-3363-warden-boshlite-ubuntu-trusty-go_agent.tgz
-    $ bosh -e my-env upload-stemcell https://bosh.io/d/stemcells/bosh-stemcell-warden-boshlite-ubuntu-trusty-go_agent?v=3363
+    $ bosh -e my-env us ~/Downloads/bosh-stemcell-3363-warden-boshlite-ubuntu-trusty-go_agent.tgz
+    $ bosh -e my-env us https://bosh.io/d/stemcells/bosh-stemcell-warden-boshlite-ubuntu-trusty-go_agent?v=3363
     </pre>
 
 - <a id="delete-stemcell"></a> `bosh -e my-env delete-stemcell name/version`
@@ -186,6 +191,12 @@ See [Uploading Stemcells](uploading-stemcells.html).
     <pre class="terminal">
     $ bosh -e my-env delete-stemcell bosh-warden-boshlite-ubuntu-trusty-go_agent/3363
     </pre>
+
+- <a id="repack-stemcell"></a> `bosh repack-stemcell src.tgz dst.tgz [--name=name] [--version=ver] [--cloud-properties=json-string]`
+
+    Produces new stemcell tarball with updated properties such as name, version, and cloud properties.
+
+    See [Repacking stemcells](repack-stemcell.html) for details.
 
 ---
 ### <a id="release-creation"></a> Release creation
@@ -251,7 +262,7 @@ See [Uploading Stemcells](uploading-stemcells.html).
     Removes temporary artifacts such as dev releases, blobs, etc. kept in the release directory `dir`.
 
 ---
-### <a id="blob-mgmt"></a> Release blob
+### <a id="blob-mgmt"></a> Release blobs
 
 See [Release Blobs](release-blobs.html) for a detailed workflow.
 
@@ -308,7 +319,7 @@ See [Release Blobs](release-blobs.html) for a detailed workflow.
     </pre>
 
 ---
-### <a id="release-mgmt"></a> Release
+### <a id="release-mgmt"></a> Releases
 
 See [Uploading Releases](uploading-releases.html).
 
@@ -320,22 +331,22 @@ See [Uploading Releases](uploading-releases.html).
     $ bosh -e my-env rs
     Using environment '192.168.56.6' as client 'admin'
 
-    Name                      Version                    Commit Hash
-    capi                      1.21.0*                    716aa812
-    cf-mysql                  34*                        e0508b5
-    cf-smoke-tests            11*                        a6dad6e
-    cflinuxfs2-rootfs         1.52.0*                    4827ef51+
-    consul                    155*                       22515a98+
-    diego                     1.8.1*                     0cca668e
-    dns                       3*                         57e27da
-    etcd                      94*                        57c81e16
-    garden-runc               1.2.0*                     2b3dedc5
-    loggregator               78*                        773a3ba
-    nats                      15*                        d4dfc4c1+
-    routing                   0.145.0*                   dfb44c41+
-    statsd-injector           1.0.20*                    552926d
-    syslog                    9                          ac2172f
-    uaa                       25*                        86ec7568
+    Name               Version   Commit Hash
+    capi               1.21.0*   716aa812
+    cf-mysql           34*       e0508b5
+    cf-smoke-tests     11*       a6dad6e
+    cflinuxfs2-rootfs  1.52.0*   4827ef51+
+    consul             155*      22515a98+
+    diego              1.8.1*    0cca668e
+    dns                3*        57e27da
+    etcd               94*       57c81e16
+    garden-runc        1.2.0*    2b3dedc5
+    loggregator        78*       773a3ba
+    nats               15*       d4dfc4c1+
+    routing            0.145.0*  dfb44c41+
+    statsd-injector    1.0.20*   552926d
+    syslog             9         ac2172f
+    uaa                25*       86ec7568
 
     (*) Currently deployed
     (+) Uncommitted changes
@@ -354,9 +365,9 @@ See [Uploading Releases](uploading-releases.html).
     `--fix` flag allows to replace previously uploaded release with the same name and version to repair releases that might have been corrupted.
 
     <pre class="terminal">
-    $ bosh -e my-env upload-release
-    $ bosh -e my-env upload-release https://bosh.io/d/github.com/concourse/concourse?v=2.7.3
-    $ bosh -e my-env upload-release git+https://github.com/concourse/concourse --version 2.7.3
+    $ bosh -e my-env ur
+    $ bosh -e my-env ur https://bosh.io/d/github.com/concourse/concourse?v=2.7.3
+    $ bosh -e my-env ur git+https://github.com/concourse/concourse --version 2.7.3
     </pre>
 
 - <a id="delete-release"></a> `bosh -e my-env delete-release name/version`
@@ -432,6 +443,10 @@ See [Cloud config](cloud-config.html).
 
     Update current cloud config on the Director.
 
+    <pre class="terminal">
+    $ bosh -e my-env ucc cc.yml
+    </pre>
+
 ---
 ### <a id="runtime-config-mgmt"></a> Runtime config
 
@@ -444,6 +459,10 @@ See [Runtime config](runtime-config.html).
 - <a id="update-runtime-config"></a> `bosh -e my-env update-runtime-config config.yml [-v ...] [-o ...]` (Alias: `urc`)
 
     Update current runtime config on the Director.
+
+    <pre class="terminal">
+    $ bosh -e my-env urc runtime.yml
+    </pre>
 
 ---
 ### <a id="cpi-config-mgmt"></a> CPI config
@@ -458,8 +477,12 @@ See [CPI config](cpi-config.html).
 
     Update current CPI config on the Director.
 
+    <pre class="terminal">
+    $ bosh -e my-env update-cpi-config cpis.yml
+    </pre>
+
 ---
-### <a id="deployment-mgmt"></a> Deployment
+### <a id="deployment-mgmt"></a> Deployments
 
 - <a id="deployments"></a> `bosh -e my-env deployments` (Alias: `ds`)
 
@@ -555,18 +578,6 @@ See [CPI config](cpi-config.html).
     $ bosh -e vbox -d cf is --ps --vitals
     </pre>
 
-- <a id="vms"></a> `bosh -e my-env [-d my-dep] vms [--vitals]`
-
-    Lists all VMs managed by the Director or VMs in a single deployment. Show instance names, IPs and VM CIDs.
-
-    `--vitals` flag shows basic VM usage such RAM, CPU and disk.
-
-    <pre class="terminal">
-    $ bosh -e vbox vms
-    $ bosh -e vbox -d cf vms
-    $ bosh -e vbox -d cf vms --vitals
-    </pre>
-
 - <a id="manifest"></a> `bosh -e my-env -d my-dep manifest` (Alias: `man`)
 
     Prints deployment manifest to `stdout`.
@@ -582,65 +593,347 @@ See [CPI config](cpi-config.html).
     ...
     </pre>
 
-  recreate               Recreate instance(s)
-  restart                Restart instance(s)
-  start                  Start instance(s)
-  stop                   Stop instance(s)
-  unignore               Unignore an instance
-  ignore                 Ignore an instancealiases: insr)
+- <a id="recreate"></a> `bosh -e my-env -d my-dep recreate [group[/instance-id]] [--skip-drain] [--fix] [--canaries=] [--max-in-flight=] [--dry-run]`
 
-  logs                   Fetch logs from instance(s)
-  events                 List events
-  variables              List variables (aliases: vars)
+    Recreates VMs for specified instances. Follows typical instance lifecycle.
+
+    - `--skip-drain` flag skips runnig drain scripts
+    - `--fix` flag replaces unresponsive VMs
+    - `--canaries=` flag overrides manifest values for `canaries`
+    - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
+    - `--dry-run` flag runs through as many operations without altering deployment
+
+    <pre class="terminal">
+    $ bosh -e vbox -d cf recreate
+    $ bosh -e vbox -d cf recreate --fix
+    $ bosh -e vbox -d cf recreate diego-cell
+    $ bosh -e vbox -d cf recreate diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0
+    $ bosh -e vbox -d cf recreate diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 --skip-drain
+    $ bosh -e vbox -d cf recreate diego-cell --canaries=0 --max-in-flight=100%
+    </pre>
+
+- <a id="restart"></a> `bosh -e my-env -d my-dep restart [group[/instance-id]] [--skip-drain] [--canaries=] [--max-in-flight=]`
+
+    Restarts jobs (processes) on specified instances. Does not affect VM state.
+
+    - `--skip-drain` flag skips runnig drain scripts
+    - `--canaries=` flag overrides manifest values for `canaries`
+    - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
+
+- <a id="start"></a> `bosh -e my-env -d my-dep start [group[/instance-id]] [--canaries=] [--max-in-flight=]`
+
+    Starts jobs (processes) on specified instances. Does not affect VM state.
+
+    - `--canaries=` flag overrides manifest values for `canaries`
+    - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
+
+- <a id="stop"></a> `bosh -e my-env -d my-dep stop [group[/instance-id]] [--skip-drain] [--canaries=] [--max-in-flight=]`
+
+    Stops jobs (processes) on specified instances. Does not affect VM state unless `--hard` flag is specified.
+
+    - `--hard` flag forces VM deletion (keeping persistent disk)
+    - `--skip-drain` flag skips runnig drain scripts
+    - `--canaries=` flag overrides manifest values for `canaries`
+    - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
+
+- <a id="ignore"></a> `bosh -e my-env -d my-dep ignore group/instance-id`
+
+    Ignores instance from being affected by other commands such as `bosh deploy`.
+
+- <a id="unignore"></a> `bosh -e my-env -d my-dep unignore group/instance-id`
+
+    Unignores instance from being affected by other commands such as `bosh deploy`.
+
+- <a id="logs"></a> `bosh -e my-env -d my-dep logs [group[/instance-id]] [--follow] ...`
+
+    Downloads logs from one or more instances. 
+
+    - `--dir=` flag specifies destination directory
+    - `--job=` flag includes only specific jobs logs
+    - `--only=` flag filters logs (comma-separated)
+    - `--agent` flag includes only BOSH Agent logs
+
+    Additional flags for following logs via SSH:
+
+    - `--follow` (`-f`) flag to turn on log following
+    - `--num` flag shows last number of lines immediately
+    - `--quiet` (`-q`) flag suppresses printing of headers when multiple files are examined
+    - `--gw-*` flags allow to configure SSH gateway configuration
+
+    See [Location and use of logs](job-logs.html) for details.
+
+    <pre class="terminal">
+    $ bosh -e vbox -d cf logs diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0
+    $ bosh -e vbox -d cf logs diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 --job=rep --job=silkd
+    $ bosh -e vbox -d cf logs -f
+    $ bosh -e vbox -d cf logs -f --num=1000
+    </pre>
+
+- <a id="events"></a> `bosh -e my-env [-d my-dep] events [--* ...]`
+
+    Lists events.
+
+    See [Events](events.html) for details.
+
+    - `--before-id=` flag shows events with ID less than the given ID
+    - `--before=` flag shows events before the given timestamp (ex: 2016-05-08 17:26:32)
+    - `--after=` flag shows events after the given timestamp (ex: 2016-05-08 17:26:32)
+    - `--task=` flag shows events with the given task ID
+    - `--instance=` flag shows events with given instance
+    - `--event-user=` flag shows events with given user
+    - `--action=` flag shows events with given action
+    - `--object-type=` flag shows events with given object type
+    - `--object-id=` flag shows events with given object ID
+
+    <pre class="terminal">
+    $ bosh -e vbox events --instance diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0
+    $ bosh -e vbox events --instance diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 --task 281
+    $ bosh -e vbox events -d my-dep
+    $ bosh -e vbox events --before-id=1298284
+    $ bosh -e vbox events --before="2016-05-08 17:26:32 UTC" --after="2016-05-07 UTC"
+    </pre>
+
+- <a id="event"></a> `bosh -e my-env event id`
+
+    Shows single event details.
+
+- <a id="variables"></a> `bosh -e my-env -d my-dep variables` (Alias: `vars`)
+
+    List variables referenced by the deployment.
+
+---
+### <a id="vm-mgmt"></a> VMs
+
+- <a id="vms"></a> `bosh -e my-env [-d my-dep] vms [--vitals]`
+
+    Lists all VMs managed by the Director or VMs in a single deployment. Show instance names, IPs and VM CIDs.
+
+    `--vitals` flag shows basic VM usage such RAM, CPU and disk.
+
+    <pre class="terminal">
+    $ bosh -e vbox vms
+    $ bosh -e vbox -d cf vms
+    $ bosh -e vbox -d cf vms --vitals
+    </pre>
+
+- <a id="delete-vm"></a> `bosh -e my-env -d my-dep delete-vm cid`
+
+    Deletes VM without going through typical instance lifecycle. Clears out VM reference from a Director database if referenced by any instance.
+
+    <pre class="terminal">
+    $ bosh -e vbox -d cf delete-vm i-fs384238fjwjf8
+    </pre>
+
+---
+### <a id="disk-mgmt"></a> Disks
+
+- <a id="disks"></a> `bosh -e my-env -d my-dep disks [--orphaned]`
+
+    Lists disks. Currently only supports `--orphaned` flag.
+
+- <a id="attach-disk"></a> `bosh -e my-env -d my-dep attach-disk group/instance-id disk-cid`
+
+    Attaches disk to an instance, replacing currently attached disk (if any).
+
+    <pre class="terminal">
+    $ bosh -e vbox -d cf attach-disk postgres/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 vol-shw8f293f2f2
+    </pre>
+
+- <a id="delete-disk"></a> `bosh -e my-env -d my-dep delete-disk cid`
+
+    Deletes orphaned disk.
+
+    <pre class="terminal">
+    $ bosh -e vbox -d cf delete-disk vol-shw8f293f2f2
+    </pre>
 
 ---
 ### <a id="errand-mgmt"></a> SSH
 
-- <a id="ssh"></a> `bosh -e my-env -d my-dep ssh [-r] [-c=cmd] [--opts=opts] [--gw- ...]`
+- <a id="ssh"></a> `bosh -e my-env -d my-dep ssh [destination] [-r] [-c=cmd] [--opts=opts] [--gw-* ...]`
 
-    SSH into instance(s)
+    SSH into one or more instances.
 
-- <a id="scp"></a> `bosh -e my-env -d my-dep scp [-r] [-c=cmd] [--opts=opts] [--gw- ...]`
+    - `--opts` flag allows to pass through options to `ssh`; useful for port forwarding
+    - `--gw-*` flags allow to configure SSH gateway configuration
 
-    SCP to/from instance(s)
+    <pre class="terminal">
+    # execute command on all instances in a deployment
+    $ bosh -e vbox -d cf ssh -c 'uptime'
+
+    # execute command on one instance group
+    $ bosh -e vbox -d cf ssh diego-cell -c 'uptime'
+
+    # execute command on a single instance
+    $ bosh -e vbox -d cf ssh diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 -c 'uptime'
+
+    # execute command with passwordless sudo
+    $ bosh -e vbox -d cf ssh diego-cell -c 'sudo lsof -i|grep LISTEN'
+
+    # present output in a table by instance
+    $ bosh -e vbox -d cf ssh -c 'uptime' -r
+
+    # port forward UAA port locally
+    $ bosh -e vbox -d cf ssh uaa/0 --opts ' -L 8080:localhost:8080'
+    </pre>
+
+- <a id="scp"></a> `bosh -e my-env -d my-dep scp src/dst:[file] src/dst:[file] [-r] [--gw-* ...]`
+
+    SCP to/from one or more instances.
+
+    - `--recursive` (`-r`) flag allow to copy directory recursively
+    - `--gw-*` flags allow to configure gateway configuration
+
+    <pre class="terminal">
+    # copy file from this machine to machines a deployment
+    $ bosh -e vbox -d cf scp ~/Downloads/script.sh :/tmp/script.sh
+    $ bosh -e vbox -d cf scp ~/Downloads/script.sh diego-cell:/tmp/script.sh
+    $ bosh -e vbox -d cf scp ~/Downloads/script.sh diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0:/tmp/script.sh
+
+    # copy file from remote machines in a deployment to this machine
+    $ bosh -e vbox -d cf scp :/tmp/script.sh ~/Downloads/script.sh
+    $ bosh -e vbox -d cf scp diego-cell:/tmp/script.sh ~/Downloads/script.sh
+    $ bosh -e vbox -d cf scp diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0:/tmp/script.sh ~/Downloads/script.sh
+    </pre>
 
 ---
-### <a id="errand-mgmt"></a> Errand
+### <a id="errand-mgmt"></a> Errands
 
-  errands                List errands (aliases: es, errs)
-  run-errand             Run errand (aliases: re)
+- <a id="errands"></a> `bosh -e my-env -d my-dep errands` (Alias: `es`)
+
+    Lists all errands defined by the deployment.
+
+    <pre class="terminal">
+    $ bosh -e vbox -d cf es
+    Using environment '192.168.56.6' as '?'
+
+    Using deployment 'cf'
+
+    Name
+    smoke-tests
+
+    1 errands
+
+    Succeeded
+    </pre>
+
+- <a id="run-errand"></a> `bosh -e my-env -d my-dep run-errand name [--keep-alive] [--when-changed] [--download-logs] [--logs-dir=dir]`
+
+    Runs errand with the name.
+
+    - `--keep-alive` flag keeps VM around where errand was executing
+    - `--when-changed` flag indicates whether to skip running an errand if it previously ran (successfully finished) and errand job configuration did not change
+    - `--download-logs` flag indicates whether to download full errand logs to a directory specified by `--logs-dir` (defaults to the current directory)
+
+    <pre class="terminal">
+    $ bosh -e vbox -d cf run-errand smoke-tests
+    $ bosh -e vbox -d cf run-errand smoke-tests --keep-alive
+    $ bosh -e vbox -d cf run-errand smoke-tests --when-changed
+    </pre>
 
 ---
-### <a id="task-mgmt"></a> Task
+### <a id="task-mgmt"></a> Tasks
 
-  tasks                  List running or recent tasks (aliases: ts)
-  task                   Show task status and start tracking its output (aliases: t)
-  cancel-task            Cancel task at its next checkpoint (aliases: ct)
+- <a id="tasks"></a> `bosh -e my-env tasks [--recent[=num]] [--all]` (Alias: `ts`)
+
+    Lists active and previously ran tasks.
+
+    - `--deployment` (`-d`) flag filters tasks by a deployment
+
+    <pre class="terminal">
+    # currently active tasks
+    $ bosh -e vbox ts
+
+    # currently active tasks for my-dep deployment
+    $ bosh -e vbox -d my-dep ts
+    Using environment '192.168.56.6' as '?'
+
+    #   State  Started At                    Last Activity At              User   Deployment   Description                   Result
+
+    27  done   Thu Feb 16 19:16:15 UTC 2017  Thu Feb 16 19:20:33 UTC 2017  admin  cockroachdb  create deployment             /deployments/cockroachdb
+    26  done   Thu Feb 16 18:54:32 UTC 2017  Thu Feb 16 18:55:27 UTC 2017  admin  cockroachdb  delete deployment cockroachd  /deployments/cockroachdb
+    ...
+
+    110 tasks
+
+    Succeeded
+
+    # show last 30 tasks
+    $ bosh -e vbox ts -r --all
+
+    # show last 1000 tasks
+    $ bosh -e vbox ts -r=1000
+    </pre>
+
+- <a id="task"></a> `bosh -e my-env task id [--debug] [--result] [--event] [--cpi]` (Alias: `t`)
+
+    Shows single task details. Continues to follow task if it did not finish. `Ctrl^C` does not cancel task.
+
+    <pre class="terminal">
+    $ bosh -e vbox t 281
+    $ bosh -e vbox t 281 --debug
+    </pre>
+
+- <a id="cancel-task"></a> `bosh -e my-env cancel-task id` (Alias: `ct`)
+
+    Cancel task at its next checkpoint. Does not wait until task is cancelled.
+
+    <pre class="terminal">
+    $ bosh -e vbox ct 281
+    </pre>
 
 ---
-### <a id="snapshot-mgmt"></a> Snapshot
+### <a id="snapshot-mgmt"></a> Snapshots
 
-  snapshots              List snapshots (aliases: snaps)
-  take-snapshot          Take snapshot (aliases: tsnap)
-  delete-snapshot        Delete snapshot (aliases: delsnap)
-  delete-snapshots       Delete all snapshots in a deployment (aliases: delsnaps)
+- <a id="snapshots"></a> `bosh -e my-env -d my-dep snapshots`
+
+    Lists disk snapshots for given deployment.
+
+- <a id="take-snapshot"></a> `bosh -e my-env -d my-dep take-snapshot [group/instance-id]`
+
+    Takes snapshot for an instance or an entire deployment.
+
+- <a id="delete-snapshot"></a> `bosh -e my-env -d my-dep delete-snapshot cid`
+
+    Deletes snapshot.
+
+    <pre class="terminal">
+    $ bosh -e vbox -d cf delete-snapshot snap-shw38ty83f2f2
+    </pre>
+
+- <a id="delete-snapshots"></a> `bosh -e my-env -d my-dep delete-snapshots`
+
+    Deletes snapshots for an entire deployment.
 
 ---
 ### <a id="deployment-recovery"></a> Deployment recovery
 
-  delete-disk            Delete disk
-  delete-vm              Delete VM
-  attach-disk            Attaches an disk to an instance and replaces the current disk
-  clean-up               Clean up releases, stemcells, disks, etc.
-  cloud-check            Cloud consistency check and interactive repair (aliases: cck, cloudcheck)
-  update-resurrection    Enable/disable resurrection
-  locks                  List current locks
-  disks                  List disks
+- <a id="update-resurrection"></a> `bosh -e my-env update-resurrection on/off`
+
+    Enables or disables resurrection globally. This state is not reflected in the `bosh instances` command's `Resurrection` column.
+
+    See [Automatic repair with Resurrector](resurrector.html) for details.
+
+- <a id="cloud-check"></a> `bosh -e my-env -d my-dep cloud-check [--report] [--auto]` (Alias: `cck`)
+
+    Checks for resource consistency and allows interactive repair.
+
+    See [Manual repair with Cloud Check](cck.html) for details.
+
+- <a id="locks"></a> `bosh -e my-env locks`
+
+    Lists current locks.
 
 ---
 ### <a id="misc"></a> Misc
 
-- `bosh help`
+- <a id="clean-up"></a> `bosh -e my-env clean-up [--all]`
+
+    Cleans up releases, stemcells, orphaned disks, and other unused resources.
+
+    - `--all` flag forces cleanup for orphaned disks
+
+- <a id="help"></a> `bosh help`
 
     Shows list of available commands and global options. Consider using `-h` flag for individual commands.
 
@@ -670,3 +963,5 @@ See [CPI config](cpi-config.html).
     ...
     </pre>
 
+---
+Next: [Differences between CLI v2 vs v1](cli-global-flags.html)

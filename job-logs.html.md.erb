@@ -91,7 +91,7 @@ Cron runs logrotate script every hour.
 ---
 ### <a id="syslog-conf"></a> Syslog configuration
 
-BOSH does not currently offer a built-in way to configure syslog to forward all logs to a remote host. Currently recommended way to do so would be to add a release job to each deployment job that configures syslogd as desired.
+Recommended way to configure syslog forwarding on all or some VMs is to use [`syslog_forwarder` job from `syslog-release` as an addon](addons-common.html#syslog).
 
 ---
 ## <a id="director-logs"></a> Director task logs
