@@ -583,14 +583,7 @@ See [CPI config](cpi-config.html).
     Prints deployment manifest to `stdout`.
 
     <pre class="terminal">
-    $ bosh -e vbox -d cf man
-    Using environment '192.168.56.6' as client 'admin'
-
-    Using deployment 'cf'
-
-    instance_groups:
-    - azs: [z1]
-    ...
+    $ bosh -e vbox -d cf man > /tmp/manifest.yml
     </pre>
 
 - <a id="recreate"></a> `bosh -e my-env -d my-dep recreate [group[/instance-id]] [--skip-drain] [--fix] [--canaries=] [--max-in-flight=] [--dry-run]`
@@ -646,7 +639,7 @@ See [CPI config](cpi-config.html).
 
 - <a id="logs"></a> `bosh -e my-env -d my-dep logs [group[/instance-id]] [--follow] ...`
 
-    Downloads logs from one or more instances. 
+    Downloads logs from one or more instances.
 
     - `--dir=` flag specifies destination directory
     - `--job=` flag includes only specific jobs logs

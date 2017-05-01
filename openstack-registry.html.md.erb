@@ -4,7 +4,7 @@ title: Extended Registry configuration
 
 <p class="note">Note: We are actively pursuing to remove the Registry to simplify BOSH architecture.</p>
 
-[The default template](init-openstack.html#create-manifest) provided for bosh-init uses Registry and defaults it to IP source authentication. Due to certain networking configurations (NAT) IP source authentication may not work correctly, hence switching to basic authentication is necessary.
+Default configuration typically uses Registry and defaults it to IP source authentication. Due to certain networking configurations (NAT) IP source authentication may not work correctly, hence switching to basic authentication is necessary.
 
 1. Configure the Registry and the OpenStack CPI to use basic authentication by setting `registry.endpoint`
 

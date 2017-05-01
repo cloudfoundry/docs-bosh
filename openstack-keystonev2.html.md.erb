@@ -2,11 +2,11 @@
 title: Using Keystone API v2
 ---
 
-[The default template](init-openstack.html#create-manifest) provided for bosh-init configures authentication using the Keystone v3 API. This document describes how to use Keystone v2 if your OpenStack installation enforces this.
+Default configuration typically uses Keystone v3 API. This document describes how to use Keystone v2 if your OpenStack installation enforces this.
 
 1. Configure OpenStack CPI
 
-    Modify [the default template](init-openstack.html#create-manifest). In `properties.openstack`:
+    In `properties.openstack`:
     - switch property `auth_url` to use v2 endpoint.
         <div class="note">Note: path is `v2.0` including the minor revision!</div>
     - add property `tenant`
