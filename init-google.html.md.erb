@@ -19,7 +19,7 @@ This document shows how to initialize new [environment](terminology.html#environ
     $ bosh create-env bosh-deployment/bosh.yml \
         --state=state.json \
         --vars-store=creds.yml \
-        -o bosh-deployment/azure/cpi.yml \
+        -o bosh-deployment/gcp/cpi.yml \
         -v director_name=bosh-1 \
         -v internal_cidr=10.0.0.0/24 \
         -v internal_gw=10.0.0.1 \
