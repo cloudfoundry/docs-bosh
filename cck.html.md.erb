@@ -317,7 +317,13 @@ cck determined that `vol-549f071f` persistent disk is not attached to `i-4fcd99b
 ---
 ### <a id="missing-persistent-disk"></a> Persistent Disk is missing
 
-Assuming there was a deployment with a VM, somehow persistent disk got deleted.
+An outside event such as a hardware disk crash can cause the loss of a persistent disk.
+
+To delete references to the lost persistent disk and attach a new, blank disk, follow this procedure:
+
+1. Run `bosh cck` and choose "Delete disk reference"
+2. Run `bosh recreate JOB_WITH_DISK/INDEX` to recreate the VM with a new, blank persistent disk
+  - Do **not** run `bosh deploy` prior to `bosh recreate` as this may not properly delete the disk reference
 
 Note: Not all CPIs implement needed functionality to determine if disk is missing. Those CPIs will report missing disk as [Persistent Disk is not attached](#unattached-persistent-disk) problem; however, both reattaching resolutions will fail since persistent disk would not be found.
 
