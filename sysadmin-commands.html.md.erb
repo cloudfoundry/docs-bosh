@@ -124,7 +124,8 @@ Displays a table that provides an overview of the VMs in `DEPLOYMENT_NAME`. You 
 - **vitals**: includes load, CPU, memory, swap, system disk, ephemeral disk, and persistent disk usage
 
 <pre class="terminal">$ bosh recreate JOB [INDEX] [--force]</pre>
-Stops the job process, power cycles the VM, recreates the job instance, then restarts the job process.
+Stops the job process, recreates the VM, creates the job instance on the new VM, then starts the job process. `--force` 
+executes the command even if the local manifest doesn't match the version the BOSH director has.
 
 <pre class="terminal">$ bosh stop JOB [INDEX] [--hard] [--force]</pre>
 Stops the job processes, and if `--hard` is specified deletes a VM keeping persistent disks.
