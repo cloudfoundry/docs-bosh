@@ -96,6 +96,8 @@ $ curl -s -k https://192.168.50.4:25555/info | jq .
 ---
 ## <a id="tasks"></a> Tasks
 
+See [Director tasks](director-tasks.html) for related info.
+
 ### <a id="list-tasks"></a> `GET /tasks`: List all tasks
 
 #### Response body schema
@@ -857,3 +859,143 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=r
   ]
 }
 ```
+
+---
+## <a id="events"></a> Events
+
+See [Events](events.html) for info.
+
+### <a id="list-events"></a> `GET /events`: List events
+
+#### Response body schema
+
+**[root]** [Array]: List 200 events matching particular criteria. See query params below for filtering options.
+
+- **id** [String]: Event ID.
+- **parent_id** [String]: Associated start event ID if this event represents an end of some action.
+- **timestamp** [Integer]: Time at which event was recorded.
+- **user** [String]: Associated user name. Also can be `_director` for system initiated events. Example: `admin`.
+- **action** [String]: Action performed against an object. Example: `create`, `delete`, `update`.
+- **object_type** [String]: Type of an affected object. Example: `deployment`, `instance`.
+- **object_name** [String]: Identifier of an affected object. Example: `bosh` (deployment), `bosh/db7658b6-de2f-4c94-a261-acaf4c4b7f62` (instance).
+- **task** [String]: Associated task ID. Example: `293543`.
+- **deployment** [String]: Name of the deployment.
+- **error** [String]: Error description if an error happened.
+- **context** [Hash]: Additional data specific to this event. For example for update deployment ending event context includes list of releases and stemcells before and after the deployment.
+
+#### Query filters
+
+- **before_id`:** [String]: Event ID.
+- **before_time** [String]: Ruby parseable time. Example: `Thu May 4 17:06:40 UTC 2017`.
+- **after_time** [String]: Ruby parseable time. Example: `Thu May 4 17:06:40 UTC 2017`
+- **task** [String]: Task ID.
+- **deployment** [String]: Deployment name.
+- **instance** [String]: Instance name.
+- **user** [String]: User name.
+- **action** [String]: Action.
+- **object_type** [String]: Object type.
+- **object_name** [String]: Object name.
+
+#### Example
+
+<pre class="terminal">
+$ curl -v -s -k https://admin:admin@192.168.50.4:25555/events | jq .
+</pre>
+
+```yaml
+[
+  {
+    "id": "3134",
+    "parent_id": "3123",
+    "timestamp": 1493917600,
+    "user": "admin",
+    "action": "update",
+    "object_type": "deployment",
+    "object_name": "bosh",
+    "task": "37037",
+    "deployment": "bosh",
+    "context": {
+      "before": {
+        "releases": [
+          "uaa/27",
+          "bosh/261.4+dev.1493403626",
+          "bosh-aws-cpi/62+dev.1",
+        ],
+        "stemcells": [
+          "bosh-aws-xen-hvm-ubuntu-trusty-go_agent/3363.9"
+        ]
+      },
+      "after": {
+        "releases": [
+          "uaa/27",
+          "bosh/261.4+dev.1493916984",
+          "bosh-aws-cpi/62+dev.1",
+        ],
+        "stemcells": [
+          "bosh-aws-xen-hvm-ubuntu-trusty-go_agent/3363.9"
+        ]
+      }
+    }
+  },
+  {
+    "id": "3133",
+    "parent_id": "3132",
+    "timestamp": 1493917600,
+    "user": "admin",
+    "action": "update",
+    "object_type": "instance",
+    "object_name": "bosh/db7658b6-de2f-4c94-a261-acaf4c4b7f62",
+    "task": "37037",
+    "deployment": "bosh",
+    "instance": "bosh/db7658b6-de2f-4c94-a261-acaf4c4b7f62",
+    "context": {}
+  }
+]
+```
+
+---
+### <a id="get-event"></a> `GET /events/{id}`: Retrieve single event
+
+#### Response body schema
+
+**[root]** [Hash]: Event details.
+
+See additional schema details [above](#list-events).
+
+#### Example
+
+<pre class="terminal">
+$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/events/3133' | jq .
+</pre>
+
+```yaml
+{
+  "id": "3133",
+  "parent_id": "3132",
+  "timestamp": 1493917600,
+  "user": "admin",
+  "action": "update",
+  "object_type": "instance",
+  "object_name": "bosh/db7658b6-de2f-4c94-a261-acaf4c4b7f62",
+  "task": "37037",
+  "deployment": "bosh",
+  "instance": "bosh/db7658b6-de2f-4c94-a261-acaf4c4b7f62",
+  "context": {}
+}
+```
+
+---
+### <a id="post-event"></a> `POST /events`: Create single event
+
+#### Request body schema
+
+**[root]** [Hash]: Event details.
+
+- **timestamp** [String, optional]: Optionally provide a timestamp when event occurred.
+- **action** [String, required]
+- **object_type** [String, required]
+- **object_name** [String, required]
+- **deployment** [String, optional]: Deployment name.
+- **instance** [String, optional]: Instance name.
+- **error** [String, optional]: Error description.
+- **context** [Hash, optional]
