@@ -34,7 +34,7 @@ Since CPI is just an executable, following takes place for each CPI method call:
 1. CPI executable exits
 1. Callee parses and interprets JSON response ignoring process exit code
 
-As a reference the Director's implementation is in [bosh_cpi's external\_cpi.rb](https://github.com/cloudfoundry/bosh/blob/master/bosh_cpi/lib/cloud/external_cpi.rb) and bosh-init implements it in [cpi\_cmd\_runner.go](https://github.com/cloudfoundry/bosh-init/blob/master/cloud/cpi_cmd_runner.go).
+As a reference the Director's implementation is in [bosh_cpi's external\_cpi.rb](https://github.com/cloudfoundry/bosh/blob/master/src/bosh-director/lib/cloud/external_cpi.rb) and the BOSH CLI implements it in [cpi\_cmd\_runner.go](https://github.com/cloudfoundry/bosh-cli/blob/master/cloud/cpi_cmd_runner.go).
 
 ### <a id='request'></a> Request
 
