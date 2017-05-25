@@ -2,7 +2,7 @@
 title: Director SSL Certificate Configuration
 ---
 
-## <a id="generate"></a> Generate SSL certificates
+<p class="note">Note: See <a href="director-certs-openssl.html">Director SSL Certificate Configuration with OpenSSL</a> if you prefer to generate certs with OpenSSL config.</p>
 
 Depending on you configuration, there are up to three endpoints to be secured using SSL certificates: The Director, the UAA, and the SAML Service Provider on the UAA.
 
@@ -10,76 +10,56 @@ Depending on you configuration, there are up to three endpoints to be secured us
 
 <p class="note">Note: Unless you are using a configuration server, your SSL certificates will be stored in the Director's database.</p>
 
-You can use the following script to generate a root CA certificate and use it to sign three generated SSL certificates:
+## <a id="generate"></a> Generate SSL certificates
+
+You can use CLI v2 `interpolate` command to generate self signed certificates. Even if you use CLI v2 to generate certificates, you can still continue using CLI v1 with the Director.
+
+```yaml
+variables:
+- name: default_ca
+  type: certificate
+  options:
+    is_ca: true
+    common_name: bosh_ca
+- name: director_ssl
+  type: certificate
+  options:
+    ca: default_ca
+    common_name: ((internal_ip))
+    alternative_names: [((internal_ip))]
+- name: uaa_ssl
+  type: certificate
+  options:
+    ca: default_ca
+    common_name: ((internal_ip))
+    alternative_names: [((internal_ip))]
+- name: uaa_service_provider_ssl
+  type: certificate
+  options:
+    ca: default_ca
+    common_name: ((internal_ip))
+    alternative_names: [((internal_ip))]
+```
 
 <pre class="bash">
-#!/bin/bash
-
-set -e
-
-certs=`dirname $0`/certs
-
-rm -rf $certs && mkdir -p $certs
-
-cd $certs
-
-echo "Generating CA..."
-openssl genrsa -out rootCA.key 2048
-yes "" | openssl req -x509 -new -nodes -key rootCA.key \
-  -out rootCA.pem -days 99999
-
-function generateCert {
-  name=$1
-  ip=$2
-
-  cat >openssl-exts.conf <<-EOL
-extensions = san
-[san]
-subjectAltName = IP:${ip}
-EOL
-
-  echo "Generating private key..."
-  openssl genrsa -out ${name}.key 2048
-
-  echo "Generating certificate signing request for ${ip}..."
-  # golang requires to have SAN for the IP
-  openssl req -new -nodes -key ${name}.key \
-    -out ${name}.csr \
-    -subj "/C=US/O=BOSH/CN=${ip}"
-
-  echo "Generating certificate ${ip}..."
-  openssl x509 -req -in ${name}.csr \
-    -CA rootCA.pem -CAkey rootCA.key -CAcreateserial \
-    -out ${name}.crt -days 99999 \
-    -extfile ./openssl-exts.conf
-
-  echo "Deleting certificate signing request and config..."
-  rm ${name}.csr
-  rm ./openssl-exts.conf
-}
-
-generateCert director 10.244.4.2 # <--- Replace with public Director IP
-generateCert uaa-web 10.244.4.2  # <--- Replace with public Director IP
-generateCert uaa-sp 10.244.4.2   # <--- Replace with public Director IP
-
-echo "Finished..."
-ls -la .
+$ bosh interpolate tpl.yml -v internal_ip=10.244.4.2 --vars-store certs.yml
+$ cat certs.yml
 </pre>
 
----
 ## <a id="configure"></a> Configure the Director to use certificates
 
 Update the Director deployment manifest:
 
 - `director.ssl.key`
-    - Private key for the Director (e.g. content of `certs/director.key`)
+    - Private key for the Director (content of `bosh int certs.yml --path /director_ssl/private_key`)
 - `director.ssl.cert`
-    - Associated certificate for the Director (e.g. content of `certs/director.crt`)
+    - Associated certificate for the Director (content of `bosh int certs.yml --path /director_ssl/certificate`)
     - Include all intermediate certificates if necessary
 - `hm.director_account.ca_cert`
-    - CA certificate used by the HM to verify the Director's certificate (e.g. content of `certs/rootCA.pem`)
+    - CA certificate used by the HM to verify the Director's certificate (content of `bosh int certs.yml --path /director_ssl/ca`)
 
 Example manifest excerpt:
+
 ```yaml
 ...
 jobs:
@@ -97,19 +77,20 @@ jobs:
           -----END CERTIFICATE-----
 ...
 ```
+
 <p class="note">Note: A `path` to the key or certificate file is not supported.</p>
 
 If you are using the UAA for user management, additionally put certificates in these properties:
 
 - `uaa.sslPrivateKey`
-    - Private key for the UAA (e.g. content of `certs/uaa-web.key`)
+    - Private key for the UAA (content of `bosh int certs.yml --path /uaa_ssl/private_key`)
 - `uaa.sslCertificate`
-    - Associated certificate for the UAA (e.g. content of `certs/uaa-web.crt`)
+    - Associated certificate for the UAA (content of `bosh int certs.yml --path /uaa_ssl/certificate`)
     - Include all intermediate certificates if necessary
 - `login.saml.serviceProviderKey`
-    - Private key for the UAA (e.g. content of `certs/uaa-sp.key`)
+    - Private key for the UAA (content of `bosh int certs.yml --path /uaa_service_provider_ssl/private_key`)
 - `login.saml.serviceProviderCertificate`
-    - Associated certificate for the UAA (e.g. content of `certs/uaa-sp.crt`)
+    - Associated certificate for the UAA (content of `bosh int certs.yml --path /uaa_service_provider_ssl/certificate`)
 
 ---
 ## <a id="target"></a> Target the Director
@@ -117,7 +98,7 @@ If you are using the UAA for user management, additionally put certificates in t
 After you deployed your Director with the above changes, you need to specify `--ca-cert` when targeting the Director:
 
 <pre class="terminal">
-$ bosh --ca-cert certs/rootCA.pem target 10.244.4.2
+$ bosh --ca-cert <(bosh int certs.yml --path /director_ssl/ca) target 10.244.4.2
 </pre>
 
 <p class="note">Note: If your certificates are trusted via system installed CA certificates, there is no need to provide `--ca-cert` option.</p>
