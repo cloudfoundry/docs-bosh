@@ -12,8 +12,11 @@ Depending on you configuration, there are up to three endpoints to be secured us
 
 You can use the following script to generate a root CA certificate and use it to sign three generated SSL certificates:
 
+
 <pre class="bash">
 #!/bin/bash
+# https://bosh.io/docs/director-certs.html
+# pass as argument: public Director DNS, public Director IP.
 
 set -e
 
@@ -30,24 +33,28 @@ yes "" | openssl req -x509 -new -nodes -key rootCA.key \
 
 function generateCert {
   name=$1
-  ip=$2
+  dns=$2
+  ip=$3
 
   cat >openssl-exts.conf <<-EOL
 extensions = san
 [san]
-subjectAltName = IP:${ip}
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = ${dns}
+IP.1 = ${ip}
 EOL
 
   echo "Generating private key..."
   openssl genrsa -out ${name}.key 2048
 
-  echo "Generating certificate signing request for ${ip}..."
+  echo "Generating certificate signing request for ${dns}..."
   # golang requires to have SAN for the IP
   openssl req -new -nodes -key ${name}.key \
     -out ${name}.csr \
-    -subj "/C=US/O=BOSH/CN=${ip}"
+    -subj "/C=US/O=BOSH/CN=${dns}"
 
-  echo "Generating certificate ${ip}..."
+  echo "Generating certificate ${dns}..."
   openssl x509 -req -in ${name}.csr \
     -CA rootCA.pem -CAkey rootCA.key -CAcreateserial \
     -out ${name}.crt -days 99999 \
@@ -58,13 +65,14 @@ EOL
   rm ./openssl-exts.conf
 }
 
-generateCert director 10.244.4.2 # <--- Replace with public Director IP
-generateCert uaa-web 10.244.4.2  # <--- Replace with public Director IP
-generateCert uaa-sp 10.244.4.2   # <--- Replace with public Director IP
+generateCert director  $1 $2
+generateCert uaa-web $1 $2
+generateCert uaa-sp  $1 $2
 
 echo "Finished..."
 ls -la .
 </pre>
+
 
 ---
 ## <a id="configure"></a> Configure the Director to use certificates
