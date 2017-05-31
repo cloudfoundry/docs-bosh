@@ -6,7 +6,7 @@ title: CLI Variable Interpolation
 
 It's typically necessary to separate passwords, certificates, S3 bucket names etc. from YAML documents used with CLI commands such as `bosh create-env` and `bosh deploy`. Even though the structure of a YAML document (manifest) does not change these values are typically different. CLI provides special syntax in YAML documents to annotate such values making plain YAML document into a parameterized template.
 
-<p class="note">Note: Changing structure of a YAML document such as adding an S3 access configuration section is a bit more than just YAML document parameterization. Look into [operations files](cli-int.html) for additional details.</p>
+<p class="note">Note: Changing structure of a YAML document such as adding an S3 access configuration section is a bit more than just YAML document parameterization. Look into [operations files](cli-ops-files.html) for additional details.</p>
 
 ---
 ## <a id="variables"></a>  Variables
@@ -28,7 +28,7 @@ s3_access_secret_key: ((access_secret_key))
 
 Commands that accept YAML documents such as `bosh deploy` and `bosh update-cloud-config` typically have a set of flags that can be used to provide variable values. `bosh interpolate` command can be used to experiment with such flags as its only job is to print result of variable interpolation.
 
-<p class="note">Note that once Director officially supports config server API, it will be recommended to use connected config server to store variable values instead of providign them via CLI flags.</p>
+<p class="note">Note that once Director officially supports config server API, it will be recommended to use connected config server to store variable values instead of providing them via CLI flags.</p>
 
 CLI allows to provide variable values via usage of one or more of the following flags:
 
