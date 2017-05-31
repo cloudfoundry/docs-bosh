@@ -228,6 +228,7 @@ See [Uploading Stemcells](uploading-stemcells.html).
     - `--version` flag allows to provide custom release version
     - `--timestamp-version` flag will produce timestamp based dev release version
     - `--tarball` flag specifies destination of a release tarball; if not specified, release tarball will not be produced
+    - `--sha2` flag to sign releases using SHA256
 
     While iterating on a release it's common to run `bosh create-release --force && bosh -e my-env upload-release && bosh -e my-env -d my-dep deploy manifest.yml` command sequence.
 
