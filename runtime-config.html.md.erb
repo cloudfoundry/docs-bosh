@@ -79,11 +79,24 @@ An addon is a release job that is colocated on all VMs managed by the Director.
 **addons** [Array, optional]: Specifies the [addons](./terminology.html#addon) to be applied to all deployments.
 
 * **name** [String, required]: A unique name used to identify and reference the addon.
-* **jobs** [Hash, requires]: Specifies the name and release of release jobs to be colocated.
+* **jobs** [Array of hashes, requires]: Specifies the name and release of release jobs to be colocated.
   * **name** [String, required]: The job name.
   * **release** [String, required]: The release where the job exists.
-* **include** [Hash, optional]: Specifies placement rules. (Rules for exclusions are coming soon.) Available in bosh-release v260+.
+* **include** [Hash, optional]: Specifies inclusion placement rules. Available in bosh-release v260+.
+* **exclude** [Hash, optional]: Specifies exclusion placement rules. Available in bosh-release v260+.
 * **properties** [Hash, optional]: Specifies job properties. Properties allow the Director to configure jobs to a specific environment. `properties` specified on an addon are only accessible to addons.
+
+Available inclusion/exclusion rules:
+
+**stemcell** [Array of hashes, optional]
+  * **os** [String, required]: Matches stemcell's operting system. Example: `ubuntu-trusty`
+* **deployments** [Array of strings, optional]: Matches based on deployment names.
+* **jobs** [Array of hashes, otional]
+  * **name** [String, required]: Matching job name.
+  * **release** [String, required]: Matching release name.
+* **networks** [Array of strings, optional]: Matches based on network names. Available in bosh-release v262+.
+
+All arrays within inclusion/exclusion rules use `or` operator.
 
 Example:
 
@@ -103,7 +116,7 @@ addons:
     syslog_drain_ips: [10.10.0.20]
 ```
 
-Possible `include` rules:
+Example with `include` rules:
 
 ```yaml
 include:
@@ -112,7 +125,7 @@ include:
   - name: redis
     release: redis-release
   stemcell:
-    - os: ubuntu-trusty
+  - os: ubuntu-trusty
 ```
 
 See [common addons list](addons-common.html) for several examples.
