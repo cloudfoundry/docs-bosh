@@ -169,8 +169,13 @@ Schema:
 * **ssh_user** [String, required]: SSH username. Default: `vcap`.
 * **ssh\_public\_key** [String, required]: SSH public key.
 * **default\_security\_group** [String, required]: Name of the default [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) that will be applied to all created VMs.
-* **azure\_stack\_domain** [String, optional]: The domain for your AzureStack deployment.
-* **azure\_stack\_authentication** [String, optional]: The authentication type for your AzureStack deployment. Possible values are: `AzureAD`, `AzureStackAD` or `AzureStack`.
+* **azure\_stack** [Hash, optional]: Configration for AzureStack. Available in v23+.
+    * **domain** [String, optional]: The domain for your AzureStack deployment. Default is `local.azurestack.external`.
+    * **authentication** [String, optional]: The authentication type for your AzureStack deployment. Possible values are: `AzureAD`, `AzureStackAD` or `AzureStack`. Default is `AzureAD`.
+    * **resource** [String, optional]: The token resource for your AzureStack deployment.
+    * **endpoint\_prefix** [String, optional]: The endpoint prefix for your AzureStack deployment.  Default is `management`.
+    * **skip\_ssl\_validation** [Boolean, optional]: Toggles verification of the Azure Resource Manager REST API SSL certificate. Default is `false`.
+    * **use\_http\_to\_access\_storage\_account** [Boolean, optional]: Flag for using HTTP to access storage account rather than the default HTTPS. Default is `false`.
 * **parallel\_upload\_thread\_num** [Integer, optional]: The number of threads to upload stemcells in parallel. The default value is 16.
 * **debug_mode** [Boolean, optional]: Enable debug mode to log all raw HTTP requests/responses. The default value is false.
 * **use\_managed\_disks** [Boolean, optional]: Enable managed disks. The default value is `false`. Available in V21+.
