@@ -11,7 +11,7 @@ title: Differences between CLI v2 vs v1
 | bosh-init deploy <manifest> | bosh create-env <manifest>
 | bosh-init delete <manifest> | bosh delete-env <manifest>
 | bosh target <ip>            | bosh alias-env my-env -e <ip>
-| bosh status                 | bosh env
+| bosh status                 | bosh -e my-env env
 | bosh -t my-env ...          | bosh -e my-env ...
 | bosh -d manifest-path ...   | bosh -d deployment-name ... [3]
 | bosh deployment <manifest>  | n/a
