@@ -44,7 +44,7 @@ AZs schema:
 - [See vCloud CPI AZ cloud properties](vcloud-cpi.html#azs)
 
 ---
-## <a id='config'></a> Assigning AZs to deployment jobs
+## <a id='assigning-azs'></a> Assigning AZs to deployment instance groups
 
 Once AZs are defined, deployment jobs can be placed into one or more AZs:
 
@@ -70,7 +70,7 @@ Given above configuration, 5 instances will be spread over "z1" and "z2" AZs, mo
 <p class="note">We are planning to eventually introduce <code>bosh rebalance</code> command to forcefully rebalance instances with persistent disks.</a>
 
 ---
-## <a id='config'></a> Listing VMs in AZs
+## <a id='listing-vms-in-azs'></a> Listing VMs in AZs
 
 While deploy is in progress or after it finishes, `bosh instances` and `bosh vms` commands can be used to view instances and their associated AZs.
 
