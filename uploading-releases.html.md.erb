@@ -2,6 +2,8 @@
 title: Uploading Releases
 ---
 
+<p class="note">Note: Applies to CLI v2.</p>
+
 (See [What is a Release?](release.html) for an introduction to releases.)
 
 As described earlier, each deployment references one or many releases on the Director. Before the Director can form a deployment, all referenced releases must be uploaded to the Director.
@@ -13,7 +15,7 @@ Releases are distributed in two ways: as a release tarball or through a source c
 Here are a few popular releases:
 
 - [cf-release](http://bosh.io/releases/github.com/cloudfoundry/cf-release) provides CloudFoundry
-- [cf-mysql-release](http://bosh.io/releases/github.com/cloudfoundry/cf-mysql-release) provides highly-available MySQL
+- [concourse](http://bosh.io/releases/github.com/concourse/concourse) provides a Continious Integration system called Concourse CI
 - [cf-rabbitmq-release](http://bosh.io/releases/github.com/pivotal-cf/cf-rabbitmq-release) provides RabbitMQ
 
 ---
@@ -24,13 +26,13 @@ Assuming that the CLI is already targeted at the Director, the CLI provides a si
 - If you have a URL to a release tarball (for example a URL provided by bosh.io):
 
 	<pre class="terminal">
-	$ bosh upload release https://bosh.io/d/github.com/cloudfoundry/cf-release
+	$ bosh upload-release https://bosh.io/d/github.com/cloudfoundry/cf-release
 	</pre>
 
 	Alternatively, if you have a release tarball on your local machine:
 
 	<pre class="terminal">
-	$ bosh upload release ~/Downloads/redis-12.tgz
+	$ bosh upload-release ~/Downloads/zookeeper-0.0.5.tgz
 	</pre>
 
 - If you cloned a Git repository:
@@ -38,36 +40,34 @@ Assuming that the CLI is already targeted at the Director, the CLI provides a si
     Note that all release repositories have a `releases/` folder that contains release YAML files. These files have all the required information about how to assemble a specific version of a release (provided that the release maintainers produce and commit that version to the repository). You can use the YAML files to either directly upload a release, or to create a release tarball locally and then upload it.
 
     <pre class="terminal">
-	$ cd ~/workspace/redis-boshrelease
-
-	$ bosh upload release releases/redis/redis-12.yml
+	$ cd ~/workspace/zookeeper-release
+	$ bosh upload-release
 	</pre>
 
 	Alternatively, to build a release tarball locally from a release YAML file:
 
 	<pre class="terminal">
-	$ cd ~/workspace/redis-boshrelease
-
-	$ bosh create release releases/redis/redis-12.yml --with-tarball
-
-	$ bosh upload release releases/redis/redis-12.tgz
+	$ cd ~/workspace/zookeeper-release
+	$ bosh create-release releases/zookeeper/zookeeper-12.yml --tarball x.tgz
+	$ bosh upload-release x.tgz
 	</pre>
 
 Once the command succeeds, you can view all uploaded releases in the Director:
 
 <pre class="terminal">
-$ bosh releases
+$ bosh -e vbox releases
+Using environment '192.168.50.6' as client 'admin'
 
-+--------+----------+-------------+
-| Name   | Versions | Commit Hash |
-+--------+----------+-------------+
-| redis  | 12       | 3eb40ae4    |
-| mesos  | 1        | d07b570b    |
-+--------+----------+-------------+
+Name       Version            Commit Hash
+dns        0+dev.1496791266*  65f3b30+
+zookeeper  0.0.5*             b434447
+
 (*) Currently deployed
 (+) Uncommitted changes
 
-Releases total: 5
+3 releases
+
+Succeeded
 </pre>
 
 ---
@@ -77,7 +77,8 @@ To use an uploaded release in your deployment, update the `releases` section in 
 
 ```yaml
 releases:
-- {name: redis, version: 12}
+- name: zookeeper
+  version: 0.0.5
 ```
 
 ---
