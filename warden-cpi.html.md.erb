@@ -51,9 +51,9 @@ The CPI does not support vip networks.
 Schema for `cloud_properties` section:
 
 * **ports** [Array, optional]: Allows to define port mapping between host and associated containers. Available in v30+.
-  **host** [String, required]: Port or range of ports. Example: `80`.
-  **container** [String, optional]: Port or range of ports. Defaults to `host` defined port or range. Example: `80`.
-  **protocol** [String, optional]: Connection protocol. Defaults to `tcp`. Example: `udp`.
+* **host** [String, required]: Port or range of ports. Example: `80`.
+* **container** [String, optional]: Port or range of ports. Defaults to `host` defined port or range. Example: `80`.
+* **protocol** [String, optional]: Connection protocol. Defaults to `tcp`. Example: `udp`.
 
 We may add simple load balancing via iptables for testing if ports is forwarded to multiple containers.
 
