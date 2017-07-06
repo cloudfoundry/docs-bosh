@@ -922,6 +922,10 @@ See [CPI config](cpi-config.html).
 ---
 ### <a id="misc"></a> Misc
 
+- <a id="debug"></a> `BOSH_LOG_LEVEL=debug bosh ...`
+
+    The BOSH_LOG_LEVEL environment variable controls the verbosity of log printed on stdout. Valid values are DEBUG, INFO, WARN, ERROR, NONE.
+
 - <a id="clean-up"></a> `bosh -e my-env clean-up [--all]`
 
     Cleans up releases, stemcells, orphaned disks, and other unused resources.
