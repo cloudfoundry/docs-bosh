@@ -22,6 +22,7 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
     - issue unmount_disk Agent call for attached disks
     - issue delete_vm CPI call for each VM
     - orphan persistent disks
+    - [Update and propagate DNS records](deploying-step-by-step.html#dns)
 
 1. Create compilation worker VMs based on as specified by `compilation` section
     - issue create_vm CPI call
@@ -33,8 +34,10 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
     - issue delete_vm CPI call
 
 1. Create empty VMs for new instance groups
+    - [Update and propagate DNS records](deploying-step-by-step.html#dns)
 
 1. Create empty VMs for instance groups that increased in instance size
+    - [Update and propagate DNS records](deploying-step-by-step.html#dns)
 
 1. Update each one of the instance groups:
 
@@ -60,6 +63,7 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
         - if no, create a new VM based on a correct stemcell
             - issue delete_vm CPI call
             - issue create_vm CPI call
+            - [Update and propagate DNS records](deploying-step-by-step.html#dns)
         - if yes, do nothing
 
     1. Check if the instance group's network configuration changed
@@ -67,6 +71,7 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
         - if yes, reconfigure running VM to match new configuration
             - issue delete_vm CPI call
             - issue create_vm CPI call
+            - [Update and propagate DNS records](deploying-step-by-step.html#dns)
 
     1. Update DNS A record for this instance with new IP
 
@@ -85,3 +90,10 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
     1. [start processes on the VM and wait up to specified amount of time by the `update_watch_time` or `canary_watch_time`](job-lifecycle.html#start)
         - issue start Agent call
         - issue get_state Agent call until job state is running or times out
+
+---
+## <a id='dns'></a> Update and propagate DNS records
+
+1. Create a new DNS records dataset and saves it to the blobstore
+1. issues sync_dns Agent call to *all* VMs (in all deployments)
+1. Each Agent downloads new DNS records dataset and updates `/var/vcap/instance/dns/records.json`
