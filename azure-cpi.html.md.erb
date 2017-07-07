@@ -114,6 +114,12 @@ Schema for `cloud_properties` section:
       * If the Azure temporary disk size for the instance type is larger than `1023*1024` MiB, the default size is `1023*1024` MiB because max data disk size is `1023*1024` MiB on Azure.
       * Otherwise, the Azure temporary disk size will be used as the default size. See more information about [Azure temporary disk size](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-sizes/).
 * **assign\_dynamic\_public\_ip** [Boolean, optional]: Enable to create and assign dynamic public IP to the VM automatically (to solve the [azure SNAT issue](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/issues/217)). Default value is `false`. Only the VM without vip will be assigned a dynamic public IP when this value is set to true, and the dynamic public IP will be deleted when the VM is deleted.
+* **resource\_group\_name** [String, optional]: Name of a resource group (Available in v26+). If it is set, related resources will be created in this resource group; otherwise, they will be created in `resource_group_name` specified in the global CPI settings. The resources affected by this property are:
+      1. Virtual Machine
+      1. Network Interface Card
+      1. Managed Disks (including OS disk, ephemeral disk, persistent disk and snapshot)
+      1. Dynamic Public IP for the VM
+      1. Availability Set
 
 Example of a `Standard_A2` instance:
 
@@ -154,8 +160,6 @@ disk_pools:
 
 ---
 ## <a id="global"></a> Global Configuration
-
-The CPI can only use single resource group.
 
 Schema:
 
