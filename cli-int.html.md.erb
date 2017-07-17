@@ -35,7 +35,7 @@ CLI allows to provide variable values via usage of one or more of the following 
 - `--var=key=val` (`-v`) flag sets single variable value as an argument
 
     <pre class="terminal">
-    $ bosh int base.yml -v access_key_id=some-key -v access_secret_key=some-secret
+    $ bosh interpolate base.yml -v access_key_id=some-key -v access_secret_key=some-secret
     s3_access_key_id: some-key
     s3_access_secret_key: some-secret
     </pre>
@@ -49,7 +49,7 @@ CLI allows to provide variable values via usage of one or more of the following 
     $ cat 2.yml
     some-secret
 
-    $ bosh int base.yml --var-file access_key_id=1.txt --var-file access_secret_key=2.txt
+    $ bosh interpolate base.yml --var-file access_key_id=1.txt --var-file access_secret_key=2.txt
     s3_access_key_id: some-key
     s3_access_secret_key: some-secret
     </pre>
@@ -61,7 +61,7 @@ CLI allows to provide variable values via usage of one or more of the following 
     access_key_id: some-key
     access_secret_key: some-secret
 
-    $ bosh int base.yml -l secrets.yml
+    $ bosh interpolate base.yml -l secrets.yml
     s3_access_key_id: some-key
     s3_access_secret_key: some-secret
     </pre>
@@ -74,7 +74,7 @@ CLI allows to provide variable values via usage of one or more of the following 
     $ export FOO_access_key_id=some-key
     $ export FOO_access_secret_key=some-secret
 
-    $ bosh int base.yml --vars-env FOO
+    $ bosh interpolate base.yml --vars-env FOO
     s3_access_key_id: some-key
     s3_access_secret_key: some-secret
     </pre>
@@ -132,6 +132,8 @@ A variable can define its type and generation options.
 
 Currently CLI supports `certificate`, `password`, `rsa`, and `ssh` types. The Director (connected to a config server) may support additional types known by the config server.
 
+See [Variable Types](variable-types.html) for details on variable generation.
+
 <pre class="terminal">
 $ cat base.yml
 pass: ((admin_password))
@@ -139,7 +141,7 @@ variables:
 - name: admin_password
   type: password
 
-$ bosh int base.yml --vars-store=creds.yml
+$ bosh interpolate base.yml --vars-store=creds.yml
 pass: vbvdhjbzqelnq7cfyw09
 
 $ cat creds.yml

@@ -935,7 +935,9 @@ See [CPI config](cpi-config.html).
 
 - <a id="interpolate"></a> `bosh interpolate manifest.yml [-v ...] [-o ...] [--vars-store path] [--path op-path]` (Alias: `int`)
 
-    Interpolates variables into a manifest. Operation files and variables can be provided to adjust and fill in manifest before doing a deploy.
+    Interpolates variables into a manifest sending result to stdout. [Operation files](cli-ops-files.html) and [variables](cli-int.html) can be provided to adjust and fill in manifest before doing a deploy.
+
+    `--path` flag can be used to extract portion of a YAML document.
 
     <pre class="terminal">
     $ bosh int bosh-deployment/bosh.yml \
@@ -957,6 +959,29 @@ See [CPI config](cpi-config.html).
     $ bosh int creds.yml --path /director_ssl/ca
     -----BEGIN CERTIFICATE-----
     ...
+    </pre>
+
+    Command can be used in a generic way to generate CA and leaf certificates.
+
+    ```yaml
+    variables:
+    - name: default_ca
+      type: certificate
+      options:
+        common_name: ca
+    - name: service_ssl
+      type: certificate
+      options:
+        ca: default_ca
+        common_name: ((internal_ip))
+        alternative_names: [((internal_ip))]
+    ```
+
+    <pre class="terminal">
+    $ bosh interpolate certs-tpl.yml -v internal_ip=1.2.3.4 --vars-store certs.yml --var-errs
+    $ bosh interpolate certs.yml --path /service_ssl/ca
+    $ bosh interpolate certs.yml --path /service_ssl/certificate
+    $ bosh interpolate certs.yml --path /service_ssl/private_key
     </pre>
 
 ---
