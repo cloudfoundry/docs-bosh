@@ -31,7 +31,7 @@ Then you can do a final release.
 To create the release directory, navigate into the workspace where you want the
 release to be, and run:
 
-  `bosh init release <release_name>`
+  `bosh init-release --dir <release_name>`
 
 You can add the `--git` option to initialize a git repository.
 Use dashes in the release name.
@@ -77,9 +77,9 @@ Navigate into the release directory.
 
 For each job, create a job skeleton:
 
-  `bosh generate job <job_name>`
+  `bosh generate-job <job_name>`
 
-In our example, we run `bosh generate job` twice, once for the `web_ui` job,
+In our example, we run `bosh generate-job` twice, once for the `web_ui` job,
 and once for the `bg_worker` job.
 
 View the job skeletons with `tree`:
@@ -220,7 +220,7 @@ For each job, update the `spec` file with template names.
 
 You have now created one or more job skeletons; this is a good time to commit.
 
-If you used the `--git` option with `bosh init release` (as recommended), the
+If you used the `--git` option with `bosh init-release` (as recommended), the
 correct `.gitignore` file has been automatically created for you.
 
 ---
@@ -304,7 +304,7 @@ dependencies for your jobs.
 
 Create package skeletons starting from the bottom of your dependency graph.
 
-  `bosh generate package <dependency_name>`
+  `bosh generate-package <dependency_name>`
 
 In our example, we run this command three times.
 Starting from the bottom of the dependency graph,
@@ -577,7 +577,7 @@ or one of several other types that specify blobstore providers.
 
 `private.yml` contains keys for accessing the blobstore and should not be
 checked into a repository.
-(If you used the `--git` option when running `bosh init release` at the beginning
+(If you used the `--git` option when running `bosh init-release` at the beginning
 of this tutorial, `private.yml` is automatically `gitignored`.)
 
 The `config` directory also contains two files whose content is automatically
@@ -654,13 +654,13 @@ Now you are ready to inform BOSH about these blobs.
 
 For each blob, run:
 
-`bosh add blob <path_to_blob_on_local_system> <package_name>`
+`bosh add-blob <path_to_blob_on_local_system> <package_name>`
 
 e.g.
 
-`bosh add blob ~/Downloads/yaml-0.1.4.tar.gz libyaml_0.1.4`
+`bosh add-blob ~/Downloads/yaml-0.1.4.tar.gz libyaml_0.1.4`
 
-The `bosh add blob` command adds a local blob to the collection your release
+The `bosh add-blob` command adds a local blob to the collection your release
 recognizes as BOSH blobs.
 
 The usage shown above is a blend of requirement and convention.
@@ -674,7 +674,7 @@ the name of the package that the local blob represents
 * In the new subdirectory, BOSH creates a symbolic link to a copy of the blob
 which BOSH makes in a hidden directory
 
-Using the package name as the second argument of the `bosh add blobs` command
+Using the package name as the second argument of the `bosh add-blob` command
 is recommended because it produces a cleanly-organized blobs directory.
 
 Later, when you upload blobs for a final release, BOSH uses the hidden directory
@@ -686,7 +686,7 @@ Once you have uploaded blobs to a non-local blobstore, those blobs may become
 essential to some other developer.
 For this reason, uploading a blob and then removing it is considered poor practice.
 
-When creating dev releases, do not run `bosh upload blobs`.
+When creating dev releases, do not run `bosh upload-blobs`.
 (You only run it when you do a final release.)
 
 ---
@@ -732,17 +732,17 @@ All the elements needed to create a dev release should now be in place.
 
 ### <a id="dev-release-release"></a> Release  ###
 
-For the dev release, use the `--force` option with the `bosh create release`
+For the dev release, use the `--force` option with the `bosh create-release`
 command.
 This forces BOSH to use the local copies of our blobs.
 
 Without the `--force` option, BOSH requires blobs to be uploaded before you
-run `bosh create release`.
+run `bosh create-release`.
 For a final release, we upload blobs, but not for a dev release.
 
 Create the dev release:
 
-`bosh create release --force`
+`bosh create-release --force`
 
 BOSH prompts for a release name, and assigns a dot-number version to the release.
 
@@ -754,11 +754,11 @@ to a release.
 
 See what director BOSH is targeting:
 
-  `bosh target`
+  `bosh env`
 
 Target a director:
 
-  `bosh target <director_url>`
+  `bosh -e <director_alias> log-in`
 
 See what releases are available:
 
@@ -770,7 +770,7 @@ Simple manifest for `ardo_app` can be found [here](https://gist.github.com/anton
 
 Upload the new dev release.
 
-   `bosh upload release`
+   `bosh upload-release`
 
 Assuming you are in the release directory, no path is needed with the above command.
 
@@ -801,7 +801,7 @@ Only proceed to this step if your latest dev release passes all tests.
 
 ### <a id="upload-blobs"></a> Upload blobs ###
 
-When you use the `bosh create release --force` command to create them, dev
+When you use the `bosh create-release --force` command to create them, dev
 releases depend on locally-stored blobs.
 To do a final release, you must upload blobs first.
 
@@ -821,11 +821,11 @@ the symbolic links to them in the `blobs` directory
 
 To upload your blobs, run:
 
-  `bosh upload blobs`
+  `bosh upload-blobs`
 
 ### <a id="final-commit-two"></a> Commit ###
 
-The `bosh upload blobs` command has now populated the `blobs.yml` file
+The `bosh upload-blobs` command has now populated the `blobs.yml` file
 in the `config` directory with metadata for uploaded blobs.
 
 This is a good reason to commit.
@@ -834,7 +834,7 @@ This is a good reason to commit.
 
 Run:
 
-  `bosh create release --final`
+  `bosh create-release --final`
 
 BOSH prompts you for a release name, and assigns a whole-number version to the release.
 
