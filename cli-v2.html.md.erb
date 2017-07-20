@@ -64,7 +64,7 @@ See [Environments](cli-envs.html).
     <pre class="terminal">
     $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
       --state state.json \
-      --vars-store ./creds.yml
+      --vars-store ./creds.yml \
       -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
       -o ~/workspace/bosh-deployment/virtualbox/outbound-network.yml \
       -o ~/workspace/bosh-deployment/bosh-lite.yml \
@@ -115,7 +115,7 @@ See [Environments](cli-envs.html).
     <pre class="terminal">
     $ bosh delete-env ~/workspace/bosh-deployment/bosh.yml \
       --state state.json \
-      --vars-store ./creds.yml
+      --vars-store ./creds.yml \
       -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
       -o ~/workspace/bosh-deployment/virtualbox/outbound-network.yml \
       -o ~/workspace/bosh-deployment/bosh-lite.yml \
@@ -939,7 +939,7 @@ See [CPI config](cpi-config.html).
 
     <pre class="terminal">
     $ bosh int bosh-deployment/bosh.yml \
-      --vars-store ./creds.yml
+      --vars-store ./creds.yml \
       -o bosh-deployment/virtualbox/cpi.yml \
       -o bosh-deployment/virtualbox/outbound-network.yml \
       -o bosh-deployment/bosh-lite.yml \
