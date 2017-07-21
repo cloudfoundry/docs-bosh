@@ -45,6 +45,51 @@ The above monit file will execute the file `C:\var\vcap\jobs\say-hello\bin\start
 Also, note that Pre-Start, Post-Start, Drain, and Post-Deploy scripts (described in the [job lifecycle](http://bosh.io/docs/job-lifecycle.html)) must be powershell scripts and end with the `.ps1` extension, i.e., `pre-start.ps1`, `post-start.ps1`, `drain.ps1`, and `post-deploy.ps1`.
 
 ---
+### <a id="stop-scripts"></a> Stop Scripts in Jobs
+
+Release job can have a stop script that will run when the job is restarted or stopped. This script allows the job to clean up and get into a state where it can be safely stopped. 
+
+To use a stop script, a change to the job's `monit` and `spec` file must be made. The actual script source is placed in the jobs template directory. eg: `jobs/job_name/templates`
+
+Stdout and Stderr are currently not preserved. It is recommended to use the Windows EventLog.
+
+
+### Monit
+
+Monit changes can refer to separate scripts for both stop and start actions. 
+For instance, to use separate scripts for start and stop:
+
+```json
+{
+  "processes": [
+    {
+      "name": "say-hello",
+      "executable": "powershell.exe",
+      "args": [ "/var/vcap/jobs/say-hello/bin/start.ps1" ],
+      "stop": {
+        "executable": "powershell.exe",:
+        "args": [ "/var/vcap/jobs/say-hello/bin/stop.ps1" ],
+      }
+    }
+  ]
+}
+```
+
+### Spec
+
+The `spec` file change is similar to linux. Here is an example: 
+
+```
+---
+name: simple-stop-example
+templates:
+  stop.ps1: bin/stop.ps1
+```
+---
+## Sample BOSH Windows Release
+
+Please see [the next page](windows-sample-release.html) for a sample BOSH Windows release.
+
 ## Sample BOSH Windows Release
 
 Please see [the next page](windows-sample-release.html) for a sample BOSH Windows release.
