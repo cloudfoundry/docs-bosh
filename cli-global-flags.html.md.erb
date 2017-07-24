@@ -19,8 +19,8 @@ title: CLI Global Flags
 ---
 ## <a id="env"></a> Environment flags
 
-- `--environment` (`-e`) flag allows to specify Director VM address or environment alias
-- `--ca-cert` flag allows to specify CA certificate used for connecting for Director and UAA
+- `--environment` (`-e`) flag allows to specify Director VM address or environment alias (`BOSH_ENVIRONMENT` environment variable)
+- `--ca-cert` flag allows to specify CA certificate used for connecting for Director and UAA (`BOSH_CA_CERT` environment variable)
 
 CLI does not provide a way to skip SSL certificate validation to encourage secure Director configuration.
 
@@ -29,15 +29,15 @@ See [CLI environments](cli-envs.html) for details.
 ---
 ## <a id="auth"></a> Authentication flags
 
-- `--client` flag allows to specify basic auth username or UAA client ID
-- `--client-secret` flag allows to specify basic auth password or UAA client secret
+- `--client` flag allows to specify basic auth username or UAA client ID (`BOSH_CLIENT` environment variable)
+- `--client-secret` flag allows to specify basic auth password or UAA client secret (`BOSH_CLIENT_SECRET` environment variable)
 
 CLI does not provide a way to specify UAA user login information since all non-interactive use (in scripts) should use UAA clients. `bosh log-in` command allows to log in interactively as a UAA user.
 
 ---
 ## <a id="output"></a> Output flags
 
-- `--n` flag affirms any confirmation that typically requires use input
+- `--n` flag affirms any confirmation that typically requires use input (`BOSH_NON_INTERACTIVE=true` environment variable)
 - `--json` flag changes output format to JSON
 - `--tty` flag forces output to include all decorative text typically visible when command is not redirected
 - `--no-color` flag disables colors (enabled by default when command is redirected)
@@ -47,7 +47,7 @@ CLI makes a distinction between decorative text (table headings) and primary con
 ---
 ## <a id="deployment"></a> Deployment flag
 
-- `--deployment` (`-d`) flag allows to specify deployment for a command
+- `--deployment` (`-d`) flag allows to specify deployment for a command (`BOSH_DEPLOYMENT` environment variable)
 
 Several commands that can operate in a Director and a deployment context (such as `bosh tasks` command) account for presence of this flag and filter their output based on a deployment.
 
