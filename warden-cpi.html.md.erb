@@ -40,7 +40,8 @@ Example of a dynamic network:
 
 ```yaml
 networks:
-- {name: default, type: dynamic}
+- name: default
+  type: dynamic
 ```
 
 The CPI does not support vip networks.
@@ -51,9 +52,9 @@ The CPI does not support vip networks.
 Schema for `cloud_properties` section:
 
 * **ports** [Array, optional]: Allows to define port mapping between host and associated containers. Available in v30+.
-  **host** [String, required]: Port or range of ports. Example: `80`.
-  **container** [String, optional]: Port or range of ports. Defaults to `host` defined port or range. Example: `80`.
-  **protocol** [String, optional]: Connection protocol. Defaults to `tcp`. Example: `udp`.
+  * **host** [String, required]: Port or range of ports. Example: `80`.
+  * **container** [String, optional]: Port or range of ports. Defaults to `host` defined port or range. Example: `80`.
+  * **protocol** [String, optional]: Connection protocol. Defaults to `tcp`. Example: `udp`.
 
 We may add simple load balancing via iptables for testing if ports is forwarded to multiple containers.
 
@@ -109,13 +110,13 @@ properties:
       host_ephemeral_bind_mounts_dir: "/var/vcap/data/cpi/ephemeral_bind_mounts_dir"
       host_persistent_bind_mounts_dir: "/var/vcap/data/cpi/persistent_bind_mounts_dir"
     agent:
-      mbus: nats://nats:nats-password@10.244.8.2:4222
+      mbus: nats://nats:((nats_password))@10.244.8.2:4222
       blobstore:
         provider: dav
         options:
           endpoint: http://10.244.8.2:25251
           user: agent
-          password: agent-password
+          password: ((blobstore_agent_password))
 ```
 
 ---
