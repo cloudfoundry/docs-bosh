@@ -24,7 +24,7 @@ Assuming that you are using [cloud config](cloud-config.html), your deployment m
 
 **name** [String, required]: The name of the deployment. A single Director can manage multiple deployments and distinguishes them by name.
 
-**director_uuid** [String, required]: This string must match the UUID of the currently targeted Director for the CLI to allow any operations on the deployment. Use `bosh status` to display the UUID of the currently targeted Director.
+**director_uuid** [String, required]: This string must match the UUID of the currently targeted Director for the CLI to allow any operations on the deployment. Use `bosh status` to display the UUID of the currently targeted Director. Not required by CLI v2.
 
 Example:
 
@@ -40,12 +40,25 @@ director_uuid: cf8dc1fc-9c42-4ffc-96f1-fbad983a6ce6
 
 * **name** [String, required]: Name of a release used in the deployment.
 * **version** [String, required]: The version of the release to use. Version can be `latest`.
+* **url** [String, optional]: URL of a release to download. Works with CLI v2.
+* **sha1** [String, optional]: SHA1 of asset referenced via URL. Works with CLI v2.
 
 Example:
 
 ```yaml
 releases:
-- {name: redis, version: 12}
+- name: redis
+  version: 12
+```
+
+Example with a URL:
+
+```yaml
+releases:
+- name: concourse
+  version: 3.3.2
+  url: https://bosh.io/d/github.com/concourse/concourse?v=3.3.2
+  sha1: 2c876303dc6866afb845e728eab58abae8ff3be2
 ```
 
 ---
