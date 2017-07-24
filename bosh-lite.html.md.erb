@@ -2,13 +2,16 @@
 title: BOSH Lite
 ---
 
-BOSH Lite v2 is a Director VM running with VirtualBox managed via [CLI v2](cli-v2.html). It uses containers to emulate VMs which makes it an excellent choice for:
+BOSH Lite v2 is a Director VM running in VirtualBox (typically locally). It is managed via [CLI v2](cli-v2.html). Internally CPI uses containers to emulate VMs which makes it an excellent choice for:
 
 - General BOSH exploration without investing time and resources to configure an IaaS
 - Development of releases (including BOSH itself)
 - Testing releases locally or in CI
 
-Follow below steps to get it running:
+---
+## <a id="install"></a> Install
+
+Follow below steps to get it running on locally on VirtualBox:
 
 1. Check that your machine has at least 8GB RAM, and 100GB free disk space. Smaller configurations may work.
 
@@ -25,7 +28,7 @@ Follow below steps to get it running:
 
     Note: If you encounter problems with VirtualBox networking try installing [Oracle VM VirtualBox Extension Pack](https://www.virtualbox.org/wiki/Downloads) as suggested by [Issue 202](https://github.com/cloudfoundry/bosh-lite/issues/202). Alternatively make sure you are on VirtualBox 5.1+ since previous versions had a [network connectivity bug](https://github.com/concourse/concourse-lite/issues/9).
 
-1. Install Director
+1. Install Director VM
 
     ```
     $ git clone https://github.com/cloudfoundry/bosh-deployment ~/workspace/bosh-deployment
@@ -56,22 +59,39 @@ Follow below steps to get it running:
 1. Alias and log into the Director
 
     ```
-    $ bosh -e 192.168.50.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca) alias-env vbox
+    $ bosh alias-env vbox -e 192.168.50.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
     $ export BOSH_CLIENT=admin
     $ export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
     ```
 
-1. Upload BOSH Lite stemcell
+1. Confirm that it works
 
     ```
-    $ bosh -e vbox upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3421.9 \
-      --sha1 1396d7877204e630b9e77ae680f492d26607461d
+    $ bosh -e vbox env
+    Using environment '192.168.56.6' as '?'
+
+    Name: ...
+    User: admin
+
+    Succeeded
     ```
+
+---
+## <a id="deploy"></a> Deploy example Zookeeper deployment
+
+Run through quick steps below or follow [deploy workflow](basic-workflow.html) that goes through the same steps but with more explanation.
 
 1. Update cloud config
 
     ```
     $ bosh -e vbox update-cloud-config ~/workspace/bosh-deployment/warden/cloud-config.yml
+    ```
+
+1. Upload stemcell
+
+    ```
+    $ bosh -e vbox upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3421.9 \
+      --sha1 1396d7877204e630b9e77ae680f492d26607461d
     ```
 
 1. Deploy example deployment

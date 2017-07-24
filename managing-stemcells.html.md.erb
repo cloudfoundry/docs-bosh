@@ -24,9 +24,9 @@ See [Stemcell Building](build-stemcell.html#tarball-structure) to find stemcell 
 ---
 ## <a id="fix"></a> Fixing corrupted stemcells
 
-Occasionally stemcells are deleted from the IaaS outside of the Director. For example your vSphere administrator decided to clean up your vSphere VMs folder. The Director of course will continue to reference deleted IaaS asset and CPI will eventually raise an error when trying to create new VM. `bosh upload stemcell` command provides a `--fix` flag which allows to reupload stemcell with the same name and version into the Director fixing this problem.
+Occasionally stemcells are deleted from the IaaS outside of the Director. For example your vSphere administrator decided to clean up your vSphere VMs folder. The Director of course will continue to reference deleted IaaS asset and CPI will eventually raise an error when trying to create new VM. [`bosh upload-stemcell` command](cli-v2.html#upload-stemcell) provides a `--fix` flag which allows to reupload stemcell with the same name and version into the Director fixing this problem.
 
 ---
 ## <a id="clean-up"></a> Cleaning up uploaded stemcells
 
-Over time the Director accumulates stemcells. Stemcells could be deleted manually via `bosh delete stemcell` command or be cleaned up via `bosh cleanup` command.
+Over time the Director accumulates stemcells. Stemcells could be deleted manually via [`bosh delete-stemcell` command](cli-v2.html#delete-stemcell) or be cleaned up via [`bosh cleanup` command](cli-v2.html#clean-up).

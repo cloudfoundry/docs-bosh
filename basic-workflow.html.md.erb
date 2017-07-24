@@ -1,22 +1,26 @@
 ---
-title: Basic Workflow
+title: Deploy Workflow
 ---
 
-The Director is primarily used for managing deployments.
+(Follow [Create an environment?](init.html) to create the Director.)
+
+The Director can manage multiple [deployments](terminology.html#deployment).
 
 Creation of a deployment consists of the following steps:
 
-- Create a deployment manifest
-- Upload stemcells and releases used by the manifest
-- Kick off the deploy to form a deployment on the Director
+- Create a [cloud config](terminology.html#cloud-config)
+- Create a [deployment manifest](terminology.html#manifest)
+- Upload stemcells and releases from the deployment manifest
+- Kick off the deploy to make a deployment on the Director
 
-Updating an existing deployment is effectively the same procedure:
+Updating an existing deployment is the same procedure:
 
-- Update deployment manifest with necessary changes
-- Upload new stemcells, releases, or both
-- Kick off the deploy to apply changes
+- Update cloud config if anything changed
+- Update deployment manifest if anything changed
+- Upload new stemcells and/or releases if necessary
+- Kick off the deploy to apply changes to the deployment
 
-All of the steps above are done with a regular editor and through the BOSH CLI.
+In the next several steps we are going to deploy simple [Zookeeper](https://en.wikipedia.org/wiki/Apache_ZooKeeper) deployment to the Director.
 
 ---
-Next: [Deployment Basics](deployment-basics.html)
+Next: [Update Cloud Config](update-cloud-config.html)

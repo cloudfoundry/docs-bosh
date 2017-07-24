@@ -2,11 +2,11 @@
 title: Uploading Releases
 ---
 
-<p class="note">Note: Applies to CLI v2.</p>
+<p class="note">Note: Document uses CLI v2.</p>
 
 (See [What is a Release?](release.html) for an introduction to releases.)
 
-As described earlier, each deployment references one or many releases on the Director. Before the Director can form a deployment, all referenced releases must be uploaded to the Director.
+Each deployment can reference one or many releases. For a deploy to succeed, all necessary releases must be uploaded to the Director.
 
 ## <a id='find'></a> Finding Releases
 
@@ -21,35 +21,36 @@ Here are a few popular releases:
 ---
 ## <a id='upload'></a> Uploading to the Director
 
-Assuming that the CLI is already targeted at the Director, the CLI provides a single command to upload a release.
+CLI provides [`bosh upload-release` command](cli-v2.html#upload-release).
 
 - If you have a URL to a release tarball (for example a URL provided by bosh.io):
 
 	<pre class="terminal">
-	$ bosh upload-release https://bosh.io/d/github.com/cloudfoundry/cf-release
+	$ bosh -e vbox upload-release https://bosh.io/d/github.com/cppforlife/zookeeper-release?v=0.0.5 --sha1 65a07b7526f108b0863d76aada7fc29e2c9e2095
 	</pre>
 
 	Alternatively, if you have a release tarball on your local machine:
 
 	<pre class="terminal">
-	$ bosh upload-release ~/Downloads/zookeeper-0.0.5.tgz
+	$ bosh -e vbox upload-release ~/Downloads/zookeeper-0.0.5.tgz
 	</pre>
 
-- If you cloned a Git repository:
+- If you cloned release Git repository:
 
     Note that all release repositories have a `releases/` folder that contains release YAML files. These files have all the required information about how to assemble a specific version of a release (provided that the release maintainers produce and commit that version to the repository). You can use the YAML files to either directly upload a release, or to create a release tarball locally and then upload it.
 
     <pre class="terminal">
-	$ cd ~/workspace/zookeeper-release
-	$ bosh upload-release
+  $ git clone https://github.com/cppforlife/zookeeper-release
+	$ cd zookeeper-release/
+	$ bosh -e vbox upload-release
 	</pre>
 
 	Alternatively, to build a release tarball locally from a release YAML file:
 
 	<pre class="terminal">
-	$ cd ~/workspace/zookeeper-release
-	$ bosh create-release releases/zookeeper/zookeeper-12.yml --tarball x.tgz
-	$ bosh upload-release x.tgz
+	$ cd zookeeper-release/
+	$ bosh create-release releases/zookeeper/zookeeper-0.0.5.yml --tarball x.tgz
+	$ bosh -e vbox upload-release x.tgz
 	</pre>
 
 Once the command succeeds, you can view all uploaded releases in the Director:
@@ -82,6 +83,6 @@ releases:
 ```
 
 ---
-Next: [Deploying](deploying.html)
+Next: [Deploy](deploying.html)
 
 Previous: [Uploading Stemcells](uploading-stemcells.html)

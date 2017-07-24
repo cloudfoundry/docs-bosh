@@ -2,7 +2,7 @@
 title: Cloud Config
 ---
 
-<p class="note">Warning: If you are using director version between v241 and v256, once you opt into using cloud config all deployments must be converted to use new format. If you want to deploy both v1 and v2 manifests, update to director v257+.</p>
+<p class="note">Warning: If you are using Director version between v241 and v256, once you opt into using cloud config all deployments must be converted to use new format. If you want to deploy both v1 and v2 manifests, update to Director v257+.</p>
 
 Previously each deployment manifest specified IaaS and IaaS agnostic configuration in a single file. As more deployments are managed by the Director, it becomes inconvenient to keep shared IaaS configuration in sync in all deployment manifests. In addition, multiple deployments typically want to use the same network subnet, hence IP ranges need to be separated and reserved.
 
@@ -11,36 +11,38 @@ The cloud config is a YAML file that defines IaaS specific configuration used by
 ---
 ## <a id='update'></a> Updating and retrieving cloud config
 
-To update cloud config on the Director use [`bosh update cloud-config`](sysadmin-commands.html#cloud-config) CLI command.
+To update cloud config on the Director use [`bosh update-cloud-config` command](cli-v2.html#update-cloud-config).
 
 <p class="note">Note: See <a href="#example">example cloud config</a> for AWS below.</p>
 
 <pre class="terminal">
-$ bosh update cloud-config cloud.yml
+$ bosh -e vbox update-cloud-config cloud.yml
 
-$ bosh cloud-config
+$ bosh -e vbox cloud-config
 Acting as user 'admin' on 'micro'
 
 azs:
 - name: z1
-  cloud_properties: {availability_zone: us-east-1b}
+  cloud_properties:
+    availability_zone: us-east-1b
 - name: z2
-  cloud_properties: {availability_zone: us-east-1c}
+  cloud_properties:
+    availability_zone: us-east-1c
 ...
 </pre>
 
-Once cloud config is updated, all existing deployments will be considered outdated, as indicated by `bosh deployments`. The Director will apply cloud config changes to each deployment during the next `bosh deploy` for that deployment.
+Once cloud config is updated, all existing deployments will be considered outdated, as indicated by [`bosh deployments` command](cli-v2.html#deployments). The Director will apply cloud config changes to each deployment during the next run of `bosh deploy` command for that deployment.
 
 <pre class="terminal">
-$ bosh deployments
+$ bosh -e vbox deployments
+Using environment '192.168.56.6' as '?'
 
-+-------+------------+----------------------------------------------+--------------+
-| Name  | Release(s) | Stemcell(s)                                  | Cloud Config |
-+-------+------------+----------------------------------------------+--------------+
-| etcd  | etcd/7     | bosh-aws-xen-hvm-ubuntu-trusty-go_agent/3181 | outdated     |
-+-------+------------+----------------------------------------------+--------------+
-| redis | redis/13   | bosh-aws-xen-hvm-ubuntu-trusty-go_agent/3181 | latest       |
-+-------+------------+----------------------------------------------+--------------+
+Name       Release(s)       Stemcell(s)             Team(s)  Cloud Config
+zookeeper  zookeeper/0.0.5  bosh-warden-.../3421.4  -        outdated
+
+1 deployment
+
+Succeeded
 </pre>
 
 ---
@@ -120,9 +122,11 @@ Example:
 ```yaml
 azs:
 - name: z1
-  cloud_properties: {availability_zone: us-east-1c}
+  cloud_properties:
+    availability_zone: us-east-1c
 - name: z2
-  cloud_properties: {availability_zone: us-east-1d}
+  cloud_properties:
+    availability_zone: us-east-1d
 ```
 
 ### <a id='azs-cloud-properties'></a> CPI Specific `cloud_properties`
@@ -165,7 +169,8 @@ Example:
 ```yaml
 vm_types:
 - name: default
-  cloud_properties: {instance_type: m1.small, availability_zone: us-east-1c}
+  cloud_properties:
+    instance_type: m1.small
 ```
 
 ### <a id='vm-types-cloud-properties'></a> CPI Specific `cloud_properties`
@@ -214,7 +219,8 @@ Example:
 disk_types:
 - name: default
   disk_size: 2
-  cloud_properties: {type: gp2}
+  cloud_properties:
+    type: gp2
 ```
 
 ### <a id='disk-types-cloud-properties'></a> CPI Specific `cloud_properties`
@@ -229,6 +235,8 @@ disk_types:
 
 ---
 ## <a id='compilation'></a> Compilation Block
+
+The Director creates compilation VMs for release compilation. The Director will compile each release on every necessary stemcell used in a deployment. A compilation definition allows to specify VM characteristics.
 
 **compilation** [Hash, required]: Properties of compilation VMs.
 

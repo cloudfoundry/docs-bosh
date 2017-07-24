@@ -17,13 +17,10 @@ See [Recent Additions and Updates](recent.html).
 ---
 ## <a id="install"></a> Install BOSH
 
-### Create BOSH environment
-
-* [Components](bosh-components.html)
-* [Creating an environment](init.html)
-    * [On Local machine using BOSH Lite](bosh-lite.html)
+* [Create an environment](init.html)
+    * [On Local machine (BOSH Lite)](bosh-lite.html)
     * [On AWS](init-aws.html)
-      * [Exposing Director on a Public IP](init-external-ip.html)
+      * [Expose Director on a Public IP](init-external-ip.html)
     * [On Azure](init-azure.html)
     * [On OpenStack](init-openstack.html)
     * [On vSphere](init-vsphere.html)
@@ -32,36 +29,17 @@ See [Recent Additions and Updates](recent.html).
     * [On Google Compute Platform](init-google.html)
     * [On RackHD](rackhd-cpi.html)
 
-### <a id="director-config"></a> Advanced Director configuration
-
-* [User management](director-users.html)
-    * [UAA Integration](director-users-uaa.html)
-    * [UAA Permissions](director-users-uaa-perms.html)
-* [SSL certificate configuration](director-certs.html)
-* [Removal of compilers](remove-dev-tools.html)
-* [Access event logging](director-access-events.html)
-* [Events](events.html)
-* [Explicit ARP Flushing](flush-arp.html)
-* [Configuring external database](director-configure-db.html)
-* [Configuring external blobstore](director-configure-blobstore.html)
-* [Backup and restore](director-backup.html)
-
 ---
-## <a id="basic-deploy"></a> Using BOSH to deploy software
+## <a id="basic-deploy"></a> Deploy software with BOSH
 
-* [Basic workflow](basic-workflow.html)
-    * [Deployment basics](deployment-basics.html)
-        * [Deployment manifest schema](deployment-manifest.html)
-    * [Uploading stemcells](uploading-stemcells.html)
-    * [Uploading releases](uploading-releases.html)
-    * [Deploying](deploying.html)
-    * Running one-off tasks
-    * Updating deployment to deal with security vulnerabilities
-    * [Managing releases](managing-releases.html)
-    * [Managing stemcells](managing-stemcells.html)
-* [Deploying step-by-step](deploying-step-by-step.html)
-* [Director tasks](director-tasks.html)
-* [Troubleshooting](tips.html)
+* [Deploy workflow](basic-workflow.html)
+    * [Update cloud config](setting-cloud-config.html)
+    * [Build deployment manifest](deployment-basics.html)
+    * [Upload stemcells](uploading-stemcells.html)
+    * [Upload releases](uploading-releases.html)
+    * [Deploy](deploying.html)
+    * Run one-off tasks
+    * Update deployment
 
 ### <a id="cli-v2"></a> CLI v2
 
@@ -73,6 +51,29 @@ See [Recent Additions and Updates](recent.html).
     * [Operations files](cli-ops-files.html)
     * [Variable Interpolation](cli-int.html)
     * [Tunneling](cli-tunnel.html)
+
+### <a id="director-config"></a> Running Director
+
+* [Troubleshooting](tips.html)
+* [Events](events.html)
+* [Director tasks](director-tasks.html)
+* [Managing releases](managing-releases.html)
+* [Managing stemcells](managing-stemcells.html)
+* [User management](director-users.html)
+    * [UAA Integration](director-users-uaa.html)
+    * [UAA Permissions](director-users-uaa-perms.html)
+* [Backup and restore](director-backup.html)
+* [General architecture](bosh-components.html)
+
+#### Misc
+
+* [Deploying step-by-step](deploying-step-by-step.html)
+* [SSL certificate configuration](director-certs.html)
+* [Removal of compilers](remove-dev-tools.html)
+* [Access event logging](director-access-events.html)
+* [Explicit ARP Flushing](flush-arp.html)
+* [Configuring external database](director-configure-db.html)
+* [Configuring external blobstore](director-configure-blobstore.html)
 
 ### <a id="deployment-config"></a> Detailed deployment configuration
 
@@ -140,7 +141,7 @@ See [Recent Additions and Updates](recent.html).
 * Debugging issues with jobs
 
 ---
-## <a id="release"></a> Using BOSH to package and distribute software
+## <a id="release"></a> Package software with BOSH
 
 * What is a release?
     * [Creating a release](create-release.html)
@@ -169,7 +170,7 @@ See [Recent Additions and Updates](recent.html).
         * [Configuring S3 release blobstore](s3-release-blobstore.html)
 
 ---
-## <a id="extend"></a> Extending BOSH
+## <a id="extend"></a> Extend BOSH
 
 * [Director API v1](director-api-v1.html)
 * What is a CPI?
@@ -180,10 +181,16 @@ See [Recent Additions and Updates](recent.html).
     * [Repacking Stemcells](repack-stemcell.html)
 
 ---
-## <a id="cli-v1"></a> CLI v1
+## <a id="other"></a> Other
+
+### <a id="cli-v1"></a> CLI v1 (superseded by [CLI v2](#cli-v2))
 
 * [Install bosh-init](install-bosh-init.html)
     * [Using bosh-init](using-bosh-init.html)
         * [Migrating to bosh-init from the micro CLI plugin](migrate-to-bosh-init.html)
-* [Install BOSH CLI](bosh-cli.html)
+* [Install BOSH CLI v1](bosh-cli.html)
 * [CLI v1](sysadmin-commands.html)
+
+### <a id="manifest-v1"></a> Manifest v1
+
+* [Manifest v1 schema](deployment-manifest.html)

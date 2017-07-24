@@ -7,11 +7,10 @@ An operator uses the CLI to interact with the Director. Certain CLI commands res
 To find out if a CLI command has an associated Director task, look for "Director task [NUM]" in its output:
 
 <pre class="terminal">
-$ bosh deploy
+$ bosh -d zookeeper deploy zookeeper.yml
+Using deployment 'zookeeper'
 
-Deployment `idora-full-bosh'
-
-Director task 766 # <---
+Task 766 # <---
 
 ...snip...
 </pre>

@@ -1,12 +1,12 @@
 ---
-title: Creating an environment
+title: Create an Environment
 ---
 
-A single BOSH environment consists of the Director and deployments that it orchestrates. To create an empty environment, we first need to deploy the Director. The Director VM will include all necessary BOSH components that will be used to manage different IaaS resources.
+An environment consists of the Director and deployments that it orchestrates. First we need to deploy the Director which then would be able to manage other deployments.
 
-Choose your next step:
+Choose your next step where to install the Director:
 
-- [On Local machine using BOSH Lite](bosh-lite.html)
+- [On Local machine](bosh-lite.html) [recommended for a quick test]
 - [On AWS](init-aws.html)
 - [On Azure](init-azure.html)
 - [On Google](init-google.html)
@@ -14,8 +14,3 @@ Choose your next step:
 - [On SoftLayer](init-softlayer.html)
 - [On vCloud](init-vcloud.html)
 - [On vSphere](init-vsphere.html)
-
-We recommend that you update your BOSH environment frequently to stay on the latest version of BOSH.
-
----
-Previous: [Components](bosh-components.html)
