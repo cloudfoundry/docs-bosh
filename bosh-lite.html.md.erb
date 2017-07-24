@@ -100,6 +100,12 @@ Run through quick steps below or follow [deploy workflow](basic-workflow.html) t
     $ bosh -e vbox -d zookeeper deploy <(wget -O- https://raw.githubusercontent.com/cppforlife/zookeeper-release/master/manifests/zookeeper.yml)
     </pre>
 
+1. Run Zookeeper smoke tests
+
+    <pre class="terminal">
+    $ bosh -e vbox -d zookeeper run-errand smoke-tests
+    </pre>
+
 1. Optionally, set up a local route for `bosh ssh` command
 
     <pre class="terminal">
