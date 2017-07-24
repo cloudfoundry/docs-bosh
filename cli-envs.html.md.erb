@@ -90,9 +90,12 @@ URL            Alias
 Succeeded
 </pre>
 
-Subsequent commands can just reference created alias.
+Subsequent commands can just reference created alias using and environment variable or in the command directly.
 
 <pre class="terminal">
+$ export BOSH_ENVIRONMENT=aws
+$ bosh env
+
 $ bosh -e aws env
 </pre>
 
