@@ -12,7 +12,7 @@ You may have to create one or more IAM instance profiles to limit access to AWS 
 
 ## <a id="only-director"></a> Example A: AWS CPI and Director configured with default blobstore
 
-1. Create `director` IAM role that allow `ec2:*` actions to create/delete VMs, attach/detach disks, etc. Optionally add `elasticloadbalancing:*` actions to register VMs with ELBs if you are planning to use `elbs` configuration with resource pools.
+1. Create `director` IAM role that allows `ec2:*` actions to create/delete VMs, attach/detach disks, etc. Optionally add `elasticloadbalancing:*` actions to register VMs with ELBs if you are planning to use `elbs` configuration with resource pools.
 
     ```json
     {
