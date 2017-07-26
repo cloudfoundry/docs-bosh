@@ -795,6 +795,9 @@ See [CPI config](cpi-config.html).
     $ bosh -e vbox -d cf scp :/tmp/script.sh ~/Downloads/script.sh
     $ bosh -e vbox -d cf scp diego-cell:/tmp/script.sh ~/Downloads/script.sh
     $ bosh -e vbox -d cf scp diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0:/tmp/script.sh ~/Downloads/script.sh
+
+    # copy files from each instance into instance specific local directory
+    $ bosh -e vbox -d cf scp diego-cell:/tmp/logs/ /tmp/logs/((instance_id))
     </pre>
 
 ---
