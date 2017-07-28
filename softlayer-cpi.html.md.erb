@@ -26,14 +26,14 @@ networks:
   type: dynamic
   subnets:
   - az: z1
-  - dns: [10.1.2.3, 10.0.80.11, 10.0.80.12]
-  cloud_properties:
-    PrimaryNetworkComponent:
-       NetworkVlan:
-          Id: 524956
-    PrimaryBackendNetworkComponent:
-       NetworkVlan:
-          Id: 524954
+    dns: [10.1.2.3, 10.0.80.11, 10.0.80.12]
+    cloud_properties:
+      PrimaryNetworkComponent:
+         NetworkVlan:
+            Id: 524956
+      PrimaryBackendNetworkComponent:
+         NetworkVlan:
+            Id: 524954
 ```
 
 Example of dynamic network (only private network is available):
@@ -44,12 +44,12 @@ networks:
   type: dynamic
   subnets:
   - az: z1
-  - dns: [10.1.2.3, 10.0.80.11, 10.0.80.12]
-  cloud_properties:
-    PrivateNetworkOnlyFlag: true
-    PrimaryBackendNetworkComponent:
-       NetworkVlan:
-          Id: 524954
+    dns: [10.1.2.3, 10.0.80.11, 10.0.80.12]
+    cloud_properties:
+      PrivateNetworkOnlyFlag: true
+      PrimaryBackendNetworkComponent:
+         NetworkVlan:
+             Id: 524954
 ```
 
 Example of manual network:
