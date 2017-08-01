@@ -81,7 +81,7 @@ Schema for `cloud_properties` section:
         * **security_group** [String, required]: Name of the Pool's target Security Group. The CPI will add the VM to the specified security group (creating the security group if needed), then add the security group to the specified Server Pool.
         * **port** [Integer, required]: The port that the VM's service is listening on (e.g. 80 for HTTP).
         * **monitor_port** [Integer, optional]: The healthcheck port that the VM is listening on. Defaults to the value of `port`.
-* **vmx_options** [Dictionary, optional]: Allows operator to specify [VM advanced configuration options](https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.resmgmt.doc/GUID-F8C7EF4D-D023-4F54-A2AB-8CF840C10939.html). Available in v42+.
+        * **vmx_options** [Dictionary, optional]: Allows operator to specify [VM advanced configuration options](https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.resmgmt.doc/GUID-F8C7EF4D-D023-4F54-A2AB-8CF840C10939.html). All values are subject to YAML's type interpretation, and given that for certain configuration options vSphere will accept only a specific value type please take note of the difference between values with similar appearances such as: `true` vs `"true"` and `"1234"` vs `1234`. Refer to the vSphere documentation for more information about what configuration options are accepted. Available in v42+.
 
 Example of a VM asked to be placed into a specific vSphere resource pool with NSX integration:
 
