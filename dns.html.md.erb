@@ -55,8 +55,10 @@ Example usage of `aliases` property:
 ```yaml
 properties:
   aliases:
-		cc.cf.consul: [q-all.cloud-controller.default.cf.bosh]
+    bbs.service.cf.internal: ["*.database-z1.diego1.cf-cfapps-io2-diego.bosh", "*.database-z2.diego2.cf-cfapps-io2-diego.bosh"]
 ```
+
+Above will resolve `bbs.service.cf.internal` to a all IPs (shuffled) matching following instance patterns: `*.database-z1.diego1.cf-cfapps-io2-diego.bosh` or `*.database-z2.diego2.cf-cfapps-io2-diego.bosh`.
 
 See [Migrating from Consul](dns.html#migrate-consul) for more details.
 
