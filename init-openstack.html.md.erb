@@ -151,28 +151,36 @@ You must create and configure two Security Groups to restrict incoming network t
     $ git clone https://github.com/cloudfoundry/bosh-deployment
 
     # Fill below variables (replace example values) and deploy the Director
+    $ DIRECTOR_NAME='bosh-1'     # arbitrary name for the director
+    $ NET_INT_CIDR='10.0.0.0/24' # terraform output 'network CIDR'
+    $ NET_INT_GW='10.0.0.1'      # terraform output 'network gateway IP'
+    $ NET_INT_IP='10.0.0.6'      # terraform output 'director private ip'
+    $ NET_INT_ID='c88c7cdc-4...' # terraform output 'network id'
+    $ DEFAULT_KEY_NAME='bosh'    # terraform output 'keypair name'
+    $ AZ='test'                  # To get AZs use: neutron availability-zone-list
     $ bosh create-env bosh-deployment/bosh.yml \
         --state=state.json \
         --vars-store=creds.yml \
         -o bosh-deployment/openstack/cpi.yml \
-        -v director_name=bosh-1 \
-        -v internal_cidr=10.0.0.0/24 \
-        -v internal_gw=10.0.0.1 \
-        -v internal_ip=10.0.0.6 \
-        -v auth_url=test \
-        -v az=test \
-        -v default_key_name=test \
-        -v default_security_groups=[test] \
-        -v net_id=test \
-        -v openstack_password=test \
-        -v openstack_username=test \
-        -v openstack_domain=test \
-        -v openstack_project=test \
-        -v private_key=test \
-        -v region=test
+        -v director_name="$DIRECTOR_NAME" \
+        -v internal_cidr="$NET_INT_CIDR" \
+        -v internal_gw="$NET_INT_GW" \
+        -v internal_ip="$NET_INT_IP" \
+        -v auth_url="$OS_AUTH_URL" \
+        -v az="$AZ" \
+        -v default_key_name="$DEFAULT_KEY_NAME" \
+        -v default_security_groups=[ test ] \
+        -v net_id="$NET_INT_ID" \
+        -v openstack_password="$OS_PASSWORD" \
+        -v openstack_username="$OS_USERNAME" \
+        -v openstack_domain="$OS_USER_DOMAIN_NAME" \
+        -v openstack_project="$OS_PROJECT_NAME" \
+        -v private_key="${PWD}/bosh.pem" \
+        -v region="$OS_REGION_NAME"
     </pre>
 
     If running above commands outside of an OpenStack network, refer to [Exposing environment on a public IP](init-external-ip.html) for additional CLI flags.
+    For the variable `external_ip` use the terraform output `allocated floating ip`.
 
     See [OpenStack CPI errors](openstack-cpi.html#errors) for list of common errors and resolutions.
 
