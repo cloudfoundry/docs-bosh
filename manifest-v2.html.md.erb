@@ -142,7 +142,11 @@ update:
 * **properties** [Hash, optional]: Specifies instance group properties. Deprecated in favor of job level properties and links.
 * **env** [Hash, optional]: Specifies advanced BOSH Agent configuration for each instance in the group.
   * **bosh** [Hash, optional]:
-    * **password** [String, optional]: Crypted password for `vcap/root` user (will be placed into /etc/shadow on Linux).
+      * **password** [String, optional]: Crypted password for `vcap/root` user (will be placed into /etc/shadow on Linux).
+      * **keep\_root\_password** [boolean, optional]: Keep password for `root` and only change password for `vcap`. Default: `false`.
+      * **remove\_dev\_tools** [boolean, optional]: Remove [compilers and dev tools](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/stemcell_builder/stages/dev_tools_config/assets/generate_dev_tools_file_list_ubuntu.sh) on non-compilation VMs. Default: `false`.
+      * **remove\_static\_libraries** [boolean, optional]: Remove [static libraries](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/stemcell_builder/stages/static_libraries_config/assets/static_libraries_list.txt) on non-compilation VMs. Default: `false`.
+      * **swap\_size** [Integer, optional]: Size of swap partition in MB to create. Set this to 0 to avoid having a swap partition created. Default: RAM size of used VM type.
 
 Example:
 
