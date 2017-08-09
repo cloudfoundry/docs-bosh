@@ -45,9 +45,9 @@ File `config/private.yml`
 
     ---
     blobstore:
-      s3:
+      provider: s3
+      options:
         access_key_id: 9ZIAITIR2WCAA5G4OPMQ
-        bucket_name: my-release-blobs
         secret_access_key: acye7dAS93kj/WOIpqla9as8GBu1WOIpqla=
 
 
