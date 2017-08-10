@@ -502,6 +502,8 @@ No return value
 ---
 ### <a id="set-disk-metadata"></a> `set_disk_metadata`
 
+<p class="note">Note: This method is called by BOSH v262+.</p>
+
 Sets disk's metadata to make it easier for operators to categorize disks when looking at the IaaS management console. For example AWS CPI uses tags to store metadata for operators to see in the AWS Console.
 
 Disk metadata is written when the disk is attached to a VM. Metadata is not removed when disk is detached or VM is deleted.
