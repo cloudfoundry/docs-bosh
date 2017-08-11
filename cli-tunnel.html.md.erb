@@ -17,7 +17,8 @@ Common use cases for tunneling through a jumpbox VM include:
 # -f : forks the process in the background
 # -C : compresses data before sending
 # -N : tells SSH that no command will be sent once the tunnel is up
-$ ssh -D 5000 -fNC jumpbox@jumpbox-ip -i jumpbox.key
+# -4 : force SSH to use IPv4 to avoid the dreaded `bind: Cannot assign requested address` error
+$ ssh -4 -D 5000 -fNC jumpbox@jumpbox-ip -i jumpbox.key
 
 # let CLI know via environment variable
 $ export BOSH_ALL_PROXY=socks5://localhost:5000
