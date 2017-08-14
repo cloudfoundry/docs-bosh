@@ -151,33 +151,38 @@ You must create and configure two Security Groups to restrict incoming network t
     $ git clone https://github.com/cloudfoundry/bosh-deployment
 
     # Fill below variables (replace example values) and deploy the Director
-    $ DIRECTOR_NAME='bosh-1'     # arbitrary name for the director
-    $ NET_INT_CIDR='10.0.0.0/24' # terraform output 'network CIDR'
-    $ NET_INT_GW='10.0.0.1'      # terraform output 'network gateway IP'
-    $ NET_INT_IP='10.0.0.6'      # terraform output 'director private ip'
-    $ NET_INT_ID='c88c7cdc-4...' # terraform output 'network id'
-    $ DEFAULT_KEY_NAME='bosh'    # terraform output 'keypair name'
-    $ AZ='test'                  # To get AZs use: neutron availability-zone-list
     $ bosh create-env bosh-deployment/bosh.yml \
         --state=state.json \
         --vars-store=creds.yml \
         -o bosh-deployment/openstack/cpi.yml \
-        -v director_name="$DIRECTOR_NAME" \
-        -v internal_cidr="$NET_INT_CIDR" \
-        -v internal_gw="$NET_INT_GW" \
-        -v internal_ip="$NET_INT_IP" \
+        -v director_name="bosh-1" \
+        -v internal_cidr="10.0.0.0/24" \
+        -v internal_gw="10.0.0.1" \
+        -v internal_ip="10.0.0.6" \
+        -v net_id="c88c7cdc-4..." \
+        -v az="zone1" \
+        -v default_key_name="bosh" \
+        -v private_key="${PWD}/bosh.pem" \
+        -v default_security_groups=[ sg_bosh ] \
         -v auth_url="$OS_AUTH_URL" \
-        -v az="$AZ" \
-        -v default_key_name="$DEFAULT_KEY_NAME" \
-        -v default_security_groups=[ test ] \
-        -v net_id="$NET_INT_ID" \
         -v openstack_password="$OS_PASSWORD" \
         -v openstack_username="$OS_USERNAME" \
         -v openstack_domain="$OS_USER_DOMAIN_NAME" \
         -v openstack_project="$OS_PROJECT_NAME" \
-        -v private_key="${PWD}/bosh.pem" \
         -v region="$OS_REGION_NAME"
     </pre>
+
+    Use the terraform outputs or configure the following values manually in your openstack project:
+    - Configure `director_name` with an arbitrary name, e.g. 'bosh-1'
+    - Configure `internal_cidr` with the terraform output `network CIDR` or configure manually and add the CIDR here, e.g. '10.0.0.024'
+    - Configure `internal_gw` with the terraform output `network gateway IP` or use the gateway for the above mentioned network, e.g '10.0.0.1'
+    - Configure `internal_ip` with the terraform output `director private ip` or use the IP you want to assign to the bosh director, e.g. '10.0.0.6'
+    - Configure `net_id` with the terraform output `network id` or use the ID of the above mentioned network, e.g. 'c88c7cdc-4...'
+    - Configure `az` with the Availability Zone you want to place the bosh director in (use `neutron availability-zone-list` to see a list of available zones, e.g. 'zone1`
+    - Configure `default_security_group` with the terraform output `keypair name` or create a new ssh keypair and upload the public part to your openstack project and use its name here, e.g. 'bosh'
+    - Configure `private_key` with the local path to the generated private key of the created keypair, e.g. 'bosh.pem'
+    - Configure other variables with the mentioned settings from the 'OpenStack RC File'
+
 
     If running above commands outside of an OpenStack network, refer to [Exposing environment on a public IP](init-external-ip.html) for additional CLI flags.
     For the variable `external_ip` use the terraform output `allocated floating ip`.
