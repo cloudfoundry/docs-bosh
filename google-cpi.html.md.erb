@@ -85,8 +85,8 @@ Schema for `cloud_properties` section:
 * **automatic_restart** [Boolean, optional]: If the instances should be [restarted automatically](https://cloud.google.com/compute/docs/instances/setting-instance-scheduling-options#autorestart) if they are terminated for non-user-initiated reasons. Provided by the GCE and different from the Resurrector. Default: `false`.
 * **on\_host\_maintenance** [String, optional]: [Instance behavior](https://cloud.google.com/compute/docs/instances/setting-instance-scheduling-options#onhostmaintenance) on infrastructure maintenance that may temporarily impact instance performance. Possible values: `MIGRATE` or `TERMINATE`. Default: `MIGRATE`.
 * **preemptible** [Boolean, optional]: If the VM should be [preemptible](https://cloud.google.com/preemptible-vms/). Default: `false`.
+* **service_account** [String, optiona]: Service account ID the CPI will use when creating the instance.
 * **service_scopes** [Array, optional]: [Authorization scope](https://cloud.google.com/docs/authentication#oauth_scopes) names for your default service account that determine the level of access your VM has to other Google services. Default: `[]` (no scope is assigned to the VM by default).
-
 Example of an `n1-standard-2` VM:
 
 ```yaml
