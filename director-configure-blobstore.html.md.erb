@@ -82,10 +82,7 @@ The Director and the Agents can use GCS as a blobstore. Here is how to configure
 
 1. [Create a GCS bucket](https://cloud.google.com/storage/docs/creating-buckets).
 
-1. Create a [Service Account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount),
-[fetch its Service Account File](https://cloud.google.com/iam/docs/creating-managing-service-account-keys),
-and [grant it](https://cloud.google.com/iam/docs/granting-roles-to-service-accounts)
-the `storage.objectAdmin` IAM role
+1. Follow the steps on how to create service accounts and configure them with the [minimum set of permissions](google-required-permissions.html#director-with-gcs-blobstore).
 
 1. Ensure that access to the bucket is protected, as the Director may store sensitive information.
 
@@ -96,8 +93,12 @@ the `storage.objectAdmin` IAM role
       blobstore:
         provider: gcs
         json_key: |
-          SERVICE-ACCOUNT-FILE
+          DIRECTOR-BLOBSTORE-SERVICE-ACCOUNT-FILE
         bucket_name: test-bosh-bucket
+      agent:
+        blobstore:
+          json_key: |
+            AGENT-SERVICE-ACCOUNT-BLOBSTORE-FILE
     ```
 
 1. To use [Customer Supplied Encryption Keys](https://cloud.google.com/storage/docs/encryption#customer-supplied)
@@ -108,9 +109,13 @@ to encrypt blobstore contents instead of server-side encryption keys, specify `e
       blobstore:
         provider: gcs
         json_key: |
-          SERVICE-ACCOUNT-FILE
+          DIRECTOR-BLOBSTORE-SERVICE-ACCOUNT-FILE
         bucket_name: test-bosh-bucket
         encryption_key: BASE64-ENCODED-32-BYTES
+      agent:
+        blobstore:
+          json_key: |
+            AGENT-SERVICE-ACCOUNT-BLOBSTORE-FILE
     ```
 
 1. To use an explicit [Storage Class](https://cloud.google.com/storage/docs/storage-classes)
@@ -121,7 +126,11 @@ to store blobstore contents instead of the bucket default, specify `storage_clas
       blobstore:
         provider: gcs
         json_key: |
-          SERVICE-ACCOUNT-FILE
+          DIRECTOR-BLOBSTORE-SERVICE-ACCOUNT-FILE
         bucket_name: test-bosh-bucket
         storage_class: REGIONAL
+      agent:
+        blobstore:
+          json_key: |
+            AGENT-SERVICE-ACCOUNT-BLOBSTORE-FILE
     ```

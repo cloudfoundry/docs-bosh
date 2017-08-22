@@ -4,7 +4,11 @@ title: Required Service Account Permissions
 
 This topic describes how to configure BOSH with the minimum set of permissions on Google Cloud Engine.
 
-## <a id="bosh-director"></a> Google CPI and Director configured with default blobstore
+## <a id="bosh-director"></a> Google CPI and Director
+
+This section will guide you through how to configure the Google Cloud CPI and Director with the default blobstore.
+
+<p class="note">Note: If you wish to configure BOSH to use GCS blobstore also follow [these steps](google-required-permissions.html#director-with-gcs-blobstore)</p>
 
 1. Download and install the [Google Cloud CLI](https://cloud.google.com/sdk/) and [BOSH CLI v2](cli-v2.html#install).
 
@@ -110,8 +114,13 @@ This topic describes how to configure BOSH with the minimum set of permissions o
 
    <%= image_tag("images/gcp-service-account.png") %>
 
----
-## <a id="director-with-gcs-blobstore"></a> Google CPI and Director configured with a GCS blobstore
+
+
+## <a id="director-with-gcs-blobstore"></a>Minimum permissions for GCS blobstore
+
+In addition to configuring the Google CPI and Director with the previous permissions, in order to allow them to use GCS blobstore you need to grant additional permissions.
+
+<p class="note">Note: We highly recommend creating separate service accounts.</p>
 
 This configuration is similar to the previous one except that it's used when the Director and the Agents use GCS as their [blobstore](bosh-components.html#blobstore) instead of an internal blobstore provided by the bosh release.
 
@@ -136,7 +145,7 @@ This configuration is similar to the previous one except that it's used when the
     ```yaml
     title: BOSH Agent GCS Blobstore
     stage: BETA
-    description: Allows BOSH Agent GCS Blobstore client tp perform necessary operations to the blobstore
+    description: Allows BOSH Agent GCS Blobstore client to perform necessary operations to the blobstore
     name: projects/((project_id))/roles/blobstore.agent
     included_permissions:
     - storage.buckets.get
@@ -163,8 +172,6 @@ This configuration is similar to the previous one except that it's used when the
 
 6. Configure [GCS Blobstore](director-configure-blobstore.html#gcs)
 
----
-## <a id="errors"></a> Errors
 
 ---
 Next: [RackHD](rackhd-cpi.html)
