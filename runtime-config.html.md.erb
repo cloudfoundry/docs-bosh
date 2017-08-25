@@ -20,7 +20,8 @@ $ bosh runtime-config
 Acting as user 'admin' on 'micro'
 
 releases:
-- {name: strongswan, version: 6.0.0}
+- name: strongswan
+  version: 6.0.0
 
 addons:
 - name: security
@@ -37,7 +38,8 @@ Once runtime config is updated all deployments will be considered outdated. `bos
 
 ```yaml
 releases:
-- {name: strongswan, version: 6.0.0}
+- name: strongswan
+  version: 6.0.0
 
 addons:
 - name: security
@@ -68,7 +70,8 @@ Example:
 
 ```yaml
 releases:
-- {name: strongswan, version: 6.0.0}
+- name: strongswan
+  version: 6.0.0
 ```
 
 ---
@@ -89,14 +92,16 @@ An addon is a release job that is colocated on all VMs managed by the Director.
 * **jobs** [Array of hashes, requires]: Specifies the name and release of release jobs to be colocated.
   * **name** [String, required]: The job name.
   * **release** [String, required]: The release where the job exists.
-* **include** [Hash, optional]: Specifies inclusion placement rules. Available in bosh-release v260+.
-* **exclude** [Hash, optional]: Specifies exclusion placement rules. Available in bosh-release v260+.
+* **include** [Hash, optional]: Specifies inclusion <a href="#placement-rules">placement rules</a> Available in bosh-release v260+.
+* **exclude** [Hash, optional]: Specifies exclusion <a href="#placement-rules">placement rules</a>. Available in bosh-release v260+.
 * **properties** [Hash, optional]: Specifies job properties. Properties allow the Director to configure jobs to a specific environment. `properties` specified on an addon are only accessible to addons.
 
-Available inclusion/exclusion rules:
+### <a id='placement-rules'></a> Placement Rules for `include` and `exclude` Directives
+
+Available rules:
 
 * **stemcell** [Array of hashes, optional]
-  * **os** [String, required]: Matches stemcell's operting system. Example: `ubuntu-trusty`
+  * **os** [String, required]: Matches stemcell's operating system. Example: `ubuntu-trusty`
 * **deployments** [Array of strings, optional]: Matches based on deployment names.
 * **jobs** [Array of hashes, otional]
   * **name** [String, required]: Matching job name.

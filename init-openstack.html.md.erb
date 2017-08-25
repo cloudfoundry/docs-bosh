@@ -18,13 +18,13 @@ This document shows how to initialize new [environment](terminology.html#environ
     <p class="note">Note: Juno has a <a href="https://bugs.launchpad.net/nova/+bug/1396854">bug</a> that prevents BOSH to assign specific IPs to VMs. You have to apply a Nova patch to avoid this problem.</p>
 
 1. The following OpenStack services:
-    * [Identity](http://www.openstack.org/software/openstack-shared-services/):
+    * [Identity](https://www.openstack.org/software/releases/ocata/components/keystone):
         BOSH authenticates credentials and retrieves the endpoint URLs for other OpenStack services.
-    * [Compute](http://www.openstack.org/software/openstack-compute/):
+    * [Compute](https://www.openstack.org/software/releases/ocata/components/nova):
         BOSH boots new VMs, assigns floating IPs to VMs, and creates and attaches volumes to VMs.
-    * [Image](http://www.openstack.org/software/openstack-shared-services/):
+    * [Image](https://www.openstack.org/software/releases/ocata/components/glance):
         BOSH stores stemcells using the Image service.
-    * **(Optional)** [OpenStack Networking](http://www.openstack.org/software/openstack-networking/):
+    * **(Optional)** [OpenStack Networking](https://www.openstack.org/software/releases/ocata/components/neutron):
         Provides network scaling and automated management functions that are useful when deploying complex distributed systems. **Note:** OpenStack networking is used as default as of v28 of the OpenStack CPI. To disable the use of the OpenStack Networking project, see [using nova-networking](openstack-nova-networking.html).
 
 1. The following OpenStack networks:
