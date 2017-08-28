@@ -79,9 +79,10 @@ Follow below steps to get it running on locally on VirtualBox:
 1. Optionally, set up a local route for `bosh ssh` commands or accessing VMs directly
 
     <pre class="terminal">
-    $ sudo route add -net 10.244.0.0/16    192.168.50.6 # Mac OS X
-    $ sudo route add -net 10.244.0.0/16 gw 192.168.50.6 # Linux
-    $ route add           10.244.0.0/16    192.168.50.6 # Windows
+    $ sudo route add -net 10.244.0.0/16     192.168.50.6 # Mac OS X
+    $ sudo ip route add   10.244.0.0/16 via 192.168.50.6 # Linux (using iproute2 suite)
+    $ sudo route add -net 10.244.0.0/16 gw  192.168.50.6 # Linux (using DEPRECATED route command)
+    $ route add           10.244.0.0/16     192.168.50.6 # Windows
     </pre>
 
 
