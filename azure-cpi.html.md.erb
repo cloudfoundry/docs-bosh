@@ -180,6 +180,7 @@ Schema:
     * **endpoint\_prefix** [String, optional]: The endpoint prefix for your AzureStack deployment.  Default is `management`.
     * **skip\_ssl\_validation** [Boolean, optional]: Toggles verification of the Azure Resource Manager REST API SSL certificate. Default is `false`.
     * **use\_http\_to\_access\_storage\_account** [Boolean, optional]: Flag for using HTTP to access storage account rather than the default HTTPS. Default is `false`.
+    * **ca_cert** [String, optional]: All required custom CA certificates for AzureStack. You can [export the Azure Stack CA root certificate](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-connect-cli#export-the-azure-stack-ca-root-certificate). If `ca_cert` is not provided, the `skip_ssl_validation` and `use_http_to_access_storage_account` must be set to `true`. Available in v27+.
 * **parallel\_upload\_thread\_num** [Integer, optional]: The number of threads to upload stemcells in parallel. The default value is 16.
 * **debug_mode** [Boolean, optional]: Enable debug mode. The default value is `false`. When `debug_mode` is `true`:
     * CPI will log all raw HTTP requests/responses.
