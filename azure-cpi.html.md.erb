@@ -105,7 +105,7 @@ Schema for `cloud_properties` section:
 * **caching** [String, optional]: Type of the disk caching of the VMs' OS disks. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `ReadWrite`.
 * **root_disk** [Hash, optional]: OS disk of custom size.
     * **size** [Integer, optional]: Specifies the disk size in MiB.
-      * The size must be in the range [3 * 1024, 4095 * 1024]. Please always use `N * 1024` as the size because Azure always uses GiB but not MiB.
+      * The size must be greater than 3 * 1024 and less than the max disk size for [unmanaged](https://azure.microsoft.com/en-us/pricing/details/storage/unmanaged-disks/) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. Please always use `N * 1024` as the size because Azure always uses GiB but not MiB.
       * It has a default value `30 * 1024` only when ephemeral_disk.use\_root\_disk is set to true.
 * **ephemeral_disk** [Hash, optional]: Ephemeral disk to apply for all VMs that are in this resource pool. By default a data disk with the default size as below will be created as the ephemeral disk.
     * **use\_root\_disk** [Boolean, optional]: Enable to use OS disk to store the ephemeral data. The default value is false. When it is true, ephemeral_disk.size will not be used.
@@ -150,7 +150,7 @@ Schema for `cloud_properties` section:
 
 Example of 10GB disk:
 
-* **disk_size** [Integer, required]: Size of the disk in MiB. On Azure the disk size must be in the range [1 * 1024, 4095 * 1024]. Please always use `N * 1024` as the size because Azure always uses GiB not MiB.
+* **disk_size** [Integer, required]: Size of the disk in MiB. On Azure the disk size must be greater than 1 * 1024 and less than the max disk size for [unmanaged](https://azure.microsoft.com/en-us/pricing/details/storage/unmanaged-disks/) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. Please always use `N * 1024` as the size because Azure always uses GiB not MiB.
 
 ```yaml
 disk_pools:
