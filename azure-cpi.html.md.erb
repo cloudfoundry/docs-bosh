@@ -98,6 +98,7 @@ Schema for `cloud_properties` section:
     * If `availability_set` is not specified, Azure CPI will search `env.bosh.group` as the name of availability set.
       1. [bosh release](https://bosh.io/releases/github.com/cloudfoundry/bosh?all=1) v258+ will generate a value for `env.bosh.group` automatically.
       1. On Azure the length of the availability set name must be between 1 and 80 characters. The name got from  `env.bosh.group` may be too long. CPI will truncate the name to the following format `az-MD5-[LAST-40-CHARACTERS-OF-GROUP]` if the length is greater than 80.
+    * CPI v27+ will delete the empty availability set.
 * **platform\_update\_domain_count** [Integer, optional]: The count of [update domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. Default value is `5`.
 * **platform\_fault\_domain_count** [Integer, optional]: The count of [fault domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. For unmanaged availability set, default value is `3`. For managed availability set, default value is `2`, because [some regions don't support 3 fault domains for now](https://docs.microsoft.com/en-us/azure/virtual-machines/virtual-machines-windows-manage-availability#configure-multiple-virtual-machines-in-an-availability-set-for-redundancy)
 * **load_balancer** [String, optional]: Name of a [load balancer](https://azure.microsoft.com/en-us/documentation/articles/load-balancer-overview/) the VMs should belong to. You need to create the load balancer manually before configuring it. Note: [Basic Tier Virtual Machines](https://azure.microsoft.com/en-us/blog/basic-tier-virtual-machines-2/) (Example: `Basic_A1`) doesn't support Azure Load Balancer.
@@ -105,7 +106,7 @@ Schema for `cloud_properties` section:
 * **caching** [String, optional]: Type of the disk caching of the VMs' OS disks. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `ReadWrite`.
 * **root_disk** [Hash, optional]: OS disk of custom size.
     * **size** [Integer, optional]: Specifies the disk size in MiB.
-      * The size must be in the range [3 * 1024, 4095 * 1024]. Please always use `N * 1024` as the size because Azure always uses GiB but not MiB.
+      * The size must be greater than 3 * 1024 and less than the max disk size for [unmanaged](https://azure.microsoft.com/en-us/pricing/details/storage/unmanaged-disks/) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. Please always use `N * 1024` as the size because Azure always uses GiB but not MiB.
       * It has a default value `30 * 1024` only when ephemeral_disk.use\_root\_disk is set to true.
 * **ephemeral_disk** [Hash, optional]: Ephemeral disk to apply for all VMs that are in this resource pool. By default a data disk with the default size as below will be created as the ephemeral disk.
     * **use\_root\_disk** [Boolean, optional]: Enable to use OS disk to store the ephemeral data. The default value is false. When it is true, ephemeral_disk.size will not be used.
@@ -150,7 +151,7 @@ Schema for `cloud_properties` section:
 
 Example of 10GB disk:
 
-* **disk_size** [Integer, required]: Size of the disk in MiB. On Azure the disk size must be in the range [1 * 1024, 4095 * 1024]. Please always use `N * 1024` as the size because Azure always uses GiB not MiB.
+* **disk_size** [Integer, required]: Size of the disk in MiB. On Azure the disk size must be greater than 1 * 1024 and less than the max disk size for [unmanaged](https://azure.microsoft.com/en-us/pricing/details/storage/unmanaged-disks/) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. Please always use `N * 1024` as the size because Azure always uses GiB not MiB.
 
 ```yaml
 disk_pools:
@@ -180,6 +181,7 @@ Schema:
     * **endpoint\_prefix** [String, optional]: The endpoint prefix for your AzureStack deployment.  Default is `management`.
     * **skip\_ssl\_validation** [Boolean, optional]: Toggles verification of the Azure Resource Manager REST API SSL certificate. Default is `false`.
     * **use\_http\_to\_access\_storage\_account** [Boolean, optional]: Flag for using HTTP to access storage account rather than the default HTTPS. Default is `false`.
+    * **ca_cert** [String, optional]: All required custom CA certificates for AzureStack. You can [export the Azure Stack CA root certificate](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-connect-cli#export-the-azure-stack-ca-root-certificate). If `ca_cert` is not provided, the `skip_ssl_validation` and `use_http_to_access_storage_account` must be set to `true`. Available in v27+.
 * **parallel\_upload\_thread\_num** [Integer, optional]: The number of threads to upload stemcells in parallel. The default value is 16.
 * **debug_mode** [Boolean, optional]: Enable debug mode. The default value is `false`. When `debug_mode` is `true`:
     * CPI will log all raw HTTP requests/responses.
