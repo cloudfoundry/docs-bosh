@@ -413,6 +413,26 @@ No return value
 [Example delete_disk.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/delete_disk.go)
 
 ---
+### <a id="resize-disk"></a> `resize_disk`
+
+Resizes disk with IaaS-native methods. Assume that disk was detached from all VMs.
+
+Depending on the capabilities of the underlying infrastructure, this method may raise an `Bosh::Clouds::NotSupported` error when the `new_size` is smaller than the current disk size. The same error is raised when the method is not implemented.
+
+If `Bosh::Clouds::NotSupported` is raised, the Director falls back to creating a new disk and copying data.
+
+#### Arguments
+
+- **disk_cid** [String]: Cloud ID of the disk to resize; returned from `create_disk`.
+- **new_size** [Integer]: New disk size in MiB.
+
+#### Returned
+
+No return value
+
+[Example #resize_disk](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release/blob/88e1c6d402b3c4ce23ad39ebdf5ab5fc93790127/src/bosh_openstack_cpi/lib/cloud/openstack/cloud.rb#L701)
+
+---
 ### <a id="has-disk"></a> `has_disk`
 
 Checks for disk presence in the IaaS.
