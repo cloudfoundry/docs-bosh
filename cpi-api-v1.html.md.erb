@@ -415,7 +415,7 @@ No return value
 ---
 ### <a id="resize-disk"></a> `resize_disk`
 
-Resizes disk with IaaS-native methods. Assume that disk was detached from all VMs.
+Resizes disk with IaaS-native methods. Assume that disk was detached from all VMs. Set property [`director.enable_cpi_resize_disk`](http://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh&version=263#p=director.enable_cpi_resize_disk) to `true` to have the Director call this method.
 
 Depending on the capabilities of the underlying infrastructure, this method may raise an `Bosh::Clouds::NotSupported` error when the `new_size` is smaller than the current disk size. The same error is raised when the method is not implemented.
 
