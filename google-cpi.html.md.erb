@@ -101,6 +101,43 @@ vm_types:
     - devstorage.read_write
 ```
 
+Example of an `INTERNAL` backend service:
+
+```yaml
+vm_extensions:
+- name: backend-pool
+  cloud_properties:
+    ephemeral_external_ip: true
+    backend_service:
+      name: name-of-backend-service
+      scheme: INTERNAL
+```
+
+Example of an `EXTERNAL` backend service:
+
+```yaml
+vm_extensions:
+- name: backend-pool
+  cloud_properties:
+    backend_service:
+      name: name-of-backend-service
+```
+The above backend-service cloud configuration examples are referenced within the deployment manifest as such:
+
+```yaml
+instance_groups:
+- name: proxy
+  instances: 2
+  azs: [z1, z2]
+  networks: [{name: default}]
+  vm_type: default
+  stemcell: default
+  jobs:
+  - name: proxy
+    release: default
+  vm_extensions: [backend-pool]
+```
+
 ---
 ## <a id='disk-types'></a> Disk Types
 
