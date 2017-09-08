@@ -226,6 +226,12 @@ See [Uploading Stemcells](uploading-stemcells.html).
 
     Creates an empty package skeleton for a release in `dir`. Includes bare `spec` and an empty `packaging` file.
 
+- <a id="vendor-package"></a> `bosh vendor-package name src-dir [--dir=dir]` (v2.0.36+)
+
+    Vendors a package from a different release into a release in `dir`. It includes `spec.lock` in the package directory so that CLI will reference specific package by its fingerprint when creating releases.
+
+    See [Package vendoring](package-vendoring.html) for details.
+
 - <a id="create-release"></a> `bosh create-release [--force] [--version=ver] [--timestamp-version] [--final] [--tarball=path] [--dir=dir]` (Alias: `cr`)
 
     Creates new version of a release stored in `dir`
