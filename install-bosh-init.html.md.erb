@@ -9,14 +9,11 @@ title: Install bosh-init
 Here are the latest binaries:
 
 <div class="well">
-	{{ range .LatestBoshInitBinGroups }}
-		<h4>{{ .Version }}</h4>
-		<ul>
-			{{ range .Binaries }}
-				<li><a {{ href .URL }}>{{ .Description }}</a></li>
-			{{ end }}
-		</ul>
-	{{ end }}
+  <h4>0.0.103</h4>
+  <ul>
+    <li><a href="https://s3.amazonaws.com/bosh-init-artifacts/bosh-init-0.0.103-linux-amd64">bosh-init for Linux (amd64)</a> <span class="sha1">a005ce759231e6715b872f228984cc6583935892</span></li>
+    <li><a href="https://s3.amazonaws.com/bosh-init-artifacts/bosh-init-0.0.103-darwin-amd64">bosh-init for Mac OS X (amd64)</a> <span class="sha1">0e9e039949ee8ffeccfe3a684918646f6a2f2f0a</span></li>
+  </ul>
 </div>
 
 1. Download the binary for your platform and place it on your `PATH`. For example on UNIX machines:
