@@ -81,9 +81,12 @@ Schema for `cloud_properties` section:
         * **security_group** [String, required]: Name of the Pool's target Security Group. The CPI will add the VM to the specified security group (creating the security group if needed), then add the security group to the specified Server Pool.
         * **port** [Integer, required]: The port that the VM's service is listening on (e.g. 80 for HTTP).
         * **monitor_port** [Integer, optional]: The healthcheck port that the VM is listening on. Defaults to the value of `port`.
-        * **vmx_options** [Dictionary, optional]: Allows operator to specify [VM advanced configuration options](https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.resmgmt.doc/GUID-F8C7EF4D-D023-4F54-A2AB-8CF840C10939.html). All values are subject to YAML's type interpretation, and given that for certain configuration options vSphere will accept only a specific value type please take note of the difference between values with similar appearances such as: `true` vs `"true"` and `"1234"` vs `1234`. Refer to the vSphere documentation for more information about what configuration options are accepted. Available in v42+.
+* **vmx_options** [Dictionary, optional]: Allows operator to specify [VM advanced configuration options](https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.resmgmt.doc/GUID-F8C7EF4D-D023-4F54-A2AB-8CF840C10939.html). All values are subject to YAML's type interpretation, and given that for certain configuration options vSphere will accept only a specific value type please take note of the difference between values with similar appearances such as: `true` vs `"true"` and `"1234"` vs `1234`. Refer to the vSphere documentation for more information about what configuration options are accepted. Available in v42+.
+* **nsxt** [Dictionary, optional]: [VMWare NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v45+ and NSX-T v1.1+.
+    * **ns_groups** [Array, optional]: A collection of [NS Groups](http://pubs.vmware.com/nsxt-11/index.jsp?topic=%2Fcom.vmware.nsxt.admin.doc%2FGUID-718E769B-8D89-485B-8DBD-04F1F82CFE14.html) names that the instances should belong to.
 
-Example of a VM asked to be placed into a specific vSphere resource pool with NSX integration:
+
+Example of a VM asked to be placed into a specific vSphere resource pool with NSX-V and NSX-T integration:
 
 ```yaml
 resource_pools:
@@ -101,7 +104,7 @@ resource_pools:
     - name: my-dc
       clusters:
       - my-vsphere-cluster: {resource_pool: other-vsphere-res-pool}
-    nsx:
+    nsx: # NSX-V configuration
       security_groups: [public, dmz]
       lbs:
       - edge_name: my-lb
@@ -111,6 +114,8 @@ resource_pools:
         monitor_port: 4443 # optional, defaults to `port` value
     vmx_options:
       sched.mem.maxmemctl: "1330"
+    nsxt: # NSX-T configuration
+      ns_groups: [public, dmz]
 ```
 
 ---
@@ -181,13 +186,19 @@ Schema:
     * **clusters** [Array, required]: Array of clusters to use for VM placement.
         * **&lt;cluster name&gt;** [String, required]: Cluster name.
             * **resource_pool** [String, optional]: Specific vSphere resource pool to use within the cluster.
-* **nsx** [Dictionary, optional]: NSX configuration options.  This is required if the other NSX features are used below (e.g. 'security\_groups' for `resource\_pools`).
+* **nsx** [Dictionary, optional]: NSX-V configuration options.  This is required if the other NSX features are used below (e.g. 'security\_groups' for `resource\_pools`).
     * **address** [String, required]: The NSX server's address. Can be a hostname (e.g. `nsx-server.example.com`) or an IP address.
     * **user** [String, required]: The login username for the NSX server.
     * **password** [String, required]: The login password for the NSX server.
     * **ca_cert** [String, optional]: A CA certificate that can authenticate the NSX server certificate. **Required** if the NSX Manager has a self-signed SSL certificate. Must be in PEM format.
 * **enable\_auto\_anti\_affinity\_drs\_rules** [Boolean, optional]: Creates DRS rule to place VMs on separate hosts. DRS Automation Level must be set to "Fully Automated"; does not work when DRS is set to "Partially Automated" or "Manual". May cause VMs to fail to power on if there are more VMs than hosts after initial deployment. Default: `false`. Available in v33+.
-<p class="note">Note: If the NSX Manager has a self-signed certificate, the certificate must be set in the `ca_cert` property.</p>
+* **nsxt** [Dictionary, optional]: NSX-T configuration options. Available in v45+.
+    * **host** [String, required]: The NSX-T server's address. Can be a hostname (e.g. `nsx-server.example.com`) or an IP address.
+    * **username** [String, required]: The login username for the NSX-T server.
+    * **password** [String, required]: The login password for the NSX-T server.
+    * **ca_cert** [String, optional]: A CA certificate that can authenticate the NSX-T server certificate. **Required** if the NSX-T Manager has a self-signed SSL certificate. Must be in PEM format.
+
+<p class="note">Note: If the NSX-V or NSX-T Manager has a self-signed certificate, the certificate must be set in the `ca_cert` property.</p>
 
 Example of a CPI configuration that will place VMs into `BOSH_CL` cluster within `BOSH_DC`:
 
