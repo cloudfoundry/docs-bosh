@@ -4,7 +4,7 @@ title: Operations Files
 
 <p class="note">Note: Applies to CLI v2.</p>
 
-It's usually necessary to apply an opinitated set of structural changes to a YAML document (manifest, cloud config, etc.) before submitting it to the CLI commands (`bosh create-env`, `bosh deploy`, etc.) for processing. Such changes could be an addition or removal of certain job properties, instance groups, changes to property values.
+It's usually necessary to apply an opinionated set of structural changes to a YAML document (manifest, cloud config, etc.) before submitting it to the CLI commands (`bosh create-env`, `bosh deploy`, etc.) for processing. Such changes could be an addition or removal of certain job properties, instance groups, changes to property values.
 
 <p class="note">Note: Replacing values such as passwords and certificates is not considered a structural change. Refer to [CLI variable interpolation](cli-int.html) for details.</p>
 
@@ -25,7 +25,7 @@ Following is an operations file (`replace-name.yml`) with a single operation tha
   value: other-cf
 ```
 
-Given base YAML document (`base.yml`): 
+Given base YAML document (`base.yml`):
 
 ```yaml
 name: my-cf
