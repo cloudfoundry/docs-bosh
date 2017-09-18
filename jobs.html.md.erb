@@ -2,7 +2,7 @@
 title: Jobs
 ---
 
-Each release job represents a specific chunk of work that the release performs. For example a DHCP release may have a "dhcp\_server" job, and a Postgres release may have "postgres" and "periodic\_backup" jobs. A release can define one or more jobs.
+Each release job represents a specific chunk of work that the release performs. For example a DHCP release may have a "dhcp-server" job, and a Postgres release may have "postgres" and "periodic-backup" jobs. A release can define one or more jobs.
 
 A job typically includes:
 
@@ -12,6 +12,8 @@ A job typically includes:
 - start and stop scripts for each process
 - additional hook scripts
 
+Jobs are typically OS specific (Windows vs Linux); however, structure of a job remains same.
+
 ---
 ## <a id="spec"></a> Spec file (metadata)
 
@@ -19,7 +21,7 @@ Spec file defines job metadata. It will be interpreted by the Director when the 
 
 ```yaml
 ---
-name: http_server
+name: http-server
 
 description: This job runs a simple HTTP server.
 
@@ -28,10 +30,10 @@ templates:
   config.json: config/config.json
 
 packages:
-- http_server
+- http-server
 
 properties:
-  http_server.listen_port:
+  listen_port:
     description: "Port to listen on"
     default: 8080
 ```
@@ -103,3 +105,6 @@ Each template can also access the special `spec` object for instance-specific co
 - `spec.ip`: IP address of the instance. In case multiple IP addresses are available, the IP of the [addressable or default network](networks.html#multi-homed) is used. Available in bosh-release v258+.
 - `spec.name`: Name of the instance.
 - `spec.networks`: Entire set of network information for the instance.
+
+---
+Next: [Errands](errands.html)

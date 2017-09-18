@@ -109,11 +109,13 @@ An environment consists of a Director and deployments that it orchestrates. A go
 ---
 ## <a id="errand"></a> Errand
 
-An errand is a short-lived job that an operator can be triggered by an operator any time after the deploy. Examples:
+An errand is a short-lived job that can be triggered by an operator any time after the deploy. Examples:
 
 - smoke tests
 - comprehensive test suites
 - CF service broker binding and unbinding
+
+[See details](errands.html).
 
 ---
 ## <a id="event"></a> Event
@@ -148,7 +150,7 @@ Stages that all jobs (and their associated processes) go through during a deploy
 ---
 ## <a id="job"></a> Job (aka Release Job)
 
-A job is part of a release. It contains startup, shutdown scripts, and configuration files that tell the Agent how to start, run and monitor software on a VM. Jobs can depend on packages for necessary software.
+A job is part of a release. It contains startup, shutdown scripts, and configuration files that tell the Agent how to start, run and monitor software on a VM. Jobs can depend on packages for necessary software. [See details](jobs.html).
 
 ---
 ## <a id="job-lifecycle"></a> Job Lifecycle

@@ -827,18 +827,38 @@ See [CPI config](cpi-config.html).
     Succeeded
     </pre>
 
-- <a id="run-errand"></a> `bosh -e my-env -d my-dep run-errand name [--keep-alive] [--when-changed] [--download-logs] [--logs-dir=dir]`
+- <a id="run-errand"></a> `bosh -e my-env -d my-dep run-errand name [--keep-alive] [--when-changed] [--download-logs] [--logs-dir=dir] [--instance=instance-group/instance-id]`
 
-    Runs errand with the name.
+    Runs errand job by name.
 
     - `--keep-alive` flag keeps VM around where errand was executing
     - `--when-changed` flag indicates whether to skip running an errand if it previously ran (successfully finished) and errand job configuration did not change
     - `--download-logs` flag indicates whether to download full errand logs to a directory specified by `--logs-dir` (defaults to the current directory)
+    - `--instance=` flag select which instances to use for errand execution (v2.0.31+)
+
+    See [Errands](errands.html) for details.
 
     <pre class="terminal">
     $ bosh -e vbox -d cf run-errand smoke-tests
     $ bosh -e vbox -d cf run-errand smoke-tests --keep-alive
     $ bosh -e vbox -d cf run-errand smoke-tests --when-changed
+
+    # execute errand on all instances that have colocated status errand
+    $ bosh -e vbox -d zookeeper run-errand status
+
+    # execute errand on one instance
+    $ bosh -e vbox -d zookeeper run-errand status --instance zookeeper/3e977542-d53e-4630-bc40-72011f853cb5
+
+    # execute errand on one instance within an instance group
+    $ bosh -e vbox -d zookeeper run-errand status --instance zookeeper/first
+
+    # execute errand on all instance in an instance group
+    $ bosh -e vbox -d zookeeper run-errand status --instance zookeeper
+
+    # execute errand on two instances
+    $ bosh -e vbox -d zookeeper run-errand status \
+      --instance zookeeper/671d5b1d-0310-4735-8f58-182fdad0e8bc \
+      --instance zookeeper/3e977542-d53e-4630-bc40-72011f853cb5
     </pre>
 
 ---
