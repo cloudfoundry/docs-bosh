@@ -10,7 +10,7 @@ While authoring a release, it is usually necessary to include some commonly used
 - CLIs such as CF and/or BOSH CLI
 - supporting packages for compilation such as Git
 
-It's a recommended practice to make releases be self contained; however, this practive may force each release author to figure out how to make such common packages on their own. There are several solutions that solve this problem in their distinct way:
+It's a recommended practice to make releases be self contained; however, that may force each release author to figure out how to make such common packages on their own. There are several solutions that solve this problem in their distinct way:
 
 - use `bosh vendor-package` command to copy over existing package
 - use job colocation (with necessary package dependencies)
@@ -111,7 +111,7 @@ When to be cautious with this approach:
 
 Lastly, sometimes it may be necessary to actually copy over (`cp`) software bits from one release to another.
 
-Typically this approach means that release author have to keep very close eye on the upstream software include in this package, hence, it may require more effort to stay up to date.  
+Typically this approach means that release author have to keep very close eye on the upstream software include in this package, hence, it may require more effort to stay up to date.
 
 When to use this approach:
 
