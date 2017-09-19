@@ -35,8 +35,8 @@ with a `run.sh` template:
 ```bash
 #!/bin/bash
 set -e
-<% conn = link('conn') %>
-export ZOOKEEPER_SERVERS=<%= conn.instances.map { |i| "#{i.address}:#{conn.p('client_port')}" }.join(",") %>
+<%% conn = link('conn') %%>
+export ZOOKEEPER_SERVERS=<%%= conn.instances.map { |i| "#{i.address}:#{conn.p('client_port')}" }.join(",") %%>
 /var/vcap/packages/smoke-tests/bin/tests
 ```
 
