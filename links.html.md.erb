@@ -143,7 +143,8 @@ name: postgres
 templates: {...}
 
 provides:
-- {name: conn, type: db}
+- name: conn
+  type: db
 
 properties: {...}
 ```
@@ -195,7 +196,7 @@ Available `instance` object methods:
 * **id** [String, non-empty]: Unique ID.
 * **index** [Integer, non-empty]: Unique numeric index. May have gaps.
 * **az** [String or null, non-empty]: AZ associated with the instance.
-* **address** [String, non-empty]: IPv4, IPv6 or DNS record.
+* **address** [String, non-empty]: IPv4, IPv6 or DNS address. See [Native DNS Support](dns.html#links) for more details.
 * **bootstrap** [Boolean]: Whether or not this instance is a bootstrap instance.
 
 ### <a id="properties"></a> Properties

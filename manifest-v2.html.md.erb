@@ -11,6 +11,7 @@ The deployment manifest is a YAML file that defines the components and propertie
 Assuming that you are using [cloud config](cloud-config.html), your deployment manifest is expected to have:
 
 * [Deployment Identification](#deployment): A name for the deployment and the UUID of the Director managing the deployment
+* [Features Block](#features): Opts into Director features to be used in this deployment
 * [Releases Block](#releases): Name and version of each release in a deployment
 * [Stemcells Block](#stemcells): Name and version of each stemcell in a deployment
 * [Update Block](#update): Defines how BOSH updates instances during deployment
@@ -24,13 +25,26 @@ Assuming that you are using [cloud config](cloud-config.html), your deployment m
 
 **name** [String, required]: The name of the deployment. A single Director can manage multiple deployments and distinguishes them by name.
 
-**director_uuid** [String, required]: This string must match the UUID of the currently targeted Director for the CLI to allow any operations on the deployment. Use `bosh status` to display the UUID of the currently targeted Director. Not required by CLI v2.
+**director_uuid** [String, required]: Not required by CLI v2. This string must match the UUID of the currently targeted Director for the CLI to allow any operations on the deployment. Use `bosh status` to display the UUID of the currently targeted Director.
 
 Example:
 
 ```yaml
 name: my-redis
-director_uuid: cf8dc1fc-9c42-4ffc-96f1-fbad983a6ce6
+```
+
+---
+## <a id='features'></a> Features Block
+
+**features** [Hash, options]: Specifies Director features that should be used within this deployment.
+
+* **use\_dns\_addresses** [Boolean, optional]: Enables or disables returning of DNS addresses in links. Defaults to global Director `use\_dns\_addresses` configuration.
+
+Example:
+
+```yaml
+features:
+  use_dns_addresses: true
 ```
 
 ---

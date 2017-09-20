@@ -39,7 +39,7 @@ See [Deploying step-by-step](deploying-step-by-step.html) for full Director depl
 
 To take advantage of native DNS functionality, it's expected that [DNS release](https://bosh.io/releases/github.com/cloudfoundry/dns-release?all=1) runs on each VM. We recommend to colocate DNS release by definiting it in an [addon](runtime-config.html#addons).
 
-DNS release provides two jobs: `dns` (for Linux) and `dns-windows` (for Windows) which start a simple DNS server bound to a [link local address](https://bosh.io/jobs/dns?source=github.com/cloudfoundry/dns-release#p=address).
+DNS release provides two jobs: `bosh-dns` (for Linux) and `bosh-dns-windows` (for Windows) which start a simple DNS server bound to a [link local address](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/dns-release#p=address).
 
 ### <a id='aliases'></a> Aliases
 
@@ -55,7 +55,9 @@ Example usage of `aliases` property:
 ```yaml
 properties:
   aliases:
-    bbs.service.cf.internal: ["*.database-z1.diego1.cf-cfapps-io2-diego.bosh", "*.database-z2.diego2.cf-cfapps-io2-diego.bosh"]
+    bbs.service.cf.internal:
+    - "*.database-z1.diego1.cf-cfapps-io2-diego.bosh"
+    - "*.database-z2.diego2.cf-cfapps-io2-diego.bosh"
 ```
 
 Above will resolve `bbs.service.cf.internal` to a all IPs (shuffled) matching following instance patterns: `*.database-z1.diego1.cf-cfapps-io2-diego.bosh` or `*.database-z2.diego2.cf-cfapps-io2-diego.bosh`.
@@ -82,7 +84,32 @@ Additionally you should colocate DNS release via an addon in all your deployment
 ---
 ## <a id='links'></a> Impact on links
 
-Once native DNS is enabled, addresses provided via links will include DNS records instead of IPs. Note that links provided by instance groups placed on dynamic networks will always provide DNS addresses.
+Each link includes some networking information about its provider. Addresses returned by a link may be either IP addresses or DNS addresses.
+
+As of bosh-release v263 opting into DNS addresses in links must be done explicitly. Previous Director versions would opt into this behaviour by default.
+
+You can control type of addresses returned at three different levels:
+
+- for the entire Director via Director job configuration [`director.local_dns.use_dns_addresses` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.local_dns.use_dns_addresses) that if enabled affects all deployments by default. We are planning to eventually change this configuration to true by default.
+
+- for a specific deployment via [`features.use_dns_addresses` deployment manifest property](manifest-v2.html#features) that if enabled affects links within this deployment
+
+- for a specific link via its `ip_addresses` configuration
+
+    If for some reason (discouraged) particular job cannot work with links that return DNS addresses, you can ask the Director to return IP addresses on best effort basis. Here is an example how to opt into this behaviour for a single link:
+
+    ```yaml
+    instance_groups:
+    - name: zookeeper
+      jobs:
+      - name: zookeeper
+        release: zookeeper
+        consumes:
+          peers: {ip_addresses: true}
+    ...
+    ```
+
+Once native DNS addresses in links are enabled DNS addresses will be returned instead of IPs. Note that links provided by instance groups placed on dynamic networks will always provide DNS addresses.
 
 ```ruby
 # before
@@ -91,6 +118,11 @@ link("db").instances[0].address => "172.10.10.0"
 # after
 link("db").instances[0].address => "ef489dd9-48f6-45f0-b7af-7f3437919b17.db.default.db.bosh"
 ```
+
+---
+## <a id='job-address'></a> Impact on job's address (`spec.address`)
+
+Similar to how [links are affected](dns.html#links), `spec.addres` will start returning DNS address once `use_dns_addresses` feature is enabled.
 
 ---
 ## <a id='migrate-powerdns'></a> Migrating from PowerDNS
