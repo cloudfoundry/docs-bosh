@@ -13,5 +13,5 @@ To obtain SSH access specifically to the Director VM when necessary you can opt 
 <pre class="terminal">
 $ bosh int creds.yml --path /jumpbox_ssh/private_key > jumpbox.key
 $ chmod 600 jumpbox.key
-$ ssh jumpbox@<external-or-internal-ip> -i jumpbox.key
+$ ssh jumpbox@&lt;external-or-internal-ip&gt; -i jumpbox.key
 </pre>
