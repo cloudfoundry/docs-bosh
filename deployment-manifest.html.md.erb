@@ -69,6 +69,23 @@ releases:
   url: file://bosh-aws-cpi-release-158.tgz
 ```
 
+### <a id='bosh-init-releases'></a>Releases Block using local release directory
+
+**releases** [Array, required]: The name, url and possibly SHA1 of each release in the deployment.
+
+* **name** [String, required]: Name of a release used in the deployment.
+* **url** [String, required]: Path to release directory on filesystem.
+* **version** [String, required]: Must be `create`
+
+Example:
+
+```yaml
+releases:
+- name: bosh-aws-cpi
+  url: /Users/cloudfoundry/workspace/bosh-aws-cpi-release
+  version: create
+```
+
 ---
 ## <a id='networks'></a>Networks Block
 
