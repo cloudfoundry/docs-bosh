@@ -16,6 +16,7 @@ Assuming that you are using [cloud config](cloud-config.html), your deployment m
 * [Stemcells Block](#stemcells): Name and version of each stemcell in a deployment
 * [Update Block](#update): Defines how BOSH updates instances during deployment
 * [Instance Groups Block](#instance-groups): Configuration and resource information for instance groups
+* [Addons](#addons): Configures deployment specific addons
 * [Properties Block](#properties): Describes global properties and generalized configuration information
 * [Variables Block](#variables): Variables configuration
 * [Tags Block](#tags): Sets additional tags for the deployment
@@ -193,6 +194,27 @@ instance_groups:
   persistent_disk_type: medium
   networks:
   - name: default
+```
+
+---
+## <a id='addons'></a> Addons Block
+
+**addons** [Array, required]: Specifies the [addons](./terminology.html#addon) to be applied to this deployments.
+
+See [Addons Block](runtime-config.html#addons) for the schema.
+
+Unlike addons specified in a runtime config, addons specified in the deployment manifest do not respect inclusion and exclusion rules for `deployments`.
+
+Example:
+
+```
+addons:
+- name: logging
+  jobs:
+  - name: logging-agent
+    release: logging
+    properties:
+      ...
 ```
 
 ---
