@@ -69,6 +69,10 @@ All paths follow these rules:
 
 - Integer components refer to array indices (ex: `/0`, `/-1`)
 
+- Array index selection could be affected via `:prev` and `:next` (as of CLI v2.0.40+)
+
+- Array insertion could be affected via `:before` and `:after` (as of CLI v2.0.40+)
+
 - `-` component refers to an imaginary index after last array index (ex: `/-`)
   - If there is an array of length 3 (`[0,1,2]`), then `-` would refer to 4th non-existent position
 
@@ -188,6 +192,42 @@ items:
 - creates `array2` array since it does not exist
 - appends `10` to the end of `array2`
 
+```yaml
+- type: replace
+  path: /array/1:prev
+  value: 10
+```
+
+- requires `array` to exist and be an array
+- replaces 0th item in `array` array with `10`
+
+```yaml
+- type: replace
+  path: /array/0:next
+  value: 10
+```
+
+- requires `array` to exist and be an array
+- replaces 1st item (starting at 0) in `array` array with `10`
+
+```yaml
+- type: replace
+  path: /array/0:after
+  value: 10
+```
+
+- requires `array` to exist and be an array
+- inserts `10` after 0th item in `array` array
+
+```yaml
+- type: replace
+  path: /array/0:before
+  value: 10
+```
+
+- requires `array` to exist and be an array
+- inserts `10` before 0th item at the beginning of `array` array
+
 ---
 ### Arrays of hashes
 
@@ -232,6 +272,25 @@ items:
   - name: item8
   - name: item8
   - name: item9
+    count: 10
+  ```
+
+```yaml
+- type: replace
+  path: /items/name=item7:before
+  value:
+    name: item6
+```
+
+- finds array item with matching key `name` with value `item7`
+- adds hash `name: item6` before found array item, resulting in:
+
+  ```yaml
+  ...
+  items:
+  - name: item5
+  - name: item6
+  - name: item7
     count: 10
   ```
 
