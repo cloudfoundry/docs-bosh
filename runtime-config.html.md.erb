@@ -46,9 +46,9 @@ addons:
   jobs:
   - name: strongswan
     release: strongswan
-  properties:
-    strongswan:
-      ca_cert: ...
+    properties:
+      strongswan:
+        ca_cert: ...
 ```
 
 <p class="note">Note: To remove all addons, specify empty arrays as follows:</p>
@@ -92,9 +92,9 @@ An addon is a release job that is colocated on all VMs managed by the Director.
 * **jobs** [Array of hashes, requires]: Specifies the name and release of release jobs to be colocated.
   * **name** [String, required]: The job name.
   * **release** [String, required]: The release where the job exists.
+  * **properties** [Hash, optional]: Specifies job properties. Properties allow the Director to configure jobs to a specific environment.
 * **include** [Hash, optional]: Specifies inclusion <a href="#placement-rules">placement rules</a> Available in bosh-release v260+.
 * **exclude** [Hash, optional]: Specifies exclusion <a href="#placement-rules">placement rules</a>. Available in bosh-release v260+.
-* **properties** [Hash, optional]: Specifies job properties. Properties allow the Director to configure jobs to a specific environment. `properties` specified on an addon are only accessible to addons.
 
 ### <a id='placement-rules'></a> Placement Rules for `include` and `exclude` Directives
 
@@ -118,14 +118,15 @@ addons:
   jobs:
   - name: strongswan
     release: strongswan
+    properties:
+      strongswan:
+        ca_cert: ...
   - name: syslog_drain
     release: syslog
+    properties:
+      syslog_drain_ips: [10.10.0.20]
   include:
     deployments: [dep1, dep2]
-  properties:
-    strongswan:
-      ca_cert: ...
-    syslog_drain_ips: [10.10.0.20]
 ```
 
 Example with `include` rules:
