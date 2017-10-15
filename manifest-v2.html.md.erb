@@ -142,7 +142,7 @@ update:
   * **release** [String, required]: The release where the job exists
   * **consumes** [Hash, optional]: Links consumed by the job. [Read more about link configuration](links.html#deployment)
   * **provides** [Hash, optional]: Links provided by the job. [Read more about link configuration](links.html#deployment)
-  * **properties** [Hash, required]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job. Only properties specified here will be provided to the job.
+  * **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job. Only properties specified here will be provided to the job.
 * **vm_type** [String, required]: A valid VM type name from the cloud config.
 * **vm_extensions** [Array, optional]: A valid list of VM extension names from the cloud config.
 * **stemcell** [String, required]: A valid stemcell alias from the Stemcells Block.
