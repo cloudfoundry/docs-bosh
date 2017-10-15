@@ -118,12 +118,26 @@ items:
 - sets `key` to `10`
 
 ```yaml
+- type: remove
+  path: /key
+```
+
+- removes `key`
+
+```yaml
 - type: replace
   path: /key_not_there
   value: 10
 ```
 
 - errors because `key_not_there` is expected (does not have `?`)
+
+```yaml
+- type: remove
+  path: /key_not_there
+```
+
+- again this errors because `key_not_there` is expected (does not have `?`)
 
 ```yaml
 - type: replace
@@ -141,6 +155,14 @@ items:
 
 - requires that `key2` and `nested` hashes exist
 - sets `super_nested` to `10`
+
+```yaml
+- type: remove
+  path: /key2/nested/super_nested
+```
+
+- requires that `key2` and `nested` hashes exist
+- removes `super_nested`
 
 ```yaml
 - type: replace
@@ -173,6 +195,14 @@ items:
 
 - requires `array` to exist and be an array
 - replaces 0th item in `array` array with `10`
+
+```yaml
+- type: remove
+  path: /array/0
+```
+
+- requires `array` to exist and be an array
+- removes 0th item in `array`
 
 ```yaml
 - type: replace
@@ -230,6 +260,13 @@ items:
 
 ---
 ### Arrays of hashes
+
+```yaml
+- type: remove
+  path: /items/name=item7
+```
+
+- finds and removes array item with matching key `name` with value `item7`
 
 ```yaml
 - type: replace
