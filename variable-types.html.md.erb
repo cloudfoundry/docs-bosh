@@ -28,7 +28,7 @@ Generation options:
 * **alternative_names** [Array, options]: Subject alternative names. Example: `["foo.com", "*.foo.com"]`.
 * **is_ca** [Boolean, required]: Indicates whether this is a CA certificate (root or intermediate). Defaults to `false`.
 * **ca** [String, optional]: Specifies name of a CA certificate to use for making this certificate. Can be specified in conjuction with `is_ca` to produce an intermediate certificate.
-* **extended_key_usage** [Array, optional]: List of extended key usage. Possible values: `client_auth` and/or `server_auth`. Default: empty. Example: `[client_auth]`.
+* **extended\_key\_usage** [Array, optional]: List of extended key usage. Possible values: `client_auth` and/or `server_auth`. Default: empty. Example: `[client_auth]`.
 
 Example:
 
@@ -95,4 +95,4 @@ variables:
 
 * **private_key** [String]: Private key (PEM encoded).
 * **public_key** [String]: Public key (PEM encoded).
-* **public\_key_\fingerprint** [String]: Public key's MD5 fingerprint. Example: `c3:ae:51:ec:cb:a8:09:ac:43:fd:84:dd:11:dd:fe:c7`.
+* **public\_key\_fingerprint** [String]: Public key's MD5 fingerprint. Example: `c3:ae:51:ec:cb:a8:09:ac:43:fd:84:dd:11:dd:fe:c7`.
