@@ -29,7 +29,7 @@ To enable the Resurrector:
     ```
 
 1. Optionally change configuration values:
-    * **minimum\_down\_jobs** [Integer, optional]: If the total number of instances that are down in a deployment (within time interval T) is below this number, the Resurrector will _always_ request to fix instances. This decision takes precedence to the `percent_threshold` check. Default is 5.
+    * **minimum\_down\_jobs** [Integer, optional]: If the total number of instances that are down in a deployment (within time interval T) is below this number, the Resurrector will _always_ request to fix instances. This decision takes precedence to the `percent_threshold` check when the # of down instances ≤ `minimum_down_jobs`. Default is 5.
     * **percent_threshold** [Float, optional]: If the percentage of instances that are down in a deployment (within time interval T) is greater than the threshold percentage, the Resurrector will _not_ request to fix any instance. Going over this threshold is called "meltdown". Default is 0.2 (20%).
     * **time_threshold** [Integer, optional]: Time interval (in seconds) used in the above calculations. Default is 600.
 
