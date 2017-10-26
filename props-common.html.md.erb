@@ -1,13 +1,12 @@
 ---
-title: Properties: Suggested configurations
+title: Properties - Suggested configurations
 ---
 
 ## <a id="tls"></a> TLS configuration
 
 Following is a _suggested_ set of properties for TLS configuration:
 
-**<context>** [Hash or Array]: Some property context or the job itself.
-  * **tls** [Hash]: TLS configuration section.
+* **tls** [Hash]: TLS configuration section.
     * **enabled** [Boolean, optional]: Enable/disable TLS. Default should be `true`.
     * **cert** [Hash]: Value described by [`ceritificate` variable type](variable-types.html#certificate). Default is `nil`.
     * **protocols** [String, optional]: Space separated list of protocols to support. Example: `TLSv1.2`.
@@ -25,8 +24,7 @@ properties:
   tls.cert:
     type: certificate
     description: "Specify certificate"
-
-...
+  ...
 ```
 
 Example manifest usage:
@@ -68,8 +66,7 @@ properties:
   client.tls.cert:
     type: certificate
     description: "Specify client certificate"
-
-...
+  ...
 ```
 
 Example manifest usage:
@@ -105,10 +102,10 @@ variables:
 
 Following is a _suggested_ set of properties for environment proxy configuration:
 
-**env** [Hash]
-  * **http_proxy** [String, optinal]: HTTP proxy that software should use. Default: not specified.
-  * **https_proxy** [String, optinal]: HTTPS proxy that software should use. Default: not specified.
-  * **no_proxy** [String, optinal]: List of comma-separated hosts that should skip connecting to the proxy in software. Default: not specified.
+* **env** [Hash]
+    * **http_proxy** [String, optinal]: HTTP proxy that software should use. Default: not specified.
+    * **https_proxy** [String, optinal]: HTTPS proxy that software should use. Default: not specified.
+    * **no_proxy** [String, optinal]: List of comma-separated hosts that should skip connecting to the proxy in software. Default: not specified.
 
 Example job spec:
 
@@ -122,8 +119,7 @@ properties:
     description: HTTPS proxy that the server should use
   env.no_proxy:
     description: List of comma-separated hosts that should skip connecting to the proxy in the server
-
-...
+  ...
 ```
 
 Example manifest usage:
