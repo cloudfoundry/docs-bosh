@@ -18,7 +18,7 @@ In contrast, the BOSH CLI v2 is stateless. To specify a Director instance and de
 you do one of the following:
 
 * Pass the BOSH environment in with the `-e` flag and the deployment in with the `-d` flag, or
-* Set the command shell environment variable `BOSH_ENVIRONMENT` to your Director endpoint and set `BOSH_DEPLOYMENT` to your manifest file.  You can also use `bosh alias-env` to create an alias for your BOSH environment, to avoid having to pass in a whole manifest file path.
+* Set the command shell environment variable `BOSH_ENVIRONMENT` to your Director endpoint or alias and set `BOSH_DEPLOYMENT` to your deployment name. You can also use `bosh alias-env` to create an alias for your BOSH environment configuration, to avoid having to reference the Director endpoint and credential information for every command.
 
 <strong>Hyphenation</strong>
 
