@@ -69,12 +69,12 @@ releases:
   url: file://bosh-aws-cpi-release-158.tgz
 ```
 
-### <a id='bosh-init-releases'></a>Releases Block using local release directory
+### <a id='bosh-releases-create'></a>Releases Block using local release directory
 
-**releases** [Array, required]: The name, url and possibly SHA1 of each release in the deployment.
+**releases** [Array, required]: The name and local release directory of a release in the deployment.
 
 * **name** [String, required]: Name of a release used in the deployment.
-* **url** [String, required]: Path to release directory on filesystem.
+* **url** [String, required]: Path to release directory on local filesystem (relative to working directory).
 * **version** [String, required]: Must be `create`
 
 Example:
