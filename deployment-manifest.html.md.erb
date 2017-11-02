@@ -129,7 +129,13 @@ resource_pools:
   cloud_properties:
     instance_type: m1.small
     availability_zone: us-east-1c
+  env:                                                                           
+    bosh:                                                                        
+      password: $1$QU5wC/Pb$tN6Vtv6J5jOoelmIr1tvS1
 ```
+We can set password for vcap and root users on stemcell which will be used for instances of deployment (password should be ready to be placed to /etc/shadow - https://unix.stackexchange.com/questions/81240/manually-generate-password-for-etc-shadow)
+
+
 
 ### <a id='bosh-init-stemcells'></a> Custom bosh-init Stemcell Key Schema
 
