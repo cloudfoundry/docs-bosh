@@ -63,9 +63,10 @@ This document shows how to set up new [environment](terminology.html#environment
     # Log in to the Director
     $ export BOSH_CLIENT=admin
     $ export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
+    $ export BOSH_ENVIRONMENT=bosh-1
 
     # Query the Director for more info
-    $ bosh -e bosh-1 env
+    $ bosh env
     </pre>
 
 1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.html#deployment-state) for details.
