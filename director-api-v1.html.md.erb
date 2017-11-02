@@ -94,6 +94,139 @@ $ curl -s -k https://192.168.50.4:25555/info | jq .
 ```
 
 ---
+
+## <a id="configs"></a> Configs
+
+### <a id="list-configs"></a> `GET /configs`: List configs
+
+#### Request query
+
+- **latest** [Boolean, required]: Returns latest configs when set to `true`. Otherwise return all configs when set to `false`. Possible values: `true` or `false`. There is no default.
+- **type** [String, optional]: Filters list of configs by the given type.
+- **name** [String, optional]: Filters list of configs by the given name.
+
+#### Response body schema
+
+**[root]** [Array]: List of configs.
+
+- **id** [String]: ID of the config.
+- **name** [String]: Name of the config.
+- **type** [String]: Type of the config, i.e. 'cloud', 'cpi', 'runtime'.
+- **content** [String]: YAML containing the config manifest.
+- **created_at** [Time]: Creation time of the config.
+- **deleted** [Boolean]: Soft delete flag.
+
+#### Example
+
+<pre class="terminal">
+$ curl -s -k https://192.168.50.4:25555/configs?latest=true | jq .
+</pre>
+
+```yaml
+[
+   {
+    "content": "azs:\n- name: z1\n...",
+    "id": "1",
+    "type": "cloud",
+    "name": "default"
+  }
+]
+```
+
+---
+### <a id="create-config"></a> `POST /configs`: Create config.
+
+#### Request headers
+
+- **Content-Type** must be `text/json`.
+
+#### Request body
+
+The request body consists of a single JSON hash with the following key, value pairs:
+
+- **name** [String]: Name of the config.
+- **type** [String]: Type of the config, i.e. 'cloud', 'cpi', 'runtime'.
+- **content** [String]: YAML containing the config manifest.
+
+#### Response body schema
+
+**[root]** [Hash]: The newly created config.
+
+- **name** [String]: Name of the config.
+- **type** [String]: Type of the config, i.e. 'cloud', 'cpi', 'runtime'.
+- **content** [String]: YAML containing the config manifest.
+- **created_at** [Time]: Creation time of the config.
+- **deleted** [Boolean]: Soft delete flag.
+
+#### Example
+
+<pre class="terminal">
+$ curl -s -k -H 'Content-Type: application/json' -d '{"name": "test", "type": "cloud", "content": "--- {}"}' https://192.168.50.4:25555/configs | jq .
+</pre>
+
+```yaml
+{
+  "content": "--- {}",
+  "id": "3",
+  "type": "cloud",
+  "name": "test"
+}
+```
+
+---
+### <a id="diff-config"></a> `POST /configs/diff`: Diff config.
+
+#### Request headers
+
+- **Content-Type** must be `text/json`.
+
+#### Request body
+
+The request body consists of a single JSON hash with the following key, value pairs:
+
+- **name** [String]: Name of the config.
+- **type** [String]: Type of the config, i.e. 'cloud', 'cpi', 'runtime'.
+- **content** [String]: YAML containing the config manifest.
+
+#### Response body schema
+
+**[root]** [Hash]: The changes.
+
+- **diff** [Array]: List of differences.
+- **error** [String]: Error description if an error happened.
+
+#### Example
+
+<pre class="terminal">
+$ curl -s -k -H 'Content-Type: application/json' -d '{"name": "default", "type": "cloud", "content": "--- {}"}' https://192.168.50.4:25555/configs/diff | jq .
+</pre>
+
+```yaml
+{
+  "diff": [
+    [
+      "az: z2",
+      "added"
+    ]
+  ]
+}
+```
+
+---
+### <a id="delete-config"></a> `DELETE /configs`: Marks configs as deleted.
+
+#### Request Query
+
+- **name** [String]: Name of the config.
+- **type** [String]: Type of the config, i.e. 'cloud', 'cpi', 'runtime'.
+
+#### Example
+
+<pre class="terminal">
+$ curl -s -k -X DELETE https://192.168.50.4:25555/configs?type=cloud&name=test
+</pre>
+
+---
 ## <a id="tasks"></a> Tasks
 
 See [Director tasks](director-tasks.html) for related info.
