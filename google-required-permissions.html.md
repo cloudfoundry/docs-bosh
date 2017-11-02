@@ -112,7 +112,7 @@ This section will guide you through how to configure the Google Cloud CPI and Di
 4. On Google Cloud navigate go to `IAM & admin` > `Service accounts` and click on `CREATE SERVICE ACCOUNT`.
    Give your service account a name, check `Furnish a new private key` and select the aforementioned role.
 
-   <%= image_tag("images/gcp-service-account.png") %>
+   ![image](images/gcp-service-account.png)
 
 
 
@@ -168,7 +168,7 @@ This configuration is similar to the previous one except that it's used when the
 5. On Google Cloud navigate go to `IAM & admin` > `Service accounts` and click on `CREATE SERVICE ACCOUNT`.
    Give your service account a name, check `Furnish a new private key` and select the aforementioned roles.
 
-   <%= image_tag("images/gcp-service-account.png") %>
+   ![image](images/gcp-service-account.png)
 
 6. Configure [GCS Blobstore](director-configure-blobstore.html#gcs)
 

@@ -210,17 +210,17 @@ cloud_provider:
 
 1. Select the **Keypairs** tab.
 
-    <%= image_tag("images/micro-openstack/keypair.png") %>
+    ![image](images/micro-openstack/keypair.png)
 
 1. Click **Create Keypair**.
 
 1. Name the Keypair "bosh" and click **Create Keypair**.
 
-    <%= image_tag("images/micro-openstack/create-keypair.png") %>
+    ![image](images/micro-openstack/create-keypair.png)
 
 1. Save the `bosh.pem` file.
 
-    <%= image_tag("images/micro-openstack/save-keypair.png") %>
+    ![image](images/micro-openstack/save-keypair.png)
 
 1. Move the `bosh.pem` file into your deployment directory. For example, on UNIX run this command:
 
@@ -239,13 +239,13 @@ You must create and configure two Security Groups to restrict incoming network t
 
 1. Select the **Security Groups** tab.
 
-    <%= image_tag("images/micro-openstack/security-groups.png") %>
+    ![image](images/micro-openstack/security-groups.png)
 
 1. Click **Create Security Group**.
 
 1. Name the security group "bosh" and add the description "BOSH Security Group"
 
-    <%= image_tag("images/micro-openstack/create-bosh-sg.png") %>
+    ![image](images/micro-openstack/create-bosh-sg.png)
 
 1. Click **Create Security Group**.
 
@@ -253,7 +253,7 @@ You must create and configure two Security Groups to restrict incoming network t
 
 1. Click **Add Rule**.
 
-    <%= image_tag("images/micro-openstack/edit-bosh-sg.png") %>
+    ![image](images/micro-openstack/edit-bosh-sg.png)
 
 1. Add the following rules to the BOSH Security Group:
 
@@ -286,7 +286,7 @@ You must create and configure two Security Groups to restrict incoming network t
 
 1. Select the **Floating IPs** tab.
 
-    <%= image_tag("images/micro-openstack/create-floating-ip.png") %>
+    ![image](images/micro-openstack/create-floating-ip.png)
 
 1. Click **Allocate IP to Project**.
 
@@ -294,11 +294,11 @@ You must create and configure two Security Groups to restrict incoming network t
 
 1. Click **Allocate IP**.
 
-    <%= image_tag("images/micro-openstack/allocate-ip.png") %>
+    ![image](images/micro-openstack/allocate-ip.png)
 
 1. Replace `FLOATING-IP` in your deployment manifest with the allocated Floating IP Address.
 
-    <%= image_tag("images/micro-openstack/floating-ip.png") %>
+    ![image](images/micro-openstack/floating-ip.png)
 
 ---
 ## <a id="deploy"></a> Step 3: Deploy
