@@ -26,6 +26,10 @@ Schema for `cloud_properties` section:
 * **virtual\_network\_name** [String, required]: Name of a virtual network. Example: `boshnet`.
 * **subnet_name** [String, required]: Name of a subnet within virtual network.
 * **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to network interfaces of all VMs placed in this network. The security group of a network interface can be specified either in a resource pool(higher priority) or a network configuration(lower priority); if it is not specified, the default security group (specified by `default_security_group` in the global CPI settings) will be used.
+* **application\_security\_groups** [Array, optional]: The [application security group](https://docs.microsoft.com/en-us/azure/virtual-network/security-overview#application-security-groups) to apply to network interfaces of all VMs placed in this network. The application security groups of a network interface can be specified either in a resource pool(higher priority) or a network configuration(lower priority).
+    * This property is supported in v31+.
+    * Until `2017-11-02` only `West Central US` supports this new feature.
+    * You must reference the [document](https://docs.microsoft.com/en-us/azure/virtual-network/create-network-security-group-preview) to register your subscription with this new feature.
 
 See [how to create a virtual network and subnets](azure-resources.html#virtual-network).
 
@@ -39,9 +43,11 @@ networks:
   - range: 10.10.0.0/24
     gateway: 10.10.0.1
     cloud_properties:
-      resource_group_name: my-resource-group
-      virtual_network_name: boshnet
-      subnet_name: boshsub
+      resource_group_name: my-resource-group-name
+      virtual_network_name: my-vnet-name
+      subnet_name: my-subnet-name
+      security_group: my-security-group-name
+      application_security_groups: ["my-application-security-group-name-1", "my-application-security-group-name-2"]
 ```
 
 ### Vip Network
@@ -100,12 +106,16 @@ Schema for `cloud_properties` section:
       1. On Azure the length of the availability set name must be between 1 and 80 characters. The name got from  `env.bosh.group` may be too long. CPI will truncate the name to the following format `az-MD5-[LAST-40-CHARACTERS-OF-GROUP]` if the length is greater than 80.
     * CPI v27+ will delete the empty availability set.
 * **application_gateway** [String, optional]: Name of the [application gateway](https://azure.microsoft.com/en-us/services/application-gateway/) which the VMs should be associated to.
-    * Support in CPI v28+.
+    * This property is supported in CPI v28+.
     * You need to create the application gateway manually before configuring it. Please refer to [the guidance](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/application-gateway).
 * **platform\_update\_domain_count** [Integer, optional]: The count of [update domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. Default value is `5`.
 * **platform\_fault\_domain_count** [Integer, optional]: The count of [fault domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set. For unmanaged availability set, default value is `3`. For managed availability set, default value is `2`, because [some regions don't support 3 fault domains for now](https://docs.microsoft.com/en-us/azure/virtual-machines/virtual-machines-windows-manage-availability#configure-multiple-virtual-machines-in-an-availability-set-for-redundancy)
 * **load_balancer** [String, optional]: Name of a [load balancer](https://azure.microsoft.com/en-us/documentation/articles/load-balancer-overview/) the VMs should belong to. You need to create the load balancer manually before configuring it. Note: [Basic Tier Virtual Machines](https://azure.microsoft.com/en-us/blog/basic-tier-virtual-machines-2/) (Example: `Basic_A1`) doesn't support Azure Load Balancer.
 * **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to network interfaces of all VMs placed in this resource pool. The security group of a network interface can be specified either in a resource pool(higher priority) or a network configuration(lower priority); if it is not specified, the default security group (specified by `default_security_group` in the global CPI settings) will be used.
+* **application\_security\_groups** [Array, optional]: The [application security group](https://docs.microsoft.com/en-us/azure/virtual-network/security-overview#application-security-groups) to apply to network interfaces of all VMs placed in this resource group. The application security groups of a network interface can be specified either in a resource pool(higher priority) or a network configuration(lower priority).
+    * This property is supported in v31+.
+    * Until `2017-11-02` only `West Central US` supports this new feature.
+    * You must reference the [document](https://docs.microsoft.com/en-us/azure/virtual-network/create-network-security-group-preview) to register your subscription with this new feature.
 * **caching** [String, optional]: Type of the disk caching of the VMs' OS disks. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `ReadWrite`.
 * **root_disk** [Hash, optional]: OS disk of custom size.
     * **size** [Integer, optional]: Specifies the disk size in MiB.
