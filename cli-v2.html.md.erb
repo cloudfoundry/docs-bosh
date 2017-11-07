@@ -445,6 +445,53 @@ See [Uploading Releases](uploading-releases.html).
     </pre>
 
 ---
+### <a id="generic-config-mgmt"></a> Generic config
+
+See [Generic config](generic-config.html).
+
+- <a id="generic-config"></a> `bosh -e my-env config [--name=] my-type`
+
+    Show default `my-type` config on the Director.
+
+    <pre class="terminal">
+    $ bosh -e my-env config my-type config.yml
+    </pre>
+
+- <a id="update-config"></a> `bosh -e my-env update-config [--name=] my-type config.yml`
+
+    Update default `my-type` config on the Director.
+
+    <pre class="terminal">
+    $ bosh -e my-env update-config my-type config.yml
+    </pre>
+
+- <a id="delete-config"></a> `bosh -e my-env delete-config [--name=] my-type`
+
+    Delete default `my-type` config on the Director.
+
+    <pre class="terminal">
+    $ bosh -e my-env delete-config my-config-type
+    </pre>
+
+- <a id="list-configs"></a> `bosh -e my-env configs [--type=] [--name=]`
+
+    Lists all the configs on the Director.
+
+    <pre class="terminal">
+    $ bosh -e my-env configs
+    Using environment '192.168.50.6' as client 'admin'
+    
+    Type     Name
+    cloud    default
+    cpi      default
+    runtime  default
+    
+    3 configs
+    
+    Succeeded
+    </pre>
+
+---
 ### <a id="cloud-config-mgmt"></a> Cloud config
 
 See [Cloud config](cloud-config.html).
