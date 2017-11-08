@@ -40,6 +40,7 @@ name: my-redis
 **features** [Hash, options]: Specifies Director features that should be used within this deployment.
 
 * **use\_dns\_addresses** [Boolean, optional]: Enables or disables returning of DNS addresses in links. Defaults to global Director `use_dns_addresses` configuration.
+* **randomize\_az\_placement** [Boolean, optional]: Randomizes AZs for left over instances that cannot be distributed equally between AZs. For example, given an instance group with 5 instances and only 3 AZs, 1 remaining instance will be placed in randomly chosen AZ out of specified 3 AZs. Available in bosh-release v264+.
 
 Example:
 
