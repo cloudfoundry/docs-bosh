@@ -53,7 +53,16 @@ blobstore:
     bucket_name: <bucket_name>
 ```
 
-You have to be logged in using gcloud to your Google account. There is no need for a `config/private.yml`.
+`config/private.yml`:
+
+```yaml
+---
+blobstore:
+  options:
+    credentials_source: static
+    json_key: |
+      <json-key>
+```
 
 ---
 ## <a id="local-config"></a> Local Configuration
