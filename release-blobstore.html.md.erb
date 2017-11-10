@@ -11,7 +11,7 @@ Access to release blobstore is configured via two files:
 - `config/final.yml` (checked into Git repository): contains blobstore location
 - `config/private.yml` (is NOT checked into Git repository): contains blobstore credentials
 
-CLI supports two different blobstore providers: `s3` and `local`.
+CLI supports three different blobstore providers: `s3`, `gcs` and `local`.
 
 ## <a id="s3-config"></a> S3 Configuration
 
@@ -38,6 +38,22 @@ blobstore:
 ```
 
 See [Configuring S3 release blobstore](s3-release-blobstore.html) for details and [S3 CLI Usage](https://github.com/pivotal-golang/s3cli#usage) for additional configuration options.
+
+## <a id="gcs-config"></a> GCS Configuration
+
+Google Cloud Storage can be used without S3 compatibility mode.
+
+`config/final.yml`:
+
+```yaml
+---
+blobstore:
+  provider: gcs
+  options:
+    bucket_name: <bucket_name>
+```
+
+You have to be logged in using gcloud to your Google account. There is no need for a `config/private.yml`.
 
 ---
 ## <a id="local-config"></a> Local Configuration
