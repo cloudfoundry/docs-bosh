@@ -270,23 +270,6 @@ items:
 
 ```yaml
 - type: replace
-  path: /items/name=item7/count
-  value: 10
-```
-
-- finds array item with matching key `name` with value `item7`
-- adds `count` key as a sibling of name, resulting in:
-
-  ```yaml
-  ...
-  items:
-  - name: item7
-    count: 10
-  - name: item8
-  ```
-
-```yaml
-- type: replace
   path: /items/name=item8/count
   value: 10
 ```
@@ -325,10 +308,10 @@ items:
   ```yaml
   ...
   items:
-  - name: item5
   - name: item6
   - name: item7
-    count: 10
+  - name: item8
+  - name: item8
   ```
 
 ---
