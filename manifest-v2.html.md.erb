@@ -149,8 +149,9 @@ update:
 * **vm_resources** [Hash, optional]: Specifies generic VM resources such as CPU, RAM and disk size that are automatically translated into correct VM cloud properties to determine VM size. VM size is determined on best effort basis as some IaaSes may not support exact size configuration. Currently some CPIs (Google and Azure) do not support this functionality. Available in bosh-release v264+.
   * **cpu** [Integer, required]: Number of CPUs.
   * **ram** [Integer, required]: Amount of RAM.
-  * **ephemeral\_disk\_size** [Integer, required]: Ephemeral disk size.
+  * **ephemeral\_disk\_size** [Integer, required]: Ephemeral disk size in MB.
 * **stemcell** [String, required]: A valid stemcell alias from the Stemcells Block.
+* **persistent\_disk** [Integer, optional]: Persistent disk size in MB. Alternatively you can specify `persistent_disk_type` key. [Read more about persistent disks](./persistent-disks.html)
 * **persistent\_disk\_type** [String, optional]: A valid disk type name from the cloud config. [Read more about persistent disks](./persistent-disks.html)
 * **networks** [Array, required]: Specifies the networks this instance requires. Each network can have the following properties specified:
   * **name** [String, required]: A valid network name from the cloud config.
