@@ -190,6 +190,13 @@ JSON.dump(result)
 %>
 ```
 
+Available `link` object methods:
+
+* **address** [String]: Returns single DNS address representing link provider. Using single address is typically a more common way to reference a link provider instead of accessing individual instance addresses (for example, when connecting to a database). Example: `link("...").address`.
+  * **azs** [Array of strings, optional]: Argument to filter instance addresses by AZ. Logical OR will be used between AZs when multiple AZs are specified. Example: `link("...").address(azs: [spec.az])`. Default: all instances are returned without AZ filtering.
+* **p** [Anything]: Returns property value specified in a link. Works in the same way as regular `p` accessor.
+* **instances** [Array of instances]: Returns list of instances included by this provider. Could be an empty array. See methods available on each instance below.
+
 Available `instance` object methods:
 
 * **name** [String, non-empty]: Instance name as configured in the deployment manifest.
@@ -250,6 +257,10 @@ instance_groups:
     release: postgres
 ```
 
+Common use cases:
+
+- deployment contains multiple components that are expected to communicate between each other and there is no benefit for the operator to configure these connections explicitly
+
 ### <a id="self"></a> Self linking
 
 A job can consume a link that it provides. This could be used to determine a job's own peers.
@@ -269,6 +280,10 @@ instance_groups:
 ```
 
 [Example of self linking in Zookeeper release](https://github.com/cppforlife/zookeeper-release/blob/master/jobs/zookeeper/spec).
+
+Common use cases:
+
+- job is deployed across multiple instances and each node needs to communite with each other
 
 ### <a id="custom-network"></a> Custom network linking
 
@@ -299,6 +314,10 @@ instance_groups:
     default: [gateway, dns]
   - name: vip
 ```
+
+Common use cases:
+
+- job is deployed on two networks, and each network can only route to other particular network; consuming job deployed on a particular network needs to receive specific addresses so that it can connect to providing job.
 
 ### <a id="cross-deployment"></a> Cross-deployment linking
 
@@ -333,6 +352,10 @@ instance_groups:
       primary_db: {from: db, deployment: data-dep}
       secondary_db: nil
 ```
+
+Common use cases:
+
+- one team is managing one deployment and wants to expose a link for other teams to consume in their deployments in a self service manner
 
 ---
 Next: [Link properties](links-properties.html) or [Manual linking](links-manual.html).

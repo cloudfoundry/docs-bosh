@@ -1,19 +1,19 @@
 ---
-title: Native DNS Support [alpha]
+title: Native DNS Support [beta]
 ---
 
-<p class="note">Note: This feature is still under development; however, there are portions of DNS functionality that are already available in bosh-release v262+. 3421+ Linux stemcells are required.</p>
+<p class="note">Note: This feature is still under development; however, there are portions of DNS functionality that are already available in bosh-release v262+. 3468+ Linux stemcells are required.</p>
 
 Using DNS instead of plain IPs within deployments:
 
-- allows use of dynamic networks since IPs change with every redeploy
+- allows easy use of dynamic networks since IPs change with every redeploy
 - provides a way to reference deployed VMs more transparently
 - provides client side load balancing
 - reduces number of configuration changes that need to be propagated when changing cluster layout
 
-Historically BOSH users did not have an easy highly available solution to enable DNS for their deployments. PowerDNS was a possible choice; however, it required more advanced configuration that we felt comfortable recommending to everyone.
+Historically BOSH users did not have an easy highly available solution to enable DNS for their deployments. PowerDNS was a possible choice; however, it required more advanced configuration that we did not feel comfortable recommending to everyone.
 
-Addition of native BOSH DNS integration solves these problems without making it hard to deploy and operate DNS servers.
+Addition of native BOSH DNS solves these problems without making it hard to deploy and operate DNS servers.
 
 ---
 ## <a id='arch'></a> Architecture
@@ -33,6 +33,18 @@ Given that the Director is the sole orchestrator of the system, it is now respon
 1. DNS release sees that local `/var/vcap/instance/dns/records.json` is updated, hence returns new information in future DNS requests
 
 See [Deploying step-by-step](deploying-step-by-step.html) for full Director deployment flow.
+
+---
+## <a id='dns-addresses'></a> Types of DNS addresses
+
+There are two types of DNS addresses that native DNS supports:
+
+- instance specific queries that resolve to a single instance
+  - provided by `spec.address` or `link("...").instances[...].address` ERB accessors
+- group specific queries that resolve to multiple instances
+  - provided by `link("...").address` ERB accessor
+
+Since BOSH DNS is automatically managed, DNS addresses are not meant to be constructed manually by operators or scripts. To obtain a DNS address you can use upcoming Links API or job template accessors within your jobs.
 
 ---
 ## <a id='dns-release'></a> DNS release
@@ -66,9 +78,19 @@ See [Migrating from Consul](dns.html#migrate-consul) for more details.
 
 ### Healthiness
 
-<p class="note">Note: This feature is not released yet.</p>
+DNS release provides a way to reference all instances (or a subset of instances) in a link via single DNS record. By default only heatlhy instances are returned from a group query when there is at least one healthy insance. When there are no healthy instances, all instances will be returned. The notion of instance healthiness is directly tied to the state of processes running on a VM. DNS release will continiously poll for updated healthiness information (same information is visible via `bosh instances --ps` command) on all instances from groups that were resolved at least once.
 
-DNS release provides a way to reference all instances (or a subset of instances) in an instance group. By default only heatlhy instances are returned from a group query. The notion of instance healthiness is directly tied to the state of processes running on a VM. DNS release will continiously poll for updated healthiness information (same information is visible via `bosh instances --ps` command) on all instances from groups that were resolved at least once.
+To enable healthiness, use `health.enabled` property and specify necessary TLS certificates. Canonical DNS runtime config with healthiness enabled can be found here: https://github.com/cloudfoundry/bosh-deployment/blob/master/runtime-configs/dns.yml.
+
+### Caching
+
+DNS release provides a way to enable response caching based on response TTLs. Enabling caching typically will alleviate some pressure from your upstream DNS servers and decrease  latency of DNS resolutions. 
+
+To enable caching, use `cache.enabled` property. Canonical DNS runtime config with caching enabled can be found here: https://github.com/cloudfoundry/bosh-deployment/blob/master/runtime-configs/dns.yml.
+
+### Additional Handlers
+
+DNS release provides a way to delegate certain domains via [`handlers` property](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p=handlers) to different DNS or HTTP servers. This functionality can be used as an alternative to configuring upstream DNS servers with custom zone configurations.
 
 ---
 ## <a id='enable'></a> Enabling DNS
@@ -113,16 +135,18 @@ Once native DNS addresses in links are enabled DNS addresses will be returned in
 
 ```ruby
 # before
+link("db").address => "q-s0.db.default.db.bosh"
 link("db").instances[0].address => "172.10.10.0"
 
 # after
+link("db").address => "q-s0.db.default.db.bosh"
 link("db").instances[0].address => "ef489dd9-48f6-45f0-b7af-7f3437919b17.db.default.db.bosh"
 ```
 
 ---
 ## <a id='job-address'></a> Impact on job's address (`spec.address`)
 
-Similar to how [links are affected](dns.html#links), `spec.addres` will start returning DNS address once `use_dns_addresses` feature is enabled.
+Similar to how [links are affected](dns.html#links), `spec.address` will start returning DNS address once `use_dns_addresses` feature is enabled.
 
 ---
 ## <a id='migrate-powerdns'></a> Migrating from PowerDNS
