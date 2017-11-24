@@ -92,6 +92,7 @@ The Director and the Agents can use GCS as a blobstore. Here is how to configure
     properties:
       blobstore:
         provider: gcs
+        credentials_source: static
         json_key: |
           DIRECTOR-BLOBSTORE-SERVICE-ACCOUNT-FILE
         bucket_name: test-bosh-bucket
@@ -108,12 +109,14 @@ to encrypt blobstore contents instead of server-side encryption keys, specify `e
     properties:
       blobstore:
         provider: gcs
+        credentials_source: static
         json_key: |
           DIRECTOR-BLOBSTORE-SERVICE-ACCOUNT-FILE
         bucket_name: test-bosh-bucket
         encryption_key: BASE64-ENCODED-32-BYTES
       agent:
         blobstore:
+          credentials_source: static
           json_key: |
             AGENT-SERVICE-ACCOUNT-BLOBSTORE-FILE
     ```
@@ -125,12 +128,14 @@ to store blobstore contents instead of the bucket default, specify `storage_clas
     properties:
       blobstore:
         provider: gcs
+        credentials_source: static
         json_key: |
           DIRECTOR-BLOBSTORE-SERVICE-ACCOUNT-FILE
         bucket_name: test-bosh-bucket
         storage_class: REGIONAL
       agent:
         blobstore:
+          credentials_source: static
           json_key: |
             AGENT-SERVICE-ACCOUNT-BLOBSTORE-FILE
     ```
