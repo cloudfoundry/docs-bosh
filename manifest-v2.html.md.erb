@@ -56,8 +56,10 @@ features:
 
 * **name** [String, required]: Name of a release used in the deployment.
 * **version** [String, required]: The version of the release to use. Version can be `latest`.
-* **url** [String, optional]: URL of a release to download. Works with CLI v2.
-* **sha1** [String, optional]: SHA1 of asset referenced via URL. Works with CLI v2.
+* **url** [String, optional]: URL of a release to download. Works with CLI v2. Example: `https://bosh.io/d/github.com/cloudfoundry/syslog-release?v=11`.
+* **sha1** [String, optional]: SHA1 of asset referenced via URL. Works with CLI v2. Example: `332ac15609b220a3fdf5efad0e0aa069d8235788`.
+
+See [Release URLs](release-urls.html) for more details.
 
 Example:
 
@@ -86,6 +88,8 @@ releases:
 * **os** [String, optional]: Operating system of a matching stemcell. Example: `ubuntu-trusty`.
 * **version** [String, required]: The version of a matching stemcell. Version can be `latest`.
 * **name** [String, optional]: Full name of a matching stemcell. Either `name` or `os` keys can be specified.
+
+Note: `url` key is not supported in stemcells block because there is no single stemcell that works on all IaaSes. Since we want to keep deployment manifests decoupled from any cloud specific declarations we do not allow specifying URL.
 
 Example:
 
