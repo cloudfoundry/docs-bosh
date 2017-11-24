@@ -33,11 +33,9 @@ See additonal information about following job lifecycle events' logs:
 ---
 ### <a id="errand-logs"></a> Errand logs
 
-BOSH names logs using the errand name and log type, and writes the logs to the `/var/vcap/sys/log/<errand-name>` directory. For example, BOSH writes the stdout log for an errand named "smoke-test" to `/var/vcap/sys/log/smoke-test/smoke-test.stdout.log`.
+Unlike regular job logs BOSH does not automatically redirect errand logs to `/var/vcap/sys/log/*` directory, though we are planning to do so in future.
 
-<p class="note">Note: By default upon errand completion errand VM is deleted, so you cannot access full errand logs. You can use <code>--keep-alive</code> flag when running an errand to keep the VM with its logs.</p>
-
-By default, the CLI outputs errand's output to the screen when it's smaller than 1MB. If you expect errand to generate output larger than 1MB, currently it needs to be redirected to a file and then downloaded.
+Errand's stdout and stderr output will be shown by the CLI when it's smaller than 1MB. If you expect errand to generate output larger than 1MB, currently it needs to be redirected to a file (by convention to `/var/vcap/sys/log/<job_name>/stdout.log`) from the errand script and then downloaded, or error will be returned upon errand completion.
 
 To save output from an errand VM:
 
@@ -49,6 +47,8 @@ To save output from an errand VM:
 <pre class="terminal">
 $ bosh run errand smoke-tests --download-logs --logs-dir ~/workspace/smoke-tests-logs
 </pre>
+
+<p class="note">Note: By default upon errand completion errand VM is deleted, so you cannot access logs saved to disk by the errand. You can use <code>--keep-alive</code> flag when running an errand to keep the VM with its logs.</p>
 
 ---
 ### <a id="monit-logs"></a> Monit logs
