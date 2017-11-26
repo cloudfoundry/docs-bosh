@@ -166,3 +166,11 @@ azs:
   cpi: vcenter-1b
 ...
 ```
+
+---
+## <a id='stemcells'></a> CPI Specific Stemcells
+Stemcells need to be assigned to a specific CPI and it occurs on upload. If you've already uploaded an appropriate stemcell you'll need to re-upload with `--fix`
+
+```bash
+bosh upload-stemcell .tgz --fix 
+```
