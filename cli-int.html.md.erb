@@ -49,7 +49,7 @@ CLI allows to provide variable values via usage of one or more of the following 
     $ cat 2.yml
     some-secret
 
-    $ bosh interpolate base.yml --var-file access_key_id=1.txt --var-file access_secret_key=2.txt
+    $ bosh interpolate base.yml --var-file access_key_id=1.yml --var-file access_secret_key=2.yml
     s3_access_key_id: some-key
     s3_access_secret_key: some-secret
     </pre>
