@@ -98,6 +98,9 @@ Schema for `cloud_properties` section:
     * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `gp2`.
         * `standard` stands for EBS magnetic drives
         * `gp2` stands for EBS general purpose drives (SSD)
+    * **iops** [Integer, optional]: Specifies the number of I/O operations per second to provision for the drive.
+        * Only valid for `io1` type drive.
+        * Required when `io1` type drive is specified.
 
 Example of an `m3.medium` instance:
 
