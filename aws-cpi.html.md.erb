@@ -91,6 +91,7 @@ Schema for `cloud_properties` section:
         * Only valid for `io1` type drive.
         * Required when `io1` type drive is specified.
     * **encrypted** [Boolean, optional] Enables encryption for the EBS backed ephemeral disk. An error is raised, if the `instance_type` does not support it. Since v53. Defaults to `false`. Overrides the global `encrypted` property.
+    * **kms_key_arn** [String, optional] The ARN of an Amazon KMS key to use when encrypting the disk. 
     * **use\_instance\_storage** [Boolean, optional] Forces the usage of instance storage as ephemeral disk backing. Will raise an error, if the used `instance_type` does not have instance storage. Cannot be combined with any other option under `ephemeral_disk` or with `raw_instance_storage`. Since v53. Defaults to `false`.
 * **root_disk** [Hash, optional]: EBS backed root disk of custom size.
     * **size** [Integer, required]: Specifies the disk size in megabytes.
