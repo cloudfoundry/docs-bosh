@@ -43,10 +43,10 @@ CLI allows to provide variable values via usage of one or more of the following 
 - `--var-file=key=path` flag sets single variable value as an entire file
 
     <pre class="terminal">
-    $ cat 1.yml
+    $ cat 1.txt
     some-key
 
-    $ cat 2.yml
+    $ cat 2.txt
     some-secret
 
     $ bosh interpolate base.yml --var-file access_key_id=1.txt --var-file access_secret_key=2.txt
