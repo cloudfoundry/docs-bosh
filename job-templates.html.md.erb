@@ -9,17 +9,17 @@ title: Job Templates
 Assuming we have a job `web-server` with a following `config.json` ERB template:
 
 ```ruby
-<%=
+<%%=
 
 port = p("port")
 
-if port < 1024 or port > 4000
+if port &lt; 1024 or port &gt; 4000
   raise "Ports lower than 1024 or higher than 4000 are not allowed"
 end
 
 JSON.dump("port" => port)
 
-%>
+%%>
 ```
 
 To start unit testing `web-server` job, add `Gemfile` to the root of your release so that `bundler` gem can install all dependencies necessary for testing:
