@@ -184,6 +184,7 @@ disk_pools:
 Schema:
 
 * **environment** [String, required]: Azure environment name. Possible values are: `AzureCloud`, `AzureChinaCloud`, `AzureUSGovernment` (available in v19+), `AzureGermanCloud` (available in v22+) or `AzureStack`.
+* **location** [String, optional]: Azure region name. Only required when [`vm_resources`](https://bosh.io/docs/manifest-v2.html#instance-groups) is specified in the deployment manifest. Available in v33+.
 * **subscription_id** [String, required]: Subscription ID.
 * **tenant_id** [String, required]: Tenant ID of the service principal.
 * **client_id** [String, required]: Client ID of the service principal.
@@ -195,9 +196,9 @@ Schema:
 * **default\_security\_group** [String, required]: Name of the default [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) that will be applied to all created VMs.
 * **azure\_stack** [Hash, optional]: Configration for AzureStack. Available in v23+.
     * **domain** [String, optional]: The domain for your AzureStack deployment. Default is `local.azurestack.external`.
-    * **authentication** [String, optional]: The authentication type for your AzureStack deployment. Possible values are: `AzureAD`, `AzureStackAD` or `AzureStack`. Default is `AzureAD`.
+    * **authentication** [String, optional]: The authentication type for your AzureStack deployment. Only `AzureAD` is supported for now.
     * **resource** [String, optional]: The token resource for your AzureStack deployment.
-    * **endpoint\_prefix** [String, optional]: The endpoint prefix for your AzureStack deployment.  Default is `management`.
+    * **endpoint\_prefix** [String, optional]: The endpoint prefix for your AzureStack deployment. Default is `management`.
     * **skip\_ssl\_validation** [Boolean, optional]: Toggles verification of the Azure Resource Manager REST API SSL certificate. Default is `false`.
     * **use\_http\_to\_access\_storage\_account** [Boolean, optional]: Flag for using HTTP to access storage account rather than the default HTTPS. Default is `false`.
     * **ca_cert** [String, optional]: All required custom CA certificates for AzureStack. You can [export the Azure Stack CA root certificate](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-connect-cli#export-the-azure-stack-ca-root-certificate). If `ca_cert` is not provided, the `skip_ssl_validation` and `use_http_to_access_storage_account` must be set to `true`. Available in v27+.
