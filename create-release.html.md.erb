@@ -709,7 +709,7 @@ using the property lookup helper:
 
        <%%= p('<job_name>.<property_name>') %>
 
-1. Specify the property in the [deployment manifest](./deployment-manifest.html#properties).
+1. Specify the property in the [deployment manifest](./manifest-v2.html#instance-groups).
 
 Adapt the example below to create any properties your release needs now.
 
@@ -720,7 +720,7 @@ We edit the spec for the web UI job to look like this:
 
 ~~~yaml
 properties:
-   web_ui.port:
+   port:
      description: Port that web_ui app listens on
      default: 80
 ~~~
