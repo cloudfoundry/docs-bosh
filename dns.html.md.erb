@@ -51,7 +51,7 @@ Since BOSH DNS is automatically managed, DNS addresses are not meant to be const
 
 To take advantage of native DNS functionality, it's expected that [DNS release](https://bosh.io/releases/github.com/cloudfoundry/dns-release?all=1) runs on each VM. We recommend to colocate DNS release by definiting it in an [addon](runtime-config.html#addons).
 
-DNS release provides two jobs: `bosh-dns` (for Linux) and `bosh-dns-windows` (for Windows) which start a simple DNS server bound to a [link local address](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/dns-release#p=address).
+DNS release provides two jobs: `bosh-dns` (for Linux) and `bosh-dns-windows` (for Windows) which start a simple DNS server bound to a [link local address](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p=address).
 
 ### <a id='aliases'></a> Aliases
 
@@ -59,7 +59,7 @@ DNS release allows operators to specify custom names for BOSH generated DNS reco
 
 There are two ways to specify aliases:
 
-- via [`aliases` property](https://bosh.io/jobs/dns?source=github.com/cloudfoundry/dns-release#p=aliases)
+- via [`aliases` property](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p=aliases)
 - via `dns/aliases.json` template inside your job
 
 Example usage of `aliases` property:
@@ -84,7 +84,7 @@ To enable healthiness, use `health.enabled` property and specify necessary TLS c
 
 ### Caching
 
-DNS release provides a way to enable response caching based on response TTLs. Enabling caching typically will alleviate some pressure from your upstream DNS servers and decrease  latency of DNS resolutions. 
+DNS release provides a way to enable response caching based on response TTLs. Enabling caching typically will alleviate some pressure from your upstream DNS servers and decrease  latency of DNS resolutions.
 
 To enable caching, use `cache.enabled` property. Canonical DNS runtime config with caching enabled can be found here: https://github.com/cloudfoundry/bosh-deployment/blob/master/runtime-configs/dns.yml.
 
