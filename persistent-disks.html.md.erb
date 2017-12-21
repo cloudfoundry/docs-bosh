@@ -4,28 +4,28 @@ title: Persistent and Orphaned Disks
 
 <p class="note">Note: This document was updated to mention orphaned disks introduced in bosh-release v241+ (1.3163.0).</p>
 
-Deployment jobs may need to store persistent data.
+Instance groups may need to store persistent data.
 
 If you attach a persistent disk to a virtual machine and then stop, terminate, or delete the VM, your persistent disk data remains intact. Attaching the persistent disk to another VM allows you to access your data.
 
-Persistent disks are kept for each deployment job under the following circumstances:
+Persistent disks are kept for each instance under the following circumstances:
 
 * updating deployment to use new releases or stemcells
 * using cloud check to recover deleted VMs
-* deployment jobs are hard stopped and later started again
+* instances are hard stopped and later started again
 
 As of bosh-release v241+ (1.3163.0), the Director no longer deletes persistent disks that are no longer needed. Unnecessary persistent disks will be marked as orphaned so that they can be garbage collected after 5 days.
 
 The following conditions result in persistent disks to be marked as orphaned:
 
-* deployment job no longer specifies a persistent disk size or a disk pool
-* deployment job changes the size or cloud properties of a disk
-* deployment job is renamed without `migrated_from` configuration
-* deployment job is scaled down
-* deployment job is deleted or AZ assignment is removed
+* instance group no longer specifies a persistent disk size or a disk pool
+* instance group changes the size or cloud properties of a disk
+* instance group is renamed without `migrated_from` configuration
+* instance group is scaled down
+* instance group is deleted or AZ assignment is removed
 * deployment is deleted
 
-You can specify that a deployment job needs an attached persistent disk in one of two ways:
+You can specify that an instance group needs an attached persistent disk in one of two ways:
 
 * [Persistent Disk declaration](#persistent-disk)
 * [Persistent Disk Pool declaration](#persistent-disk-pool)
@@ -33,16 +33,16 @@ You can specify that a deployment job needs an attached persistent disk in one o
 ---
 ## <a id='persistent-disk'></a> Persistent Disk Declaration
 
-To specify that a deployment job needs an attached persistent disk, add a `persistent_disk` key-value pair to the job in the [Jobs](deployment-manifest.html#jobs) block of your deployment manifest.
+To specify that an instance group needs an attached persistent disk, add a `persistent_disk` key-value pair to the instance group in the [Jobs](deployment-manifest.html#jobs) block of your deployment manifest.
 
 The `persistent_disk` key-value pair specifies the persistent disk size, and defaults to 0 (no persistent disk). If the `persistent_disk` value is a positive integer, BOSH creates a persistent disk of that size in megabytes and attaches it to each instance VM for the job.
 
 Example:
 
 ```yaml
-jobs:
+instance_groups:
 - name: redis
-  templates:
+  jobs:
   - {name: redis, release: redis}
   instances: 1
   resource_pool: default
@@ -56,11 +56,11 @@ jobs:
 ---
 ## <a id='persistent-disk-pool'></a> Persistent Disk Pool Declaration
 
-To specify that a deployment job needs an attached persistent disk, add a [Disk Pool](deployment-manifest.html#disk-pools) block to your deployment manifest.
+To specify that an instance group needs an attached persistent disk, add a [Disk Pool](deployment-manifest.html#disk-pools) block to your deployment manifest.
 
-The persistent disk pool declaration allows you to specify the precise type and size of the persistent disks attached to your job VMs.
+The persistent disk pool declaration allows you to specify the precise type and size of the persistent disks attached to your instance group VMs.
 
-* **persistent\_disk_pool** [String, optional]: Associated with a job; specifies a particular disk_pool.
+* **persistent\_disk_pool** [String, optional]: Associated with an instance group; specifies a particular disk_pool.
 
 * **disk_pools** [Array, optional]: Specifies the [disk_pools](./terminology.html#disk-pool) a deployment uses. A deployment manifest can describe multiple disk pools and uses unique names to identify and reference them.
 
@@ -80,9 +80,9 @@ disk_pools:
   disk_size: 1_024
   cloud_properties: {type: standard}
 
-jobs:
+instance_groups:
 - name: redis
-  templates:
+  jobs:
   - {name: redis, release: redis}
   instances: 1
   resource_pool: default
@@ -101,14 +101,14 @@ After your deployment completes, run `bosh vms --vitals` from a terminal window 
 
 The CPI mounts persistent disks `/var/vcap/store` on deployed VMs, and persists any files stored in `/var/vcap/store`.
 
-You specify release jobs using the `templates` key when defining a deployment job. By convention, each release job creates a self-named directory in `/var/vcap/store` and sets the correct permissions on this directory.
+You specify jobs using the `jobs` key when defining a instance group. By convention, each job creates a self-named directory in `/var/vcap/store` and sets the correct permissions on this directory.
 
-For example, a `redis` release job creates the following directory: `/var/vcap/store/redis`
+For example, a `redis` job creates the following directory: `/var/vcap/store/redis`
 
 ---
 ## <a id='changing-persistent-disk'></a> Changing Disk Properties
 
-BOSH allows you to change disk types and sizes by modifying the deployment manifest. As long as the deployment job name stays the same, data on existing persistent disks will be migrated onto new persistent disks. Old persistent disks will be marked as orphaned.
+BOSH allows you to change disk types and sizes by modifying the deployment manifest. As long as the instance group name stays the same, data on existing persistent disks will be migrated onto new persistent disks. Old persistent disks will be marked as orphaned.
 
 During the disk migration from one disk type and size to another, the Director communicates with the Agent to attach both existing and newly created disk to the same VM and copy over any existing data. After the transfer successfully completes, the Director deletes the original disk and keeps the new disk attached to the VM instance.
 
