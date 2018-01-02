@@ -16,7 +16,7 @@ There are several stages that all jobs (and their associated processes) on each 
 
 1. `monit start` is called for each process in no particular order
   - each job can specify zero or more processes
-  - times out based on [canary_watch_time/update_watch_time settings](manifest-v2.html#update)
+  - times out based on [`canary_watch_time`/`update_watch_time` settings](manifest-v2.html#update)
 
 1. [post-start scripts](post-start.html) run for all jobs on the VM in parallel
 	- (waits for all post-start scripts to finish)
