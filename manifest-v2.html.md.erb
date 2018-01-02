@@ -152,7 +152,7 @@ update:
 * **vm_extensions** [Array, optional]: A valid list of VM extension names from the cloud config.
 * **vm_resources** [Hash, optional]: Specifies generic VM resources such as CPU, RAM and disk size that are automatically translated into correct VM cloud properties to determine VM size. VM size is determined on best effort basis as some IaaSes may not support exact size configuration. Currently some CPIs (Google) do not support this functionality. Available in bosh-release v264+.
   * **cpu** [Integer, required]: Number of CPUs.
-  * **ram** [Integer, required]: Amount of RAM.
+  * **ram** [Integer, required]: Amount of RAM in MB.
   * **ephemeral\_disk\_size** [Integer, required]: Ephemeral disk size in MB.
 * **stemcell** [String, required]: A valid stemcell alias from the Stemcells Block.
 * **persistent\_disk** [Integer, optional]: Persistent disk size in MB. Alternatively you can specify `persistent_disk_type` key. [Read more about persistent disks](./persistent-disks.html)
