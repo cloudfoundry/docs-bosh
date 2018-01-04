@@ -34,7 +34,7 @@ The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. CLI 
 Alternatively, refer to [cloudfoundry/homebrew-tap](https://github.com/cloudfoundry/homebrew-tap) to install CLI via Homebrew on OS X. We currently do not publish CLI via apt or yum repositories.
 
 ---
-## <a id="global-falgs"></a> Global Flags
+## <a id="global-flags"></a> Global Flags
 
 See [Global flags](cli-global-flags.html) for more details on how to enable different output formats, debug logging, etc.
 
@@ -179,11 +179,11 @@ See [Uploading Stemcells](uploading-stemcells.html).
 
 - <a id="upload-stemcell"></a> `bosh -e my-env upload-stemcell location [--sha1=digest] [--fix]` (Alias: `us`)
 
-    Uploads stemcell to the Director. Succeedes even if stemcell is already imported.
+    Uploads stemcell to the Director. Succeeds even if stemcell is already imported.
 
     Stemcell location may be local file system path or an HTTP/HTTPS URL.
 
-    `--fix` flag allows to replace previously uploaded stemcell with the same name and version to repair stemcells that might have been corrupted in the cloud.
+    `--fix` flag allows operator to replace previously uploaded stemcell with the same name and version to repair stemcells that might have been corrupted in the cloud.
 
     <pre class="terminal">
     $ bosh -e my-env us ~/Downloads/bosh-stemcell-3363-warden-boshlite-ubuntu-trusty-go_agent.tgz
@@ -192,7 +192,7 @@ See [Uploading Stemcells](uploading-stemcells.html).
 
 - <a id="delete-stemcell"></a> `bosh -e my-env delete-stemcell name/version`
 
-    Deletes uploaded stemcell from the Director. Succeedes even if stemcell is not found.
+    Deletes uploaded stemcell from the Director. Succeeds even if stemcell is not found.
 
     <pre class="terminal">
     $ bosh -e my-env delete-stemcell bosh-warden-boshlite-ubuntu-trusty-go_agent/3363
@@ -237,7 +237,7 @@ See [Uploading Stemcells](uploading-stemcells.html).
     Creates new version of a release stored in `dir`
 
     - `--force` flag specifies to ignore uncommitted changes in the release directory; it should only be used when building dev releases
-    - `--version` flag allows to provide custom release version
+    - `--version` flag allows operator to provide custom release version
     - `--timestamp-version` flag will produce timestamp based dev release version
     - `--tarball` flag specifies destination of a release tarball; if not specified, release tarball will not be produced
     - `--sha2` flag to use SHA256 checksum
@@ -372,11 +372,11 @@ See [Uploading Releases](uploading-releases.html).
 
 - <a id="upload-release"></a> `bosh -e my-env upload-release [location] [--version=ver] [--sha1=digest] [--fix]` (Alias: `ur`)
 
-    Uploads release to the Director. Succeedes even if release is already imported.
+    Uploads release to the Director. Succeeds even if release is already imported.
 
     Release location may be local file system path, HTTP/HTTPS URL or a git URL.
 
-    `--fix` flag allows to replace previously uploaded release with the same name and version to repair releases that might have been corrupted.
+    `--fix` flag allows replacement of previously uploaded release with the same name and version to repair releases that might have been corrupted.
 
     <pre class="terminal">
     $ bosh -e my-env ur
@@ -386,7 +386,7 @@ See [Uploading Releases](uploading-releases.html).
 
 - <a id="delete-release"></a> `bosh -e my-env delete-release name/version`
 
-    Deletes uploaded release from the Director. Succeedes even if release is not found.
+    Deletes uploaded release from the Director. Succeeds even if release is not found.
 
     <pre class="terminal">
     $ bosh -e my-env delete-release cf-smoke-tests/94
@@ -616,7 +616,7 @@ See [CPI config](cpi-config.html).
 
     Note that if you've deleted your deployment, not all resources may have been freed. For example "deleted" persistent disks will be deleted after a few days to avoid accidental data loss. See [Persistent and Orphaned Disks](persistent-disks.html) for more details.
 
-    Succeedes even if deployment is not found.
+    Succeeds even if deployment is not found.
 
     <pre class="terminal">
     $ bosh -e vbox -d cf deld
@@ -809,8 +809,8 @@ See [CPI config](cpi-config.html).
 
     SSH into one or more instances.
 
-    - `--opts` flag allows to pass through options to `ssh`; useful for port forwarding
-    - `--gw-*` flags allow to configure SSH gateway configuration
+    - `--opts` flag allows operator to pass through options to `ssh`; useful for port forwarding
+    - `--gw-*` flags allows configuration of SSH gateway
 
     <pre class="terminal">
     # execute command on all instances in a deployment
