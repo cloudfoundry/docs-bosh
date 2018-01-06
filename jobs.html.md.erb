@@ -42,7 +42,7 @@ Schema:
 
 * **name** [String, required]: Name of the job.
 * **description** [String, optional]: Describes purpose of the job.
-* **templates** [Hash, optional]: [Template files](#templates) found in the `templates` directory of the job and their final destinations relative to the job directory on the deployed VMs. By convention executable files should be placed into `bin/` directory so that the Agent can mark them as executable, and configuration files should be placed into `config/` director.
+* **templates** [Hash, optional]: [Template files](#templates) found in the `templates` directory of the job and their final destinations relative to the job directory on the deployed VMs. By convention executable files should be placed into `bin/` directory so that the Agent can mark them as executable, and configuration files should be placed into `config/` directory.
 * **packages** [Array, optional]: Package dependencies required by the job at runtime.
 * **properties** [Hash, optional]: Configuration options supported by the job.
     * **\<name\>** [String, required]: Property key in dot notation. Typical properties include account names, passwords, shared secrets, hostnames, IP addresses, port numbers, and descriptions.
