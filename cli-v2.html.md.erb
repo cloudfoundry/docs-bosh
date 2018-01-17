@@ -900,6 +900,7 @@ See [CPI config](cpi-config.html).
     $ bosh -e vbox -d zookeeper run-errand status --instance zookeeper/3e977542-d53e-4630-bc40-72011f853cb5
 
     # execute errand on one instance within an instance group
+    # (note that select instance may not necessarily be first based on its index)
     $ bosh -e vbox -d zookeeper run-errand status --instance zookeeper/first
 
     # execute errand on all instance in an instance group

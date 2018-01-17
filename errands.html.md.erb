@@ -189,7 +189,7 @@ If an errand job is colocated on multiple instances (over one or more instance g
 $ bosh -e vbox -d zookeeper run-errand status --instance zookeeper/3e977542-d53e-4630-bc40-72011f853cb5
 </pre>
 
-See [`bosh run-errand` command](cli-v2.html#run-errand) description for additional ways to use `--instance` flag.
+See [`bosh run-errand` command](cli-v2.html#run-errand) description for additional ways to use `--instance` flag. One of those way is to use `--instance group/first` (where `first` is a literal value) so that errand only runs on one of the instances.
 
 ---
 Previous: [Jobs](jobs.html)
