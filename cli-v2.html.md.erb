@@ -449,7 +449,7 @@ See [Uploading Releases](uploading-releases.html).
 
 See [Configs](configs.html).
 
-- <a id="configs"></a> `bosh -e my-env configs [--type=my-type] [--name=my-name]`
+- <a id="configs"></a> `bosh -e my-env configs [--type=my-type] [--name=my-name] [--include-outdated]`
 
     Lists all the configs on the Director.
 
@@ -467,6 +467,8 @@ See [Configs](configs.html).
 
     Succeeded
     </pre>
+
+    - `--include-outdated` (v2.0.46+)
 
 - <a id="config"></a> `bosh -e my-env config my-type [--name=my-name]`
 
