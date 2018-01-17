@@ -20,13 +20,13 @@ CLI provides [`bosh upload-stemcell` command](cli-v2.html#upload-stemcell).
 - If you have a URL to a stemcell tarball (for example URL provided by bosh.io):
 
     <pre class="terminal">
-    $ bosh -e vbox upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3468.5 --sha1 b95fac2b5d27a3c91b762b1df3747110b058a145
+    $ bosh -e vbox upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3468.17 --sha1 1dad6d85d6e132810439daba7ca05694cec208ab
     </pre>
 
 - If you have a stemcell tarball on your local machine:
 
     <pre class="terminal">
-    $ bosh upload-stemcell ~/Downloads/bosh-stemcell-3468.5-warden-boshlite-ubuntu-trusty-go_agent.tgz
+    $ bosh upload-stemcell ~/Downloads/bosh-stemcell-3468.17-warden-boshlite-ubuntu-trusty-go_agent.tgz
     </pre>
 
 Once the command succeeds you can view all uploaded stemcells in the Director:
@@ -36,7 +36,7 @@ $ bosh -e vbox stemcells
 Using environment '192.168.50.6' as client 'admin'
 
 Name                                         Version  OS             CPI  CID
-bosh-warden-boshlite-ubuntu-trusty-go_agent  3468.5*  ubuntu-trusty  -    6c9c002e-bb46-4838-4b73-ff1afaa0aa21
+bosh-warden-boshlite-ubuntu-trusty-go_agent  3468.17* ubuntu-trusty  -    6c9c002e-bb46-4838-4b73-ff1afaa0aa21
 
 (*) Currently deployed
 
@@ -54,7 +54,7 @@ To use uploaded stemcell in your deployment, add stemcells:
 stemcells:
 - alias: default
   os: ubuntu-trusty
-  version: 3468.5
+  version: 3468.17
 ```
 
 ---

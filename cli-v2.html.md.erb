@@ -186,8 +186,8 @@ See [Uploading Stemcells](uploading-stemcells.html).
     `--fix` flag allows operator to replace previously uploaded stemcell with the same name and version to repair stemcells that might have been corrupted in the cloud.
 
     <pre class="terminal">
-    $ bosh -e my-env us ~/Downloads/bosh-stemcell-3363-warden-boshlite-ubuntu-trusty-go_agent.tgz
-    $ bosh -e my-env us https://bosh.io/d/stemcells/bosh-stemcell-warden-boshlite-ubuntu-trusty-go_agent?v=3363
+    $ bosh -e my-env us ~/Downloads/bosh-stemcell-3468.17-warden-boshlite-ubuntu-trusty-go_agent.tgz
+    $ bosh -e my-env us https://bosh.io/d/stemcells/bosh-stemcell-warden-boshlite-ubuntu-trusty-go_agent?v=3468.17
     </pre>
 
 - <a id="delete-stemcell"></a> `bosh -e my-env delete-stemcell name/version`
@@ -195,7 +195,7 @@ See [Uploading Stemcells](uploading-stemcells.html).
     Deletes uploaded stemcell from the Director. Succeeds even if stemcell is not found.
 
     <pre class="terminal">
-    $ bosh -e my-env delete-stemcell bosh-warden-boshlite-ubuntu-trusty-go_agent/3363
+    $ bosh -e my-env delete-stemcell bosh-warden-boshlite-ubuntu-trusty-go_agent/3468.17
     </pre>
 
 - <a id="repack-stemcell"></a> `bosh repack-stemcell src.tgz dst.tgz [--name=name] [--version=ver] [--cloud-properties=json-string]`
