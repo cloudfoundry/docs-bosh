@@ -6,7 +6,7 @@ This topic describes cloud properties for different resources created by the Azu
 
 ## <a id='azs'></a> AZs
 
-* **availability_zone** [String, optional]: Availability zone to use for creating instances (available in v33+). Possible values: `'1'`, `'2'`, `'3'`. Read this [document](https://docs.microsoft.com/en-us/azure/availability-zones/az-overview) to get regions and VM sizes on Azure that support availability zones. [More details about availability zone](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/doc/docs/advanced/availability-zone).
+* **availability_zone** [String, optional]: Availability zone to use for creating instances (available in v33+). Possible values: `'1'`, `'2'`, `'3'`. Read this [document](https://docs.microsoft.com/en-us/azure/availability-zones/az-overview) to get regions and VM sizes on Azure that support availability zones. [More details about availability zone](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/availability-zone).
 
 Example:
 
@@ -101,7 +101,7 @@ Schema for `cloud_properties` section:
     * You must reference the [document](https://docs.microsoft.com/en-us/azure/virtual-network/create-network-security-group-preview) to register your subscription with this new feature.
 * **assign\_dynamic\_public\_ip** [Boolean, optional]: Enable to create and assign dynamic public IP to the VM automatically (to solve the [azure SNAT issue](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/issues/217)). Default value is `false`. Only the VM without vip will be assigned a dynamic public IP when this value is set to true, and the dynamic public IP will be deleted when the VM is deleted.
 
-* **availability_zone** [String, optional]: Availability zone to use for creating instances (available in v33+). Possible values: `'1'`, `'2'`, `'3'`. Read this [document](https://docs.microsoft.com/en-us/azure/availability-zones/az-overview) to get regions and VM sizes on Azure that support availability zones. [More details about availability zone](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/doc/docs/advanced/availability-zone).
+* **availability_zone** [String, optional]: Availability zone to use for creating instances (available in v33+). Possible values: `'1'`, `'2'`, `'3'`. Read this [document](https://docs.microsoft.com/en-us/azure/availability-zones/az-overview) to get regions and VM sizes on Azure that support availability zones. [More details about availability zone](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/availability-zone).
 * **availability_set** [String, optional]: Name of an [availability set](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) to use for VMs. [More details](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#availability-set).
     * If available set does not exist, it will be automatically created.
     * If `availability_set` is not specified, Azure CPI will search `env.bosh.group` as the name of availability set.
