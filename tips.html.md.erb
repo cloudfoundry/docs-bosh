@@ -79,7 +79,7 @@ Failed compiling packages > dea_next/3e95ef8425be45468e044c05cc9aa65494281ab5: A
 ', stderr: '': exit status 1 (00:03:16)
 </pre>
 
-This problem can occur if the Director is configured to use built-in blobstore and does not have enough space on its persistent disk. You can redeploy the Director with a larger persistent disk. Alternatively you can remove unused releases by running `bosh clean-up` command. 
+This problem can occur if the Director is configured to use built-in blobstore and does not have enough space on its persistent disk. You can redeploy the Director with a larger persistent disk. Alternatively you can remove unused releases by running `bosh clean-up` command.
 
 If `bosh clean-up` command fails with 500 Internal Server Error, consider removing `/var/vcap/store/director/tasks` to free up a little bit of persistent disk space before running `bosh clean-up` command again. (Deleting that directory will delete Director task debug logs.)
 
@@ -151,7 +151,7 @@ This failure occurs due to nginx configuration problems with the director and th
 ## <a id="persistent-disk-not-found"></a> Persistent Disk with id <UUID> not found
 
 <pre class="terminal">
-$ bosh create-env (or bosh-init deploy)
+$ bosh create-env
 (...)
 Command 'deploy' failed:
   Deploying:
@@ -164,4 +164,4 @@ Command 'deploy' failed:
                 Agent responded with error: Action Failed get_task: Task 7e4d289d-b97c-4464-40d4-ecc90cc2a94b result: Persistent disk with volume id '14128b61-e046-48ae-b48a-fc0324716b83' could not be found
 </pre>
 
-The SSH tunnel between your machine and the VM in the cloud can be terminated prematurly, see [corresponding bug](https://github.com/cloudfoundry/bosh-cli/issues/110). Update bosh to version >= v2.0.2 or bosh-init to version >= v0.0.100 to fix this.
+The SSH tunnel between your machine and the VM in the cloud can be terminated prematurly, see [corresponding bug](https://github.com/cloudfoundry/bosh-cli/issues/110). Update CLI v2 to version >= v2.0.2 to fix this.
