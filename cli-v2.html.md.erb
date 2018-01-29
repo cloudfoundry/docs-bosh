@@ -468,9 +468,9 @@ See [Configs](configs.html).
     Succeeded
     </pre>
 
-- <a id="config"></a> `bosh -e my-env config my-type [--name=my-name]`
+- <a id="config"></a> `bosh -e my-env config [id] [--type=my-type] [--name=my-name]`
 
-    Show default `my-type` config on the Director.
+    Either show config by `id` or by `name` and `type` on the Director.
 
     <pre class="terminal">
     $ bosh -e my-env config my-type config.yml
@@ -481,7 +481,9 @@ See [Configs](configs.html).
     Update default `my-type` config on the Director.
 
     <pre class="terminal">
-    $ bosh -e my-env update-config my-type config.yml
+    $ bosh -e my-env config --type=my-type --name=my-name
+    # or
+    $ bosh -e my-env config 5
     </pre>
 
 - <a id="delete-config"></a> `bosh -e my-env delete-config my-type [--name=my-name]`
