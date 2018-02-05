@@ -80,23 +80,20 @@ And then in the deployment manifest, we disambiguate the links with `provides` a
 instance_groups:
 - name: database_1
   jobs:
-  - name: database_job_1
-    templates:
-    - name: database_job
-      release: ...
+  - name: database_job
+    release: ...
     provides:
       database_conn: {as: db1}
 - name: database_2
-    templates:
-    - name: database_job
-      release: ...
   jobs:
-  - name: database_job_2
+  - name: database_job
+    release: ...
     provides:
       database_conn: {as: db2}
 - name: application_ig
   jobs:
   - name: application_job_two_db
+    release: ...
     consumes:
       frontend_database: {from: db1}
       backend_database: {from: db2}
