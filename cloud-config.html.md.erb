@@ -247,7 +247,7 @@ The Director creates compilation VMs for release compilation. The Director will 
 * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create VMs. Most IaaSes require this. Examples: `instance_type`, `availability_zone`. Default is `{}` (empty Hash).
 * **network** [String, required]: References a valid network name defined in the Networks block. BOSH assigns network properties to compilation VMs according to the type and properties of the specified network.
 * **reuse\_compilation\_vms** [Boolean, optional]: If `false`, BOSH creates a new compilation VM for each new package compilation and destroys the VM when compilation is complete. If `true`, compilation VMs are re-used when compiling packages. Defaults to `false`.
-* **env** [Hash, optional]: Same as [`env` for instance groups](manifest-v2#instance-groups).
+* **env** [Hash, optional]: Same as [`env` for instance groups](manifest-v2.html#instance-groups).
 
 Example:
 
