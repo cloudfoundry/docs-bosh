@@ -12,10 +12,10 @@ Common use cases for tunneling through a jumpbox VM include:
 - accessing the Director and UAA APIs
 
 <pre class="terminal">
-# set a tunnel
+# establish a tunnel and make it available on a local port
 $ ssh -4 -D 12345 -fNC jumpbox@jumpbox-ip -i jumpbox.key
 
-# let CLI know via environment variable
+# let CLI know about above tunnel via environment variable
 $ export BOSH_ALL_PROXY=socks5://localhost:12345
 
 $ bosh create-env bosh-deployment/bosh.yml ...
