@@ -22,7 +22,7 @@ Sections below describe steps, advantages and disadvantages for each approach.
 
 CLI v2 introduces new command for release authors to easily vendor final version of a package from another release. BOSH team has also created [`bosh-packages` Github organization](https://github.com/bosh-packages) for tracking official commonly used packages. First additions to that organization are: `golang-release`, `ruby-release`, `java-release` and `nginx-release`. More may be added if deemed to be useful to a number of release authors.
 
-As an example, if release encapsulates a Go application that needs to be compiled with Go compiler (as most Go apps do), release author, instead of figuring out how to make a `golang-1.x` package on their own, can vendor in one from `https://github.com/bosh-packages/golang-release`. Golang release as of now offers 1.8 version of Go and is updated as new minor versions are coming out.
+As an example, if release encapsulates a Go application that needs to be compiled with Go compiler (as most Go apps do), release author, instead of figuring out how to make a `golang-1.x` package on their own, can vendor in one from `https://github.com/bosh-packages/golang-release`. `golang-release` currently contains packages for Golang versions 1.8 and 1.9, and is updated as new minor versions come out.
 
 Such workflow may look like this:
 
@@ -74,7 +74,7 @@ Additional notes about `vendor-package` command:
 - command is idempotent hence could be run in the CI continuously tracking source release and automatically vendoring in updates
 - command requires access to final blobstore (specified via `config/private.yml`) as it will download source release package blob and upload it into destination release's blobstore
 - dependencies of a vendored packaged are vendored as well
-- after running command, `packages` directory will contain a named package director with `spec.lock` file that will be referencing name and fingerprint of a vendored package; this file and updates to `.final_builds` directory must be saved (checked in)
+- after running the command, the `packages` directory will contain a directory named after the vendored package. That directory will have a `spec.lock` file which references the name and fingerprint of the vendored package. `spec.lock` and updates to the `.final_builds` directory must be saved (checked in).
 
 When to use this approach:
 
