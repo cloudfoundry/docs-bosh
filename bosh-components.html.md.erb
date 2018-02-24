@@ -94,7 +94,7 @@ This example shows how components interact when creating a new VM.
 1. The CLI passes the instruction to the Director.
 1. The Director uses the CPI to tell the IaaS to launch a VM.
 1. The IaaS provides the Director with information (IP addresses and IDs) the Agent on the VM needs to configure the VM.
-1. The Director updates the Registry with the configuration information for the VM.
+1. The Director uses CPI to update the Registry with the configuration information for the VM.
 1. The Agent running on the VM requests the configuration information for the VM from the Registry.
 1. The Registry responds with the IP addresses and IDs.
 1. The Agent uses the IP addresses and IDs to configure the VM.
