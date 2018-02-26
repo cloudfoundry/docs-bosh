@@ -63,6 +63,18 @@ This problem occurs when one of the release jobs on a VM did not successfully st
 This problem may also arise when deployment manifest specifies too small of a [canary/update watch time](deployment-manifest.html#update) which may not be large enough for a process to successfully start.
 
 ---
+## <a id="unmount-persistent-disk"></a> umount: /var/vcap/store: device is busy
+
+<pre class="terminal extra-wide">
+L Error: Action Failed get_task: Task 5be893c6-7a2c-4f3f-420b-433fd23528a1 result: Migrating persistent disk: Remounting persistent disk as readonly: Unmounting /var/vcap/store: Running command: 'umount /var/vcap/store', stdout: '', stderr: 'umount: /var/vcap/store: device is busy.
+        (In some cases useful info about processes that use
+         the device is found by lsof(8) or fuser(1))
+': exit status 1
+</pre>
+
+This process occurs when one of the processes (from one of the installed jobs) did not fully shutdown and continues to retain a reference to the persistent disk. Agent tries to unmount persistent disk and unmount command fails. You can use `bosh ssh` command to get inside the VM and diagnose which process is holding onto the persistent disk via `lsof | grep /var/vcap/store` (ran as root).
+
+---
 ## <a id="blobstore-out-of-space"></a> Running command: bosh-blobstore-dav -c ... 500 Internal Server Error
 
 <pre class="terminal extra-wide">
