@@ -43,7 +43,7 @@ The `repack-stemcell` command can be used to enable the encryption of the root f
 Two arguments enable the encryption of the root filesystem:
 
 * **encrypted** [Boolean, optional]: Must be set to `true` if encryption of the root filesystem
-* **kms_key_arn** [String, optional]: Created in the [Encryption Keys](https://console.aws.amazon.com/iam/home#encryptionKeys) section of the Identity and Access Management (IAM) console. If not specified _and_ `encrypted` is true, the root filesystem will be encrypted with the default key.
+* **kms\_key\_arn** [String, optional]: Created in the [Encryption Keys](https://console.aws.amazon.com/iam/home#encryptionKeys) section of the Identity and Access Management (IAM) console. If not specified _and_ `encrypted` is true, the root filesystem will be encrypted with the default key.
 
 We modify the cloud-properties of an AWS stemcell to encrypt the root filesystem of instances deployed with our repacked stemcell. The cloud-properties must be specified as valid JSON. This only works with heavy stemcells:
 
