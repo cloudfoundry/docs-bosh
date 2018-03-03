@@ -63,7 +63,7 @@ cpis:
     human_readable_vm_names: true
 ```
 
-VSphere example:
+vSphere example:
 
 ```yaml
 cpis:
@@ -84,7 +84,7 @@ cpis:
       vm_folder: ((folder_to_put_vms_in))
 ```
 
-For VSphere, if your datacenter and cluster names have spaces in them, there is no need to put quotes around them when updating your cpi-config.
+For vSphere, if your datacenter and cluster names have spaces in them, there is no need to put quotes around them when updating your cpi-config.
 
 ---
 ## <a id='example'></a> Example
@@ -120,7 +120,7 @@ azs:
 ...
 ```
 
-Example of a CPI config referencing two separate VSphere installations:
+Example of a CPI config referencing two separate vSphere installations:
 
 ```yaml
 cpis:
@@ -156,7 +156,7 @@ cpis:
       vm_folder: vcenter-1b-disks/vms
 ```
 
-AZs in cloud config can reference VSphere CPIs by their given names:
+AZs in cloud config can reference vSphere CPIs by their given names:
 
 ```yaml
 azs:
