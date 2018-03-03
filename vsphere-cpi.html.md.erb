@@ -72,7 +72,7 @@ Schema for `cloud_properties` section:
 * **nested\_hardware\_virtualization** [Boolean, optional]: Exposes hardware assisted virtualization to the VM. Default: `false`.
 * **datastores** [Array, optional]: Allows operator to specify a list of ephemeral datastores for the VM. These names are exact datastore names and not regex patterns. At least one of these datastores must be accessible from clusters provided in `resource_pools.cloud_properties`/`azs.cloud_properties` or in the global CPI configuration. Available in v23+.
 * **datacenters** [Array, optional]: Used to override the VM placement specified under `azs.cloud_properties`. The format is the same as under [`AZs`](#azs).
-* **nsx** [Dictionary, optional]: [VMWare NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v30+ and NSX v6.1+.
+* **nsx** [Dictionary, optional]: [VMware NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v30+ and NSX v6.1+.
     * **security_groups** [Array, optional]: A collection of [security group](https://pubs.vmware.com/NSX-6/index.jsp#com.vmware.nsx.admin.doc/GUID-16B3134E-DDF1-445A-8646-BB0E98C3C9B5.html) names that the instances should belong to. The CPI will create the security groups if they do not exist.
     BOSH will also automatically create security groups based on metadata such as deployment name and instance group name. The full list of groups can be seen under [create_vm's environment groups](cpi-api-v1.html#create-vm).
     * **lbs** [Array, optional]: A collection of [NSX Edge Load Balancers](https://pubs.vmware.com/NSX-6/index.jsp?topic=%2Fcom.vmware.nsx.admin.doc%2FGUID-152982CF-108F-47A6-B86A-0F0F6A56D628.html) (LBs) to which instances should be attached. The LB and [Server Pool](https://pubs.vmware.com/NSX-6/index.jsp?topic=%2Fcom.vmware.nsx.admin.doc%2FGUID-D5A3BDBA-57A6-43F4-AE5E-3A387FE69EDC.html) must exist prior to the deployment.
@@ -82,7 +82,7 @@ Schema for `cloud_properties` section:
         * **port** [Integer, required]: The port that the VM's service is listening on (e.g. 80 for HTTP).
         * **monitor_port** [Integer, optional]: The healthcheck port that the VM is listening on. Defaults to the value of `port`.
 * **vmx_options** [Dictionary, optional]: Allows operator to specify [VM advanced configuration options](https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.resmgmt.doc/GUID-F8C7EF4D-D023-4F54-A2AB-8CF840C10939.html). All values are subject to YAML's type interpretation, and given that for certain configuration options vSphere will accept only a specific value type please take note of the difference between values with similar appearances such as: `true` vs `"true"` and `"1234"` vs `1234`. Refer to the vSphere documentation for more information about what configuration options are accepted. Available in v42+.
-* **nsxt** [Dictionary, optional]: [VMWare NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v45+.
+* **nsxt** [Dictionary, optional]: [VMware NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v45+.
     * **ns_groups** [Array, optional]: A collection of [NS Groups](http://pubs.vmware.com/nsxt-11/index.jsp?topic=%2Fcom.vmware.nsxt.admin.doc%2FGUID-718E769B-8D89-485B-8DBD-04F1F82CFE14.html) names that the instances should belong to. Available in NSX-T v1.1+.
     * **vif_type** [String, optional]: Supported types: `PARENT`, `null`. Overrides the global `default_vif_type`. Available in NSX-T v2.0+.
 
