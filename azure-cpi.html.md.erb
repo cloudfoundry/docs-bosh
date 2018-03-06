@@ -114,7 +114,7 @@ Schema for `cloud_properties` section:
     * For Azure Stack, the default value is `1`.
 * **platform\_fault\_domain_count** [Integer, optional]: The count of [fault domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set.
     * For Azure, the default value of an unmanaged availability set is `3`. The default value of a managed availability set is `2`, because [some regions don't support 3 fault domains for now](https://docs.microsoft.com/en-us/azure/virtual-machines/virtual-machines-windows-manage-availability#configure-multiple-virtual-machines-in-an-availability-set-for-redundancy)
-    * For Azure Stack, the default value is `1`.
+    * For Azure Stack, the default value is `1`. Before 1802 update, only `1` is allowed. After [1802 update](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-update-1802), you can configure up to 3 fault domains.
 
 * **storage\_account\_name** [String, optional]: Storage account for VMs. Valid only when `use_managed_disks` is `false`. If this is not set, the VMs will be created in the default storage account. See [this document](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#multiple-storage-accounts) for more details on why this option exists.
     * If you use `DS-series` or `GS-series` as `instance_type`, you should set this to a premium storage account. See more information about [Azure premium storage](https://azure.microsoft.com/en-us/documentation/articles/storage-premium-storage-preview-portal/). See [avaliable regions](http://azure.microsoft.com/en-us/regions/#services) where you can create premium storage accounts.
