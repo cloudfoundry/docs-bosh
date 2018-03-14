@@ -53,6 +53,18 @@ To take advantage of native DNS functionality, it's expected that [DNS release](
 
 DNS release provides two jobs: `bosh-dns` (for Linux) and `bosh-dns-windows` (for Windows) which start a simple DNS server bound to a [link local address](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p=address).
 
+### <a id='recursors'></a> Recursors
+
+Here is how DNS release chooses recurors before starting its operation:
+
+1. by default will pick up recursors specified in `/etc/resolv.conf` (denoted by `nameserver` keyword)
+  - alternatively, if `recursors` property is set use specified recursors
+1. exclude recursors specified in `excluded_recursors` property
+1. randomly pick one recursor from the list of recursors
+  - note that all recursors in this list will be considered equivalent, ie able to resolve same domains
+1. failover to using another randomly picked recursor, if current recursor exhibits connectivity problems
+  - connectivity problems do not account for resolution problems (NXDOMAIN, or other DNS level errors)
+
 ### <a id='aliases'></a> Aliases
 
 DNS release allows operators to specify custom names for BOSH generated DNS records to ease migration or work with legacy software that requires very specific DNS record formats (e.g. `master0`, `slave0`, `slave1`).
