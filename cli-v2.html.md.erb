@@ -1,8 +1,8 @@
 ---
-title: CLI v2
+title: CLI v2+
 ---
 
-<p class="note">Note: Applies to CLI v2 v2.0.16+.</p>
+<p class="note">Note: Applies to CLI v3.0.1+.</p>
 
 The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. CLI v2 is a new major version of CLI.
 
@@ -11,9 +11,9 @@ The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. CLI 
 
 1. Download the binary for your platform and place it on your `PATH`:
 
-  - [bosh-cli-2.0.48-darwin-amd64](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.48-darwin-amd64) <span class="sha1">sha1: d92e98df73abefeab16e1246eef3ae5eb2a5d863</span>
-  - [bosh-cli-2.0.48-linux-amd64](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.48-linux-amd64) <span class="sha1">sha1: c807f1938494f4280d65ebbdc863eda3f883d72e</span>
-  - [bosh-cli-2.0.48-windows-amd64.exe](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.48-windows-amd64.exe) <span class="sha1">sha1: 8e18738f017f1a1b315ee4169aa40a52c1a97ed2</span> (Windows CLI support is partial)
+  - [bosh-cli-3.0.1-darwin-amd64](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-3.0.1-darwin-amd64) <span class="sha1">sha1: d2fea20210a47b8c8f1f7dbb27ffb5808d47ce87</span>
+  - [bosh-cli-3.0.1-linux-amd64](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-3.0.1-linux-amd64) <span class="sha1">sha1: ccc893bab8b219e9e4a628ed044ebca6c6de9ca0</span>
+  - [bosh-cli-3.0.1-windows-amd64.exe](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-3.0.1-windows-amd64.exe) <span class="sha1">sha1: 41c23c90cab9dc62fa0a1275dcaf64670579ed33</span> (Windows CLI support is partial)
 
     <pre class="terminal">
     $ chmod +x ~/Downloads/bosh-cli-*
@@ -24,10 +24,10 @@ The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. CLI 
 
     <pre class="terminal">
     $ bosh -v
-    version 2.0.44-21639e8-2017-10-17T18:49:44Z
+    version 3.0.1-712bfd7-2018-03-13T23:26:42Z
     </pre>
 
-    If the output does not begin with `version 2.0...` you are probably executing CLI v1 (Ruby based).
+    If the output does not begin with `version 2.0...` (or `3.0`) you are probably executing CLI v1 (Ruby based).
 
 1. [Install OS specified dependencies](cli-env-deps.html) for `bosh create-env` command
 
@@ -476,17 +476,23 @@ See [Configs](configs.html).
     $ bosh -e my-env config my-type config.yml
     </pre>
 
-- <a id="update-config"></a> `bosh -e my-env update-config my-type config.yml [--name=my-name]`
+- <a id="update-config"></a> `bosh -e my-env update-config config.yml --type=my-type [--name=my-name]`
 
     Update default `my-type` config on the Director.
+
+    - `--type` (required) flag allows to specify config type
+    - `--name` flag allows to specify custom config name
 
     <pre class="terminal">
     $ bosh -e my-env update-config my-type config.yml
     </pre>
 
-- <a id="delete-config"></a> `bosh -e my-env delete-config my-type [--name=my-name]`
+- <a id="delete-config"></a> `bosh -e my-env delete-config --type=my-type [--name=my-name]`
 
     Delete default `my-type` config on the Director.
+
+    - `--type` (required) flag allows to specify config type
+    - `--name` flag allows to specify custom config name
 
     <pre class="terminal">
     $ bosh -e my-env delete-config my-config-type
