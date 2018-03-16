@@ -160,6 +160,28 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
         -v subnet_id=subnet-ait8g34t
     </pre>
 
+    # For bosh lite below variables (replace example values) and deploy the Director
+    $ bosh create-env bosh-deployment/bosh.yml \
+        --state=state.json \
+        --vars-store=creds.yml \
+        -o bosh-deployment/aws/cpi.yml \
+        -o bosh-deployment/bosh-lite.yml \
+        -o bosh-deployment/bosh-lite-runc.yml \
+        -o bosh-deployment/jumpbox-user.yml \
+        -v director_name=bosh-1 \
+        -v internal_cidr=10.0.0.0/24 \
+        -v internal_gw=10.0.0.1 \
+        -v internal_ip=10.0.0.6 \
+        -v access_key_id=AKI... \
+        -v secret_access_key=wfh28... \
+        -v region=us-east-1 \
+        -v az=us-east-1a \
+        -v default_key_name=bosh \
+        -v default_security_groups=[bosh] \
+        --var-file private_key=~/Downloads/bosh.pem \
+        -v subnet_id=subnet-ait8g34t
+    </pre>
+
     If running above commands outside of an AWS VPC, refer to [Exposing environment on a public IP](init-external-ip.html) for additional CLI flags.
 
     See [AWS CPI errors](aws-cpi.html#errors) for list of common errors and resolutions.
@@ -180,6 +202,11 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
 
 1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.html#deployment-state) for details.
 
+1. To ssh into bosh VM's
+    # bosh int ../bosh-1/creds.yml --path /jumpbox_ssh/private_key > /tmp/bosh-ssh-key
+    # chmod 600 /tmp/bosh-ssh-key
+    # ssh-add /tmp/bosh-ssh-key
+    
 ---
 [Back to Table of Contents](index.html#install)
 
