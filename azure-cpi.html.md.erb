@@ -30,7 +30,6 @@ Schema for `cloud_properties` section:
 * **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to network interfaces of all VMs placed in this network. The security group of a network interface can be specified either in a resource pool(higher priority) or a network configuration(lower priority); if it is not specified, the default security group (specified by `default_security_group` in the global CPI settings) will be used.
 * **application\_security\_groups** [Array, optional]: The [application security group](https://docs.microsoft.com/en-us/azure/virtual-network/security-overview#application-security-groups) to apply to network interfaces of all VMs placed in this network. The application security groups of a network interface can be specified either in a resource pool(higher priority) or a network configuration(lower priority).
     * This property is supported in v31+.
-    * Until `2017-11-02` only `West Central US` supports this new feature.
     * You must reference the [document](https://docs.microsoft.com/en-us/azure/virtual-network/create-network-security-group-preview) to register your subscription with this new feature.
 
 See [how to create a virtual network and subnets](azure-resources.html#virtual-network).
@@ -97,7 +96,6 @@ Schema for `cloud_properties` section:
 * **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to network interfaces of all VMs placed in this resource pool. The security group of a network interface can be specified either in a resource pool(higher priority) or a network configuration(lower priority); if it is not specified, the default security group (specified by `default_security_group` in the global CPI settings) will be used.
 * **application\_security\_groups** [Array, optional]: The [application security group](https://docs.microsoft.com/en-us/azure/virtual-network/security-overview#application-security-groups) to apply to network interfaces of all VMs placed in this resource group. The application security groups of a network interface can be specified either in a resource pool(higher priority) or a network configuration(lower priority).
     * This property is supported in v31+.
-    * Until `2017-11-02` only `West Central US` supports this new feature.
     * You must reference the [document](https://docs.microsoft.com/en-us/azure/virtual-network/create-network-security-group-preview) to register your subscription with this new feature.
 * **assign\_dynamic\_public\_ip** [Boolean, optional]: Enable to create and assign dynamic public IP to the VM automatically (to solve the [azure SNAT issue](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/issues/217)). Default value is `false`. Only the VM without vip will be assigned a dynamic public IP when this value is set to true, and the dynamic public IP will be deleted when the VM is deleted.
 
@@ -114,7 +112,7 @@ Schema for `cloud_properties` section:
     * For Azure Stack, the default value is `1`.
 * **platform\_fault\_domain_count** [Integer, optional]: The count of [fault domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set.
     * For Azure, the default value of an unmanaged availability set is `3`. The default value of a managed availability set is `2`, because [some regions don't support 3 fault domains for now](https://docs.microsoft.com/en-us/azure/virtual-machines/virtual-machines-windows-manage-availability#configure-multiple-virtual-machines-in-an-availability-set-for-redundancy)
-    * For Azure Stack, the default value is `1`.
+    * For Azure Stack, the default value is `1`. Before 1802 update, only `1` is allowed. After [1802 update](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-update-1802), you can configure up to 3 fault domains.
 
 * **storage\_account\_name** [String, optional]: Storage account for VMs. Valid only when `use_managed_disks` is `false`. If this is not set, the VMs will be created in the default storage account. See [this document](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#multiple-storage-accounts) for more details on why this option exists.
     * If you use `DS-series` or `GS-series` as `instance_type`, you should set this to a premium storage account. See more information about [Azure premium storage](https://azure.microsoft.com/en-us/documentation/articles/storage-premium-storage-preview-portal/). See [avaliable regions](http://azure.microsoft.com/en-us/regions/#services) where you can create premium storage accounts.
