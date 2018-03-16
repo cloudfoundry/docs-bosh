@@ -473,31 +473,32 @@ See [Configs](configs.html).
     Either show config by `id` or by `name` and `type` on the Director.
 
     <pre class="terminal">
-    $ bosh -e my-env config my-type config.yml
+    $ bosh -e my-env config --type=my-type --name=my-name
+    $ bosh -e my-env config 5
     </pre>
 
 - <a id="update-config"></a> `bosh -e my-env update-config config.yml --type=my-type [--name=my-name]`
 
-    Update default `my-type` config on the Director.
+    Update config on the Director.
 
     - `--type` (required) flag allows to specify config type
     - `--name` flag allows to specify custom config name
 
     <pre class="terminal">
-    $ bosh -e my-env config --type=my-type --name=my-name
-    # or
-    $ bosh -e my-env config 5
+    $ bosh -e my-env update-config config.yml --type=cloud
+    $ bosh -e my-env update-config config.yml --type=cloud --name=network1
     </pre>
 
 - <a id="delete-config"></a> `bosh -e my-env delete-config --type=my-type [--name=my-name]`
 
-    Delete default `my-type` config on the Director.
+    Delete config on the Director.
 
     - `--type` (required) flag allows to specify config type
     - `--name` flag allows to specify custom config name
 
     <pre class="terminal">
-    $ bosh -e my-env delete-config my-config-type
+    $ bosh -e my-env delete-config --type=my-type
+    $ bosh -e my-env delete-config --type=my-type --name=my-name
     </pre>
 
 ---
