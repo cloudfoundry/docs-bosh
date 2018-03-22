@@ -4,7 +4,7 @@ title: Components
 
 Before creating a new [environment](terminology.html#environment) we recommend to learn the names of major components that will be installed, used and configured:
 
-<%= image_tag("images/bosh-architecture.png") %>
+![image](images/bosh-architecture.png)
 
 ---
 ## <a id="cli"></a> Command Line Interface (CLI)
@@ -88,7 +88,7 @@ This example shows how components interact when creating a new VM.
 
 ### <a id="create-vm"></a> Creating a new VM
 
-<%= image_tag("images/deploy-sequence.png") %>
+![image](images/deploy-sequence.png)
 
 1. Through the CLI, the operator takes an action (e.g. deploy for the first time, scaling up deployment) which requires creating a new VM.
 1. The CLI passes the instruction to the Director.

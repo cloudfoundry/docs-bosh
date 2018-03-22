@@ -33,21 +33,21 @@ To connect VPCs in the same region you have to create a VPC Peering Connection b
 
 1. Create new VPC Peering Connection as shown in the image:
 
-    <%= image_tag("images/multi-cpi/peering-connection-creation.png") %>
+    ![image](images/multi-cpi/peering-connection-creation.png)
 
 1. From the Accepter VPC Account go into the console and click Accept Request. After accepting the request it will recommend you to edit the route tables from each VPC to allow traffic between them through the peering connection.
 
-    <%= image_tag("images/multi-cpi/peering-connection-accept.png") %>
+    ![image](images/multi-cpi/peering-connection-accept.png)
 
 1. Modify VPC Route Table in each VPC and add other VPC's CIDR block with the VPC Peering Connection as the target.
 
     For `z1`:
 
-    <%= image_tag("images/multi-cpi/route-table-az-1.png") %>
+    ![image](images/multi-cpi/route-table-az-1.png)
 
     For `z2`:
 
-    <%= image_tag("images/multi-cpi/route-table-az-2.png") %>
+    ![image](images/multi-cpi/route-table-az-2.png)
 
 <p class="note">Note: If you want IPv6 traffic to be routed you also need to add the corresponding IPv6 CIDR blocks.</p>
 
@@ -56,7 +56,7 @@ To connect VPCs in the same region you have to create a VPC Peering Connection b
 
 Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/openvpn-bosh-release) to connect both OpenVPN Server and client in each region like shown below:
 
-<%= image_tag("images/multi-cpi/aws-iaas-topology.png") %>
+![image](images/multi-cpi/aws-iaas-topology.png)
 
 0. Setup local Multi-CPI directories:
 
