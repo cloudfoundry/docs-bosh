@@ -64,7 +64,7 @@ Note that all properties included in the `conn` link are defined by the job itse
 And finally `web` job can use the port and a few other properties in its ERB templates when configuring how to connect to the database:
 
 ```ruby
-<%%=
+<%=
 
 db = link("primary_db")
 

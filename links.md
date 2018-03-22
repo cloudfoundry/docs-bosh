@@ -55,8 +55,8 @@ Then, in the application job's templates, it can use the connection information 
 #!/bin/bash
 # Application's templated control script.
 # ...
-export DATABASE_HOST="<%%= link('database_conn').instances[0].address %>"
-export DATABASE_PORT="<%%= link('database_conn').p('port') %>"
+export DATABASE_HOST="<%= link('database_conn').instances[0].address %>"
+export DATABASE_PORT="<%= link('database_conn').p('port') %>"
 # ...
 ```
 
@@ -156,7 +156,7 @@ Once a release is configured to consume links, the `link` template accessor allo
 Besides just collecting all network addresses, links include information that may be useful for determining which instances should be selectively communicating (e.g. based on AZ affinity).
 
 ```ruby
-<%%=
+<%=
 
 result = {}
 

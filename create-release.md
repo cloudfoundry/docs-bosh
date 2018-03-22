@@ -139,7 +139,7 @@ case $1 in
     export PATH=/var/vcap/packages/ruby_1.9.3/bin:$PATH
 
     exec /var/vcap/packages/ruby_1.9.3/bin/bundle exec \
-      rackup -p <%%= properties.web_ui.port %> \
+      rackup -p <%= properties.web_ui.port %> \
       >>  $LOG_DIR/web_ui.stdout.log \
       2>> $LOG_DIR/web_ui.stderr.log
 
@@ -707,7 +707,7 @@ relevant templates.
 For example, a start command can take a property as an argument,
 using the property lookup helper:
 
-       <%%= p('<job_name>.<property_name>') %>
+       <%= p('<job_name>.<property_name>') %>
 
 1. Specify the property in the [deployment manifest](./manifest-v2.html#instance-groups).
 
