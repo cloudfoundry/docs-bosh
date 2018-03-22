@@ -26,15 +26,15 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
 
 1. In the upper-right corner of the AWS Console, select a Region.
 
-    <%= image_tag("images/deploy-microbosh-to-aws/account-dashboard-region-menu.png") %>
+    ![image](images/deploy-microbosh-to-aws/account-dashboard-region-menu.png)
 
 1. On the AWS Console, select **VPC** to get to the VPC Dashboard.
 
-    <%= image_tag("images/deploy-microbosh-to-aws/account-dashboard-vpc.png") %>
+    ![image](images/deploy-microbosh-to-aws/account-dashboard-vpc.png)
 
 1. Click **Start VPC Wizard**.
 
-    <%= image_tag("images/deploy-microbosh-to-aws/vpc-dashboard-start.png") %>
+    ![image](images/deploy-microbosh-to-aws/vpc-dashboard-start.png)
 
 1. Select **VPC with a Single Public Subnet** and click **Select**.
 
@@ -47,26 +47,26 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
     * **Enable DNS hostnames**: Yes
     * **Hardware tenancy**: Default
 
-    <%= image_tag("images/deploy-microbosh-to-aws/create-vpc.png") %>
+    ![image](images/deploy-microbosh-to-aws/create-vpc.png)
 
 1. Click **Create VPC** and click **OK** once VPC is successfully created.
 
 1. Click **Subnets** and locate the "public" subnet in the VPC. Replace `SUBNET-ID` and `AVAILABILITY-ZONE` in your deployment manifest with the "public" subnet **Subnet ID**, **Availability Zone** and **Region** (AZ without the trailing character).
 
-    <%= image_tag("images/deploy-microbosh-to-aws/list-subnets.png") %>
+    ![image](images/deploy-microbosh-to-aws/list-subnets.png)
 
 ---
 ### <a id="create-eip"></a> Create an Elastic IP
 
 1. On the VPC Dashboard, click **Elastic IPs** and click **Allocate New Address**.
 
-    <%= image_tag("images/deploy-microbosh-to-aws/create-elastic-ip.png") %>
+    ![image](images/deploy-microbosh-to-aws/create-elastic-ip.png)
 
 1. In the Allocate Address dialog box, click **Yes, Allocate**.
 
 1. Replace `ELASTIC-IP` in your deployment manifest with the allocated Elastic IP Address.
 
-    <%= image_tag("images/deploy-microbosh-to-aws/list-elastic-ips.png") %>
+    ![image](images/deploy-microbosh-to-aws/list-elastic-ips.png)
 
 ---
 ### <a id="create-key-pair"></a> Create a Key Pair
@@ -75,11 +75,11 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
 
 1. Click **Key Pairs** and click **Create Key Pair**.
 
-    <%= image_tag("images/deploy-microbosh-to-aws/list-key-pairs.png") %>
+    ![image](images/deploy-microbosh-to-aws/list-key-pairs.png)
 
 1. In the Create Key Pair dialog box, enter "bosh" as the Key Pair name and click **Create**.
 
-    <%= image_tag("images/deploy-microbosh-to-aws/create-key-pair.png") %>
+    ![image](images/deploy-microbosh-to-aws/create-key-pair.png)
 
 1. Save private key to `~/Downloads/bosh.pem`.
 
@@ -88,7 +88,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
 
 1. On the EC2 Dashboard, click **Security Groups** and then click **Create Security Group**.
 
-    <%= image_tag("images/deploy-microbosh-to-aws/list-security-groups.png") %>
+    ![image](images/deploy-microbosh-to-aws/list-security-groups.png)
 
 1. Complete the Create Security Group form with the following information:
     * **Security group name**: bosh
@@ -97,11 +97,11 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
 
 1. Click **Create**
 
-    <%= image_tag("images/deploy-microbosh-to-aws/create-security-group.png") %>
+    ![image](images/deploy-microbosh-to-aws/create-security-group.png)
 
 1. Select the created security group with group name "bosh", click the **Inbound** tab and click **Edit**.
 
-    <%= image_tag("images/deploy-microbosh-to-aws/open-edit-security-group-modal.png") %>
+    ![image](images/deploy-microbosh-to-aws/open-edit-security-group-modal.png)
 
 1. Fill out the Edit inbound rules form and click **Save**.
 
@@ -125,7 +125,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
 
     <p class="note"><strong>Note</strong>:  To enter your security group as a *Source*, select *Custom IP*, and enter "bosh". Note: The AWS Console should autocomplete the security group ID (e.g. "sg-12ab34cd").</p>
 
-    <%= image_tag("images/deploy-microbosh-to-aws/edit-security-group-rules.png") %>
+    ![image](images/deploy-microbosh-to-aws/edit-security-group-rules.png)
 
 ---
 ## <a id="deploy"></a> Step 2: Deploy

@@ -11,7 +11,7 @@ See example of unit tests in a production release: [https://github.com/cloudfoun
 Assuming we have a job `web-server` with a following `config.json` ERB template:
 
 ```ruby
-<%%=
+<%=
 
 port = p("port")
 
@@ -21,7 +21,7 @@ end
 
 JSON.dump("port" => port)
 
-%%>
+%>
 ```
 
 To start unit testing `web-server` job, add `Gemfile` to the root of your release so that `bundler` gem can install all dependencies necessary for testing:

@@ -9,7 +9,7 @@ Here is an overview of the interactions between the CPI and the Agent on CloudSt
 * The CPI asks the IaaS to instantiate VM template, VMs, volumes and possibly other constructs (floating IPs, security groups, connect LBs, etc.)
 * The Agent is initially driven by the CPI through the bosh-registry, and then by the Director through NATS-based messaging. The registry provides Director-side metadata to the Agent.
 
-<div class="gray"><%= image_tag("images/cpi-interactions-overview.png") %></div>
+![image](images/cpi-interactions-overview.png)
 
 <%#
 Image source in Saas (no need to own an OmniGraffle license and run MacOS)
@@ -19,7 +19,7 @@ https://www.gliffy.com/go/html5/9205487?toke=&app=1b5094b0-6042-11e2-bcfd-080020
 The following sequence diagram illustrates in more detail the CPI, agent, and registry interactions,
 in the case of the [CloudStack CPI](https://github.com/cloudfoundry-community/bosh-cloudstack-cpi-release):
 
-<div class="gray"><%= image_tag("images/cpi-sequence-diag.png") %></div>
+![image](images/cpi-sequence-diag.png)
 
 <%#
 Image source in plantuml format.
