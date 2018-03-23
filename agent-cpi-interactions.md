@@ -11,22 +11,22 @@ Here is an overview of the interactions between the CPI and the Agent on CloudSt
 
 ![image](images/cpi-interactions-overview.png)
 
-<%#
+<!--
 Image source in Saas (no need to own an OmniGraffle license and run MacOS)
 https://www.gliffy.com/go/html5/9205487?toke=&app=1b5094b0-6042-11e2-bcfd-0800200c9a66&dev=false
-%>
+-->
 
 The following sequence diagram illustrates in more detail the CPI, agent, and registry interactions,
 in the case of the [CloudStack CPI](https://github.com/cloudfoundry-community/bosh-cloudstack-cpi-release):
 
 ![image](images/cpi-sequence-diag.png)
 
-<%#
+<!--
 Image source in plantuml format.
 syntax at http://plantuml.com/sequence.html
 Render it online http://plantuml.com/plantuml/ or from a private plantuml instance, see  http://plantuml.com/running.html
 
- @startuml
+@startuml
   box "DIRECTOR"
 	participant director
   end box
@@ -60,8 +60,7 @@ Render it online http://plantuml.com/plantuml/ or from a private plantuml instan
 
   hide footbox
 @enduml
-
-%>
+-->
 
 ---
 ## <a id="agent-config"></a> Agent config file formats
