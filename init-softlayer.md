@@ -14,7 +14,7 @@ To prepare your SoftLayer environment:
 * [Order VLANs](#vlan)
 
 ---
-### <a id="account"></a> Create a Softlayer account
+### <a id="account"></a> Create a SoftLayer account
 
 If you do not have an SoftLayer account, [create one for one month free](https://www.softlayer.com/promo/freeCloud).
 
@@ -40,7 +40,7 @@ VLANs provide the ability to partition devices and subnets on the network. To or
 
 1. Install [CLI v2](./cli-v2.html).
 
-1. Establish VPN connection between your host and Softlayer. The machine where to run CLI needs to communicate with the target Director VM over the SoftLayer private network.
+1. Establish VPN connection between your host and SoftLayer. The machine where to run CLI needs to communicate with the target Director VM over the SoftLayer private network.
 
 1. Use `bosh create-env` command to deploy the Director.
 
