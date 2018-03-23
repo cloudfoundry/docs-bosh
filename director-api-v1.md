@@ -75,9 +75,9 @@ Once a Director task is created, clients can follow its progress by polling [`GE
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -s -k https://192.168.50.4:25555/info | jq .
-</pre>
+```
 
 ```yaml
 {
@@ -118,9 +118,9 @@ $ curl -s -k https://192.168.50.4:25555/info | jq .
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -s -k https://192.168.50.4:25555/configs?latest=true | jq .
-</pre>
+```
 
 ```yaml
 [
@@ -160,9 +160,9 @@ The request body consists of a single JSON hash with the following key, value pa
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -s -k -H 'Content-Type: application/json' -d '{"name": "test", "type": "cloud", "content": "--- {}"}' https://192.168.50.4:25555/configs | jq .
-</pre>
+```
 
 ```yaml
 {
@@ -197,9 +197,9 @@ The request body consists of a single JSON hash with the following key, value pa
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -s -k -H 'Content-Type: application/json' -d '{"name": "default", "type": "cloud", "content": "--- {}"}' https://192.168.50.4:25555/configs/diff | jq .
-</pre>
+```
 
 ```yaml
 {
@@ -222,9 +222,9 @@ $ curl -s -k -H 'Content-Type: application/json' -d '{"name": "default", "type":
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -s -k -X DELETE https://192.168.50.4:25555/configs?type=cloud&name=test
-</pre>
+```
 
 ---
 ## <a id="tasks"></a> Tasks
@@ -247,9 +247,9 @@ See [Director tasks](director-tasks.html) for related info.
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?verbose=2&limit=3' | jq .
-</pre>
+```
 
 ```yaml
 [
@@ -292,9 +292,9 @@ See schema [above](#list-tasks).
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?state=queued,processing,cancelling&verbose=2' | jq .
-</pre>
+```
 
 ```yaml
 [
@@ -321,9 +321,9 @@ See schema [above](#list-tasks).
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?deploymet=cf-warden' | jq .
-</pre>
+```
 
 ```yaml
 [
@@ -350,9 +350,9 @@ See schema [above](#list-tasks).
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?context_id=4528' | jq .
-</pre>
+```
 
 ```yaml
 [
@@ -379,9 +379,9 @@ See additional schema details [above](#list-tasks).
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1180' | jq .
-</pre>
+```
 
 ```yaml
 {
@@ -404,9 +404,9 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1180' | jq .
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1180/output?type=debug'
-</pre>
+```
 
 ```
 ...
@@ -424,9 +424,9 @@ D, [2015-11-09 02:19:36 #32545] [task:1180] DEBUG -- DirectorJobRunner: (0.00031
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=event'
-</pre>
+```
 
 ```
 ...
@@ -461,9 +461,9 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=e
 
 #### Example of VM details task
 
-<pre class="terminal">
+```shell
 $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=result'
-</pre>
+```
 
 ```
 ...
@@ -488,9 +488,9 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=r
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -v -s -k https://admin:admin@192.168.50.4:25555/stemcells | jq .
-</pre>
+```
 
 ```yaml
 [
@@ -525,9 +525,9 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/stemcells | jq .
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -v -s -k https://admin:admin@192.168.50.4:25555/releases | jq .
-</pre>
+```
 
 ```yaml
 [
@@ -585,9 +585,9 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/releases | jq .
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments | jq .
-</pre>
+```
 
 ```yaml
 [
@@ -650,9 +650,9 @@ Creating/updating a deployment is performed in a Director task. Response will be
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments/cf-warden | jq .
-</pre>
+```
 
 ```yaml
 {
@@ -701,9 +701,9 @@ Deleting a deployment is performed in a Director task. Response will be a redire
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/example/instances' | jq .
-</pre>
+```
 
 ```yaml
 [
@@ -754,7 +754,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/example/inst
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/example/instances?format=full'
 < HTTP/1.1 302 Moved Temporarily
 < Location: https://192.168.50.4:25555/tasks/1287
@@ -763,7 +763,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/example/inst
 $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1287' | jq .
 
 $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1287/output?type=result'
-</pre>
+```
 
 ```
 ...
@@ -866,9 +866,9 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1287/output?type=r
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/cf-warden/vms' | jq .
-</pre>
+```
 
 ```yaml
 [
@@ -915,7 +915,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/cf-warden/vm
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/cf-warden/vms?format=full'
 < HTTP/1.1 302 Moved Temporarily
 < Location: https://192.168.50.4:25555/tasks/1181
@@ -924,7 +924,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/cf-warden/vm
 $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181' | jq .
 
 $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=result'
-</pre>
+```
 
 ```
 ...
@@ -1031,9 +1031,9 @@ See [Events](events.html) for info.
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -v -s -k https://admin:admin@192.168.50.4:25555/events | jq .
-</pre>
+```
 
 ```yaml
 [
@@ -1097,9 +1097,9 @@ See additional schema details [above](#list-events).
 
 #### Example
 
-<pre class="terminal">
+```shell
 $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/events/3133' | jq .
-</pre>
+```
 
 ```yaml
 {

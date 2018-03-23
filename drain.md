@@ -64,7 +64,7 @@ Currently logs from the drain script are not saved on disk by default, though re
 ---
 ## <a id="example"></a> Example
 
-<pre class="bash">
+```bash
 #!/bin/bash
 
 pid_path=/var/vcap/sys/run/worker/worker.pid
@@ -80,7 +80,7 @@ fi
 echo 0 # ok to exit; do not wait for anything
 
 exit 0
-</pre>
+```
 
 ---
 [Back to Table of Contents](index.html#release)

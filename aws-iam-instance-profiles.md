@@ -102,12 +102,30 @@ You are not authorized to perform this operation. Encoded authorization failure 
 
 Use `aws sts decode-authorization-message` command to decode message included in the error. For example:
 
-<pre class="terminal extra-wide">
-$ aws sts decode-authorization-message --encoded-message vHU-KncL6Yo4pG5J9p...
+```shell
+$ aws sts decode-authorization-message --encoded-message vHU-KncL6Yo4pG5J9p... | jq.DecodedMessage
 {
-  "DecodedMessage": "{\"allowed\":false,\"explicitDeny\":false,\"matchedStatements\":{\"items\":[]},\"failures\":{\"items\":[]},\"context\":{\"principal\":{\"id\":\"AROxxx:i-56a18483\",\"arn\":\"arn:aws:sts::xxx:assumed-role/director/i-56a18483\"},\"action\":\"iam:PassRole\",\"resource\":\"arn:aws:iam::xxx:role/deployed-vm\",\"conditions\":{\"items\":[]}}}"
+  "allowed": false,
+  "explicitDeny": false,
+  "matchedStatements": {
+    "items": []
+  },
+  "failures": {
+    "items": []
+  },
+  "context": {
+    "principal": {
+      "id": "AROxxx:i-56a18483",
+      "arn": "arn:aws:sts::xxx:assumed-role/director/i-56a18483"
+    },
+    "action": "iam:PassRole",
+    "resource": "arn:aws:iam::xxx:role/deployed-vm",
+    "conditions": {
+      "items": []
+    }
+  }
 }
-</pre>
+```
 
 Decoded message above indicates that `iam:PassRole` action needs to be added to the `director` IAM role so that the AWS CPI can create VMs with `deployed-vm` IAM role.
 

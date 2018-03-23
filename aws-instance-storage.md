@@ -22,11 +22,11 @@ resource_pools:
 
 With multiple disks attached, the Agent partitions and labels instance storage disks with label `raw-ephemeral-*` so that release jobs can easily find and use them:
 
-<pre class="terminal">
-bosh_caxspafr6@09f1a2db-f322-487c-bd03-63bf0d367f3d:~$ ls -la /dev/disk/by-partlabel/raw-ephemeral-*
+```shell
+$ ls -la /dev/disk/by-partlabel/raw-ephemeral-*
 lrwxrwxrwx 1 root root 12 Oct  5 03:09 /dev/disk/by-partlabel/raw-ephemeral-0 -> ../../xvdba1
 lrwxrwxrwx 1 root root 12 Oct  5 03:09 /dev/disk/by-partlabel/raw-ephemeral-1 -> ../../xvdbb1
-</pre>
+```
 
 ---
 [Back to Table of Contents](index.html#cpi-config)

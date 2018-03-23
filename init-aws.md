@@ -134,31 +134,31 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
 
 1. Use `bosh create-env` command to deploy the Director.
 
-    <pre class='terminal'>
-    # Create directory to keep state
-    $ mkdir bosh-1 && cd bosh-1
+```shell
+# Create directory to keep state
+$ mkdir bosh-1 && cd bosh-1
 
-    # Clone Director templates
-    $ git clone https://github.com/cloudfoundry/bosh-deployment
+# Clone Director templates
+$ git clone https://github.com/cloudfoundry/bosh-deployment
 
-    # Fill below variables (replace example values) and deploy the Director
-    $ bosh create-env bosh-deployment/bosh.yml \
-        --state=state.json \
-        --vars-store=creds.yml \
-        -o bosh-deployment/aws/cpi.yml \
-        -v director_name=bosh-1 \
-        -v internal_cidr=10.0.0.0/24 \
-        -v internal_gw=10.0.0.1 \
-        -v internal_ip=10.0.0.6 \
-        -v access_key_id=AKI... \
-        -v secret_access_key=wfh28... \
-        -v region=us-east-1 \
-        -v az=us-east-1a \
-        -v default_key_name=bosh \
-        -v default_security_groups=[bosh] \
-        --var-file private_key=~/Downloads/bosh.pem \
-        -v subnet_id=subnet-ait8g34t
-    </pre>
+# Fill below variables (replace example values) and deploy the Director
+$ bosh create-env bosh-deployment/bosh.yml \
+    --state=state.json \
+    --vars-store=creds.yml \
+    -o bosh-deployment/aws/cpi.yml \
+    -v director_name=bosh-1 \
+    -v internal_cidr=10.0.0.0/24 \
+    -v internal_gw=10.0.0.1 \
+    -v internal_ip=10.0.0.6 \
+    -v access_key_id=AKI... \
+    -v secret_access_key=wfh28... \
+    -v region=us-east-1 \
+    -v az=us-east-1a \
+    -v default_key_name=bosh \
+    -v default_security_groups=[bosh] \
+    --var-file private_key=~/Downloads/bosh.pem \
+    -v subnet_id=subnet-ait8g34t
+```
 
     If running above commands outside of an AWS VPC, refer to [Exposing environment on a public IP](init-external-ip.html) for additional CLI flags.
 
@@ -166,17 +166,17 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
 
 1. Connect to the Director.
 
-    <pre class="terminal">
-    # Configure local alias
-    $ bosh alias-env bosh-1 -e 10.0.0.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
+```shell
+# Configure local alias
+$ bosh alias-env bosh-1 -e 10.0.0.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
 
-    # Log in to the Director
-    $ export BOSH_CLIENT=admin
-    $ export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
+# Log in to the Director
+$ export BOSH_CLIENT=admin
+$ export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
 
-    # Query the Director for more info
-    $ bosh -e bosh-1 env
-    </pre>
+# Query the Director for more info
+$ bosh -e bosh-1 env
+```
 
 1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.html#deployment-state) for details.
 

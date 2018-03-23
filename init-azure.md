@@ -21,7 +21,7 @@ To prepare your Azure environment find out and/or create any missing resources i
 
 1. Use `bosh create-env` command to deploy the Director.
 
-    <pre class='terminal'>
+    ```shell
     # Create directory to keep state
     $ mkdir bosh-1 && cd bosh-1
 
@@ -46,7 +46,7 @@ To prepare your Azure environment find out and/or create any missing resources i
         -v resource_group_name=bosh-res-group \
         -v storage_account_name=boshstore \
         -v default_security_group=nsg-bosh
-    </pre>
+    ```
 
     If running above commands outside of a connected Azure network, refer to [Exposing environment on a public IP](init-external-ip.html) for additional CLI flags.
 
@@ -54,7 +54,7 @@ To prepare your Azure environment find out and/or create any missing resources i
 
 1. Connect to the Director.
 
-    <pre class="terminal">
+    ```shell
     # Configure local alias
     $ bosh alias-env bosh-1 -e 10.0.0.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
 
@@ -64,7 +64,7 @@ To prepare your Azure environment find out and/or create any missing resources i
 
     # Query the Director for more info
     $ bosh -e bosh-1 env
-    </pre>
+    ```
 
 1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.html#deployment-state) for details.
 

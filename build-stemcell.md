@@ -22,14 +22,14 @@ In the future, BOSH team will investigate how to best consolidate stemcells into
 
 <p class="note">Note that tarball structure is subject to change without notice.</p>
 
-<pre class="terminal">
+```shell
 $ tar tvf light-bosh-stemcell-3033-aws-xen-hvm-ubuntu-trusty-go_agent.tgz
 
 -rw-rw-r--  0 ubuntu ubuntu      0 Aug  4 09:45 image
 -rw-rw-r--  0 ubuntu ubuntu    710 Aug  4 10:06 stemcell.MF
 -rw-r--r--  0 ubuntu ubuntu  50594 Aug  4 09:23 packages.txt
 -rw-r--r--  0 ubuntu ubuntu  12543 Aug  4 09:22 dev_tools_file_list.txt
-</pre>
+```
 
 * `image`: OS image in a format (raw, qcow, ova, etc.) understood by the CPI/IaaS.
 * `stemcell.MF`: YAML file with stemcell metadata.
@@ -51,9 +51,9 @@ Name, operating system and version values will be visible via `bosh stemcells` c
 
 Example:
 
-<pre class="terminal">
+```shell
 $ tar -Oxzf light-bosh-stemcell-3033-aws-xen-hvm-ubuntu-trusty-go_agent.tgz stemcell.MF
-</pre>
+```
 
 ```yaml
 ---

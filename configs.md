@@ -25,7 +25,7 @@ One of the use cases for providing such open ended functionality is to provide s
 
 To add or update a config on the Director use the [`bosh update-config`](cli-v2.html#update-config) CLI command. If you do not provide a name using the `--name` option, `default` will be used.
 
-<pre class="terminal">
+```shell
 $ bosh update-config my-type configs.yml
 Using environment '192.168.50.6' as client 'admin'
 
@@ -51,11 +51,11 @@ configs:
   - name: team-b-config
     properties:
       ...
-</pre>
+```
 
 Or you could split them into different "branches" using the `--name` option.
 
-<pre class="terminal">
+```shell
 $ bosh update-config my-type --name=team-a config-a.yml
 Using environment '192.168.50.6' as client 'admin'
 
@@ -83,14 +83,14 @@ $ bosh update-config my-type --name=team-b config-b.yml
 
 $ bosh config my-type --name=team-b
 ...
-</pre>
+```
 
 ---
 ## <a id='list'></a> Listing configs
 
 To list all configs use the [`bosh configs`](cli-v2.html#configs) CLI command.
 
-<pre class="terminal">
+```shell
 $ bosh configs my-type
 Using environment '192.168.50.6' as client 'admin'
 
@@ -102,11 +102,11 @@ my-type  default
 3 configs
 
 Succeeded
-</pre>
+```
 
 You can also filter configs by `type` and/or `name`:
 
-<pre class="terminal">
+```shell
 $ bosh configs --type=my-type --name=team-a
 Using environment '192.168.50.6' as client 'admin'
 
@@ -114,13 +114,13 @@ Type     Name
 my-type  team-a
 
 1 configs
-</pre>
+```
 
 ---
 ## <a id='list'></a> Deleting configs
 
 To delete configs use the [`bosh delete-config`](cli-v2.html#delete-config) CLI command. If you do not provide a name using the `--name=` option, `default` will be used.
 
-<pre class="terminal">
+```shell
 $ bosh delete-config my-type
-</pre>
+```

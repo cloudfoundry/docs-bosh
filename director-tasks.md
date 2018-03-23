@@ -6,14 +6,14 @@ An operator uses the CLI to interact with the Director. Certain CLI commands res
 
 To find out if a CLI command has an associated Director task, look for "Director task [NUM]" in its output:
 
-<pre class="terminal">
+```shell
 $ bosh -d zookeeper deploy zookeeper.yml
 Using deployment 'zookeeper'
 
 Task 766 # <---
 
 ...snip...
-</pre>
+```
 
 ---
 ## <a id="active"></a> Currently active tasks
@@ -22,7 +22,7 @@ At any time the Director might be performing multiple tasks at once. Active task
 
 To see all currently active tasks:
 
-<pre class="terminal wide">
+```shell
 $ bosh tasks --no-filter
 
 +-----+------------+-------------------------+-------+-------------------------------+--------+
@@ -33,7 +33,7 @@ $ bosh tasks --no-filter
 +-----+------------+-------------------------+-------+-------------------------------+--------+
 
 Total tasks running now: 2
-</pre>
+```
 
 <p class="note"><strong>Note</strong>: <code>--no-filter</code> flag shows all tasks. Without that flag, the Director returns a subset of running tasks that it deems important.</p>
 
@@ -41,13 +41,13 @@ Total tasks running now: 2
 
 Since Director tasks continue to run in the background even if the CLI has disconnected, you can rejoin a task at any time:
 
-<pre class="terminal">
+```shell
 $ bosh task 766
 
 Director task 766
 
 ...snip...
-</pre>
+```
 
 Tasks can be joined in different output modes:
 
@@ -55,7 +55,7 @@ Tasks can be joined in different output modes:
 - `debug`: detailed logs showing all internal communication between the Director and the Agents
 - `cpi`: detailed logs showing all requests and responses from the CPI
 
-<pre class="terminal wide">
+```shell
 $ bosh task 766 --debug
 
 Director task 766
@@ -66,15 +66,15 @@ I, [2015-01-27 21:33:21 #2725] []  INFO -- DirectorJobRunner: Looking for task w
 D, [2015-01-27 21:33:21 #2725] [] DEBUG -- DirectorJobRunner: (0.001125s) SELECT * FROM "tasks" WHERE "id" = 766
 
 ...snip...
-</pre>
+```
 
 ### <a id="cancel-active"></a> Canceling tasks
 
 Tasks can be cancelled before and while they are running. Canceling an active task will not take immediate effect; however, the Director will stop task execution at a next safe checkpoint. To cancel a task, either press `Ctrl+C` while tracking the task or run:
 
-<pre class="terminal">
+```shell
 $ bosh cancel task 766
-</pre>
+```
 
 ---
 ## <a id="finished"></a> Finished tasks
@@ -83,7 +83,7 @@ The Director keeps a record of tasks that have finished. Finished tasks can be i
 
 To view recently finished tasks:
 
-<pre class="terminal extra-wide">
+```shell
 $ bosh tasks recent
 
 +-----+-------+-------------------------+--------+--------------------------+-----------------------------------------------------------+
@@ -98,7 +98,7 @@ $ bosh tasks recent
 +-----+-------+-------------------------+--------+--------------------------+-----------------------------------------------------------+
 
 Showing 30 recent tasks
-</pre>
+```
 
 You can also run `bosh tasks recent [NUM]` to retrieve more tasks.
 

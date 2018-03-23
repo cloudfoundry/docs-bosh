@@ -27,7 +27,7 @@ In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director 
 
 1. To deploy the Director use `bosh create-env` command with additional IPv6-specific ops files. See [Creating environment on vSphere](init-vsphere.html) for more details on initializing Director on vSphere.
 
-    <pre class="terminal">
+    ```shell
     # Create directory to keep state
     $ mkdir ipv6 && cd ipv6
 
@@ -57,19 +57,19 @@ In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director 
         -v vcenter_templates=bosh-ipv6-templates \
         -v vcenter_vms=bosh-ipv6-vms \
         -v vcenter_disks=bosh-ipv6-disks
-    </pre>
+    ```
 
 1. Connect to the Director:
 
-    <pre class="terminal">
+    ```shell
     $ bosh alias-env ipv6 -e 10.0.9.111 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
     $ export BOSH_CLIENT=admin
     $ export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
-    </pre>
+    ```
 
 1. Confirm that it works:
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e ipv6 env
     Using environment '10.0.9.111' as '?'
 
@@ -77,7 +77,7 @@ In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director 
     User: admin
 
     Succeeded
-    </pre>
+    ```
 
 ### <a id="pure-deploy"></a> Deploy example Zookeeper deployment
 
@@ -104,7 +104,7 @@ Follow steps below or the [deploy workflow](basic-workflow.html) that goes throu
         - 2601:0646:0100:69f0:0000:0000:0000:0000-2601:0646:0100:69f0:0000:0000:0000:0020
     ```
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e ipv6 update-cloud-config ~/workspace/bosh-deployment/vsphere/cloud-config.yml \
         -v vcenter_cluster=cl \
         -v internal_cidr=10.0.9.0/24 \
@@ -114,14 +114,14 @@ Follow steps below or the [deploy workflow](basic-workflow.html) that goes throu
     $ bosh -e ipv6 update-config cloud --name ipv6 ipv6-net.yml
 
     $ bosh -e ipv6 update-runtime-config ~/workspace/bosh-deployment/runtime-configs/dns.yml
-    </pre>
+    ```
 
 1. Upload stemcell
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e ipv6 upload-stemcell https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-trusty-go_agent?v=3468.17 \
       --sha1 1691f18b9141ac59aec893a1e8437a7d68a88038
-    </pre>
+    ```
 
     Note that IPv6 is currently only available for Ubuntu Trusty stemcells.
 
@@ -148,15 +148,15 @@ Follow steps below or the [deploy workflow](basic-workflow.html) that goes throu
       value: ipv6
     ```
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e ipv6 -d zookeeper deploy <(wget -O- https://raw.githubusercontent.com/cppforlife/zookeeper-release/master/manifests/zookeeper.yml) \
       -o ipv6-net-use.yml
 
     $ bosh -e ipv6 -d zookeeper instances
-    </pre>
+    ```
 
 1. Run Zookeeper smoke tests
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e ipv6 -d zookeeper run-errand smoke-tests
-    </pre>
+    ```

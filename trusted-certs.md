@@ -41,7 +41,7 @@ To configure the Director with trusted certificates:
 
 1. Redeploy each deployment to immediately update deployment's VMs with trusted certificates. Otherwise trusted certificate changes will be picked up next time you run `bosh deploy` for that deployment.
 
-    <pre class="terminal">
+    ```shell
     $ bosh deployment ~/deployments/cf-mysql.yml
     $ bosh deploy
     ...
@@ -49,7 +49,7 @@ To configure the Director with trusted certificates:
     $ bosh deployment ~/deployments/cf-rabbitmq.yml
     $ bosh deploy
     ...
-    </pre>
+    ```
 
 ### <a id="format"></a> Configuration Format
 

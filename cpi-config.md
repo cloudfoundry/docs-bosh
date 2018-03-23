@@ -15,7 +15,7 @@ To update CPI config on the Director use [`bosh update-cpi-config`](cli-v2.html#
 
 <p class="note">Note: See <a href="#example">example CPI config</a> below.</p>
 
-<pre class="terminal">
+```shell
 $ bosh update-cpi-config cpis.yml
 
 $ bosh cpi-config
@@ -30,7 +30,7 @@ cpis:
   type: openstack
   properties:
     ...
-</pre>
+```
 
 Once CPI config is updated AZs in the cloud config can reference specific CPI to be used during a deploy. Unlike runtime and cloud configs, CPI config is not tracked directly by the deployments and can be updated separately (useful for updating CPI credentials without forcing redeploy of all the deployments).
 
@@ -172,5 +172,5 @@ azs:
 Stemcells need to be assigned to a specific CPI and it occurs on upload. If you've already uploaded an appropriate stemcell you'll need to re-upload with `--fix`
 
 ```bash
-bosh upload-stemcell .tgz --fix 
+bosh upload-stemcell .tgz --fix
 ```

@@ -11,31 +11,31 @@ The Director provides a very simple built-in user management system for authenti
 
 Once installed, the Director comes without any configured users by default. When there are no configured users you can use `admin` / `admin` credentials to login into the Director.
 
-<pre class="terminal">
+```shell
 $ bosh login admin
 
 Enter password: *****
 Logged in as `admin'
-</pre>
+```
 
 When the Director is configured with at least one user, default `admin` / `admin` credentials no longer work. To create a new user:
 
-<pre class="terminal">
+```shell
 $ bosh create user some-operator
 
 Enter new password: ********
 Verify new password: ********
 User `some-operator' has been created
-</pre>
+```
 
 To delete existing user:
 
-<pre class="terminal">
+```shell
 $ bosh delete user some-operator
 
 Are you sure you would like to delete the user `some-operator'? (type 'yes' to continue): yes
 User `some-operator' has been deleted
-</pre>
+```
 
 ---
 ## <a id="preconfigured"></a> Preconfigured Users

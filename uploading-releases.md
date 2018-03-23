@@ -25,37 +25,37 @@ CLI provides [`bosh upload-release` command](cli-v2.html#upload-release).
 
 - If you have a URL to a release tarball (for example a URL provided by bosh.io):
 
-	<pre class="terminal">
+	```shell
 	$ bosh -e vbox upload-release https://bosh.io/d/github.com/cppforlife/zookeeper-release?v=0.0.5 --sha1 65a07b7526f108b0863d76aada7fc29e2c9e2095
-	</pre>
+	```
 
 	Alternatively, if you have a release tarball on your local machine:
 
-	<pre class="terminal">
+	```shell
 	$ bosh -e vbox upload-release ~/Downloads/zookeeper-0.0.5.tgz
-	</pre>
+	```
 
 - If you cloned release Git repository:
 
     Note that all release repositories have a `releases/` folder that contains release YAML files. These files have all the required information about how to assemble a specific version of a release (provided that the release maintainers produce and commit that version to the repository). You can use the YAML files to either directly upload a release, or to create a release tarball locally and then upload it.
 
-    <pre class="terminal">
+    ```shell
   $ git clone https://github.com/cppforlife/zookeeper-release
 	$ cd zookeeper-release/
 	$ bosh -e vbox upload-release
-	</pre>
+	```
 
 	Alternatively, to build a release tarball locally from a release YAML file:
 
-	<pre class="terminal">
+	```shell
 	$ cd zookeeper-release/
 	$ bosh create-release releases/zookeeper/zookeeper-0.0.5.yml --tarball x.tgz
 	$ bosh -e vbox upload-release x.tgz
-	</pre>
+	```
 
 Once the command succeeds, you can view all uploaded releases in the Director:
 
-<pre class="terminal">
+```shell
 $ bosh -e vbox releases
 Using environment '192.168.50.6' as client 'admin'
 
@@ -69,7 +69,7 @@ zookeeper  0.0.5*             b434447
 3 releases
 
 Succeeded
-</pre>
+```
 
 ---
 ## <a id='using'></a> Deployment Manifest Usage

@@ -32,27 +32,27 @@ Once you enable snapshots in your deployment, you can use following CLI commands
 
 <p class="note"><strong>Note</strong>: When you manually take a snapshot, the Director does not pause any processes or flush buffered data to disk. Depending on your IaaS, a snapshot taken manually might not fully capture all the data on your VM at the point you take the snapshot.</p>
 
-<pre class="terminal">
+```shell
 $ bosh snapshots
-</pre>
+```
 
 Displays the job, Content ID (CID), and created date of all snapshots. Run <code>bosh snapshots</code> to display a list of CIDs if you need to find specific snapshots to recover.
 
-<pre class="terminal">
+```shell
 $ bosh take snapshot [JOB] [INDEX]
-</pre>
+```
 
 Takes a snapshot of the job VM that you specify. If you do not specify a <code>JOB</code>, takes a snapshot of every VM in the current deployment.
 
-<pre class="terminal">
+```shell
 $ bosh delete snapshot SNAPSHOT-CID
-</pre>
+```
 
 Deletes the snapshot that SNAPSHOT-CID specifies.
 
-<pre class="terminal">
+```shell
 $ bosh delete snapshots
-</pre>
+```
 
 Deletes all snapshots.
 

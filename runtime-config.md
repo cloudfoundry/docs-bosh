@@ -13,7 +13,7 @@ To update runtime config on the Director use [`bosh update runtime-config`](sysa
 
 <p class="note">Note: See <a href="#example">example runtime config</a> below.</p>
 
-<pre class="terminal">
+```shell
 $ bosh update-runtime-config runtime.yml
 
 $ bosh runtime-config
@@ -29,7 +29,7 @@ addons:
   - name: strongswan
     release: strongswan
 ...
-</pre>
+```
 
 Once runtime config is updated all deployments will be considered outdated. `bosh deployments` does not currently show that but we have plans to show that information. The Director will apply runtime config changes to each deployment during the next `bosh deploy` for that deployment.
 

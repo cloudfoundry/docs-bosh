@@ -26,7 +26,7 @@ As an example, if release encapsulates a Go application that needs to be compile
 
 Such workflow may look like this:
 
-<pre class="terminal">
+```shell
 # Clone golang-release to your system
 $ git clone https://github.com/bosh-packages/golang-release ~/workspace/golang-release
 
@@ -38,7 +38,7 @@ $ vim config/private.yml
 
 # Perform vendoring of golang-1.8-linux package
 $ bosh vendor-package golang-1.8-linux ~/workspace/golang-release
-</pre>
+```
 
 In the above steps, CLI v2 vendors `golang-1.8-linux` package into your `my-app-release` release, and makes it available just like any other package as a dependency to other packages or jobs:
 

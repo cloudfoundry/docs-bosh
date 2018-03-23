@@ -60,7 +60,7 @@ Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/op
 
 0. Setup local Multi-CPI directories:
 
-    <pre class="terminal">
+    ```shell
     $ mkdir -p ~/workspace/multi-cpi-vpn
     $ cd ~/workspace
     # Clone OpenVPN BOSH Release
@@ -68,7 +68,7 @@ Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/op
     # Clone Multi-CPI Knowledge-Base
     $ git clone git@github.com:cdutra/bosh-multi-cpi-kb.git
     $ cd multi-cpi-vpn
-    </pre>
+    ```
 
 0. Allocate Elastic IPs for each VPN Server in their respective regions.
 
@@ -89,7 +89,7 @@ Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/op
 
 0. Generate certificates for each server and client.
 
-    <pre class="terminal">
+    ```shell
     $ bosh int ~/workspace/bosh-multi-cpi-kb/templates/vpn-ca.yml \
       -l ~/workspace/multi-cpi-vpn/creds-az1.yml \
       --vars-store=~/workspace/multi-cpi-vpn/certs-vpn-az1.yml
@@ -97,11 +97,11 @@ Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/op
     $ bosh int ~/workspace/bosh-multi-cpi-kb/templates/vpn-ca.yml \
       -l ~/workspace/multi-cpi-vpn/creds-az2.yml \
       --vars-store=~/workspace/multi-cpi-vpn/certs-vpn-az2.yml
-    </pre>
+    ```
 
 0. Deploy OpenVPN Servers in each AZ.
 
-    <pre class="terminal">
+    ```shell
     # Create VPN server in z1
     $ bosh create-env \
       --vars-store ~/workspace/multi-cpi-vpn/certs-vpn-az1.yml \
@@ -147,7 +147,7 @@ Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/op
       -v remote_vpn_ip=<az1-vpn-external-ip> \
       -v client_key_pair=$( bosh int ~/workspace/multi-cpi-vpn/certs-vpn-az1.yml --path /client_key_pair ) \
       ~/workspace/openvpn-bosh-release/deployment/openvpn.yml
-    </pre>
+    ```
 
 ---
 ## <a id="configuring-configs"></a> Configure CPI and Cloud configs
@@ -176,9 +176,9 @@ cpis:
     region: us-west-1
 ```
 
-<pre class="terminal">
+```shell
 $ bosh update-cpi-config cpi.yml
-</pre>
+```
 
 And cloud config:
 
@@ -225,9 +225,9 @@ compilation:
   workers: 1
 ```
 
-<pre class="terminal">
+```shell
 $ bosh update-cloud-config cloud.yml
-</pre>
+```
 
 ---
 ## <a id="deploying"></a> Deploy example Zookeeper deployment

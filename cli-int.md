@@ -34,15 +34,15 @@ CLI allows to provide variable values via usage of one or more of the following 
 
 - `--var=key=val` (`-v`) flag sets single variable value as an argument
 
-    <pre class="terminal">
+    ```shell
     $ bosh interpolate base.yml -v access_key_id=some-key -v access_secret_key=some-secret
     s3_access_key_id: some-key
     s3_access_secret_key: some-secret
-    </pre>
+    ```
 
 - `--var-file=key=path` flag sets single variable value as an entire file
 
-    <pre class="terminal">
+    ```shell
     $ cat 1.txt
     some-key
 
@@ -52,11 +52,11 @@ CLI allows to provide variable values via usage of one or more of the following 
     $ bosh interpolate base.yml --var-file access_key_id=1.txt --var-file access_secret_key=2.txt
     s3_access_key_id: some-key
     s3_access_secret_key: some-secret
-    </pre>
+    ```
 
 - `--vars-file=path` (`-l`) flag sets file that contains multiple variable values
 
-    <pre class="terminal">
+    ```shell
     $ cat secrets.yml
     access_key_id: some-key
     access_secret_key: some-secret
@@ -64,24 +64,24 @@ CLI allows to provide variable values via usage of one or more of the following 
     $ bosh interpolate base.yml -l secrets.yml
     s3_access_key_id: some-key
     s3_access_secret_key: some-secret
-    </pre>
+    ```
 
 - via [`--vars-store=path` flag](#vars-store) flag sets file that contains multiple variable values (with a possibility that missing variables will be automatically generated)
 
 - `--vars-env=prefix` flag sets variable values found in prefixed environment variables (casing is important)
 
-    <pre class="terminal">
+    ```shell
     $ export FOO_access_key_id=some-key
     $ export FOO_access_secret_key=some-secret
 
     $ bosh interpolate base.yml --vars-env FOO
     s3_access_key_id: some-key
     s3_access_secret_key: some-secret
-    </pre>
+    ```
 
 Here is a more realistic example of using base YAML document (`bosh.yml`) from [cloudfoundry/bosh-deployment repo](https://github.com/cloudfoundry/bosh-deployment) and specifying several variables and operations files to provide necessary missing values:
 
-<pre class="terminal">
+```shell
 $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
   --state state.json \
   --vars-store ./creds.yml
@@ -95,7 +95,7 @@ $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
   -v internal_cidr=192.168.56.0/24 \
   -v network_name=vboxnet0 \
   -v outbound_network_name=NatNetwork
-</pre>
+```
 
 ### <a id="explicit"></a> Explicit declaration
 
@@ -134,7 +134,7 @@ Currently CLI supports `certificate`, `password`, `rsa`, and `ssh` types. The Di
 
 See [Variable Types](variable-types.html) for details on variable generation.
 
-<pre class="terminal">
+```shell
 $ cat base.yml
 pass: ((admin_password))
 variables:
@@ -146,7 +146,7 @@ pass: vbvdhjbzqelnq7cfyw09
 
 $ cat creds.yml
 admin_password: vbvdhjbzqelnq7cfyw09
-</pre>
+```
 
 ---
 [Back to Table of Contents](index.html#cpi-config)

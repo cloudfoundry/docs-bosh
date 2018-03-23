@@ -10,8 +10,8 @@ It's recommended:
 
 To obtain SSH access specifically to the Director VM when necessary you can opt into `jumpbox-user.yml` ops file when running [`bosh create-env` command](cli-v2.html#create-env). It will add a `jumpbox` user to the VM (by using `user_add` job from `cloudfoundry/os-conf-release`).
 
-<pre class="terminal">
+```shell
 $ bosh int creds.yml --path /jumpbox_ssh/private_key > jumpbox.key
 $ chmod 600 jumpbox.key
 $ ssh jumpbox@&lt;external-or-internal-ip&gt; -i jumpbox.key
-</pre>
+```

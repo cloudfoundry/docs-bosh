@@ -8,7 +8,7 @@ To find out subscription and tenant ID use following commands:
 
 <p class="note">Note: All azure commands were tested with the azure-cli v[2.0.21] on Ubuntu 16.04. The azure commands may vary based on your version and OS.</p>
 
-<pre class="terminal">
+```shell
 $ az cloud set --name AzureCloud
 
 $ az login
@@ -28,7 +28,7 @@ $ az account list --output json
     }
   }
 ]
-</pre>
+```
 
 <p class="note">
 Note:
@@ -40,24 +40,24 @@ If you are using Azure cloud in German Cloud, you should switch the cloud from `
 
 Once you've determined your subscription ID, switch to using that account:
 
-<pre class="terminal">
+```shell
 $ az account set --subscription my-subscription-id
-</pre>
+```
 
 Register the required providers:
 
-<pre class="terminal">
+```shell
 $ az provider register --namespace Microsoft.Network
 $ az provider register --namespace Microsoft.Storage
 $ az provider register --namespace Microsoft.Compute
-</pre>
+```
 
 ---
 ## <a id="client"></a> Client
 
 Azure CPI needs client ID and secret to make authenticated requests.
 
-<pre class="terminal extra-wide">
+```shell
 $ az ad app create --display-name "mycpi" --password client-secret --identifier-uris "http://mycpi" --homepage "http://mycpi"
 {
   "appId": "my-app-id",
@@ -72,23 +72,23 @@ $ az ad app create --display-name "mycpi" --password client-secret --identifier-
   "objectType": "Application",
   "replyUrls": []
 }
-</pre>
+```
 
 Application ID (`my-app-id` in the above output) is the client ID and specified password (`client-secret` in above example) is the client secret.
 
 Finally create service principal to enable authenticated access:
 
-<pre class="terminal">
+```shell
 $ az ad sp create --id my-app-id
 $ az role assignment create --role "Contributor" --assignee "http://mycpi" --scope /subscriptions/my-subscription-id
-</pre>
+```
 
 ---
 ## <a id="res-group"></a> Resource Group
 
 Create a resource group in one of the supported [Azure locations](http://azure.microsoft.com/en-us/regions/):
 
-<pre class="terminal">
+```shell
 $ az group create --name bosh-res-group --location "Central US"
 
 $ az group show --name bosh-res-group
@@ -102,7 +102,7 @@ $ az group show --name bosh-res-group
   },
   "tags": null
 }
-</pre>
+```
 
 Make sure to wait for 'Provisioning State' to become `Succeeded`.
 
@@ -111,7 +111,7 @@ Make sure to wait for 'Provisioning State' to become `Succeeded`.
 
 Create a virtual network:
 
-<pre class="terminal extra-wide">
+```shell
 $ az network vnet create --name boshnet --address-prefixes 10.0.0.0/8 --resource-group bosh-res-group --location "Central US" --dns-server 168.64.129.16
 $ az network vnet subnet create --name bosh --address-prefix 10.0.0.0/24 --vnet-name boshnet --resource-group bosh-res-group
 
@@ -155,14 +155,14 @@ $ az network vnet show --name boshnet --resource-group bosh-res-group
   "type": "Microsoft.Network/virtualNetworks",
   "virtualNetworkPeerings": []
 }
-</pre>
+```
 
 ---
 ## <a id="network-security-group"></a> Network Security Group
 
 Create two network security groups:
 
-<pre class="terminal extra-wide">
+```shell
 $ az network nsg create --resource-group bosh-res-group --location "Central US" --name nsg-bosh
 $ az network nsg create --resource-group bosh-res-group --location "Central US" --name nsg-cf
 
@@ -173,14 +173,14 @@ $ az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-bosh
 
 $ az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-cf --access Allow --protocol Tcp --direction Inbound --priority 201 --source-address-prefix Internet --source-port-range '*' --destination-address-prefix '*' --name 'cf-https' --destination-port-range 443
 $ az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-cf --access Allow --protocol Tcp --direction Inbound --priority 202 --source-address-prefix Internet --source-port-range '*' --destination-address-prefix '*' --name 'cf-log' --destination-port-range 4443
-</pre>
+```
 
 ---
 ## <a id="public-ips"></a> Public IPs
 
 To make certain VMs publicly accessible, you will need to create a Public IP. If Azure Availability Zones is used in [AZs](azure-cpi.html#azs), the Public IP should be created with type `Standard SKU`; otherwise, you can use the default `Basic SKU`.
 
-<pre class="terminal extra-wide">
+```shell
 $ az network public-ip create --name my-public-ip --allocation-method Static --resource-group bosh-res-group --location "Central US" --sku Basic # sku should be `Standard' when using Azure Availability Zones
 
 $ az network public-ip show --name my-public-ip --resource-group bosh-res-group
@@ -206,7 +206,7 @@ $ az network public-ip show --name my-public-ip --resource-group bosh-res-group
   "zones": null
 }
 
-</pre>
+```
 
 <p class="note">
 Note:
@@ -219,7 +219,7 @@ You can skip below section if you are using managed disks with Azure CPI v21+
 Create a default storage account to hold root disks, persistent disks, stemcells, etc.
 If unsure of desired SKU Name, choose `LRS`, desired Kind, choose `Storage`:
 
-<pre class="terminal">
+```shell
 $ az storage account create --name myboshstore --resource-group bosh-res-group --location "Central US"
 
 $ az storage account show --name myboshstore --resource-group bosh-res-group
@@ -286,13 +286,13 @@ $ az storage account show --name myboshstore --resource-group bosh-res-group
   "tags": {},
   "type": "Microsoft.Storage/storageAccounts"
 }
-</pre>
+```
 
 <p class="note">Note: Even if create command returns an error, check whether the storage account is created successfully via `storage account show` command.</a>
 
 Once storage account is created you can retrieve primary storage access key:
 
-<pre class="terminal">
+```shell
 $ az storage account keys list --account-name myboshstore --resource-group bosh-res-group
 [
   {
@@ -306,7 +306,7 @@ $ az storage account keys list --account-name myboshstore --resource-group bosh-
     "value": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
   }
 ]
-</pre>
+```
 
 ---
 ### <a id="storage-account-container"></a> Storage Account Containers
@@ -318,7 +318,7 @@ CPI expects to find `bosh` and `stemcell` containers within a default storage ac
 
 <p class="note">Note: If you are planning to use multiple storage accounts, make sure to set stemcell container permissions to "Public read access for blobs only".</a>
 
-<pre class="terminal">
+```shell
 $ az storage container create --name bosh --account-name myboshstore --account-key xxx
 $ az storage container create --name stemcell --account-name myboshstore --account-key xxx --public-access blob
 
@@ -359,7 +359,7 @@ $ az storage container list --account-name myboshstore --account-key xxx
     }
   }
 ]
-</pre>
+```
 
 ---
 ### <a id="storage-account-tables"></a> Storage Account Tables
@@ -368,7 +368,7 @@ To support multiple storage accounts, you need to create the following tables in
 
 - `stemcells` is used to store metadata of stemcells in multiple storage accounts
 
-<pre class="terminal">
+```shell
 $ az storage table create --name stemcells --account-name myboshstore --account-key xxx
 
 $ az storage table list --account-name myboshstore --account-key xxx
@@ -377,4 +377,4 @@ $ az storage table list --account-name myboshstore --account-key xxx
     "name": "stemcells"
   }
 ]
-</pre>
+```

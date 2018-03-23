@@ -15,17 +15,17 @@ The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. CLI 
   - [bosh-cli-3.0.1-linux-amd64](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-3.0.1-linux-amd64) <span class="sha1">sha1: ccc893bab8b219e9e4a628ed044ebca6c6de9ca0</span>
   - [bosh-cli-3.0.1-windows-amd64.exe](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-3.0.1-windows-amd64.exe) <span class="sha1">sha1: 41c23c90cab9dc62fa0a1275dcaf64670579ed33</span> (Windows CLI support is partial)
 
-    <pre class="terminal">
+    ```shell
     $ chmod +x ~/Downloads/bosh-cli-*
     $ sudo mv ~/Downloads/bosh-cli-* /usr/local/bin/bosh
-    </pre>
+    ```
 
 1. Check `bosh` version to make sure it is properly installed:
 
-    <pre class="terminal">
+    ```shell
     $ bosh -v
     version 3.0.1-712bfd7-2018-03-13T23:26:42Z
-    </pre>
+    ```
 
     If the output does not begin with `version 2.0...` (or `3.0`) you are probably executing CLI v1 (Ruby based).
 
@@ -49,7 +49,7 @@ See [Environments](cli-envs.html).
 
     Lists aliased environments known to the CLI. Aliasing is done via `alias-env` command.
 
-    <pre class="terminal">
+    ```shell
     $ bosh envs
     URL              Alias
     104.154.171.255  gcp
@@ -58,7 +58,7 @@ See [Environments](cli-envs.html).
     2 environments
 
     Succeeded
-    </pre>
+    ```
 
 - <a id="create-env"></a> `bosh create-env manifest.yml [--state path] [-v ...] [-o ...] [--vars-store path]`
 
@@ -66,7 +66,7 @@ See [Environments](cli-envs.html).
 
     `create-env` command replaces `bosh-init deploy` CLI command.
 
-    <pre class="terminal">
+    ```shell
     $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
       --state state.json \
       --vars-store ./creds.yml \
@@ -80,22 +80,22 @@ See [Environments](cli-envs.html).
       -v internal_cidr=192.168.56.0/24 \
       -v network_name=vboxnet0 \
       -v outbound_network_name=NatNetwork
-    </pre>
+    ```
 
 - <a id="alias-env"></a> `bosh alias-env name -e location [--ca-cert=path]`
 
     Assigns a name to the created environment for easier access in subsequent CLI commands. Instead of specifying Director location and possibly a CA certificate, subsequent commands can just take given name via `--environment` flag (`-e`).
 
-    <pre class="terminal">
+    ```shell
     $ bosh alias-env gcp -e bosh.corp.com
     $ bosh alias-env gcp -e 10.0.0.6 --ca-cert <(bosh int creds.yml --path /director_ssl/ca)
-    </pre>
+    ```
 
 - <a id="environment"></a> `bosh -e location environment` (Alias: `env`)
 
     Shows Director information in the deployment environment.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e vbox env
     Using environment '192.168.56.6' as '?'
 
@@ -109,7 +109,7 @@ See [Environments](cli-envs.html).
     User      admin
 
     Succeeded
-    </pre>
+    ```
 
 - <a id="delete-env"></a> `bosh delete-env manifest.yml [--state path] [-v ...] [-o ...] [--vars-store path]`
 
@@ -117,7 +117,7 @@ See [Environments](cli-envs.html).
 
     `delete-env` command replaces `bosh-init delete` CLI command.
 
-    <pre class="terminal">
+    ```shell
     $ bosh delete-env ~/workspace/bosh-deployment/bosh.yml \
       --state state.json \
       --vars-store ./creds.yml \
@@ -131,7 +131,7 @@ See [Environments](cli-envs.html).
       -v internal_cidr=192.168.56.0/24 \
       -v network_name=vboxnet0 \
       -v outbound_network_name=NatNetwork
-    </pre>
+    ```
 
 ---
 ### <a id="session-mgmt"></a> Session
@@ -142,11 +142,11 @@ See [Environments](cli-envs.html).
 
     This command can only be used interactively. If non-interactive use is necessary (for example in scripts) please set `BOSH_CLIENT` and `BOSH_CLIENT_SECRET` environment variables instead of using this command. Note that if the Director is configured with UAA authentication you cannot use UAA users with BOSH_* environment variables but rather have to use UAA clients.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e my-env l
     User (): admin
     Password ():
-    </pre>
+    ```
 
 - <a id="log-out"></a> `bosh log-out` (Alias: `logout`)
 
@@ -161,7 +161,7 @@ See [Uploading Stemcells](uploading-stemcells.html).
 
     Lists stemcells previously uploaded into the Director. Shows their names, versions and CIDs.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e my-env ss
     Using environment '192.168.56.6' as '?'
 
@@ -175,7 +175,7 @@ See [Uploading Stemcells](uploading-stemcells.html).
     3 stemcells
 
     Succeeded
-    </pre>
+    ```
 
 - <a id="upload-stemcell"></a> `bosh -e my-env upload-stemcell location [--sha1=digest] [--fix]` (Alias: `us`)
 
@@ -185,18 +185,18 @@ See [Uploading Stemcells](uploading-stemcells.html).
 
     `--fix` flag allows operator to replace previously uploaded stemcell with the same name and version to repair stemcells that might have been corrupted in the cloud.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e my-env us ~/Downloads/bosh-stemcell-3468.17-warden-boshlite-ubuntu-trusty-go_agent.tgz
     $ bosh -e my-env us https://bosh.io/d/stemcells/bosh-stemcell-warden-boshlite-ubuntu-trusty-go_agent?v=3468.17
-    </pre>
+    ```
 
 - <a id="delete-stemcell"></a> `bosh -e my-env delete-stemcell name/version`
 
     Deletes uploaded stemcell from the Director. Succeeds even if stemcell is not found.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e my-env delete-stemcell bosh-warden-boshlite-ubuntu-trusty-go_agent/3468.17
-    </pre>
+    ```
 
 - <a id="repack-stemcell"></a> `bosh repack-stemcell src.tgz dst.tgz [--name=name] [--version=ver] [--cloud-properties=json-string]`
 
@@ -213,10 +213,10 @@ See [Uploading Stemcells](uploading-stemcells.html).
 
     `--git` flag initializes release skeleton as a Git repository, adding appropriate `.gitignore` file.
 
-    <pre class="terminal">
+    ```shell
     $ bosh init-release --git --dir release-dir
     $ cd release-dir
-    </pre>
+    ```
 
 - <a id="generate-job"></a> `bosh generate-job name [--dir=dir]`
 
@@ -246,7 +246,7 @@ See [Uploading Stemcells](uploading-stemcells.html).
 
     In a CI pipeline it's common to use this command to create a release tarball and pass it into acceptance or end-to-end tests. Once release tarball goes through appropriate tests it can be finalized with a `finalize-release` command and shared with release consumers.
 
-    <pre class="terminal">
+    ```shell
     $ cd release-dir
     $ bosh create-release --force
     $ bosh create-release --timestamp-version
@@ -255,7 +255,7 @@ See [Uploading Stemcells](uploading-stemcells.html).
     $ bosh create-release --final
     $ bosh create-release --version 20 --final
     $ bosh create-release releases/zookeeper/zookeeper-3.yml --tarball /tmp/my-release.tgz
-    </pre>
+    ```
 
 - <a id="finalize-release"></a> `bosh finalize-release release.tgz [--force] [--version=ver] [--dir=dir]`
 
@@ -263,13 +263,13 @@ See [Uploading Stemcells](uploading-stemcells.html).
 
     Typically this command is used as a final step in the CI pipeline to save the final artifact once it passed appropriate tests.
 
-    <pre class="terminal">
+    ```shell
     $ cd release-dir
     $ bosh finalize-release /tmp/my-release.tgz
     $ bosh finalize-release /tmp/my-release.tgz --version 20
     $ git commit -am 'Final release 20'
     $ git push origin master
-    </pre>
+    ```
 
 - <a id="reset-release"></a> `bosh reset-release [--dir=dir]`
 
@@ -284,7 +284,7 @@ See [Release Blobs](release-blobs.html) for a detailed workflow.
 
     Lists tracked blobs from `config/blobs.yml`. Shows uploaded and not-yet-uploaded blobs.
 
-    <pre class="terminal">
+    ```shell
     $ cd release-dir
     $ bosh blobs
     Path                               Size     Blobstore ID         Digest
@@ -294,43 +294,43 @@ See [Release Blobs](release-blobs.html) for a detailed workflow.
     2 blobs
 
     Succeeded
-    </pre>
+    ```
 
 - <a id="add-blob"></a> `bosh add-blob src-path dst-path`
 
     Sarts tracking blob in `config/blobs.yml` for inclusion in packages.
 
-    <pre class="terminal">
+    ```shell
     $ cd release-dir
     $ bosh add-blob ~/Downloads/stress-1.0.4.tar.gz stress/stress-1.0.4.tar.gz
-    </pre>
+    ```
 
 - <a id="remove-blob"></a> `bosh remove-blob blob-path`
 
     Stops tracking blob in `config/blobs.yml`. Does not remove previously uploaded copies from the blobstore as older release versions may still want to reference it.
 
-    <pre class="terminal">
+    ```shell
     $ cd release-dir
     $ bosh remove-blob stress/stress-1.0.4.tar.gz
-    </pre>
+    ```
 
 - <a id="upload-blob"></a> `bosh upload-blobs`
 
     Uploads previously added blobs that were not yet uploaded to the blobstore. Updates `config/blobs.yml` with returned blobstore IDs. Before creating a final release it's strongly recommended to upload blobs so that other release contributors can rebuild a release from scratch.
 
-    <pre class="terminal">
+    ```shell
     $ cd release-dir
     $ bosh upload-blobs
-    </pre>
+    ```
 
 - <a id="sync-blob"></a> `bosh sync-blobs`
 
     Downloads blobs into `blobs/` based on `config/blobs.yml`.
 
-    <pre class="terminal">
+    ```shell
     $ cd release-dir
     $ bosh sync-blobs
-    </pre>
+    ```
 
 ---
 ### <a id="release-mgmt"></a> Releases
@@ -341,7 +341,7 @@ See [Uploading Releases](uploading-releases.html).
 
     Lists releases previously uploaded into the Director. Shows their names and versions.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e my-env rs
     Using environment '192.168.56.6' as client 'admin'
 
@@ -368,7 +368,7 @@ See [Uploading Releases](uploading-releases.html).
     15 releases
 
     Succeeded
-    </pre>
+    ```
 
 - <a id="upload-release"></a> `bosh -e my-env upload-release [location] [--version=ver] [--sha1=digest] [--fix]` (Alias: `ur`)
 
@@ -378,19 +378,19 @@ See [Uploading Releases](uploading-releases.html).
 
     `--fix` flag allows replacement of previously uploaded release with the same name and version to repair releases that might have been corrupted.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e my-env ur
     $ bosh -e my-env ur https://bosh.io/d/github.com/concourse/concourse?v=2.7.3
     $ bosh -e my-env ur git+https://github.com/concourse/concourse --version 2.7.3
-    </pre>
+    ```
 
 - <a id="delete-release"></a> `bosh -e my-env delete-release name/version`
 
     Deletes uploaded release from the Director. Succeeds even if release is not found.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e my-env delete-release cf-smoke-tests/94
-    </pre>
+    ```
 
 - <a id="export-release"></a> `bosh -e my-env -d my-dep export-release name/version os/version [--dir=dir]`
 
@@ -400,15 +400,15 @@ See [Uploading Releases](uploading-releases.html).
 
     Destination directory default to the current directory.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e my-env -d my-dep export-release cf-smoke-tests/94 ubuntu-trusty/3369
-    </pre>
+    ```
 
 - <a id="inspect-release"></a> `bosh -e my-env inspect-release name/version`
 
     Lists all jobs, job metadata (such as links), packages, and compiled packages associated with a release version.
 
-    <pre class="terminal extra-wide">
+    ```shell
     $ bosh -e gcp-test inspect-release consul/155
     Using environment '192.168.56.6' as client 'admin'
 
@@ -442,7 +442,7 @@ See [Uploading Releases](uploading-releases.html).
     11 packages
 
     Succeeded
-    </pre>
+    ```
 
 ---
 ### <a id="configs-mgmt"></a> Configs
@@ -453,7 +453,7 @@ See [Configs](configs.html).
 
     Lists all the configs on the Director.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e my-env configs
     Using environment '192.168.50.6' as client 'admin'
 
@@ -466,16 +466,16 @@ See [Configs](configs.html).
     3 configs
 
     Succeeded
-    </pre>
+    ```
 
 - <a id="config"></a> `bosh -e my-env config [id] [--type=my-type] [--name=my-name]`
 
     Either show config by `id` or by `name` and `type` on the Director.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e my-env config --type=my-type --name=my-name
     $ bosh -e my-env config 5
-    </pre>
+    ```
 
 - <a id="update-config"></a> `bosh -e my-env update-config config.yml --type=my-type [--name=my-name]`
 
@@ -484,10 +484,10 @@ See [Configs](configs.html).
     - `--type` (required) flag allows to specify config type
     - `--name` flag allows to specify custom config name
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e my-env update-config config.yml --type=cloud
     $ bosh -e my-env update-config config.yml --type=cloud --name=network1
-    </pre>
+    ```
 
 - <a id="delete-config"></a> `bosh -e my-env delete-config --type=my-type [--name=my-name]`
 
@@ -496,10 +496,10 @@ See [Configs](configs.html).
     - `--type` (required) flag allows to specify config type
     - `--name` flag allows to specify custom config name
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e my-env delete-config --type=my-type
     $ bosh -e my-env delete-config --type=my-type --name=my-name
-    </pre>
+    ```
 
 ---
 ### <a id="cloud-config-mgmt"></a> Cloud config
@@ -514,9 +514,9 @@ See [Cloud config](cloud-config.html).
 
     Update current cloud config on the Director.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e my-env ucc cc.yml
-    </pre>
+    ```
 
 ---
 ### <a id="runtime-config-mgmt"></a> Runtime config
@@ -531,9 +531,9 @@ See [Runtime config](runtime-config.html).
 
     Update current runtime config on the Director.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e my-env urc runtime.yml
-    </pre>
+    ```
 
 ---
 ### <a id="cpi-config-mgmt"></a> CPI config
@@ -548,9 +548,9 @@ See [CPI config](cpi-config.html).
 
     Update current CPI config on the Director.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e my-env update-cpi-config cpis.yml
-    </pre>
+    ```
 
 ---
 ### <a id="deployment-mgmt"></a> Deployments
@@ -559,7 +559,7 @@ See [CPI config](cpi-config.html).
 
     Lists deployments tracked by the Director. Shows their names, used releases and stemcells.
 
-    <pre class="terminal extra-wide">
+    ```shell
     $ bosh -e my-env ds
     Using environment '192.168.56.6' as client 'admin'
 
@@ -583,7 +583,7 @@ See [CPI config](cpi-config.html).
     2 deployments
 
     Succeeded
-    </pre>
+    ```
 
 - <a id="deployment"></a> `bosh -e my-env -d my-dep deployment` (Alias: `dep`)
 
@@ -591,7 +591,7 @@ See [CPI config](cpi-config.html).
 
     Can be used to determine if Director has a deployment with a given name.
 
-    <pre class="terminal extra-wide">
+    ```shell
     $ bosh -e vbox -d cf dep
     Using environment '192.168.56.6' as client 'admin'
 
@@ -607,7 +607,7 @@ See [CPI config](cpi-config.html).
     1 deployments
 
     Succeeded
-    </pre>
+    ```
 
 - <a id="deploy"></a> `bosh -e my-env -d my-dep deploy manifest.yml [-v ...] [-o ...]`
 
@@ -615,9 +615,9 @@ See [CPI config](cpi-config.html).
 
     Currently name provided via `--deployment` (`-d`) flag must match name specified in the manifest.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e vbox -d cf deploy cf.yml -v system_domain=sys.example.com -o large-footprint.yml
-    </pre>
+    ```
 
 - <a id="delete-deployment"></a> `bosh -e my-env -d my-dep delete-deployment [--force]` (Alias: `deld`)
 
@@ -627,10 +627,10 @@ See [CPI config](cpi-config.html).
 
     Succeeds even if deployment is not found.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e vbox -d cf deld
     $ bosh -e vbox -d cf deld --force
-    </pre>
+    ```
 
 - <a id="instances"></a> `bosh -e my-env [-d my-dep] instances [--ps] [--details] [--vitals] [--failing]` (Alias: `is`)
 
@@ -641,21 +641,21 @@ See [CPI config](cpi-config.html).
     - `--vitals` flag shows basic VM and process usage such RAM, CPU and disk.
     - `--failing` flag hides all healthy instances and processes leaving only non-healthy ones; useful for scripting
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e vbox is -i
     $ bosh -e vbox is --ps --vitals
     $ bosh -e vbox -d cf is
     $ bosh -e vbox -d cf is --ps
     $ bosh -e vbox -d cf is --ps --vitals
-    </pre>
+    ```
 
 - <a id="manifest"></a> `bosh -e my-env -d my-dep manifest` (Alias: `man`)
 
     Prints deployment manifest to `stdout`.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e vbox -d cf man > /tmp/manifest.yml
-    </pre>
+    ```
 
 - <a id="recreate"></a> `bosh -e my-env -d my-dep recreate [group[/instance-id]] [--skip-drain] [--fix] [--canaries=] [--max-in-flight=] [--dry-run]`
 
@@ -667,14 +667,14 @@ See [CPI config](cpi-config.html).
     - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
     - `--dry-run` flag runs through as many operations without altering deployment
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e vbox -d cf recreate
     $ bosh -e vbox -d cf recreate --fix
     $ bosh -e vbox -d cf recreate diego-cell
     $ bosh -e vbox -d cf recreate diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0
     $ bosh -e vbox -d cf recreate diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 --skip-drain
     $ bosh -e vbox -d cf recreate diego-cell --canaries=0 --max-in-flight=100%
-    </pre>
+    ```
 
 - <a id="restart"></a> `bosh -e my-env -d my-dep restart [group[/instance-id]] [--skip-drain] [--canaries=] [--max-in-flight=]`
 
@@ -726,12 +726,12 @@ See [CPI config](cpi-config.html).
 
     See [Location and use of logs](job-logs.html) for details.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e vbox -d cf logs diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0
     $ bosh -e vbox -d cf logs diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 --job=rep --job=silkd
     $ bosh -e vbox -d cf logs -f
     $ bosh -e vbox -d cf logs -f --num=1000
-    </pre>
+    ```
 
 - <a id="events"></a> `bosh -e my-env [-d my-dep] events [--* ...]`
 
@@ -749,13 +749,13 @@ See [CPI config](cpi-config.html).
     - `--object-type=` flag shows events with given object type
     - `--object-id=` flag shows events with given object ID
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e vbox events --instance diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0
     $ bosh -e vbox events --instance diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 --task 281
     $ bosh -e vbox events -d my-dep
     $ bosh -e vbox events --before-id=1298284
     $ bosh -e vbox events --before="2016-05-08 17:26:32 UTC" --after="2016-05-07 UTC"
-    </pre>
+    ```
 
 - <a id="event"></a> `bosh -e my-env event id`
 
@@ -774,19 +774,19 @@ See [CPI config](cpi-config.html).
 
     `--vitals` flag shows basic VM usage such RAM, CPU and disk.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e vbox vms
     $ bosh -e vbox -d cf vms
     $ bosh -e vbox -d cf vms --vitals
-    </pre>
+    ```
 
 - <a id="delete-vm"></a> `bosh -e my-env -d my-dep delete-vm cid`
 
     Deletes VM without going through typical instance lifecycle. Clears out VM reference from a Director database if referenced by any instance.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e vbox -d cf delete-vm i-fs384238fjwjf8
-    </pre>
+    ```
 
 ---
 ### <a id="disk-mgmt"></a> Disks
@@ -799,17 +799,17 @@ See [CPI config](cpi-config.html).
 
     Attaches disk to an instance, replacing currently attached disk (if any).
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e vbox -d cf attach-disk postgres/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 vol-shw8f293f2f2
-    </pre>
+    ```
 
 - <a id="delete-disk"></a> `bosh -e my-env -d my-dep delete-disk cid`
 
     Deletes orphaned disk.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e vbox -d cf delete-disk vol-shw8f293f2f2
-    </pre>
+    ```
 
 ---
 ### <a id="ssh-mgmt"></a> SSH
@@ -821,7 +821,7 @@ See [CPI config](cpi-config.html).
     - `--opts` flag allows operator to pass through options to `ssh`; useful for port forwarding
     - `--gw-*` flags allows configuration of SSH gateway
 
-    <pre class="terminal">
+    ```shell
     # execute command on all instances in a deployment
     $ bosh -e vbox -d cf ssh -c 'uptime'
 
@@ -839,7 +839,7 @@ See [CPI config](cpi-config.html).
 
     # port forward UAA port locally
     $ bosh -e vbox -d cf ssh uaa/0 --opts ' -L 8080:localhost:8080'
-    </pre>
+    ```
 
 - <a id="scp"></a> `bosh -e my-env -d my-dep scp src/dst:[file] src/dst:[file] [-r] [--gw-* ...]`
 
@@ -848,7 +848,7 @@ See [CPI config](cpi-config.html).
     - `--recursive` (`-r`) flag allow to copy directory recursively
     - `--gw-*` flags allow to configure gateway configuration
 
-    <pre class="terminal">
+    ```shell
     # copy file from this machine to machines a deployment
     $ bosh -e vbox -d cf scp ~/Downloads/script.sh :/tmp/script.sh
     $ bosh -e vbox -d cf scp ~/Downloads/script.sh diego-cell:/tmp/script.sh
@@ -863,7 +863,7 @@ See [CPI config](cpi-config.html).
 
     # copy files from each instance into instance specific local directory
     $ bosh -e vbox -d cf scp diego-cell:/tmp/logs/ /tmp/logs/((instance_id))
-    </pre>
+    ```
 
 ---
 ### <a id="errand-mgmt"></a> Errands
@@ -872,7 +872,7 @@ See [CPI config](cpi-config.html).
 
     Lists all errands defined by the deployment.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e vbox -d cf es
     Using environment '192.168.56.6' as '?'
 
@@ -884,7 +884,7 @@ See [CPI config](cpi-config.html).
     1 errands
 
     Succeeded
-    </pre>
+    ```
 
 - <a id="run-errand"></a> `bosh -e my-env -d my-dep run-errand name [--keep-alive] [--when-changed] [--download-logs] [--logs-dir=dir] [--instance=instance-group/instance-id]`
 
@@ -897,7 +897,7 @@ See [CPI config](cpi-config.html).
 
     See [Errands](errands.html) for details.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e vbox -d cf run-errand smoke-tests
     $ bosh -e vbox -d cf run-errand smoke-tests --keep-alive
     $ bosh -e vbox -d cf run-errand smoke-tests --when-changed
@@ -919,7 +919,7 @@ See [CPI config](cpi-config.html).
     $ bosh -e vbox -d zookeeper run-errand status \
       --instance zookeeper/671d5b1d-0310-4735-8f58-182fdad0e8bc \
       --instance zookeeper/3e977542-d53e-4630-bc40-72011f853cb5
-    </pre>
+    ```
 
 ---
 ### <a id="task-mgmt"></a> Tasks
@@ -930,7 +930,7 @@ See [CPI config](cpi-config.html).
 
     - `--deployment` (`-d`) flag filters tasks by a deployment
 
-    <pre class="terminal">
+    ```shell
     # currently active tasks
     $ bosh -e vbox ts
 
@@ -953,24 +953,24 @@ See [CPI config](cpi-config.html).
 
     # show last 1000 tasks
     $ bosh -e vbox ts -r=1000
-    </pre>
+    ```
 
 - <a id="task"></a> `bosh -e my-env task id [--debug] [--result] [--event] [--cpi]` (Alias: `t`)
 
     Shows single task details. Continues to follow task if it did not finish. `Ctrl^C` does not cancel task.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e vbox t 281
     $ bosh -e vbox t 281 --debug
-    </pre>
+    ```
 
 - <a id="cancel-task"></a> `bosh -e my-env cancel-task id` (Alias: `ct`)
 
     Cancel task at its next checkpoint. Does not wait until task is cancelled.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e vbox ct 281
-    </pre>
+    ```
 
 ---
 ### <a id="snapshot-mgmt"></a> Snapshots
@@ -987,9 +987,9 @@ See [CPI config](cpi-config.html).
 
     Deletes snapshot.
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e vbox -d cf delete-snapshot snap-shw38ty83f2f2
-    </pre>
+    ```
 
 - <a id="delete-snapshots"></a> `bosh -e my-env -d my-dep delete-snapshots`
 
@@ -1033,7 +1033,7 @@ See [CPI config](cpi-config.html).
 
     `--path` flag can be used to extract portion of a YAML document.
 
-    <pre class="terminal">
+    ```shell
     $ bosh int bosh-deployment/bosh.yml \
       --vars-store ./creds.yml \
       -o bosh-deployment/virtualbox/cpi.yml \
@@ -1053,7 +1053,7 @@ See [CPI config](cpi-config.html).
     $ bosh int creds.yml --path /director_ssl/ca
     -----BEGIN CERTIFICATE-----
     ...
-    </pre>
+    ```
 
     Command can be used in a generic way to generate CA and leaf certificates.
 
@@ -1071,12 +1071,12 @@ See [CPI config](cpi-config.html).
         alternative_names: [((internal_ip))]
     ```
 
-    <pre class="terminal">
+    ```shell
     $ bosh interpolate certs-tpl.yml -v internal_ip=1.2.3.4 --vars-store certs.yml --var-errs
     $ bosh interpolate certs.yml --path /service_ssl/ca
     $ bosh interpolate certs.yml --path /service_ssl/certificate
     $ bosh interpolate certs.yml --path /service_ssl/private_key
-    </pre>
+    ```
 
 ---
 Next: [Differences between CLI v2 vs v1](cli-v2-diff.html)

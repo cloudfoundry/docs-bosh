@@ -19,19 +19,19 @@ CLI provides [`bosh upload-stemcell` command](cli-v2.html#upload-stemcell).
 
 - If you have a URL to a stemcell tarball (for example URL provided by bosh.io):
 
-    <pre class="terminal">
+    ```shell
     $ bosh -e vbox upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3468.17 --sha1 1dad6d85d6e132810439daba7ca05694cec208ab
-    </pre>
+    ```
 
 - If you have a stemcell tarball on your local machine:
 
-    <pre class="terminal">
+    ```shell
     $ bosh upload-stemcell ~/Downloads/bosh-stemcell-3468.17-warden-boshlite-ubuntu-trusty-go_agent.tgz
-    </pre>
+    ```
 
 Once the command succeeds you can view all uploaded stemcells in the Director:
 
-<pre class="terminal">
+```shell
 $ bosh -e vbox stemcells
 Using environment '192.168.50.6' as client 'admin'
 
@@ -43,7 +43,7 @@ bosh-warden-boshlite-ubuntu-trusty-go_agent  3468.17* ubuntu-trusty  -    6c9c00
 1 stemcells
 
 Succeeded
-</pre>
+```
 
 ---
 ## <a id='using'></a> Deployment Manifest Usage

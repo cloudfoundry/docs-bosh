@@ -132,10 +132,10 @@ In this configuration the Director is configured to delegate user management to 
 
     To generate UAA signing (private key) and verification key (public key) in PEM format:
 
-    <pre class="terminal">
+    ```shell
     $ ssh-keygen -t rsa -b 4096 -f uaa
     $ openssl rsa -in uaa -pubout > uaa.pub
-    </pre>
+    ```
 
     Put the keys in the Director deployment manifest:
     - `uaa.jwt.signing_key`
@@ -154,43 +154,43 @@ In this configuration the Director is configured to delegate user management to 
 
 Depending on how the UAA is configured different prompts may be shown.
 
-<pre class="terminal">
+```shell
 $ bosh login
 Email: admin
 Password: **************
-</pre>
+```
 
 ### <a id="uaac"></a> Adding/removing Users and Permissions
 
 An example of how to use [UAA CLI](https://rubygems.org/gems/cf-uaac) to add a new user that has readonly access on any Director. Enter the client secret provided for the UAA admin client in the manifest at `uaa.admin.client_secret`.
 
-<pre class="terminal">
+```shell
 $ uaac target https://54.236.100.56:8443 --ca-cert certs/rootCA.pem
 $ uaac token client get admin
 Client secret:  **************
 $ uaac user add some-new-user --emails new.user@example.com
-</pre>
+```
 
 <p class="note">Note: Use UAA CLI v3.1.4+ to specify custom CA certificate.</p>
 
 You can add permissions to users by defining a group and adding users to that group:
 
-<pre class="terminal">
+```shell
 $ uaac group add bosh.read
 $ uaac member add bosh.read some-new-user
-</pre>
+```
 
 Remove permission by removing users from a group:
 
-<pre class="terminal">
+```shell
 $ uaac member delete bosh.read some-new-user
-</pre>
+```
 
 Remove users to revoke authentication completely:
 
-<pre class="terminal">
+```shell
 $ uaac user delete some-new-user
-</pre>
+```
 
 <p class="note">Note that changing group membership will take effect when a new access token is created for that user. New access are granted when their existing access token expires or when user logs out and logs in again. Hence it's recommended to set access token validity to a minute or so.</p>
 
@@ -199,11 +199,11 @@ $ uaac user delete some-new-user
 
 Non-interactive login, e.g. for scripts during a CI build is supported by the UAA by using a different UAA client allowing `client_credentials` grant type.
 
-<pre class="terminal">
+```shell
 $ export BOSH_CLIENT=ci
 $ export BOSH_CLIENT_SECRET=ci-password
 $ bosh status
-</pre>
+```
 
 See [the resurrector UAA client configuration](resurrector.html#uaa-client) for an example to set up an additional client.
 

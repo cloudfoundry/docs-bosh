@@ -10,33 +10,33 @@ The `bosh create-env` (and `bosh delete-env`) command has dependencies.
 
     **Ubuntu Trusty**
 
-    <pre class="terminal">
+    ```shell
     $ sudo apt-get update
     $ sudo apt-get install -y build-essential zlibc zlib1g-dev ruby ruby-dev openssl libxslt-dev libxml2-dev libssl-dev libreadline6 libreadline6-dev libyaml-dev libsqlite3-dev sqlite3
-    </pre>
+    ```
 
     **CentOS**
 
-    <pre class="terminal">
+    ```shell
     $ sudo yum install gcc gcc-c++ ruby ruby-devel mysql-devel postgresql-devel postgresql-libs sqlite-devel libxslt-devel libxml2-devel patch openssl
     $ gem install yajl-ruby
-    </pre>
+    ```
 
     **Mac OS X**
 
     Install Apple Command Line Tools:
-    <pre class="terminal">
+    ```shell
     $ xcode-select --install
-    </pre>
+    ```
 
     Use [Homebrew](http://brew.sh) to install OpenSSL:
-    <pre class="terminal">
+    ```shell
     $ brew install openssl
-    </pre>
+    ```
 
 1. Make sure Ruby is installed (any version is adequate):
 
-    <pre class="terminal">
+    ```shell
     $ ruby -v
     ruby 2.2.3p173 (2015-08-18 revision 51636) [x86_64-darwin14]
-    </pre>
+    ```

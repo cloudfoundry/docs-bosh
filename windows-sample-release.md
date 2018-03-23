@@ -9,12 +9,12 @@ After creating a deployment with this release and the `say-hello` job you can ac
 ---
 ## <a id="release-structure"></a> Release Structure
 
-<pre class="terminal">
+```shell
 $ mkdir sample-windows-release
 $ cd sample-windows-release
 $ bosh init-release --git
 $ bosh generate-job say-hello
-</pre>
+```
 
 ```
 jobs/
@@ -84,12 +84,12 @@ while ($true)
 
 If you have the Director with a Windows stemcell uploaded, you can create the above described release with an empty `blobs.yml` and `final.yml`, then try deploying it:
 
-<pre class="terminal">
+```shell
 $ cd sample-windows-release
 $ bosh create-release --force
 $ bosh upload-release
 $ bosh -d sample-windows-deployment deploy manifest.yml
-</pre>
+```
 
 For information about deployment basics, see the [Deploy Workflow](basic-workflow.html) documenation.
 

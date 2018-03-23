@@ -17,7 +17,7 @@ Currently following events are recorded:
 
 Run [`bosh events` command](sysadmin-commands.html#events) to view 200 recent events:
 
-<pre class="terminal extra-wide">
+```shell
 $ bosh events
 
 +--------------+------------------------------+-------+-------------+-------------+------------------------------------------------+------+-----------+------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -62,27 +62,27 @@ $ bosh events
 | 5193 <- 5168 | Thu May 12 00:47:16 UTC 2016 | admin | delete      | vm          | i-04eccec6f844e862e                            | 1059 | tiny      | zookeeper/32b9aa25-0080-4a66-865a-777577e1727c | -
 
 ...
-</pre>
+```
 
 List of events can be also filtered by a deployment name (`--deployment`), a task ID (`--task`), and/or an instance (`--instance`). Additionally you can paginate by specifying `--before-id` flag to view next 200 events matching viewed criteria. In an upcoming release we will also include filtering based on an event timestamp to quickly identify events happened during specific timeframe.
 
 Example query commands:
 
-<pre class="terminal">
+```shell
 $ bosh events --deployment slow-nats
 $ bosh events --deployment slow-nats --before-id 5208
 $ bosh events --instance zookeeper/ca5f695a-eb81-49fd-a577-33825cb1b5fc
-</pre>
+```
 
 ---
 ## <a id="ending-vs-single"></a> Ending vs. Single Actions
 
 Each event represents an action. Some actions take time to perform (e.g. delete a VM), and other actions are just one-off events (e.g. set up SSH access). Actions that take time are represented by two events (starting and ending one) instead of just one. In the example below delete VM action is recorded as starting in event #5096 and finishing in event #5199.
 
-<pre class="terminal">
+```shell
 | 5199 <- 5096 | Thu May 12 00:47:48 UTC 2016 | admin | delete | vm | i-054a17a75c0c9b279 | 1059 | tiny | zookeeper/ca5f695a-eb81-49fd-a577-33825cb1b5fc ...
 | 5096         | Thu May 12 00:40:44 UTC 2016 | admin | delete | vm | i-054a17a75c0c9b279 | 1059 | tiny | zookeeper/ca5f695a-eb81-49fd-a577-33825cb1b5fc ...
-</pre>
+```
 
 ---
 ## <a id="enable"></a> Enabling Event Collection

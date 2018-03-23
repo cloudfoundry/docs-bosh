@@ -96,7 +96,7 @@ Note that currently Director will acquire deployment lock for chosen deployment 
 
 After running [`bosh deploy` command](cli-v2.html#deploy) to update your deployment, you can inspect which errands are available within a deployment via [`bosh errands` command](cli-v2.html#errands):
 
-<pre class="terminal">
+```
 $ bosh -e vbox -d zookeeper errands
 Using environment '192.168.56.6' as client 'admin'
 
@@ -109,11 +109,11 @@ status
 2 errands
 
 Succeeded
-</pre>
+```
 
 To execute an errand, use [`bosh run-errand` command](cli-v2.html#run-errand).
 
-<pre class="terminal wide">
+```shell
 $ bosh -e vbox -d zookeeper run-errand status
 Using environment '192.168.56.6' as client 'admin'
 
@@ -181,13 +181,13 @@ Stderr     ZooKeeper JMX enabled by default
 5 errand(s)
 
 Succeeded
-</pre>
+```
 
 If an errand job is colocated on multiple instances (over one or more instance groups), by default `bosh run-errand` command will execute them all in parallel. You can limit number of instances used for execution via `--instance` flag:
 
-<pre class="terminal">
+```
 $ bosh -e vbox -d zookeeper run-errand status --instance zookeeper/3e977542-d53e-4630-bc40-72011f853cb5
-</pre>
+```
 
 See [`bosh run-errand` command](cli-v2.html#run-errand) description for additional ways to use `--instance` flag. One of those way is to use `--instance group/first` (where `first` is a literal value) so that errand only runs on one of the instances.
 

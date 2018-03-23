@@ -39,7 +39,7 @@ Use underscores for all other filenames in the release.
 
 View the release with `tree`:
 
-<pre class="terminal">
+```shell
 $ tree .
 .
 ├── blobs
@@ -50,7 +50,7 @@ $ tree .
 └── src
 
 5 directories, 1 file
-</pre>
+```
 
 When deploying your release, BOSH places compiled code and other resources
 in the `/var/vcap/` directory tree, which BOSH creates on the job VMs.
@@ -84,7 +84,7 @@ and once for the `bg_worker` job.
 
 View the job skeletons with `tree`:
 
-<pre class="terminal">
+```shell
 $ tree .
 .
 ├── blobs
@@ -103,7 +103,7 @@ $ tree .
 └── src
 
 9 directories, 5 files
-</pre>
+```
 
 ### <a id="control"></a> Create control scripts  ###
 
@@ -119,7 +119,7 @@ For each job, create a control script that configures the job to store logs in `
 
 The control script for the `web_ui` job looks like this:
 
-<pre type="bash">
+```bash
 #!/bin/bash
 
 RUN_DIR=/var/vcap/sys/run/web_ui
@@ -155,7 +155,7 @@ case $1 in
     echo "Usage: ctl {start|stop}" ;;
 
 esac
-</pre>
+```
 
 If your release needs templates other than the control script, create them now.
 
@@ -175,13 +175,13 @@ The Agent does this using open source process monitoring software called
 
 The `monit` file for the `web_ui` job looks like this:
 
-<pre type="terminal">
+```
 check process web_ui
   with pidfile /var/vcap/sys/run/web_ui/pid
   start program "/var/vcap/jobs/web_ui/bin/ctl start"
   stop program "/var/vcap/jobs/web_ui/bin/ctl stop"
   group vcap
-</pre>
+```
 
 Update the `monit` file for each of your jobs.
 Use `/var/vcap` paths as shown in the example.
@@ -209,10 +209,10 @@ Using `bin` as the directory where these files go is a convention.
 The `templates` block of the updated `spec` files for the example jobs look
 like this:
 
-~~~yaml
+```yaml
 templates:
   ctl.erb: bin/ctl
-~~~
+```
 
 For each job, update the `spec` file with template names.
 
@@ -255,15 +255,15 @@ Add these runtime dependencies to your dependency graph.
 
 In our example, this line in both of our `ctl.erb` scripts cites `ardo_app`:
 
-~~~
+```
 cd /var/vcap/packages/ardo_app
-~~~
+```
 
 This line cites Ruby:
 
-~~~
+```
 exec /var/vcap/packages/ruby_1.9.3/bin/bundle exec
-~~~
+```
 
 This means that both the `web-ui` and `bg_worker` jobs have runtime
 dependencies on both the `ardo_app` and `ruby_1.9.3` packages.
@@ -312,7 +312,7 @@ we run it for `libyaml_0.1.4`, `ruby_1.9.3`, and `ardo_app`.
 
 View the package skeletons with `tree`:
 
-<pre class="terminal">
+```shell
 $ tree packages
 packages
 ├── ardo_app
@@ -329,7 +329,7 @@ packages
     └── spec
 
 3 directories, 9 files
-</pre>
+```
 
 Putting each dependency in a separate package provides maximum reusability
 along with a clear, modular structure. This is not mandatory; what packages
@@ -340,10 +340,10 @@ dependencies together in a single package, though that is not recommended.
 
 Without using `pre_packaging` for our `ardo_app` we need to pack gems manually for further usage:
 
-<pre class="terminal">
+```shell
 $ cd src/ardo_app/
 $ bundle package
-</pre>
+```
 
 ### <a id="update-pkging-specs"></a> Update packaging specs ###
 
@@ -388,7 +388,7 @@ Refer to the example specs below for guidance.
 
 #### <a id="pkg-spec-libyaml"></a> Example libyaml package spec ####
 
-~~~yaml
+```yaml
 ---
 name: libyaml_0.1.4
 
@@ -396,11 +396,11 @@ dependencies: []
 
 files:
 - libyaml_0.1.4/yaml-0.1.4.tar.gz # From http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz
-~~~
+```
 
 #### <a id="pkg-spec-ruby"></a> Example Ruby package spec ####
 
-~~~yaml
+```yaml
 ---
 name: ruby_1.9.3
 
@@ -411,11 +411,11 @@ files:
 - ruby_1.9.3/ruby-1.9.3-p484.tar.gz # http://cache.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p484.tar.gz
 - ruby_1.9.3/rubygems-1.8.24.tgz    # http://production.cf.rubygems.org/rubygems/rubygems-1.8.24.tgz
 - ruby_1.9.3/bundler-1.2.1.gem      # https://rubygems.org/downloads/bundler-1.2.1.gem
-~~~
+```
 
 #### <a id="pkg-spec-ardo"></a> Example ardo_app package spec ####
 
-~~~yaml
+```yaml
 ---
 name: ardo_app
 
@@ -424,7 +424,7 @@ dependencies:
 
 files:
 - ardo_app/**/*
-~~~
+```
 
 ### <a id="pkg-scripts"></a> Create packaging scripts ###
 
@@ -484,7 +484,7 @@ Refer to the examples below for guidance.
 
 #### <a id="pkg-script-libyaml"></a> Example libyaml packaging script ####
 
-~~~
+```
 set -e -x
 
 tar xzf libyaml_0.1.4/yaml-0.1.4.tar.gz
@@ -494,11 +494,11 @@ pushd yaml-0.1.4
   make
   make install
 popd
-~~~
+```
 
 #### <a id="pkg-script-ruby"></a> Example Ruby packaging script ####
 
-~~~
+```
 set -e -x
 
 tar xzf ruby_1.9.3/ruby-1.9.3-p484.tar.gz
@@ -518,11 +518,11 @@ pushd rubygems-1.8.24
 popd
 
 ${BOSH_INSTALL_TARGET}/bin/gem install ruby_1.9.3/bundler-1.2.1.gem --no-ri --no-rdoc
-~~~
+```
 
 #### <a id="pkg-script-ardo"></a> Example ardo_app packaging script ####
 
-~~~
+```
 set -e -x
 
 cp -a ardo_app/* ${BOSH_INSTALL_TARGET}
@@ -533,7 +533,7 @@ cd ${BOSH_INSTALL_TARGET}
   --local \
   --deployment \
   --without development test
-~~~
+```
 
 ### <a id="update-job-specs-with-deps"></a> Update job specs with dependencies ###
 
@@ -545,11 +545,11 @@ Edit the job specs to include these dependencies.
 In our example, the dependency graph shows that `web_ui` job depends on
 `ardo_app` and `ruby_1.9.3`:
 
-~~~yaml
+```yaml
 packages:
 - ardo_app
 - ruby_1.9.3
-~~~
+```
 
 ---
 ## <a id="blobs"></a> Step 4: Add Blobs ##
@@ -598,25 +598,25 @@ Changing the blobstore that a release uses is beyond the scope of this tutorial.
 
 Example `final.yml`:
 
-~~~yaml
+```yaml
 ---
 blobstore:
   provider: local
   options:
     blobstore_path: /tmp/ardo-blobs
 final_name: ardo_app
-~~~
+```
 
 Example `private.yml`:
 
-~~~yaml
+```yaml
 ---
 blobstore_secret: 'does-not-matter'
 blobstore:
   local:
     blobstore_path: /tmp/ardo-blobs
 
-~~~
+```
 
 If you have a `private.yml` file:
 
@@ -640,10 +640,10 @@ your local system.
 
 In our example, the `spec` file for the `libyaml_0.1.4` package includes the line:
 
-~~~yaml
+```yaml
 files:
 - libyaml_0.1.4/yaml-0.1.4.tar.gz # From http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz
-~~~
+```
 
 If you downloaded the blob, its local path might be:
 
@@ -718,12 +718,12 @@ configurable property.
 
 We edit the spec for the web UI job to look like this:
 
-~~~yaml
+```yaml
 properties:
    port:
      description: Port that web_ui app listens on
      default: 80
-~~~
+```
 
 ---
 ## <a id="dev-release"></a> Step 6: Create a Dev Release  ##

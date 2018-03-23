@@ -141,7 +141,7 @@ You must create and configure two Security Groups to restrict incoming network t
 
 1. Use `bosh create-env` command to deploy the Director.
 
-    <pre class='terminal'>
+    ```shell
     # Create directory to keep state
     $ mkdir bosh-1 && cd bosh-1
 
@@ -168,7 +168,7 @@ You must create and configure two Security Groups to restrict incoming network t
         -v openstack_project=test \
         -v private_key=test \
         -v region=test
-    </pre>
+    ```
 
     If running above commands outside of an OpenStack network, refer to [Exposing environment on a public IP](init-external-ip.html) for additional CLI flags.
 
@@ -176,7 +176,7 @@ You must create and configure two Security Groups to restrict incoming network t
 
 1. Connect to the Director.
 
-    <pre class="terminal">
+    ```shell
     # Configure local alias
     $ bosh alias-env bosh-1 -e 10.0.0.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
 
@@ -186,7 +186,7 @@ You must create and configure two Security Groups to restrict incoming network t
 
     # Query the Director for more info
     $ bosh -e bosh-1 env
-    </pre>
+    ```
 
 1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.html#deployment-state) for details.
 

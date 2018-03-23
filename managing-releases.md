@@ -70,7 +70,7 @@ Sometimes however two different releases (e.g. 1.0.1 and 1.0.3) may end up with 
 
 Once release is uploaded to the Director, it can be inspected via [`bosh inspect-release` command](cli-v2.html#inspect-release). It will show names and fingerprints of jobs and packages. It will also show job details such as consumed and provided links.
 
-<pre class="terminal extra-wide">
+```shell
 $ bosh -e vbox inspect-release zookeeper/0.0.5
 Using environment '192.168.56.6' as '?'
 
@@ -97,7 +97,7 @@ zookeeper/ca455273c83e828eb50a21d21811684eceda2603    (source)              9991
 8 packages
 
 Succeeded
-</pre>
+```
 
 For debugging command also shows blobstore information (ID and SHA1) for each job and package. The Director uses blobstore references when deploying jobs and compiling packages.
 

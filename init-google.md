@@ -8,7 +8,7 @@ This document shows how to initialize new [environment](terminology.html#environ
 
 1. Use `bosh create-env` command to deploy the Director.
 
-    <pre class='terminal'>
+    ```shell
     # Create directory to keep state
     $ mkdir bosh-1 && cd bosh-1
 
@@ -30,13 +30,13 @@ This document shows how to initialize new [environment](terminology.html#environ
         -v tags=[internal] \
         -v network=default \
         -v subnetwork=default
-    </pre>
+    ```
 
     If running above commands outside of a connected Google network, refer to [Exposing environment on a public IP](init-external-ip.html) for additional CLI flags.
 
 1. Connect to the Director.
 
-    <pre class="terminal">
+    ```shell
     # Configure local alias
     $ bosh alias-env bosh-1 -e 10.0.0.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
 
@@ -46,7 +46,7 @@ This document shows how to initialize new [environment](terminology.html#environ
 
     # Query the Director for more info
     $ bosh -e bosh-1 env
-    </pre>
+    ```
 
 1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.html#deployment-state) for details.
 

@@ -9,7 +9,7 @@ The Agent on each deployment job VM is responsible for managing lifecycle of eac
 
 Assuming you have a deployment, run `bosh instances` to see aggregate status for each deployment job VM:
 
-<pre class="terminal">
+```shell
 $ bosh instances
 
 Deployment `my-deployment'
@@ -25,7 +25,7 @@ Task 10326 done
 | redis-slave/0  | running | redis-servers | 10.10.30.72 |
 | redis-slave/1  | failing | redis-servers | 10.10.30.73 |
 +----------------+---------+---------------+-------------+
-</pre>
+```
 
 There are 3 possible state values:
 
@@ -48,7 +48,7 @@ Each enabled release job has its own directory in `/var/vcap/jobs/` directory. E
 
 To view status for all processes Monit is managing you can run `monit summary`:
 
-<pre class="terminal">
+```shell
 $ monit summary
 
 The Monit daemon 5.2.4 uptime: 1d 22h 7m
@@ -67,13 +67,13 @@ Process 'director_nginx'            running
 Process 'registry'                  running
 Process 'health_monitor'            running
 System 'system_bm-24638eb6-55b9-4670-bb1a-23c9e3f77d91' running
-</pre>
+```
 
 <p class="note">Note: You can use standard <code>watch</code> utility with the summary command to track process status over time.</p>
 
 You can also get more detailed information about individual processes via `monit status`:
 
-<pre class="terminal">
+```shell
 $ monit status
 
 The Monit daemon 5.2.4 uptime: 1d 22h 8m
@@ -93,7 +93,7 @@ Process 'nats'
   cpu percent total                 0.0%
   data collected                    Thu Dec  4 22:44:36 2014
 ...
-</pre>
+```
 
 While debugging why certain process is failing it is usually useful to tell Monit to stop restarting the failing process. You can do so via `monit stop <process-name>` command. To start it back up use `monit start <process-name>` command.
 

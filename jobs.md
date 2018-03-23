@@ -59,12 +59,12 @@ Release author can define zero or more templates for each job, but typically you
 
 Example `monit` file for configuring single process that can start, monitor and stop a Postgres process:
 
-<pre class="terminal">
+```
 check process postgres
   with pidfile /var/vcap/sys/run/postgres/pid
   start program "/var/vcap/jobs/postgres/bin/ctl start"
   stop program "/var/vcap/jobs/postgres/bin/ctl stop"
-</pre>
+```
 
 ### <a id="ctl"></a> Control script (`*_ctl` script)
 

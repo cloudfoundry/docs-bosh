@@ -12,7 +12,7 @@ This document lists several common problems. If you are looking for CPI specific
 ---
 ## <a id="unreachable-agent"></a> Timed out pinging to ... after 600 seconds
 
-<pre class="terminal extra-wide">
+```shell
 $ bosh deploy
 ...
 
@@ -28,7 +28,7 @@ Error 450002: Timed out pinging to 013ce5c9-e7fc-4f1d-ac24 after 600 seconds
 Task 45 error
 
 For a more detailed error report, run: bosh task 45 --debug
-</pre>
+```
 
 This problem can occur due to:
 
@@ -41,7 +41,7 @@ It's recommended to start a deploy again and SSH into one of the VMs and look at
 ---
 ## <a id="failed-job"></a> ...is not running after update
 
-<pre class="terminal extra-wide">
+```shell
 $ bosh deploy
 ...
 
@@ -56,7 +56,7 @@ Error 400007: `access_z1/0' is not running after update
 Task 47 error
 
 For a more detailed error report, run: bosh task 47 --debug
-</pre>
+```
 
 This problem occurs when one of the release jobs on a VM did not successfully start in a given amount of time. You can use [`bosh instances --ps`](sysadmin-commands.html#health) command to find out which process on the VM is failing. You can also [access logs](job-logs.html#vm-logs) to view additional information.
 
@@ -65,19 +65,19 @@ This problem may also arise when deployment manifest specifies too small of a [c
 ---
 ## <a id="unmount-persistent-disk"></a> umount: /var/vcap/store: device is busy
 
-<pre class="terminal extra-wide">
+```shell
 L Error: Action Failed get_task: Task 5be893c6-7a2c-4f3f-420b-433fd23528a1 result: Migrating persistent disk: Remounting persistent disk as readonly: Unmounting /var/vcap/store: Running command: 'umount /var/vcap/store', stdout: '', stderr: 'umount: /var/vcap/store: device is busy.
         (In some cases useful info about processes that use
          the device is found by lsof(8) or fuser(1))
 ': exit status 1
-</pre>
+```
 
 This process occurs when one of the processes (from one of the installed jobs) did not fully shutdown and continues to retain a reference to the persistent disk. Agent tries to unmount persistent disk and unmount command fails. You can use `bosh ssh` command to get inside the VM and diagnose which process is holding onto the persistent disk via `lsof | grep /var/vcap/store` (ran as root).
 
 ---
 ## <a id="blobstore-out-of-space"></a> Running command: bosh-blobstore-dav -c ... 500 Internal Server Error
 
-<pre class="terminal extra-wide">
+```shell
 $ bosh deploy
 ...
 
@@ -89,7 +89,7 @@ Failed compiling packages > dea_next/3e95ef8425be45468e044c05cc9aa65494281ab5: A
 &lt;/body&gt;
 &lt;/html&gt;
 ', stderr: '': exit status 1 (00:03:16)
-</pre>
+```
 
 This problem can occur if the Director is configured to use built-in blobstore and does not have enough space on its persistent disk. You can redeploy the Director with a larger persistent disk. Alternatively you can remove unused releases by running `bosh clean-up` command.
 
@@ -100,7 +100,7 @@ If `bosh clean-up` command fails with 500 Internal Server Error, consider removi
 
 Rarely it's necessary to dive into the Director DB. The easiest way to do so is to SSH into the Director VM and use `director_ctl console`. For example:
 
-<pre class="terminal">
+```shell
 $ ssh vcap@DIRECTOR-IP
 
 $ /var/vcap/jobs/director/bin/director_ctl console
@@ -111,14 +111,14 @@ $ /var/vcap/jobs/director/bin/director_ctl console
 => You can also use 'cloud', 'blobstore', 'nats' helpers to query these services
 irb(main):001:0> Bosh::Director::Models::RenderedTemplatesArchive.count
 => 3
-</pre>
+```
 
 <p class="note">Note: It's not recommended to modify the Director database via this or other manual methods. Please let us know via GitHub issue if you need a certain feature in the BOSH CLI to do some operation.</p>
 
 ---
 ## <a id="canceled-task"></a> Task X cancelled
 
-<pre class="terminal">
+```shell
 $ bosh deploy
 ...
 
@@ -128,14 +128,14 @@ $ bosh deploy
 Error 10001: Task 106 cancelled
 
 Task 106 cancelled
-</pre>
+```
 
 This problem typically occurs if the Director's system time is out of sync, or if the Director machine is underpowered.
 
 ---
 ## <a id="upload-release-entity-too-large"></a> Upload release fails
 
-<pre class="terminal">
+```shell
 $ bosh upload release blah.tgz
 ...
   Started creating new packages > blah_package/f9098f452f46fb072a6000b772166f349ffe27da. Failed: Could not create object, 413/&lt;html&gt;
@@ -155,14 +155,14 @@ Error 100: Could not create object, 413/&lt;html&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 ...
-</pre>
+```
 
 This failure occurs due to nginx configuration problems with the director and the nginx blobstore. This can be remedied by configuring the `max_upload_size` property on the director and blobstore jobs.
 
 ---
 ## <a id="persistent-disk-not-found"></a> Persistent Disk with id <UUID> not found
 
-<pre class="terminal">
+```shell
 $ bosh create-env
 (...)
 Command 'deploy' failed:
@@ -174,6 +174,6 @@ Command 'deploy' failed:
             Mounting disk:
               Sending 'get_task' to the agent:
                 Agent responded with error: Action Failed get_task: Task 7e4d289d-b97c-4464-40d4-ecc90cc2a94b result: Persistent disk with volume id '14128b61-e046-48ae-b48a-fc0324716b83' could not be found
-</pre>
+```
 
 The SSH tunnel between your machine and the VM in the cloud can be terminated prematurly, see [corresponding bug](https://github.com/cloudfoundry/bosh-cli/issues/110). Update CLI v2 to version >= v2.0.2 to fix this.

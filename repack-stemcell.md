@@ -13,24 +13,24 @@ The [CLI v2](cli-v2.html) includes a command to repack stemcells; this enables l
 ---
 ## <a id="syntax"></a> Syntax
 
-<pre class="terminal extra-wide">
+```shell
 $ bosh repack-stemcell src.tgz dst.tgz [--name=new_name] [--version=new_version] [--cloud-properties=json-string]
-</pre>
+```
 
 ## <a id="examples"></a> Examples
 
 In this example, we first download the stemcell we plan to modify, and then we create a new stemcell that's identical to the one we downloaded with the exception of a new name (`acme-corporation-stemcell`):
 
-<pre class="terminal extra-wide">
+```shell
 $ curl -OL https://s3.amazonaws.com/bosh-gce-light-stemcells/light-bosh-stemcell-3363.9-google-kvm-ubuntu-trusty-go_agent.tgz
 $ bosh repack-stemcell --name=acme-corporation-stemcell light-bosh-stemcell-3363.9-google-kvm-ubuntu-trusty-go_agent.tgz acme-corporation-stemcell.tgz
-</pre>
+```
 
 We decide to change the stemcell version number to `100` as well as the name (note: this does not change the stemcell version in the `/var/vcap/bosh/etc/stemcell_version` file in the root filesystem of the stemcell):
 
-<pre class="terminal extra-wide">
+```shell
 $ bosh repack-stemcell --name=acme-corporation-stemcell --version=100 light-bosh-stemcell-3363.9-google-kvm-ubuntu-trusty-go_agent.tgz acme-corporation-stemcell.tgz
-</pre>
+```
 
 When we've uploaded the stemcell and we run `bosh stemcells`, we will see our stemcell listed with the new name and new version.
 
@@ -49,9 +49,9 @@ We modify the cloud-properties of an AWS stemcell to encrypt the root filesystem
 
 We take this opportunity to rename our stemcell so that we don't accidently confuse the unencrypted stemcells with the encrypted stemcells.
 
-<pre class="terminal extra-wide">
+```shell
 $ bosh repack-stemcell --name=acme-ubuntu-encrypted --cloud-properties='{"encrypted": true, "kms_key_arn": "arn:aws:kms:us-east-1:088444384256:key/4ffbe966-d138-4f4d-a077-4c234d05b3b1"}' bosh-stemcell-3363.9-aws-xen-hvm-ubuntu-trusty-go_agent.tgz acme-encrypted-stemcell.tgz
-</pre>
+```
 
 <p class="note">Note: Available in BOSH AWS CPI v63+.</p>
 
@@ -63,7 +63,7 @@ The `repack-stemcell` works by modifying the stemcell manifest file (`stemcell.M
 
 The stemcell's manifest may be examined by extracting the `stemcell.MF` file from the stemcell tarball:
 
-<pre class="terminal extra-wide">
+```shell
 $ curl -L https://bosh.io/d/stemcells/bosh-google-kvm-ubuntu-trusty-go_agent | tar -Oxvf - -- stemcell.MF
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
@@ -89,4 +89,4 @@ cloud_properties:
   root_device_name: "/dev/sda1"
   source_url: https://storage.googleapis.com/bosh-gce-raw-stemcells/bosh-stemcell-3363.9-google-kvm-ubuntu-trusty-go_agent-raw.tar.gz
   raw_disk_sha1: fd8ef3f59b01e5e923c0ff1f70fcfcfdbbd49aeb
-</pre>
+```

@@ -12,7 +12,7 @@ In addition to looking for those two types of problems, cck also checks correct 
 
 Once the deployment is set via the `bosh deployment` command you can simply run `bosh cck`. Here is an example output when no problems are detected:
 
-<pre class="terminal wide">
+```shell
 $ bosh cck
 
 Performing cloud check...
@@ -39,7 +39,7 @@ Duration	00:00:00
 
 Scan is complete, checking if any problems found...
 No problems found
-</pre>
+```
 
 ---
 ## <a id="problems"></a> Problems
@@ -48,7 +48,7 @@ No problems found
 
 Assuming there was a deployment with a VM, somehow that VM was deleted from the IaaS outside of BOSH, here is what cck would report:
 
-<pre class="terminal wide">
+```shell
 $ bosh cck
 
 Performing cloud check...
@@ -101,7 +101,7 @@ Started		2015-01-09 23:33:20 UTC
 Finished	2015-01-09 23:33:20 UTC
 Duration	00:00:00
 Cloudcheck is finished
-</pre>
+```
 
 cck determined that `i-914c046a` VM was missing. Possible options are:
 
@@ -120,7 +120,7 @@ In the above example options 3 was picked and VM reference was deleted.
 
 Assuming there was a deployment with a VM, somehow Agent is no longer responding to the Director. In this situation `bosh vms` will report VM's agent as `unresponsive agent`:
 
-<pre class="terminal wide">
+```shell
 $ bosh vms simple-deployment --details
 
 Deployment `simple-deployment'
@@ -136,11 +136,11 @@ Task 630 done
 +-----------------+--------------------+---------------+-----+------------+--------------------------------------+--------------+
 
 VMs total: 1
-</pre>
+```
 
 Also `bosh deploy` will stop at `Binding existing deployment` stage since it is not able to communicate with unresponsive agent:
 
-<pre class="terminal wide">
+```shell
 $ bosh deploy
 
 ..snip...
@@ -162,9 +162,9 @@ Error 450002: Timed out sending `get_state' to 59a30081-d63d-4c1b-80be-01fa681d8
 Task 631 error
 
 For a more detailed error report, run: bosh task 631 --debug
-</pre>
+```
 
-<pre class="terminal wide">
+```shell
 $ bosh cck
 
 Performing cloud check...
@@ -218,7 +218,7 @@ Started   2015-01-09 23:35:20 UTC
 Finished  2015-01-09 23:35:25 UTC
 Duration  00:00:05
 Cloudcheck is finished
-</pre>
+```
 
 cck determined that `i-914c046a` VM is unresponsive. Possible options are:
 
@@ -241,7 +241,7 @@ In the above example options 4 was picked and VM reference was deleted.
 
 Assuming there was a deployment with a VM, somehow persistent disk got detached.
 
-<pre class="terminal wide">
+```shell
 $ bosh cck
 
 Performing cloud check...
@@ -300,7 +300,7 @@ Started   2015-01-13 22:05:19 UTC
 Finished  2015-01-13 22:05:41 UTC
 Duration  00:00:22
 Cloudcheck is finished
-</pre>
+```
 
 cck determined that `vol-549f071f` persistent disk is not attached to `i-4fcd99b4` VM. Possible options are:
 

@@ -15,7 +15,7 @@ To update cloud config on the Director use [`bosh update-cloud-config` command](
 
 <p class="note">Note: See <a href="#example">example cloud config</a> for AWS below.</p>
 
-<pre class="terminal">
+```shell
 $ bosh -e vbox update-cloud-config cloud.yml
 
 $ bosh -e vbox cloud-config
@@ -29,11 +29,11 @@ azs:
   cloud_properties:
     availability_zone: us-east-1c
 ...
-</pre>
+```
 
 Once cloud config is updated, all existing deployments will be considered outdated, as indicated by [`bosh deployments` command](cli-v2.html#deployments). The Director will apply cloud config changes to each deployment during the next run of `bosh deploy` command for that deployment.
 
-<pre class="terminal">
+```shell
 $ bosh -e vbox deployments
 Using environment '192.168.56.6' as '?'
 
@@ -43,7 +43,7 @@ zookeeper  zookeeper/0.0.5  bosh-warden-.../3421.4  -        outdated
 1 deployment
 
 Succeeded
-</pre>
+```
 
 ---
 ## <a id='example'></a> Example

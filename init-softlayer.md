@@ -44,7 +44,7 @@ VLANs provide the ability to partition devices and subnets on the network. To or
 
 1. Use `bosh create-env` command to deploy the Director.
 
-    <pre class='terminal'>
+    ```shell
     # Create directory to keep state
     $ mkdir bosh-1 && cd bosh-1
 
@@ -67,13 +67,13 @@ VLANs provide the ability to partition devices and subnets on the network. To or
         -v sl_vlan_private= \
         -v sl_username= \
         -v sl_api_key=
-    </pre>
+    ```
 
     <p class="note">Note: The reason why need to run `bosh create-env` command with sudo is that it needs to update `/etc/hosts` file which needs suffient permission.</p>
 
 1. Connect to the Director.
 
-    <pre class="terminal">
+    ```shell
     # Configure local alias
     $ bosh alias-env bosh-1 -e 10.0.0.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
 
@@ -83,7 +83,7 @@ VLANs provide the ability to partition devices and subnets on the network. To or
 
     # Query the Director for more info
     $ bosh -e bosh-1 env
-    </pre>
+    ```
 
 1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.html#deployment-state) for details.
 

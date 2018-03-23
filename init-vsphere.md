@@ -8,7 +8,7 @@ This document shows how to set up new [environment](terminology.html#environment
 
 1. Use `bosh create-env` command to deploy the Director.
 
-    <pre class='terminal'>
+    ```shell
     # Create directory to keep state
     $ mkdir bosh-1 && cd bosh-1
 
@@ -34,7 +34,7 @@ This document shows how to set up new [environment](terminology.html#environment
         -v vcenter_vms=bosh-1-vms \
         -v vcenter_disks=bosh-1-disks \
         -v vcenter_cluster=cluster1
-    </pre>
+    ```
 
     If Resource Pools want to be utilized, refer to [Deploying BOSH into Resource Pools](init-vsphere-rp.html) for additional CLI flags.
 
@@ -54,7 +54,7 @@ This document shows how to set up new [environment](terminology.html#environment
 
 1. Connect to the Director.
 
-    <pre class="terminal">
+    ```shell
     # Configure local alias
     $ bosh alias-env bosh-1 -e 10.0.0.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
 
@@ -64,7 +64,7 @@ This document shows how to set up new [environment](terminology.html#environment
 
     # Query the Director for more info
     $ bosh -e bosh-1 env
-    </pre>
+    ```
 
 1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.html#deployment-state) for details.
 

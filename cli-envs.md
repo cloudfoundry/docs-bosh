@@ -15,7 +15,7 @@ An environment consists of a Director and deployments that it orchestrates.
 
 Here is an example output which shows creation of a new VM and deployment of the Director onto it:
 
-<pre class="terminal wide">
+```shell
 $ bosh create-env bosh.yml --state=bosh.json -o ... -v ...
 
 Deployment manifest: 'bosh.yml'
@@ -63,23 +63,23 @@ Started deploying
   Updating instance 'bosh/0'... Finished (00:00:09)
   Waiting for instance 'bosh/0' to be running... Finished (00:00:07)
 Finished deploying (00:04:37)
-</pre>
+```
 
 Once Director VM is created you can check its basic information:
 
-<pre class="terminal">
+```shell
 $ bosh -e 10.0.0.6 --ca-cert <(bosh int creds.yml --path /director_ssl/ca) env
-</pre>
+```
 
 Instead of specifying Director VM address via `--environment` (`-e`) flag and a CA certificate via `--ca-cert` flag in subsequent commands, a local alias can be created for environment with `bosh alias-env` command.
 
-<pre class="terminal">
+```shell
 $ bosh alias-env aws -e 10.0.0.6 --ca-cert <(bosh int creds.yml --path /director_ssl/ca)
-</pre>
+```
 
 Use `bosh envs` command to list local aliases:
 
-<pre class="terminal">
+```shell
 $ bosh envs
 URL            Alias
 10.0.0.6       aws
@@ -88,13 +88,13 @@ URL            Alias
 2 environments
 
 Succeeded
-</pre>
+```
 
 Subsequent commands can just reference created alias.
 
-<pre class="terminal">
+```shell
 $ bosh -e aws env
-</pre>
+```
 
 Alternatively you can set `export BOSH_ENVIRONMENT=aws` once instead of using `--environment` flag for each command.
 
@@ -136,7 +136,7 @@ If for some reason you've lost your deployment state file, or have not saved the
 
 Here is an example output:
 
-<pre class="terminal wide">
+```shell
 $ bosh delete-env bosh.yml --state=bosh.json -o ... -v ...
 
 Deployment manifest: 'bosh.yml'
@@ -170,4 +170,4 @@ Started deleting deployment
   Deleting disk '030015fc-4148-4313-5e17-608dc4b7aa76'... Finished (00:00:00)
   Deleting stemcell '47017a4e-4a81-41cf-4afc-1121346d46b4'... Finished (00:00:01)
 Finished deleting deployment (00:00:04)
-</pre>
+```
