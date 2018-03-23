@@ -27,6 +27,6 @@ BOSH software releases workflows are used throughout the development of the soft
 BOSH tool chain integrates well with current best practices of software engineering (including Continuous Delivery) by providing ways to easily create software releases in an automated way and to update complex deployed systems with simple commands.
 
 ---
-Next: [What is a Stemcell?](stemcell.html)
+Next: [What is a Stemcell?](stemcell.md)
 
-Previous: [What is BOSH?](about.html)
+Previous: [What is BOSH?](about.md)

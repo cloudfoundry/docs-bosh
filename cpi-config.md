@@ -11,7 +11,7 @@ The CPI config is a YAML file that defines multiple CPIs and properties necessar
 ---
 ## <a id='update'></a> Updating and retrieving CPI config
 
-To update CPI config on the Director use [`bosh update-cpi-config`](cli-v2.html#update-cpi-config) CLI command.
+To update CPI config on the Director use [`bosh update-cpi-config`](cli-v2.md#update-cpi-config) CLI command.
 
 <p class="note">Note: See <a href="#example">example CPI config</a> below.</p>
 

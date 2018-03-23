@@ -2,7 +2,7 @@
 title: Errands
 ---
 
-(See [Jobs](jobs.html) for an introduction to jobs.)
+(See [Jobs](jobs.md) for an introduction to jobs.)
 
 Any job that includes `bin/run` script in its spec file's templates section is considered to be an errand. Operator can trigger execution of an errand at any time after the deploy and receive back script's stdout, stderr and exit code upon its completion.
 
@@ -94,7 +94,7 @@ Unlike regular jobs which run continiously and get automatically restarted on fa
 
 Note that currently Director will acquire deployment lock for chosen deployment which will prevent execution of other commands that also require deployment lock (for example `bosh deploy` or another errand execution). This behaviour will be made more granular over time allowing more commands to run in parallel against a single deployment.
 
-After running [`bosh deploy` command](cli-v2.html#deploy) to update your deployment, you can inspect which errands are available within a deployment via [`bosh errands` command](cli-v2.html#errands):
+After running [`bosh deploy` command](cli-v2.md#deploy) to update your deployment, you can inspect which errands are available within a deployment via [`bosh errands` command](cli-v2.md#errands):
 
 ```
 $ bosh -e vbox -d zookeeper errands
@@ -111,7 +111,7 @@ status
 Succeeded
 ```
 
-To execute an errand, use [`bosh run-errand` command](cli-v2.html#run-errand).
+To execute an errand, use [`bosh run-errand` command](cli-v2.md#run-errand).
 
 ```shell
 $ bosh -e vbox -d zookeeper run-errand status
@@ -189,7 +189,7 @@ If an errand job is colocated on multiple instances (over one or more instance g
 $ bosh -e vbox -d zookeeper run-errand status --instance zookeeper/3e977542-d53e-4630-bc40-72011f853cb5
 ```
 
-See [`bosh run-errand` command](cli-v2.html#run-errand) description for additional ways to use `--instance` flag. One of those way is to use `--instance group/first` (where `first` is a literal value) so that errand only runs on one of the instances.
+See [`bosh run-errand` command](cli-v2.md#run-errand) description for additional ways to use `--instance` flag. One of those way is to use `--instance group/first` (where `first` is a literal value) so that errand only runs on one of the instances.
 
 ---
-Previous: [Jobs](jobs.html)
+Previous: [Jobs](jobs.md)

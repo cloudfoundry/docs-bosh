@@ -13,7 +13,7 @@ Schema for `cloud_properties` section:
     * **clusters** [Array, required]: Array of clusters to use for VM placement.
         * **&lt;cluster name&gt;** [String, required]: Cluster name.
             * **resource_pool** [String, optional]: Name of vSphere Resource Pool to use for VM placement.
-            * **drs_rules** [Array, optional]: Array of DRS rules applied to [constrain VM placement](vm-anti-affinity.html#vsphere). Must have only one.
+            * **drs_rules** [Array, optional]: Array of DRS rules applied to [constrain VM placement](vm-anti-affinity.md#vsphere). Must have only one.
                 * **name** [String, required]: Name of a DRS rule that the Director will create.
                 * **type** [String, required]: Type of a DRS rule. Currently only `separate_vms` is supported.
 
@@ -74,7 +74,7 @@ Schema for `cloud_properties` section:
 * **datacenters** [Array, optional]: Used to override the VM placement specified under `azs.cloud_properties`. The format is the same as under [`AZs`](#azs).
 * **nsx** [Dictionary, optional]: [VMware NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v30+ and NSX v6.1+.
     * **security_groups** [Array, optional]: A collection of [security group](https://pubs.vmware.com/NSX-6/index.jsp#com.vmware.nsx.admin.doc/GUID-16B3134E-DDF1-445A-8646-BB0E98C3C9B5.html) names that the instances should belong to. The CPI will create the security groups if they do not exist.
-    BOSH will also automatically create security groups based on metadata such as deployment name and instance group name. The full list of groups can be seen under [create_vm's environment groups](cpi-api-v1.html#create-vm).
+    BOSH will also automatically create security groups based on metadata such as deployment name and instance group name. The full list of groups can be seen under [create_vm's environment groups](cpi-api-v1.md#create-vm).
     * **lbs** [Array, optional]: A collection of [NSX Edge Load Balancers](https://pubs.vmware.com/NSX-6/index.jsp?topic=%2Fcom.vmware.nsx.admin.doc%2FGUID-152982CF-108F-47A6-B86A-0F0F6A56D628.html) (LBs) to which instances should be attached. The LB and [Server Pool](https://pubs.vmware.com/NSX-6/index.jsp?topic=%2Fcom.vmware.nsx.admin.doc%2FGUID-D5A3BDBA-57A6-43F4-AE5E-3A387FE69EDC.html) must exist prior to the deployment.
         * **edge_name** [String, required]: Name of the NSX Edge.
         * **pool_name** [String, required]: Name of the Edge's Server Pool.
@@ -305,9 +305,9 @@ compilation:
 ---
 ## <a id='notes'></a> Notes
 
-* Assigned VM names (e.g. `vm-8dg349-s7cn74-...`) should not be manually changed since the CPI uses them to find created VMs. You can use [`bosh vms --details`](sysadmin-commands.html#health) to find which VM is assigned which job. VMs are also tagged with their assigned job, index and deployment.
+* Assigned VM names (e.g. `vm-8dg349-s7cn74-...`) should not be manually changed since the CPI uses them to find created VMs. You can use [`bosh vms --details`](sysadmin-commands.md#health) to find which VM is assigned which job. VMs are also tagged with their assigned job, index and deployment.
 
-* Storage DRS and vMotion can be used with vSphere CPI version v18 and above. For additional details see [Storage DRS and vMotion Support](vsphere-vmotion-support.html).
+* Storage DRS and vMotion can be used with vSphere CPI version v18 and above. For additional details see [Storage DRS and vMotion Support](vsphere-vmotion-support.md).
 
 * `allow_mixed_datastores` configuration has been deprecated in favor of setting same datastore pattern for `datastore_pattern` and `persistent_datastore_pattern` keys.
 
@@ -429,4 +429,4 @@ Could not acquire HTTP NFC lease, message is: 'A specified parameter was not cor
 The [vCenter docs](https://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.vm.DefaultPowerOpInfo.html) show that the value should be `preset` rather than `default` inside the OVF file. Switching `powerOpInfo.*` properties resolved the problem.
 
 ---
-Next: [vSphere HA](vsphere-ha.html)
+Next: [vSphere HA](vsphere-ha.md)

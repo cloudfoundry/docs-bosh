@@ -9,7 +9,7 @@ The Director has a way to specify global configuration for all VMs in all deploy
 ---
 ## <a id='update'></a> Updating and retrieving runtime config
 
-To update runtime config on the Director use [`bosh update runtime-config`](sysadmin-commands.html#cloud-config) CLI command.
+To update runtime config on the Director use [`bosh update runtime-config`](sysadmin-commands.md#cloud-config) CLI command.
 
 <p class="note">Note: See <a href="#example">example runtime config</a> below.</p>
 
@@ -68,7 +68,7 @@ addons: []
 * **url** [String, optional]: URL of a release to download. Works with CLI v2. Example: `https://bosh.io/d/github.com/cloudfoundry/syslog-release?v=11`.
 * **sha1** [String, optional]: SHA1 of asset referenced via URL. Works with CLI v2. Example: `332ac15609b220a3fdf5efad0e0aa069d8235788`.
 
-See [Release URLs](release-urls.html) for more details.
+See [Release URLs](release-urls.md) for more details.
 
 Example:
 
@@ -155,7 +155,7 @@ include:
   - os: ubuntu-trusty
 ```
 
-See [common addons list](addons-common.html) for several examples.
+See [common addons list](addons-common.md) for several examples.
 
 ---
 ## <a id='tags'></a> Tags Block

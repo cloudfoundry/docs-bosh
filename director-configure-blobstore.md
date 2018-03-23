@@ -6,7 +6,7 @@ The Director stores uploaded releases, configuration files, logs and other data 
 
 ## <a id="included"></a> Included DAV (default)
 
-By default the Director is configured to use included DAV blobstore job (see [Installing BOSH section](index.html#install) for example manifests). Here is how to configure it:
+By default the Director is configured to use included DAV blobstore job (see [Installing BOSH section](index.md#install) for example manifests). Here is how to configure it:
 
 1. Add blobstore release job and make sure that persistent disk is enabled:
 
@@ -82,7 +82,7 @@ The Director and the Agents can use GCS as a blobstore. Here is how to configure
 
 1. [Create a GCS bucket](https://cloud.google.com/storage/docs/creating-buckets).
 
-1. Follow the steps on how to create service accounts and configure them with the [minimum set of permissions](google-required-permissions.html#director-with-gcs-blobstore).
+1. Follow the steps on how to create service accounts and configure them with the [minimum set of permissions](google-required-permissions.md#director-with-gcs-blobstore).
 
 1. Ensure that access to the bucket is protected, as the Director may store sensitive information.
 

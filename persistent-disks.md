@@ -33,7 +33,7 @@ You can specify that an instance group needs an attached persistent disk in one 
 ---
 ## <a id='persistent-disk'></a> Persistent Disk Declaration
 
-To specify that an instance group needs an attached persistent disk, add a `persistent_disk` key-value pair to the instance group in the [Jobs](deployment-manifest.html#jobs) block of your deployment manifest.
+To specify that an instance group needs an attached persistent disk, add a `persistent_disk` key-value pair to the instance group in the [Jobs](deployment-manifest.md#jobs) block of your deployment manifest.
 
 The `persistent_disk` key-value pair specifies the persistent disk size, and defaults to 0 (no persistent disk). If the `persistent_disk` value is a positive integer, BOSH creates a persistent disk of that size in megabytes and attaches it to each instance VM for the job.
 
@@ -56,7 +56,7 @@ instance_groups:
 ---
 ## <a id='persistent-disk-pool'></a> Persistent Disk Pool Declaration
 
-To specify that an instance group needs an attached persistent disk, add a [Disk Pool](deployment-manifest.html#disk-pools) block to your deployment manifest.
+To specify that an instance group needs an attached persistent disk, add a [Disk Pool](deployment-manifest.md#disk-pools) block to your deployment manifest.
 
 The persistent disk pool declaration allows you to specify the precise type and size of the persistent disks attached to your instance group VMs.
 
@@ -117,10 +117,10 @@ During the disk migration from one disk type and size to another, the Director c
 ---
 ## <a id='orphaned-disks'></a> Orphaned Disks
 
-Orphaned persistent disks are not attached to any VM and are not associated with any deployment. You can list orphaned disks known to the Director via [`bosh disks --orphaned` command](sysadmin-commands.html#disks). If deployment changes were done erroneously and you would like to reattach specific orphaned persistent disk to an instance follow these steps:
+Orphaned persistent disks are not attached to any VM and are not associated with any deployment. You can list orphaned disks known to the Director via [`bosh disks --orphaned` command](sysadmin-commands.md#disks). If deployment changes were done erroneously and you would like to reattach specific orphaned persistent disk to an instance follow these steps:
 
 - run `bosh stop name/id` command to stop instance (or multiple instances) for repair
-- run [`bosh attach-disk name/id disk-cid` command](sysadmin-commands.html#disks) to attach disk to given instance
+- run [`bosh attach-disk name/id disk-cid` command](sysadmin-commands.md#disks) to attach disk to given instance
 - run `bosh start name/id` command to resume running instance workload
 
 For example, to re-attach the disk:
@@ -132,4 +132,4 @@ For example, to re-attach the disk:
 Orphaned disks are deleted after [5 days by default](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.disks). You can decide to clean up orphaned disks manually with `bosh clean-up --all` or one-by-one with `bosh delete-disk`.
 
 ---
-[Back to Table of Contents](index.html#deployment-config)
+[Back to Table of Contents](index.md#deployment-config)

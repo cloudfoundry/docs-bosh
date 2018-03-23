@@ -72,14 +72,14 @@ Schema for `cloud_properties` section:
 * **spot\_ondemand\_fallback** [Boolean, optional]: Set to `true` to use an on demand instance if a spot instance is not available during VM creation. Defaults to `false`. Available in v36.
 * **elbs** [Array, optional]: Array of ELB names that should be attached to created VMs. Example: `[prod-elb]`. Default is `[]`.
 * **lb\_target\_groups** [Array, optional]: Array of Load Balancer Target Groups to which created VMs should be attached. Example: `[prod-group1, prod-group2]`. Default is `[]`. Available in v63 or newer.
-* **iam\_instance\_profile** [String, optional]: Name of an [IAM instance profile](aws-iam-instance-profiles.html). Example: `director`.
+* **iam\_instance\_profile** [String, optional]: Name of an [IAM instance profile](aws-iam-instance-profiles.md). Example: `director`.
 * **placement_group** [String, optional]: Name of a [placement group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html). Example: `my-group`.
 * **tenancy** [String, optional]: VM [tenancy](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/dedicated-instance.html) configuration. Example: `dedicated`. Default is `default`.
-* **auto\_assign\_public\_ip** [Boolean, optional]: Assigns a public IP address to the created VM. This IP is ephemeral and may change; use an [Elastic IP](networks.html#vip) instead for a persistent address. Defaults to `false`. Available in v55+.
+* **auto\_assign\_public\_ip** [Boolean, optional]: Assigns a public IP address to the created VM. This IP is ephemeral and may change; use an [Elastic IP](networks.md#vip) instead for a persistent address. Defaults to `false`. Available in v55+.
 * **advertised\_routes** [Array, optional]: Creates routes in an [AWS Route Table](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html) with the created BOSH VM as the target. Requires IAM action `ec2:CreateRoute`, `ec2:DescribeRouteTables`, `ec2:ReplaceRoute`.
   * **table\_id** [String, required]: ID of the route table in which to create the route (e.g. `rt-abcdef123`).
   * **destination** [String, required]: Destination CIDR for the route. All traffic with a destination within this CIDR will be routed through the created BOSH VM.
-* **raw\_instance\_storage** [Boolean, optional]: Exposes all available [instance storage via labeled disks](aws-instance-storage.html). Defaults to `false`.
+* **raw\_instance\_storage** [Boolean, optional]: Exposes all available [instance storage via labeled disks](aws-instance-storage.md). Defaults to `false`.
 * **source\_dest\_check** [Boolean, optional]: Specifies whether the instance must be the source or destination of any traffic it sends or receives. If set to `false`, the instance does *not* need to be the source or destination. Used for network address translation (NAT) boxes, frequently to communicate between VPCs. Defaults to `true`. Requires IAM action `ec2:ModifyInstanceAttribute`. Available in v59+.
 * **ephemeral_disk** [Hash, optional]: EBS backed ephemeral disk of custom size. Default disk size is either the size of first instance storage disk, if the instance_type offers it, or 10GB. Before v53: Used EBS only if instance storage is not large enough or not available for selected instance type.
     * **size** [Integer, required]: Specifies the disk size in megabytes.
@@ -150,12 +150,12 @@ The CPI can only talk to a single AWS region.
 
 Schema:
 
-* **credentials_source** [String, optional]: Selects credentials source between credentials provided in this configuration, or from an [IAM instance profile](aws-iam-instance-profiles.html). Default: `static`.
+* **credentials_source** [String, optional]: Selects credentials source between credentials provided in this configuration, or from an [IAM instance profile](aws-iam-instance-profiles.md). Default: `static`.
 * **access\_key\_id** [String, optional]: Accesss Key ID. Example: `AKI...`.
 * **secret\_access\_key** [String, optional]: Secret Access Key. Example: `0kwh...`.
 * **default\_key\_name** [String, required]: Name of the [Key Pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) that will be applied to all created VMs. Example: `bosh`
 * **default\_security\_groups** [Array, required]: See description under [networks](#networks).
-* **default\_iam\_instance\_profile** [String, optional]: Name of the [IAM instance profile](aws-iam-instance-profiles.html) that will be applied to all created VMs. Example: `director`.
+* **default\_iam\_instance\_profile** [String, optional]: Name of the [IAM instance profile](aws-iam-instance-profiles.md) that will be applied to all created VMs. Example: `director`.
 * **region** [String, required]: AWS region name. Example: `us-east-1`
 * **max_retries** [Integer, optional]: The maximum number of times AWS service errors (500) and throttling errors (`AWS::EC2::Errors::RequestLimitExceeded`) should be retried. There is an exponential backoff in between retries, so the more retries the longer it can take to fail. Defaults to 2.
 * **encrypted** [Boolean, optional]: Turns on [EBS volume encryption](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html) for all VM's root (system), ephemeral and persistent disks. Defaults to `false`. Available in v67+.
@@ -175,7 +175,7 @@ properties:
     region: us-east-1
 ```
 
-Example when [IAM instance profiles](aws-iam-instance-profiles.html) are used:
+Example when [IAM instance profiles](aws-iam-instance-profiles.md) are used:
 
 ```yaml
 properties:
@@ -305,7 +305,7 @@ Make sure all security groups in the CPI configuration and networks' `cloud_prop
 You are not authorized to perform this operation. Encoded authorization failure message: vHU-KncL6Yo4pG5J9p...
 ```
 
-See [IAM instance profiles errors](aws-iam-instance-profiles.html#errors).
+See [IAM instance profiles errors](aws-iam-instance-profiles.md#errors).
 
 ```
 Non-Windows instances with a virtualization type of 'hvm' are currently not supported for this instance type.
@@ -321,4 +321,4 @@ AWS::EC2::Errors::RequestLimitExceeded Request limit exceeded.
 AWS API is throttling the number of request in your account. You can reduce the number of threads running in BOSH, or increase the value of `aws.max_retries` to let the AWS client library perform retries in a exponential backoff. Note that the more retries, the longer will take to fail.
 
 ---
-Next: [Using IAM instance profiles](aws-iam-instance-profiles.html)
+Next: [Using IAM instance profiles](aws-iam-instance-profiles.md)

@@ -2,7 +2,7 @@
 title: Creating environment on vSphere
 ---
 
-This document shows how to set up new [environment](terminology.html#environment) on vSphere.
+This document shows how to set up new [environment](terminology.md#environment) on vSphere.
 
 1. Install [CLI v2](./cli-v2.html).
 
@@ -36,7 +36,7 @@ This document shows how to set up new [environment](terminology.html#environment
         -v vcenter_cluster=cluster1
     ```
 
-    If Resource Pools want to be utilized, refer to [Deploying BOSH into Resource Pools](init-vsphere-rp.html) for additional CLI flags.
+    If Resource Pools want to be utilized, refer to [Deploying BOSH into Resource Pools](init-vsphere-rp.md) for additional CLI flags.
 
     Use the vSphere Web Client to find out and/or create any missing resources listed below:
     - Configure `vcenter_ip` (e.g. '192.168.0.10') with the IP of the vCenter.
@@ -50,7 +50,7 @@ This document shows how to set up new [environment](terminology.html#environment
     - Configure `network_name` (e.g. 'VM Network') with the name of the vSphere network. Create network under the chosen datacenter in the Networks tab. Above example uses `10.0.0.0/24` network and Director VM will be placed at `10.0.0.6`.
     - [Optional] Configure `vcenter_rp` (eg. 'my-bosh-rp') with the name of the vSphere resource pool. Create resource pool under the choosen datacenter in the Clusters tab.
 
-    See [vSphere CPI errors](vsphere-cpi.html#errors) for list of common errors and resolutions.
+    See [vSphere CPI errors](vsphere-cpi.md#errors) for list of common errors and resolutions.
 
 1. Connect to the Director.
 
@@ -66,9 +66,9 @@ This document shows how to set up new [environment](terminology.html#environment
     $ bosh -e bosh-1 env
     ```
 
-1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.html#deployment-state) for details.
+1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.md#deployment-state) for details.
 
 ---
-[Back to Table of Contents](index.html#install)
+[Back to Table of Contents](index.md#install)
 
-Previous: [Create an environment](init.html)
+Previous: [Create an environment](init.md)

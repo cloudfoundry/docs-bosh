@@ -29,6 +29,6 @@ lrwxrwxrwx 1 root root 12 Oct  5 03:09 /dev/disk/by-partlabel/raw-ephemeral-1 ->
 ```
 
 ---
-[Back to Table of Contents](index.html#cpi-config)
+[Back to Table of Contents](index.md#cpi-config)
 
-Previous: [Using IAM instance profiles](aws-iam-instance-profiles.html)
+Previous: [Using IAM instance profiles](aws-iam-instance-profiles.md)

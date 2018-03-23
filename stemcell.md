@@ -22,6 +22,6 @@ By introducing the concept of a stemcell, the following problems have been solve
 - Reusing base Operating System images across different IaaS
 
 ---
-Next: [What is a Release?](release.html)
+Next: [What is a Release?](release.md)
 
-Previous: [What problems does BOSH solve?](problems.html)
+Previous: [What problems does BOSH solve?](problems.md)

@@ -91,17 +91,17 @@ releases:
 
 **networks** [Array, required]: Each sub-block listed in the Networks block specifies a network configuration that jobs can reference. There are three different network types: `manual`, `dynamic`, and `vip`.
 
-See [networks](networks.html) for more details.
+See [networks](networks.md) for more details.
 
 ### <a id='networks-cloud-properties'></a> CPI Specific `cloud_properties`
 
-- [See AWS CPI network cloud properties](aws-cpi.html#networks)
-- [See Azure CPI network cloud properties](azure-cpi.html#networks)
-- [See OpenStack CPI network cloud properties](openstack-cpi.html#networks)
-- [See SoftLayer CPI network cloud properties](softlayer-cpi.html#networks)
-- [See Google Cloud Platform CPI network cloud properties](google-cpi.html#networks)
-- [See vSphere CPI network cloud properties](vsphere-cpi.html#networks)
-- [See vCloud CPI network cloud properties](vcloud-cpi.html#networks)
+- [See AWS CPI network cloud properties](aws-cpi.md#networks)
+- [See Azure CPI network cloud properties](azure-cpi.md#networks)
+- [See OpenStack CPI network cloud properties](openstack-cpi.md#networks)
+- [See SoftLayer CPI network cloud properties](softlayer-cpi.md#networks)
+- [See Google Cloud Platform CPI network cloud properties](google-cpi.md#networks)
+- [See vSphere CPI network cloud properties](vsphere-cpi.md#networks)
+- [See vCloud CPI network cloud properties](vcloud-cpi.md#networks)
 
 ---
 ## <a id='resource-pools'></a>Resource Pools Block
@@ -154,13 +154,13 @@ resource_pools:
 
 ### <a id='resource-pools-cloud-properties'></a> CPI Specific `cloud_properties`
 
-- [See AWS CPI resource pool cloud properties](aws-cpi.html#resource-pools)
-- [See Azure CPI resource pool cloud properties](azure-cpi.html#resource-pools)
-- [See OpenStack CPI resource pool cloud properties](openstack-cpi.html#resource-pools)
-- [See SoftLayer CPI resource pool cloud properties](softlayer-cpi.html#resource-pools)
-- [See Google Cloud Platform CPI resource pool cloud properties](google-cpi.html#vm-types)
-- [See vSphere CPI resource pool cloud properties](vsphere-cpi.html#resource-pools)
-- [See vCloud CPI resource pool cloud properties](vcloud-cpi.html#resource-pools)
+- [See AWS CPI resource pool cloud properties](aws-cpi.md#resource-pools)
+- [See Azure CPI resource pool cloud properties](azure-cpi.md#resource-pools)
+- [See OpenStack CPI resource pool cloud properties](openstack-cpi.md#resource-pools)
+- [See SoftLayer CPI resource pool cloud properties](softlayer-cpi.md#resource-pools)
+- [See Google Cloud Platform CPI resource pool cloud properties](google-cpi.md#vm-types)
+- [See vSphere CPI resource pool cloud properties](vsphere-cpi.md#resource-pools)
+- [See vCloud CPI resource pool cloud properties](vcloud-cpi.md#resource-pools)
 
 ---
 ## <a id='disk-pools'></a>Disk Pools Block
@@ -183,13 +183,13 @@ disk_pools:
 
 ### <a id='disk-pools-cloud-properties'></a> CPI Specific `cloud_properties`
 
-- [See AWS CPI disk pool cloud properties](aws-cpi.html#disk-pools)
-- [See Azure CPI disk pool cloud properties](azure-cpi.html#disk-pools)
-- [See OpenStack CPI disk pool cloud properties](openstack-cpi.html#disk-pools)
-- [See SoftLayer CPI disk pool cloud properties](softlayer-cpi.html#disk-pools)
-- [See Google Cloud Platform CPI disk pool cloud properties](google-cpi.html#disk-types)
-- [See vSphere CPI disk pool cloud properties](vsphere-cpi.html#disk-pools)
-- [See vCloud CPI disk pool cloud properties](vcloud-cpi.html#disk-pools)
+- [See AWS CPI disk pool cloud properties](aws-cpi.md#disk-pools)
+- [See Azure CPI disk pool cloud properties](azure-cpi.md#disk-pools)
+- [See OpenStack CPI disk pool cloud properties](openstack-cpi.md#disk-pools)
+- [See SoftLayer CPI disk pool cloud properties](softlayer-cpi.md#disk-pools)
+- [See Google Cloud Platform CPI disk pool cloud properties](google-cpi.md#disk-types)
+- [See vSphere CPI disk pool cloud properties](vsphere-cpi.md#disk-pools)
+- [See vCloud CPI disk pool cloud properties](vcloud-cpi.md#disk-pools)
 
 ---
 ## <a id='compilation'></a>Compilation Block
@@ -330,7 +330,7 @@ properties:
 * **mbus** [String, required]: HTTPs URL used by the `bosh-init` to contact the Agent on a created VM. The URL includes basic auth credentials that should be customized for each deployment. Example: `"https://mbus:mbus-password@10.0.0.6:6868"`.
 * **properties** [Hash, required]: Properties required by the CPI job.
 
-Example from [Initializing BOSH environment on vSphere](init-vsphere.html):
+Example from [Initializing BOSH environment on vSphere](init-vsphere.md):
 
 ```yaml
 cloud_provider:

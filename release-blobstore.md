@@ -4,7 +4,7 @@ title: Release Blobstore
 
 <p class="note">Note: Examples require CLI v2.</p>
 
-A release blobstore contains [release blob](release-blobs.html) and created final releases.
+A release blobstore contains [release blob](release-blobs.md) and created final releases.
 
 Access to release blobstore is configured via two files:
 
@@ -37,7 +37,7 @@ blobstore:
     secret_access_key: <secret_access_key>
 ```
 
-See [Configuring S3 release blobstore](s3-release-blobstore.html) for details and [S3 CLI Usage](https://github.com/pivotal-golang/s3cli#usage) for additional configuration options.
+See [Configuring S3 release blobstore](s3-release-blobstore.md) for details and [S3 CLI Usage](https://github.com/pivotal-golang/s3cli#usage) for additional configuration options.
 
 ## <a id="gcs-config"></a> GCS Configuration
 

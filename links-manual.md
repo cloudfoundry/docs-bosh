@@ -2,7 +2,7 @@
 title: Manual Linking
 ---
 
-(See [Links](links.html) and [Link properties](links-properties.html) for an introduction.)
+(See [Links](links.md) and [Link properties](links-properties.md) for an introduction.)
 
 <p class="note">Note: This feature is available with bosh-release v256+.</p>
 
@@ -48,4 +48,4 @@ instance_groups:
 ```
 
 ---
-[Back to Table of Contents](index.html#deployment-config)
+[Back to Table of Contents](index.md#deployment-config)

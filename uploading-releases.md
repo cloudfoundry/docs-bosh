@@ -4,7 +4,7 @@ title: Uploading Releases
 
 <p class="note">Note: Document uses CLI v2.</p>
 
-(See [What is a Release?](release.html) for an introduction to releases.)
+(See [What is a Release?](release.md) for an introduction to releases.)
 
 Each deployment can reference one or many releases. For a deploy to succeed, all necessary releases must be uploaded to the Director.
 
@@ -21,7 +21,7 @@ Here are a few popular releases:
 ---
 ## <a id='upload'></a> Uploading to the Director
 
-CLI provides [`bosh upload-release` command](cli-v2.html#upload-release).
+CLI provides [`bosh upload-release` command](cli-v2.md#upload-release).
 
 - If you have a URL to a release tarball (for example a URL provided by bosh.io):
 
@@ -83,6 +83,6 @@ releases:
 ```
 
 ---
-Next: [Deploy](deploying.html)
+Next: [Deploy](deploying.md)
 
-Previous: [Uploading Stemcells](uploading-stemcells.html)
+Previous: [Uploading Stemcells](uploading-stemcells.md)

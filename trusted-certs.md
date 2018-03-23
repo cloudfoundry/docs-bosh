@@ -58,4 +58,4 @@ The Director allows to specify one or more certificates concatenated together in
 Providing multiple certificates makes downtimeless certificate rotation possible; however, it involves redeploying the Director and all deployments twice -- first to add a new certificate and second to remove an old certificate.
 
 ---
-[Back to Table of Contents](index.html#deployment-config)
+[Back to Table of Contents](index.md#deployment-config)

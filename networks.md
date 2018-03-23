@@ -86,8 +86,8 @@ Schema for manual network definition:
   * **dns** [Array, optional]: DNS IP addresses for this subnet
   * **reserved** [Array, optional]: Array of reserved IPs and/or IP ranges. BOSH does not assign IPs from this range to any VM
   * **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to jobs requesting static IPs. Only IPs specified here can be used for static IP reservations.
-  * **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.html)). Example: `z1`. Available in v241+.
-  * **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.html)). Example: `[z1, z2]`. Available in v241+.
+  * **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `z1`. Available in v241+.
+  * **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`. Available in v241+.
   * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
 
 Example:
@@ -169,8 +169,8 @@ Schema for dynamic network definition with multiple subnets (available in v241+)
 * **type** [String, required]: Value should be `dynamic`
 * **subnets** [Array, required]: Lists subnets in this network.
   * **dns** [Array, optional]: DNS IP addresses for this subnet
-  * **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.html)). Example: `z1`.
-  * **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.html)). Example: `[z1, z2]`.
+  * **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `z1`.
+  * **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`.
   * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
 
 Example:
@@ -269,17 +269,17 @@ The Director does not enforce how many networks can be assigned to each job inst
 |-----------|---------------------------------------------------------------|---------------------------|--------------------------------------|
 | AWS       | Single per job instance                                       | Single per job instance   | Single, corresponds to an elastic IP |
 | Azure     | Multiple per job instance                                     | Multiple per job instance | Single, corresponds to a reserved IP |
-| OpenStack | [Multiple per job instance](openstack-multiple-networks.html) | Single per job instance   | Single, corresponds to a floating IP |
+| OpenStack | [Multiple per job instance](openstack-multiple-networks.md) | Single per job instance   | Single, corresponds to a floating IP |
 | vSphere   | Multiple per job instance                                     | Not supported             | Not supported                        |
 | vCloud    | Multiple per job instance                                     | Not supported             | Not supported                        |
 
 ---
 ## <a id='cloud-properties'></a> CPI Specific `cloud_properties`
 
-- [See AWS CPI network cloud properties](aws-cpi.html#networks)
-- [See Azure CPI network cloud properties](azure-cpi.html#networks)
-- [See OpenStack CPI network cloud properties](openstack-cpi.html#networks)
-- [See SoftLayer CPI network cloud properties](softlayer-cpi.html#networks)
-- [See Google Cloud Platform CPI network cloud properties](google-cpi.html#networks)
-- [See vSphere CPI network cloud properties](vsphere-cpi.html#networks)
-- [See vCloud CPI network cloud properties](vcloud-cpi.html#networks)
+- [See AWS CPI network cloud properties](aws-cpi.md#networks)
+- [See Azure CPI network cloud properties](azure-cpi.md#networks)
+- [See OpenStack CPI network cloud properties](openstack-cpi.md#networks)
+- [See SoftLayer CPI network cloud properties](softlayer-cpi.md#networks)
+- [See Google Cloud Platform CPI network cloud properties](google-cpi.md#networks)
+- [See vSphere CPI network cloud properties](vsphere-cpi.md#networks)
+- [See vCloud CPI network cloud properties](vcloud-cpi.md#networks)

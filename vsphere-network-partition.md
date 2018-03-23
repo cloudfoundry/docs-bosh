@@ -14,7 +14,7 @@ that disrupts the following:
 There are two options.
 
 1. Power down the ESXi host. Follow the instructions to
-[recover from an ESXi host failure](vsphere-esxi-host-failure.html) to recover
+[recover from an ESXi host failure](vsphere-esxi-host-failure.md) to recover
 your BOSH deployment.
 
 2. If you cannot power down your ESXi host, then you must shut down the VMs
@@ -44,9 +44,9 @@ running on the partitioned ESXi host:
     esxcli vm process kill --type=force --world-id=199401
     esxcli vm process kill --type=force --world-id=199751
     ```
-  - Follow the instructions [Recover from an ESXi host failure](vsphere-esxi-host-failure.html).
+  - Follow the instructions [Recover from an ESXi host failure](vsphere-esxi-host-failure.md).
 
 ---
-[Back to Table of Contents](index.html#cpi-config)
+[Back to Table of Contents](index.md#cpi-config)
 
-Previous: [Recovery from an ESXi host failure](vsphere-esxi-host-failure.html)
+Previous: [Recovery from an ESXi host failure](vsphere-esxi-host-failure.md)

@@ -29,21 +29,21 @@ The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. CLI 
 
     If the output does not begin with `version 2.0...` (or `3.0`) you are probably executing CLI v1 (Ruby based).
 
-1. [Install OS specified dependencies](cli-env-deps.html) for `bosh create-env` command
+1. [Install OS specified dependencies](cli-env-deps.md) for `bosh create-env` command
 
 Alternatively, refer to [cloudfoundry/homebrew-tap](https://github.com/cloudfoundry/homebrew-tap) to install CLI via Homebrew on OS X. We currently do not publish CLI via apt or yum repositories.
 
 ---
 ## <a id="global-flags"></a> Global Flags
 
-See [Global flags](cli-global-flags.html) for more details on how to enable different output formats, debug logging, etc.
+See [Global flags](cli-global-flags.md) for more details on how to enable different output formats, debug logging, etc.
 
 ---
 ## <a id="cmds"></a> Commands
 
 ### <a id="env-mgmt"></a> Environments
 
-See [Environments](cli-envs.html).
+See [Environments](cli-envs.md).
 
 - <a id="environments"></a> `bosh environments` (Alias: `envs`)
 
@@ -155,7 +155,7 @@ See [Environments](cli-envs.html).
 ---
 ### <a id="stemcell-mgmt"></a> Stemcells
 
-See [Uploading Stemcells](uploading-stemcells.html).
+See [Uploading Stemcells](uploading-stemcells.md).
 
 - <a id="stemcells"></a> `bosh -e my-env stemcells` (Alias: `ss`)
 
@@ -202,7 +202,7 @@ See [Uploading Stemcells](uploading-stemcells.html).
 
     Produces new stemcell tarball with updated properties such as name, version, and cloud properties.
 
-    See [Repacking stemcells](repack-stemcell.html) for details.
+    See [Repacking stemcells](repack-stemcell.md) for details.
 
 ---
 ### <a id="release-creation"></a> Release creation
@@ -230,7 +230,7 @@ See [Uploading Stemcells](uploading-stemcells.html).
 
     Vendors a package from a different release into a release in `dir`. It includes `spec.lock` in the package directory so that CLI will reference specific package by its fingerprint when creating releases.
 
-    See [Package vendoring](package-vendoring.html) for details.
+    See [Package vendoring](package-vendoring.md) for details.
 
 - <a id="create-release"></a> `bosh create-release [--force] [--version=ver] [--timestamp-version] [--final] [--tarball=path] [--dir=dir]` (Alias: `cr`)
 
@@ -278,7 +278,7 @@ See [Uploading Stemcells](uploading-stemcells.html).
 ---
 ### <a id="blob-mgmt"></a> Release blobs
 
-See [Release Blobs](release-blobs.html) for a detailed workflow.
+See [Release Blobs](release-blobs.md) for a detailed workflow.
 
 - <a id="blobs"></a> `bosh blobs`
 
@@ -335,7 +335,7 @@ See [Release Blobs](release-blobs.html) for a detailed workflow.
 ---
 ### <a id="release-mgmt"></a> Releases
 
-See [Uploading Releases](uploading-releases.html).
+See [Uploading Releases](uploading-releases.md).
 
 - <a id="releases"></a> `bosh -e my-env releases` (Alias: `rs`)
 
@@ -447,7 +447,7 @@ See [Uploading Releases](uploading-releases.html).
 ---
 ### <a id="configs-mgmt"></a> Configs
 
-See [Configs](configs.html).
+See [Configs](configs.md).
 
 - <a id="configs"></a> `bosh -e my-env configs [--type=my-type] [--name=my-name]`
 
@@ -504,7 +504,7 @@ See [Configs](configs.html).
 ---
 ### <a id="cloud-config-mgmt"></a> Cloud config
 
-See [Cloud config](cloud-config.html).
+See [Cloud config](cloud-config.md).
 
 - <a id="cloud-config"></a> `bosh -e my-env cloud-config` (Alias: `cc`)
 
@@ -521,7 +521,7 @@ See [Cloud config](cloud-config.html).
 ---
 ### <a id="runtime-config-mgmt"></a> Runtime config
 
-See [Runtime config](runtime-config.html).
+See [Runtime config](runtime-config.md).
 
 - <a id="runtime-config"></a> `bosh -e my-env runtime-config` (Alias: `rc`)
 
@@ -538,7 +538,7 @@ See [Runtime config](runtime-config.html).
 ---
 ### <a id="cpi-config-mgmt"></a> CPI config
 
-See [CPI config](cpi-config.html).
+See [CPI config](cpi-config.md).
 
 - <a id="cpi-config"></a> `bosh -e my-env cpi-config`
 
@@ -623,7 +623,7 @@ See [CPI config](cpi-config.html).
 
     Deletes specified deployment. If `--force` is provided, ignores variety of errors (from IaaS, blobstore, database) when deleting.
 
-    Note that if you've deleted your deployment, not all resources may have been freed. For example "deleted" persistent disks will be deleted after a few days to avoid accidental data loss. See [Persistent and Orphaned Disks](persistent-disks.html) for more details.
+    Note that if you've deleted your deployment, not all resources may have been freed. For example "deleted" persistent disks will be deleted after a few days to avoid accidental data loss. See [Persistent and Orphaned Disks](persistent-disks.md) for more details.
 
     Succeeds even if deployment is not found.
 
@@ -724,7 +724,7 @@ See [CPI config](cpi-config.html).
     - `--quiet` (`-q`) flag suppresses printing of headers when multiple files are examined
     - `--gw-*` flags allow to configure SSH gateway configuration
 
-    See [Location and use of logs](job-logs.html) for details.
+    See [Location and use of logs](job-logs.md) for details.
 
     ```shell
     $ bosh -e vbox -d cf logs diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0
@@ -737,7 +737,7 @@ See [CPI config](cpi-config.html).
 
     Lists events.
 
-    See [Events](events.html) for details.
+    See [Events](events.md) for details.
 
     - `--before-id=` flag shows events with ID less than the given ID
     - `--before=` flag shows events before the given timestamp (ex: 2016-05-08 17:26:32)
@@ -895,7 +895,7 @@ See [CPI config](cpi-config.html).
     - `--download-logs` flag indicates whether to download full errand logs to a directory specified by `--logs-dir` (defaults to the current directory)
     - `--instance=` flag select which instances to use for errand execution (v2.0.31+)
 
-    See [Errands](errands.html) for details.
+    See [Errands](errands.md) for details.
 
     ```shell
     $ bosh -e vbox -d cf run-errand smoke-tests
@@ -1002,13 +1002,13 @@ See [CPI config](cpi-config.html).
 
     Enables or disables resurrection globally. This state is not reflected in the `bosh instances` command's `Resurrection` column.
 
-    See [Automatic repair with Resurrector](resurrector.html) for details.
+    See [Automatic repair with Resurrector](resurrector.md) for details.
 
 - <a id="cloud-check"></a> `bosh -e my-env -d my-dep cloud-check [--report] [--auto]` (Alias: `cck`)
 
     Checks for resource consistency and allows interactive repair.
 
-    See [Manual repair with Cloud Check](cck.html) for details.
+    See [Manual repair with Cloud Check](cck.md) for details.
 
 - <a id="locks"></a> `bosh -e my-env locks`
 
@@ -1029,7 +1029,7 @@ See [CPI config](cpi-config.html).
 
 - <a id="interpolate"></a> `bosh interpolate manifest.yml [-v ...] [-o ...] [--vars-store path] [--path op-path]` (Alias: `int`)
 
-    Interpolates variables into a manifest sending result to stdout. [Operation files](cli-ops-files.html) and [variables](cli-int.html) can be provided to adjust and fill in manifest before doing a deploy.
+    Interpolates variables into a manifest sending result to stdout. [Operation files](cli-ops-files.md) and [variables](cli-int.md) can be provided to adjust and fill in manifest before doing a deploy.
 
     `--path` flag can be used to extract portion of a YAML document.
 
@@ -1079,4 +1079,4 @@ See [CPI config](cpi-config.html).
     ```
 
 ---
-Next: [Differences between CLI v2 vs v1](cli-v2-diff.html)
+Next: [Differences between CLI v2 vs v1](cli-v2-diff.md)

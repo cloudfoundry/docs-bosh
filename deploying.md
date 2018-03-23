@@ -2,7 +2,7 @@
 title: Deploy
 ---
 
-Once referenced stemcells and releases are uploaded to the Director and the deployment manifest is complete, Director can successfull make a deployment. The CLI has a single command to create and update a deployment: [`bosh deploy` command](cli-v2.html#deploy). From the perspective of the Director same steps are taken to create or update a deployment.
+Once referenced stemcells and releases are uploaded to the Director and the deployment manifest is complete, Director can successfull make a deployment. The CLI has a single command to create and update a deployment: [`bosh deploy` command](cli-v2.md#deploy). From the perspective of the Director same steps are taken to create or update a deployment.
 
 To create a Zookeeper deployment from `zookeeper.yml` deployment manifest run the deploy command:
 
@@ -52,6 +52,6 @@ Succeeded
 ```
 
 ---
-[Back to Table of Contents](index.html#basic-deploy)
+[Back to Table of Contents](index.md#basic-deploy)
 
-Previous: [Upload Releases](uploading-releases.html)
+Previous: [Upload Releases](uploading-releases.md)

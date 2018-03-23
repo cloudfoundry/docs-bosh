@@ -2,7 +2,7 @@
 title: BOSH Lite
 ---
 
-BOSH Lite v2 is a Director VM running in VirtualBox (typically locally). It is managed via [CLI v2](cli-v2.html). Internally CPI uses containers to emulate VMs which makes it an excellent choice for:
+BOSH Lite v2 is a Director VM running in VirtualBox (typically locally). It is managed via [CLI v2](cli-v2.md). Internally CPI uses containers to emulate VMs which makes it an excellent choice for:
 
 - General BOSH exploration without investing time and resources to configure an IaaS
 - Development of releases (including BOSH itself)
@@ -15,7 +15,7 @@ Follow below steps to get it running on locally on VirtualBox:
 
 1. Check that your machine has at least 8GB RAM, and 100GB free disk space. Smaller configurations may work.
 
-1. Install [CLI v2](cli-v2.html#install)
+1. Install [CLI v2](cli-v2.md#install)
 
 1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
@@ -89,7 +89,7 @@ Follow below steps to get it running on locally on VirtualBox:
 ---
 ## <a id="deploy"></a> Deploy example Zookeeper deployment
 
-Run through quick steps below or follow [deploy workflow](basic-workflow.html) that goes through the same steps but with more explanation.
+Run through quick steps below or follow [deploy workflow](basic-workflow.md) that goes through the same steps but with more explanation.
 
 1. Update cloud config
 
@@ -119,6 +119,6 @@ Run through quick steps below or follow [deploy workflow](basic-workflow.html) t
 
 ## <a id="tips"></a> Tips
 
-* In case you need to SSH into the Director VM, see [Jumpbox](jumpbox.html).
+* In case you need to SSH into the Director VM, see [Jumpbox](jumpbox.md).
 * In case VirtualBox VM shuts down or reboots, you will have to re-run `create-env` command from above. (You will have to remove `current_manifest_sha` line from `state.json` to force a redeploy.) The containers will be lost after a VM restart, but you can restore your deployment with `bosh cck` command. Alternatively *Pause* the VM from the VirtualBox UI before shutting down VirtualBox host, or making your computer sleep.
 * If you are looking for the original Vagrant-based BOSH Lite, please refer to [cloudfoundry/bosh-lite's README](https://github.com/cloudfoundry/bosh-lite).

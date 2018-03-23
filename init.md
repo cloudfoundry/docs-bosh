@@ -6,11 +6,11 @@ An environment consists of the Director and deployments that it orchestrates. Fi
 
 Choose your next step where to install the Director:
 
-- [On Local machine](bosh-lite.html) [recommended for a quick test]
-- [On AWS](init-aws.html)
-- [On Azure](init-azure.html)
-- [On Google](init-google.html)
-- [On OpenStack](init-openstack.html)
-- [On SoftLayer](init-softlayer.html)
-- [On vCloud](init-vcloud.html)
-- [On vSphere](init-vsphere.html)
+- [On Local machine](bosh-lite.md) [recommended for a quick test]
+- [On AWS](init-aws.md)
+- [On Azure](init-azure.md)
+- [On Google](init-google.md)
+- [On OpenStack](init-openstack.md)
+- [On SoftLayer](init-softlayer.md)
+- [On vCloud](init-vcloud.md)
+- [On vSphere](init-vsphere.md)

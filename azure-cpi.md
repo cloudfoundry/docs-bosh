@@ -32,7 +32,7 @@ Schema for `cloud_properties` section:
     * This property is supported in v31+.
     * You must reference the [document](https://docs.microsoft.com/en-us/azure/virtual-network/create-network-security-group-preview) to register your subscription with this new feature.
 
-See [how to create a virtual network and subnets](azure-resources.html#virtual-network).
+See [how to create a virtual network and subnets](azure-resources.md#virtual-network).
 
 Example of manual network:
 
@@ -57,7 +57,7 @@ Schema for `cloud_properties` section:
 
 * **resource\_group\_name** [String, optional]: Name of a resource group. If it is set, Azure CPI will search the public IP in this resource group. Otherwise, Azure CPI will search the public IP in `resource_group_name` in the global CPI settings.
 
-See [how to create public IP](azure-resources.html#public-ips) to use with vip networks.
+See [how to create public IP](azure-resources.md#public-ips) to use with vip networks.
 
 Example of vip network:
 
@@ -221,7 +221,7 @@ Schema:
 
 See [all configuration options](https://bosh.io/jobs/cpi?source=github.com/cloudfoundry-incubator/bosh-azure-cpi-release).
 
-See [Creating Azure resources](azure-resources.html) page for more details on how to create and configure above resources.
+See [Creating Azure resources](azure-resources.md) page for more details on how to create and configure above resources.
 
 Example with hard-coded credentials:
 
@@ -374,4 +374,4 @@ compilation:
   Please reference the issue [#230](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/issues/230).
 
 ---
-[Back to Table of Contents](index.html#cpi-config)
+[Back to Table of Contents](index.md#cpi-config)

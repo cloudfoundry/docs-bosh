@@ -2,7 +2,7 @@
 title: Pre-start Script
 ---
 
-(See [Job Lifecycle](job-lifecycle.html) for an explanation of when pre-start scripts run.)
+(See [Job Lifecycle](job-lifecycle.md) for an explanation of when pre-start scripts run.)
 
 <p class="note">Note: This feature is available with bosh-release v206+ (1.3072.0) and only for releases deployed with 3125+ stemcells.</p>
 
@@ -52,9 +52,9 @@ You can find logs for each release job's pre-start script in the following locat
 - stdout in `/var/vcap/sys/log/<job-name>/pre-start.stdout.log`
 - stderr in `/var/vcap/sys/log/<job-name>/pre-start.stderr.log`
 
-Since pre-start script will be called multiple times, new output will be appended to the files above. Standard [log rotation policy](job-logs.html#log-rotation) applies.
+Since pre-start script will be called multiple times, new output will be appended to the files above. Standard [log rotation policy](job-logs.md#log-rotation) applies.
 
 ---
-Next: [Post-start script](post-start.html)
+Next: [Post-start script](post-start.md)
 
-Previous: [Job lifecycle](job-lifecycle.html)
+Previous: [Job lifecycle](job-lifecycle.md)

@@ -24,7 +24,7 @@ title: CLI Global Flags
 
 CLI does not provide a way to skip SSL certificate validation to encourage secure Director configuration.
 
-See [CLI environments](cli-envs.html) for details.
+See [CLI environments](cli-envs.md) for details.
 
 ---
 ## <a id="auth"></a> Authentication flags
@@ -54,7 +54,7 @@ Several commands that can operate in a Director and a deployment context (such a
 ---
 ## <a id="tunnel"></a> SOCKS5 Tunneling
 
-See [tunneling](cli-tunnel.html) for details.
+See [tunneling](cli-tunnel.md) for details.
 
 ---
 ## <a id="logging"></a> Logging

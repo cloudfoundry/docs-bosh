@@ -2,7 +2,7 @@
 title: Creating environment on SoftLayer
 ---
 
-This document shows how to create new [environment](terminology.html#environment) on SoftLayer.
+This document shows how to create new [environment](terminology.md#environment) on SoftLayer.
 
 ## <a id="prepare"></a> Step 1: Prepare a SoftLayer Environment
 
@@ -85,9 +85,9 @@ VLANs provide the ability to partition devices and subnets on the network. To or
     $ bosh -e bosh-1 env
     ```
 
-1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.html#deployment-state) for details.
+1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.md#deployment-state) for details.
 
 ---
-[Back to Table of Contents](index.html#install)
+[Back to Table of Contents](index.md#install)
 
-Previous: [Create an environment](init.html)
+Previous: [Create an environment](init.md)

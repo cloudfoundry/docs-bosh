@@ -2,14 +2,14 @@
 title: Deploy Workflow
 ---
 
-(Follow [Create an environment?](init.html) to create the Director.)
+(Follow [Create an environment?](init.md) to create the Director.)
 
-The Director can manage multiple [deployments](terminology.html#deployment).
+The Director can manage multiple [deployments](terminology.md#deployment).
 
 Creation of a deployment consists of the following steps:
 
-- Create a [cloud config](terminology.html#cloud-config)
-- Create a [deployment manifest](terminology.html#manifest)
+- Create a [cloud config](terminology.md#cloud-config)
+- Create a [deployment manifest](terminology.md#manifest)
 - Upload stemcells and releases from the deployment manifest
 - Kick off the deploy to make a deployment on the Director
 
@@ -23,4 +23,4 @@ Updating an existing deployment is the same procedure:
 In the next several steps we are going to deploy simple [Zookeeper](https://en.wikipedia.org/wiki/Apache_ZooKeeper) deployment to the Director.
 
 ---
-Next: [Update Cloud Config](update-cloud-config.html)
+Next: [Update Cloud Config](update-cloud-config.md)

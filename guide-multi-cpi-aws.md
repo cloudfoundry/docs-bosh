@@ -11,18 +11,18 @@ For simplicity reasons we're going to allow all internal traffic between two VPC
 ---
 ## <a id="setup-iaas"></a> Set up the IaaS
 
-Let's start by initializing main AZ (`z1`) to US East (N. Virginia) by following steps 1 and 2 from [Creating environment on AWS](init-aws.html). This will give you a working BOSH Director in a single region. You can perform a deployment to test Director is working fine.
+Let's start by initializing main AZ (`z1`) to US East (N. Virginia) by following steps 1 and 2 from [Creating environment on AWS](init-aws.md). This will give you a working BOSH Director in a single region. You can perform a deployment to test Director is working fine.
 
-To add a second AZ (`z2`) to US West (N. California) you need to perform step 1 from [Creating environment on AWS](init-aws.html) in another AWS account.
+To add a second AZ (`z2`) to US West (N. California) you need to perform step 1 from [Creating environment on AWS](init-aws.md) in another AWS account.
 
 ---
 ## <a id="connecting-vpcs"></a> Connecting VPCs
 
 The VMs in one AZ need to be able to talk to VMs in the other AZ. We're going to describe two ways AZs can be connected. You have two options:
 
-- if VPCs are in the same AWS region you can simply use [VPC Peering](guide-multi-cpi-aws.html#vpc-peering) as shown below
+- if VPCs are in the same AWS region you can simply use [VPC Peering](guide-multi-cpi-aws.md#vpc-peering) as shown below
 
-- if VPCs are in different regions you will need to connect them through a [OpenVPN](guide-multi-cpi-aws.html#openvpn) as shown below
+- if VPCs are in different regions you will need to connect them through a [OpenVPN](guide-multi-cpi-aws.md#openvpn) as shown below
 
 - if VPCs are spread out across multiple regions, you can mix and match two approaches above
 
@@ -72,7 +72,7 @@ Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/op
 
 0. Allocate Elastic IPs for each VPN Server in their respective regions.
 
-0. Create following files `~/workspace/multi-cpi-vpn/creds-az1.yml` and `~/workspace/multi-cpi-vpn/creds-az2.yml` with the following properties. You should have all this information from the above [Set up the IaaS](guide-multi-cpi-aws.html#setup-iaas) step.
+0. Create following files `~/workspace/multi-cpi-vpn/creds-az1.yml` and `~/workspace/multi-cpi-vpn/creds-az2.yml` with the following properties. You should have all this information from the above [Set up the IaaS](guide-multi-cpi-aws.md#setup-iaas) step.
 
     ```yaml
     access_key_id: <aws-access-key-id>
@@ -152,7 +152,7 @@ Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/op
 ---
 ## <a id="configuring-configs"></a> Configure CPI and Cloud configs
 
-Now that the IaaS is configured, update your Director's [CPI config](cpi-config.html):
+Now that the IaaS is configured, update your Director's [CPI config](cpi-config.md):
 
 ```yaml
 cpis:

@@ -4,9 +4,9 @@ title: Update Cloud Config
 
 <p class="note">Note: Document uses CLI v2.</p>
 
-The [cloud config](terminology.html#cloud-config) is a YAML file that defines IaaS specific configuration used by all deployments. It allows to separate IaaS specific configuration into its own file and keep deployment manifests IaaS agnostic.
+The [cloud config](terminology.md#cloud-config) is a YAML file that defines IaaS specific configuration used by all deployments. It allows to separate IaaS specific configuration into its own file and keep deployment manifests IaaS agnostic.
 
-Here is an example cloud config used with [BOSH Lite](terminology.html#bosh-lite):
+Here is an example cloud config used with [BOSH Lite](terminology.md#bosh-lite):
 
 ```yaml
 ---
@@ -43,17 +43,17 @@ compilation:
 
 (Taken from <https://github.com/cloudfoundry/bosh-deployment/blob/master/warden/cloud-config.yml>)
 
-Without going into much detail, above cloud config defines three [availability zones](terminology.html#az), one `default` [VM type](terminology.html#vm-type) and one `default` [disk types](terminology.html#disk-type) and a `default` [network](networks.html). All of these definitions will be referenced by the deployment manifest.
+Without going into much detail, above cloud config defines three [availability zones](terminology.md#az), one `default` [VM type](terminology.md#vm-type) and one `default` [disk types](terminology.md#disk-type) and a `default` [network](networks.md). All of these definitions will be referenced by the deployment manifest.
 
-See [cloud config schema](cloud-config.html) for detailed breakdown.
+See [cloud config schema](cloud-config.md) for detailed breakdown.
 
-To configure Director with above cloud config use [`bosh update-cloud-config` command](cli-v2.html#update-cloud-config):
+To configure Director with above cloud config use [`bosh update-cloud-config` command](cli-v2.md#update-cloud-config):
 
 ```shell
 $ bosh -e vbox update-cloud-config cloud-config.yml
 ```
 
 ---
-Next: [Build deployment manifest](deployment-basics.html)
+Next: [Build deployment manifest](deployment-basics.md)
 
-Previous: [Deploy Workflow](basic-workflow.html)
+Previous: [Deploy Workflow](basic-workflow.md)

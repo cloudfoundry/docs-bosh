@@ -4,10 +4,10 @@ title: Tips
 
 This document lists several common problems. If you are looking for CPI specific errors see:
 
-- [AWS CPI errors](aws-cpi.html#errors)
-- [Azure CPI errors](azure-cpi.html#errors)
-- [OpenStack CPI errors](openstack-cpi.html#errors)
-- [vSphere CPI errors](vsphere-cpi.html#errors)
+- [AWS CPI errors](aws-cpi.md#errors)
+- [Azure CPI errors](azure-cpi.md#errors)
+- [OpenStack CPI errors](openstack-cpi.md#errors)
+- [vSphere CPI errors](vsphere-cpi.md#errors)
 
 ---
 ## <a id="unreachable-agent"></a> Timed out pinging to ... after 600 seconds
@@ -36,7 +36,7 @@ This problem can occur due to:
 - bootstrapping problem on the VM and/or wrong configuration of the Agent
 - blocked or slow boot times of the VM
 
-It's recommended to start a deploy again and SSH into one of the VMs and look at [the Agent logs](job-logs.html#agent-logs) while the Director waits for VMs to become accessible. See [`director.debug.keep_unreachable_vms` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.debug.keep_unreachable_vms) to let Director know to leave unreachable VMs for easier debugging.
+It's recommended to start a deploy again and SSH into one of the VMs and look at [the Agent logs](job-logs.md#agent-logs) while the Director waits for VMs to become accessible. See [`director.debug.keep_unreachable_vms` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.debug.keep_unreachable_vms) to let Director know to leave unreachable VMs for easier debugging.
 
 ---
 ## <a id="failed-job"></a> ...is not running after update
@@ -58,9 +58,9 @@ Task 47 error
 For a more detailed error report, run: bosh task 47 --debug
 ```
 
-This problem occurs when one of the release jobs on a VM did not successfully start in a given amount of time. You can use [`bosh instances --ps`](sysadmin-commands.html#health) command to find out which process on the VM is failing. You can also [access logs](job-logs.html#vm-logs) to view additional information.
+This problem occurs when one of the release jobs on a VM did not successfully start in a given amount of time. You can use [`bosh instances --ps`](sysadmin-commands.md#health) command to find out which process on the VM is failing. You can also [access logs](job-logs.md#vm-logs) to view additional information.
 
-This problem may also arise when deployment manifest specifies too small of a [canary/update watch time](deployment-manifest.html#update) which may not be large enough for a process to successfully start.
+This problem may also arise when deployment manifest specifies too small of a [canary/update watch time](deployment-manifest.md#update) which may not be large enough for a process to successfully start.
 
 ---
 ## <a id="unmount-persistent-disk"></a> umount: /var/vcap/store: device is busy

@@ -200,12 +200,12 @@ Available `instance` object methods:
 * **id** [String, non-empty]: Unique ID.
 * **index** [Integer, non-empty]: Unique numeric index. May have gaps.
 * **az** [String or null, non-empty]: AZ associated with the instance.
-* **address** [String, non-empty]: IPv4, IPv6 or DNS address. See [Native DNS Support](dns.html#links) for more details.
+* **address** [String, non-empty]: IPv4, IPv6 or DNS address. See [Native DNS Support](dns.md#links) for more details.
 * **bootstrap** [Boolean]: Whether or not this instance is a bootstrap instance.
 
 ### <a id="properties"></a> Properties
 
-See [link properties](links-properties.html) for including additional link information.
+See [link properties](links-properties.md) for including additional link information.
 
 ---
 ## <a id="deployment"></a> Deployment Configuration
@@ -355,6 +355,6 @@ Common use cases:
 - one team is managing one deployment and wants to expose a link for other teams to consume in their deployments in a self service manner
 
 ---
-Next: [Link properties](links-properties.html) or [Manual linking](links-manual.html).
+Next: [Link properties](links-properties.md) or [Manual linking](links-manual.md).
 
-[Back to Table of Contents](index.html#deployment-config)
+[Back to Table of Contents](index.md#deployment-config)

@@ -2,7 +2,7 @@
 title: Creating environment on Google Cloud Platform
 ---
 
-This document shows how to initialize new [environment](terminology.html#environment) on Google Cloud Platform.
+This document shows how to initialize new [environment](terminology.md#environment) on Google Cloud Platform.
 
 1. Install [CLI v2](./cli-v2.html).
 
@@ -32,7 +32,7 @@ This document shows how to initialize new [environment](terminology.html#environ
         -v subnetwork=default
     ```
 
-    If running above commands outside of a connected Google network, refer to [Exposing environment on a public IP](init-external-ip.html) for additional CLI flags.
+    If running above commands outside of a connected Google network, refer to [Exposing environment on a public IP](init-external-ip.md) for additional CLI flags.
 
 1. Connect to the Director.
 
@@ -48,9 +48,9 @@ This document shows how to initialize new [environment](terminology.html#environ
     $ bosh -e bosh-1 env
     ```
 
-1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.html#deployment-state) for details.
+1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.md#deployment-state) for details.
 
 ---
-[Back to Table of Contents](index.html#install)
+[Back to Table of Contents](index.md#install)
 
-Previous: [Create an environment](init.html)
+Previous: [Create an environment](init.md)

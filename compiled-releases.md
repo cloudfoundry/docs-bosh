@@ -12,7 +12,7 @@ Typically release tarballs are distributed with source packages; however, there 
 - access to source packages is not permitted for legal reasons
 - exact existing audited binary assets are expected to be used
 
-Any release can be exported as a compiled release by using the Director and [bosh export-release](cli-v2.html#export-release) command.
+Any release can be exported as a compiled release by using the Director and [bosh export-release](cli-v2.md#export-release) command.
 
 ---
 ## <a id="export"></a> Using export-release command

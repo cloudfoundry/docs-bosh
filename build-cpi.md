@@ -115,4 +115,4 @@ It usually useful to get a detailed log of CPI requests and responses from the c
 When working with the Director you can find similar debug logs via `bosh task X --debug` command.
 
 ---
-Next: [CPI API v1](cpi-api-v1.html)
+Next: [CPI API v1](cpi-api-v1.md)

@@ -2,7 +2,7 @@
 title: Setting up BOSH environment on Azure
 ---
 
-This document shows how to initialize new [environment](terminology.html#environment) on Microsoft Azure.
+This document shows how to initialize new [environment](terminology.md#environment) on Microsoft Azure.
 
 ## <a id="prepare"></a> Step 1: Prepare an Azure Environment
 
@@ -12,7 +12,7 @@ Then follow this [guide](https://github.com/cloudfoundry-incubator/bosh-azure-cp
 
 We strongly recommend you to use Azure template [bosh-setup](https://github.com/Azure/azure-quickstart-templates/tree/master/bosh-setup) to initialize the new environment on Microsoft Azure.
 
-To prepare your Azure environment find out and/or create any missing resources in Azure. If you are not familiar with Azure take a look at [Creating Azure resources](azure-resources.html) page for more details on how to create and configure necessary resources:
+To prepare your Azure environment find out and/or create any missing resources in Azure. If you are not familiar with Azure take a look at [Creating Azure resources](azure-resources.md) page for more details on how to create and configure necessary resources:
 
 ---
 ## <a id="deploy"></a> Step 2: Deploy
@@ -48,9 +48,9 @@ To prepare your Azure environment find out and/or create any missing resources i
         -v default_security_group=nsg-bosh
     ```
 
-    If running above commands outside of a connected Azure network, refer to [Exposing environment on a public IP](init-external-ip.html) for additional CLI flags.
+    If running above commands outside of a connected Azure network, refer to [Exposing environment on a public IP](init-external-ip.md) for additional CLI flags.
 
-    See [Azure CPI errors](azure-cpi.html#errors) for list of common errors and resolutions.
+    See [Azure CPI errors](azure-cpi.md#errors) for list of common errors and resolutions.
 
 1. Connect to the Director.
 
@@ -66,9 +66,9 @@ To prepare your Azure environment find out and/or create any missing resources i
     $ bosh -e bosh-1 env
     ```
 
-1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.html#deployment-state) for details.
+1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.md#deployment-state) for details.
 
 ---
-[Back to Table of Contents](index.html#install)
+[Back to Table of Contents](index.md#install)
 
-Previous: [Create an environment](init.html)
+Previous: [Create an environment](init.md)

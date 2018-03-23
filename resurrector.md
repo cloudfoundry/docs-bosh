@@ -2,7 +2,7 @@
 title: Automatic repair with Resurrector
 ---
 
-The Resurrector is a plugin to the [Health Monitor](bosh-components.html#health-monitor). It's responsible for automatically recreating VMs that become inaccessible.
+The Resurrector is a plugin to the [Health Monitor](bosh-components.md#health-monitor). It's responsible for automatically recreating VMs that become inaccessible.
 
 The Resurrector continuously cross-references VMs expected to be running against the VMs that are sending heartbeats. When resurrector does not receive heartbeats for a VM for a certain period of time, it will kick off a task on the Director (scan and fix task) to try to "resurrect" that VM. The Director may do one of two things:
 
@@ -11,7 +11,7 @@ The Resurrector continuously cross-references VMs expected to be running against
 
 Under certain conditions the Resurrector will consider the system in the "meltdown" and will stop sending requests to the Director. It will resume submitting scan and fix tasks to the Director once the conditions change.
 
-Resurrection can be turned off per specific deployment job instance or for all VMs managed by the Director via [`bosh vm resurrection` CLI command](sysadmin-commands.html#vm-resurrection).
+Resurrection can be turned off per specific deployment job instance or for all VMs managed by the Director via [`bosh vm resurrection` CLI command](sysadmin-commands.md#vm-resurrection).
 
 <p class='note'><strong>Note</strong>: The Health Monitor deploys with the Resurrector plugin disabled by default. To use it, you must enable the Resurrector plugin in your BOSH deployment manifest.</p>
 
@@ -43,7 +43,7 @@ To enable the Resurrector:
           time_threshold: 600
     ```
 
-1. Depending on how you configured [Director user management](director-users.html), credentials are specified in the `user` and `password` properties or using a custom `client` to authenticate with the UAA.
+1. Depending on how you configured [Director user management](director-users.md), credentials are specified in the `user` and `password` properties or using a custom `client` to authenticate with the UAA.
 
     ### <a id="uaa-client"></a> Option a) Using UAA User Management
 
@@ -134,6 +134,6 @@ To disable the Resurrector:
 Since scan and fix tasks on the Director are regular tasks, you can use `bosh tasks --all -d ''` command to view currently running/queued Resurrector's activity and `bosh tasks --recent --all -d ''` to also view finished tasks.
 
 ---
-Next: [Persistent disk snapshotting](snapshots.html)
+Next: [Persistent disk snapshotting](snapshots.md)
 
-Previous: [Manual repair with Cloud Check](cck.html)
+Previous: [Manual repair with Cloud Check](cck.md)

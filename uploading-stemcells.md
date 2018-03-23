@@ -4,7 +4,7 @@ title: Upload Stemcells
 
 <p class="note">Note: Document uses CLI v2.</p>
 
-(See [What is a Stemcell?](stemcell.html) for an introduction to stemcells.)
+(See [What is a Stemcell?](stemcell.md) for an introduction to stemcells.)
 
 As described earlier, each deployment can reference one or more stemcells. For a deploy to succeed, necessary stemcells must be uploaded to the Director.
 
@@ -15,7 +15,7 @@ The [stemcells section of bosh.io](http://bosh.io/stemcells) lists official stem
 ---
 ## <a id='upload'></a> Uploading to the Director
 
-CLI provides [`bosh upload-stemcell` command](cli-v2.html#upload-stemcell).
+CLI provides [`bosh upload-stemcell` command](cli-v2.md#upload-stemcell).
 
 - If you have a URL to a stemcell tarball (for example URL provided by bosh.io):
 
@@ -58,6 +58,6 @@ stemcells:
 ```
 
 ---
-Next: [Upload Releases](uploading-releases.html)
+Next: [Upload Releases](uploading-releases.md)
 
-Previous: [Build Deployment Manifest](deployment-basics.html)
+Previous: [Build Deployment Manifest](deployment-basics.md)

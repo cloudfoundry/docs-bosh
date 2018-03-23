@@ -64,17 +64,17 @@ To configure the Director with a list of users:
 ---
 ## <a id="uaa"></a> UAA Integration
 
-[Configure the Director with UAA user management](director-users-uaa.html).
+[Configure the Director with UAA user management](director-users-uaa.md).
 
 ---
 ## <a id="hm"></a> Director Tasks
 
-When a user initiates a [director task](director-tasks.html), the director logs the user in the task audit log.
+When a user initiates a [director task](director-tasks.md), the director logs the user in the task audit log.
 
 ---
 ## <a id="hm"></a> Health Monitor Authentication
 
-The Health Monitor is configured to use a custom user to query/submit requests to the Director. Since by default the Director does not come with any users, the Health Monitor is not able to successfully communicate with the Director. See the [Automatic repair with Resurrector](resurrector.html) topic for more details.
+The Health Monitor is configured to use a custom user to query/submit requests to the Director. Since by default the Director does not come with any users, the Health Monitor is not able to successfully communicate with the Director. See the [Automatic repair with Resurrector](resurrector.md) topic for more details.
 
 ---
-[Back to Table of Contents](index.html#director-config)
+[Back to Table of Contents](index.md#director-config)

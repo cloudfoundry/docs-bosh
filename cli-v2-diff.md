@@ -101,6 +101,6 @@ For example, `bosh delete deployment` in v1 corresponds to `bosh delete-deployme
   - no longer uses symlinks to manage blobs but rather places file directly into `blobs/`
 
 ---
-Next: [Global Flags](cli-global-flags.html)
+Next: [Global Flags](cli-global-flags.md)
 
-Previous: [CLI v2](cli-v2.html)
+Previous: [CLI v2](cli-v2.md)

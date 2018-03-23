@@ -7,4 +7,4 @@ title: RackHD CPI
 See more details on Github: [https://github.com/cloudfoundry-incubator/bosh-rackhd-cpi-release].
 
 ---
-[Back to Table of Contents](index.html#cpi-config)
+[Back to Table of Contents](index.md#cpi-config)

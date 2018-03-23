@@ -8,7 +8,7 @@ It's common for software to need to know where it was deployed so that it can ma
 
 ## <a id="erb"></a> Via ERB templates
 
-Use [`spec` variable](jobs.html#properties-spec) in ERB templates to get access to AZ, deployment name, ID, etc.
+Use [`spec` variable](jobs.md#properties-spec) in ERB templates to get access to AZ, deployment name, ID, etc.
 
 ## <a id="fs"></a> Via filesystem
 

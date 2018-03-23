@@ -2,7 +2,7 @@
 title: Drain Script
 ---
 
-(See [Job Lifecycle](job-lifecycle.html) for an explanation of when drain scripts run.)
+(See [Job Lifecycle](job-lifecycle.md) for an explanation of when drain scripts run.)
 
 Release job can have a drain script that will run when the job is restarted or stopped. This script allows the job to clean up and get into a state where it can be safely stopped. For example, when writing a release for a load balancer, each node can safely stop accepting new connections and drain existing connections before fully stopping.
 
@@ -59,7 +59,7 @@ For example drain script can use this feature to determine if the size of the pe
 ---
 ## <a id="logs"></a> Logs
 
-Currently logs from the drain script are not saved on disk by default, though release author may choose to do so explicitly. We are planning to eventually make it more consistent with [pre-start script logging](pre-start.html#logs).
+Currently logs from the drain script are not saved on disk by default, though release author may choose to do so explicitly. We are planning to eventually make it more consistent with [pre-start script logging](pre-start.md#logs).
 
 ---
 ## <a id="example"></a> Example
@@ -83,6 +83,6 @@ exit 0
 ```
 
 ---
-[Back to Table of Contents](index.html#release)
+[Back to Table of Contents](index.md#release)
 
-Previous: [Post-deploy script](post-deploy.html)
+Previous: [Post-deploy script](post-deploy.md)

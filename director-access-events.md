@@ -63,4 +63,4 @@ To enable this feature:
 1. Redeploy the Director.
 
 ---
-[Back to Table of Contents](index.html#director-config)
+[Back to Table of Contents](index.md#director-config)

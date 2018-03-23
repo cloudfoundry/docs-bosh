@@ -18,14 +18,14 @@ When your OpenStack is using a self-signed certificate, you want to enable the O
             -----END CERTIFICATE-----
     ```
 
-1. Set the `registry.endpoint` configuration to [include basic auth credentials](openstack-registry.html)
+1. Set the `registry.endpoint` configuration to [include basic auth credentials](openstack-registry.md)
 
 1. Deploy the Director
 
 
 ---
-[Back to Table of Contents](index.html#cpi-config)
+[Back to Table of Contents](index.md#cpi-config)
 
-Next: [Multi-homed VMs](openstack-multiple-networks.html)
+Next: [Multi-homed VMs](openstack-multiple-networks.md)
 
-Previous: [Using human-readable VM names](openstack-human-readable-vm-names.html)
+Previous: [Using human-readable VM names](openstack-human-readable-vm-names.md)

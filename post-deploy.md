@@ -2,7 +2,7 @@
 title: Post-deploy Script
 ---
 
-(See [Job Lifecycle](job-lifecycle.html) for an explanation of when post-deploy scripts run.)
+(See [Job Lifecycle](job-lifecycle.md) for an explanation of when post-deploy scripts run.)
 
 <p class="note">Note: This feature is available with bosh-release v255.4+ and only for releases deployed with 3125+ stemcells.</p>
 
@@ -55,9 +55,9 @@ You can find logs for each release job's post-deploy script in the following loc
 - stdout in `/var/vcap/sys/log/<job-name>/post-deploy.stdout.log`
 - stderr in `/var/vcap/sys/log/<job-name>/post-deploy.stderr.log`
 
-Since post-deploy script will be called multiple times, new output will be appended to the files above. Standard [log rotation policy](job-logs.html#log-rotation) applies.
+Since post-deploy script will be called multiple times, new output will be appended to the files above. Standard [log rotation policy](job-logs.md#log-rotation) applies.
 
 ---
-Next: [Drain script](drain.html)
+Next: [Drain script](drain.md)
 
-Previous: [Post-start script](post-start.html)
+Previous: [Post-start script](post-start.md)

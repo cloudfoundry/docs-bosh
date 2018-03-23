@@ -130,4 +130,4 @@ See [bosh-deployment](https://github.com/cloudfoundry/bosh-deployment/blob/maste
 * Garden server does not have a UI; however, you can use [gaol CLI](https://github.com/xoebus/gaol) to interact with it directly.
 
 ---
-[Back to Table of Contents](index.html#cpi-config)
+[Back to Table of Contents](index.md#cpi-config)

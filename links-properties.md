@@ -2,7 +2,7 @@
 title: Link Properties
 ---
 
-(See [Links](links.html) for an introduction.)
+(See [Links](links.md) for an introduction.)
 
 <p class="note">Note: This feature is available with bosh-release v255.5+.</p>
 
@@ -87,7 +87,7 @@ JSON.dump(result)
 %>
 ```
 
-Similarly to how [`p` template accessor](jobs.html#properties) provides access to the job's top level properties, `link("...").p("...)` and `link("...").if_p("...)` accessors work with properties included in the link.
+Similarly to how [`p` template accessor](jobs.md#properties) provides access to the job's top level properties, `link("...").p("...)` and `link("...").if_p("...)` accessors work with properties included in the link.
 
 `if_p` template accessor becomes very useful when trying to provide backwards compatibility around link properties as their interface changes. For example if Postgres job author decides to start including `encoding` property in the link and `web` job's author wants to continue to support older links that don't include that information, they can use `db.if_p("encoding") { ... }`.
 
@@ -113,6 +113,6 @@ instance_groups:
 ```
 
 ---
-Next: [Manual linking](links-manual.html)
+Next: [Manual linking](links-manual.md)
 
-[Back to Table of Contents](index.html#deployment-config)
+[Back to Table of Contents](index.md#deployment-config)

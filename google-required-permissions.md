@@ -8,9 +8,9 @@ This topic describes how to configure BOSH with the minimum set of permissions o
 
 This section will guide you through how to configure the Google Cloud CPI and Director with the default blobstore.
 
-<p class="note">Note: If you wish to configure BOSH to use GCS blobstore also follow [these steps](google-required-permissions.html#director-with-gcs-blobstore)</p>
+<p class="note">Note: If you wish to configure BOSH to use GCS blobstore also follow [these steps](google-required-permissions.md#director-with-gcs-blobstore)</p>
 
-1. Download and install the [Google Cloud CLI](https://cloud.google.com/sdk/) and [BOSH CLI v2](cli-v2.html#install).
+1. Download and install the [Google Cloud CLI](https://cloud.google.com/sdk/) and [BOSH CLI v2](cli-v2.md#install).
 
 2. Create a file called `bosh-director-role.yml`.
 
@@ -122,9 +122,9 @@ In addition to configuring the Google CPI and Director with the previous permiss
 
 <p class="note">Note: We highly recommend creating separate service accounts.</p>
 
-This configuration is similar to the previous one except that it's used when the Director and the Agents use GCS as their [blobstore](bosh-components.html#blobstore) instead of an internal blobstore provided by the bosh release.
+This configuration is similar to the previous one except that it's used when the Director and the Agents use GCS as their [blobstore](bosh-components.md#blobstore) instead of an internal blobstore provided by the bosh release.
 
-1. Download and install the [Google Cloud CLI](https://cloud.google.com/sdk/) and [BOSH CLI v2](cli-v2.html#install).
+1. Download and install the [Google Cloud CLI](https://cloud.google.com/sdk/) and [BOSH CLI v2](cli-v2.md#install).
 
 2. Create a file called `director-blobstore-role.yml`.
 
@@ -170,10 +170,10 @@ This configuration is similar to the previous one except that it's used when the
 
    ![image](images/gcp-service-account.png)
 
-6. Configure [GCS Blobstore](director-configure-blobstore.html#gcs)
+6. Configure [GCS Blobstore](director-configure-blobstore.md#gcs)
 
 
 ---
-Next: [RackHD](rackhd-cpi.html)
+Next: [RackHD](rackhd-cpi.md)
 
-Previous: [Google Compute Engine](google-cpi.html)
+Previous: [Google Compute Engine](google-cpi.md)

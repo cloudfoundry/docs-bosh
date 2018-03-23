@@ -127,7 +127,7 @@ In this configuration the Director is configured to delegate user management to 
 
 1. Configure Certificates and Keys
 
-    See [Director certificates configuration doc](director-certs.html) to find out how to generate necessary certificates.
+    See [Director certificates configuration doc](director-certs.md) to find out how to generate necessary certificates.
     Note, however, that `login.saml.serviceProviderKeyPassword` may need to be set to "", [see](https://bosh.io/releases/github.com/cloudfoundry/uaa-release?version=24).
 
     To generate UAA signing (private key) and verification key (public key) in PEM format:
@@ -205,12 +205,12 @@ $ export BOSH_CLIENT_SECRET=ci-password
 $ bosh status
 ```
 
-See [the resurrector UAA client configuration](resurrector.html#uaa-client) for an example to set up an additional client.
+See [the resurrector UAA client configuration](resurrector.md#uaa-client) for an example to set up an additional client.
 
 ---
 ## <a id="permissions"></a> Permissions
 
-See [UAA permissions](director-users-uaa-perms.html) to limit access to resources.
+See [UAA permissions](director-users-uaa-perms.md) to limit access to resources.
 
 ---
 ## <a id="errors"></a> Errors
@@ -222,4 +222,4 @@ HTTP 401: Not authorized: '/deployments' requires one of the scopes: bosh.admin,
 This error occurs if the user doesn't have the right scopes for the requested command. It might be the case that you created a user without adding it to any groups. See [Adding/removing users and scopes](#uaac) above.
 
 ---
-[Back to Table of Contents](index.html#director-config)
+[Back to Table of Contents](index.md#director-config)

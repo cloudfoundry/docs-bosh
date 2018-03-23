@@ -4,7 +4,7 @@ title: Events
 
 <p class="note">Note: This feature is available in bosh-release v256+.</p>
 
-In addition to keeping a historical list of [Director tasks](terminology.html#director-task) for debugging history, the Director keeps detailed list of actions user and system took during its operation. Events are recorded into the Director database.
+In addition to keeping a historical list of [Director tasks](terminology.md#director-task) for debugging history, the Director keeps detailed list of actions user and system took during its operation. Events are recorded into the Director database.
 
 Currently following events are recorded:
 
@@ -15,7 +15,7 @@ Currently following events are recorded:
 - disk create/delete
 - `bosh ssh` events
 
-Run [`bosh events` command](sysadmin-commands.html#events) to view 200 recent events:
+Run [`bosh events` command](sysadmin-commands.md#events) to view 200 recent events:
 
 ```shell
 $ bosh events
@@ -103,4 +103,4 @@ To enable this feature:
 1. Redeploy the Director.
 
 ---
-[Back to Table of Contents](index.html#director-config)
+[Back to Table of Contents](index.md#director-config)

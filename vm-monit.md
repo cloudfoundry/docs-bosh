@@ -100,6 +100,6 @@ While debugging why certain process is failing it is usually useful to tell Moni
 See [Monit manual](http://mmonit.com/monit/documentation/monit.html) to learn more about Monit.
 
 ---
-Next: [Manual repair with Cloud Check](cck.html)
+Next: [Manual repair with Cloud Check](cck.md)
 
-Previous: [Monitoring](monitoring.html)
+Previous: [Monitoring](monitoring.md)

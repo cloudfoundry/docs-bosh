@@ -5,7 +5,7 @@ title: BOSH on Windows
 BOSH can deploy jobs on Windows VMs. There is open source tooling and documentation available to build [AWS](https://github.com/cloudfoundry-incubator/aws-light-stemcell-builder), [Azure](https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/blob/master/azure-light-stemcell.md),
 [vSphere](https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/blob/master/create-manual-vsphere-stemcells.md) and [Openstack](https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/blob/master/create-manual-openstack-stemcells.md) stemcells for Windows.
 
-In general Windows BOSH Releases work in the same way as a standard BOSH release. The main difference is that the [monit file](create-release.html#monit) for Linux Releases is structured differently on Windows. Below are specific concerns for jobs on Windows.
+In general Windows BOSH Releases work in the same way as a standard BOSH release. The main difference is that the [monit file](create-release.md#monit) for Linux Releases is structured differently on Windows. Below are specific concerns for jobs on Windows.
 
 ---
 ## <a id="releases"></a> Releases
@@ -90,4 +90,4 @@ templates:
 ---
 ## Sample BOSH Windows Release
 
-Please see [the next page](windows-sample-release.html) for a sample BOSH Windows release.
+Please see [the next page](windows-sample-release.md) for a sample BOSH Windows release.

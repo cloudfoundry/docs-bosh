@@ -11,19 +11,19 @@ Additionally, in some cases it may be useful to split cloud config and/or other 
 ---
 ## <a id='director-types'></a> Director Types
 
-There are three built-in types: `cloud`, `runtime` and `cpi`. You can interact with the Director config types just as you have been doing so far via the [`update-cloud-config`](cli-v2.html#cloud-config-mgmt), [`update-runtime-config`](cli-v2.html#runtime-config-mgmt) and [`update-cpi-config`](cli-v2.html#cpi-config-mgmt) CLI commands respectively. By using these commands you will only be able to interact with the `default` named config of the given type. This will be good enough in most cases but like in our example before if you need to create separate configs with different names, you need to use the [`update-config`](cli-v2.html#update-config) command. Keep in mind that if you use the [config commands](cli-v2.html#configs-mgmt) to interact with the built-in types, you still need to comply with the structure of the YAML file for each type.
+There are three built-in types: `cloud`, `runtime` and `cpi`. You can interact with the Director config types just as you have been doing so far via the [`update-cloud-config`](cli-v2.md#cloud-config-mgmt), [`update-runtime-config`](cli-v2.md#runtime-config-mgmt) and [`update-cpi-config`](cli-v2.md#cpi-config-mgmt) CLI commands respectively. By using these commands you will only be able to interact with the `default` named config of the given type. This will be good enough in most cases but like in our example before if you need to create separate configs with different names, you need to use the [`update-config`](cli-v2.md#update-config) command. Keep in mind that if you use the [config commands](cli-v2.md#configs-mgmt) to interact with the built-in types, you still need to comply with the structure of the YAML file for each type.
 
 ---
 ## <a id='user-defined-types'></a> User defined Types
 
-In addition to the Director types an operator can set config of any other type using the [`update-config`](cli-v2.html#update-config) CLI command. The config file can be any file containing valid YAML. Root of the file must be a hash.
+In addition to the Director types an operator can set config of any other type using the [`update-config`](cli-v2.md#update-config) CLI command. The config file can be any file containing valid YAML. Root of the file must be a hash.
 
 One of the use cases for providing such open ended functionality is to provide shared configuration API for supporting BOSH services instead of reimplementing something similar in each service. An upcoming example that will use this feature will be introduction of the `ressurection` config type that will allow operators to define custom resurrection rules, later read and interpreted by the Health Monitor.
 
 ---
 ## <a id='update'></a> Updating and retrieving a config
 
-To add or update a config on the Director use the [`bosh update-config`](cli-v2.html#update-config) CLI command. If you do not provide a name using the `--name` option, `default` will be used.
+To add or update a config on the Director use the [`bosh update-config`](cli-v2.md#update-config) CLI command. If you do not provide a name using the `--name` option, `default` will be used.
 
 ```shell
 $ bosh update-config my-type configs.yml
@@ -88,7 +88,7 @@ $ bosh config my-type --name=team-b
 ---
 ## <a id='list'></a> Listing configs
 
-To list all configs use the [`bosh configs`](cli-v2.html#configs) CLI command.
+To list all configs use the [`bosh configs`](cli-v2.md#configs) CLI command.
 
 ```shell
 $ bosh configs my-type
@@ -119,7 +119,7 @@ my-type  team-a
 ---
 ## <a id='list'></a> Deleting configs
 
-To delete configs use the [`bosh delete-config`](cli-v2.html#delete-config) CLI command. If you do not provide a name using the `--name=` option, `default` will be used.
+To delete configs use the [`bosh delete-config`](cli-v2.md#delete-config) CLI command. If you do not provide a name using the `--name=` option, `default` will be used.
 
 ```shell
 $ bosh delete-config my-type

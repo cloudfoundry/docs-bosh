@@ -12,7 +12,7 @@ Enabled by default. No way to turn it off.
 ---
 ## <a name="resurrector"></a> Resurrector
 
-Restarts VMs that have stopped heartbeating. See [Automatic repair with Resurrector](resurrector.html) for more details.
+Restarts VMs that have stopped heartbeating. See [Automatic repair with Resurrector](resurrector.md) for more details.
 
 ```yaml
 properties:

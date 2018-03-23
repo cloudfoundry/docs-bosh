@@ -12,7 +12,7 @@ You may have to create one or more IAM instance profiles to limit access to AWS 
 
 ## <a id="only-director"></a> Example A: AWS CPI and Director configured with default blobstore
 
-1. Create `director` IAM role using the same policy as your existing user (see [Creating IAM Users](aws-iam-users.html)).
+1. Create `director` IAM role using the same policy as your existing user (see [Creating IAM Users](aws-iam-users.md)).
 
 1. Change deployment manifest for the Director to configure AWS CPI to use `director` IAM profile:
 
@@ -43,7 +43,7 @@ You may have to create one or more IAM instance profiles to limit access to AWS 
 ---
 ## <a id="director-with-s3-blobstore"></a> Example B: AWS CPI and Director configured with an S3 blobstore
 
-This configuration is similar to the previous one except that it's used when the Director and the Agents use S3 as their [blobstore](bosh-components.html#blobstore) instead of an internal blobstore provided by the bosh release.
+This configuration is similar to the previous one except that it's used when the Director and the Agents use S3 as their [blobstore](bosh-components.md#blobstore) instead of an internal blobstore provided by the bosh release.
 
 1. Create `deployed-vm` IAM role which allows `s3:*` actions for a chosen S3 bucket. This IAM role will be used by default for all VMs created by the Director.
 
@@ -61,7 +61,7 @@ This configuration is similar to the previous one except that it's used when the
     }
     ```
 
-1. Create `director` IAM role using the same policy as your existing user (see [Creating IAM Users](aws-iam-users.html)) with the following additional policy.
+1. Create `director` IAM role using the same policy as your existing user (see [Creating IAM Users](aws-iam-users.md)) with the following additional policy.
 
     ```json
     {
@@ -130,6 +130,6 @@ $ aws sts decode-authorization-message --encoded-message vHU-KncL6Yo4pG5J9p... |
 Decoded message above indicates that `iam:PassRole` action needs to be added to the `director` IAM role so that the AWS CPI can create VMs with `deployed-vm` IAM role.
 
 ---
-Next: [Using instance storage](aws-instance-storage.html)
+Next: [Using instance storage](aws-instance-storage.md)
 
-Previous: [AWS](aws-cpi.html)
+Previous: [AWS](aws-cpi.md)

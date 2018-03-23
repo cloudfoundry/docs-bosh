@@ -6,7 +6,7 @@ title: Operations Files
 
 It's usually necessary to apply an opinionated set of structural changes to a YAML document (manifest, cloud config, etc.) before submitting it to the CLI commands (`bosh create-env`, `bosh deploy`, etc.) for processing. Such changes could be an addition or removal of certain job properties, instance groups, changes to property values.
 
-<p class="note">Note: Replacing values such as passwords and certificates is not considered a structural change. Refer to [CLI variable interpolation](cli-int.html) for details.</p>
+<p class="note">Note: Replacing values such as passwords and certificates is not considered a structural change. Refer to [CLI variable interpolation](cli-int.md) for details.</p>
 
 To get a final YAML document one can apply desired changes once and save the result; however, over time it may become harder or just tedious to reapply these changes if base document changes. Additionally if it's necessary to have multiple slightly different changes on top of the base document for different teams existing editing tools may not be enough. To make such workflows easier you can encode a set of changes into one or more operations file.
 
@@ -315,6 +315,6 @@ items:
   ```
 
 ---
-Next: [CLI Variable Interpolation](cli-int.html)
+Next: [CLI Variable Interpolation](cli-int.md)
 
-Previous: [CLI Environments](cli-envs.html)
+Previous: [CLI Environments](cli-envs.md)

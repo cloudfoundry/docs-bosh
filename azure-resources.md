@@ -178,7 +178,7 @@ $ az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-cf -
 ---
 ## <a id="public-ips"></a> Public IPs
 
-To make certain VMs publicly accessible, you will need to create a Public IP. If Azure Availability Zones is used in [AZs](azure-cpi.html#azs), the Public IP should be created with type `Standard SKU`; otherwise, you can use the default `Basic SKU`.
+To make certain VMs publicly accessible, you will need to create a Public IP. If Azure Availability Zones is used in [AZs](azure-cpi.md#azs), the Public IP should be created with type `Standard SKU`; otherwise, you can use the default `Basic SKU`.
 
 ```shell
 $ az network public-ip create --name my-public-ip --allocation-method Static --resource-group bosh-res-group --location "Central US" --sku Basic # sku should be `Standard' when using Azure Availability Zones

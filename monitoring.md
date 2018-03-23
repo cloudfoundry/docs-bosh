@@ -7,7 +7,7 @@ BOSH monitors deployed VMs and release jobs' processes on those VMs via the Heal
 ---
 ## <a id="vm"></a> VMs
 
-[The Health Monitor](bosh-components.html#health-monitor) continuously checks presence of the deployed VMs. The Agent on each VM produces a heartbeat every minute and sends it to the Health Monitor over [NATS](bosh-components.html#nats).
+[The Health Monitor](bosh-components.md#health-monitor) continuously checks presence of the deployed VMs. The Agent on each VM produces a heartbeat every minute and sends it to the Health Monitor over [NATS](bosh-components.md#nats).
 
 The Health Monitor is extended by a set of plugins. Each plugin is given an opportunity to act on each heartbeat, so in cases of failure it can notify external services or perform actions against the Director.
 
@@ -23,13 +23,13 @@ Health Monitor includes the following plugins:
 - DataDog: Sends events to [DataDog.com](http://datadoghq.com) using their API
 - AWS CloudWatch: Sends events to [Amazon's CloudWatch](http://aws.amazon.com/cloudwatch/) using their API
 
-See [Configuring Health Monitor](hm-config.html) for detailed plugins' configuration.
+See [Configuring Health Monitor](hm-config.md) for detailed plugins' configuration.
 
 ### <a id="resurrector"></a> Resurrector Plugin
 
 Resurrector plugin continuously cross-references VMs expected to be running against the VMs that are sending heartbeats. When resurrector does not receive heartbeats for a VM for a certain period of time, it will kick off a task on the Director to try to "resurrect" that VM.
 
-See [Automatic repair with Resurrector](resurrector.html) for details.
+See [Automatic repair with Resurrector](resurrector.md) for details.
 
 ---
 ## <a id="process"></a> Processes on VMs
@@ -47,4 +47,4 @@ The Agent on each VM sends an alert when someone/something tries to log into the
 The Director sends an alert when a deployment starts, successfully completes or errors.
 
 ---
-Next: [Process monitoring with Monit](vm-monit.html)
+Next: [Process monitoring with Monit](vm-monit.md)

@@ -2,7 +2,7 @@
 title: Creating environment on AWS
 ---
 
-This document shows how to set up new [environment](terminology.html#environment) on Amazon Web Services (AWS).
+This document shows how to set up new [environment](terminology.md#environment) on Amazon Web Services (AWS).
 
 ## <a id="prepare-aws"></a>Step 1: Prepare an AWS Account
 
@@ -19,7 +19,7 @@ To configure your AWS account:
 ---
 ### <a id="credentials"></a> Obtain AWS Credentials
 
-Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow [Creating IAM Users](aws-iam-users.html#create) to create a new IAM user.
+Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow [Creating IAM Users](aws-iam-users.md#create) to create a new IAM user.
 
 ---
 ### <a id="create-vpc"></a> Create a Virtual Private Cloud (VPC)
@@ -160,9 +160,9 @@ $ bosh create-env bosh-deployment/bosh.yml \
     -v subnet_id=subnet-ait8g34t
 ```
 
-    If running above commands outside of an AWS VPC, refer to [Exposing environment on a public IP](init-external-ip.html) for additional CLI flags.
+    If running above commands outside of an AWS VPC, refer to [Exposing environment on a public IP](init-external-ip.md) for additional CLI flags.
 
-    See [AWS CPI errors](aws-cpi.html#errors) for list of common errors and resolutions.
+    See [AWS CPI errors](aws-cpi.md#errors) for list of common errors and resolutions.
 
 1. Connect to the Director.
 
@@ -178,9 +178,9 @@ $ export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
 $ bosh -e bosh-1 env
 ```
 
-1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.html#deployment-state) for details.
+1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.md#deployment-state) for details.
 
 ---
-[Back to Table of Contents](index.html#install)
+[Back to Table of Contents](index.md#install)
 
-Previous: [Create an environment](init.html)
+Previous: [Create an environment](init.md)

@@ -11,7 +11,7 @@ The cloud config is a YAML file that defines IaaS specific configuration used by
 ---
 ## <a id='update'></a> Updating and retrieving cloud config
 
-To update cloud config on the Director use [`bosh update-cloud-config` command](cli-v2.html#update-cloud-config).
+To update cloud config on the Director use [`bosh update-cloud-config` command](cli-v2.md#update-cloud-config).
 
 <p class="note">Note: See <a href="#example">example cloud config</a> for AWS below.</p>
 
@@ -31,7 +31,7 @@ azs:
 ...
 ```
 
-Once cloud config is updated, all existing deployments will be considered outdated, as indicated by [`bosh deployments` command](cli-v2.html#deployments). The Director will apply cloud config changes to each deployment during the next run of `bosh deploy` command for that deployment.
+Once cloud config is updated, all existing deployments will be considered outdated, as indicated by [`bosh deployments` command](cli-v2.md#deployments). The Director will apply cloud config changes to each deployment during the next run of `bosh deploy` command for that deployment.
 
 ```shell
 $ bosh -e vbox deployments
@@ -100,12 +100,12 @@ compilation:
   network: private
 ```
 
-- [See AWS CPI example](aws-cpi.html#cloud-config)
-- [See Azure CPI example](azure-cpi.html#cloud-config)
-- [See OpenStack CPI example](openstack-cpi.html#cloud-config)
-- [See SoftLayer CPI example](softlayer-cpi.html#cloud-config)
-- [See Google Cloud Platform CPI example](google-cpi.html#cloud-config)
-- [See vSphere CPI example](vsphere-cpi.html#cloud-config)
+- [See AWS CPI example](aws-cpi.md#cloud-config)
+- [See Azure CPI example](azure-cpi.md#cloud-config)
+- [See OpenStack CPI example](openstack-cpi.md#cloud-config)
+- [See SoftLayer CPI example](softlayer-cpi.md#cloud-config)
+- [See Google Cloud Platform CPI example](google-cpi.md#cloud-config)
+- [See vSphere CPI example](vsphere-cpi.md#cloud-config)
 
 ---
 ## <a id='azs'></a> AZs Block
@@ -115,7 +115,7 @@ compilation:
 * **name** [String, required]: Name of an AZ within the Director.
 * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to associated with AZ; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#azs-cloud-properties) below. Example: `availability_zone`. Default is `{}` (empty Hash).
 
-See [first class AZs](azs.html) for more details.
+See [first class AZs](azs.md) for more details.
 
 Example:
 
@@ -131,30 +131,30 @@ azs:
 
 ### <a id='azs-cloud-properties'></a> CPI Specific `cloud_properties`
 
-- [See AWS CPI AZ cloud properties](aws-cpi.html#azs)
-- [See Azure CPI AZ cloud properties](azure-cpi.html#azs)
-- [See OpenStack CPI AZ cloud properties](openstack-cpi.html#azs)
-- [See SoftLayer CPI AZ cloud properties](softlayer-cpi.html#azs)
-- [See Google Cloud Platform CPI AZ cloud properties](google-cpi.html#azs)
-- [See vSphere CPI AZ cloud properties](vsphere-cpi.html#azs)
-- [See vCloud CPI AZ cloud properties](vcloud-cpi.html#azs)
+- [See AWS CPI AZ cloud properties](aws-cpi.md#azs)
+- [See Azure CPI AZ cloud properties](azure-cpi.md#azs)
+- [See OpenStack CPI AZ cloud properties](openstack-cpi.md#azs)
+- [See SoftLayer CPI AZ cloud properties](softlayer-cpi.md#azs)
+- [See Google Cloud Platform CPI AZ cloud properties](google-cpi.md#azs)
+- [See vSphere CPI AZ cloud properties](vsphere-cpi.md#azs)
+- [See vCloud CPI AZ cloud properties](vcloud-cpi.md#azs)
 
 ---
 ## <a id='networks'></a> Networks Block
 
 **networks** [Array, required]: Each sub-block listed in the Networks block specifies a network configuration that jobs can reference. There are three different network types: `manual`, `dynamic`, and `vip`. At least one should be specified.
 
-See [networks](networks.html) for more details.
+See [networks](networks.md) for more details.
 
 ### <a id='networks-cloud-properties'></a> CPI Specific `cloud_properties`
 
-- [See AWS CPI network cloud properties](aws-cpi.html#networks)
-- [See Azure CPI network cloud properties](azure-cpi.html#networks)
-- [See OpenStack CPI network cloud properties](openstack-cpi.html#networks)
-- [See SoftLayer CPI network cloud properties](softlayer-cpi.html#networks)
-- [See Google Cloud Plaform CPI network cloud properties](google-cpi.html#networks)
-- [See vSphere CPI network cloud properties](vsphere-cpi.html#networks)
-- [See vCloud CPI network cloud properties](vcloud-cpi.html#networks)
+- [See AWS CPI network cloud properties](aws-cpi.md#networks)
+- [See Azure CPI network cloud properties](azure-cpi.md#networks)
+- [See OpenStack CPI network cloud properties](openstack-cpi.md#networks)
+- [See SoftLayer CPI network cloud properties](softlayer-cpi.md#networks)
+- [See Google Cloud Plaform CPI network cloud properties](google-cpi.md#networks)
+- [See vSphere CPI network cloud properties](vsphere-cpi.md#networks)
+- [See vCloud CPI network cloud properties](vcloud-cpi.md#networks)
 
 ---
 ## <a id='vm-types'></a> VM Types Block
@@ -175,13 +175,13 @@ vm_types:
 
 ### <a id='vm-types-cloud-properties'></a> CPI Specific `cloud_properties`
 
-- [See AWS CPI VM types cloud properties](aws-cpi.html#resource-pools)
-- [See Azure CPI VM types cloud properties](azure-cpi.html#resource-pools)
-- [See OpenStack CPI VM types cloud properties](openstack-cpi.html#resource-pools)
-- [See SoftLayer CPI VM types cloud properties](softlayer-cpi.html#resource-pools)
-- [See Google Cloud Platform CPI VM types cloud properties](google-cpi.html#resource-pools)
-- [See vSphere CPI VM types cloud properties](vsphere-cpi.html#resource-pools)
-- [See vCloud CPI VM types cloud properties](vcloud-cpi.html#resource-pools)
+- [See AWS CPI VM types cloud properties](aws-cpi.md#resource-pools)
+- [See Azure CPI VM types cloud properties](azure-cpi.md#resource-pools)
+- [See OpenStack CPI VM types cloud properties](openstack-cpi.md#resource-pools)
+- [See SoftLayer CPI VM types cloud properties](softlayer-cpi.md#resource-pools)
+- [See Google Cloud Platform CPI VM types cloud properties](google-cpi.md#resource-pools)
+- [See vSphere CPI VM types cloud properties](vsphere-cpi.md#resource-pools)
+- [See vCloud CPI VM types cloud properties](vcloud-cpi.md#resource-pools)
 
 ---
 ## <a id='vm-extensions'></a> VM Extensions Block
@@ -225,13 +225,13 @@ disk_types:
 
 ### <a id='disk-types-cloud-properties'></a> CPI Specific `cloud_properties`
 
-- [See AWS CPI disk type cloud properties](aws-cpi.html#disk-pools)
-- [See Azure CPI disk type cloud properties](azure-cpi.html#disk-pools)
-- [See OpenStack CPI disk type cloud properties](openstack-cpi.html#disk-pools)
-- [See SoftLayer CPI disk type cloud properties](softlayer-cpi.html#disk-pools)
-- [See Google Cloud Platform CPI disk type cloud properties](google-cpi.html#disk-pools)
-- [See vSphere CPI disk type cloud properties](vsphere-cpi.html#disk-pools)
-- [See vCloud CPI disk type cloud properties](vcloud-cpi.html#disk-pools)
+- [See AWS CPI disk type cloud properties](aws-cpi.md#disk-pools)
+- [See Azure CPI disk type cloud properties](azure-cpi.md#disk-pools)
+- [See OpenStack CPI disk type cloud properties](openstack-cpi.md#disk-pools)
+- [See SoftLayer CPI disk type cloud properties](softlayer-cpi.md#disk-pools)
+- [See Google Cloud Platform CPI disk type cloud properties](google-cpi.md#disk-pools)
+- [See vSphere CPI disk type cloud properties](vsphere-cpi.md#disk-pools)
+- [See vCloud CPI disk type cloud properties](vcloud-cpi.md#disk-pools)
 
 ---
 ## <a id='compilation'></a> Compilation Block
@@ -247,7 +247,7 @@ The Director creates compilation VMs for release compilation. The Director will 
 * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create VMs. Most IaaSes require this. Examples: `instance_type`, `availability_zone`. Default is `{}` (empty Hash).
 * **network** [String, required]: References a valid network name defined in the Networks block. BOSH assigns network properties to compilation VMs according to the type and properties of the specified network.
 * **reuse\_compilation\_vms** [Boolean, optional]: If `false`, BOSH creates a new compilation VM for each new package compilation and destroys the VM when compilation is complete. If `true`, compilation VMs are re-used when compiling packages. Defaults to `false`.
-* **env** [Hash, optional]: Same as [`env` for instance groups](manifest-v2.html#instance-groups).
+* **env** [Hash, optional]: Same as [`env` for instance groups](manifest-v2.md#instance-groups).
 
 Example:
 

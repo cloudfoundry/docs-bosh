@@ -4,12 +4,12 @@ title: Terminology
 
 ## <a id="az"></a> AZ or Availability Zone
 
-An availability zone represents a separated set of cloud resources (typically compute, networking and storage) such that failures in one AZ cause minimal impact in a different AZ. [See usage details](azs.html).
+An availability zone represents a separated set of cloud resources (typically compute, networking and storage) such that failures in one AZ cause minimal impact in a different AZ. [See usage details](azs.md).
 
 ---
 ## <a id="addon"></a> Addon
 
-A release job that is colocated on all VMs managed by the Director. Addons are configured in the runtime config. [See usage details](runtime-config.html).
+A release job that is colocated on all VMs managed by the Director. Addons are configured in the runtime config. [See usage details](runtime-config.md).
 
 ---
 ## <a id="agent"></a> Agent
@@ -24,7 +24,7 @@ Tool that was replace by CLI v2's `create-env` command used for creating and upd
 ---
 ## <a id="bosh-lite"></a> BOSH Lite
 
-BOSH Lite is a Director VM that is configured to use Warden CPI, which emulates VMs with containers. It's typically installed locally with VirtualBox; however, it could also be installed onto any cloud BOSH supports. [See usage details](bosh-lite.html)
+BOSH Lite is a Director VM that is configured to use Warden CPI, which emulates VMs with containers. It's typically installed locally with VirtualBox; however, it could also be installed onto any cloud BOSH supports. [See usage details](bosh-lite.md)
 
 ---
 ## <a id="canary"></a> Canary (Instance)
@@ -34,12 +34,12 @@ Canary instances are first instances updated within an instance group. Any updat
 ---
 ## <a id="cli"></a> CLI (v1)
 
-The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. You must [install](bosh-cli.html) the CLI to use BOSH. Run `bosh help --all` to view the help. It is superseded by CLI v2.
+The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. You must [install](bosh-cli.md) the CLI to use BOSH. Run `bosh help --all` to view the help. It is superseded by CLI v2.
 
 ---
 ## <a id="cli-v2"></a> CLI v2
 
-The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. CLI v2 is a new major version of CLI. It also replaces bosh-init CLI to manage Director VM. It's the recommended way to interact with the Director. [See usage details](cli-v2.html).
+The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. CLI v2 is a new major version of CLI. It also replaces bosh-init CLI to manage Director VM. It's the recommended way to interact with the Director. [See usage details](cli-v2.md).
 
 ---
 ## <a id="cloud"></a> Cloud
@@ -54,12 +54,12 @@ ID returned from the Cloud identifying particular resource such as VM or disk.
 ---
 ## <a id="cloud-config"></a> Cloud Config
 
-The cloud config is a YAML file that defines IaaS specific configuration used by the Director and all deployments. It allows to separate IaaS specific configuration into its own file and keep deployment manifests IaaS agnostic. [See usage details](cloud-config.html).
+The cloud config is a YAML file that defines IaaS specific configuration used by the Director and all deployments. It allows to separate IaaS specific configuration into its own file and keep deployment manifests IaaS agnostic. [See usage details](cloud-config.md).
 
 ---
 ## <a id="compiled-release"></a> Compiled Release
 
-A compiled release contains jobs and compiled packages. A non-compiled release (or just release) contains jobs and source packages. [See usage details](compiled-releases.html).
+A compiled release contains jobs and compiled packages. A non-compiled release (or just release) contains jobs and source packages. [See usage details](compiled-releases.md).
 
 ---
 ## <a id="cpi"></a> CPI
@@ -74,7 +74,7 @@ BOSH deploys software to the cloud using a deployment manifest, one or more stem
 ---
 ## <a id="deployment"></a> Deployment
 
-An encapsulation of software and configuration that BOSH can deploy to the cloud. You can think of a deployment as the state of a collection of VMs: what software is on them, what resources they use, and how these are orchestrated. Even though BOSH creates the deployment using ephemeral resources, the deployment is stable in that BOSH re-creates VMs that fail and otherwise works to keep your software running. BOSH also manages persistent disks so that state (for example, database data files) can survive when VMs are re-created. Combination of a deployment manifest, stemcells, and releases is portable across different clouds with minimal changes to the deployment manifest. See [What is a Deployment?](deployment.html).
+An encapsulation of software and configuration that BOSH can deploy to the cloud. You can think of a deployment as the state of a collection of VMs: what software is on them, what resources they use, and how these are orchestrated. Even though BOSH creates the deployment using ephemeral resources, the deployment is stable in that BOSH re-creates VMs that fail and otherwise works to keep your software running. BOSH also manages persistent disks so that state (for example, database data files) can survive when VMs are re-created. Combination of a deployment manifest, stemcells, and releases is portable across different clouds with minimal changes to the deployment manifest. See [What is a Deployment?](deployment.md).
 
 ---
 ## <a id="director"></a> Director
@@ -99,7 +99,7 @@ A single VM with the Director and other necessary components.
 ---
 ## <a id="disk-type"></a> <a id="disk-pool"></a> Disk Type (previously known as Disk Pool)
 
-Disk type is a named disk configuration specified in the cloud config. [See usage details](cloud-config.html#disk-types) and [read more about persistent disks](persistent-disks.html).
+Disk type is a named disk configuration specified in the cloud config. [See usage details](cloud-config.md#disk-types) and [read more about persistent disks](persistent-disks.md).
 
 ---
 ## <a id="environment"></a> Environment
@@ -115,7 +115,7 @@ An errand is a short-lived job that can be triggered by an operator any time aft
 - comprehensive test suites
 - CF service broker binding and unbinding
 
-[See details](errands.html).
+[See details](errands.md).
 
 ---
 ## <a id="event"></a> Event
@@ -125,7 +125,7 @@ Actions taken by the Director (via user or system control) are recorded as event
 - VM create/delete
 - cloud config update
 
-[See details](events.html).
+[See details](events.md).
 
 ---
 ## <a id="iaas"></a> IaaS
@@ -145,17 +145,17 @@ An instance group is a collection of instances tasked to perform same jobs. Each
 ---
 ## <a id="instance-lifecycle"></a> Instance Lifecycle
 
-Stages that all jobs (and their associated processes) go through during a deployment process on one instance. For example: pre-start, start, drain, etc. [See details](job-lifecycle.html).
+Stages that all jobs (and their associated processes) go through during a deployment process on one instance. For example: pre-start, start, drain, etc. [See details](job-lifecycle.md).
 
 ---
 ## <a id="job"></a> Job (aka Release Job)
 
-A job is part of a release. It contains startup, shutdown scripts, and configuration files that tell the Agent how to start, run and monitor software on a VM. Jobs can depend on packages for necessary software. [See details](jobs.html).
+A job is part of a release. It contains startup, shutdown scripts, and configuration files that tell the Agent how to start, run and monitor software on a VM. Jobs can depend on packages for necessary software. [See details](jobs.md).
 
 ---
 ## <a id="job-lifecycle"></a> Job Lifecycle
 
-Stages that all jobs (and their associated processes) go through during a deployment process on one instance. For example: pre-start, start, drain, etc. [See details](job-lifecycle.html).
+Stages that all jobs (and their associated processes) go through during a deployment process on one instance. For example: pre-start, start, drain, etc. [See details](job-lifecycle.md).
 
 ---
 ## <a id="jumpbox"></a> Jumpbox
@@ -175,12 +175,12 @@ A user that sets up and/or uses the Director (via BOSH CLI or Director API) to m
 ---
 ## <a id="operations-file"></a> Operations file (ops file)
 
-A YAML file that includes multiple operations to be applied to a different YAML file. Several CLI commands such as `create-env` and `interpolate` allow to provide multiple operations files via `--ops-file` flag. [See details](cli-ops-files.html).
+A YAML file that includes multiple operations to be applied to a different YAML file. Several CLI commands such as `create-env` and `interpolate` allow to provide multiple operations files via `--ops-file` flag. [See details](cli-ops-files.md).
 
 ---
 ## <a id="operation"></a> Operation
 
-A single directive in an operations file. An operation describes one change to make to a YAML structure. Currently there are two types of operations: replace and remove. [See details](cli-ops-files.html).
+A single directive in an operations file. An operation describes one change to make to a YAML structure. Currently there are two types of operations: replace and remove. [See details](cli-ops-files.md).
 
 ---
 ## <a id="orphaned-disk"></a> Orphaned (Persistent) Disk
@@ -195,12 +195,12 @@ A package is part of a release. It contains vendored in software source and scri
 ---
 ## <a id="persistent-disk"></a> Persistent Disk
 
-A persistent disk is a disk created in the cloud and associated with a specific [instance](terminology.html#instance). While instance's associated VM is recreated, same persistent disk will be reattached. [See usage details](persistent-disks.html).
+A persistent disk is a disk created in the cloud and associated with a specific [instance](terminology.md#instance). While instance's associated VM is recreated, same persistent disk will be reattached. [See usage details](persistent-disks.md).
 
 ---
 ## <a id="release"></a> Release
 
-A collection of configuration files, source code, jobs, packages and accompanying information needed to make a software component deployable by BOSH. A self-contained release should have no dependencies that need to be fetched from the internet. See [What is a Release?](release.html).
+A collection of configuration files, source code, jobs, packages and accompanying information needed to make a software component deployable by BOSH. A self-contained release should have no dependencies that need to be fetched from the internet. See [What is a Release?](release.md).
 
 ---
 ## <a id="resource-pool"></a> Resource Pool
@@ -210,17 +210,17 @@ Resource pool is collections of VMs created from the same stemcell, with the sam
 ---
 ## <a id="runtime-config"></a> Runtime Config
 
-The runtime config is a YAML file that defines global configuration used by the Director and all deployments. It allows to specify addons. [See usage details](runtime-config.html).
+The runtime config is a YAML file that defines global configuration used by the Director and all deployments. It allows to specify addons. [See usage details](runtime-config.md).
 
 ---
 ## <a id="stemcell"></a> Stemcell
 
-A generic VM image that BOSH clones and configures during deployment. A stemcell is a template from which BOSH creates whatever VMs are needed for a wide variety of components and products. See [What is a Stemcell?](stemcell.html).
+A generic VM image that BOSH clones and configures during deployment. A stemcell is a template from which BOSH creates whatever VMs are needed for a wide variety of components and products. See [What is a Stemcell?](stemcell.md).
 
 ---
 ## <a id="team"></a> Team
 
-Each deployment can be managed by specific teams. A logged in UAA user can belong to one or more teams. [See details](director-users-uaa-perms.html#team-admin).
+Each deployment can be managed by specific teams. A logged in UAA user can belong to one or more teams. [See details](director-users-uaa-perms.md#team-admin).
 
 ---
 ## <a id="variable"></a> Variable (var)
@@ -230,9 +230,9 @@ Variable points to a saved value in some store. Variables are typically used in 
 ---
 ## <a id="vm-extension"></a> VM Extension
 
-VM extension is a named Virtual Machine configuration in the cloud config that allows to specify arbitrary IaaS specific configuration such as associated security groups and load balancers. [See usage details](cloud-config.html#vm-extensions).
+VM extension is a named Virtual Machine configuration in the cloud config that allows to specify arbitrary IaaS specific configuration such as associated security groups and load balancers. [See usage details](cloud-config.md#vm-extensions).
 
 ---
 ## <a id="vm-type"></a> VM Type
 
-VM type is a named Virtual Machine size configuration in the cloud config. [See usage details](cloud-config.html#vm-types).
+VM type is a named Virtual Machine size configuration in the cloud config. [See usage details](cloud-config.md#vm-types).

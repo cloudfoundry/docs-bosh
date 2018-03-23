@@ -2,9 +2,9 @@
 title: Build Deployment Manifest
 ---
 
-(See [What is a Deployment?](deployment.html) for an introduction to deployments.)
+(See [What is a Deployment?](deployment.md) for an introduction to deployments.)
 
-A deployment is a collection of VMs, persistent disks and other resources. To create a deployment in the Director, it has to be described with a [deployment manifest](terminology.html#manifest). Most deployment manifests look something like this:
+A deployment is a collection of VMs, persistent disks and other resources. To create a deployment in the Director, it has to be described with a [deployment manifest](terminology.md#manifest). Most deployment manifests look something like this:
 
 ```yaml
 ---
@@ -64,25 +64,25 @@ Here is how deployment manifest describes a reasonably complex Zookeeper cluster
 - Operating system image onto which install software
   - include latest version of `ubuntu-trusty` stemcell
 - Create 5 Zookeeper VMs spread
-  - add `zookeeper` [instance group](terminology.html#instance-group) with `instances: 5`
+  - add `zookeeper` [instance group](terminology.md#instance-group) with `instances: 5`
 - Spread VMs over multiple availability zones
   - add `azs: [z1, z2, z3]`
 - Install Zookeeper software onto VMs
   - add `zookeeper` job to this instance group
 - Size VMs in the same way
   - add `vm_type: default` which references VM type from cloud config
-- Attach a 10GB [persistent disk](terminology.html#persistent-disk) to each Zookeeper VM
+- Attach a 10GB [persistent disk](terminology.md#persistent-disk) to each Zookeeper VM
   - add `persistent_disk: 10240` to `zookeeper` instance group
-- Place VMs onto some [network](networks.html)
+- Place VMs onto some [network](networks.md)
   - add `networks: [{name: default}]` to `zookeeper` instance group
 - Provide a way to smoke test Zookeeper cluster
   - add `smoke-tests` instance group with `smoke-tests` job from Zookeeper release
 
-Refer to [manifest v2 schema](manifest-v2.html) for detailed breakdown.
+Refer to [manifest v2 schema](manifest-v2.md) for detailed breakdown.
 
 Once manifest is complete referenced stemcells and releases must be uploaded.
 
 ---
-Next: [Upload Stemcells](uploading-stemcells.html)
+Next: [Upload Stemcells](uploading-stemcells.md)
 
-Previous: [Update Cloud Config](update-cloud-config.html)
+Previous: [Update Cloud Config](update-cloud-config.md)

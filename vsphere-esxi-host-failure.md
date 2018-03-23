@@ -48,8 +48,8 @@ The following steps will allow the Resurrector to recreate these VMs on a health
    * VMs and stemcells can be deleted by right-clicking on them, selecting **All vCenter Actions &rarr; Delete from Disk**
 
 ---
-[Back to Table of Contents](index.html#cpi-config)
+[Back to Table of Contents](index.md#cpi-config)
 
-Previous: [vSphere HA](vsphere-ha.html)
+Previous: [vSphere HA](vsphere-ha.md)
 
-Next: [Recovery from a vSphere Network Partitioning Fault](vsphere-network-partition.html)
+Next: [Recovery from a vSphere Network Partitioning Fault](vsphere-network-partition.md)

@@ -4,7 +4,7 @@ title: Repacking Stemcells
 
 <p class="note">Note: Applies to CLI v2 v2.0.12+.</p>
 
-The [CLI v2](cli-v2.html) includes a command to repack stemcells; this enables limited customization of a stemcell including the following:
+The [CLI v2](cli-v2.md) includes a command to repack stemcells; this enables limited customization of a stemcell including the following:
 
 - name
 - version

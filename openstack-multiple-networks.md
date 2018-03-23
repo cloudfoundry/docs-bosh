@@ -18,17 +18,17 @@ you will need to set them by other means.
 1. In your Director deployment manifest, set [`properties.openstack.config_drive: cdrom`]
    (https://bosh.io/jobs/openstack_cpi?source=github.com/cloudfoundry-incubator/bosh-openstack-cpi-release#p=openstack.config_drive).
    This means OpenStack will mount a cdrom drive to distribute meta-data and user-data instead of using an HTTP metadata service.
-1. In your [BOSH network configuration](networks.html#manual), set `gateway` and `dns` to allow outbound communication.
+1. In your [BOSH network configuration](networks.md#manual), set `gateway` and `dns` to allow outbound communication.
 1. If you're not using VLAN, but a tunnel mechanism for Neutron networking, you also need to set the MTU for your network devices on *all* VMs:
    * GRE Tunnels incur an overhead of 42 bytes, therefore set your MTU to `1458`
    * VXLAN Tunnels incur an overhead of 50 bytes, therefore set your MTU to `1450`
    <p class="note">Note: The above numbers assume that you're using an MTU of 1500 for the physical network. If your physical network is setup differently, adapt the MTU values accordingly.</p>
 
-Setting the MTU for network devices is currently not possible in the deployment manifest's `networks` section and thus requires manual user interaction. We recommend to co-locate the [networking-release](https://github.com/cloudfoundry/networking-release)'s `set_mtu` job using [addons](runtime-config.html#addons).
+Setting the MTU for network devices is currently not possible in the deployment manifest's `networks` section and thus requires manual user interaction. We recommend to co-locate the [networking-release](https://github.com/cloudfoundry/networking-release)'s `set_mtu` job using [addons](runtime-config.md#addons).
 
 ---
-[Back to Table of Contents](index.html#cpi-config)
+[Back to Table of Contents](index.md#cpi-config)
 
-Next: [Using Light Stemcells](openstack-light-stemcells.html)
+Next: [Using Light Stemcells](openstack-light-stemcells.md)
 
-Previous: [Validating self-signed OpenStack endpoints](openstack-self-signed-endpoints.html)
+Previous: [Validating self-signed OpenStack endpoints](openstack-self-signed-endpoints.md)

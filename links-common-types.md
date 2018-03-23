@@ -11,7 +11,7 @@ Common suggested link types that release authors should conform to if type is us
 
 * **adapter** [String]: Name of the adapter.
 * **port** [Integer]: Port to connect on.
-* **tls** [Hash]: See [TLS properties](props-common.html#tls)
+* **tls** [Hash]: See [TLS properties](props-common.md#tls)
 * **username** [String]: Database username to use. Example: `u387455`.
 * **password** [String]: Database password to use.
 * **database** [String]: Database name. Example: `app-server`
@@ -23,5 +23,5 @@ Common suggested link types that release authors should conform to if type is us
 `link('...').address` returns blobstore address.
 
 * **adapter** [String]: Name of the adapter (s3, gcp, etc.).
-* **tls** [Hash]: See [TLS properties](props-common.html#tls)
+* **tls** [Hash]: See [TLS properties](props-common.md#tls)
 * **options** [Hash, optional]: Opaque set of options. Example: `{aws_access_key: ..., secret_access_key: ...}`.

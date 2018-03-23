@@ -25,7 +25,7 @@ In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director 
 
 ### Steps
 
-1. To deploy the Director use `bosh create-env` command with additional IPv6-specific ops files. See [Creating environment on vSphere](init-vsphere.html) for more details on initializing Director on vSphere.
+1. To deploy the Director use `bosh create-env` command with additional IPv6-specific ops files. See [Creating environment on vSphere](init-vsphere.md) for more details on initializing Director on vSphere.
 
     ```shell
     # Create directory to keep state
@@ -84,7 +84,7 @@ In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director 
 
 ### <a id="pure-deploy"></a> Deploy example Zookeeper deployment
 
-Follow steps below or the [deploy workflow](basic-workflow.html) that goes through the same steps but with more explanation.
+Follow steps below or the [deploy workflow](basic-workflow.md) that goes through the same steps but with more explanation.
 
 1. Update configs
 

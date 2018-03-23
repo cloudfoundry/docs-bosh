@@ -2,9 +2,9 @@
 title: Expose Director on a public IP
 ---
 
-It's strongly recommended to not allow ingress traffic to the Director VM via public IP. One way to achieve that is to use a [jumpbox](terminology.html#jumpbox) to access internal networks.
+It's strongly recommended to not allow ingress traffic to the Director VM via public IP. One way to achieve that is to use a [jumpbox](terminology.md#jumpbox) to access internal networks.
 
-If you do have a jumpbox consider using [CLI tunneling functionality](cli-tunnel.html) instead of running CLI from the jumpbox VM.
+If you do have a jumpbox consider using [CLI tunneling functionality](cli-tunnel.md) instead of running CLI from the jumpbox VM.
 
 When it's not desirable or possible to have a jumpbox, you can use following steps to assign public IP to the Director VM.
 

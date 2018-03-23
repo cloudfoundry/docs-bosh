@@ -11,7 +11,7 @@ With first class AZs support in the Director it's no longer necessary to duplica
 ---
 ## <a id='config'></a> Defining AZs
 
-To use first class AZs, you have to opt into using [cloud config](cloud-config.html).
+To use first class AZs, you have to opt into using [cloud config](cloud-config.md).
 
 Here is how AZ configuration looks like for two AZs on AWS.
 
@@ -37,13 +37,13 @@ AZs schema:
 
 ### <a id='azs-cloud-properties'></a> CPI Specific `cloud_properties`
 
-- [See AWS CPI AZ cloud properties](aws-cpi.html#azs)
-- [See Azure CPI AZ cloud properties](azure-cpi.html#azs)
-- [See OpenStack CPI AZ cloud properties](openstack-cpi.html#azs)
-- [See SoftLayer CPI AZ cloud properties](softlayer-cpi.html#azs)
-- [See Google Cloud Platform CPI AZ cloud properties](google-cpi.html#azs)
-- [See vSphere CPI AZ cloud properties](vsphere-cpi.html#azs)
-- [See vCloud CPI AZ cloud properties](vcloud-cpi.html#azs)
+- [See AWS CPI AZ cloud properties](aws-cpi.md#azs)
+- [See Azure CPI AZ cloud properties](azure-cpi.md#azs)
+- [See OpenStack CPI AZ cloud properties](openstack-cpi.md#azs)
+- [See SoftLayer CPI AZ cloud properties](softlayer-cpi.md#azs)
+- [See Google Cloud Platform CPI AZ cloud properties](google-cpi.md#azs)
+- [See vSphere CPI AZ cloud properties](vsphere-cpi.md#azs)
+- [See vCloud CPI AZ cloud properties](vcloud-cpi.md#azs)
 
 ---
 ## <a id='assigning-azs'></a> Assigning AZs to deployment instance groups
@@ -66,7 +66,7 @@ Given above configuration, 5 instances will be spread over "z1" and "z2" AZs, mo
 - new instances will be spread as evenly as possible over specified AZs
 - existing instances will be preserved if possible but will be rebalanced if necessary to even out distribution
 - existing instances with persistent disks will not be rebalanced to avoid losing persistent data
-- existing instances in a removed AZ will be removed and their [persistent disks will be orphaned](persistent-disks.html)
+- existing instances in a removed AZ will be removed and their [persistent disks will be orphaned](persistent-disks.md)
 - if static IPs are specified on one or more networks, AZ selection is focused to satisfy IPs' AZ assignment
 
 <p class="note">We are planning to eventually introduce <code>bosh rebalance</code> command to forcefully rebalance instances with persistent disks.</a>

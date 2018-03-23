@@ -22,7 +22,7 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
     - issue unmount_disk Agent call for attached disks
     - issue delete_vm CPI call for each VM
     - orphan persistent disks
-    - [Update and propagate DNS records](deploying-step-by-step.html#dns)
+    - [Update and propagate DNS records](deploying-step-by-step.md#dns)
 
 1. Create compilation worker VMs based on as specified by `compilation` section
     - issue create_vm CPI call
@@ -34,10 +34,10 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
     - issue delete_vm CPI call
 
 1. Create empty VMs for new instance groups
-    - [Update and propagate DNS records](deploying-step-by-step.html#dns)
+    - [Update and propagate DNS records](deploying-step-by-step.md#dns)
 
 1. Create empty VMs for instance groups that increased in instance size
-    - [Update and propagate DNS records](deploying-step-by-step.html#dns)
+    - [Update and propagate DNS records](deploying-step-by-step.md#dns)
 
 1. Update each one of the instance groups:
 
@@ -52,7 +52,7 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
     1. Download updated jobs and packages onto the VM
         - issue prepare Agent call
 
-    1. [run drain and stop scripts to safely stop processes on the VM](job-lifecycle.html#stop)
+    1. [run drain and stop scripts to safely stop processes on the VM](job-lifecycle.md#stop)
         - issue drain Agent call
         - issue stop Agent call
 
@@ -63,7 +63,7 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
         - if no, create a new VM based on a correct stemcell
             - issue delete_vm CPI call
             - issue create_vm CPI call
-            - [Update and propagate DNS records](deploying-step-by-step.html#dns)
+            - [Update and propagate DNS records](deploying-step-by-step.md#dns)
         - if yes, do nothing
 
     1. Check if the instance group's network configuration changed
@@ -71,7 +71,7 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
         - if yes, reconfigure running VM to match new configuration
             - issue delete_vm CPI call
             - issue create_vm CPI call
-            - [Update and propagate DNS records](deploying-step-by-step.html#dns)
+            - [Update and propagate DNS records](deploying-step-by-step.md#dns)
 
     1. Update DNS A record for this instance with new IP
 
@@ -87,7 +87,7 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
     1. Configure VM to have new set of jobs
         - issue apply Agent call
 
-    1. [start processes on the VM and wait up to specified amount of time by the `update_watch_time` or `canary_watch_time`](job-lifecycle.html#start)
+    1. [start processes on the VM and wait up to specified amount of time by the `update_watch_time` or `canary_watch_time`](job-lifecycle.md#start)
         - issue start Agent call
         - issue get_state Agent call until job state is running or times out
 

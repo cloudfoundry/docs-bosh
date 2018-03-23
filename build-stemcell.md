@@ -2,7 +2,7 @@
 title: Stemcell Building
 ---
 
-(See [What is a Stemcell?](stemcell.html) for an introduction to stemcells.)
+(See [What is a Stemcell?](stemcell.md) for an introduction to stemcells.)
 
 To build a stemcell tarball for a supported IaaS-OS combination follow instructions in the [bosh-linux-stemcell-builder's README](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/README.md).
 
@@ -45,7 +45,7 @@ $ tar tvf light-bosh-stemcell-3033-aws-xen-hvm-ubuntu-trusty-go_agent.tgz
 * **version** [String, required]: Version of the stemcell. Example: `3033`.
 * **sha1** [String, required]: The SHA1 of the image file included in the stemcell tarball.
 * **bosh_protocol** [Integer, optional]: Deprecated.
-* **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to import OS image. These properties will be passed in to the [`create_stemcell` CPI call](cpi-api-v1.html#create-stemcell).
+* **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to import OS image. These properties will be passed in to the [`create_stemcell` CPI call](cpi-api-v1.md#create-stemcell).
 
 Name, operating system and version values will be visible via `bosh stemcells` command once a stemcell is imported into the Director.
 
@@ -83,7 +83,7 @@ Some IaaSes (or how they are configured) limit how OS images can be imported. He
 - OpenStack can be configured to disallow Glance image upload
 - an IaaS may take long time to import an image making it beneficial to reuse existing images
 
-In such cases CPI must use already imported OS image and that's where light stemcells come in. Light stemcell tarballs include additional details about already imported OS images in the `cloud_properties` section. For example light stemcells for AWS have `ami` key in the `cloud_properties` section (as shown above), that contains region-to-AMI-ID mappings. When AWS CPI's [`create_stemcell` call](cpi-api-v1.html#create-stemcell) is made, it will return matching AMI ID without doing any IaaS API calls.
+In such cases CPI must use already imported OS image and that's where light stemcells come in. Light stemcell tarballs include additional details about already imported OS images in the `cloud_properties` section. For example light stemcells for AWS have `ami` key in the `cloud_properties` section (as shown above), that contains region-to-AMI-ID mappings. When AWS CPI's [`create_stemcell` call](cpi-api-v1.md#create-stemcell) is made, it will return matching AMI ID without doing any IaaS API calls.
 
 ---
 ## <a id="testing"></a> Testing
@@ -94,6 +94,6 @@ There are two test suites each stemcell is expected to pass before it's consider
 - shared [BOSH Acceptance Tests (BATS)](https://github.com/cloudfoundry/bosh/blob/master/docs/running_tests.md#bosh-acceptance-tests-bats) (provided by the BOSH team) which verify high level Director behavior with the stemcell being used
 
 ---
-[Back to Table of Contents](index.html#extend)
+[Back to Table of Contents](index.md#extend)
 
 Previous: [Agent-CPI interactions](agent-cpi-interactions.html)

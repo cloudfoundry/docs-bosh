@@ -21,8 +21,8 @@ The OpenStack CPI v28+ uses neutron networking by default. This document describ
 1. Deploy the Director
 
 ---
-[Back to Table of Contents](index.html#cpi-config)
+[Back to Table of Contents](index.md#cpi-config)
 
-Next: [Extended Registry configuration](openstack-registry.html)
+Next: [Extended Registry configuration](openstack-registry.md)
 
-Previous: [Using Keystone API v2](openstack-keystonev2.html)
+Previous: [Using Keystone API v2](openstack-keystonev2.md)

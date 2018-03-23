@@ -2,7 +2,7 @@
 title: Components
 ---
 
-Before creating a new [environment](terminology.html#environment) we recommend to learn the names of major components that will be installed, used and configured:
+Before creating a new [environment](terminology.md#environment) we recommend to learn the names of major components that will be installed, used and configured:
 
 ![image](images/bosh-architecture.png)
 
@@ -100,4 +100,4 @@ This example shows how components interact when creating a new VM.
 1. The Agent uses the IP addresses and IDs to configure the VM.
 
 ---
-Next: [Create an environment](init.html)
+Next: [Create an environment](init.md)

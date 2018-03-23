@@ -8,8 +8,8 @@ This topic describes different types of logs and how to access them.
 
 You can access logs from any VM:
 
-* via [`bosh ssh` command](sysadmin-commands.html#ssh) to SSH into a VM and look at the log files
-* via [`bosh logs` command](sysadmin-commands.html#logs) to download logs from the VM
+* via [`bosh ssh` command](sysadmin-commands.md#ssh) to SSH into a VM and look at the log files
+* via [`bosh logs` command](sysadmin-commands.md#logs) to download logs from the VM
 
 The following sections describe different types of logs found on each BOSH managed VM.
 
@@ -27,8 +27,8 @@ To download logs from all release jobs on a specific VM, run `bosh logs <job_nam
 
 See additonal information about following job lifecycle events' logs:
 
-- [pre-start script logs](pre-start.html#logs)
-- [drain script logs](drain.html#logs)
+- [pre-start script logs](pre-start.md#logs)
+- [drain script logs](drain.md#logs)
 
 ---
 ### <a id="errand-logs"></a> Errand logs
@@ -91,14 +91,14 @@ Cron runs logrotate script every hour.
 ---
 ### <a id="syslog-conf"></a> Syslog configuration
 
-Recommended way to configure syslog forwarding on all or some VMs is to use [`syslog_forwarder` job from `syslog-release` as an addon](addons-common.html#syslog).
+Recommended way to configure syslog forwarding on all or some VMs is to use [`syslog_forwarder` job from `syslog-release` as an addon](addons-common.md#syslog).
 
 ---
 ## <a id="director-logs"></a> Director task logs
 
-When you run a [CLI](bosh-cli.html) command, the Director stores all activities for the specific command in a task log. Review these logs when you experience an issue with a command.
+When you run a [CLI](bosh-cli.md) command, the Director stores all activities for the specific command in a task log. Review these logs when you experience an issue with a command.
 
 To access Director task logs:
 
-1. Run [`bosh tasks recent`](sysadmin-commands.html#tasks) to find the task number of the command.
-1. Run [`bosh task <task_number>`](sysadmin-commands.html#tasks).
+1. Run [`bosh tasks recent`](sysadmin-commands.md#tasks) to find the task number of the command.
+1. Run [`bosh task <task_number>`](sysadmin-commands.md#tasks).

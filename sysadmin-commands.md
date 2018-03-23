@@ -2,7 +2,7 @@
 title: CLI Commands
 ---
 
-<p class="note">Note: See [CLI v2](cli-v2.html) for an updated CLI.</p>
+<p class="note">Note: See [CLI v2](cli-v2.md) for an updated CLI.</p>
 
 This document lists the all CLI commands you use to perform system administration tasks.
 
@@ -117,7 +117,7 @@ Displays current cloud config saved in the Director.
 $ bosh update cloud-config FILE_PATH
 ```
 
-Updates currently saved cloud config in the Director. See [cloud config description](cloud-config.html).
+Updates currently saved cloud config in the Director. See [cloud config description](cloud-config.md).
 
 ---
 ### <a id="runtime-config"></a> Runtime config
@@ -132,7 +132,7 @@ Displays current runtime config saved in the Director.
 $ bosh update runtime-config FILE_PATH
 ```
 
-Updates currently saved runtime config in the Director. See [runtime config description](runtime-config.html).
+Updates currently saved runtime config in the Director. See [runtime config description](runtime-config.md).
 
 ---
 ### <a id="deployment"></a> Deployment
@@ -292,7 +292,7 @@ Fetches a job or agent log from a VM. Supports custom filtering only for job log
 $ bosh events [--before-id ID] [--deployment NAME] [--task ID] [--instance NAME/ID]
 ```
 
-Displays table that lists events based on filters specified. See [events details](events.html).
+Displays table that lists events based on filters specified. See [events details](events.md).
 
 ---
 ### <a id="disks"></a> Disks

@@ -32,4 +32,4 @@ Assuming that the redis-server job depends on a redis package and the syslog-for
 - syslog-forwarder into `/var/vcap/packages/syslog-forwarder`
 
 ---
-Next: [VM Configuration Locations](vm-config.html)
+Next: [VM Configuration Locations](vm-config.md)

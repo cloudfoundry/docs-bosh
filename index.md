@@ -2,208 +2,208 @@
 title: Index
 ---
 
-See [Recent Additions and Updates](recent.html).
+See [Recent Additions and Updates](recent.md).
 
 ## <a id="intro"></a> Introduction
 
-* [What is BOSH?](about.html)
-    * [What problems does BOSH solve?](problems.html)
-        * [Stemcell](stemcell.html)
-        * [Release](release.html)
-        * [Deployment](deployment.html)
+* [What is BOSH?](about.md)
+    * [What problems does BOSH solve?](problems.md)
+        * [Stemcell](stemcell.md)
+        * [Release](release.md)
+        * [Deployment](deployment.md)
     * Comparison to other tools
-* [General architecture](bosh-components.html)
-* [Terminology](terminology.html)
+* [General architecture](bosh-components.md)
+* [Terminology](terminology.md)
 
 ---
 ## <a id="install"></a> Install BOSH
 
-* [Create an environment](init.html)
-    * [On Local machine (BOSH Lite)](bosh-lite.html)
-    * [On AWS](init-aws.html)
-      * [Expose Director on a Public IP](init-external-ip.html)
-    * [On Azure](init-azure.html)
-    * [On OpenStack](init-openstack.html)
-    * [On vSphere](init-vsphere.html)
-    * [On vCloud](init-vcloud.html)
-    * [On SoftLayer](init-softlayer.html)
-    * [On Google Compute Platform](init-google.html)
-    * [On RackHD](rackhd-cpi.html)
+* [Create an environment](init.md)
+    * [On Local machine (BOSH Lite)](bosh-lite.md)
+    * [On AWS](init-aws.md)
+      * [Expose Director on a Public IP](init-external-ip.md)
+    * [On Azure](init-azure.md)
+    * [On OpenStack](init-openstack.md)
+    * [On vSphere](init-vsphere.md)
+    * [On vCloud](init-vcloud.md)
+    * [On SoftLayer](init-softlayer.md)
+    * [On Google Compute Platform](init-google.md)
+    * [On RackHD](rackhd-cpi.md)
 
 ---
 ## <a id="basic-deploy"></a> Deploy software with BOSH
 
-* [Deploy workflow](basic-workflow.html)
-    * [Update cloud config](update-cloud-config.html)
-    * [Build deployment manifest](deployment-basics.html)
-    * [Upload stemcells](uploading-stemcells.html)
-    * [Upload releases](uploading-releases.html)
-    * [Deploy](deploying.html)
+* [Deploy workflow](basic-workflow.md)
+    * [Update cloud config](update-cloud-config.md)
+    * [Build deployment manifest](deployment-basics.md)
+    * [Upload stemcells](uploading-stemcells.md)
+    * [Upload releases](uploading-releases.md)
+    * [Deploy](deploying.md)
     * Run one-off tasks
     * Update deployment
 
 ### <a id="cli-v2"></a> CLI v2+
 
-* [Command reference](cli-v2.html)
-    * [`create-env` Dependencies](cli-env-deps.html)
-    * [Differences between CLI v2+ vs v1](cli-v2-diff.html)
-    * [Global Flags](cli-global-flags.html)
-    * [Environments](cli-envs.html)
-    * [Operations files](cli-ops-files.html)
-    * [Variable Interpolation](cli-int.html)
-    * [Tunneling](cli-tunnel.html)
+* [Command reference](cli-v2.md)
+    * [`create-env` Dependencies](cli-env-deps.md)
+    * [Differences between CLI v2+ vs v1](cli-v2-diff.md)
+    * [Global Flags](cli-global-flags.md)
+    * [Environments](cli-envs.md)
+    * [Operations files](cli-ops-files.md)
+    * [Variable Interpolation](cli-int.md)
+    * [Tunneling](cli-tunnel.md)
 
 ### <a id="director-config"></a> Running Director
 
-* [Troubleshooting](tips.html)
-* [Events](events.html)
-* [Director tasks](director-tasks.html)
-* [Managing releases](managing-releases.html)
-* [Managing stemcells](managing-stemcells.html)
-* [User management](director-users.html)
-    * [UAA Integration](director-users-uaa.html)
-    * [UAA Permissions](director-users-uaa-perms.html)
+* [Troubleshooting](tips.md)
+* [Events](events.md)
+* [Director tasks](director-tasks.md)
+* [Managing releases](managing-releases.md)
+* [Managing stemcells](managing-stemcells.md)
+* [User management](director-users.md)
+    * [UAA Integration](director-users-uaa.md)
+    * [UAA Permissions](director-users-uaa-perms.md)
 * CredHub Integration
-    * [Variable Types](variable-types.html)
-* [Backup and restore](director-backup.html)
+    * [Variable Types](variable-types.md)
+* [Backup and restore](director-backup.md)
 
 #### Misc
 
-* [Deploying step-by-step](deploying-step-by-step.html)
-* [SSL certificate configuration](director-certs.html)
-* [Removal of compilers](remove-dev-tools.html)
-* [Access event logging](director-access-events.html)
-* [Explicit ARP Flushing](flush-arp.html)
-* [Configuring external database](director-configure-db.html)
-* [Configuring external blobstore](director-configure-blobstore.html)
+* [Deploying step-by-step](deploying-step-by-step.md)
+* [SSL certificate configuration](director-certs.md)
+* [Removal of compilers](remove-dev-tools.md)
+* [Access event logging](director-access-events.md)
+* [Explicit ARP Flushing](flush-arp.md)
+* [Configuring external database](director-configure-db.md)
+* [Configuring external blobstore](director-configure-blobstore.md)
 
 ### <a id="deployment-config"></a> Detailed deployment configuration
 
-* [Manifest v2 schema](manifest-v2.html)
-    * [Links](links.html)
-    * [Link properties](links-properties.html)
-    * [Manual linking](links-manual.html)
-    * [Renaming/migrating instance groups](migrated-from.html)
-* [Persistent and orphaned disks](persistent-disks.html)
-    * [Customizing persistent disk FS](persistent-disk-fs.html)
-* [Configs](configs.html)
-  * [Cloud config](cloud-config.html)
-      * [AZs](azs.html)
-      * [Networks](networks.html)
-      * [VM anti-affinity](vm-anti-affinity.html)
-  * [Runtime config](runtime-config.html)
-      * [Addons](runtime-config.html#addons)
-      * [Common addons](addons-common.html)
-  * [CPI config](cpi-config.html)
-* [Trusted certificates](trusted-certs.html)
-* [Native DNS Support](dns.html)
+* [Manifest v2 schema](manifest-v2.md)
+    * [Links](links.md)
+    * [Link properties](links-properties.md)
+    * [Manual linking](links-manual.md)
+    * [Renaming/migrating instance groups](migrated-from.md)
+* [Persistent and orphaned disks](persistent-disks.md)
+    * [Customizing persistent disk FS](persistent-disk-fs.md)
+* [Configs](configs.md)
+  * [Cloud config](cloud-config.md)
+      * [AZs](azs.md)
+      * [Networks](networks.md)
+      * [VM anti-affinity](vm-anti-affinity.md)
+  * [Runtime config](runtime-config.md)
+      * [Addons](runtime-config.md#addons)
+      * [Common addons](addons-common.md)
+  * [CPI config](cpi-config.md)
+* [Trusted certificates](trusted-certs.md)
+* [Native DNS Support](dns.md)
 
 ### <a id="cpi-config"></a> Detailed CPI configuration & troubleshooting
 
-* [AWS](aws-cpi.html)
-    * [Using IAM instance profiles](aws-iam-instance-profiles.html)
-    * [Using instance storage](aws-instance-storage.html)
-    * [Creating IAM users](aws-iam-users.html)
-* [Azure](azure-cpi.html)
-    * [Creating resources](azure-resources.html)
-* [OpenStack](openstack-cpi.html)
-    * [Using Auto-anti-affinity](openstack-auto-anti-affinity.html)
-    * [Using Keystone v2 API](openstack-keystonev2.html)
-    * [Using nova-networking](openstack-nova-networking.html)
-    * [Extended Registry configuration](openstack-registry.html)
-    * [Human-readable VM names](openstack-human-readable-vm-names.html)
-    * [Validating self-signed OpenStack endpoints](openstack-self-signed-endpoints.html)
-    * [Multi-homed VMs](openstack-multiple-networks.html)
-    * [Using Light Stemcells](openstack-light-stemcells.html)
-* [vSphere](vsphere-cpi.html)
-    * [vSphere HA](vsphere-ha.html)
-    * [Migrating from one datastore to another](vsphere-migrate-datastores.html)
-    * [Storage DRS and vMotion Support](vsphere-vmotion-support.html)
-* [vCloud](vcloud-cpi.html)
-* [SoftLayer](softlayer-cpi.html)
-* [Google Compute Engine](google-cpi.html)
-    * [Required service account permissions](google-required-permissions.html)
-* [RackHD](rackhd-cpi.html)
-* [Warden/Garden](warden-cpi.html)
-* [VirtualBox](virtualbox-cpi.html)
+* [AWS](aws-cpi.md)
+    * [Using IAM instance profiles](aws-iam-instance-profiles.md)
+    * [Using instance storage](aws-instance-storage.md)
+    * [Creating IAM users](aws-iam-users.md)
+* [Azure](azure-cpi.md)
+    * [Creating resources](azure-resources.md)
+* [OpenStack](openstack-cpi.md)
+    * [Using Auto-anti-affinity](openstack-auto-anti-affinity.md)
+    * [Using Keystone v2 API](openstack-keystonev2.md)
+    * [Using nova-networking](openstack-nova-networking.md)
+    * [Extended Registry configuration](openstack-registry.md)
+    * [Human-readable VM names](openstack-human-readable-vm-names.md)
+    * [Validating self-signed OpenStack endpoints](openstack-self-signed-endpoints.md)
+    * [Multi-homed VMs](openstack-multiple-networks.md)
+    * [Using Light Stemcells](openstack-light-stemcells.md)
+* [vSphere](vsphere-cpi.md)
+    * [vSphere HA](vsphere-ha.md)
+    * [Migrating from one datastore to another](vsphere-migrate-datastores.md)
+    * [Storage DRS and vMotion Support](vsphere-vmotion-support.md)
+* [vCloud](vcloud-cpi.md)
+* [SoftLayer](softlayer-cpi.md)
+* [Google Compute Engine](google-cpi.md)
+    * [Required service account permissions](google-required-permissions.md)
+* [RackHD](rackhd-cpi.md)
+* [Warden/Garden](warden-cpi.md)
+* [VirtualBox](virtualbox-cpi.md)
 
 ### <a id="hm"></a> Health management of VMs and processes
 
-* [Monitoring](monitoring.html)
-    * [Configuring Health Monitor](hm-config.html)
-* [Process monitoring with Monit](vm-monit.html)
-* [Manual repair with Cloud Check](cck.html)
-* [Automatic repair with Resurrector](resurrector.html)
-* [Persistent disk snapshotting](snapshots.html)
+* [Monitoring](monitoring.md)
+    * [Configuring Health Monitor](hm-config.md)
+* [Process monitoring with Monit](vm-monit.md)
+* [Manual repair with Cloud Check](cck.md)
+* [Automatic repair with Resurrector](resurrector.md)
+* [Persistent disk snapshotting](snapshots.md)
 
 ### <a id="vm-config"></a> VM configuration (looking inside a deployment)
 
-* [Structure of a managed VM](vm-struct.html)
-    * [VM configuration locations](vm-config.html)
-* [Location and use of logs](job-logs.html)
-* [Instance metadata](instance-metadata.html)
+* [Structure of a managed VM](vm-struct.md)
+    * [VM configuration locations](vm-config.md)
+* [Location and use of logs](job-logs.md)
+* [Instance metadata](instance-metadata.md)
 * Debugging issues with jobs
 
 ---
 ## <a id="guides"></a> Guides
 
-* [IPv6 on vSphere](guide-ipv6-on-vsphere.html)
+* [IPv6 on vSphere](guide-ipv6-on-vsphere.md)
 * Multi-CPI
-  * [On AWS](guide-multi-cpi-aws.html)
+  * [On AWS](guide-multi-cpi-aws.md)
 
 ---
 ## <a id="release"></a> Package software with BOSH
 
 * What is a release?
-    * [Creating a release](create-release.html)
+    * [Creating a release](create-release.md)
     * Testing with dev releases
     * Cutting final releases
-    * [Compiled releases](compiled-releases.html)
-* [What is a job?](jobs.html)
+    * [Compiled releases](compiled-releases.md)
+* [What is a job?](jobs.md)
     * Creating a job
-        * [Job Templates](job-templates.html)
-    * [Errands](errands.html)
-    * [Properties: Suggested configurations](props-common.html)
-    * [Links: Common types](links-common-types.html)
-    * [Job lifecycle](job-lifecycle.html)
-        * [Pre-start script](pre-start.html)
-        * [Post-start script](post-start.html)
-        * [Post-deploy script](post-deploy.html)
-        * [Drain script](drain.html)
-    * [Scheduled processes](scheduled-procs.html)
-* [Releases and Jobs in Windows](windows.html)
-    * [Releases](windows.html#releases)
-    * [Jobs](windows.html#jobs)
-    * [Sample BOSH Windows Release](windows-sample-release.html)
+        * [Job Templates](job-templates.md)
+    * [Errands](errands.md)
+    * [Properties: Suggested configurations](props-common.md)
+    * [Links: Common types](links-common-types.md)
+    * [Job lifecycle](job-lifecycle.md)
+        * [Pre-start script](pre-start.md)
+        * [Post-start script](post-start.md)
+        * [Post-deploy script](post-deploy.md)
+        * [Drain script](drain.md)
+    * [Scheduled processes](scheduled-procs.md)
+* [Releases and Jobs in Windows](windows.md)
+    * [Releases](windows.md#releases)
+    * [Jobs](windows.md#jobs)
+    * [Sample BOSH Windows Release](windows-sample-release.md)
 * What is a package?
-    * [Creating a package](packages.html)
+    * [Creating a package](packages.md)
     * Relationship to release blobs
-    * [Vendoring packages](package-vendoring.html)
-    * [Release blobs](release-blobs.html)
+    * [Vendoring packages](package-vendoring.md)
+    * [Release blobs](release-blobs.md)
 * How do releases, jobs, and packages interact?
 * Managing release repository
-    * [Release blobstore](release-blobstore.html)
-        * [Configuring S3 release blobstore](s3-release-blobstore.html)
+    * [Release blobstore](release-blobstore.md)
+        * [Configuring S3 release blobstore](s3-release-blobstore.md)
 
 ---
 ## <a id="extend"></a> Extend BOSH
 
-* [Director API v1](director-api-v1.html)
+* [Director API v1](director-api-v1.md)
 * What is a CPI?
-* [Building a CPI](build-cpi.html)
-    * [CPI API v1](cpi-api-v1.html)
+* [Building a CPI](build-cpi.md)
+    * [CPI API v1](cpi-api-v1.md)
     * [Agent-CPI interactions](agent-cpi-interactions.html)
-* [Building a stemcell](build-stemcell.html)
-    * [Repacking Stemcells](repack-stemcell.html)
+* [Building a stemcell](build-stemcell.md)
+    * [Repacking Stemcells](repack-stemcell.md)
 
 ---
 ## <a id="other"></a> Other
 
 ### <a id="cli-v1"></a> CLI v1 (superseded by [CLI v2](#cli-v2))
 
-* [Install BOSH CLI v1](bosh-cli.html)
-* [CLI v1](sysadmin-commands.html)
+* [Install BOSH CLI v1](bosh-cli.md)
+* [CLI v1](sysadmin-commands.md)
 
 ### <a id="manifest-v1"></a> Manifest v1
 
-* [Manifest v1 schema](deployment-manifest.html)
+* [Manifest v1 schema](deployment-manifest.md)

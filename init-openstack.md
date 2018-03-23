@@ -2,7 +2,7 @@
 title: Creating environment on OpenStack
 ---
 
-This document shows how to initialize new [environment](terminology.html#environment) on OpenStack.
+This document shows how to initialize new [environment](terminology.md#environment) on OpenStack.
 
 ## <a id="prepare-openstack"></a>Step 1: Prepare an OpenStack environment
 
@@ -23,7 +23,7 @@ This document shows how to initialize new [environment](terminology.html#environ
     * [Image](https://www.openstack.org/software/releases/ocata/components/glance):
         BOSH stores stemcells using the Image service.
     * **(Optional)** [OpenStack Networking](https://www.openstack.org/software/releases/ocata/components/neutron):
-        Provides network scaling and automated management functions that are useful when deploying complex distributed systems. **Note:** OpenStack networking is used as default as of v28 of the OpenStack CPI. To disable the use of the OpenStack Networking project, see [using nova-networking](openstack-nova-networking.html).
+        Provides network scaling and automated management functions that are useful when deploying complex distributed systems. **Note:** OpenStack networking is used as default as of v28 of the OpenStack CPI. To disable the use of the OpenStack Networking project, see [using nova-networking](openstack-nova-networking.md).
 
 1. The following OpenStack networks:
     * An external network with a subnet.
@@ -170,9 +170,9 @@ You must create and configure two Security Groups to restrict incoming network t
         -v region=test
     ```
 
-    If running above commands outside of an OpenStack network, refer to [Exposing environment on a public IP](init-external-ip.html) for additional CLI flags.
+    If running above commands outside of an OpenStack network, refer to [Exposing environment on a public IP](init-external-ip.md) for additional CLI flags.
 
-    See [OpenStack CPI errors](openstack-cpi.html#errors) for list of common errors and resolutions.
+    See [OpenStack CPI errors](openstack-cpi.md#errors) for list of common errors and resolutions.
 
 1. Connect to the Director.
 
@@ -188,9 +188,9 @@ You must create and configure two Security Groups to restrict incoming network t
     $ bosh -e bosh-1 env
     ```
 
-1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.html#deployment-state) for details.
+1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.md#deployment-state) for details.
 
 ---
-[Back to Table of Contents](index.html#install)
+[Back to Table of Contents](index.md#install)
 
-Previous: [Create an environment](init.html)
+Previous: [Create an environment](init.md)

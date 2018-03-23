@@ -8,7 +8,7 @@ title: Manifest v2 Schema
 
 The deployment manifest is a YAML file that defines the components and properties of the deployment. When an operator initiates a new deployment using the CLI, the Director receives a manifest and creates or updates a deployment with matching name.
 
-Assuming that you are using [cloud config](cloud-config.html), your deployment manifest is expected to have:
+Assuming that you are using [cloud config](cloud-config.md), your deployment manifest is expected to have:
 
 * [Deployment Identification](#deployment): A name for the deployment and the UUID of the Director managing the deployment
 * [Features Block](#features): Opts into Director features to be used in this deployment
@@ -59,7 +59,7 @@ features:
 * **url** [String, optional]: URL of a release to download. Works with CLI v2. Example: `https://bosh.io/d/github.com/cloudfoundry/syslog-release?v=11`.
 * **sha1** [String, optional]: SHA1 of asset referenced via URL. Works with CLI v2. Example: `332ac15609b220a3fdf5efad0e0aa069d8235788`.
 
-See [Release URLs](release-urls.html) for more details.
+See [Release URLs](release-urls.md) for more details.
 
 Example:
 
@@ -122,7 +122,7 @@ stemcells:
         * Waits until instances are healthy or `high` milliseconds have passed since instances started updating
 * **serial** [Boolean, optional]: If disabled (set to `false`), instance groups will be deployed in parallel, otherwise - sequentially. Instances within a group will still follow `canary` and `max_in_flight` configuration. Defaults to `true`.
 
-See [job lifecycle](job-lifecycle.html) for more details on startup/shutdown procedure within each VM.
+See [job lifecycle](job-lifecycle.md) for more details on startup/shutdown procedure within each VM.
 
 Example:
 
@@ -140,13 +140,13 @@ update:
 **instance_groups** [Array, required]: Specifies the mapping between release [jobs](./terminology.html#job) and instance groups.
 
 * **name** [String, required]: A unique name used to identify and reference instance group.
-* **azs** [Array, required]: List of AZs associated with this instance group (should only be used when using [first class AZs](azs.html)). Example: `[z1, z2]`.
+* **azs** [Array, required]: List of AZs associated with this instance group (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`.
 * **instances** [Integer, required]: The number of instances in this group. Each instance is a VM.
 * **jobs** [Array, required]: Specifies the name and release of jobs that will be installed on each instance.
   * **name** [String, required]: The job name
   * **release** [String, required]: The release where the job exists
-  * **consumes** [Hash, optional]: Links consumed by the job. [Read more about link configuration](links.html#deployment)
-  * **provides** [Hash, optional]: Links provided by the job. [Read more about link configuration](links.html#deployment)
+  * **consumes** [Hash, optional]: Links consumed by the job. [Read more about link configuration](links.md#deployment)
+  * **provides** [Hash, optional]: Links provided by the job. [Read more about link configuration](links.md#deployment)
   * **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job. Only properties specified here will be provided to the job.
 * **vm_type** [String, required]: A valid VM type name from the cloud config. Alternatively you can specify `vm_resources` key.
 * **vm_extensions** [Array, optional]: A valid list of VM extension names from the cloud config.
@@ -162,7 +162,7 @@ update:
   * **static_ips** [Array, optional]: Array of IP addresses reserved for the instances on the network.
   * **default** [Array, optional]: Specifies which network components (DNS, Gateway) BOSH populates by default from this network. This property is required if more than one network is specified.
 * **update** [Hash, optional]: Specific update settings for this instance group. Use this to override [global job update settings](#update) on a per-instance-group basis.
-* **migrated_from** [Array, optional]: Specific migration settings for this instance group. Use this to [rename and/or migrate instance groups](migrated-from.html).
+* **migrated_from** [Array, optional]: Specific migration settings for this instance group. Use this to [rename and/or migrate instance groups](migrated-from.md).
 * **lifecycle** [String, optional]: Specifies the kind of workload the instance group represents. Valid values are `service` and `errand`; defaults to `service`. A `service` runs indefinitely and restarts if it fails. An `errand` starts with a manual trigger and does not restart if it fails.
 * **properties** [Hash, optional]: Specifies instance group properties. Deprecated in favor of job level properties and links.
 * **env** [Hash, optional]: Specifies advanced BOSH Agent configuration for each instance in the group.
@@ -213,7 +213,7 @@ instance_groups:
 
 **addons** [Array, required]: Specifies the [addons](./terminology.html#addon) to be applied to this deployments.
 
-See [Addons Block](runtime-config.html#addons) for the schema.
+See [Addons Block](runtime-config.md#addons) for the schema.
 
 Unlike addons specified in a runtime config, addons specified in the deployment manifest do not respect inclusion and exclusion rules for `deployments`.
 
@@ -262,7 +262,7 @@ variables:
     alternative_names: [cc.cf.internal]
 ```
 
-See [CLI Variable Interpolation](cli-int.html) for more details about variables.
+See [CLI Variable Interpolation](cli-int.md) for more details about variables.
 
 ---
 ## <a id='tags'></a> Tags Block

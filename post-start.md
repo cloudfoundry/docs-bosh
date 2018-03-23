@@ -2,7 +2,7 @@
 title: Post-start Script
 ---
 
-(See [Job Lifecycle](job-lifecycle.html) for an explanation of when post-start scripts run.)
+(See [Job Lifecycle](job-lifecycle.md) for an explanation of when post-start scripts run.)
 
 <p class="note">Note: This feature is available with bosh-release v255.4+ and only for releases deployed with 3125+ stemcells.</p>
 
@@ -50,9 +50,9 @@ You can find logs for each release job's post-start script in the following loca
 - stdout in `/var/vcap/sys/log/<job-name>/post-start.stdout.log`
 - stderr in `/var/vcap/sys/log/<job-name>/post-start.stderr.log`
 
-Since post-start script will be called multiple times, new output will be appended to the files above. Standard [log rotation policy](job-logs.html#log-rotation) applies.
+Since post-start script will be called multiple times, new output will be appended to the files above. Standard [log rotation policy](job-logs.md#log-rotation) applies.
 
 ---
-Next: [Post-deploy script](post-deploy.html)
+Next: [Post-deploy script](post-deploy.md)
 
-Previous: [Pre-start script](pre-start.html)
+Previous: [Pre-start script](pre-start.md)

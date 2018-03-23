@@ -10,19 +10,19 @@ There are several stages that all jobs (and their associated processes) on each 
 
 1. All jobs and their dependent packages are downloaded and placed onto a machine
 
-1. [pre-start scripts](pre-start.html) run for all jobs on the VM in parallel
+1. [pre-start scripts](pre-start.md) run for all jobs on the VM in parallel
 	- (waits for all pre-start scripts to finish)
 	- does not time out
 
 1. `monit start` is called for each process in no particular order
   - each job can specify zero or more processes
-  - times out based on [`canary_watch_time`/`update_watch_time` settings](manifest-v2.html#update)
+  - times out based on [`canary_watch_time`/`update_watch_time` settings](manifest-v2.md#update)
 
-1. [post-start scripts](post-start.html) run for all jobs on the VM in parallel
+1. [post-start scripts](post-start.md) run for all jobs on the VM in parallel
 	- (waits for all post-start scripts to finish)
 	- does not time out
 
-1. [post-deploy scripts](post-deploy.html) run for all jobs on *all* VMs in parallel
+1. [post-deploy scripts](post-deploy.md) run for all jobs on *all* VMs in parallel
 	- (waits for all post-deploy scripts to finish)
 	- does not time out
 
@@ -39,7 +39,7 @@ Note that scripts should not rely on the order they are run. Agent may decide to
 
 1. `monit unmonitor` is called for each process
 
-1. [drain scripts](drain.html) run for all jobs on the VM in parallel
+1. [drain scripts](drain.md) run for all jobs on the VM in parallel
 	- (waits for all drain scripts to finish)
 	- does not time out
 
@@ -49,4 +49,4 @@ Note that scripts should not rely on the order they are run. Agent may decide to
 1. Persistent disks are unmounted on the VM if configured
 
 ---
-Next: [Pre-start script](pre-start.html)
+Next: [Pre-start script](pre-start.md)

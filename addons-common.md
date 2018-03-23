@@ -2,7 +2,7 @@
 title: Common Addons
 ---
 
-(See [runtime config](runtime-config.html#addons) for an introduction to addons.)
+(See [runtime config](runtime-config.md#addons) for an introduction to addons.)
 
 ## <a id='syslog'></a> Syslog forwarding
 

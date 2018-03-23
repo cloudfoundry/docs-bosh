@@ -4,7 +4,7 @@ title: CPI API v1
 
 For an overview of the sequence of CPI calls, the following resources are helpful:
 
-- [BOSH components](bosh-components.html) and its example component interaction diagram
+- [BOSH components](bosh-components.md) and its example component interaction diagram
 - [CLI v2 architecture doc](https://github.com/cloudfoundry/bosh-cli/blob/master/docs/architecture.md#deploy-command-flow) and [`bosh create-env` flow](https://github.com/cloudfoundry/bosh-init/blob/master/docs/init-cli-flow.png) where calls to the CPI are marked as `cloud`.
 
 Examples of API request and response:
@@ -45,9 +45,9 @@ No arguments
 
 ### <a id="create-stemcell"></a> `create_stemcell`
 
-Creates a reusable VM image in the IaaS from the [stemcell](stemcell.html) image. It's used later for creating VMs. For example AWS CPI creates an AMI and returns AMI ID.
+Creates a reusable VM image in the IaaS from the [stemcell](stemcell.md) image. It's used later for creating VMs. For example AWS CPI creates an AMI and returns AMI ID.
 
-See [Stemcell Building](build-stemcell.html) for more details.
+See [Stemcell Building](build-stemcell.md) for more details.
 
 #### Arguments
 
@@ -204,7 +204,7 @@ For the Agent to successfully start on the created VM, several bootstrapping set
 }
 ```
 
-See [Agent Configuration](vm-config.html#agent) for an overview of the Agent configuration file locations.
+See [Agent Configuration](vm-config.md#agent) for an overview of the Agent configuration file locations.
 
 [Example create_vm.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/create_vm.go)
 
@@ -635,4 +635,4 @@ No arguments
 ---
 Next: [Agent-CPI interactions](agent-cpi-interactions.html)
 
-Previous: [Building a CPI](build-cpi.html)
+Previous: [Building a CPI](build-cpi.md)

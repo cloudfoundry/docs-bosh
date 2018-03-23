@@ -188,4 +188,4 @@ The ``Bosh_ip`` property specified under ``cloud_properties`` is used for SoftLa
 Please notice that when the VM hostname length is exactly 64, the deployment is failing due to ssh problem. This is SoftLayer’s limitation which can’t be fixed in a short term. We have a work around in the CPI that when the hostname with 64 characters is identified, a padding "-1" is appended to make it longer than 64.
 
 ---
-[Back to Table of Contents](index.html#cpi-config)
+[Back to Table of Contents](index.md#cpi-config)

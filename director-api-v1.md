@@ -13,7 +13,7 @@ This document lists common API endpoints provided by the Director.
 
 All API access should be done over verified HTTPS.
 
-The Director can be configured in two authentication modes: [basic auth](director-users.html#preconfigured) and [UAA](director-users-uaa.html). [Info endpoint](#info) does not require any authentication and can be used to determine which authentication mechanism to use. All other endpoints require authentication.
+The Director can be configured in two authentication modes: [basic auth](director-users.md#preconfigured) and [UAA](director-users-uaa.md). [Info endpoint](#info) does not require any authentication and can be used to determine which authentication mechanism to use. All other endpoints require authentication.
 
 `401 Unauthorized` will be returned for requests that contain an invalid basic auth credentials or an invalid/expired UAA access token.
 
@@ -41,7 +41,7 @@ Currently none of the resources are paginated.
 
 ### <a id="long-running-ops"></a> Long running operations (aka Director tasks)
 
-Certain requests result in complex and potentially long running operations against the IaaS, blobstore, or other resources. [`POST /deployments`](#post-deployment) is a good example. Such requests start a [Director task](director-tasks.html) and continue running on the Director after response is returned. Response to such request will be a `302 Moved Temporarily` redirect to a created task resource.
+Certain requests result in complex and potentially long running operations against the IaaS, blobstore, or other resources. [`POST /deployments`](#post-deployment) is a good example. Such requests start a [Director task](director-tasks.md) and continue running on the Director after response is returned. Response to such request will be a `302 Moved Temporarily` redirect to a created task resource.
 
 Once a Director task is created, clients can follow its progress by polling [`GET /tasks/{id}`](#get-task) to find out its state. While waiting for the task to finish, different types of logs ([event](#get-task-event), [result](#get-task-result), [debug](#get-task-debug) information, etc.) can be followed to gain insight into what the task is doing.
 
@@ -229,7 +229,7 @@ $ curl -s -k -X DELETE https://192.168.50.4:25555/configs?type=cloud&name=test
 ---
 ## <a id="tasks"></a> Tasks
 
-See [Director tasks](director-tasks.html) for related info.
+See [Director tasks](director-tasks.md) for related info.
 
 ### <a id="list-tasks"></a> `GET /tasks`: List all tasks
 
@@ -996,7 +996,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=r
 ---
 ## <a id="events"></a> Events
 
-See [Events](events.html) for info.
+See [Events](events.md) for info.
 
 ### <a id="list-events"></a> `GET /events`: List events
 

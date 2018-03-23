@@ -6,7 +6,7 @@ title: CLI Variable Interpolation
 
 It's typically necessary to separate passwords, certificates, S3 bucket names etc. from YAML documents used with CLI commands such as `bosh create-env` and `bosh deploy`. Even though the structure of a YAML document (manifest) does not change these values are typically different. CLI provides special syntax in YAML documents to annotate such values making plain YAML document into a parameterized template.
 
-<p class="note">Note: Changing structure of a YAML document such as adding an S3 access configuration section is a bit more than just YAML document parameterization. Look into [operations files](cli-ops-files.html) for additional details.</p>
+<p class="note">Note: Changing structure of a YAML document such as adding an S3 access configuration section is a bit more than just YAML document parameterization. Look into [operations files](cli-ops-files.md) for additional details.</p>
 
 ---
 ## <a id="variables"></a>  Variables
@@ -132,7 +132,7 @@ A variable can define its type and generation options.
 
 Currently CLI supports `certificate`, `password`, `rsa`, and `ssh` types. The Director (connected to a config server) may support additional types known by the config server.
 
-See [Variable Types](variable-types.html) for details on variable generation.
+See [Variable Types](variable-types.md) for details on variable generation.
 
 ```shell
 $ cat base.yml
@@ -149,6 +149,6 @@ admin_password: vbvdhjbzqelnq7cfyw09
 ```
 
 ---
-[Back to Table of Contents](index.html#cpi-config)
+[Back to Table of Contents](index.md#cpi-config)
 
-Previous: [Operations Files](cli-ops-files.html)
+Previous: [Operations Files](cli-ops-files.md)

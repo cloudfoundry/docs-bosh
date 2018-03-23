@@ -32,7 +32,7 @@ Given that the Director is the sole orchestrator of the system, it is now respon
 1. Each Agent downloads new DNS records dataset and updates `/var/vcap/instance/dns/records.json`
 1. DNS release sees that local `/var/vcap/instance/dns/records.json` is updated, hence returns new information in future DNS requests
 
-See [Deploying step-by-step](deploying-step-by-step.html) for full Director deployment flow.
+See [Deploying step-by-step](deploying-step-by-step.md) for full Director deployment flow.
 
 ---
 ## <a id='dns-addresses'></a> Types of DNS addresses
@@ -49,7 +49,7 @@ Since BOSH DNS is automatically managed, DNS addresses are not meant to be const
 ---
 ## <a id='dns-release'></a> DNS release
 
-To take advantage of native DNS functionality, it's expected that [DNS release](https://bosh.io/releases/github.com/cloudfoundry/bosh-dns-release?all=1) runs on each VM. We recommend to colocate DNS release by definiting it in an [addon](runtime-config.html#addons).
+To take advantage of native DNS functionality, it's expected that [DNS release](https://bosh.io/releases/github.com/cloudfoundry/bosh-dns-release?all=1) runs on each VM. We recommend to colocate DNS release by definiting it in an [addon](runtime-config.md#addons).
 
 DNS release provides two jobs: `bosh-dns` (for Linux) and `bosh-dns-windows` (for Windows) which start a simple DNS server bound to a [link local address](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p=address).
 
@@ -86,7 +86,7 @@ properties:
 
 Above will resolve `bbs.service.cf.internal` to a all IPs (shuffled) matching following instance patterns: `*.database-z1.diego1.cf-cfapps-io2-diego.bosh` or `*.database-z2.diego2.cf-cfapps-io2-diego.bosh`.
 
-See [Migrating from Consul](dns.html#migrate-consul) for more details.
+See [Migrating from Consul](dns.md#migrate-consul) for more details.
 
 ### Healthiness
 
@@ -126,7 +126,7 @@ You can control type of addresses returned at three different levels:
 
 - for the entire Director via Director job configuration [`director.local_dns.use_dns_addresses` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.local_dns.use_dns_addresses) that if enabled affects all deployments by default. We are planning to eventually change this configuration to true by default.
 
-- for a specific deployment via [`features.use_dns_addresses` deployment manifest property](manifest-v2.html#features) that if enabled affects links within this deployment
+- for a specific deployment via [`features.use_dns_addresses` deployment manifest property](manifest-v2.md#features) that if enabled affects links within this deployment
 
 - for a specific link via its `ip_addresses` configuration
 
@@ -158,7 +158,7 @@ link("db").instances[0].address => "ef489dd9-48f6-45f0-b7af-7f3437919b17.db.defa
 ---
 ## <a id='job-address'></a> Impact on job's address (`spec.address`)
 
-Similar to how [links are affected](dns.html#links), `spec.address` will start returning DNS address once `use_dns_addresses` feature is enabled.
+Similar to how [links are affected](dns.md#links), `spec.address` will start returning DNS address once `use_dns_addresses` feature is enabled.
 
 ---
 ## <a id='migrate-powerdns'></a> Migrating from PowerDNS
@@ -166,16 +166,16 @@ Similar to how [links are affected](dns.html#links), `spec.address` will start r
 Historically BOSH users did not have an easy highly available solution to enable DNS for their deployments. PowerDNS was a possible choice; however, it required more advanced configuration that we felt comfortable recommending to everyone. We are planning to deprecate and remove PowerDNS integration. To migrate from PowerDNS to native DNS:
 
 1. continue deploying Director with `powerdns` job
-1. enable native DNS (follow [Enabling DNS](dns.html#enable) section above) with proper recursors configured
+1. enable native DNS (follow [Enabling DNS](dns.md#enable) section above) with proper recursors configured
 1. redeploy all deployments and make sure that native DNS is in use
 1. redeploy Director without `powerdns` job
 
 ---
 ## <a id='migrate-consul'></a> Migrating from Consul
 
-To ease migration from Consul DNS entries, DNS release provides [aliases feature](dns.html#aliases). It allows operators to define custom DNS entries that can map to BOSH generated DNS entries. To migrate off of Consul to native DNS:
+To ease migration from Consul DNS entries, DNS release provides [aliases feature](dns.md#aliases). It allows operators to define custom DNS entries that can map to BOSH generated DNS entries. To migrate off of Consul to native DNS:
 
-1. enable native DNS (follow [Enabling DNS](dns.html#enable) section above) with proper recursors configured
+1. enable native DNS (follow [Enabling DNS](dns.md#enable) section above) with proper recursors configured
 1. continue deploying `consul_agent` job
 1. define native DNS aliases that match existing Consul DNS entries
 1. redeploy all deployments that use Consul
