@@ -279,7 +279,7 @@ This error indicates that elastic IP specified in the manifest to be associated 
 Specifying an IP address is only valid for VPC instances and thus requires a subnet in which to launch
 ```
 
-Make sure that each manual network subnet has `cloud_properties` key and its contents include `subnet` key with the AWS Subnet ID. (You may have accidently specified `cloud_properites` on the network itself.)
+Make sure that each manual network subnet has `cloud_properties` key and its contents include `subnet` key with the AWS Subnet ID. (You may have accidentally specified `cloud_properites` on the network itself.)
 
 ```
 Arguments are not correct
