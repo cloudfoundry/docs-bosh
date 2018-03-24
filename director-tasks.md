@@ -16,7 +16,7 @@ Task 766 # <---
 ```
 
 ---
-## <a id="active"></a> Currently active tasks
+## Currently active tasks <a id="active"></a>
 
 At any time the Director might be performing multiple tasks at once. Active tasks can be in two states: `queued` or `processing`.
 
@@ -37,7 +37,7 @@ Total tasks running now: 2
 
 <p class="note"><strong>Note</strong>: <code>--no-filter</code> flag shows all tasks. Without that flag, the Director returns a subset of running tasks that it deems important.</p>
 
-### <a id="join-active"></a> Joining tasks
+### Joining tasks <a id="join-active"></a>
 
 Since Director tasks continue to run in the background even if the CLI has disconnected, you can rejoin a task at any time:
 
@@ -68,7 +68,7 @@ D, [2015-01-27 21:33:21 #2725] [] DEBUG -- DirectorJobRunner: (0.001125s) SELECT
 ...snip...
 ```
 
-### <a id="cancel-active"></a> Canceling tasks
+### Canceling tasks <a id="cancel-active"></a>
 
 Tasks can be cancelled before and while they are running. Canceling an active task will not take immediate effect; however, the Director will stop task execution at a next safe checkpoint. To cancel a task, either press `Ctrl+C` while tracking the task or run:
 
@@ -77,7 +77,7 @@ $ bosh cancel task 766
 ```
 
 ---
-## <a id="finished"></a> Finished tasks
+## Finished tasks <a id="finished"></a>
 
 The Director keeps a record of tasks that have finished. Finished tasks can be in two states: `done` or `error`.
 
@@ -104,6 +104,6 @@ You can also run `bosh tasks recent [NUM]` to retrieve more tasks.
 
 <p class="note"><strong>Note</strong>: <code>--no-filter</code> flag shows all tasks. Without that flag, the Director returns a subset of finished tasks that it deems important.</p>
 
-### <a id="join-finished"></a> Joining finished tasks
+### Joining finished tasks <a id="join-finished"></a>
 
 Finished tasks can be joined just like active tasks but only to view their output (see [various output modes](#join-active)). Finished tasks cannot be cancelled.

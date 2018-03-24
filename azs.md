@@ -9,7 +9,7 @@ Previously to spread resources over multiple AZs, deployment jobs, resource pool
 With first class AZs support in the Director it's no longer necessary to duplicate and rename resources. This allows the Director to eliminate and/or simplify manual configuration for balancing VMs across AZs and IP address management.
 
 ---
-## <a id='config'></a> Defining AZs
+## Defining AZs <a id='config'></a>
 
 To use first class AZs, you have to opt into using [cloud config](cloud-config.md).
 
@@ -35,7 +35,7 @@ AZs schema:
 * **name** [String, required]: Name of an AZ within the Director.
 * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to associated with AZ; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#azs-cloud-properties) below. Example: `availability_zone`. Default is `{}` (empty Hash).
 
-### <a id='azs-cloud-properties'></a> CPI Specific `cloud_properties`
+### CPI Specific `cloud_properties` <a id='azs-cloud-properties'></a>
 
 - [See AWS CPI AZ cloud properties](aws-cpi.md#azs)
 - [See Azure CPI AZ cloud properties](azure-cpi.md#azs)
@@ -46,7 +46,7 @@ AZs schema:
 - [See vCloud CPI AZ cloud properties](vcloud-cpi.md#azs)
 
 ---
-## <a id='assigning-azs'></a> Assigning AZs to deployment instance groups
+## Assigning AZs to deployment instance groups <a id='assigning-azs'></a>
 
 Once AZs are defined, deployment jobs can be placed into one or more AZs:
 
@@ -72,7 +72,7 @@ Given above configuration, 5 instances will be spread over "z1" and "z2" AZs, mo
 <p class="note">We are planning to eventually introduce <code>bosh rebalance</code> command to forcefully rebalance instances with persistent disks.</a>
 
 ---
-## <a id='listing-vms-in-azs'></a> Listing VMs in AZs
+## Listing VMs in AZs <a id='listing-vms-in-azs'></a>
 
 While deploy is in progress or after it finishes, `bosh instances` and `bosh vms` commands can be used to view instances and their associated AZs.
 

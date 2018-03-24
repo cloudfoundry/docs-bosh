@@ -7,7 +7,7 @@ title: Drain Script
 Release job can have a drain script that will run when the job is restarted or stopped. This script allows the job to clean up and get into a state where it can be safely stopped. For example, when writing a release for a load balancer, each node can safely stop accepting new connections and drain existing connections before fully stopping.
 
 ---
-## <a id="job-configuration"></a> Job Configuration
+## Job Configuration <a id="job-configuration"></a>
 
 To add a drain script to a release job:
 
@@ -26,7 +26,7 @@ templates:
 <p class="note">Note: Drain script from each release job will run if they are deployed on 3093+ stemcells. Before only the first release job's drain script ran.</p>
 
 ---
-## <a id="script-implementation"></a> Script Implementation
+## Script Implementation <a id="script-implementation"></a>
 
 Drain script is usually just a regular shell script. Since drain script is executed in a similar way as other release job scripts (start, stop, pre-start scripts) you can use job's package dependencies.
 
@@ -47,7 +47,7 @@ You must ensure that your drain script exits in one of following ways:
     <p class="note">Note: It's recommended to only use static draining as dynamic draining will be eventually deprecated.</p>
 
 ---
-## <a id="environment-variables"></a> Environment Variables
+## Environment Variables <a id="environment-variables"></a>
 
 Drain script can access the following environment variables:
 
@@ -57,12 +57,12 @@ Drain script can access the following environment variables:
 For example drain script can use this feature to determine if the size of the persistent disk changes and take a specified action.
 
 ---
-## <a id="logs"></a> Logs
+## Logs <a id="logs"></a>
 
 Currently logs from the drain script are not saved on disk by default, though release author may choose to do so explicitly. We are planning to eventually make it more consistent with [pre-start script logging](pre-start.md#logs).
 
 ---
-## <a id="example"></a> Example
+## Example <a id="example"></a>
 
 ```bash
 #!/bin/bash

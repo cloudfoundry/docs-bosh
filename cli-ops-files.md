@@ -15,7 +15,7 @@ A single operation represents a single change. An operations file is a YAML docu
 Several CLI commands such as `create-env`, `deploy` and `interpolate` allow to provide operations files via `--ops-file` flag to be applied before processing the document.
 
 ---
-## <a id="example"></a> Example
+## Example <a id="example"></a>
 
 Following is an operations file (`replace-name.yml`) with a single operation that replaces value of top level key `name` with a string `other-cf`:
 
@@ -46,7 +46,7 @@ name: other-cf
 ```
 
 ---
-## <a id="path"></a> Path syntax
+## Path syntax <a id="path"></a>
 
 Each operation acts on a location within a YAML document. Path represents a location. It's important to note that path (location) does not represent what operation will be performed, just like lat & long do not represent what happens at a physical location.
 
@@ -82,7 +82,7 @@ All paths follow these rules:
 Path components without "optional" (`?`) annotation imply that referenced location must exist within a document. Operation will fail to be performed if that location is not found. "Optional" annotation can be used to signify indifference to the presense of referenced location, making it possible for operation either to ignore it (while removal) or create it lazily (while replacement). If a component in a path is annotated as optional, components following it will be considered optional implicitly.
 
 ---
-## <a id="ops"></a> Operations
+## Operations <a id="ops"></a>
 
 There are currently two types of operations: replace and remove.
 

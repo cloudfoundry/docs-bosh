@@ -22,7 +22,7 @@ Make a backup of your bosh instance :
 
 This command will generate a .tar.gz file that contains a dump of director's database
 
-## <a id="restore-backup"></a> Restore the backup following an outage ##
+## Restore the backup following an outage ## <a id="restore-backup"></a>
 
 We assume that your bosh director deployment was deleted so you need to restore it.
 

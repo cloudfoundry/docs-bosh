@@ -58,20 +58,20 @@ The four directories you just created, `jobs`, `packages`, `src`, and `blobs`,
 appear on job VMs as `/var/vcap/jobs`, `/var/vcap/packages`, `/var/vcap/src`,
 and `/var/vcap/blobs`, respectively.
 
-### <a id="source"></a> Populate the src directory ###
+### Populate the src directory ### <a id="source"></a>
 
 Copy your source code into the `src` directory.
 Alternatively, link your source code to the directory using a mechanism such as
 a Git submodule or a Mercurial repo.
 
-### <a id="strategy"></a> Choose a work strategy ###
+### Choose a work strategy ### <a id="strategy"></a>
 
 Choose whether you want to work one step at a time or one job at a time.
 For releases with just a few jobs, going one step at a time is probably easiest.
 If you have a larger number of jobs, going one job at a time may be more efficient.
 
 ---
-## <a id="job-skel"></a> Step 1: Create Job Skeletons ##
+## Step 1: Create Job Skeletons ## <a id="job-skel"></a>
 
 Navigate into the release directory.
 
@@ -105,7 +105,7 @@ $ tree .
 9 directories, 5 files
 ```
 
-### <a id="control"></a> Create control scripts  ###
+### Create control scripts  ### <a id="control"></a>
 
 Every job needs a way to start and stop.
 You provide that by writing a control script and updating the `monit` file.
@@ -159,7 +159,7 @@ esac
 
 If your release needs templates other than the control script, create them now.
 
-### <a id="monit"></a> Update monit files  ###
+### Update monit files  ### <a id="monit"></a>
 
 The `monit` file:
 
@@ -188,7 +188,7 @@ Use `/var/vcap` paths as shown in the example.
 
 <p class="note"><strong>Note</strong>: BOSH requires a <code>monit</code> file for each job in a release. When developing a release, you can use an empty <code>monit</code> file to meet this requirement without having to first create a control script.</p>
 
-### <a id="job-specs"></a> Update job specs  ###
+### Update job specs  ### <a id="job-specs"></a>
 
 At compile time, BOSH transforms templates into files, which it then replicates
 on the job VMs.
@@ -216,7 +216,7 @@ templates:
 
 For each job, update the `spec` file with template names.
 
-### <a id="commit-one"></a> Commit ###
+### Commit ### <a id="commit-one"></a>
 
 You have now created one or more job skeletons; this is a good time to commit.
 
@@ -224,7 +224,7 @@ If you used the `--git` option with `bosh init-release` (as recommended), the
 correct `.gitignore` file has been automatically created for you.
 
 ---
-## <a id="graph"></a> Step 2: Make Dependency Graphs ##
+## Step 2: Make Dependency Graphs ## <a id="graph"></a>
 
 There are two kinds of dependencies in a BOSH release:
 
@@ -297,7 +297,7 @@ The complete dependency graph for `ardo-release` looks like this:
 For a large or complicated release, consider making more than one dependency
 graph.
 
-## <a id="pkg-skeletons"></a> Step 3: Create Package Skeletons ##
+## Step 3: Create Package Skeletons ## <a id="pkg-skeletons"></a>
 
 Packages give BOSH the information needed to prepare the binaries and
 dependencies for your jobs.
@@ -345,7 +345,7 @@ $ cd src/ardo_app/
 $ bundle package
 ```
 
-### <a id="update-pkging-specs"></a> Update packaging specs ###
+### Update packaging specs ### <a id="update-pkging-specs"></a>
 
 Within each package directory, there is a `spec` file which states:
 
@@ -386,7 +386,7 @@ the source code should reside.
 Update the spec for each package.
 Refer to the example specs below for guidance.
 
-#### <a id="pkg-spec-libyaml"></a> Example libyaml package spec ####
+#### Example libyaml package spec #### <a id="pkg-spec-libyaml"></a>
 
 ```yaml
 ---
@@ -398,7 +398,7 @@ files:
 - libyaml_0.1.4/yaml-0.1.4.tar.gz # From http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz
 ```
 
-#### <a id="pkg-spec-ruby"></a> Example Ruby package spec ####
+#### Example Ruby package spec #### <a id="pkg-spec-ruby"></a>
 
 ```yaml
 ---
@@ -413,7 +413,7 @@ files:
 - ruby_1.9.3/bundler-1.2.1.gem      # https://rubygems.org/downloads/bundler-1.2.1.gem
 ```
 
-#### <a id="pkg-spec-ardo"></a> Example ardo_app package spec ####
+#### Example ardo_app package spec #### <a id="pkg-spec-ardo"></a>
 
 ```yaml
 ---
@@ -426,7 +426,7 @@ files:
 - ardo_app/**/*
 ```
 
-### <a id="pkg-scripts"></a> Create packaging scripts ###
+### Create packaging scripts ### <a id="pkg-scripts"></a>
 
 At compile time, BOSH takes the source files referenced in the package specs,
  and renders them into the executable binaries and scripts that your deployed
@@ -482,7 +482,7 @@ entailed in creating a release.
 Write your packaging scripts now.
 Refer to the examples below for guidance.
 
-#### <a id="pkg-script-libyaml"></a> Example libyaml packaging script ####
+#### Example libyaml packaging script #### <a id="pkg-script-libyaml"></a>
 
 ```
 set -e -x
@@ -496,7 +496,7 @@ pushd yaml-0.1.4
 popd
 ```
 
-#### <a id="pkg-script-ruby"></a> Example Ruby packaging script ####
+#### Example Ruby packaging script #### <a id="pkg-script-ruby"></a>
 
 ```
 set -e -x
@@ -520,7 +520,7 @@ popd
 ${BOSH_INSTALL_TARGET}/bin/gem install ruby_1.9.3/bundler-1.2.1.gem --no-ri --no-rdoc
 ```
 
-#### <a id="pkg-script-ardo"></a> Example ardo_app packaging script ####
+#### Example ardo_app packaging script #### <a id="pkg-script-ardo"></a>
 
 ```
 set -e -x
@@ -535,7 +535,7 @@ cd ${BOSH_INSTALL_TARGET}
   --without development test
 ```
 
-### <a id="update-job-specs-with-deps"></a> Update job specs with dependencies ###
+### Update job specs with dependencies ### <a id="update-job-specs-with-deps"></a>
 
 The dependency graph reveals runtime dependencies that
 need to be added to the `packages` block of the job spec.
@@ -552,7 +552,7 @@ packages:
 ```
 
 ---
-## <a id="blobs"></a> Step 4: Add Blobs ##
+## Step 4: Add Blobs ## <a id="blobs"></a>
 
 When creating a release, you will likely use a source code repository.
 But releases often use tar files or other binaries, also known as blobs.
@@ -565,7 +565,7 @@ BOSH lets you avoid checking blobs into a repository by doing the following:
 
 * For a final release, upload blobs to a blobstore, and direct BOSH to obtain the blobs from there.
 
-### <a id="config-blobstore"></a> Configure a blobstore  ###
+### Configure a blobstore  ### <a id="config-blobstore"></a>
 
 In the `config` directory, you record the information BOSH needs about the
 blobstore:
@@ -629,7 +629,7 @@ content does not matter.
 There is never a <code>blobstore_secret</code> line for blobstores of types other than
 <code>local</code>.</p>
 
-### <a id="inform"></a> Inform BOSH where blobs are ###
+### Inform BOSH where blobs are ### <a id="inform"></a>
 
 In the package `spec` file, the `files` block lists any binaries you downloaded,
 along with the URLs from which you downloaded them.
@@ -680,7 +680,7 @@ is recommended because it produces a cleanly-organized blobs directory.
 Later, when you upload blobs for a final release, BOSH uses the hidden directory
 as a staging area.
 
-### <a id="no-upload"></a> Do not upload blobs for a dev release ###
+### Do not upload blobs for a dev release ### <a id="no-upload"></a>
 
 Once you have uploaded blobs to a non-local blobstore, those blobs may become
 essential to some other developer.
@@ -690,7 +690,7 @@ When creating dev releases, do not run `bosh upload-blobs`.
 (You only run it when you do a final release.)
 
 ---
-## <a id="create-props"></a> Step 5: Create Job Properties  ##
+## Step 5: Create Job Properties  ## <a id="create-props"></a>
 
 If your service needs to be configurable at deployment time,
 you create the desired inputs or controls and specify them in the release.
@@ -726,11 +726,11 @@ properties:
 ```
 
 ---
-## <a id="dev-release"></a> Step 6: Create a Dev Release  ##
+## Step 6: Create a Dev Release  ## <a id="dev-release"></a>
 
 All the elements needed to create a dev release should now be in place.
 
-### <a id="dev-release-release"></a> Release  ###
+### Release  ### <a id="dev-release-release"></a>
 
 For the dev release, use the `--force` option with the `bosh create-release`
 command.
@@ -746,7 +746,7 @@ Create the dev release:
 
 BOSH prompts for a release name, and assigns a dot-number version to the release.
 
-### <a id="dev-release-deploy"></a> Deploy the Dev Release  ###
+### Deploy the Dev Release  ### <a id="dev-release-deploy"></a>
 
 Deploying the release requires three or more steps, depending on whether
 BOSH is targeting the desired Director, and whether BOSH is already pointing
@@ -778,7 +778,7 @@ Deploy:
 
    `bosh deploy`
 
-### <a id="dev-release-test"></a> Test the Dev Release  ###
+### Test the Dev Release  ### <a id="dev-release-test"></a>
 
 What tests to run depends on the software you are releasing.
 
@@ -795,11 +795,11 @@ Using `bosh deploy --recreate` can provide a clearer picture because with that o
 BOSH deploys all the VMs from scratch.
 
 ---
-## <a id="final-release"></a> Create a Final Release  ##
+## Create a Final Release  ## <a id="final-release"></a>
 
 Only proceed to this step if your latest dev release passes all tests.
 
-### <a id="upload-blobs"></a> Upload blobs ###
+### Upload blobs ### <a id="upload-blobs"></a>
 
 When you use the `bosh create-release --force` command to create them, dev
 releases depend on locally-stored blobs.
@@ -823,14 +823,14 @@ To upload your blobs, run:
 
   `bosh upload-blobs`
 
-### <a id="final-commit-two"></a> Commit ###
+### Commit ### <a id="final-commit-two"></a>
 
 The `bosh upload-blobs` command has now populated the `blobs.yml` file
 in the `config` directory with metadata for uploaded blobs.
 
 This is a good reason to commit.
 
-### <a id="final-release-release"></a> Release ###
+### Release ### <a id="final-release-release"></a>
 
 Run:
 
@@ -841,11 +841,11 @@ BOSH prompts you for a release name, and assigns a whole-number version to the r
 This is a good time to push your code to a shared repository to give others access to
 your final release.
 
-### <a id="final-release-commit"></a> Commit ###
+### Commit ### <a id="final-release-commit"></a>
 
 Do one more commit before you deploy!
 
-### <a id="final-release-deploy"></a> Deploy the Final Release  ###
+### Deploy the Final Release  ### <a id="final-release-deploy"></a>
 
 Run:
 

@@ -13,7 +13,7 @@ Examples of API request and response:
 - [Building a CPI: RPC - Response](https://bosh.io/docs/build-cpi.html#response)
 
 ---
-## <a id="glossary"></a> Glossary
+## Glossary <a id="glossary"></a>
 
 - **cloud ID** is an ID (string) that the Director uses to reference any created infrastructure resource; typically CPI methods return cloud IDs and later receive them. For example AWS CPI's `create_vm` method would return `i-f789df` and `attach_disk` would take it.
 
@@ -26,9 +26,9 @@ resource_pools:
 ```
 
 ---
-## <a id="cpi-info"></a> CPI Info
+## CPI Info <a id="cpi-info"></a>
 
-### <a id="info"></a> `info`
+### `info` <a id="info"></a>
 
 Returns information about the CPI to help the Director to make decisions on which CPI to call for certain operations in a multi CPI scenario.
 
@@ -41,9 +41,9 @@ No arguments
 - **stemcell_formats** [Array of strings]: Stemcell formats supported by the CPI. Currently used in combination with `create_stemcell` by the Director to determine which CPI to call when uploading a stemcell.
 
 ---
-## <a id="stemcells"></a> Stemcell management
+## Stemcell management <a id="stemcells"></a>
 
-### <a id="create-stemcell"></a> `create_stemcell`
+### `create_stemcell` <a id="create-stemcell"></a>
 
 Creates a reusable VM image in the IaaS from the [stemcell](stemcell.md) image. It's used later for creating VMs. For example AWS CPI creates an AMI and returns AMI ID.
 
@@ -82,7 +82,7 @@ See [Stemcell Building](build-stemcell.md) for more details.
 [Example create_stemcell.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/create_stemcell.go)
 
 ---
-### <a id="delete-stemcell"></a> `delete_stemcell`
+### `delete_stemcell` <a id="delete-stemcell"></a>
 
 Deletes previously created stemcell. Assume that none of the VMs require presence of the stemcell.
 
@@ -97,9 +97,9 @@ No return value
 [Example delete_stemcell.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/delete_stemcell.go)
 
 ---
-## <a id="vm"></a> VM management
+## VM management <a id="vm"></a>
 
-### <a id="create-vm"></a> `create_vm`
+### `create_vm` <a id="create-vm"></a>
 
 Creates a new VM based on the stemcell. Created VM must be powered on and accessible on the provided networks.
 
@@ -209,7 +209,7 @@ See [Agent Configuration](vm-config.md#agent) for an overview of the Agent confi
 [Example create_vm.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/create_vm.go)
 
 ---
-### <a id="delete-vm"></a> `delete_vm`
+### `delete_vm` <a id="delete-vm"></a>
 
 Deletes the VM.
 
@@ -228,7 +228,7 @@ No return value
 [Example delete_vm.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/delete_vm.go)
 
 ---
-### <a id="has-vm"></a> `has_vm`
+### `has_vm` <a id="has-vm"></a>
 
 Checks for VM presence in the IaaS.
 
@@ -245,7 +245,7 @@ This method is mostly used by the consistency check tool (cloudcheck) to determi
 [Example has_vm.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/has_vm.go)
 
 ---
-### <a id="reboot-vm"></a> `reboot_vm`
+### `reboot_vm` <a id="reboot-vm"></a>
 
 Reboots the VM. Assume that VM can be either be powered on or off at the time of the call.
 
@@ -262,7 +262,7 @@ No return value
 [Example #reboot_vm](https://github.com/cloudfoundry/bosh/blob/1dfc5da695cdcfe3998e0c8b3bea4cda86e963c4/bosh_vsphere_cpi/lib/cloud/vsphere/cloud.rb#L193)
 
 ---
-### <a id="set-vm-metadata"></a> `set_vm_metadata`
+### `set_vm_metadata` <a id="set-vm-metadata"></a>
 
 Sets VM's metadata to make it easier for operators to categorize VMs when looking at the IaaS management console. For example AWS CPI uses tags to store metadata for operators to see in the AWS Console.
 
@@ -296,7 +296,7 @@ No return value
 [Example #set\_vm\_metadata](https://github.com/cloudfoundry/bosh/blob/1dfc5da695cdcfe3998e0c8b3bea4cda86e963c4/bosh_vsphere_cpi/lib/cloud/vsphere/cloud.rb#L217)
 
 ---
-### <a id="configure-networks"></a> `configure_networks`
+### `configure_networks` <a id="configure-networks"></a>
 
 The recommended implementation is to raise `Bosh::Clouds::NotSupported` error. This method will be deprecated in API v2.
 
@@ -339,7 +339,7 @@ After the Director received NotSupported error, it will delete the VM (via `dele
 No return value
 
 ---
-### <a id="calculate-vm-cloud-properties"></a> `calculate_vm_cloud_properties` (Experimental)
+### `calculate_vm_cloud_properties` (Experimental) <a id="calculate-vm-cloud-properties"></a>
 <p class="note">Note: This method is not called by BOSH yet.</p>
 
 Returns a hash that can be used as VM `cloud_properties` when calling `create_vm`; it describes the IaaS instance type closest to the arguments passed.
@@ -379,9 +379,9 @@ If a parameter is set to a value greater than what is available (e.g. 1024 CPUs)
 - **cloud_properties** [Hash]: an IaaS-specific set of cloud properties that define the size of the VM.
 
 ---
-## <a id="disk"></a> Disk management
+## Disk management <a id="disk"></a>
 
-### <a id="create-disk"></a> `create_disk`
+### `create_disk` <a id="create-disk"></a>
 
 Creates disk with specific size. Disk does not belong to any given VM.
 
@@ -411,7 +411,7 @@ Creates disk with specific size. Disk does not belong to any given VM.
 [Example create_disk.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/create_disk.go)
 
 ---
-### <a id="delete-disk"></a> `delete_disk`
+### `delete_disk` <a id="delete-disk"></a>
 
 Deletes disk. Assume that disk was detached from all VMs.
 
@@ -428,7 +428,7 @@ No return value
 [Example delete_disk.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/delete_disk.go)
 
 ---
-### <a id="resize-disk"></a> `resize_disk`
+### `resize_disk` <a id="resize-disk"></a>
 
 Resizes disk with IaaS-native methods. Assume that disk was detached from all VMs. Set property [`director.enable_cpi_resize_disk`](http://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh&version=263#p=director.enable_cpi_resize_disk) to `true` to have the Director call this method.
 
@@ -448,7 +448,7 @@ No return value
 [Example #resize_disk](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release/blob/88e1c6d402b3c4ce23ad39ebdf5ab5fc93790127/src/bosh_openstack_cpi/lib/cloud/openstack/cloud.rb#L701)
 
 ---
-### <a id="has-disk"></a> `has_disk`
+### `has_disk` <a id="has-disk"></a>
 
 Checks for disk presence in the IaaS.
 
@@ -465,7 +465,7 @@ This method is mostly used by the consistency check tool (cloudcheck) to determi
 [Example #has_disk](https://github.com/cloudfoundry/bosh/blob/1dfc5da695cdcfe3998e0c8b3bea4cda86e963c4/bosh_vsphere_cpi/lib/cloud/vsphere/cloud.rb#L61)
 
 ---
-### <a id="attach-disk"></a> `attach_disk`
+### `attach_disk` <a id="attach-disk"></a>
 
 Attaches disk to the VM.
 
@@ -516,7 +516,7 @@ For the Agent to eventually format, partition and mount attached disk, it needs 
 [Example attach_disk.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/attach_disk.go)
 
 ---
-### <a id="detach-disk"></a> `detach_disk`
+### `detach_disk` <a id="detach-disk"></a>
 
 Detaches disk from the VM.
 
@@ -536,7 +536,7 @@ No return value
 [Example detach_disk.go](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/detach_disk.go)
 
 ---
-### <a id="set-disk-metadata"></a> `set_disk_metadata`
+### `set_disk_metadata` <a id="set-disk-metadata"></a>
 
 <p class="note">Note: This method is called by BOSH v262+.</p>
 
@@ -574,7 +574,7 @@ No return value
 [Example #set\_disk\_metadata](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release/blob/0c8ee8951cab41d0ddc86591719d55d8a783ac98/src/bosh_openstack_cpi/lib/cloud/openstack/cloud.rb#L629)
 
 ---
-### <a id="get-disks"></a> `get_disks`
+### `get_disks` <a id="get-disks"></a>
 
 Returns list of disks _currently_ attached to the VM.
 
@@ -589,9 +589,9 @@ This method is mostly used by the consistency check tool (cloudcheck) to determi
 - **disk_cids** [Array of strings]: Array of `disk_cid`s that are currently attached to the VM.
 
 ---
-## <a id="disk-snapshots"></a> Disk snapshots
+## Disk snapshots <a id="disk-snapshots"></a>
 
-### <a id="snapshot-disk"></a> `snapshot_disk`
+### `snapshot_disk` <a id="snapshot-disk"></a>
 
 Takes a snapshot of the disk.
 
@@ -605,7 +605,7 @@ Takes a snapshot of the disk.
 - **snapshot_cid** [String]: Cloud ID of the disk snapshot.
 
 ---
-### <a id="delete-snapshot"></a> `delete_snapshot`
+### `delete_snapshot` <a id="delete-snapshot"></a>
 
 Deletes the disk snapshot.
 
@@ -618,7 +618,7 @@ Deletes the disk snapshot.
 No return value
 
 ---
-### <a id="current-vm-id"></a> `current_vm_id`
+### `current_vm_id` <a id="current-vm-id"></a>
 
 Determines cloud ID of the VM executing the CPI code. Currently used in combination with `get_disks` by the Director to determine which disks to self-snapshot.
 

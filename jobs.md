@@ -15,7 +15,7 @@ A job typically includes:
 Jobs are typically OS specific (Windows vs Linux); however, structure of a job remains same.
 
 ---
-## <a id="spec"></a> Spec file (metadata)
+## Spec file (metadata) <a id="spec"></a>
 
 Spec file defines job metadata. It will be interpreted by the Director when the release is uploaded and when it's deployed.
 
@@ -51,11 +51,11 @@ Schema:
         * **default** [Any, optional]: Default value. Default is `nil`.
 
 ---
-## <a id="templates"></a> Templates (ERB configuration files)
+## Templates (ERB configuration files) <a id="templates"></a>
 
 Release author can define zero or more templates for each job, but typically you need at least a template for a control script.
 
-### <a id="monit"></a> Monit
+### Monit <a id="monit"></a>
 
 Example `monit` file for configuring single process that can start, monitor and stop a Postgres process:
 
@@ -66,7 +66,7 @@ check process postgres
   stop program "/var/vcap/jobs/postgres/bin/ctl stop"
 ```
 
-### <a id="ctl"></a> Control script (`*_ctl` script)
+### Control script (`*_ctl` script) <a id="ctl"></a>
 
 In a typical setup, control script is called by the Monit when it tries to start, and stop processes.
 
@@ -74,11 +74,11 @@ Monit expects that executing "start program" directive will get a process runnin
 
 Monit also expects that executing "stop program" directive will stop running process when the Director is restarting or shutting down the VM.
 
-### <a id="hooks"></a> Hook scripts
+### Hook scripts <a id="hooks"></a>
 
 There are several job lifecycle events that a job can react to: pre-start, post-start, post-deploy, and drain. See [Job lifecycle](job-lifecycle.md) for the execution order.
 
-### <a id="properties"></a> Use of Properties
+### Use of Properties <a id="properties"></a>
 
 Each template file is evaluated with [ERB](http://apidock.com/ruby/ERB) before being sent to each instance.
 

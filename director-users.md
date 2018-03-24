@@ -5,7 +5,7 @@ title: User management on the Director
 The Director provides a very simple built-in user management system for authentication of operators and internal services (for example, the Health Monitor). Alternatively, it can integrate with UAA for more advanced use cases.
 
 ---
-## <a id="default"></a> Default Configuration
+## Default Configuration <a id="default"></a>
 
 <p class="note"><strong>Note</strong>: We are planning to remove this configuration. We recommend configuring the Director as described below in <a href="#preconfigured">Preconfigured Users</a> section.</p>
 
@@ -38,7 +38,7 @@ User `some-operator' has been deleted
 ```
 
 ---
-## <a id="preconfigured"></a> Preconfigured Users
+## Preconfigured Users <a id="preconfigured"></a>
 
 <p class="note"><strong>Note</strong>: This feature is available with bosh-release v177+ (1.2999.0).</p>
 
@@ -62,17 +62,17 @@ To configure the Director with a list of users:
 1. Redeploy the Director with the updated manifest.
 
 ---
-## <a id="uaa"></a> UAA Integration
+## UAA Integration <a id="uaa"></a>
 
 [Configure the Director with UAA user management](director-users-uaa.md).
 
 ---
-## <a id="hm"></a> Director Tasks
+## Director Tasks <a id="hm"></a>
 
 When a user initiates a [director task](director-tasks.md), the director logs the user in the task audit log.
 
 ---
-## <a id="hm"></a> Health Monitor Authentication
+## Health Monitor Authentication <a id="hm"></a>
 
 The Health Monitor is configured to use a custom user to query/submit requests to the Director. Since by default the Director does not come with any users, the Health Monitor is not able to successfully communicate with the Director. See the [Automatic repair with Resurrector](resurrector.md) topic for more details.
 

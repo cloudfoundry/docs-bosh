@@ -42,9 +42,9 @@ No problems found
 ```
 
 ---
-## <a id="problems"></a> Problems
+## Problems <a id="problems"></a>
 
-### <a id="missing-vm"></a> VM is missing
+### VM is missing <a id="missing-vm"></a>
 
 Assuming there was a deployment with a VM, somehow that VM was deleted from the IaaS outside of BOSH, here is what cck would report:
 
@@ -116,7 +116,7 @@ cck determined that `i-914c046a` VM was missing. Possible options are:
 In the above example options 3 was picked and VM reference was deleted.
 
 ---
-### <a id="not-responsive-vm"></a> VM is not responsive (unresponsive agent)
+### VM is not responsive (unresponsive agent) <a id="not-responsive-vm"></a>
 
 Assuming there was a deployment with a VM, somehow Agent is no longer responding to the Director. In this situation `bosh vms` will report VM's agent as `unresponsive agent`:
 
@@ -237,7 +237,7 @@ cck determined that `i-914c046a` VM is unresponsive. Possible options are:
 In the above example options 4 was picked and VM reference was deleted.
 
 ---
-### <a id="unattached-persistent-disk"></a> Persistent Disk is not attached
+### Persistent Disk is not attached <a id="unattached-persistent-disk"></a>
 
 Assuming there was a deployment with a VM, somehow persistent disk got detached.
 
@@ -315,7 +315,7 @@ cck determined that `vol-549f071f` persistent disk is not attached to `i-4fcd99b
     Note on current behaviour: cck will not wait until VM reboots and restarts all release job processes.
 
 ---
-### <a id="missing-persistent-disk"></a> Persistent Disk is missing
+### Persistent Disk is missing <a id="missing-persistent-disk"></a>
 
 Assuming there was a deployment with a VM, somehow persistent disk got deleted.
 

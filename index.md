@@ -4,7 +4,7 @@ title: Index
 
 See [Recent Additions and Updates](recent.md).
 
-## <a id="intro"></a> Introduction
+## Introduction <a id="intro"></a>
 
 * [What is BOSH?](about.md)
     * [What problems does BOSH solve?](problems.md)
@@ -16,7 +16,7 @@ See [Recent Additions and Updates](recent.md).
 * [Terminology](terminology.md)
 
 ---
-## <a id="install"></a> Install BOSH
+## Install BOSH <a id="install"></a>
 
 * [Create an environment](init.md)
     * [On Local machine (BOSH Lite)](bosh-lite.md)
@@ -31,7 +31,7 @@ See [Recent Additions and Updates](recent.md).
     * [On RackHD](rackhd-cpi.md)
 
 ---
-## <a id="basic-deploy"></a> Deploy software with BOSH
+## Deploy software with BOSH <a id="basic-deploy"></a>
 
 * [Deploy workflow](basic-workflow.md)
     * [Update cloud config](update-cloud-config.md)
@@ -42,7 +42,7 @@ See [Recent Additions and Updates](recent.md).
     * Run one-off tasks
     * Update deployment
 
-### <a id="cli-v2"></a> CLI v2+
+### CLI v2+ <a id="cli-v2"></a>
 
 * [Command reference](cli-v2.md)
     * [`create-env` Dependencies](cli-env-deps.md)
@@ -53,7 +53,7 @@ See [Recent Additions and Updates](recent.md).
     * [Variable Interpolation](cli-int.md)
     * [Tunneling](cli-tunnel.md)
 
-### <a id="director-config"></a> Running Director
+### Running Director <a id="director-config"></a>
 
 * [Troubleshooting](tips.md)
 * [Events](events.md)
@@ -77,7 +77,7 @@ See [Recent Additions and Updates](recent.md).
 * [Configuring external database](director-configure-db.md)
 * [Configuring external blobstore](director-configure-blobstore.md)
 
-### <a id="deployment-config"></a> Detailed deployment configuration
+### Detailed deployment configuration <a id="deployment-config"></a>
 
 * [Manifest v2 schema](manifest-v2.md)
     * [Links](links.md)
@@ -98,7 +98,7 @@ See [Recent Additions and Updates](recent.md).
 * [Trusted certificates](trusted-certs.md)
 * [Native DNS Support](dns.md)
 
-### <a id="cpi-config"></a> Detailed CPI configuration & troubleshooting
+### Detailed CPI configuration & troubleshooting <a id="cpi-config"></a>
 
 * [AWS](aws-cpi.md)
     * [Using IAM instance profiles](aws-iam-instance-profiles.md)
@@ -127,7 +127,7 @@ See [Recent Additions and Updates](recent.md).
 * [Warden/Garden](warden-cpi.md)
 * [VirtualBox](virtualbox-cpi.md)
 
-### <a id="hm"></a> Health management of VMs and processes
+### Health management of VMs and processes <a id="hm"></a>
 
 * [Monitoring](monitoring.md)
     * [Configuring Health Monitor](hm-config.md)
@@ -136,7 +136,7 @@ See [Recent Additions and Updates](recent.md).
 * [Automatic repair with Resurrector](resurrector.md)
 * [Persistent disk snapshotting](snapshots.md)
 
-### <a id="vm-config"></a> VM configuration (looking inside a deployment)
+### VM configuration (looking inside a deployment) <a id="vm-config"></a>
 
 * [Structure of a managed VM](vm-struct.md)
     * [VM configuration locations](vm-config.md)
@@ -145,14 +145,14 @@ See [Recent Additions and Updates](recent.md).
 * Debugging issues with jobs
 
 ---
-## <a id="guides"></a> Guides
+## Guides <a id="guides"></a>
 
 * [IPv6 on vSphere](guide-ipv6-on-vsphere.md)
 * Multi-CPI
   * [On AWS](guide-multi-cpi-aws.md)
 
 ---
-## <a id="release"></a> Package software with BOSH
+## Package software with BOSH <a id="release"></a>
 
 * What is a release?
     * [Creating a release](create-release.md)
@@ -186,7 +186,7 @@ See [Recent Additions and Updates](recent.md).
         * [Configuring S3 release blobstore](s3-release-blobstore.md)
 
 ---
-## <a id="extend"></a> Extend BOSH
+## Extend BOSH <a id="extend"></a>
 
 * [Director API v1](director-api-v1.md)
 * What is a CPI?
@@ -197,13 +197,13 @@ See [Recent Additions and Updates](recent.md).
     * [Repacking Stemcells](repack-stemcell.md)
 
 ---
-## <a id="other"></a> Other
+## Other <a id="other"></a>
 
-### <a id="cli-v1"></a> CLI v1 (superseded by [CLI v2](#cli-v2))
+### CLI v1 (superseded by [CLI v2](#cli-v2)) <a id="cli-v1"></a>
 
 * [Install BOSH CLI v1](bosh-cli.md)
 * [CLI v1](sysadmin-commands.md)
 
-### <a id="manifest-v1"></a> Manifest v1
+### Manifest v1 <a id="manifest-v1"></a>
 
 * [Manifest v1 schema](deployment-manifest.md)

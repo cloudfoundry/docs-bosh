@@ -5,7 +5,7 @@ title: Monitoring
 BOSH monitors deployed VMs and release jobs' processes on those VMs via the Health Monitor and the help of the Agent, and Monit.
 
 ---
-## <a id="vm"></a> VMs
+## VMs <a id="vm"></a>
 
 [The Health Monitor](bosh-components.md#health-monitor) continuously checks presence of the deployed VMs. The Agent on each VM produces a heartbeat every minute and sends it to the Health Monitor over [NATS](bosh-components.md#nats).
 
@@ -25,24 +25,24 @@ Health Monitor includes the following plugins:
 
 See [Configuring Health Monitor](hm-config.md) for detailed plugins' configuration.
 
-### <a id="resurrector"></a> Resurrector Plugin
+### Resurrector Plugin <a id="resurrector"></a>
 
 Resurrector plugin continuously cross-references VMs expected to be running against the VMs that are sending heartbeats. When resurrector does not receive heartbeats for a VM for a certain period of time, it will kick off a task on the Director to try to "resurrect" that VM.
 
 See [Automatic repair with Resurrector](resurrector.md) for details.
 
 ---
-## <a id="process"></a> Processes on VMs
+## Processes on VMs <a id="process"></a>
 
 Release jobs' process monitoring on each VM is done with the help of the [Monit](http://mmonit.com/monit/). Monit continuously monitors presence of the configured release jobs' processes and restarts processes that are not found. Process restarts, failures, etc. are reported to the Agent which in turn reports them as alerts to the Health Monitor. Each Health Monitor plugin is given an opportunity to act on each alert.
 
 ---
-## <a id="ssh"></a> SSH Events
+## SSH Events <a id="ssh"></a>
 
 The Agent on each VM sends an alert when someone/something tries to log into the system via SSH. Successful and failed attempts are recorded.
 
 ---
-## <a id="deploy"></a> Deploy Events
+## Deploy Events <a id="deploy"></a>
 
 The Director sends an alert when a deployment starts, successfully completes or errors.
 

@@ -8,7 +8,7 @@ Depending on you configuration, there are up to three endpoints to be secured us
 
 <p class="note">Note: Unless you are using a configuration server, your SSL certificates will be stored in the Director's database.</p>
 
-## <a id="generate"></a> Generate SSL certificates (with OpenSSL)
+## Generate SSL certificates (with OpenSSL) <a id="generate"></a>
 
 You can use the following script to generate a root CA certificate and use it to sign three generated SSL certificates:
 
@@ -67,7 +67,7 @@ ls -la .
 ```
 
 ---
-## <a id="configure"></a> Configure the Director to use certificates
+## Configure the Director to use certificates <a id="configure"></a>
 
 Update the Director deployment manifest:
 
@@ -114,7 +114,7 @@ If you are using the UAA for user management, additionally put certificates in t
     - Associated certificate for the UAA (e.g. content of `certs/uaa-sp.crt`)
 
 ---
-## <a id="target"></a> Target the Director
+## Target the Director <a id="target"></a>
 
 After you deployed your Director with the above changes, you need to specify `--ca-cert` when targeting the Director:
 

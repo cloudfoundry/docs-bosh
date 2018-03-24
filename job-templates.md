@@ -2,7 +2,7 @@
 title: Job Templates
 ---
 
-## <a id="unit-testing"></a> Unit Testing with `bosh-template` gem
+## Unit Testing with `bosh-template` gem <a id="unit-testing"></a>
 
 `bosh-template` Ruby gem could be used for unit testing your job templates. Unit testing of job templates becomes even more important once they contain more complex ERB logic that may perform validation or data transformation.
 

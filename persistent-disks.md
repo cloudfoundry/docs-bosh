@@ -31,7 +31,7 @@ You can specify that an instance group needs an attached persistent disk in one 
 * [Persistent Disk Pool declaration](#persistent-disk-pool)
 
 ---
-## <a id='persistent-disk'></a> Persistent Disk Declaration
+## Persistent Disk Declaration <a id='persistent-disk'></a>
 
 To specify that an instance group needs an attached persistent disk, add a `persistent_disk` key-value pair to the instance group in the [Jobs](deployment-manifest.md#jobs) block of your deployment manifest.
 
@@ -54,7 +54,7 @@ instance_groups:
 <p class="note">Note: If you use persistent disk declaration, you cannot specify the persistent disk type or size that the CPI attaches to your job VMs. Instead, the CPI uses its default disk configuration when deploying the VMs.</p>
 
 ---
-## <a id='persistent-disk-pool'></a> Persistent Disk Pool Declaration
+## Persistent Disk Pool Declaration <a id='persistent-disk-pool'></a>
 
 To specify that an instance group needs an attached persistent disk, add a [Disk Pool](deployment-manifest.md#disk-pools) block to your deployment manifest.
 
@@ -92,12 +92,12 @@ instance_groups:
 ```
 
 ---
-## <a id='checking-stats'></a> Checking Stats
+## Checking Stats <a id='checking-stats'></a>
 
 After your deployment completes, run `bosh vms --vitals` from a terminal window to view persistent disk usage percentage values under `Persistent Disk Usage`.
 
 ---
-## <a id='accessing-persistent-disk'></a> Accessing Persistent Disks
+## Accessing Persistent Disks <a id='accessing-persistent-disk'></a>
 
 The CPI mounts persistent disks `/var/vcap/store` on deployed VMs, and persists any files stored in `/var/vcap/store`.
 
@@ -106,7 +106,7 @@ You specify jobs using the `jobs` key when defining a instance group. By convent
 For example, a `redis` job creates the following directory: `/var/vcap/store/redis`
 
 ---
-## <a id='changing-persistent-disk'></a> Changing Disk Properties
+## Changing Disk Properties <a id='changing-persistent-disk'></a>
 
 BOSH allows you to change disk types and sizes by modifying the deployment manifest. As long as the instance group name stays the same, data on existing persistent disks will be migrated onto new persistent disks. Old persistent disks will be marked as orphaned.
 
@@ -115,7 +115,7 @@ During the disk migration from one disk type and size to another, the Director c
 <p class="note">Note: An IaaS might disallow attaching particular disk types and sizes to certain VM types. Consult your IaaS documentation for more information.</p>
 
 ---
-## <a id='orphaned-disks'></a> Orphaned Disks
+## Orphaned Disks <a id='orphaned-disks'></a>
 
 Orphaned persistent disks are not attached to any VM and are not associated with any deployment. You can list orphaned disks known to the Director via [`bosh disks --orphaned` command](sysadmin-commands.md#disks). If deployment changes were done erroneously and you would like to reattach specific orphaned persistent disk to an instance follow these steps:
 

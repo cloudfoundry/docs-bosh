@@ -4,7 +4,7 @@ title: vSphere CPI
 
 This topic describes cloud properties for different resources created by the vSphere CPI.
 
-## <a id='azs'></a> AZs
+## AZs <a id='azs'></a>
 
 Schema for `cloud_properties` section:
 
@@ -30,7 +30,7 @@ azs:
 ```
 
 ---
-## <a id='networks'></a> Networks
+## Networks <a id='networks'></a>
 
 Schema for `cloud_properties` section used by manual network subnet:
 
@@ -60,7 +60,7 @@ networks:
 vSphere CPI does not support dynamic or vip networks.
 
 ---
-## <a id='resource-pools'></a> Resource Pools / VM Types
+## Resource Pools / VM Types <a id='resource-pools'></a>
 
 Schema for `cloud_properties` section:
 
@@ -120,7 +120,7 @@ resource_pools:
 ```
 
 ---
-## <a id='disk-pools'></a> Disk Pools / Disk Types
+## Disk Pools / Disk Types <a id='disk-pools'></a>
 
 Schema for `cloud_properties` section:
 
@@ -160,7 +160,7 @@ disk_pools:
 ```
 
 ---
-## <a id='global'></a> Global Configuration
+## Global Configuration <a id='global'></a>
 
 The CPI can only talk to a single vCenter installation and manage VMs within a single vSphere datacenter.
 
@@ -246,7 +246,7 @@ properties:
 ```
 
 ---
-## <a id='cloud-config'></a> Example Cloud Config
+## Example Cloud Config <a id='cloud-config'></a>
 
 ```yaml
 azs:
@@ -303,7 +303,7 @@ compilation:
 ```
 
 ---
-## <a id='notes'></a> Notes
+## Notes <a id='notes'></a>
 
 * Assigned VM names (e.g. `vm-8dg349-s7cn74-...`) should not be manually changed since the CPI uses them to find created VMs. You can use [`bosh vms --details`](sysadmin-commands.md#health) to find which VM is assigned which job. VMs are also tagged with their assigned job, index and deployment.
 
@@ -392,7 +392,7 @@ The vSphere CPI only supports a single datacenter and errors if more than one is
 The current code will not work with a datacenter inside a folder.
 
 ---
-## <a id='errors'></a> Errors
+## Errors <a id='errors'></a>
 
 ```
 Field object_set is not optional

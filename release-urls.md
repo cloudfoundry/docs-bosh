@@ -4,7 +4,7 @@ title: Release URLs
 
 This topic describes allowed types of URLs for downloading releases (typically found in deployment manifests).
 
-## <a id='local'></a> Local URLs
+## Local URLs <a id='local'></a>
 
 ```yaml
 releases:
@@ -21,7 +21,7 @@ CLI v2 will look for file locally and provide it to the `upload-release` command
 Above declaration is equivalent to `bosh upload-release syslog-11.tgz --sha1 332ac15609b220a3fdf5efad0e0aa069d8235788`.
 
 ---
-## <a id='http'></a> HTTP/HTTPs URLs
+## HTTP/HTTPs URLs <a id='http'></a>
 
 ```yaml
 releases:
@@ -36,7 +36,7 @@ CLI v2 will delegate download of the release to the Director, hence Director mus
 Above declaration is equivalent to `bosh upload-release https://bosh.io/d/github.com/cloudfoundry/syslog-release?v=11 --sha1 332ac15609b220a3fdf5efad0e0aa069d8235788`.
 
 ---
-## <a id='git-http'></a> Git over HTTP/HTTPs URLs
+## Git over HTTP/HTTPs URLs <a id='git-http'></a>
 
 ```yaml
 releases:

@@ -2,7 +2,7 @@
 title: Properties - Suggested configurations
 ---
 
-## <a id="tls"></a> TLS configuration
+## TLS configuration <a id="tls"></a>
 
 Following is a _suggested_ set of properties for TLS configuration:
 
@@ -98,7 +98,7 @@ variables:
 ```
 
 ---
-## <a id="env-proxy"></a> Environment proxy configuration
+## Environment proxy configuration <a id="env-proxy"></a>
 
 Following is a _suggested_ set of properties for environment proxy configuration:
 

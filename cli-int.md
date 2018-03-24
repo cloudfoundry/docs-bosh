@@ -9,11 +9,11 @@ It's typically necessary to separate passwords, certificates, S3 bucket names et
 <p class="note">Note: Changing structure of a YAML document such as adding an S3 access configuration section is a bit more than just YAML document parameterization. Look into [operations files](cli-ops-files.md) for additional details.</p>
 
 ---
-## <a id="variables"></a>  Variables
+##  Variables <a id="variables"></a>
 
 Variables provide a way to define parameters for a YAML document. Each variable has a value, one or more reference locations and an optional type and generation options.
 
-### <a id="implicit"></a> Implicit declaration
+### Implicit declaration <a id="implicit"></a>
 
 Following example shows how to add two variables to a YAML document (`base.yml`):
 
@@ -24,7 +24,7 @@ s3_access_secret_key: ((access_secret_key))
 
 `access_key_id` and `access_secret_key` variables are implicitly defined just by being present within double parentheses. By parameterizing above YAML document it can now be used as a template.
 
-### <a id="value-sources"></a> Value sources
+### Value sources <a id="value-sources"></a>
 
 Commands that accept YAML documents such as `bosh deploy` and `bosh update-cloud-config` typically have a set of flags that can be used to provide variable values. `bosh interpolate` command can be used to experiment with such flags as its only job is to print result of variable interpolation.
 
@@ -97,7 +97,7 @@ $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
   -v outbound_network_name=NatNetwork
 ```
 
-### <a id="explicit"></a> Explicit declaration
+### Explicit declaration <a id="explicit"></a>
 
 In addition to just implicitly declaring variables it may be useful to explicitly declare them and provide additional details about used variables so that either the CLI or the Director (actually connected config server) can validate, automatically store and generate variable values.
 
@@ -124,7 +124,7 @@ variables:
 
 A variable can define its type and generation options.
 
-### <a id="vars-store"></a> `--vars-store` flag
+### `--vars-store` flag <a id="vars-store"></a>
 
 `--vars-store=path` flag provides a read write value source unlike all other variables flags that provide read only source. It is able to lazily generate and save (to a given file location) variable values based on their type and options.
 

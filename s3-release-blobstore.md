@@ -6,7 +6,7 @@ title: Setting up an S3 Release Blobstore
 
 This topic is written for release maintainers and describes how to set up a S3 bucket for storing release artifacts.
 
-## <a id="bucket"></a> Creating S3 Bucket
+## Creating S3 Bucket <a id="bucket"></a>
 
 S3 bucket is used for storing release blobs and generated final release blobs. It's configured to be readable by everyone.
 
@@ -27,7 +27,7 @@ S3 bucket is used for storing release blobs and generated final release blobs. I
 
 <p class="note"><strong>Note</strong>: S3 buckets have a global namespace. If you create a bucket, that name has been forever consumed for everyone using S3. If you choose to delete that bucket, the name will not be added back to the global pool of names. It is gone forever.</p>
 
-## <a id="iam-user"></a> Creating IAM User for the Maintainer
+## Creating IAM User for the Maintainer <a id="iam-user"></a>
 
 An IAM user is used to download and upload blobs to a created S3 bucket.
 
@@ -70,7 +70,7 @@ blobstore:
 
 <p class="note"><strong>Note</strong>: When you first create a bucket, it might take a little while for Amazon to be able to route requests correctly to the bucket and so downloads may fail with an obscure "Broken Pipe" error. The solution is to wait for some time before trying.
 
-## <a id="setting-region"></a> Setting S3 region
+## Setting S3 region <a id="setting-region"></a>
 
 By default, Amazon S3 buckets resolve to the `us-east-1` (North Virginia) region. If your blobstore bucket resides in a different region, override the region and endpoint settings in `config/final.yml`. For example, a bucket in `eu-west-1` would be as follows:
 
@@ -88,6 +88,6 @@ A full list of S3 regions and endpoints is available [here](http://docs.aws.amaz
 
 See [S3 CLI Usage](https://github.com/pivotal-golang/s3cli#usage) for additional configuration options.
 
-## <a id="usage"></a> Usage
+## Usage <a id="usage"></a>
 
 Once the S3 bucket and IAM user are configured with correct access rules, `bosh upload blobs` should succeed and the S3 bucket should contain uploaded blobs. Running `bosh create release --final` will also place additional blobs into the bucket.

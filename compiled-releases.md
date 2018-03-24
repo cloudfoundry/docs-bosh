@@ -15,7 +15,7 @@ Typically release tarballs are distributed with source packages; however, there 
 Any release can be exported as a compiled release by using the Director and [bosh export-release](cli-v2.md#export-release) command.
 
 ---
-## <a id="export"></a> Using export-release command
+## Using export-release command <a id="export"></a>
 
 To export a release:
 
@@ -55,7 +55,7 @@ To export a release:
 1. Optionally use `bosh inspect-release` command to view associated compiled packages on the Director. In our example: `bosh inspect-release uaa/45`.
 
 ---
-## <a id="floating"></a> Floating stemcells
+## Floating stemcells <a id="floating"></a>
 
 Compiled releases are built against a particular stemcell version. Director allows compiled releases to be installed on any minor version of the major stemcell version that the compiled release was exported against. `bosh create-env` command requires exact stemcell match unlike the Director.
 

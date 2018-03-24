@@ -2,7 +2,7 @@
 title: Creating IAM Users
 ---
 
-## <a id="create"></a> Creating new IAM user
+## Creating new IAM user <a id="create"></a>
 
 1. Log into the AWS console: [https://console.aws.amazon.com/console/home](https://console.aws.amazon.com/console/home).
 

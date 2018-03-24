@@ -11,7 +11,7 @@ title: Post-start Script
 Release job can have a post-start script that will run after the job is started (specifically after monit successfully starts a process). This script allows the job to execute any additional commands against a machine and/or persistent data before considering release job as successfully started.
 
 ---
-## <a id="job-configuration"></a> Job Configuration
+## Job Configuration <a id="job-configuration"></a>
 
 To add a post-start script to a release job:
 
@@ -28,7 +28,7 @@ templates:
 ```
 
 ---
-## <a id="script-implementation"></a> Script Implementation
+## Script Implementation <a id="script-implementation"></a>
 
 Post-start script is usually just a regular shell script. Since post-start script is executed in a similar way as other release job scripts (start, stop, drain scripts) you can use job's package dependencies.
 
@@ -43,7 +43,7 @@ Post-start script is called every time after job is started (ctl script is calle
 Post-start scripts in a single deployment job (typically is composed of multiple release jobs) are executed in parallel.
 
 ---
-## <a id="logs"></a> Logs
+## Logs <a id="logs"></a>
 
 You can find logs for each release job's post-start script in the following locations:
 

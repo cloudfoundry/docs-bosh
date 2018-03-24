@@ -4,7 +4,7 @@ title: Creating environment on SoftLayer
 
 This document shows how to create new [environment](terminology.md#environment) on SoftLayer.
 
-## <a id="prepare"></a> Step 1: Prepare a SoftLayer Environment
+## Step 1: Prepare a SoftLayer Environment <a id="prepare"></a>
 
 To prepare your SoftLayer environment:
 
@@ -14,29 +14,29 @@ To prepare your SoftLayer environment:
 * [Order VLANs](#vlan)
 
 ---
-### <a id="account"></a> Create a SoftLayer account
+### Create a SoftLayer account <a id="account"></a>
 
 If you do not have an SoftLayer account, [create one for one month free](https://www.softlayer.com/promo/freeCloud).
 
 Use the login credentials received in your provided email to login to SoftLayer [Customer Portal](https://control.softlayer.com).
 
 ---
-### <a id="api-key"></a> Generate an API Key
+### Generate an API Key <a id="api-key"></a>
 
 API keys are used to securely access the SoftLayer API. Follow [Generate an API Key](http://knowledgelayer.softlayer.com/procedure/generate-api-key) to generate your API key.
 
 ---
-### <a id="vpn"></a> Access SoftLayer VPN
+### Access SoftLayer VPN <a id="vpn"></a>
 
 To access SoftLayer Private network, you need to access SoftLayer VPN. Follow [VPN Access](http://www.softlayer.com/vpn-access) to access the VPN. You can get your VPN password from your [user profile](https://control.softlayer.com/account/user/profile). Follow [VPN Access](http://www.softlayer.com/vpn-access) to access the VPN.
 
 ---
-### <a id="vlan"></a> Order VLANs
+### Order VLANs <a id="vlan"></a>
 
 VLANs provide the ability to partition devices and subnets on the network. To order VLANs, login to SoftLayer [Customer Portal](https://control.softlayer.com) and navigate to Network > IP Management > VLANs. Once on the page, click the "Order VLAN" link in the top-right corner. Fill in the pop-up window to order the VLANs as you need. The VLAN IDs are needed in the deployment manifest.
 
 ---
-## <a id="deploy"></a> Step 2: Deploy
+## Step 2: Deploy <a id="deploy"></a>
 
 1. Install [CLI v2](./cli-v2.html).
 

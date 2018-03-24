@@ -10,7 +10,7 @@ This document lists several common problems. If you are looking for CPI specific
 - [vSphere CPI errors](vsphere-cpi.md#errors)
 
 ---
-## <a id="unreachable-agent"></a> Timed out pinging to ... after 600 seconds
+## Timed out pinging to ... after 600 seconds <a id="unreachable-agent"></a>
 
 ```shell
 $ bosh deploy
@@ -39,7 +39,7 @@ This problem can occur due to:
 It's recommended to start a deploy again and SSH into one of the VMs and look at [the Agent logs](job-logs.md#agent-logs) while the Director waits for VMs to become accessible. See [`director.debug.keep_unreachable_vms` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.debug.keep_unreachable_vms) to let Director know to leave unreachable VMs for easier debugging.
 
 ---
-## <a id="failed-job"></a> ...is not running after update
+## ...is not running after update <a id="failed-job"></a>
 
 ```shell
 $ bosh deploy
@@ -63,7 +63,7 @@ This problem occurs when one of the release jobs on a VM did not successfully st
 This problem may also arise when deployment manifest specifies too small of a [canary/update watch time](deployment-manifest.md#update) which may not be large enough for a process to successfully start.
 
 ---
-## <a id="unmount-persistent-disk"></a> umount: /var/vcap/store: device is busy
+## umount: /var/vcap/store: device is busy <a id="unmount-persistent-disk"></a>
 
 ```shell
 L Error: Action Failed get_task: Task 5be893c6-7a2c-4f3f-420b-433fd23528a1 result: Migrating persistent disk: Remounting persistent disk as readonly: Unmounting /var/vcap/store: Running command: 'umount /var/vcap/store', stdout: '', stderr: 'umount: /var/vcap/store: device is busy.
@@ -75,7 +75,7 @@ L Error: Action Failed get_task: Task 5be893c6-7a2c-4f3f-420b-433fd23528a1 resul
 This process occurs when one of the processes (from one of the installed jobs) did not fully shutdown and continues to retain a reference to the persistent disk. Agent tries to unmount persistent disk and unmount command fails. You can use `bosh ssh` command to get inside the VM and diagnose which process is holding onto the persistent disk via `lsof | grep /var/vcap/store` (ran as root).
 
 ---
-## <a id="blobstore-out-of-space"></a> Running command: bosh-blobstore-dav -c ... 500 Internal Server Error
+## Running command: bosh-blobstore-dav -c ... 500 Internal Server Error <a id="blobstore-out-of-space"></a>
 
 ```shell
 $ bosh deploy
@@ -96,7 +96,7 @@ This problem can occur if the Director is configured to use built-in blobstore a
 If `bosh clean-up` command fails with 500 Internal Server Error, consider removing `/var/vcap/store/director/tasks` to free up a little bit of persistent disk space before running `bosh clean-up` command again. (Deleting that directory will delete Director task debug logs.)
 
 ---
-## <a id="director-db"></a> Debugging Director database
+## Debugging Director database <a id="director-db"></a>
 
 Rarely it's necessary to dive into the Director DB. The easiest way to do so is to SSH into the Director VM and use `director_ctl console`. For example:
 
@@ -116,7 +116,7 @@ irb(main):001:0> Bosh::Director::Models::RenderedTemplatesArchive.count
 <p class="note">Note: It's not recommended to modify the Director database via this or other manual methods. Please let us know via GitHub issue if you need a certain feature in the BOSH CLI to do some operation.</p>
 
 ---
-## <a id="canceled-task"></a> Task X cancelled
+## Task X cancelled <a id="canceled-task"></a>
 
 ```shell
 $ bosh deploy
@@ -133,7 +133,7 @@ Task 106 cancelled
 This problem typically occurs if the Director's system time is out of sync, or if the Director machine is underpowered.
 
 ---
-## <a id="upload-release-entity-too-large"></a> Upload release fails
+## Upload release fails <a id="upload-release-entity-too-large"></a>
 
 ```shell
 $ bosh upload release blah.tgz
@@ -160,7 +160,7 @@ Error 100: Could not create object, 413/&lt;html&gt;
 This failure occurs due to nginx configuration problems with the director and the nginx blobstore. This can be remedied by configuring the `max_upload_size` property on the director and blobstore jobs.
 
 ---
-## <a id="persistent-disk-not-found"></a> Persistent Disk with id <UUID> not found
+## Persistent Disk with id <UUID> not found <a id="persistent-disk-not-found"></a>
 
 ```shell
 $ bosh create-env

@@ -9,14 +9,14 @@ In this guide we explore how to configure BOSH to deploy VMs from a single deplo
 For simplicity reasons we're going to allow all internal traffic between two VPCs, however this can be configured as desired by the operator.
 
 ---
-## <a id="setup-iaas"></a> Set up the IaaS
+## Set up the IaaS <a id="setup-iaas"></a>
 
 Let's start by initializing main AZ (`z1`) to US East (N. Virginia) by following steps 1 and 2 from [Creating environment on AWS](init-aws.md). This will give you a working BOSH Director in a single region. You can perform a deployment to test Director is working fine.
 
 To add a second AZ (`z2`) to US West (N. California) you need to perform step 1 from [Creating environment on AWS](init-aws.md) in another AWS account.
 
 ---
-## <a id="connecting-vpcs"></a> Connecting VPCs
+## Connecting VPCs <a id="connecting-vpcs"></a>
 
 The VMs in one AZ need to be able to talk to VMs in the other AZ. We're going to describe two ways AZs can be connected. You have two options:
 
@@ -27,7 +27,7 @@ The VMs in one AZ need to be able to talk to VMs in the other AZ. We're going to
 - if VPCs are spread out across multiple regions, you can mix and match two approaches above
 
 ---
-### <a id="vpc-peering"></a> VPC Peering (only works for VPCs in the same region)
+### VPC Peering (only works for VPCs in the same region) <a id="vpc-peering"></a>
 
 To connect VPCs in the same region you have to create a VPC Peering Connection between each region. In our case, we have two VPCs so only one connection is required.
 
@@ -52,7 +52,7 @@ To connect VPCs in the same region you have to create a VPC Peering Connection b
 <p class="note">Note: If you want IPv6 traffic to be routed you also need to add the corresponding IPv6 CIDR blocks.</p>
 
 ---
-### <a id="openvpn"></a> OpenVPN using IPSec
+### OpenVPN using IPSec <a id="openvpn"></a>
 
 Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/openvpn-bosh-release) to connect both OpenVPN Server and client in each region like shown below:
 
@@ -150,7 +150,7 @@ Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/op
     ```
 
 ---
-## <a id="configuring-configs"></a> Configure CPI and Cloud configs
+## Configure CPI and Cloud configs <a id="configuring-configs"></a>
 
 Now that the IaaS is configured, update your Director's [CPI config](cpi-config.md):
 
@@ -230,6 +230,6 @@ $ bosh update-cloud-config cloud.yml
 ```
 
 ---
-## <a id="deploying"></a> Deploy example Zookeeper deployment
+## Deploy example Zookeeper deployment <a id="deploying"></a>
 
 ...

@@ -4,7 +4,7 @@ title: SoftLayer CPI
 
 This topic describes cloud properties for different resources created by the SoftLayer CPI.
 
-## <a id='azs'></a> AZs
+## AZs <a id='azs'></a>
 
 Example:
 
@@ -16,7 +16,7 @@ azs:
 ```
 
 ---
-## <a id='networks'></a> Networks
+## Networks <a id='networks'></a>
 
 Example of dynamic network (both public and private networks are available):
 
@@ -77,7 +77,7 @@ networks:
 Currently SoftLayer CPI does not support vip network.
 
 ---
-## <a id='resource-pools'></a> Resource Pools / VM Types
+## Resource Pools / VM Types <a id='resource-pools'></a>
 
 Schema for `cloud_properties` section:
 
@@ -110,7 +110,7 @@ resource_pools:
 ```
 
 ---
-## <a id='disk-pools'></a> Disk Pools / Disk Types
+## Disk Pools / Disk Types <a id='disk-pools'></a>
 
 Schema for `cloud_properties` section:
 
@@ -129,7 +129,7 @@ disk_pools:
 ```
 
 ---
-## <a id='cloud-config'></a> Example Cloud Config
+## Example Cloud Config <a id='cloud-config'></a>
 
 ```yaml
 azs:

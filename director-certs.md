@@ -10,7 +10,7 @@ Depending on you configuration, there are up to three endpoints to be secured us
 
 <p class="note">Note: Unless you are using a configuration server, your SSL certificates will be stored in the Director's database.</p>
 
-## <a id="generate"></a> Generate SSL certificates
+## Generate SSL certificates <a id="generate"></a>
 
 You can use CLI v2 `interpolate` command to generate self signed certificates. Even if you use CLI v2 to generate certificates, you can still continue using CLI v1 with the Director.
 
@@ -46,7 +46,7 @@ $ bosh interpolate tpl.yml -v internal_ip=10.244.4.2 --vars-store certs.yml
 $ cat certs.yml
 ```
 
-## <a id="configure"></a> Configure the Director to use certificates
+## Configure the Director to use certificates <a id="configure"></a>
 
 Update the Director deployment manifest:
 
@@ -93,7 +93,7 @@ If you are using the UAA for user management, additionally put certificates in t
     - Associated certificate for the UAA (content of `bosh int certs.yml --path /uaa_service_provider_ssl/certificate`)
 
 ---
-## <a id="target"></a> Target the Director
+## Target the Director <a id="target"></a>
 
 After you deployed your Director with the above changes, you need to specify `--ca-cert` when targeting the Director:
 

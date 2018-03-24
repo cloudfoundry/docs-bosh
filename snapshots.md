@@ -10,7 +10,7 @@ Take a disk snapshot of a persistent disk before deploying major updates or for 
 
 <p class="note"><strong>Note</strong>: While snapshots allow you to recover disk to a prior state, snapshots are not backups. Taking a snapshot does not necessarily create a complete copy of the original disk. If the original disk is deleted, your IaaS may invalidate any snapshot files.</p>
 
-## <a id='enable'></a> Enabling Snapshots
+## Enabling Snapshots <a id='enable'></a>
 
 Since the IaaS might or might not provide snapshotting functionality, disk snapshots are disabled by default. If your IaaS supports snapshots, you must enable snapshots in your IaaS and in the Director to use disk snapshots.
 
@@ -26,7 +26,7 @@ To enable disk snapshots:
 
 1. Run `bosh deploy` to update your deployment.
 
-## <a id='manual'></a> Manual Snapshots
+## Manual Snapshots <a id='manual'></a>
 
 Once you enable snapshots in your deployment, you can use following CLI commands to take snapshots on demand.
 
@@ -56,11 +56,11 @@ $ bosh delete snapshots
 
 Deletes all snapshots.
 
-## <a id='automatic'></a> Job Update Snapshots
+## Job Update Snapshots <a id='automatic'></a>
 
 Once you enable snapshots in the Director, the Director automatically takes a snapshot of the persistent disk whenever an event triggers a deployment job update. Before taking the snapshot, the Director waits for release job processes to stop (and/or drain).
 
-## <a id='automatic'></a> Scheduled Snapshots
+## Scheduled Snapshots <a id='automatic'></a>
 
 The Director can take snapshot of a persistent disk at regular intervals for all VMs in all deployments and the VM the Director is running on.
 

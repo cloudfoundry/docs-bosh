@@ -4,7 +4,7 @@ title: Setting up BOSH environment on Azure
 
 This document shows how to initialize new [environment](terminology.md#environment) on Microsoft Azure.
 
-## <a id="prepare"></a> Step 1: Prepare an Azure Environment
+## Step 1: Prepare an Azure Environment <a id="prepare"></a>
 
 If you do not have an Azure account, [create one](https://azure.microsoft.com/en-us/pricing/free-trial/).
 
@@ -15,7 +15,7 @@ We strongly recommend you to use Azure template [bosh-setup](https://github.com/
 To prepare your Azure environment find out and/or create any missing resources in Azure. If you are not familiar with Azure take a look at [Creating Azure resources](azure-resources.md) page for more details on how to create and configure necessary resources:
 
 ---
-## <a id="deploy"></a> Step 2: Deploy
+## Step 2: Deploy <a id="deploy"></a>
 
 1. Install [CLI v2](./cli-v2.html).
 

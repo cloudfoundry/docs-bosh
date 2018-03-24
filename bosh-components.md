@@ -7,14 +7,14 @@ Before creating a new [environment](terminology.md#environment) we recommend to 
 ![image](images/bosh-architecture.png)
 
 ---
-## <a id="cli"></a> Command Line Interface (CLI)
+## Command Line Interface (CLI) <a id="cli"></a>
 
 The Command Line Interface (CLI) is the primary operator interface to BOSH. An operator uses the CLI to interact with the Director and perform actions on the cloud.
 
 CLI is typically installed on a machine that can directly communicate with the Director's API, e.g. an operator's laptop, or a jumpbox in the datacenter.
 
 ---
-## <a id="director"></a> Director
+## Director <a id="director"></a>
 
 The Director is the core orchestrating component in BOSH. The Director controls VM creation and deployment, as well as other software and service lifecycle events.
 
@@ -26,67 +26,67 @@ The Director creates actionable tasks:
 
 Once created, the Director adds these tasks to the Task Queue. Worker processes take tasks from the Task Queue and act on them.
 
-### <a id="queue"></a> Task Queue
+### Task Queue <a id="queue"></a>
 
 An asynchronous queue used by the Director and Workers to manage tasks. The Task Queue resides in the Database.
 
-### <a id="workers"></a> Workers
+### Workers <a id="workers"></a>
 
 Director workers take tasks from the Task Queue and act on them.
 
-### <a id="cpi"></a> Cloud Provider Interface (CPI)
+### Cloud Provider Interface (CPI) <a id="cpi"></a>
 
 A Cloud Provider Interface (CPI) is an API that the Director uses to interact with an IaaS to create and manage stemcells, VMs, and disks. A CPI abstracts infrastructure differences from the rest of BOSH.
 
 ---
-## <a id="health-monitor"></a> Health Monitor
+## Health Monitor <a id="health-monitor"></a>
 
 The Health Monitor uses status and lifecycle events received from Agents to monitor the health of VMs. If the Health Monitor detects a problem with a VM, it can send an alert through notification plugins, or trigger the Resurrector.
 
-### <a id="resurrector"></a> Resurrector
+### Resurrector <a id="resurrector"></a>
 
 If enabled, the Resurrector plugin automatically recreates VMs identified by the Health Monitor as missing or unresponsive. It uses same Director API that CLI uses.
 
 ---
-## <a id="dns"></a> DNS Server
+## DNS Server <a id="dns"></a>
 
 BOSH uses PowerDNS to provide DNS resolution between the VMs in a deployment.
 
 ---
-## <a id="persistent"></a> Components used to store Director's persistent data
+## Components used to store Director's persistent data <a id="persistent"></a>
 
-### <a id="database"></a> Database
+### Database <a id="database"></a>
 
 The Director uses a Postgres database to store information about the desired state of a deployment. This includes information about stemcells, releases, and deployments.
 
-### <a id="blobstore"></a> Blobstore
+### Blobstore <a id="blobstore"></a>
 
 The Blobstore stores the source forms of releases and the compiled images of releases. An operator uploads a release using the CLI, and the Director inserts the release into the Blobstore. When you deploy a release, BOSH orchestrates the compilation of packages and stores the result in the Blobstore.
 
 ---
-## <a id="agent"></a> Agent
+## Agent <a id="agent"></a>
 
 BOSH includes an Agent on every VM that it deploys. The Agent listens for instructions from the Director and carries out those instructions. The Agent receives job specifications from the Director and uses them to assign a role, or Job, to the VM.
 
 For example, to assign the job of running MySQL to a VM, the Director sends instructions to the Agent on the VM. These instructions include which packages to install and how to configure those packages. The Agent uses these instructions to install and configure MySQL on the VM.
 
 ---
-## <a id="comm"></a> Components used for cross-component communication
+## Components used for cross-component communication <a id="comm"></a>
 
-### <a id="nats"></a> Message Bus (NATS)
+### Message Bus (NATS) <a id="nats"></a>
 
 The Director and the Agents communicate through a lightweight publish-subscribe messaging system called NATS. These messages have two purposes: to perform provisioning instructions on the VMs, and to inform the Health Monitor about changes in the health of monitored processes.
 
-### <a id="registry"></a> Registry
+### Registry <a id="registry"></a>
 
 When the Director creates or updates a VM, it stores configuration information for the VM in the Registry so that it can be used during bootstrapping stage of the VM.
 
 ---
-## <a id="example"></a> Example component interaction
+## Example component interaction <a id="example"></a>
 
 This example shows how components interact when creating a new VM.
 
-### <a id="create-vm"></a> Creating a new VM
+### Creating a new VM <a id="create-vm"></a>
 
 ![image](images/deploy-sequence.png)
 

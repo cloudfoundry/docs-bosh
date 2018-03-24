@@ -5,7 +5,7 @@ title: Links - Common types
 Common suggested link types that release authors should conform to if type is used.
 
 ---
-## <a id="database"></a> `database` type
+## `database` type <a id="database"></a>
 
 `link('...').address` returns database address.
 
@@ -18,7 +18,7 @@ Common suggested link types that release authors should conform to if type is us
 * **options** [Hash, optional]: Opaque set of options for the adapter. Example: `{max_connections: 32, pool_timeout: 10}`.
 
 ---
-## <a id="blobstore"></a> `blobstore` type
+## `blobstore` type <a id="blobstore"></a>
 
 `link('...').address` returns blobstore address.
 

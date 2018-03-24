@@ -6,7 +6,7 @@ This document shows how to initialize new [environment](terminology.md#environme
 
 ## <a id="prepare-openstack"></a>Step 1: Prepare an OpenStack environment
 
-### <a id="prerequisites"></a> Prerequisites
+### Prerequisites <a id="prerequisites"></a>
 
 1. An OpenStack environment running one of the following supported releases:
     * [Liberty](http://www.openstack.org/software/liberty) (actively tested)
@@ -135,7 +135,7 @@ You must create and configure two Security Groups to restrict incoming network t
     ![image](images/micro-openstack/floating-ip.png)
 
 ---
-## <a id="deploy"></a> Step 2: Deploy
+## Step 2: Deploy <a id="deploy"></a>
 
 1. Install [CLI v2](./cli-v2.html).
 

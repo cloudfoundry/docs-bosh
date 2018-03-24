@@ -4,7 +4,7 @@ title: Common Addons
 
 (See [runtime config](runtime-config.md#addons) for an introduction to addons.)
 
-## <a id='syslog'></a> Syslog forwarding
+## Syslog forwarding <a id='syslog'></a>
 
 Need: Configure syslog on all machines to forward system logs to a remote location.
 
@@ -34,7 +34,7 @@ addons:
 See [syslog_forwarder job](https://bosh.io/jobs/syslog_forwarder?source=github.com/cloudfoundry/syslog-release).
 
 ---
-## <a id='login-banner'></a> Custom SSH login banner
+## Custom SSH login banner <a id='login-banner'></a>
 
 <p class="note">Note: This job work with 3232+ stemcell series due to how sshd is configured.</p>
 
@@ -62,7 +62,7 @@ addons:
 See [login_banner job](https://bosh.io/jobs/login_banner?source=github.com/cloudfoundry/os-conf-release).
 
 ---
-## <a id='misc-users'></a> Custom SSH users
+## Custom SSH users <a id='misc-users'></a>
 
 <p class="note">Warning: This job does not remove users from the VM when user is removed from the manifest.</p>
 

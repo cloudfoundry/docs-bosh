@@ -7,9 +7,9 @@ title: Director API v1
 This document lists common API endpoints provided by the Director.
 
 ---
-## <a id="overview"></a> Overview
+## Overview <a id="overview"></a>
 
-### <a id="auth"></a> Security
+### Security <a id="auth"></a>
 
 All API access should be done over verified HTTPS.
 
@@ -17,7 +17,7 @@ The Director can be configured in two authentication modes: [basic auth](directo
 
 `401 Unauthorized` will be returned for requests that contain an invalid basic auth credentials or an invalid/expired UAA access token.
 
-### <a id="http-verbs"></a> HTTP verbs
+### HTTP verbs <a id="http-verbs"></a>
 
 Standard HTTP verb semantics are followed:
 
@@ -27,28 +27,28 @@ Standard HTTP verb semantics are followed:
 | POST/PUT | Used for creating/updating resources. |
 | DELETE | Used for deleting resources. |
 
-### <a id="http-verbs"></a> HTTP redirects
+### HTTP redirects <a id="http-verbs"></a>
 
 Any request may result in a redirection. Receiving an HTTP redirection is not an error and clients should follow that redirect. Redirect responses will have a Location header field. Clients should use same authentication method when following a redirect.
 
-### <a id="rate-limiting"></a> Rate limiting
+### Rate limiting <a id="rate-limiting"></a>
 
 Currently no rate limiting is performed.
 
-### <a id="pagination"></a> Pagination
+### Pagination <a id="pagination"></a>
 
 Currently none of the resources are paginated.
 
-### <a id="long-running-ops"></a> Long running operations (aka Director tasks)
+### Long running operations (aka Director tasks) <a id="long-running-ops"></a>
 
 Certain requests result in complex and potentially long running operations against the IaaS, blobstore, or other resources. [`POST /deployments`](#post-deployment) is a good example. Such requests start a [Director task](director-tasks.md) and continue running on the Director after response is returned. Response to such request will be a `302 Moved Temporarily` redirect to a created task resource.
 
 Once a Director task is created, clients can follow its progress by polling [`GET /tasks/{id}`](#get-task) to find out its state. While waiting for the task to finish, different types of logs ([event](#get-task-event), [result](#get-task-result), [debug](#get-task-debug) information, etc.) can be followed to gain insight into what the task is doing.
 
 ---
-## <a id="general"></a> General
+## General <a id="general"></a>
 
-### <a id="info"></a> `GET /info`: Info
+### `GET /info`: Info <a id="info"></a>
 
 #### Response body schema
 
@@ -95,9 +95,9 @@ $ curl -s -k https://192.168.50.4:25555/info | jq .
 
 ---
 
-## <a id="configs"></a> Configs
+## Configs <a id="configs"></a>
 
-### <a id="list-configs"></a> `GET /configs`: List configs
+### `GET /configs`: List configs <a id="list-configs"></a>
 
 #### Request query
 
@@ -134,7 +134,7 @@ $ curl -s -k https://192.168.50.4:25555/configs?latest=true | jq .
 ```
 
 ---
-### <a id="create-config"></a> `POST /configs`: Create config.
+### `POST /configs`: Create config. <a id="create-config"></a>
 
 #### Request headers
 
@@ -174,7 +174,7 @@ $ curl -s -k -H 'Content-Type: application/json' -d '{"name": "test", "type": "c
 ```
 
 ---
-### <a id="diff-config"></a> `POST /configs/diff`: Diff config.
+### `POST /configs/diff`: Diff config. <a id="diff-config"></a>
 
 #### Request headers
 
@@ -213,7 +213,7 @@ $ curl -s -k -H 'Content-Type: application/json' -d '{"name": "default", "type":
 ```
 
 ---
-### <a id="delete-config"></a> `DELETE /configs`: Marks configs as deleted.
+### `DELETE /configs`: Marks configs as deleted. <a id="delete-config"></a>
 
 #### Request Query
 
@@ -227,11 +227,11 @@ $ curl -s -k -X DELETE https://192.168.50.4:25555/configs?type=cloud&name=test
 ```
 
 ---
-## <a id="tasks"></a> Tasks
+## Tasks <a id="tasks"></a>
 
 See [Director tasks](director-tasks.md) for related info.
 
-### <a id="list-tasks"></a> `GET /tasks`: List all tasks
+### `GET /tasks`: List all tasks <a id="list-tasks"></a>
 
 #### Response body schema
 
@@ -284,7 +284,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?verbose=2&limit=3'
 ```
 
 ---
-### <a id="list-current-tasks"></a> `GET /tasks?state=...`: List currently running tasks
+### `GET /tasks?state=...`: List currently running tasks <a id="list-current-tasks"></a>
 
 #### Response body schema
 
@@ -311,7 +311,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?state=queued,proce
 ```
 
 ---
-### <a id="list-deployment-tasks"></a> `GET /tasks?deployment=...`: List tasks associated with a deployment
+### `GET /tasks?deployment=...`: List tasks associated with a deployment <a id="list-deployment-tasks"></a>
 
 Other tasks query params can be applied.
 
@@ -340,7 +340,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?deploymet=cf-warde
 ```
 
 ---
-### <a id="list-context-tasks"></a> `GET /tasks?context_id=...`: List tasks associated with a context ID
+### `GET /tasks?context_id=...`: List tasks associated with a context ID <a id="list-context-tasks"></a>
 
 Other tasks query params can be applied.
 
@@ -369,7 +369,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?context_id=4528' |
 ```
 
 ---
-### <a id="get-task"></a> `GET /tasks/{id}`: Retrieve single task
+### `GET /tasks/{id}`: Retrieve single task <a id="get-task"></a>
 
 #### Response body schema
 
@@ -396,7 +396,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1180' | jq .
 ```
 
 ---
-### <a id="get-task-debug"></a> `GET /tasks/{id}/output?type=debug`: Retrieve task's debug log
+### `GET /tasks/{id}/output?type=debug`: Retrieve task's debug log <a id="get-task-debug"></a>
 
 #### Response body schema
 
@@ -416,7 +416,7 @@ D, [2015-11-09 02:19:36 #32545] [task:1180] DEBUG -- DirectorJobRunner: (0.00031
 ```
 
 ---
-### <a id="get-task-event"></a> `GET /tasks/{id}/output?type=event`: Retrieve task's event log
+### `GET /tasks/{id}/output?type=event`: Retrieve task's event log <a id="get-task-event"></a>
 
 #### Response body schema
 
@@ -453,7 +453,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=e
 ```
 
 ---
-### <a id="get-task-result"></a> `GET /tasks/{id}/output?type=result`: Retrieve task's result
+### `GET /tasks/{id}/output?type=result`: Retrieve task's result <a id="get-task-result"></a>
 
 #### Response body schema
 
@@ -471,9 +471,9 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=r
 ```
 
 ---
-## <a id="stemcells"></a> Stemcells
+## Stemcells <a id="stemcells"></a>
 
-### <a id="list-stemcells"></a> `GET /stemcells`: List all uploaded stemcells
+### `GET /stemcells`: List all uploaded stemcells <a id="list-stemcells"></a>
 
 #### Response body schema
 
@@ -507,9 +507,9 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/stemcells | jq .
 ```
 
 ---
-## <a id="releases"></a> Releases
+## Releases <a id="releases"></a>
 
-### <a id="list-releases"></a> `GET /releases`: List all uploaded releases
+### `GET /releases`: List all uploaded releases <a id="list-releases"></a>
 
 #### Response body schema
 
@@ -566,9 +566,9 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/releases | jq .
 ```
 
 ---
-## <a id="deployments"></a> Deployments
+## Deployments <a id="deployments"></a>
 
-### <a id="list-deployments"></a> `GET /deployments`: List all deployments
+### `GET /deployments`: List all deployments <a id="list-deployments"></a>
 
 #### Response body schema
 
@@ -619,7 +619,7 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments | jq .
 ```
 
 ---
-### <a id="post-deployment"></a> `POST /deployments`: Create/update single deployment
+### `POST /deployments`: Create/update single deployment <a id="post-deployment"></a>
 
 #### Request query
 
@@ -640,7 +640,7 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments | jq .
 Creating/updating a deployment is performed in a Director task. Response will be a redirect to a task resource.
 
 ---
-### <a id="get-deployment"></a> `GET /deployments/{name}`: Retrieve single deployment
+### `GET /deployments/{name}`: Retrieve single deployment <a id="get-deployment"></a>
 
 #### Response body schema
 
@@ -661,7 +661,7 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments/cf-warden | j
 ```
 
 ---
-### <a id="delete-deployment"></a> `DELETE /deployments/{name}`: Delete single deployment
+### `DELETE /deployments/{name}`: Delete single deployment <a id="delete-deployment"></a>
 
 #### Request query
 
@@ -676,13 +676,13 @@ Empty.
 Deleting a deployment is performed in a Director task. Response will be a redirect to a task resource.
 
 ---
-## <a id="instances"></a> Instances in a deployment
+## Instances in a deployment <a id="instances"></a>
 
 <p class="note">Note: This feature is available with bosh-release v256+.</p>
 
 [Instances](https://bosh.io/docs/terminology.html#instance) represent the expected state of the VMs of a deployment. The actual state of the VMs can be retrieved with the [`vms` endpoints](#vms). `instances` is similar to `vms`, but also contains instances that do not have a VM.
 
-### <a id="list-instances"></a> `GET /deployments/{name}/instances`: List all instances
+### `GET /deployments/{name}/instances`: List all instances <a id="list-instances"></a>
 
 #### Response body schema
 
@@ -727,7 +727,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/example/inst
 ```
 
 ---
-### <a id="list-instances-detailed"></a> `GET /deployments/{name}/instances?format=full`: List details of instances
+### `GET /deployments/{name}/instances?format=full`: List details of instances <a id="list-instances-detailed"></a>
 
 #### Response body schema
 
@@ -847,9 +847,9 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1287/output?type=r
 ```
 
 ---
-## <a id="vms"></a> VMs in a deployment
+## VMs in a deployment <a id="vms"></a>
 
-### <a id="list-vms"></a> `GET /deployments/{name}/vms`: List all VMs
+### `GET /deployments/{name}/vms`: List all VMs <a id="list-vms"></a>
 
 #### Response body schema
 
@@ -888,7 +888,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/cf-warden/vm
 ```
 
 ---
-### <a id="list-vms-detailed"></a> `GET /deployments/{name}/vms?format=full`: List VM details
+### `GET /deployments/{name}/vms?format=full`: List VM details <a id="list-vms-detailed"></a>
 
 #### Response body schema
 
@@ -994,11 +994,11 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=r
 ```
 
 ---
-## <a id="events"></a> Events
+## Events <a id="events"></a>
 
 See [Events](events.md) for info.
 
-### <a id="list-events"></a> `GET /events`: List events
+### `GET /events`: List events <a id="list-events"></a>
 
 #### Response body schema
 
@@ -1087,7 +1087,7 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/events | jq .
 ```
 
 ---
-### <a id="get-event"></a> `GET /events/{id}`: Retrieve single event
+### `GET /events/{id}`: Retrieve single event <a id="get-event"></a>
 
 #### Response body schema
 
@@ -1118,7 +1118,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/events/3133' | jq .
 ```
 
 ---
-### <a id="post-event"></a> `POST /events`: Create single event
+### `POST /events`: Create single event <a id="post-event"></a>
 
 #### Request body schema
 

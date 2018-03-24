@@ -93,7 +93,7 @@ releases:
 
 See [networks](networks.md) for more details.
 
-### <a id='networks-cloud-properties'></a> CPI Specific `cloud_properties`
+### CPI Specific `cloud_properties` <a id='networks-cloud-properties'></a>
 
 - [See AWS CPI network cloud properties](aws-cpi.md#networks)
 - [See Azure CPI network cloud properties](azure-cpi.md#networks)
@@ -131,7 +131,7 @@ resource_pools:
     availability_zone: us-east-1c
 ```
 
-### <a id='bosh-init-stemcells'></a> Custom bosh-init Stemcell Key Schema
+### Custom bosh-init Stemcell Key Schema <a id='bosh-init-stemcells'></a>
 
 **stemcell** [Hash, required]: The stemcell used to create resource pool VMs.
 
@@ -152,7 +152,7 @@ resource_pools:
     availability_zone: us-east-1c
 ```
 
-### <a id='resource-pools-cloud-properties'></a> CPI Specific `cloud_properties`
+### CPI Specific `cloud_properties` <a id='resource-pools-cloud-properties'></a>
 
 - [See AWS CPI resource pool cloud properties](aws-cpi.md#resource-pools)
 - [See Azure CPI resource pool cloud properties](azure-cpi.md#resource-pools)
@@ -181,7 +181,7 @@ disk_pools:
     type: gp2
 ```
 
-### <a id='disk-pools-cloud-properties'></a> CPI Specific `cloud_properties`
+### CPI Specific `cloud_properties` <a id='disk-pools-cloud-properties'></a>
 
 - [See AWS CPI disk pool cloud properties](aws-cpi.md#disk-pools)
 - [See Azure CPI disk pool cloud properties](azure-cpi.md#disk-pools)
@@ -320,7 +320,7 @@ properties:
 <p class="note"><strong>Note</strong>: If you declare specific properties in a job template spec, BOSH ignores all other properties. If you do not declare any specific properties in a job template spec, BOSH applies all properties from the deployment manifest to the job. </p>
 
 ---
-## <a id='cloud-provider'></a> Cloud Provider Block
+## Cloud Provider Block <a id='cloud-provider'></a>
 
 **cloud_provider** [Hash, required]: Specifies CPI configuration for the `bosh-init` to create VMs, etc. Regular deployment manifests cannot specify this block.
 

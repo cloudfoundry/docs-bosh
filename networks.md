@@ -21,7 +21,7 @@ Each type of network supports one or both IP reservation types:
 | automatic IP assignment | Supported, default | Supported       | Not supported |
 
 ---
-## <a id='general'></a> General Structure
+## General Structure <a id='general'></a>
 
 Networking configuration is usually done in three steps:
 
@@ -70,7 +70,7 @@ jobs:
 See how to define each network type below.
 
 ---
-## <a id='manual'></a> Manual Networks
+## Manual Networks <a id='manual'></a>
 
 Manual networking allows you to specify one or more subnets and let the Director choose available IPs from one of the subnet ranges. A subnet definition specifies the CIDR range and, optionally, the gateway and DNS servers. In addition, certain IPs can be blacklisted (the Director will not use these IPs) via the `reserved` property.
 
@@ -138,7 +138,7 @@ A common problem that you may run into is configuring multiple deployments to us
 <p class="note">Note: While the Director usually selects the next available IP address, this behavior is not guaranteed.</p>
 
 ---
-## <a id='dynamic'></a> Dynamic Networks
+## Dynamic Networks <a id='dynamic'></a>
 
 Dynamic networking defers IP selection to the IaaS. For example, AWS assigns a private IP to each instance in the VPC by default. By associating a deployment job to a dynamic network, BOSH will pick up AWS-assigned private IP addresses.
 
@@ -185,7 +185,7 @@ networks:
 ```
 
 ---
-## <a id='vip'></a> VIP (Virtual IP) Networks
+## VIP (Virtual IP) Networks <a id='vip'></a>
 
 VIP networking enables the association of an IP address that is not backed by any particular NIC. This flexibility enables users to remap a virtual IP to a different instance in cases of a failure.
 
@@ -217,7 +217,7 @@ jobs:
 Unlike the manual networking setup, static IPs for VIP networks are only specified on the deployment job.
 
 ---
-## <a id='multi-homed'></a> Multi-homed VMs
+## Multi-homed VMs <a id='multi-homed'></a>
 
 A deployment job can be configured to have multiple IP addresses (multiple NICs) by being on multiple networks. Given that there are multiple network settings available for a deployment job, the Agent needs to decide which network's DNS settings to use and which network's gateway should be the default gateway on the VM. Agent performs such selection based on the network's `default` property specified in the deployment job.
 
@@ -261,7 +261,7 @@ In the above example, VM allocated to `my-multi-homed-job` deployment job will h
 <p class="note">Note: See <a href="https://github.com/rakutentech/bosh-routing-release">rakutentech/bosh-routing-release</a> if you are looking for even more specific routing configuration.</p>
 
 ---
-## <a id='cpi-limitations'></a> CPI Limitations
+## CPI Limitations <a id='cpi-limitations'></a>
 
 The Director does not enforce how many networks can be assigned to each job instance; however, each CPI might impose custom requirements either due to the IaaS limitations or simply because support was not yet implemented.
 
@@ -274,7 +274,7 @@ The Director does not enforce how many networks can be assigned to each job inst
 | vCloud    | Multiple per job instance                                     | Not supported             | Not supported                        |
 
 ---
-## <a id='cloud-properties'></a> CPI Specific `cloud_properties`
+## CPI Specific `cloud_properties` <a id='cloud-properties'></a>
 
 - [See AWS CPI network cloud properties](aws-cpi.md#networks)
 - [See Azure CPI network cloud properties](azure-cpi.md#networks)

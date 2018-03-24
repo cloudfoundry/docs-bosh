@@ -9,12 +9,12 @@ Currently CLI supports `certificate`, `password`, `rsa`, and `ssh` types. The Di
 Note that `<value>` indicates value obtained via `((var))` variable syntax.
 
 ---
-## <a id="password"></a> Password
+## Password <a id="password"></a>
 
 **<value>** [String]: Password value. When generated defaults to 20 chars (from `a-z0-9`).
 
 ---
-## <a id="certificate"></a> Certificate
+## Certificate <a id="certificate"></a>
 
 **<value>** [Hash]: Certificate.
 
@@ -81,7 +81,7 @@ variables:
 ```
 
 ---
-## <a id="rsa"></a> RSA
+## RSA <a id="rsa"></a>
 
 **<value>** [Hash]: RSA key. When generated defaults to 2048 bits.
 
@@ -89,7 +89,7 @@ variables:
 * **public_key** [String]: Public key (PEM encoded).
 
 ---
-## <a id="ssh"></a> SSH
+## SSH <a id="ssh"></a>
 
 **<value>** [Hash]: SSH key. When generated defaults to RSA 2048 bits.
 

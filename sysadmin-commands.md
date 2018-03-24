@@ -7,11 +7,11 @@ title: CLI Commands
 This document lists the all CLI commands you use to perform system administration tasks.
 
 ---
-## <a id="cluster-operators"></a> For Cluster Operators
+## For Cluster Operators <a id="cluster-operators"></a>
 
 Use these commands against the Director to manage deployments and associated assets.
 
-### <a id="director"></a> Director Location
+### Director Location <a id="director"></a>
 
 ```shell
 $ bosh target [DIRECTOR_URL] [ALIAS]
@@ -32,7 +32,7 @@ $ bosh status [--uuid]
 Displays the configuration file and deployment manifest in use, and information about the BOSH Director such as name, URL, version, current username, UUID, and CPI.
 
 ---
-### <a id="user"></a> Users
+### Users <a id="user"></a>
 
 Use these commands to create and delete users on the Director.
 
@@ -49,7 +49,7 @@ $ bosh delete user [USERNAME]
 Deletes a specific user from the BOSH Director. Prompts you for a `USERNAME` if you omit this information.
 
 ---
-### <a id="dir-release"></a> Releases
+### Releases <a id="dir-release"></a>
 
 ```shell
 $ bosh releases [--jobs]
@@ -83,7 +83,7 @@ $ bosh export release NAME/VERSION OS/VERSION
 Exports given release as a tarball, including compiled packages for stemcell that matches OS and version.
 
 ---
-### <a id="dir-stemcells"></a> Stemcells
+### Stemcells <a id="dir-stemcells"></a>
 
 ```shell
 $ bosh stemcells
@@ -105,7 +105,7 @@ $ bosh delete stemcell NAME VERSION [--force]
 Deletes a stemcell and all associated compiled packages. Fails if any deployment references this stemcell.
 
 ---
-### <a id="cloud-config"></a> Cloud config
+### Cloud config <a id="cloud-config"></a>
 
 ```shell
 $ bosh cloud-config
@@ -120,7 +120,7 @@ $ bosh update cloud-config FILE_PATH
 Updates currently saved cloud config in the Director. See [cloud config description](cloud-config.md).
 
 ---
-### <a id="runtime-config"></a> Runtime config
+### Runtime config <a id="runtime-config"></a>
 
 ```shell
 $ bosh runtime-config
@@ -135,7 +135,7 @@ $ bosh update runtime-config FILE_PATH
 Updates currently saved runtime config in the Director. See [runtime config description](runtime-config.md).
 
 ---
-### <a id="deployment"></a> Deployment
+### Deployment <a id="deployment"></a>
 
 ```shell
 $ bosh deployments
@@ -168,7 +168,7 @@ $ bosh delete deployment DEPLOYMENT_NAME [--force]
 Deletes job instances, VMs, disks, snapshots, templates associated with the deployment `DEPLOYMENT_NAME`.
 
 ---
-### <a id="health"></a> Job/VM Health
+### Job/VM Health <a id="health"></a>
 
 ```shell
 $ bosh instances [--ps] [--details] [--dns] [--vitals]
@@ -226,7 +226,7 @@ $ bosh cck [DEPLOYMENT_NAME] [--auto] [--report]
 Scans for differences between the VM state database that the Director maintains and the actual state of the VMs. For each difference the scan detects, `bosh cck` offers possible repair options.
 
 ---
-### <a id="errand"></a> Errands
+### Errands <a id="errand"></a>
 
 ```shell
 $ bosh errands
@@ -241,7 +241,7 @@ $ bosh run errand ERRAND_NAME [--download-logs] [--logs-dir DESTINATION_DIRECTOR
 Instructs the BOSH Director to run the named errand on a job instance on a VM.
 
 ---
-### <a id="ssh"></a> SSH
+### SSH <a id="ssh"></a>
 
 ```shell
 $ bosh ssh [--gateway_host HOST] [--gateway_user USER] [--gateway_identity_file FILE] [--default_password PASSWORD]
@@ -256,7 +256,7 @@ $ bosh ssh JOB [INDEX] [COMMANDS]
 When you provide arguments without an option flag, the Director executes the arguments as commands on the job VM. For example, `bosh ssh redis 0 "ls -R"` runs the `ls -R` command on the redis/0 job VM.
 
 ---
-### <a id="tasks"></a> Director Tasks
+### Director Tasks <a id="tasks"></a>
 
 ```shell
 $ bosh tasks [--no-filter]
@@ -277,7 +277,7 @@ $ bosh task [TASK_ID] [--event] [--cpi] [--debug] [--result] [--raw]
 Displays the status of a task that you specify and tracks its output. You can track only one of the following log types at a time: event, CPI, debug, or result. Defaults to event.
 
 ---
-### <a id="logs"></a> Logs
+### Logs <a id="logs"></a>
 
 ```shell
 $ bosh logs JOB [INDEX] [--agent] [--job] [--only filter1,filter2,...] [--dir DESTINATION_DIRECTORY]
@@ -286,7 +286,7 @@ $ bosh logs JOB [INDEX] [--agent] [--job] [--only filter1,filter2,...] [--dir DE
 Fetches a job or agent log from a VM. Supports custom filtering only for job logs.
 
 ---
-### <a id="events"></a> Events
+### Events <a id="events"></a>
 
 ```shell
 $ bosh events [--before-id ID] [--deployment NAME] [--task ID] [--instance NAME/ID]
@@ -295,7 +295,7 @@ $ bosh events [--before-id ID] [--deployment NAME] [--task ID] [--instance NAME/
 Displays table that lists events based on filters specified. See [events details](events.md).
 
 ---
-### <a id="disks"></a> Disks
+### Disks <a id="disks"></a>
 
 ```shell
 $ bosh disks --orphaned
@@ -310,7 +310,7 @@ $ bosh attach disk DISK_ID INSTANCE_NAME/ID
 Attaches persistent disk to given instance. Instance must be in the stopped state.
 
 ---
-### <a id="snapshots"></a> Snapshots
+### Snapshots <a id="snapshots"></a>
 
 ```shell
 $ bosh snapshots
@@ -337,11 +337,11 @@ $ bosh delete snapshot SNAPSHOT_CID
 Deletes a snapshot.
 
 ---
-## <a id="release-maintainers"></a> For Release Maintainers
+## For Release Maintainers <a id="release-maintainers"></a>
 
 Use these commands against the Director to create and update releases.
 
-### <a id="main-release"></a> Release Creation
+### Release Creation <a id="main-release"></a>
 
 ```shell
 $ bosh create release [MANIFEST_FILE] [--name NAME] [--version VERSION] [--with-tarball] [--force]
@@ -361,7 +361,7 @@ $ bosh finalize release RELEASE_PATH [--name NAME] [--version VERSION]
 
 Create a final release from a development release tarball (assumes current directory to be a release directory).
 
-### <a id="blobs"></a> Blobs
+### Blobs <a id="blobs"></a>
 
 ```shell
 $ bosh blobs

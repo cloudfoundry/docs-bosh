@@ -2,7 +2,7 @@
 title: Creating Azure Resources
 ---
 
-## <a id="subscription"></a> Subscription
+## Subscription <a id="subscription"></a>
 
 To find out subscription and tenant ID use following commands:
 
@@ -53,7 +53,7 @@ $ az provider register --namespace Microsoft.Compute
 ```
 
 ---
-## <a id="client"></a> Client
+## Client <a id="client"></a>
 
 Azure CPI needs client ID and secret to make authenticated requests.
 
@@ -84,7 +84,7 @@ $ az role assignment create --role "Contributor" --assignee "http://mycpi" --sco
 ```
 
 ---
-## <a id="res-group"></a> Resource Group
+## Resource Group <a id="res-group"></a>
 
 Create a resource group in one of the supported [Azure locations](http://azure.microsoft.com/en-us/regions/):
 
@@ -107,7 +107,7 @@ $ az group show --name bosh-res-group
 Make sure to wait for 'Provisioning State' to become `Succeeded`.
 
 ---
-## <a id="virtual-network"></a> Virtual Network & Subnet
+## Virtual Network & Subnet <a id="virtual-network"></a>
 
 Create a virtual network:
 
@@ -158,7 +158,7 @@ $ az network vnet show --name boshnet --resource-group bosh-res-group
 ```
 
 ---
-## <a id="network-security-group"></a> Network Security Group
+## Network Security Group <a id="network-security-group"></a>
 
 Create two network security groups:
 
@@ -176,7 +176,7 @@ $ az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-cf -
 ```
 
 ---
-## <a id="public-ips"></a> Public IPs
+## Public IPs <a id="public-ips"></a>
 
 To make certain VMs publicly accessible, you will need to create a Public IP. If Azure Availability Zones is used in [AZs](azure-cpi.md#azs), the Public IP should be created with type `Standard SKU`; otherwise, you can use the default `Basic SKU`.
 
@@ -214,7 +214,7 @@ You can skip below section if you are using managed disks with Azure CPI v21+
 </p>
 
 ---
-## <a id="storage-account"></a> Storage Account
+## Storage Account <a id="storage-account"></a>
 
 Create a default storage account to hold root disks, persistent disks, stemcells, etc.
 If unsure of desired SKU Name, choose `LRS`, desired Kind, choose `Storage`:
@@ -309,7 +309,7 @@ $ az storage account keys list --account-name myboshstore --resource-group bosh-
 ```
 
 ---
-### <a id="storage-account-container"></a> Storage Account Containers
+### Storage Account Containers <a id="storage-account-container"></a>
 
 CPI expects to find `bosh` and `stemcell` containers within a default storage account:
 
@@ -362,7 +362,7 @@ $ az storage container list --account-name myboshstore --account-key xxx
 ```
 
 ---
-### <a id="storage-account-tables"></a> Storage Account Tables
+### Storage Account Tables <a id="storage-account-tables"></a>
 
 To support multiple storage accounts, you need to create the following tables in the default storage account:
 

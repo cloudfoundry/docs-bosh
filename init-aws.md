@@ -17,12 +17,12 @@ To configure your AWS account:
 * [Create and Configure Security Group](#create-security)
 
 ---
-### <a id="credentials"></a> Obtain AWS Credentials
+### Obtain AWS Credentials <a id="credentials"></a>
 
 Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow [Creating IAM Users](aws-iam-users.md#create) to create a new IAM user.
 
 ---
-### <a id="create-vpc"></a> Create a Virtual Private Cloud (VPC)
+### Create a Virtual Private Cloud (VPC) <a id="create-vpc"></a>
 
 1. In the upper-right corner of the AWS Console, select a Region.
 
@@ -56,7 +56,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
     ![image](images/deploy-microbosh-to-aws/list-subnets.png)
 
 ---
-### <a id="create-eip"></a> Create an Elastic IP
+### Create an Elastic IP <a id="create-eip"></a>
 
 1. On the VPC Dashboard, click **Elastic IPs** and click **Allocate New Address**.
 
@@ -69,7 +69,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
     ![image](images/deploy-microbosh-to-aws/list-elastic-ips.png)
 
 ---
-### <a id="create-key-pair"></a> Create a Key Pair
+### Create a Key Pair <a id="create-key-pair"></a>
 
 1. In the AWS Console, select **EC2** to get to the EC2 Dashboard.
 
@@ -84,7 +84,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
 1. Save private key to `~/Downloads/bosh.pem`.
 
 ---
-### <a id="create-security"></a> Create and Configure Security Group
+### Create and Configure Security Group <a id="create-security"></a>
 
 1. On the EC2 Dashboard, click **Security Groups** and then click **Create Security Group**.
 
@@ -128,7 +128,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
     ![image](images/deploy-microbosh-to-aws/edit-security-group-rules.png)
 
 ---
-## <a id="deploy"></a> Step 2: Deploy
+## Step 2: Deploy <a id="deploy"></a>
 
 1. Install [CLI v2](./cli-v2.html).
 

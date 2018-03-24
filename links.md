@@ -9,7 +9,7 @@ Previously, if network communication was required between jobs, release authors 
 Links provide a solution to the above problem by making the Director responsible for the IP management. Release authors get a consistent way of retrieving networking (and topology) configuration, and operators have a way to consistently connect components.
 
 ---
-## <a id="overview"></a> Overview
+## Overview <a id="overview"></a>
 
 First, we provide an overview of the capabilities and logistics of links through a simple example. Here, we have two jobs: an application job and a database job. The database provides its connection information through a link, which the application consumes.
 
@@ -101,7 +101,7 @@ instance_groups:
 ```
 
 ---
-## <a id="definition"></a> Release Definitions
+## Release Definitions <a id="definition"></a>
 
 Instead of defining properties for every instance group, a job can declare links. (The job either 'consumes' a link provided by another job, or it can 'provide' itself so that any jobs, [including itself](#self) can 'consume' it).
 
@@ -146,7 +146,7 @@ provides:
 properties: {...}
 ```
 
-### <a id="templates"></a> Template Accessors
+### Template Accessors <a id="templates"></a>
 
 Once a release is configured to consume links, the `link` template accessor allows access to link information such as instance names, AZs, IDs, network addresses, etc.
 
@@ -203,12 +203,12 @@ Available `instance` object methods:
 * **address** [String, non-empty]: IPv4, IPv6 or DNS address. See [Native DNS Support](dns.md#links) for more details.
 * **bootstrap** [Boolean]: Whether or not this instance is a bootstrap instance.
 
-### <a id="properties"></a> Properties
+### Properties <a id="properties"></a>
 
 See [link properties](links-properties.md) for including additional link information.
 
 ---
-## <a id="deployment"></a> Deployment Configuration
+## Deployment Configuration <a id="deployment"></a>
 
 Given the `web` and `postgres` job examples above, one can configure a deployment that connects a web app to the database. The following example demonstrates linking defined explicitly in the manifest by saying which jobs provide and consume a link `data_db`.
 
@@ -230,7 +230,7 @@ instance_groups:
       conn: {as: data_db}
 ```
 
-### <a id="implicit"></a> Implicit linking
+### Implicit linking <a id="implicit"></a>
 
 If a link type is provided by only one job within a deployment, all release jobs in that deployment that consume links of that type will be implicitly connected to that provider.
 
@@ -258,7 +258,7 @@ Common use cases:
 
 - deployment contains multiple components that are expected to communicate between each other and there is no benefit for the operator to configure these connections explicitly
 
-### <a id="self"></a> Self linking
+### Self linking <a id="self"></a>
 
 A job can consume a link that it provides. This could be used to determine a job's own peers.
 
@@ -282,7 +282,7 @@ Common use cases:
 
 - job is deployed across multiple instances and each node needs to communicate with other nodes
 
-### <a id="custom-network"></a> Custom network linking
+### Custom network linking <a id="custom-network"></a>
 
 By default, links include network addresses on the producer's default link network. The default link network is a network marked with `default: [gateway]`. A release job can also consume a link over a different network.
 
@@ -316,7 +316,7 @@ Common use cases:
 
 - job is deployed on two networks, and each network can only route to other particular network; consuming job deployed on a particular network needs to receive specific addresses so that it can connect to providing job.
 
-### <a id="cross-deployment"></a> Cross-deployment linking
+### Cross-deployment linking <a id="cross-deployment"></a>
 
 Links can be formed between jobs from different deployments as long as the link is marked as `shared`.
 

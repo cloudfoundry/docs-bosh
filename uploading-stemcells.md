@@ -8,12 +8,12 @@ title: Upload Stemcells
 
 As described earlier, each deployment can reference one or more stemcells. For a deploy to succeed, necessary stemcells must be uploaded to the Director.
 
-## <a id='find'></a> Finding Stemcells
+## Finding Stemcells <a id='find'></a>
 
 The [stemcells section of bosh.io](http://bosh.io/stemcells) lists official stemcells.
 
 ---
-## <a id='upload'></a> Uploading to the Director
+## Uploading to the Director <a id='upload'></a>
 
 CLI provides [`bosh upload-stemcell` command](cli-v2.md#upload-stemcell).
 
@@ -46,7 +46,7 @@ Succeeded
 ```
 
 ---
-## <a id='using'></a> Deployment Manifest Usage
+## Deployment Manifest Usage <a id='using'></a>
 
 To use uploaded stemcell in your deployment, add stemcells:
 

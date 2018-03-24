@@ -7,7 +7,7 @@ title: CLI v2+
 The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. CLI v2 is a new major version of CLI.
 
 ---
-## <a id="install"></a> Install
+## Install <a id="install"></a>
 
 1. Download the binary for your platform and place it on your `PATH`:
 
@@ -34,14 +34,14 @@ The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. CLI 
 Alternatively, refer to [cloudfoundry/homebrew-tap](https://github.com/cloudfoundry/homebrew-tap) to install CLI via Homebrew on OS X. We currently do not publish CLI via apt or yum repositories.
 
 ---
-## <a id="global-flags"></a> Global Flags
+## Global Flags <a id="global-flags"></a>
 
 See [Global flags](cli-global-flags.md) for more details on how to enable different output formats, debug logging, etc.
 
 ---
-## <a id="cmds"></a> Commands
+## Commands <a id="cmds"></a>
 
-### <a id="env-mgmt"></a> Environments
+### Environments <a id="env-mgmt"></a>
 
 See [Environments](cli-envs.md).
 
@@ -134,7 +134,7 @@ See [Environments](cli-envs.md).
     ```
 
 ---
-### <a id="session-mgmt"></a> Session
+### Session <a id="session-mgmt"></a>
 
 - <a id="log-in"></a> `bosh log-in` (Alias: `l`, `login`)
 
@@ -153,7 +153,7 @@ See [Environments](cli-envs.md).
     Logs out currently logged in user.
 
 ---
-### <a id="stemcell-mgmt"></a> Stemcells
+### Stemcells <a id="stemcell-mgmt"></a>
 
 See [Uploading Stemcells](uploading-stemcells.md).
 
@@ -205,7 +205,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
     See [Repacking stemcells](repack-stemcell.md) for details.
 
 ---
-### <a id="release-creation"></a> Release creation
+### Release creation <a id="release-creation"></a>
 
 - <a id="init-release"></a> `bosh init-release [--git] [--dir=dir]`
 
@@ -276,7 +276,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
     Removes temporary artifacts such as dev releases, blobs, etc. kept in the release directory `dir`.
 
 ---
-### <a id="blob-mgmt"></a> Release blobs
+### Release blobs <a id="blob-mgmt"></a>
 
 See [Release Blobs](release-blobs.md) for a detailed workflow.
 
@@ -333,7 +333,7 @@ See [Release Blobs](release-blobs.md) for a detailed workflow.
     ```
 
 ---
-### <a id="release-mgmt"></a> Releases
+### Releases <a id="release-mgmt"></a>
 
 See [Uploading Releases](uploading-releases.md).
 
@@ -445,7 +445,7 @@ See [Uploading Releases](uploading-releases.md).
     ```
 
 ---
-### <a id="configs-mgmt"></a> Configs
+### Configs <a id="configs-mgmt"></a>
 
 See [Configs](configs.md).
 
@@ -502,7 +502,7 @@ See [Configs](configs.md).
     ```
 
 ---
-### <a id="cloud-config-mgmt"></a> Cloud config
+### Cloud config <a id="cloud-config-mgmt"></a>
 
 See [Cloud config](cloud-config.md).
 
@@ -519,7 +519,7 @@ See [Cloud config](cloud-config.md).
     ```
 
 ---
-### <a id="runtime-config-mgmt"></a> Runtime config
+### Runtime config <a id="runtime-config-mgmt"></a>
 
 See [Runtime config](runtime-config.md).
 
@@ -536,7 +536,7 @@ See [Runtime config](runtime-config.md).
     ```
 
 ---
-### <a id="cpi-config-mgmt"></a> CPI config
+### CPI config <a id="cpi-config-mgmt"></a>
 
 See [CPI config](cpi-config.md).
 
@@ -553,7 +553,7 @@ See [CPI config](cpi-config.md).
     ```
 
 ---
-### <a id="deployment-mgmt"></a> Deployments
+### Deployments <a id="deployment-mgmt"></a>
 
 - <a id="deployments"></a> `bosh -e my-env deployments` (Alias: `ds`)
 
@@ -766,7 +766,7 @@ See [CPI config](cpi-config.md).
     List variables referenced by the deployment.
 
 ---
-### <a id="vm-mgmt"></a> VMs
+### VMs <a id="vm-mgmt"></a>
 
 - <a id="vms"></a> `bosh -e my-env [-d my-dep] vms [--vitals]`
 
@@ -789,7 +789,7 @@ See [CPI config](cpi-config.md).
     ```
 
 ---
-### <a id="disk-mgmt"></a> Disks
+### Disks <a id="disk-mgmt"></a>
 
 - <a id="disks"></a> `bosh -e my-env -d my-dep disks [--orphaned]`
 
@@ -812,7 +812,7 @@ See [CPI config](cpi-config.md).
     ```
 
 ---
-### <a id="ssh-mgmt"></a> SSH
+### SSH <a id="ssh-mgmt"></a>
 
 - <a id="ssh"></a> `bosh -e my-env -d my-dep ssh [destination] [-r] [-c=cmd] [--opts=opts] [--gw-* ...]`
 
@@ -866,7 +866,7 @@ See [CPI config](cpi-config.md).
     ```
 
 ---
-### <a id="errand-mgmt"></a> Errands
+### Errands <a id="errand-mgmt"></a>
 
 - <a id="errands"></a> `bosh -e my-env -d my-dep errands` (Alias: `es`)
 
@@ -922,7 +922,7 @@ See [CPI config](cpi-config.md).
     ```
 
 ---
-### <a id="task-mgmt"></a> Tasks
+### Tasks <a id="task-mgmt"></a>
 
 - <a id="tasks"></a> `bosh -e my-env tasks [--recent[=num]] [--all]` (Alias: `ts`)
 
@@ -973,7 +973,7 @@ See [CPI config](cpi-config.md).
     ```
 
 ---
-### <a id="snapshot-mgmt"></a> Snapshots
+### Snapshots <a id="snapshot-mgmt"></a>
 
 - <a id="snapshots"></a> `bosh -e my-env -d my-dep snapshots`
 
@@ -996,7 +996,7 @@ See [CPI config](cpi-config.md).
     Deletes snapshots for an entire deployment.
 
 ---
-### <a id="deployment-recovery"></a> Deployment recovery
+### Deployment recovery <a id="deployment-recovery"></a>
 
 - <a id="update-resurrection"></a> `bosh -e my-env update-resurrection on/off`
 
@@ -1015,7 +1015,7 @@ See [CPI config](cpi-config.md).
     Lists current locks.
 
 ---
-### <a id="misc"></a> Misc
+### Misc <a id="misc"></a>
 
 - <a id="clean-up"></a> `bosh -e my-env clean-up [--all]`
 

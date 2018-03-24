@@ -4,7 +4,7 @@ title: VirtualBox CPI
 
 This topic describes cloud properties for different resources created by the [VirtualBox CPI](https://bosh.io/releases/github.com/cppforlife/bosh-virtualbox-cpi-release). VirtualBox CPI works with [vSphere ESXI stemcells](https://bosh.io/stemcells/bosh-vsphere-esxi-ubuntu-trusty-go_agent).
 
-## <a id='azs'></a> AZs
+## AZs <a id='azs'></a>
 
 Currently the CPI does not support any cloud properties for AZs.
 
@@ -16,7 +16,7 @@ azs:
 ```
 
 ---
-## <a id='networks'></a> Networks
+## Networks <a id='networks'></a>
 
 Schema for `cloud_properties` section used by network subnet:
 
@@ -38,7 +38,7 @@ networks:
 ```
 
 ---
-## <a id='vm-types'></a> VM Types
+## VM Types <a id='vm-types'></a>
 
 Schema for `cloud_properties` section:
 
@@ -60,7 +60,7 @@ vm_types:
 ```
 
 ---
-## <a id='disk-types'></a> Disk Types
+## Disk Types <a id='disk-types'></a>
 
 Currently the CPI does not support any cloud properties for disks.
 
@@ -73,7 +73,7 @@ disk_types:
 ```
 
 ---
-## <a id='global'></a> Global Configuration
+## Global Configuration <a id='global'></a>
 
 The CPI uses individual VirtualBox VMs and disks. Since the CPI can only talk to a single VirtualBox server it can only manage resources on a single machine.
 

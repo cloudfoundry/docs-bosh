@@ -18,7 +18,7 @@ In the future, BOSH team will investigate how to best consolidate stemcells into
 - [bosh-agent](https://github.com/cloudfoundry/bosh-agent)
 
 ---
-## <a id="tarball-structure"></a> Tarball Structure
+## Tarball Structure <a id="tarball-structure"></a>
 
 <p class="note">Note that tarball structure is subject to change without notice.</p>
 
@@ -36,7 +36,7 @@ $ tar tvf light-bosh-stemcell-3033-aws-xen-hvm-ubuntu-trusty-go_agent.tgz
 * `packages.txt`: Text file that includes list of packages installed. (Used to be included as `stemcell_dpkg_l.txt`)
 * `dev_tools_file_list.txt`: Text file that includes list of files removed by the agent if Agent's `remove_dev_tools` feature is enabled.
 
-### <a id="metadata"></a> Metadata
+### Metadata <a id="metadata"></a>
 
 <p class="note">Note that content of `stemcell.MF` is subject to change without notice.</p>
 
@@ -75,7 +75,7 @@ cloud_properties:
 ```
 
 ---
-## <a id="light-stemcells"></a> Light Stemcells
+## Light Stemcells <a id="light-stemcells"></a>
 
 Some IaaSes (or how they are configured) limit how OS images can be imported. Here are couple of examples:
 
@@ -86,7 +86,7 @@ Some IaaSes (or how they are configured) limit how OS images can be imported. He
 In such cases CPI must use already imported OS image and that's where light stemcells come in. Light stemcell tarballs include additional details about already imported OS images in the `cloud_properties` section. For example light stemcells for AWS have `ami` key in the `cloud_properties` section (as shown above), that contains region-to-AMI-ID mappings. When AWS CPI's [`create_stemcell` call](cpi-api-v1.md#create-stemcell) is made, it will return matching AMI ID without doing any IaaS API calls.
 
 ---
-## <a id="testing"></a> Testing
+## Testing <a id="testing"></a>
 
 There are two test suites each stemcell is expected to pass before it's considered to be production-ready:
 

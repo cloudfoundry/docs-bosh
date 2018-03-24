@@ -4,7 +4,7 @@ title: Required Service Account Permissions
 
 This topic describes how to configure BOSH with the minimum set of permissions on Google Cloud Engine.
 
-## <a id="bosh-director"></a> Google CPI and Director
+## Google CPI and Director <a id="bosh-director"></a>
 
 This section will guide you through how to configure the Google Cloud CPI and Director with the default blobstore.
 

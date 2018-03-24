@@ -15,7 +15,7 @@ $ bosh -h|grep blob
   upload-blobs           Upload blobs
 ```
 
-## <a id="adding-blob"></a> Adding a blob
+## Adding a blob <a id="adding-blob"></a>
 
 Package can reference blobs via `files` directive in a package spec just like as other source files.
 
@@ -49,7 +49,7 @@ $ bosh add-blob ~/Downloads/cockroach-latest.linux-amd64.tgz cockroach-latest.li
 - updates `config/blobs.yml` to start tracking blobs
 
 ---
-## <a id="listing-blobs"></a> Listing blobs
+## Listing blobs <a id="listing-blobs"></a>
 
 To list currently tracked blobs use `bosh blobs` command:
 
@@ -67,7 +67,7 @@ Succeeded
 Blobs that have not been uploaded to release blobstore will be marked as `local` until they are uploaded.
 
 ---
-## <a id="saving-blobs"></a> Uploading blobs
+## Uploading blobs <a id="saving-blobs"></a>
 
 Blobs should be saved into release blobstore before cutting a new final release so that others can rebuild a release at a future time.
 
@@ -79,7 +79,7 @@ Blobs should be saved into release blobstore before cutting a new final release 
 `config/blobs.yml` should be checked into a Git repository.
 
 ---
-## <a id="removing-blobs"></a> Removing blobs
+## Removing blobs <a id="removing-blobs"></a>
 
 Once a blob is no longer needed by a package it can be stopped being tracked.
 

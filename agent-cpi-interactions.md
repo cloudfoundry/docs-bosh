@@ -63,14 +63,14 @@ Render it online http://plantuml.com/plantuml/ or from a private plantuml instan
 -->
 
 ---
-## <a id="agent-config"></a> Agent config file formats
+## Agent config file formats <a id="agent-config"></a>
 
 This section details the configuration and protocols supported by the Agent.
 
 [VM Configuration Locations](vm-config.html#agent) provides a list of Agent configuration files and their roles.
 
 ----
-### <a id="agent-json"></a> `agent.json` file
+### `agent.json` file <a id="agent-json"></a>
 
 `/var/vcap/bosh/agent.json`: Start up settings for the Agent that describe how to find bootstrap settings, and disable certain Agent functionality.
 
@@ -146,7 +146,7 @@ Sample `agent.json` which configures the agent ot read from a config drive. See 
 ```
 
 ----
-### <a id="metadata"></a> Metadata server
+### Metadata server <a id="metadata"></a>
 
 The metadata server initially serves the registry URL and DNS server list.
 
@@ -163,7 +163,7 @@ Following is a sample content of the user-data part of the HTTP metadata
 The supported format of the metadata server by the bosh-agent is documented in [UserDataContentsType](https://godoc.org/github.com/cloudfoundry/bosh-agent/infrastructure#UserDataContentsType) and [http\_metadata\_service_test.go](https://github.com/cloudfoundry/bosh-agent/blob/1dca3244702c18bf2c36483c529d4e7b3fb92b2e/infrastructure/http_metadata_service_test.go), along with the expected behavior of the bosh agent when reading this config.
 
 ----
-### <a id="registry"></a> Registry
+### Registry <a id="registry"></a>
 
 The registry provides bosh-side metadata to the bosh agent.
 
@@ -172,7 +172,7 @@ From the [Warden CPI documentation](https://github.com/cppforlife/bosh-warden-cp
 * The registry is used by the CPI to pass data to the Agent. The registry is started on a server specified by registry properties.
 * If SSH tunnel options are provided, a reverse ssh tunnel is created from the MicroBOSH VM to the registry, making the registry available to the agent on remote machine.
 
-#### <a id="registry-protocol"></a> Registry HTTP protocol
+#### Registry HTTP protocol <a id="registry-protocol"></a>
 
 The Agent expects to communicate with the bosh registry over a REST API documented in [api\_controller\_spec.rb](https://github.com/cloudfoundry/bosh/blob/2f73281f1a2a155ee807e7c0c9b8187c5a742f78/bosh-registry/spec/unit/bosh/registry/api_controller_spec.rb)
 
@@ -181,7 +181,7 @@ Reference registry client and servers implementations are available in:
 * go-lang through [frodenas/bosh-registry](https://github.com/frodenas/bosh-registry)
 * java through [cloudfoundry-community/bosh-cloudstack-cpi-core](https://github.com/cloudfoundry-community/bosh-cloudstack-cpi-core/tree/44d14a5f184d2d5e8f1f2fcd6344e734d3344673/src/main/java/com/orange/oss/cloudfoundry/cscpi/boshregistry)
 
-#### <a id="registry-format"></a> Registry settings format
+#### Registry settings format <a id="registry-format"></a>
 
 The JSON payload of the settings stored in the registry, and its format supported by the Agent are documented in [settings_test.go](https://github.com/cloudfoundry/bosh-agent/blob/ebf9a36dfddf783ffae5ae3748787d259a29374a/settings/settings_test.go)
 
@@ -227,7 +227,7 @@ Sample registry content:
 ```
 
 ----
-### <a id="settings_json"></a> settings.json file
+### settings.json file <a id="settings_json"></a>
 
 `/var/vcap/bosh/settings.json`: Local copy of the bootstrap settings used by the Agent to configure network and system properties for the VM. They are refreshed every time Agent is restarted.
 

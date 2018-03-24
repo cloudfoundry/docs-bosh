@@ -5,7 +5,7 @@ title: Process monitoring with Monit
 The Agent on each deployment job VM is responsible for managing lifecycle of each enabled release job. It starts, monitors, restarts and stops release jobs' processes. These tasks are done with the help of the  [Monit](http://mmonit.com/monit/). The Agent communicates with the Monit daemon through Monit HTTP APIs to add, remove, start, stop, monitor and unmonitor release jobs' processes.
 
 ---
-## <a id="check-status"></a> Check Status
+## Check Status <a id="check-status"></a>
 
 Assuming you have a deployment, run `bosh instances` to see aggregate status for each deployment job VM:
 
@@ -38,7 +38,7 @@ There are 3 possible state values:
 To determine what the problem is with a specific VM, you can ssh into the VM and look at the logs and/or Monit directly.
 
 ---
-## <a id="using-monit"></a> Using Monit on the VM
+## Using Monit on the VM <a id="using-monit"></a>
 
 On any BOSH managed VM, you can access Monit status for release jobs' processes via Monit CLI. Before you can run the command you have to switch to become a `root` user (via `sudo su`) since Monit executable is only available to root users.
 

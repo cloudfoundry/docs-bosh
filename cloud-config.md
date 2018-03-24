@@ -9,7 +9,7 @@ Previously each deployment manifest specified IaaS and IaaS agnostic configurati
 The cloud config is a YAML file that defines IaaS specific configuration used by the Director and all deployments. It allows us to separate IaaS specific configuration into its own file and keep deployment manifests IaaS agnostic.
 
 ---
-## <a id='update'></a> Updating and retrieving cloud config
+## Updating and retrieving cloud config <a id='update'></a>
 
 To update cloud config on the Director use [`bosh update-cloud-config` command](cli-v2.md#update-cloud-config).
 
@@ -46,7 +46,7 @@ Succeeded
 ```
 
 ---
-## <a id='example'></a> Example
+## Example <a id='example'></a>
 
 ```yaml
 azs:
@@ -108,7 +108,7 @@ compilation:
 - [See vSphere CPI example](vsphere-cpi.md#cloud-config)
 
 ---
-## <a id='azs'></a> AZs Block
+## AZs Block <a id='azs'></a>
 
 **azs** [Array, required]: Specifies the AZs available to deployments. At least one should be specified.
 
@@ -129,7 +129,7 @@ azs:
     availability_zone: us-east-1d
 ```
 
-### <a id='azs-cloud-properties'></a> CPI Specific `cloud_properties`
+### CPI Specific `cloud_properties` <a id='azs-cloud-properties'></a>
 
 - [See AWS CPI AZ cloud properties](aws-cpi.md#azs)
 - [See Azure CPI AZ cloud properties](azure-cpi.md#azs)
@@ -140,13 +140,13 @@ azs:
 - [See vCloud CPI AZ cloud properties](vcloud-cpi.md#azs)
 
 ---
-## <a id='networks'></a> Networks Block
+## Networks Block <a id='networks'></a>
 
 **networks** [Array, required]: Each sub-block listed in the Networks block specifies a network configuration that jobs can reference. There are three different network types: `manual`, `dynamic`, and `vip`. At least one should be specified.
 
 See [networks](networks.md) for more details.
 
-### <a id='networks-cloud-properties'></a> CPI Specific `cloud_properties`
+### CPI Specific `cloud_properties` <a id='networks-cloud-properties'></a>
 
 - [See AWS CPI network cloud properties](aws-cpi.md#networks)
 - [See Azure CPI network cloud properties](azure-cpi.md#networks)
@@ -157,7 +157,7 @@ See [networks](networks.md) for more details.
 - [See vCloud CPI network cloud properties](vcloud-cpi.md#networks)
 
 ---
-## <a id='vm-types'></a> VM Types Block
+## VM Types Block <a id='vm-types'></a>
 
 **vm_types** [Array, required]: Specifies the [VM types](./terminology.html#vm-type) available to deployments. At least one should be specified.
 
@@ -173,7 +173,7 @@ vm_types:
     instance_type: m1.small
 ```
 
-### <a id='vm-types-cloud-properties'></a> CPI Specific `cloud_properties`
+### CPI Specific `cloud_properties` <a id='vm-types-cloud-properties'></a>
 
 - [See AWS CPI VM types cloud properties](aws-cpi.md#resource-pools)
 - [See Azure CPI VM types cloud properties](azure-cpi.md#resource-pools)
@@ -184,7 +184,7 @@ vm_types:
 - [See vCloud CPI VM types cloud properties](vcloud-cpi.md#resource-pools)
 
 ---
-## <a id='vm-extensions'></a> VM Extensions Block
+## VM Extensions Block <a id='vm-extensions'></a>
 
 <p class="note">Note: This feature is available with bosh-release v255.4+.</p>
 
@@ -205,7 +205,7 @@ vm_extensions:
 Any IaaS specific configuration could be placed into a VM extension's `cloud_properties`.
 
 ---
-## <a id='disk-types'></a> Disk Types Block
+## Disk Types Block <a id='disk-types'></a>
 
 **disk_types** [Array, required]: Specifies the [disk types](./terminology.html#disk-types) available to deployments. At least one should be specified.
 
@@ -223,7 +223,7 @@ disk_types:
     type: gp2
 ```
 
-### <a id='disk-types-cloud-properties'></a> CPI Specific `cloud_properties`
+### CPI Specific `cloud_properties` <a id='disk-types-cloud-properties'></a>
 
 - [See AWS CPI disk type cloud properties](aws-cpi.md#disk-pools)
 - [See Azure CPI disk type cloud properties](azure-cpi.md#disk-pools)
@@ -234,7 +234,7 @@ disk_types:
 - [See vCloud CPI disk type cloud properties](vcloud-cpi.md#disk-pools)
 
 ---
-## <a id='compilation'></a> Compilation Block
+## Compilation Block <a id='compilation'></a>
 
 The Director creates compilation VMs for release compilation. The Director will compile each release on every necessary stemcell used in a deployment. A compilation definition allows to specify VM characteristics.
 
