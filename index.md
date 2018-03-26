@@ -13,6 +13,7 @@ See [Recent Additions and Updates](recent.md).
         * [Deployment](deployment.md)
     * Comparison to other tools
 * [General architecture](bosh-components.md)
+* [Personas](personas.md)
 * [Terminology](terminology.md)
 
 ---
