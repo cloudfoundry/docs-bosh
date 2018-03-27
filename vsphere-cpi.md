@@ -70,7 +70,7 @@ Schema for `cloud_properties` section:
 * **cpu\_hot\_add\_enabled** [Boolean, optional]: Allows operator to add additional CPU resources while the VM is on. Default: `false`. Available in v21+.
 * **memory\_hot\_add\_enabled** [Boolean, optional]: Allows operator to add additional memory resources while the VM is on. Default: `false`. Available in v21+.
 * **nested\_hardware\_virtualization** [Boolean, optional]: Exposes hardware assisted virtualization to the VM. Default: `false`.
-* **datastores** [Array, optional]: Allows operator to specify a list of ephemeral datastores for the VM. These names are exact datastore names and not regex patterns. At least one of these datastores must be accessible from clusters provided in `resource_pools.cloud_properties`/`azs.cloud_properties` or in the global CPI configuration. Available in v23+.
+* **datastores** [Array, optional]: Allows operator to specify a list of ephemeral datastores, datastore clusters for the VM. Datastore names are exact datastore names and not regex patterns. At least one of these datastores must be accessible from clusters provided in `resource_pools.cloud_properties`/`azs.cloud_properties` or in the global CPI configuration. Available in v23+. Datastore Clusters can be specified as an array of datastore cluster names. Available in v47+
 * **datacenters** [Array, optional]: Used to override the VM placement specified under `azs.cloud_properties`. The format is the same as under [`AZs`](#azs).
 * **nsx** [Dictionary, optional]: [VMware NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v30+ and NSX v6.1+.
     * **security_groups** [Array, optional]: A collection of [security group](https://pubs.vmware.com/NSX-6/index.jsp#com.vmware.nsx.admin.doc/GUID-16B3134E-DDF1-445A-8646-BB0E98C3C9B5.html) names that the instances should belong to. The CPI will create the security groups if they do not exist.
@@ -99,7 +99,7 @@ resource_pools:
     cpu: 1
     ram: 1_024
     disk: 10_240
-    datastores: [prod-ds-1, prod-ds-2]
+    datastores: [prod-ds-1, prod-ds-2, {clusters: [vcpi-sp1: {}  , vcpi-sp2: {}]}]
     datacenters:
     - name: my-dc
       clusters:
@@ -129,7 +129,7 @@ Schema for `cloud_properties` section:
   `thick`, `thin`, `preallocated`, `eagerZeroedThick`. Defaults to
   `preallocated`. Available in v12. Overrides the global `default_disk_type`.
 
-* **datastores** [Array, optional]: List of datastore names for storing persistent disks. Overrides the global `persistent_datastore_pattern`. These names are exact datastore names and not regex patterns. Available in v29+.
+* **datastores** [Array, optional]: List of datastore names, datastore clusters for storing persistent disks. Overrides the global `persistent_datastore_pattern`. These names are exact datastore names and not regex patterns. Available in v29+. Datastore Clusters can be specified as an array of datastore cluster names. Available in v47+
 
 Example of 10GB disk:
 
@@ -156,7 +156,7 @@ disk_pools:
 - name: default
   disk_size: 10_240
   cloud_properties:
-    datastores: ['prod-ds-1', 'prod-ds-2']
+    datastores: ['prod-ds-1', 'prod-ds-2', {clusters: [vcpi-sp1: {}  , vcpi-sp2: {}]}]
 ```
 
 ---
@@ -319,6 +319,8 @@ a hostname that resolves to any one of the ESXi hosts that are associated
 with your vSphere resource pool(s).
 
 * Setting `enable_auto_anti_affinity_drs_rules` to true may cause `bosh deploy` to fail after the initial deployment if there are more VMs than hosts. A workaround is to set `enable_auto_anti_affinity_drs_rules` to false to perform subsequent deployments.
+
+* Support for specifying Datastore Clusters for ephemeral and persistent disks is available with vSphere CPI version v47 and above. For additional detais see [Release Notes for v47](https://github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release/releases/tag/v47)
 
 ### <a id="vms"></a>VMs
 
