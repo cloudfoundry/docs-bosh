@@ -120,5 +120,4 @@ Run through quick steps below or follow [deploy workflow](basic-workflow.md) tha
 ## Tips <a id="tips"></a>
 
 * In case you need to SSH into the Director VM, see [Jumpbox](jumpbox.md).
-* In case VirtualBox VM shuts down or reboots, you will have to re-run `create-env` command from above. (You will have to remove `current_manifest_sha` line from `state.json` to force a redeploy.) The containers will be lost after a VM restart, but you can restore your deployment with `bosh cck` command. Alternatively *Pause* the VM from the VirtualBox UI before shutting down VirtualBox host, or making your computer sleep.
-* If you are looking for the original Vagrant-based BOSH Lite, please refer to [cloudfoundry/bosh-lite's README](https://github.com/cloudfoundry/bosh-lite).
+* In case VirtualBox VM shuts down or reboots, you will have to re-run `create-env` command from above with `--recreate` flag. The containers will be lost after a VM restart, but you can restore your deployment with `bosh cck` command. Alternatively *Pause* the VM from the VirtualBox UI before shutting down VirtualBox host, or making your computer sleep.
