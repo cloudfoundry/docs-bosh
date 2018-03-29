@@ -172,6 +172,8 @@ update:
       * **remove\_dev\_tools** [Boolean, optional]: Remove [compilers and dev tools](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/stemcell_builder/stages/dev_tools_config/assets/generate_dev_tools_file_list_ubuntu.sh) on non-compilation VMs. Default: `false`.
       * **remove\_static\_libraries** [Boolean, optional]: Remove [static libraries](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/stemcell_builder/stages/static_libraries_config/assets/static_libraries_list.txt) on non-compilation VMs. Default: `false`.
       * **swap\_size** [Integer, optional]: Size of swap partition in MB to create. Set this to 0 to avoid having a swap partition created. Default: RAM size of used VM type up to half of the ephemeral disk size.
+      * **ipv6** [Hash, optional]:
+          * **enable** [Boolean, optional]: Force IPv6 enabled in kernel (this configuration is not necessary if one of the VM addresses is IPv6). Default: `false`.
 
 Example:
 
