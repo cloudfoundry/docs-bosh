@@ -109,7 +109,7 @@ stemcells:
 **update** [Hash, required]: This specifies instance update properties. These properties control how BOSH updates instances during the deployment.
 
 * **canaries** [Integer, required]: The number of [canary](./terminology.html#canary) instances.
-* **max\_in\_flight** [Integer or Percentage per AZ, required]: The maximum number of non-canary instances to update in parallel.
+* **max\_in\_flight** [Integer or Percentage, required]: The maximum number of non-canary instances to update in parallel within an availability zone.
 * **canary\_watch\_time** [Integer or Range, required]: Only applies to monit start operation.
     * If the `canary_watch_time` is an integer, the Director sleeps for that many milliseconds, then checks whether the canary instances are healthy.
     * If the `canary_watch_time` is a range (low-high), the Director:
