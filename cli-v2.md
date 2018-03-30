@@ -34,6 +34,11 @@ The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. CLI 
 Alternatively, refer to [cloudfoundry/homebrew-tap](https://github.com/cloudfoundry/homebrew-tap) to install CLI via Homebrew on OS X. We currently do not publish CLI via apt or yum repositories.
 
 ---
+## Release Notes <a id="release-notes"></a>
+
+CLI release notes can be found [on Github](https://github.com/cloudfoundry/bosh-cli/releases).
+
+---
 ## Global Flags <a id="global-flags"></a>
 
 See [Global flags](cli-global-flags.md) for more details on how to enable different output formats, debug logging, etc.
