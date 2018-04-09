@@ -48,7 +48,7 @@ To export a release:
 
 1. Deploy. Example manifest above does not allocate any resources when deployed.
 
-1. Run `bosh export-release` command. In our example: `bosh export-release uaa/45 ubuntu-trusty/3197`. If release is not already compiled it will create necessary compilation VMs and compile all packages.
+1. Run `bosh export-release` command. In our example: `bosh -d compilation-workspace export-release uaa/45 ubuntu-trusty/3197`. If release is not already compiled it will create necessary compilation VMs and compile all packages.
 
 1. Find exported release tarball in the current directory. Compiled release tarball can be now imported into any other Director via `bosh upload-release` command.
 
