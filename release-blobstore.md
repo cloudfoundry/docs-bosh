@@ -13,7 +13,7 @@ Access to release blobstore is configured via two files:
 
 CLI supports three different blobstore providers: `s3`, `gcs` and `local`.
 
-## S3 Configuration <a id="s3-config"></a>
+## S3 Configuration {: #s3-config }
 
 S3 provider is used for most production releases. It's can be used with any S3-compatible blobstore (in compatibility mode) like Google Cloud Storage and Swift.
 
@@ -39,7 +39,7 @@ blobstore:
 
 See [Configuring S3 release blobstore](s3-release-blobstore.md) for details and [S3 CLI Usage](https://github.com/pivotal-golang/s3cli#usage) for additional configuration options.
 
-## GCS Configuration <a id="gcs-config"></a>
+## GCS Configuration {: #gcs-config }
 
 Google Cloud Storage can be used without S3 compatibility mode.
 
@@ -65,7 +65,7 @@ blobstore:
 ```
 
 ---
-## Local Configuration <a id="local-config"></a>
+## Local Configuration {: #local-config }
 
 Local provider is useful for testing.
 
@@ -82,6 +82,6 @@ blobstore:
 Nothing in `config/private.yml`.
 
 ---
-## Migrating blobs <a id="migration"></a>
+## Migrating blobs {: #migration }
 
 CLI does not currently provide a builtin way to migrate blobs to a different blobstore. Suggested way to migrate blobs is to use third party tool like `s3cmd` to list and copy all blobs from current blobstore to another. Once copying of all blobs is complete, update `config` directory to with new blobstore location.

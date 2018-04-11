@@ -4,9 +4,9 @@ title: Creating environment on OpenStack
 
 This document shows how to initialize new [environment](terminology.md#environment) on OpenStack.
 
-## <a id="prepare-openstack"></a>Step 1: Prepare an OpenStack environment
+## Step 1: Prepare an OpenStack environment {: #prepare-openstack }
 
-### Prerequisites <a id="prerequisites"></a>
+### Prerequisites {: #prerequisites }
 
 1. An OpenStack environment running one of the following supported releases:
     * [Liberty](http://www.openstack.org/software/liberty) (actively tested)
@@ -44,7 +44,7 @@ This document shows how to initialize new [environment](terminology.md#environme
         * Allocate a [floating IP address](#floating-ip).
 
 ---
-### <a id="keypair"></a>Create a Keypair
+### Create a Keypair {: #keypair }
 
 1. Select **Access & Security** from the left navigation panel.
 
@@ -63,7 +63,7 @@ This document shows how to initialize new [environment](terminology.md#environme
     ![image](images/micro-openstack/save-keypair.png)
 
 ---
-### <a id="security-groups"></a>Create and Configure Security Groups
+### Create and Configure Security Groups {: #security-groups }
 
 You must create and configure two Security Groups to restrict incoming network traffic to the BOSH VMs.
 
@@ -114,7 +114,7 @@ You must create and configure two Security Groups to restrict incoming network t
     </table>
 
 ---
-### <a id="floating-ip"></a>Allocate a floating IP address
+### Allocate a floating IP address {: #floating-ip }
 
 1. Select **Access & Security** from the left navigation panel.
 
@@ -135,7 +135,7 @@ You must create and configure two Security Groups to restrict incoming network t
     ![image](images/micro-openstack/floating-ip.png)
 
 ---
-## Step 2: Deploy <a id="deploy"></a>
+## Step 2: Deploy {: #deploy }
 
 1. Install [CLI v2](./cli-v2.html).
 

@@ -5,12 +5,12 @@ title: Configuring Health Monitor
 Sections below only show minimum configuration options to enable plugins. Add them to the deployment manifest for the Health Monitor. See [health_monitor release job properties](http://bosh.io/jobs/health_monitor?source=github.com/cloudfoundry/bosh) for more details.
 
 ---
-## <a name="logger"></a> Event Logger
+## Event Logger {: #logger }
 
 Enabled by default. No way to turn it off.
 
 ---
-## <a name="resurrector"></a> Resurrector
+## Resurrector {: #resurrector }
 
 Restarts VMs that have stopped heartbeating. See [Automatic repair with Resurrector](resurrector.md) for more details.
 
@@ -21,7 +21,7 @@ properties:
 ```
 
 ---
-## <a name="emailer"></a> Emailer
+## Emailer {: #emailer }
 
 Plugin that sends configurable e-mails on events reciept.
 
@@ -42,14 +42,14 @@ properties:
 ```
 
 ---
-## <a name="json"></a> JSON
+## JSON {: #json }
 
 Enabled by default.
 
 Plugin that sends alerts and heartbeats as json to programs installed on the director over stdin. The plugin will start and manage a process for each executable matching the glob `/var/vcap/jobs/*/bin/bosh-monitor/*`.
 
 ---
-## <a name="tsdb"></a> OpenTSDB
+## OpenTSDB {: #tsdb }
 
 Plugin that forwards alerts and heartbeats to [OpenTSDB](http://opentsdb.net/).
 
@@ -63,7 +63,7 @@ properties:
 ```
 
 ---
-## <a name="graphite"></a> Graphite
+## Graphite {: #graphite }
 
 Plugin that forwards heartbeats to [Graphite](https://graphite.readthedocs.org/en/latest/).
 
@@ -77,7 +77,7 @@ properties:
 ```
 
 ---
-## <a name="pagerduty"></a> PagerDuty
+## PagerDuty {: #pagerduty }
 
 Plugin that sends various events to [PagerDuty.com](http://pagerduty.com) using their API.
 
@@ -91,7 +91,7 @@ properties:
 ```
 
 ---
-## <a name="datadog"></a> DataDog
+## DataDog {: #datadog }
 
 Plugin that sends various events to [DataDog.com](http://datadoghq.com) using their API.
 
@@ -106,7 +106,7 @@ properties:
 ```
 
 ---
-## <a name="cloudwatch"></a> AWS CloudWatch
+## AWS CloudWatch {: #cloudwatch }
 
 Plugin that sends various events to [Amazon's CloudWatch](http://aws.amazon.com/cloudwatch/) using their API.
 

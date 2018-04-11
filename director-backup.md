@@ -2,7 +2,7 @@
 title: How to backup and restore a bosh director deployment?
 ---
 
-## <a id="why-backup"></a>Why performing bosh director backup and restores ? ##
+## Why performing bosh director backup and restores ? ## {: #why-backup }
 
 If using bosh-init to deploy your bosh-director, it is useful to backup the deployment state file containing associated Iaas information (IP, floating IP, persistent disk volume id). This would enable recovery of a lost bosh director VM from the persistent disk still present in the Iaas. See [recovering state](cli-envs.md#recover-deployment-state).
 
@@ -10,7 +10,7 @@ Performing regular backup of the bosh director is essential to be able to operat
 
 Bosh provides built-in commands to export the content of the director database and restore it on a fresh empty director deployment. The back up however does not include the data than can be recovered from artifact repositories, namely bosh stemcells and releases. The latter need to be re uploaded manually.
 
-## <a id="backup-your-bosh"></a>Backup your bosh director ##
+## Backup your bosh director ## {: #backup-your-bosh }
 
 Target the bosh director deployment that you need to backup:
 
@@ -22,7 +22,7 @@ Make a backup of your bosh instance :
 
 This command will generate a .tar.gz file that contains a dump of director's database
 
-## Restore the backup following an outage ## <a id="restore-backup"></a>
+## Restore the backup following an outage ## {: #restore-backup }
 
 We assume that your bosh director deployment was deleted so you need to restore it.
 

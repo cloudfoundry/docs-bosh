@@ -9,7 +9,7 @@ One popular example of a deployment job that needs this type of configuration is
 Currently only vSphere and OpenStack CPIs provide a way to do so.
 
 ---
-## vSphere Configuration <a id='vsphere'></a>
+## vSphere Configuration {: #vsphere }
 
 The vSphere [VM-VM Affinity Rules](http://pubs.vmware.com/vsphere-51/index.jsp#com.vmware.vsphere.resmgmt.doc/GUID-94FCC204-115A-4918-9533-BFC588338ECB.html) feature allows you to specify whether VMs should run on the same host or be kept on separate hosts. As of BOSH version 101 (stemcell 2693), you can configure the vSphere CPI to include all VMs of a specified BOSH resource pool within a single DRS rule and separate the VMs among multiple hosts.
 
@@ -63,7 +63,7 @@ one DRS rule per BOSH resource pool.</li>
 </div>
 
 ---
-## OpenStack Configuration <a id='openstack'></a>
+## OpenStack Configuration {: #openstack }
 
 OpenStack's [Filter scheduler](http://docs.openstack.org/developer/nova/devref/filter_scheduler.html) allows to customize compute node selection algorithm which determines placement of new VMs. To enforce anti-affinity among VMs, `ServerGroupAntiAffinityFilter` is available:
 

@@ -18,7 +18,7 @@ It's a recommended practice to make releases be self contained; however, that ma
 
 Sections below describe steps, advantages and disadvantages for each approach.
 
-## Using `bosh vendor-package` <a id="vendor"></a>
+## Using `bosh vendor-package` {: #vendor }
 
 CLI v2 introduces new command for release authors to easily vendor final version of a package from another release. BOSH team has also created [`bosh-packages` Github organization](https://github.com/bosh-packages) for tracking official commonly used packages. First additions to that organization are: `golang-release`, `ruby-release`, `java-release` and `nginx-release`. More may be added if deemed to be useful to a number of release authors.
 
@@ -87,7 +87,7 @@ When to be cautious with this approach:
 - package's purpose or implementation is extremely specific to the source release
 
 ---
-## Using job colocation <a id="colocation"></a>
+## Using job colocation {: #colocation }
 
 Job colocation can provide a powerful way to make a release extensible and pluggable where necessary. Unlike vendoring approach, release author choosing job colocation as a way to consume dependent software is explicitly stating that there is not necessarily a single one implementation of a particular dependency but rather it could be chosen by on operator at the time of a deploy.
 
@@ -107,7 +107,7 @@ When to be cautious with this approach:
 - if operators will incur unnecessary burden during a deploy
 
 ---
-## Copying over package source <a id="copy"></a>
+## Copying over package source {: #copy }
 
 Lastly, sometimes it may be necessary to actually copy over (`cp`) software bits from one release to another.
 

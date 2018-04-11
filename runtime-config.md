@@ -7,7 +7,7 @@ title: Runtime Config
 The Director has a way to specify global configuration for all VMs in all deployments. The runtime config is a YAML file that defines IaaS agnostic configuration that applies to all deployments.
 
 ---
-## Updating and retrieving runtime config <a id='update'></a>
+## Updating and retrieving runtime config {: #update }
 
 To update runtime config on the Director use [`bosh update runtime-config`](sysadmin-commands.md#cloud-config) CLI command.
 
@@ -34,7 +34,7 @@ addons:
 Once runtime config is updated all deployments will be considered outdated. `bosh deployments` does not currently show that but we have plans to show that information. The Director will apply runtime config changes to each deployment during the next `bosh deploy` for that deployment.
 
 ---
-## Example <a id='example'></a>
+## Example {: #example }
 
 ```yaml
 releases:
@@ -59,7 +59,7 @@ addons: []
 ```
 
 ---
-## Releases Block <a id='releases'></a>
+## Releases Block {: #releases }
 
 **releases** [Array, required]: Specifies the releases used by the addons.
 
@@ -89,7 +89,7 @@ releases:
 ```
 
 ---
-## Addons Block <a id='addons'></a>
+## Addons Block {: #addons }
 
 Operators typically want to ensure that certain software runs on all VMs managed by the Director. Examples of such software are:
 
@@ -110,7 +110,7 @@ An addon is a release job that is colocated on all VMs managed by the Director.
 * **include** [Hash, optional]: Specifies inclusion <a href="#placement-rules">placement rules</a> Available in bosh-release v260+.
 * **exclude** [Hash, optional]: Specifies exclusion <a href="#placement-rules">placement rules</a>. Available in bosh-release v260+.
 
-### Placement Rules for `include` and `exclude` Directives <a id='placement-rules'></a>
+### Placement Rules for `include` and `exclude` Directives {: #placement-rules }
 
 Available rules:
 
@@ -158,7 +158,7 @@ include:
 See [common addons list](addons-common.md) for several examples.
 
 ---
-## Tags Block <a id='tags'></a>
+## Tags Block {: #tags }
 
 **tags** [Hash, optional]: Specifies key value pairs to be sent to the CPI for VM tagging. Combined with deployment level tags during the deploy. Available in bosh-release v260+.
 

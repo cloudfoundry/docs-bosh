@@ -92,7 +92,7 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
         - issue get_state Agent call until job state is running or times out
 
 ---
-## Update and propagate DNS records <a id='dns'></a>
+## Update and propagate DNS records {: #dns }
 
 1. Create a new DNS records dataset and saves it to the blobstore
 1. issues sync_dns Agent call to *all* VMs (in all deployments)

@@ -4,7 +4,7 @@ title: Connecting the Director to an External Postgres Database
 
 The Director stores VM, persistent disk and other information in a database. An internal database might be sufficient for your deployment; however, a highly-available external database can improve performance, scalability and protect against data loss.
 
-## Included Postgres (default) <a id="included"></a>
+## Included Postgres (default) {: #included }
 
 1. Add postgres release job and make sure that persistent disk is enabled:
 
@@ -39,7 +39,7 @@ The Director stores VM, persistent disk and other information in a database. An 
     ```
 
 ---
-## External <a id="external"></a>
+## External {: #external }
 
 The Director is tested to be compatible with MySQL and Postgresql databases.
 

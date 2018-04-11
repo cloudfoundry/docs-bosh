@@ -6,14 +6,14 @@ All UAA users can log into all Directors which can verify the access token. Howe
 
 <p class="note">Warning: If you use the same private key to sign keys on different UAAs, users might obtain a token from one UAA and use it on the Director configured with a different UAA. It is therefore highly recommended to lock down scopes to individual Directors and not re-use your private key used for signing on the UAA.</p>
 
-## Anonymous <a id="anon"></a>
+## Anonymous {: #anon }
 
 Can access:
 
 - `bosh status`: show general information about targeted Director (authentication is not required)
 
 ---
-## Full Admin <a id="full-admin"></a>
+## Full Admin {: #full-admin }
 
 Scopes:
 
@@ -23,7 +23,7 @@ Scopes:
 Can use all commands on all deployments.
 
 ---
-## Full Read-only <a id="full-read"></a>
+## Full Read-only {: #full-read }
 
 Scopes:
 
@@ -41,7 +41,7 @@ Can access in read-only capacity:
 - `bosh tasks`: list of all tasks summaries which includes task descriptions without access to debug logs
 
 ---
-## Team Admin <a id="team-admin"></a>
+## Team Admin {: #team-admin }
 
 <p class="note">Note: This feature is available with bosh-release v255.4+.</p>
 
@@ -72,7 +72,7 @@ Can view shared resources:
 Team admin cannot upload releases and stemcells.
 
 ---
-## Stemcell uploader <a id="stemcell-uploader"></a>
+## Stemcell uploader {: #stemcell-uploader }
 
 <p class="note">Note: This feature is available with bosh-release v261.2+.</p>
 
@@ -83,7 +83,7 @@ Scopes:
 Note that CLI will try to list stemcells before uploading given stemcell, hence `bosh upload stemcell` CLI command requires users/clients to have `bosh.read` scope as well.
 
 ---
-## Release uploader <a id="release-uploader"></a>
+## Release uploader {: #release-uploader }
 
 <p class="note">Note: This feature is available with bosh-release v261.2+.</p>
 
@@ -94,7 +94,7 @@ Scopes:
 Note that CLI will try to list releases before uploading given release, hence `bosh upload release` CLI command requires users/clients to have `bosh.read` scope as well.
 
 ---
-## Errors <a id="errors"></a>
+## Errors {: #errors }
 
 ```
 HTTP 401: Not authorized: '/deployments' requires one of the scopes: bosh.admin, bosh.UUID.admin, bosh.read, bosh.UUID.read

@@ -4,7 +4,7 @@ title: Azure CPI
 
 This topic describes cloud properties for different resources created by the Azure CPI.
 
-## AZs <a id='azs'></a>
+## AZs {: #azs }
 
 * **availability_zone** [String, optional]: Availability zone to use for creating instances (available in v33+). Possible values: `'1'`, `'2'`, `'3'`. Read this [document](https://docs.microsoft.com/en-us/azure/availability-zones/az-overview) to get regions and VM sizes on Azure that support availability zones. [More details about availability zone](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/availability-zone).
 
@@ -18,7 +18,7 @@ azs:
 ```
 
 ---
-## Networks <a id="networks"></a>
+## Networks {: #networks }
 
 ### Dynamic Network or Manual Network
 
@@ -70,7 +70,7 @@ networks:
 ```
 
 ---
-## Resource Pools / VM Types <a id="resource-pools"></a>
+## Resource Pools / VM Types {: #resource-pools }
 
 Schema for `cloud_properties` section:
 
@@ -167,7 +167,7 @@ resource_pools:
 ```
 
 ---
-## Disk Pools / Disk Types <a id="disk-pools"></a>
+## Disk Pools / Disk Types {: #disk-pools }
 
 Schema for `cloud_properties` section:
 
@@ -185,7 +185,7 @@ disk_pools:
 ```
 
 ---
-## Global Configuration <a id="global"></a>
+## Global Configuration {: #global }
 
 Schema:
 
@@ -243,7 +243,7 @@ properties:
 ```
 
 ---
-## Example Cloud Config <a id='cloud-config'></a>
+## Example Cloud Config {: #cloud-config }
 
 ```yaml
 azs:
@@ -282,7 +282,7 @@ compilation:
 ```
 
 ---
-## Errors <a id="errors"></a>
+## Errors {: #errors }
 
 * Invalid service principal
 

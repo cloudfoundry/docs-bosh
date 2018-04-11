@@ -9,7 +9,7 @@ BOSH Lite v2 is a Director VM running in VirtualBox (typically locally). It is m
 - Testing releases locally or in CI
 
 ---
-## Install <a id="install"></a>
+## Install {: #install }
 
 Follow below steps to get it running on locally on VirtualBox:
 
@@ -87,7 +87,7 @@ Follow below steps to get it running on locally on VirtualBox:
 
 
 ---
-## Deploy example Zookeeper deployment <a id="deploy"></a>
+## Deploy example Zookeeper deployment {: #deploy }
 
 Run through quick steps below or follow [deploy workflow](basic-workflow.md) that goes through the same steps but with more explanation.
 
@@ -117,7 +117,7 @@ Run through quick steps below or follow [deploy workflow](basic-workflow.md) tha
     ```
 
 
-## Tips <a id="tips"></a>
+## Tips {: #tips }
 
 * In case you need to SSH into the Director VM, see [Jumpbox](jumpbox.md).
 * In case VirtualBox VM shuts down or reboots, you will have to re-run `create-env` command from above with `--recreate` flag. The containers will be lost after a VM restart, but you can restore your deployment with `bosh cck` command. Alternatively *Pause* the VM from the VirtualBox UI before shutting down VirtualBox host, or making your computer sleep.

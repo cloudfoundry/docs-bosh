@@ -7,7 +7,7 @@ This topic describes important file system locations, configurations and other s
 BOSH tries to encourage release authors to follow conventions listed below, so if you find inconsistencies or improper usage please report such problems to appropriate release authors.
 
 ---
-## Global Configuration <a id="global"></a>
+## Global Configuration {: #global }
 
 * `/tmp/`: Global temporary directory is limited to 128MB. A well behaved release job that needs scratch space usually sets up its own temporary directory inside ephemeral data directory (e.g. `/var/vcap/data/redis-server/tmp`).
 
@@ -16,7 +16,7 @@ BOSH tries to encourage release authors to follow conventions listed below, so i
 * `/etc/logrotate.d/vcap`: Logrotate configuration for `/var/vcap/sys/log/` sub-directories managed by the Agent.
 
 ---
-## Release Job and Package Directories <a id="jobs-and-packages"></a>
+## Release Job and Package Directories {: #jobs-and-packages }
 
 * `/var/vcap/`: VCAP [1] directory contains majority of the configuration settings and associated assets when VM deployment job instance is assigned to the VM.
 
@@ -31,7 +31,7 @@ BOSH tries to encourage release authors to follow conventions listed below, so i
     - `/var/vcap/jobs/<name>/monit`: Final monit file for that release job.
 
 ---
-## Storage Directories <a id="storage"></a>
+## Storage Directories {: #storage }
 
 * `/var/vcap/data/`: Directory that is used by the release jobs to keep _ephemeral_ data. Each release job usually creates a sub-folder with its name for namespacing (e.g. `redis-server` will place data into `/var/vcap/data/redis-server`).
 
@@ -42,7 +42,7 @@ BOSH tries to encourage release authors to follow conventions listed below, so i
 * `/var/vcap/sys/log/`: Directory that is used by the release jobs to keep logs. Each release job usually creates a sub-folder with its name for namespacing (e.g. `redis-server` will place data into `/var/vcap/sys/log/redis-server`). Files in this directory are log rotated on a specific schedule configure by the Agent.
 
 ---
-## Agent Configuration <a id="agent"></a>
+## Agent Configuration {: #agent }
 
 It's discouraged to modify or rely on the contents of this directory.
 
@@ -59,7 +59,7 @@ It's discouraged to modify or rely on the contents of this directory.
 * `/var/vcap/bosh/etc/ntpserver`: File with a list of NTP servers configured by the Agent. This file is used by `/var/vcap/bosh/bin/ntpdate` to keep time in sync.
 
 ---
-## Monit Configuration <a id="monit"></a>
+## Monit Configuration {: #monit }
 
 It's discouraged to modify or rely on the contents of this directory.
 

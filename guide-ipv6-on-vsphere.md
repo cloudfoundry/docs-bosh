@@ -13,7 +13,7 @@ Two possible deployment options:
 - hybrid IPv6 configuration: Director is on IPv4 and deployed VMs use IPv4 and IPv6 addresses
 
 ---
-## Hybrid IPv6 configuration <a id="hybrid"></a>
+## Hybrid IPv6 configuration {: #hybrid }
 
 In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director with an IPv4 address and then deploy VMs with IPv4 and IPv6 addresses.
 
@@ -79,7 +79,7 @@ In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director 
     Succeeded
     ```
 
-### Deploy example Zookeeper deployment <a id="pure-deploy"></a>
+### Deploy example Zookeeper deployment {: #pure-deploy }
 
 Follow steps below or the [deploy workflow](basic-workflow.md) that goes through the same steps but with more explanation.
 

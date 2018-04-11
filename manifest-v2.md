@@ -22,7 +22,7 @@ Assuming that you are using [cloud config](cloud-config.md), your deployment man
 * [Tags Block](#tags): Sets additional tags for the deployment
 
 ---
-## Deployment Identification <a id='deployment'></a>
+## Deployment Identification {: #deployment }
 
 **name** [String, required]: The name of the deployment. A single Director can manage multiple deployments and distinguishes them by name.
 
@@ -35,7 +35,7 @@ name: my-redis
 ```
 
 ---
-## Features Block <a id='features'></a>
+## Features Block {: #features }
 
 **features** [Hash, options]: Specifies Director features that should be used within this deployment.
 
@@ -50,7 +50,7 @@ features:
 ```
 
 ---
-## Releases Block <a id='releases'></a>
+## Releases Block {: #releases }
 
 **releases** [Array, required]: The name and version of each release in the deployment.
 
@@ -80,7 +80,7 @@ releases:
 ```
 
 ---
-## Stemcells Block <a id='stemcells'></a>
+## Stemcells Block {: #stemcells }
 
 **stemcells** [Array, required]: The name and version of each stemcell in the deployment.
 
@@ -104,7 +104,7 @@ stemcells:
 ```
 
 ---
-## Update Block <a id='update'></a>
+## Update Block {: #update }
 
 **update** [Hash, required]: This specifies instance update properties. These properties control how BOSH updates instances during the deployment.
 
@@ -135,7 +135,7 @@ update:
 ```
 
 ---
-## Instance Groups Block <a id='instance-groups'></a>
+## Instance Groups Block {: #instance-groups }
 
 **instance_groups** [Array, required]: Specifies the mapping between release [jobs](./terminology.html#job) and instance groups.
 
@@ -209,7 +209,7 @@ instance_groups:
 ```
 
 ---
-## Addons Block <a id='addons'></a>
+## Addons Block {: #addons }
 
 <p class="note">Note: This feature is available with bosh-release v262+.</p>
 
@@ -232,12 +232,12 @@ addons:
 ```
 
 ---
-## Properties Block <a id='properties'></a>
+## Properties Block {: #properties }
 
 **properties** [Hash, optional]: Describes global properties. Deprecated in favor of job level properties and links.
 
 ---
-## Variables Block <a id='variables'></a>
+## Variables Block {: #variables }
 
 **variables** [Array, optional]: Describes variables.
 
@@ -267,7 +267,7 @@ variables:
 See [CLI Variable Interpolation](cli-int.md) for more details about variables.
 
 ---
-## Tags Block <a id='tags'></a>
+## Tags Block {: #tags }
 
 **tags** [Hash, optional]: Specifies key value pairs to be sent to the CPI for VM tagging. Combined with runtime config level tags during the deploy. Available in bosh-release v258+.
 

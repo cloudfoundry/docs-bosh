@@ -8,7 +8,7 @@ BOSH can deploy jobs on Windows VMs. There is open source tooling and documentat
 In general Windows BOSH Releases work in the same way as a standard BOSH release. The main difference is that the [monit file](create-release.md#monit) for Linux Releases is structured differently on Windows. Below are specific concerns for jobs on Windows.
 
 ---
-## Releases <a id="releases"></a>
+## Releases {: #releases }
 
 The structure of a BOSH release for Windows is identical to [Linux BOSH Releases](http://bosh.io/docs/create-release.html).  This means the structure of a Windows BOSH release will be:
 
@@ -19,7 +19,7 @@ The structure of a BOSH release for Windows is identical to [Linux BOSH Releases
 - additional hook scripts
 
 ---
-## Jobs <a id="jobs"></a>
+## Jobs {: #jobs }
 
 The structure of a BOSH job for Windows is similar to the [Standard Linux BOSH Job Lifecycle](http://bosh.io/docs/job-lifecycle.html), only with processes monitored by [Windows Service Wrapper](https://github.com/kohsuke/winsw) instead of monit.
 
@@ -45,7 +45,7 @@ The above monit file will execute the file `C:\var\vcap\jobs\say-hello\bin\start
 Also, note that Pre-Start, Post-Start, Drain, and Post-Deploy scripts (described in the [job lifecycle](http://bosh.io/docs/job-lifecycle.html)) must be powershell scripts and end with the `.ps1` extension, i.e., `pre-start.ps1`, `post-start.ps1`, `drain.ps1`, and `post-deploy.ps1`.
 
 ---
-### Stop Scripts in Jobs <a id="stop-scripts"></a>
+### Stop Scripts in Jobs {: #stop-scripts }
 
 Release job can have a stop script that will run when the job is restarted or stopped. This script allows the job to clean up and get into a state where it can be safely stopped.
 

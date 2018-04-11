@@ -9,7 +9,7 @@ Previously, the CLI provided the `rename job` command to rename a specific insta
 Additionally `migrated_from` directive can be used to migrate instance groups to use first class AZs.
 
 ---
-## Schema <a id='schema'></a>
+## Schema {: #schema }
 
 **migrated_from** [Array, required]: The name and AZ of each instance group that should be used to form new instance group.
 
@@ -17,7 +17,7 @@ Additionally `migrated_from` directive can be used to migrate instance groups to
 * **az** [String, optional]: Availability zone that was used for the named instance group. This key is optional for instance groups that used first class AZs (via `azs` key). If first class AZ was not used, then this key must specify first class AZ that matches actual IaaS AZ configuration.
 
 ---
-## Renaming Instance Groups <a id="rename"></a>
+## Renaming Instance Groups {: #rename }
 
 1. Given follow deployment instance group `etcd`:
 
@@ -54,7 +54,7 @@ Additionally `migrated_from` directive can be used to migrate instance groups to
 1. Deploy.
 
 ---
-## Migrating Instance Groups (to first class AZs) <a id="migrate"></a>
+## Migrating Instance Groups (to first class AZs) {: #migrate }
 
 Before the introduction of first class AZs, each instance group was associated with a resource pool that typically defined some CPI specific AZ configuration in its `cloud_properties`. Typically there would be multiple instance groups that mostly differed by their name, for example `etcd_z1` and `etcd_z2`. With first class AZs, multiple instance groups typically should be collapsed to simplify the deployment.
 

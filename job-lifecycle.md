@@ -4,7 +4,7 @@ title: Job Lifecycle
 
 There are several stages that all jobs (and their associated processes) on each VM go through during a deployment process:
 
-## When start is issued <a id="start"></a>
+## When start is issued {: #start }
 
 1. Persistent disks are mounted on the VM if configured, and not already mounted
 
@@ -29,13 +29,13 @@ There are several stages that all jobs (and their associated processes) on each 
 Note that scripts should not rely on the order they are run. Agent may decide to run them serially or in parallel.
 
 ---
-## When processes are running <a id="running"></a>
+## When processes are running {: #running }
 
 1. Monit will automatically restart processes that failed their associated checks
   - a common pattern used is a PID check
 
 ---
-## When stop is issued (or before update and subsequent start happens) <a id="stop"></a>
+## When stop is issued (or before update and subsequent start happens) {: #stop }
 
 1. `monit unmonitor` is called for each process
 

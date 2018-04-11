@@ -46,7 +46,7 @@ cs5Label=statusReason
 ```
 
 ---
-## Enabling Logging <a id="enable"></a>
+## Enabling Logging {: #enable }
 
 To enable this feature:
 

@@ -21,7 +21,7 @@ Contents of a deployment manifest:
 The examples below originate from a [sample deployment manifest](./sample-manifest.html).
 
 ---
-## <a id='deployment'></a>Deployment Identification
+## Deployment Identification {: #deployment }
 
 **name** [String, required]: The name of the deployment. A single Director can manage multiple deployments and distinguishes them by name.
 
@@ -36,7 +36,7 @@ director_uuid: cf8dc1fc-9c42-4ffc-96f1-fbad983a6ce6
 ```
 
 ---
-## <a id='releases'></a>Releases Block
+## Releases Block {: #releases }
 
 **releases** [Array, required]: The name and version of each release in the deployment.
 
@@ -50,7 +50,7 @@ releases:
 - {name: redis, version: 12}
 ```
 
-### <a id='bosh-init-releases'></a>Releases Block using URLs
+### Releases Block using URLs {: #bosh-init-releases }
 
 **releases** [Array, required]: The name, url and possibly SHA1 of each release in the deployment.
 
@@ -69,7 +69,7 @@ releases:
   url: file://bosh-aws-cpi-release-158.tgz
 ```
 
-### <a id='bosh-releases-create'></a>Releases Block using local release directory
+### Releases Block using local release directory {: #bosh-releases-create }
 
 **releases** [Array, required]: The name and local release directory of a release in the deployment.
 
@@ -87,13 +87,13 @@ releases:
 ```
 
 ---
-## <a id='networks'></a>Networks Block
+## Networks Block {: #networks }
 
 **networks** [Array, required]: Each sub-block listed in the Networks block specifies a network configuration that jobs can reference. There are three different network types: `manual`, `dynamic`, and `vip`.
 
 See [networks](networks.md) for more details.
 
-### CPI Specific `cloud_properties` <a id='networks-cloud-properties'></a>
+### CPI Specific `cloud_properties` {: #networks-cloud-properties }
 
 - [See AWS CPI network cloud properties](aws-cpi.md#networks)
 - [See Azure CPI network cloud properties](azure-cpi.md#networks)
@@ -104,7 +104,7 @@ See [networks](networks.md) for more details.
 - [See vCloud CPI network cloud properties](vcloud-cpi.md#networks)
 
 ---
-## <a id='resource-pools'></a>Resource Pools Block
+## Resource Pools Block {: #resource-pools }
 
 **resource_pools** [Array, required]: Specifies the [resource pools](./terminology.html#resource-pool) a deployment uses. A deployment manifest can describe multiple resource pools and uses unique names to identify and reference them.
 
@@ -131,7 +131,7 @@ resource_pools:
     availability_zone: us-east-1c
 ```
 
-### Custom bosh-init Stemcell Key Schema <a id='bosh-init-stemcells'></a>
+### Custom bosh-init Stemcell Key Schema {: #bosh-init-stemcells }
 
 **stemcell** [Hash, required]: The stemcell used to create resource pool VMs.
 
@@ -152,7 +152,7 @@ resource_pools:
     availability_zone: us-east-1c
 ```
 
-### CPI Specific `cloud_properties` <a id='resource-pools-cloud-properties'></a>
+### CPI Specific `cloud_properties` {: #resource-pools-cloud-properties }
 
 - [See AWS CPI resource pool cloud properties](aws-cpi.md#resource-pools)
 - [See Azure CPI resource pool cloud properties](azure-cpi.md#resource-pools)
@@ -163,7 +163,7 @@ resource_pools:
 - [See vCloud CPI resource pool cloud properties](vcloud-cpi.md#resource-pools)
 
 ---
-## <a id='disk-pools'></a>Disk Pools Block
+## Disk Pools Block {: #disk-pools }
 
 **disk_pools** [Array, required]: Specifies the [disk pools](./terminology.html#disk-pool) a deployment uses. A deployment manifest can describe multiple disk pools and uses unique names to identify and reference them.
 
@@ -181,7 +181,7 @@ disk_pools:
     type: gp2
 ```
 
-### CPI Specific `cloud_properties` <a id='disk-pools-cloud-properties'></a>
+### CPI Specific `cloud_properties` {: #disk-pools-cloud-properties }
 
 - [See AWS CPI disk pool cloud properties](aws-cpi.md#disk-pools)
 - [See Azure CPI disk pool cloud properties](azure-cpi.md#disk-pools)
@@ -192,7 +192,7 @@ disk_pools:
 - [See vCloud CPI disk pool cloud properties](vcloud-cpi.md#disk-pools)
 
 ---
-## <a id='compilation'></a>Compilation Block
+## Compilation Block {: #compilation }
 
 **compilation** [Hash, required]: Properties of compilation VMs.
 
@@ -214,7 +214,7 @@ compilation:
 ```
 
 ---
-## <a id='update'></a>Update Block
+## Update Block {: #update }
 
 **update** [Hash, required]: This specifies instance update properties. These properties control how BOSH updates job instances during the deployment.
 
@@ -243,7 +243,7 @@ update:
 ```
 
 ---
-## <a id='jobs'></a>Jobs Block
+## Jobs Block {: #jobs }
 
 **jobs** [Array, required]: Specifies the mapping between BOSH release [jobs](./terminology.html#job) and cloud instances. Jobs are defined in the BOSH release. The Jobs block defines how BOSH associates jobs with the VMs started by the IaaS. The most commonly used job properties are:
 
@@ -286,7 +286,7 @@ jobs:
 ```
 
 ---
-## <a id='properties'></a>Properties Block
+## Properties Block {: #properties }
 
 **properties** [Hash, optional]: Describes global properties and general configuration information.
 
@@ -311,7 +311,7 @@ properties:
     max_connections: 10
 ```
 
-### <a id='properties'></a>Job Property Precedence
+### Job Property Precedence {: #properties }
 
 1. BOSH applies the properties in the template spec file to the job.
 1. If an identically named property exists in the [Properties](#properties) block of the deployment manifest, the value of this property overrides the previous value.
@@ -320,7 +320,7 @@ properties:
 <p class="note"><strong>Note</strong>: If you declare specific properties in a job template spec, BOSH ignores all other properties. If you do not declare any specific properties in a job template spec, BOSH applies all properties from the deployment manifest to the job. </p>
 
 ---
-## Cloud Provider Block <a id='cloud-provider'></a>
+## Cloud Provider Block {: #cloud-provider }
 
 **cloud_provider** [Hash, required]: Specifies CPI configuration for the `bosh-init` to create VMs, etc. Regular deployment manifests cannot specify this block.
 

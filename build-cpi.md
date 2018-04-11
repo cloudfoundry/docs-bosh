@@ -4,7 +4,7 @@ title: CPI Building
 
 This topic describes how to build a CPI.
 
-## Distribution <a id="distribution"></a>
+## Distribution {: #distribution }
 
 CPIs are distributed as regular releases, typically with a release job called `cpi` and a few packages that provide compilation/runtime environment for that job if necessary (e.g. [bosh-aws-cpi-release](https://github.com/cloudfoundry-incubator/bosh-aws-cpi-release) includes Ruby and [bosh-warden-cpi-release](https://github.com/cppforlife/bosh-warden-cpi-release) includes golang). To qualify to be a CPI release, it must include a release job that has `bin/cpi` executable.
 
@@ -23,7 +23,7 @@ CPIs written in golang:
 - [Warden CPI release](https://github.com/cppforlife/bosh-warden-cpi-release)
 
 ---
-## RPC <a id="rpc"></a>
+## RPC {: #rpc }
 
 Since CPI is just an executable, following takes place for each CPI method call:
 
@@ -36,7 +36,7 @@ Since CPI is just an executable, following takes place for each CPI method call:
 
 As a reference the Director's implementation is in [bosh_cpi's external\_cpi.rb](https://github.com/cloudfoundry/bosh/blob/master/src/bosh-director/lib/cloud/external_cpi.rb) and the BOSH CLI implements it in [cpi\_cmd\_runner.go](https://github.com/cloudfoundry/bosh-cli/blob/master/cloud/cpi_cmd_runner.go).
 
-### Request <a id='request'></a>
+### Request {: #request }
 
 * **method** [String]: Name of the CPI method. Example: `create_vm`.
 * **arguments** [Array]: Array of arguments that are specific to the CPI method.
@@ -52,7 +52,7 @@ Example:
 }
 ```
 
-### Response <a id='response'></a>
+### Response {: #response }
 
 * **result** [Null or simple values]: Single return value. It must be null if `error` is returned.
 * **error** [Null or hash]: Occurred error. It must be null if `result` is returned.
@@ -88,7 +88,7 @@ Example error response from `create_vm` CPI call:
 BOSH team maintains several CPIs written in Ruby. We currently take advantage of the `bosh_cpi` gem which provides `Bosh::Cpi::Cli` class that deserialized requests and serializes responses. If you are planning to write a CPI in Ruby, we recommend to take advantage of this gem.
 
 ---
-## Testing <a id="testing"></a>
+## Testing {: #testing }
 
 There are two test suites each CPI is expected to pass before it's considered to be production-ready:
 
@@ -96,19 +96,19 @@ There are two test suites each CPI is expected to pass before it's considered to
 - shared [BOSH Acceptance Tests (BATS)](https://github.com/cloudfoundry/bosh/blob/master/docs/running_tests.md#bosh-acceptance-tests-bats) (provided by the BOSH team) which verify high level Director behavior with the CPI activated
 
 ---
-## Concurrency <a id="concurrency"></a>
+## Concurrency {: #concurrency }
 
 The CPI is expected to handle multiple method calls concurrently (and in parallel) with a promise that arguments represent different IaaS resources. For example, multiple `create_vm` CPI method calls may be issued that all use the same stemcell cloud ID; however, `attach_disk` CPI method will never be called with the same VM cloud ID concurrently.
 
 <p class="note">Note: Since each CPI method call is a separate OS process, simple locking techniques (Ruby's <code>Mutex.new</code> for example) will not work.</p>
 
 ---
-## Rate Limiting <a id="rate-limiting"></a>
+## Rate Limiting {: #rate-limiting }
 
 Most CPIs have to deal with IaaS APIs that rate limit (e.g. OpenStack, AWS APIs). Currently it's the responsibility of the CPI to handle rate-limiting errors, properly catch them, wait and retry actions that were interrupted. Given that there is no timeout around how long a CPI method can run, it's all right to wait as long as necessary to resume making API calls. Though it's suggested to log such information.
 
 ---
-## Debugging <a id="debugging"></a>
+## Debugging {: #debugging }
 
 It usually useful to get a detailed log of CPI requests and responses from the callee. To get a full debug log from `bosh create-env` command set `BOSH_LOG_LEVEL=debug` environment variable.
 

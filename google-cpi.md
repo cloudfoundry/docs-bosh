@@ -4,7 +4,7 @@ title: Google CPI
 
 This topic describes cloud properties for different resources created by the Google CPI.
 
-## AZs <a id='azs'></a>
+## AZs {: #azs }
 
 Schema for `cloud_properties` section:
 
@@ -20,7 +20,7 @@ azs:
 ```
 
 ---
-## Networks <a id='networks'></a>
+## Networks {: #networks }
 
 Schema for `cloud_properties` section used by dynamic network or manual network subnet:
 
@@ -72,7 +72,7 @@ networks:
 ```
 
 ---
-## VM Types <a id='vm-types'></a>
+## VM Types {: #vm-types }
 
 Schema for `cloud_properties` section:
 
@@ -146,7 +146,7 @@ instance_groups:
 ```
 
 ---
-## Disk Types <a id='disk-types'></a>
+## Disk Types {: #disk-types }
 
 Schema for `cloud_properties` section:
 
@@ -163,14 +163,14 @@ disk_types:
 ```
 
 ---
-## Global Configuration <a id='global'></a>
+## Global Configuration {: #global }
 
 The CPI can only talk to a single Google Compute Engine region.
 
 See [all configuration options](https://bosh.io/jobs/google_cpi?source=github.com/cloudfoundry-incubator/bosh-google-cpi-release).
 
 ---
-## Example Cloud Config <a id='cloud-config'></a>
+## Example Cloud Config {: #cloud-config }
 
 ```yaml
 azs:

@@ -11,13 +11,13 @@ The [CLI v2](cli-v2.md) includes a command to repack stemcells; this enables lim
 - cloud properties
 
 ---
-## Syntax <a id="syntax"></a>
+## Syntax {: #syntax }
 
 ```shell
 $ bosh repack-stemcell src.tgz dst.tgz [--name=new_name] [--version=new_version] [--cloud-properties=json-string]
 ```
 
-## Examples <a id="examples"></a>
+## Examples {: #examples }
 
 In this example, we first download the stemcell we plan to modify, and then we create a new stemcell that's identical to the one we downloaded with the exception of a new name (`acme-corporation-stemcell`):
 
@@ -34,9 +34,9 @@ $ bosh repack-stemcell --name=acme-corporation-stemcell --version=100 light-bosh
 
 When we've uploaded the stemcell and we run `bosh stemcells`, we will see our stemcell listed with the new name and new version.
 
-## CPI-Specific Options <a id="cpi_specific"></a>
+## CPI-Specific Options {: #cpi_specific }
 
-### AWS CPI-Specific Options <a id="aws_cpi_specific"></a>
+### AWS CPI-Specific Options {: #aws_cpi_specific }
 
 The `repack-stemcell` command can be used to enable the encryption of the root filesystem of VMs deployed with the repacked stemcell..
 
@@ -57,7 +57,7 @@ $ bosh repack-stemcell --name=acme-ubuntu-encrypted --cloud-properties='{"encryp
 
 The cloud properties will be merged with the existing cloud properties. It won't delete any properties, but it will overwrite the ones specified. For example, the above command will not delete the stemcell's cloud-property `infrastructure: aws`.
 
-## Technical Details <a id="technical_details"></a>
+## Technical Details {: #technical_details }
 
 The `repack-stemcell` works by modifying the stemcell manifest file (`stemcell.MF`) located within the stemcell tarball. It does not modify any other aspect of the stemcell. For example, it will not make any change to the root partition (it won't add new users or new packages). It does not modify the filesystem image.
 

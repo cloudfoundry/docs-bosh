@@ -16,7 +16,7 @@ Resurrection can be turned off per specific deployment job instance or for all V
 <p class='note'><strong>Note</strong>: The Health Monitor deploys with the Resurrector plugin disabled by default. To use it, you must enable the Resurrector plugin in your BOSH deployment manifest.</p>
 
 ---
-## Enabling and Configuring the Resurrector <a id="enable"></a>
+## Enabling and Configuring the Resurrector {: #enable }
 
 To enable the Resurrector:
 
@@ -45,7 +45,7 @@ To enable the Resurrector:
 
 1. Depending on how you configured [Director user management](director-users.md), credentials are specified in the `user` and `password` properties or using a custom `client` to authenticate with the UAA.
 
-    ### <a id="uaa-client"></a> Option a) Using UAA User Management
+    ### Option a) Using UAA User Management {: #uaa-client }
 
     Define an additional client in the `uaa.clients` section of your manifest:
 
@@ -71,7 +71,7 @@ To enable the Resurrector:
           client_secret: "hm-password"
     ```
 
-    ### <a id="preconfigured-users"></a> Option b) Using Preconfigured Users
+    ### Option b) Using Preconfigured Users {: #preconfigured-users }
 
     Create new Director user so that the Resurrector plugin can communicate with the Director and query/submit information about deployments.
 
@@ -99,7 +99,7 @@ To enable the Resurrector:
 1. Deploy.
 
 
-### Customizing for Your Deployment <a id="customize"></a>
+### Customizing for Your Deployment {: #customize }
 
 For most deployments, you can use the default configuration values. In very small or very large deployments, the default values may need customization, as discussed in the following examples.
 
@@ -112,7 +112,7 @@ If your deployment consists of only five VMs, you may not want the Resurrector t
 If your deployment consists of 1000 VMs, and you use the defaults, the Resurrector notifies the Director to recreate at least five VMs and up to 200 VMs. Depending on your deployment, you may consider even 100 down instances a catastrophic failure. In this scenario, set `percent_threshold` to 5% so that the Director resurrects 50 instances or fewer.
 
 ---
-## Disabling the Resurrector <a id="disable"></a>
+## Disabling the Resurrector {: #disable }
 
 To disable the Resurrector:
 
@@ -129,7 +129,7 @@ To disable the Resurrector:
 1. Optionally remove Director user created for the Health Monitor.
 
 ---
-## Viewing the Resurrector's Activity <a id="audit"></a>
+## Viewing the Resurrector's Activity {: #audit }
 
 Since scan and fix tasks on the Director are regular tasks, you can use `bosh tasks --all -d ''` command to view currently running/queued Resurrector's activity and `bosh tasks --recent --all -d ''` to also view finished tasks.
 

@@ -8,7 +8,7 @@ title: Uploading Releases
 
 Each deployment can reference one or many releases. For a deploy to succeed, all necessary releases must be uploaded to the Director.
 
-## Finding Releases <a id='find'></a>
+## Finding Releases {: #find }
 
 Releases are distributed in two ways: as a release tarball or through a source code repository. The [releases section of bosh.io](http://bosh.io/releases) provides a good list of available releases and their tarballs.
 
@@ -19,7 +19,7 @@ Here are a few popular releases:
 - [cf-rabbitmq-release](http://bosh.io/releases/github.com/pivotal-cf/cf-rabbitmq-release) provides RabbitMQ
 
 ---
-## Uploading to the Director <a id='upload'></a>
+## Uploading to the Director {: #upload }
 
 CLI provides [`bosh upload-release` command](cli-v2.md#upload-release).
 
@@ -72,7 +72,7 @@ Succeeded
 ```
 
 ---
-## Deployment Manifest Usage <a id='using'></a>
+## Deployment Manifest Usage {: #using }
 
 To use an uploaded release in your deployment, update the `releases` section in your deployment manifest:
 

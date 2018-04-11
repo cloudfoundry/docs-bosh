@@ -4,7 +4,7 @@ title: Connecting the Director to an External Blobstore
 
 The Director stores uploaded releases, configuration files, logs and other data in a blobstore. A default DAV blobstore is sufficient for most BOSH environments; however, a highly-available external blobstore may be desired.
 
-## Included DAV (default) <a id="included"></a>
+## Included DAV (default) {: #included }
 
 By default the Director is configured to use included DAV blobstore job (see [Installing BOSH section](index.md#install) for example manifests). Here is how to configure it:
 
@@ -42,7 +42,7 @@ By default the Director is configured to use included DAV blobstore job (see [In
 Above configuration is used by the Director and the Agents.
 
 ---
-## S3 <a id="default"></a>
+## S3 {: #default }
 
 The Director and the Agents can use an S3 compatible blobstore. Here is how to configure it:
 
@@ -74,7 +74,7 @@ The Director and the Agents can use an S3 compatible blobstore. Here is how to c
     ```
 
 ---
-## Google Cloud Storage (GCS) <a id="gcs"></a>
+## Google Cloud Storage (GCS) {: #gcs }
 
 <p class="note">Note: Available in bosh release v263+ and Linux stemcells 3450+.</p>
 

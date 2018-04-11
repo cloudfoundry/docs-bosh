@@ -4,7 +4,7 @@ title: AWS CPI
 
 This topic describes cloud properties for different resources created by the AWS CPI.
 
-## AZs <a id='azs'></a>
+## AZs {: #azs }
 
 Schema for `cloud_properties` section:
 
@@ -20,7 +20,7 @@ azs:
 ```
 
 ---
-## Networks <a id='networks'></a>
+## Networks {: #networks }
 
 Schema for `cloud_properties` section used by dynamic network or manual network subnet:
 
@@ -60,7 +60,7 @@ networks:
 ```
 
 ---
-## Resource Pools / VM Types <a id='resource-pools'></a>
+## Resource Pools / VM Types {: #resource-pools }
 
 Schema for `cloud_properties` section:
 
@@ -117,7 +117,7 @@ resource_pools:
 ```
 
 ---
-## Disk Pools / Disk Types <a id='disk-pools'></a>
+## Disk Pools / Disk Types {: #disk-pools }
 
 Schema for `cloud_properties` section:
 
@@ -144,7 +144,7 @@ disk_pools:
 ```
 
 ---
-## Global Configuration <a id='global'></a>
+## Global Configuration {: #global }
 
 The CPI can only talk to a single AWS region.
 
@@ -188,7 +188,7 @@ properties:
 ```
 
 ---
-## Example Cloud Config <a id='cloud-config'></a>
+## Example Cloud Config {: #cloud-config }
 
 ```yaml
 azs:
@@ -243,7 +243,7 @@ compilation:
 ```
 
 ---
-## Errors <a id='errors'></a>
+## Errors {: #errors }
 
 ```
 Stemcell does not contain an AMI for this region (us-west-2c)

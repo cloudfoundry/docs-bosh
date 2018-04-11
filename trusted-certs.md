@@ -7,7 +7,7 @@ title: Trusted Certificates
 This document describes how to configure the Director to add a set of trusted certificates to all VMs managed by that Director. Configured trusted certificates are added to the default certificate store on each VM and will be automatically seen by the majority of software (e.g. curl).
 
 ---
-## Configuring Trusted Certificates <a id="configure"></a>
+## Configuring Trusted Certificates {: #configure }
 
 To configure the Director with trusted certificates:
 
@@ -51,7 +51,7 @@ To configure the Director with trusted certificates:
     ...
     ```
 
-### Configuration Format <a id="format"></a>
+### Configuration Format {: #format }
 
 The Director allows to specify one or more certificates concatenated together in the PEM format. Any text before, between and after certificate boundaries is ignored when importing the certificates, but may be useful for leaving notes about the certificate purpose.
 

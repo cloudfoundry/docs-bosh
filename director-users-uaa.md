@@ -7,7 +7,7 @@ title: UAA Integration
 In this configuration the Director is configured to delegate user management to the [UAA](https://github.com/cloudfoundry/uaa) server. The UAA server can be configured to manage its own list of users or work with an LDAP server, or a SAML provider. Regardless how the UAA server is configured the BOSH CLI will ask appropriate credentials and forward them to the UAA to request a token.
 
 ---
-## Configuring the Director <a id="configure"></a>
+## Configuring the Director {: #configure }
 
 1. Change deployment manifest for the Director and add UAA release:
 
@@ -150,7 +150,7 @@ In this configuration the Director is configured to delegate user management to 
 1. Redeploy the Director with the updated manifest.
 
 ---
-## Logging into the Director as a user <a id="user-login"></a>
+## Logging into the Director as a user {: #user-login }
 
 Depending on how the UAA is configured different prompts may be shown.
 
@@ -160,7 +160,7 @@ Email: admin
 Password: **************
 ```
 
-### Adding/removing Users and Permissions <a id="uaac"></a>
+### Adding/removing Users and Permissions {: #uaac }
 
 An example of how to use [UAA CLI](https://rubygems.org/gems/cf-uaac) to add a new user that has readonly access on any Director. Enter the client secret provided for the UAA admin client in the manifest at `uaa.admin.client_secret`.
 
@@ -195,7 +195,7 @@ $ uaac user delete some-new-user
 <p class="note">Note that changing group membership will take effect when a new access token is created for that user. New access are granted when their existing access token expires or when user logs out and logs in again. Hence it's recommended to set access token validity to a minute or so.</p>
 
 ---
-## Logging into the Director as a UAA client <a id="client-login"></a>
+## Logging into the Director as a UAA client {: #client-login }
 
 Non-interactive login, e.g. for scripts during a CI build is supported by the UAA by using a different UAA client allowing `client_credentials` grant type.
 
@@ -208,12 +208,12 @@ $ bosh status
 See [the resurrector UAA client configuration](resurrector.md#uaa-client) for an example to set up an additional client.
 
 ---
-## Permissions <a id="permissions"></a>
+## Permissions {: #permissions }
 
 See [UAA permissions](director-users-uaa-perms.md) to limit access to resources.
 
 ---
-## Errors <a id="errors"></a>
+## Errors {: #errors }
 
 ```
 HTTP 401: Not authorized: '/deployments' requires one of the scopes: bosh.admin, bosh.UUID.admin, bosh.read, bosh.UUID.read

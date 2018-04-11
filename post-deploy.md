@@ -11,12 +11,12 @@ title: Post-deploy Script
 Release job can have a post-deploy script that will run after all jobs in the deployments successfully started (and ran post-start scripts). This script allows the job to execute any additional commands against a whole deployment before considering deploy finished.
 
 ---
-## Director Configuration <a id="director-configuration"></a>
+## Director Configuration {: #director-configuration }
 
 Currently the Director does not run post deploy scripts by default. Use [`director.enable_post_deploy` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.enable_post_deploy) to enable running scripts.
 
 ---
-## Job Configuration <a id="job-configuration"></a>
+## Job Configuration {: #job-configuration }
 
 To add a post-deploy script to a release job:
 
@@ -33,7 +33,7 @@ templates:
 ```
 
 ---
-## Script Implementation <a id="script-implementation"></a>
+## Script Implementation {: #script-implementation }
 
 Post-deploy script is usually just a regular shell script. Since post-deploy script is executed in a similar way as other release job scripts (start, stop, drain scripts) you can use job's package dependencies.
 
@@ -48,7 +48,7 @@ Post-deploy script is called every time after job is started (ctl script is call
 Post-deploy scripts in a deployment are executed in parallel.
 
 ---
-## Logs <a id="logs"></a>
+## Logs {: #logs }
 
 You can find logs for each release job's post-deploy script in the following locations:
 

@@ -4,7 +4,7 @@ title: vCloud CPI
 
 This topic describes cloud properties for different resources created by the vCloud CPI.
 
-## AZs <a id='azs'></a>
+## AZs {: #azs }
 
 Currently CPI does not support any cloud properties for AZs.
 
@@ -16,7 +16,7 @@ azs:
 ```
 
 ---
-## Networks <a id='networks'></a>
+## Networks {: #networks }
 
 Schema for `cloud_properties` section used by manual network subnet:
 
@@ -38,7 +38,7 @@ networks:
 vCloud CPI does not support dynamic or vip networks.
 
 ---
-## Resource Pools / VM Types <a id='resource-pools'></a>
+## Resource Pools / VM Types {: #resource-pools }
 
 Schema for `cloud_properties` section:
 
@@ -62,7 +62,7 @@ resource_pools:
 ```
 
 ---
-## Disk Pools / Disk Types <a id='disk-pools'></a>
+## Disk Pools / Disk Types {: #disk-pools }
 
 Currently the CPI does not support any cloud properties for disks.
 

@@ -6,7 +6,7 @@ title: Warden/Garden CPI
 
 This topic describes cloud properties for different resources created by the Warden/Garden CPI.
 
-## AZs <a id='azs'></a>
+## AZs {: #azs }
 
 Currently the CPI does not support any cloud properties for AZs.
 
@@ -18,7 +18,7 @@ azs:
 ```
 
 ---
-## Networks <a id='networks'></a>
+## Networks {: #networks }
 
 Currently the CPI does not support any cloud properties for networks.
 
@@ -47,7 +47,7 @@ networks:
 The CPI does not support vip networks.
 
 ---
-## Resource Pools / VM Types <a id='resource-pools'></a>
+## Resource Pools / VM Types {: #resource-pools }
 
 Schema for `cloud_properties` section:
 
@@ -78,7 +78,7 @@ vm_extensions:
 ```
 
 ---
-## Disk Pools <a id='disk-pools'></a>
+## Disk Pools {: #disk-pools }
 
 Currently the CPI does not support any cloud properties for disks.
 
@@ -91,7 +91,7 @@ disk_pools:
 ```
 
 ---
-## Global Configuration <a id='global'></a>
+## Global Configuration {: #global }
 
 The CPI uses containers to represent VMs and loopback devices to represent disks. Since the CPI can only talk to a single Garden server it can only manage resources on a single machine.
 
@@ -125,7 +125,7 @@ properties:
 See [bosh-deployment](https://github.com/cloudfoundry/bosh-deployment/blob/master/warden/cloud-config.yml).
 
 ---
-## Notes <a id='notes'></a>
+## Notes {: #notes }
 
 * Garden server does not have a UI; however, you can use [gaol CLI](https://github.com/xoebus/gaol) to interact with it directly.
 

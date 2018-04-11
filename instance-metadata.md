@@ -6,11 +6,11 @@ title: Instance Metadata
 
 It's common for software to need to know where it was deployed so that it can make application level decisions or propagate location information in logs and metrics. Director instance specific information in multiple ways:
 
-## Via ERB templates <a id="erb"></a>
+## Via ERB templates {: #erb }
 
 Use [`spec` variable](jobs.md#properties-spec) in ERB templates to get access to AZ, deployment name, ID, etc.
 
-## Via filesystem <a id="fs"></a>
+## Via filesystem {: #fs }
 
 Accessing information over filesystem might be useful when building core libraries so that explicit configuration is not required. Each VM has a `/var/vcap/instance` directory that contains following files:
 

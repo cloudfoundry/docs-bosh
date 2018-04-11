@@ -7,7 +7,7 @@ title: Errands
 Any job that includes `bin/run` script in its spec file's templates section is considered to be an errand. Operator can trigger execution of an errand at any time after the deploy and receive back script's stdout, stderr and exit code upon its completion.
 
 ---
-## Release Definition <a id="release-definition"></a>
+## Release Definition {: #release-definition }
 
 Example of an errand job `smoke-tests` from Zookeeper release. `bin/run` script is specified in its templates section:
 
@@ -41,7 +41,7 @@ export ZOOKEEPER_SERVERS=<%= conn.instances.map { |i| "#{i.address}:#{conn.p('cl
 ```
 
 ---
-## Include in a Deployment <a id="include-in-deployment"></a>
+## Include in a Deployment {: #include-in-deployment }
 
 There are two ways to add an errand to a deployment:
 
@@ -88,7 +88,7 @@ Alternatively, it might make sense to colocate an errand job with other jobs in 
 ```
 
 ---
-## Execution <a id="execution"></a>
+## Execution {: #execution }
 
 Unlike regular jobs which run continiously and get automatically restarted on failure, errand jobs are executed upon operator's request some time after a deploy and if fail do not get restarted. There is no timeout on how long an errand can execute.
 

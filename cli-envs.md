@@ -6,7 +6,7 @@ title: CLI Environments
 
 An environment consists of a Director and deployments that it orchestrates.
 
-## `create-env` command <a id="create-env"></a>
+## `create-env` command {: #create-env }
 
 `bosh create-env` command takes a deployment manifest as its input and idempotently converges the VM to its desired configuration:
 
@@ -99,7 +99,7 @@ $ bosh -e aws env
 Alternatively you can set `export BOSH_ENVIRONMENT=aws` once instead of using `--environment` flag for each command.
 
 ---
-## Deployment State <a id="deployment-state"></a>
+## Deployment State {: #deployment-state }
 
 `bosh create-env` command needs to remember resources it creates in the IaaS so that it can re-use or delete them at a later time. The deploy command stores current state of your deployment in a given state file (via `--state` flag) or implicitly in `<manifest>-state.json` file in the same directory as your deployment manifest.
 
@@ -107,7 +107,7 @@ This allows you to deploy multiple deployments with different manifests.
 
 Do not delete state file unless you have already deleted your deployment (with `bosh delete-env <manifest>` or by manually removing the VM, disk(s), &amp; stemcell from the IaaS). We recommend placing the deployment state file and the deployment manifest under version control and saving changes any time after running the deploy or delete commands.
 
-### Recovering Deployment State <a id="recover-deployment-state"></a>
+### Recovering Deployment State {: #recover-deployment-state }
 
 If for some reason you've lost your deployment state file, or have not saved the updates from the last run of the deploy command:
 
@@ -130,7 +130,7 @@ If for some reason you've lost your deployment state file, or have not saved the
 1. Save the deployment state file.
 
 ---
-## `delete-env` command <a id="delete-env"></a>
+## `delete-env` command {: #delete-env }
 
 `bosh delete-env` command idempotently deletes all previously created IaaS resources (VMs, disks, and stemcells). The command will try its best to not return an error, for example it ignores resources that were already deleted and retries on certain operations.
 

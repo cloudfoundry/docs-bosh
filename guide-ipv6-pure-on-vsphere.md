@@ -5,7 +5,7 @@ title: Pure IPv6 on vSphere
 <p class="note">This document is work in progress.</p>
 
 ---
-## Pure IPv6 Configuration <a id="pure"></a>
+## Pure IPv6 Configuration {: #pure }
 
 In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director with an IPv6 address and then deploy VMs with IPv6 addresses.
 
@@ -82,7 +82,7 @@ In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director 
     Succeeded
     ```
 
-### Deploy example Zookeeper deployment <a id="pure-deploy"></a>
+### Deploy example Zookeeper deployment {: #pure-deploy }
 
 Follow steps below or the [deploy workflow](basic-workflow.md) that goes through the same steps but with more explanation.
 

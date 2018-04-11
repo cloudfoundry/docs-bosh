@@ -9,7 +9,7 @@ In most cases having single Director use a single CPI and hence a single IaaS se
 The CPI config is a YAML file that defines multiple CPIs and properties necessary for each CPI to communicate with an appropriate IaaS section. Once CPIs are specified, operator can associate particular AZ in their cloud config to a particular CPI.
 
 ---
-## Updating and retrieving CPI config <a id='update'></a>
+## Updating and retrieving CPI config {: #update }
 
 To update CPI config on the Director use [`bosh update-cpi-config`](cli-v2.md#update-cpi-config) CLI command.
 
@@ -35,7 +35,7 @@ cpis:
 Once CPI config is updated AZs in the cloud config can reference specific CPI to be used during a deploy. Unlike runtime and cloud configs, CPI config is not tracked directly by the deployments and can be updated separately (useful for updating CPI credentials without forcing redeploy of all the deployments).
 
 ---
-## CPIs Block <a id='cpis'></a>
+## CPIs Block {: #cpis }
 
 **cpis** [Array, required]: Specifies the CPIs.
 
@@ -87,7 +87,7 @@ cpis:
 For vSphere, if your datacenter and cluster names have spaces in them, there is no need to put quotes around them when updating your cpi-config.
 
 ---
-## Example <a id='example'></a>
+## Example {: #example }
 
 Example of a CPI config referencing two separate OpenStack installations:
 
@@ -168,7 +168,7 @@ azs:
 ```
 
 ---
-## CPI Specific Stemcells <a id='stemcells'></a>
+## CPI Specific Stemcells {: #stemcells }
 Stemcells need to be assigned to a specific CPI and it occurs on upload. If you've already uploaded an appropriate stemcell you'll need to re-upload with `--fix`
 
 ```bash

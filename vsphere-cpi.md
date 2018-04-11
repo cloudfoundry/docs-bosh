@@ -4,7 +4,7 @@ title: vSphere CPI
 
 This topic describes cloud properties for different resources created by the vSphere CPI.
 
-## AZs <a id='azs'></a>
+## AZs {: #azs }
 
 Schema for `cloud_properties` section:
 
@@ -30,7 +30,7 @@ azs:
 ```
 
 ---
-## Networks <a id='networks'></a>
+## Networks {: #networks }
 
 Schema for `cloud_properties` section used by manual network subnet:
 
@@ -60,7 +60,7 @@ networks:
 vSphere CPI does not support dynamic or vip networks.
 
 ---
-## Resource Pools / VM Types <a id='resource-pools'></a>
+## Resource Pools / VM Types {: #resource-pools }
 
 Schema for `cloud_properties` section:
 
@@ -120,7 +120,7 @@ resource_pools:
 ```
 
 ---
-## Disk Pools / Disk Types <a id='disk-pools'></a>
+## Disk Pools / Disk Types {: #disk-pools }
 
 Schema for `cloud_properties` section:
 
@@ -160,7 +160,7 @@ disk_pools:
 ```
 
 ---
-## Global Configuration <a id='global'></a>
+## Global Configuration {: #global }
 
 The CPI can only talk to a single vCenter installation and manage VMs within a single vSphere datacenter.
 
@@ -246,7 +246,7 @@ properties:
 ```
 
 ---
-## Example Cloud Config <a id='cloud-config'></a>
+## Example Cloud Config {: #cloud-config }
 
 ```yaml
 azs:
@@ -303,7 +303,7 @@ compilation:
 ```
 
 ---
-## Notes <a id='notes'></a>
+## Notes {: #notes }
 
 * Assigned VM names (e.g. `vm-8dg349-s7cn74-...`) should not be manually changed since the CPI uses them to find created VMs. You can use [`bosh vms --details`](sysadmin-commands.md#health) to find which VM is assigned which job. VMs are also tagged with their assigned job, index and deployment.
 
@@ -322,7 +322,7 @@ with your vSphere resource pool(s).
 
 * Support for specifying Datastore Clusters for ephemeral and persistent disks is available with vSphere CPI version v47 and above. For additional detais see [Release Notes for v47](https://github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release/releases/tag/v47)
 
-### <a id="vms"></a>VMs
+### VMs {: #vms }
 
 VMs have randomly generated cloud identifiers, in the format `"vm-#{SecureRandom.uuid}"`. They are stored on a datacenter as follows:
 
@@ -339,11 +339,11 @@ for cloud ids. The create_vm() CPI call returns the cid of the created VM, so it
 
 Although it's technically possible to use the instanceUuid on vSphere (much like how we use AWS instance ids), it's worth noting that this breaks backwards compatibility and would require a fairly hefty migration. This would open up the possibility of allowing an operator to move a VM out of its containing folder on a datacenter, as it would be possible to identify a VM independent of its inventory location.
 
-### <a id="networks"></a>Networks
+### Networks {: #networks }
 
 Networks are uniquely identified by datacenter and network name (which must be unique within the datacenter).
 
-### <a id="datastores"></a>Datastores
+### Datastores {: #datastores }
 
 Datastores are identified by their name and are matched by a regular expression that matches against that name. For example, consider the following datastores in folders:
 
@@ -355,17 +355,17 @@ The name of datastore is the last part of each line above, e.g. 'datastore1'. An
 
 Ephemeral and persistent datastores are consumed before shared datastores.
 
-#### <a id="datastore-paths"></a>Datastore Paths
+#### Datastore Paths {: #datastore-paths }
 
 Persistent disks are stored on datastores in the following paths:
 
 `/<datacenter disk path from manifest>/disk-<random disk uuid>.vmdk`
 
-#### <a id="linked-clones"></a>Linked Clones
+#### Linked Clones {: #linked-clones }
 
 The vSphere CPI uses linked clones by default. Linked clones require the clone to be on the same datastore as the source so stemcells are automatically copied to each datastore that their clones will be on. These stemcells look like `sc-<uuid> / <datastore managed object id>` in the inventory. In the datastore browser the "/" will be quoted to "%2f".
 
-### <a id="clusters"></a>Clusters
+### Clusters {: #clusters }
 
 Each datacenter can have multiple clusters in the cloud properties.
 
@@ -375,7 +375,7 @@ In vSphere, cluster names do not need to be unique per datacenter, only their pa
 
 Clusters do not have any unique ID like a VM's instanceUuid.
 
-#### <a id="vm-placement"></a>VM Placement
+#### VM Placement {: #vm-placement }
 
 When placing a VM, a cluster is chosen (along with a datastore) based on the VM's memory, ephemeral disk, and persistent disk requirements.
 
@@ -383,18 +383,18 @@ VMs are placed on clusters and datastores based on a weighted random algorithm. 
 
 During VM placement local datastores and shared datastores are not treated differently. All datastores registered on a cluster are treated the same.
 
-##### <a id="locality"></a>Locality
+##### Locality {: #locality }
 
 When recreating an existing VM, the CPI tries to create it in a cluster and datastore that are near the largest of its existing persistent disks.
 
-### <a id="datacenters"></a>Datacenters
+### Datacenters {: #datacenters }
 
 The vSphere CPI only supports a single datacenter and errors if more than one is defined in the manifest. It is identified by name.
 
 The current code will not work with a datacenter inside a folder.
 
 ---
-## Errors <a id='errors'></a>
+## Errors {: #errors }
 
 ```
 Field object_set is not optional

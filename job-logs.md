@@ -4,7 +4,7 @@ title: Location and use of logs
 
 This topic describes different types of logs and how to access them.
 
-## VM logs <a id="vm-logs"></a>
+## VM logs {: #vm-logs }
 
 You can access logs from any VM:
 
@@ -14,7 +14,7 @@ You can access logs from any VM:
 The following sections describe different types of logs found on each BOSH managed VM.
 
 ---
-### Job logs <a id="job-logs"></a>
+### Job logs {: #job-logs }
 
 Release jobs on VMs produce logs throughout different lifecycle events. Release authors are strongly encouraged to place release job logs into `/var/vcap/sys/log/<release_job_name>/*.log`, providing a consistent place for the operator to find them.
 
@@ -31,7 +31,7 @@ See additonal information about following job lifecycle events' logs:
 - [drain script logs](drain.md#logs)
 
 ---
-### Errand logs <a id="errand-logs"></a>
+### Errand logs {: #errand-logs }
 
 Unlike regular job logs BOSH does not automatically redirect errand logs to `/var/vcap/sys/log/*` directory, though we are planning to do so in future.
 
@@ -51,7 +51,7 @@ $ bosh run errand smoke-tests --download-logs --logs-dir ~/workspace/smoke-tests
 <p class="note">Note: By default upon errand completion errand VM is deleted, so you cannot access logs saved to disk by the errand. You can use <code>--keep-alive</code> flag when running an errand to keep the VM with its logs.</p>
 
 ---
-### Monit logs <a id="monit-logs"></a>
+### Monit logs {: #monit-logs }
 
 The Agent uses Monit to start, restart, and stop release job processes as specified by the release jobs. Monit detects errors and outputs often useful information to its log. Use `tail` to examine the `monit.log` on a VM:
 
@@ -60,7 +60,7 @@ $ sudo tail -f -n 200 /var/vcap/monit/monit.log
 ```
 
 ---
-### Agent logs <a id="agent-logs"></a>
+### Agent logs {: #agent-logs }
 
 Agent logs contain configuration and runtime information from the Agent running on a VM. Review these logs if the Director sees VM as unresponsive or the Director fails to contact it during its creation.
 
@@ -73,7 +73,7 @@ $ sudo tail -f -n 200 /var/vcap/bosh/log/current
 <p class="note">Note: Agent logs are only accessible to the root user.</p>
 
 ---
-### Log rotation <a id="log-rotation"></a>
+### Log rotation {: #log-rotation }
 
 BOSH log rotates release job logs with the [Logrotate](http://linuxconfig.org/logrotate) log file management utility. Logrotate is configured by the Agent to act on all `.log` files in the `/var/vcap/sys/log/`, `/var/vcap/sys/log/*/`, and `/var/vcap/sys/log/*/*/` directories.
 
@@ -89,12 +89,12 @@ Following non-configurable settings are used:
 Cron runs logrotate script every hour.
 
 ---
-### Syslog configuration <a id="syslog-conf"></a>
+### Syslog configuration {: #syslog-conf }
 
 Recommended way to configure syslog forwarding on all or some VMs is to use [`syslog_forwarder` job from `syslog-release` as an addon](addons-common.md#syslog).
 
 ---
-## Director task logs <a id="director-logs"></a>
+## Director task logs {: #director-logs }
 
 When you run a [CLI](bosh-cli.md) command, the Director stores all activities for the specific command in a task log. Review these logs when you experience an issue with a command.
 

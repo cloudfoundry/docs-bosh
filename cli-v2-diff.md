@@ -4,7 +4,7 @@ title: Differences between CLI v2 vs v1
 
 <p class="note">Note: Applies to CLI v2 v2.0.13+.</p>
 
-## General <a id="general"></a>
+## General {: #general }
 
 The BOSH CLI v2 differs from v1 in two main ways: it is stateless, and it hyphenates single commands.
 
@@ -55,7 +55,7 @@ For example, `bosh delete deployment` in v1 corresponds to `bosh delete-deployme
 - Most of the output formatting have changed
 
 ---
-## Notable differences per command <a id="cmd"></a>
+## Notable differences per command {: #cmd }
 
 - `bosh alias-env` and all commands
   - only allows connections to Director configured with verifiable certificates

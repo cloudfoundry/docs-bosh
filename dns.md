@@ -16,7 +16,7 @@ Historically BOSH users did not have an easy highly available solution to enable
 Addition of native BOSH DNS solves these problems without making it hard to deploy and operate DNS servers.
 
 ---
-## Architecture <a id='arch'></a>
+## Architecture {: #arch }
 
 To provide native DNS support following changes were made:
 
@@ -35,7 +35,7 @@ Given that the Director is the sole orchestrator of the system, it is now respon
 See [Deploying step-by-step](deploying-step-by-step.md) for full Director deployment flow.
 
 ---
-## Types of DNS addresses <a id='dns-addresses'></a>
+## Types of DNS addresses {: #dns-addresses }
 
 There are two types of DNS addresses that native DNS supports:
 
@@ -47,13 +47,13 @@ There are two types of DNS addresses that native DNS supports:
 Since BOSH DNS is automatically managed, DNS addresses are not meant to be constructed manually by operators or scripts. To obtain a DNS address you can use upcoming Links API or job template accessors within your jobs.
 
 ---
-## DNS release <a id='dns-release'></a>
+## DNS release {: #dns-release }
 
 To take advantage of native DNS functionality, it's expected that [DNS release](https://bosh.io/releases/github.com/cloudfoundry/bosh-dns-release?all=1) runs on each VM. We recommend to colocate DNS release by definiting it in an [addon](runtime-config.md#addons).
 
 DNS release provides two jobs: `bosh-dns` (for Linux) and `bosh-dns-windows` (for Windows) which start a simple DNS server bound to a [link local address](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p=address).
 
-### Recursors <a id='recursors'></a>
+### Recursors {: #recursors }
 
 Here is how DNS release chooses recurors before starting its operation:
 
@@ -65,7 +65,7 @@ Here is how DNS release chooses recurors before starting its operation:
 1. failover to using another randomly picked recursor, if current recursor exhibits connectivity problems
   - connectivity problems do not account for resolution problems (NXDOMAIN, or other DNS level errors)
 
-### Aliases <a id='aliases'></a>
+### Aliases {: #aliases }
 
 DNS release allows operators to specify custom names for BOSH generated DNS records to ease migration or work with legacy software that requires very specific DNS record formats (e.g. `master0`, `slave0`, `slave1`).
 
@@ -105,7 +105,7 @@ To enable caching, use `cache.enabled` property. Canonical DNS runtime config wi
 DNS release provides a way to delegate certain domains via [`handlers` property](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p=handlers) to different DNS or HTTP servers. This functionality can be used as an alternative to configuring upstream DNS servers with custom zone configurations.
 
 ---
-## Enabling DNS <a id='enable'></a>
+## Enabling DNS {: #enable }
 
 To enable native BOSH functionality, you must first enable [`local_dns.enabled` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.local_dns.enabled) in the Director job. See [bosh-deployment's local-dns.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/local-dns.yml) as an example.
 
@@ -116,7 +116,7 @@ If you were relying on instance index based DNS records, you must enable [`local
 Additionally you should colocate DNS release via an addon in all your deployments. See [bosh-deployment's runtime-configs/dns.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/runtime-configs/dns.yml) as an example.
 
 ---
-## Impact on links <a id='links'></a>
+## Impact on links {: #links }
 
 Each link includes some networking information about its provider. Addresses returned by a link may be either IP addresses or DNS addresses.
 
@@ -156,12 +156,12 @@ link("db").instances[0].address => "ef489dd9-48f6-45f0-b7af-7f3437919b17.db.defa
 ```
 
 ---
-## Impact on job's address (`spec.address`) <a id='job-address'></a>
+## Impact on job's address (`spec.address`) {: #job-address }
 
 Similar to how [links are affected](dns.md#links), `spec.address` will start returning DNS address once `use_dns_addresses` feature is enabled.
 
 ---
-## Migrating from PowerDNS <a id='migrate-powerdns'></a>
+## Migrating from PowerDNS {: #migrate-powerdns }
 
 Historically BOSH users did not have an easy highly available solution to enable DNS for their deployments. PowerDNS was a possible choice; however, it required more advanced configuration that we felt comfortable recommending to everyone. We are planning to deprecate and remove PowerDNS integration. To migrate from PowerDNS to native DNS:
 
@@ -171,7 +171,7 @@ Historically BOSH users did not have an easy highly available solution to enable
 1. redeploy Director without `powerdns` job
 
 ---
-## Migrating from Consul <a id='migrate-consul'></a>
+## Migrating from Consul {: #migrate-consul }
 
 To ease migration from Consul DNS entries, DNS release provides [aliases feature](dns.md#aliases). It allows operators to define custom DNS entries that can map to BOSH generated DNS entries. To migrate off of Consul to native DNS:
 

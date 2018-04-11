@@ -4,7 +4,7 @@ title: OpenStack CPI
 
 This topic describes cloud properties for different resources created by the OpenStack CPI.
 
-## AZs <a id='azs'></a>
+## AZs {: #azs }
 
 Schema for `cloud_properties` section:
 
@@ -20,7 +20,7 @@ azs:
 ```
 
 ---
-## Networks <a id='networks'></a>
+## Networks {: #networks }
 
 Schema for `cloud_properties` section used by dynamic network or manual network subnet:
 
@@ -60,7 +60,7 @@ networks:
 ```
 
 ---
-## Resource Pools / VM Types <a id='resource-pools'></a>
+## Resource Pools / VM Types {: #resource-pools }
 
 Schema for `cloud_properties` section:
 
@@ -125,7 +125,7 @@ resource_pools:
 ```
 
 ---
-## Disk Pools / Disk Types <a id='disk-pools'></a>
+## Disk Pools / Disk Types {: #disk-pools }
 
 Schema for `cloud_properties` section:
 
@@ -144,7 +144,7 @@ disk_pools:
 ```
 
 ---
-## Global Configuration <a id='global'></a>
+## Global Configuration {: #global }
 
 See [CPI job configuration](https://bosh.io/jobs/openstack_cpi?source=github.com/cloudfoundry-incubator/bosh-openstack-cpi-release) for details.
 
@@ -183,7 +183,7 @@ properties:
 ```
 
 ---
-## Example Cloud Config <a id='cloud-config'></a>
+## Example Cloud Config {: #cloud-config }
 
 ```yaml
 azs:
@@ -236,7 +236,7 @@ compilation:
 ```
 
 ---
-## Errors <a id='errors'></a>
+## Errors {: #errors }
 
 ```
 Command 'deploy' failed:
