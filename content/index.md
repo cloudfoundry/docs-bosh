@@ -19,7 +19,7 @@ See [Recent Additions and Updates](recent.md).
 ---
 ## Install BOSH {: #install }
 
-* [Create an environment](init.md)
+* [Create an environment](quick-start.md)
     * [On Local machine (BOSH Lite)](bosh-lite.md)
     * [On AWS](init-aws.md)
       * [Expose Director on a Public IP](init-external-ip.md)
@@ -46,7 +46,7 @@ See [Recent Additions and Updates](recent.md).
 ### CLI v2+ {: #cli-v2 }
 
 * [Command reference](cli-v2.md)
-    * [`create-env` Dependencies](cli-env-deps.md)
+    * [Installation](cli-v2-install.md)
     * [Differences between CLI v2+ vs v1](cli-v2-diff.md)
     * [Global Flags](cli-global-flags.md)
     * [Environments](cli-envs.md)

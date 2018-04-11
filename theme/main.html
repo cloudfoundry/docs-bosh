@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% if page and page.meta.schema %}
+    <div class="bosh-schema">
+  {% endif %}
+  {{ super() }}
+  {% if page and page.schema %}
+    </div>
+  {% endif %}
+{% endblock %}

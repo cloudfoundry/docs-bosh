@@ -29,7 +29,7 @@ The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. CLI 
 
     If the output does not begin with `version 2.0...` (or `3.0`) you are probably executing CLI v1 (Ruby based).
 
-1. [Install OS specified dependencies](cli-env-deps.md) for `bosh create-env` command
+1. [Install OS specified dependencies](cli-v2-install.md#additional-dependencies) for `bosh create-env` command
 
 Alternatively, refer to [cloudfoundry/homebrew-tap](https://github.com/cloudfoundry/homebrew-tap) to install CLI via Homebrew on OS X. We currently do not publish CLI via apt or yum repositories.
 
