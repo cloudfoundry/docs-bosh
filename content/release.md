@@ -17,8 +17,3 @@ By introducing the concept of a release, the following concerns are addressed:
 - Versioning and keeping track of software releases
 - Creating releases that can be IaaS agnostic
 - Creating releases that are self-contained and do not require internet access for deployment
-
----
-Next: [What is a Deployment?](deployment.md)
-
-Previous: [What is a Stemcell?](stemcell.md)

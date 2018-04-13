@@ -313,8 +313,3 @@ items:
   - name: item8
   - name: item8
   ```
-
----
-Next: [CLI Variable Interpolation](cli-int.md)
-
-Previous: [CLI Environments](cli-envs.md)

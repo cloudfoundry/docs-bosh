@@ -81,8 +81,3 @@ releases:
 - name: zookeeper
   version: 0.0.5
 ```
-
----
-Next: [Deploy](deploying.md)
-
-Previous: [Uploading Stemcells](uploading-stemcells.md)

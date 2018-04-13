@@ -25,10 +25,3 @@ you will need to set them by other means.
    <p class="note">Note: The above numbers assume that you're using an MTU of 1500 for the physical network. If your physical network is setup differently, adapt the MTU values accordingly.</p>
 
 Setting the MTU for network devices is currently not possible in the deployment manifest's `networks` section and thus requires manual user interaction. We recommend to co-locate the [networking-release](https://github.com/cloudfoundry/networking-release)'s `set_mtu` job using [addons](runtime-config.md#addons).
-
----
-[Back to Table of Contents](index.md#cpi-config)
-
-Next: [Using Light Stemcells](openstack-light-stemcells.md)
-
-Previous: [Validating self-signed OpenStack endpoints](openstack-self-signed-endpoints.md)

@@ -1082,6 +1082,3 @@ See [CPI config](cpi-config.md).
     $ bosh interpolate certs.yml --path /service_ssl/certificate
     $ bosh interpolate certs.yml --path /service_ssl/private_key
     ```
-
----
-Next: [Differences between CLI v2 vs v1](cli-v2-diff.md)

@@ -45,6 +45,3 @@ The Agent on each VM sends an alert when someone/something tries to log into the
 ## Deploy Events {: #deploy }
 
 The Director sends an alert when a deployment starts, successfully completes or errors.
-
----
-Next: [Process monitoring with Monit](vm-monit.md)

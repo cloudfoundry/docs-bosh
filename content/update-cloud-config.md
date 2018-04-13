@@ -52,8 +52,3 @@ To configure Director with above cloud config use [`bosh update-cloud-config` co
 ```shell
 $ bosh -e vbox update-cloud-config cloud-config.yml
 ```
-
----
-Next: [Build deployment manifest](deployment-basics.md)
-
-Previous: [Deploy Workflow](basic-workflow.md)

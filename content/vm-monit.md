@@ -98,8 +98,3 @@ Process 'nats'
 While debugging why certain process is failing it is usually useful to tell Monit to stop restarting the failing process. You can do so via `monit stop <process-name>` command. To start it back up use `monit start <process-name>` command.
 
 See [Monit manual](http://mmonit.com/monit/documentation/monit.html) to learn more about Monit.
-
----
-Next: [Manual repair with Cloud Check](cck.md)
-
-Previous: [Monitoring](monitoring.md)

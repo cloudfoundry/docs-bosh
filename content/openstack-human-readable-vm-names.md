@@ -17,10 +17,3 @@ You can enable human-readable VM names in your Director manifest to get VMs with
 1. Set the `registry.endpoint` configuration to [include basic auth credentials](openstack-registry.md)
 
 1. Deploy the Director
-
----
-[Back to Table of Contents](index.md#cpi-config)
-
-Next: [Validating self-signed OpenStack endpoints](openstack-self-signed-endpoints.md)
-
-Previous: [Extended Registry configuration](openstack-registry.md)

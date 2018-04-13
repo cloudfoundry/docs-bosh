@@ -36,8 +36,3 @@ jobs:
 
 <p class="note"> Warning: If vSphere HA is not enabled on the cluster and a host failure occurs, the BOSH Resurrector will be unable to recreate the VMs without manual intervention.
 Follow the manual procedure as appropriate: <a href="vsphere-esxi-host-failure.html">Host Failure</a> or <a href="vsphere-network-partition.html">Network Partition</a>.</p>
-
----
-[Back to Table of Contents](index.md#cpi-config)
-
-Next: [Migrating from one datastore to another](vsphere-migrate-datastores.md)

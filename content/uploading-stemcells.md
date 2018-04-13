@@ -56,8 +56,3 @@ stemcells:
   os: ubuntu-trusty
   version: 3468.17
 ```
-
----
-Next: [Upload Releases](uploading-releases.md)
-
-Previous: [Build Deployment Manifest](deployment-basics.md)

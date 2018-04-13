@@ -10,11 +10,11 @@ The BOSH CLI v2 differs from v1 in two main ways: it is stateless, and it hyphen
 
 <strong>Statelessness</strong>
 
-The BOSH CLI v2 does not store values for a current environment or configuration. 
-In v1, you set the environment by passing a Director endpoint to `bosh target` and set the deployment by passing a manifest 
+The BOSH CLI v2 does not store values for a current environment or configuration.
+In v1, you set the environment by passing a Director endpoint to `bosh target` and set the deployment by passing a manifest
 file to `bosh deployment`. Then you could run `bosh deploy` with no arguments.
 
-In contrast, the BOSH CLI v2 is stateless. To specify a Director instance and deployment manifest to run a command over, 
+In contrast, the BOSH CLI v2 is stateless. To specify a Director instance and deployment manifest to run a command over,
 you do one of the following:
 
 * Pass the BOSH environment in with the `-e` flag and the deployment in with the `-d` flag, or
@@ -22,7 +22,7 @@ you do one of the following:
 
 <strong>Hyphenation</strong>
 
-The BOSH v2 CLI also hyphenates single commands that v1 represented as space-separated word pairs. 
+The BOSH v2 CLI also hyphenates single commands that v1 represented as space-separated word pairs.
 For example, `bosh delete deployment` in v1 corresponds to `bosh delete-deployment` in v2.
 
 | Before                      | After
@@ -99,8 +99,3 @@ For example, `bosh delete deployment` in v1 corresponds to `bosh delete-deployme
 - `bosh add-blob`
   - requires a path to its release destination
   - no longer uses symlinks to manage blobs but rather places file directly into `blobs/`
-
----
-Next: [Global Flags](cli-global-flags.md)
-
-Previous: [CLI v2](cli-v2.md)

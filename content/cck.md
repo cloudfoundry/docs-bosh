@@ -320,8 +320,3 @@ cck determined that `vol-549f071f` persistent disk is not attached to `i-4fcd99b
 Assuming there was a deployment with a VM, somehow persistent disk got deleted.
 
 Note: Not all CPIs implement needed functionality to determine if disk is missing. Those CPIs will report missing disk as [Persistent Disk is not attached](#unattached-persistent-disk) problem; however, both reattaching resolutions will fail since persistent disk would not be found.
-
----
-Next: [Automatic repair with Resurrector](resurrector.md)
-
-Previous: [Process monitoring with Monit](vm-monit.md)

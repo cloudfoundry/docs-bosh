@@ -22,10 +22,3 @@ Default configuration typically uses Registry and defaults it to IP source authe
     ```
 
 1. Deploy the Director
-
----
-[Back to Table of Contents](index.md#cpi-config)
-
-Next: [Using human-readable VM names](openstack-human-readable-vm-names.md)
-
-Previous: [Using nova-networking](openstack-nova-networking.md)

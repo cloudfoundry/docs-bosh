@@ -171,9 +171,3 @@ This configuration is similar to the previous one except that it's used when the
    ![image](images/gcp-service-account.png)
 
 6. Configure [GCS Blobstore](director-configure-blobstore.md#gcs)
-
-
----
-Next: [RackHD](rackhd-cpi.md)
-
-Previous: [Google Compute Engine](google-cpi.md)

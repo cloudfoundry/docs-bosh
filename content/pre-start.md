@@ -53,8 +53,3 @@ You can find logs for each release job's pre-start script in the following locat
 - stderr in `/var/vcap/sys/log/<job-name>/pre-start.stderr.log`
 
 Since pre-start script will be called multiple times, new output will be appended to the files above. Standard [log rotation policy](job-logs.md#log-rotation) applies.
-
----
-Next: [Post-start script](post-start.md)
-
-Previous: [Job lifecycle](job-lifecycle.md)

@@ -21,6 +21,3 @@ Updating an existing deployment is the same procedure:
 - Kick off the deploy to apply changes to the deployment
 
 In the next several steps we are going to deploy simple [Zookeeper](https://en.wikipedia.org/wiki/Apache_ZooKeeper) deployment to the Director.
-
----
-Next: [Update Cloud Config](update-cloud-config.md)

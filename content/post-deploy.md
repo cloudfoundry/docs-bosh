@@ -56,8 +56,3 @@ You can find logs for each release job's post-deploy script in the following loc
 - stderr in `/var/vcap/sys/log/<job-name>/post-deploy.stderr.log`
 
 Since post-deploy script will be called multiple times, new output will be appended to the files above. Standard [log rotation policy](job-logs.md#log-rotation) applies.
-
----
-Next: [Drain script](drain.md)
-
-Previous: [Post-start script](post-start.md)

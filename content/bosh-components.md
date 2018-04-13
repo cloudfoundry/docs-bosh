@@ -98,6 +98,3 @@ This example shows how components interact when creating a new VM.
 1. The Agent running on the VM requests the configuration information for the VM from the Registry.
 1. The Registry responds with the IP addresses and IDs.
 1. The Agent uses the IP addresses and IDs to configure the VM.
-
----
-Next: [Create an environment](init.md)

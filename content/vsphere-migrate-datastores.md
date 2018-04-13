@@ -33,10 +33,3 @@ This topic describes how to migrate VMs and persistent disks from one datastore 
 1. For each one of the deployments managed by the Director (visible via [`bosh deployments`](sysadmin-commands.md#deployment)), run [`bosh deploy --recreate`](sysadmin-commands.md#deployment) so that VMs are recreated and persistent disks are reattached.
 
 1. Verify that the persistent disks and VMs were moved to new datastore(s) and there are no remaining disks in the old datastore(s).
-
----
-[Back to Table of Contents](index.md#cpi-config)
-
-Next: [Storage DRS and vMotion Support](vsphere-vmotion-support.md)
-
-Previous: [vSphere HA](vsphere-ha.md)

@@ -20,10 +20,3 @@ With bosh-deployment, you can enable auto-anti-affinity with a [separate ops-fil
         enable_auto_anti_affinity: true
     ```
 1. Deploy the Director
-
----
-[Back to Table of Contents](index.md#cpi-config)
-
-Next: [Using Keystone v2](openstack-keystonev2.md)
-
-Previous: [OpenStack](openstack-cpi.md)

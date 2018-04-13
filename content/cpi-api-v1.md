@@ -631,8 +631,3 @@ No arguments
 #### Returned
 
 - **vm_cid** [String]: Cloud ID of the VM.
-
----
-Next: [Agent-CPI interactions](agent-cpi-interactions.html)
-
-Previous: [Building a CPI](build-cpi.md)

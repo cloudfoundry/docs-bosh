@@ -132,8 +132,3 @@ To disable the Resurrector:
 ## Viewing the Resurrector's Activity {: #audit }
 
 Since scan and fix tasks on the Director are regular tasks, you can use `bosh tasks --all -d ''` command to view currently running/queued Resurrector's activity and `bosh tasks --recent --all -d ''` to also view finished tasks.
-
----
-Next: [Persistent disk snapshotting](snapshots.md)
-
-Previous: [Manual repair with Cloud Check](cck.md)

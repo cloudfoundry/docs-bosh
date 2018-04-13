@@ -47,6 +47,3 @@ Note that scripts should not rely on the order they are run. Agent may decide to
   - times out after 5 minutes as of bosh v258+ on 3302+ stemcells
 
 1. Persistent disks are unmounted on the VM if configured
-
----
-Next: [Pre-start script](pre-start.md)

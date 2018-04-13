@@ -353,8 +353,3 @@ instance_groups:
 Common use cases:
 
 - one team is managing one deployment and wants to expose a link for other teams to consume in their deployments in a self service manner
-
----
-Next: [Link properties](links-properties.md) or [Manual linking](links-manual.md).
-
-[Back to Table of Contents](index.md#deployment-config)

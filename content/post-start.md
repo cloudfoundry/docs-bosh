@@ -51,8 +51,3 @@ You can find logs for each release job's post-start script in the following loca
 - stderr in `/var/vcap/sys/log/<job-name>/post-start.stderr.log`
 
 Since post-start script will be called multiple times, new output will be appended to the files above. Standard [log rotation policy](job-logs.md#log-rotation) applies.
-
----
-Next: [Post-deploy script](post-deploy.md)
-
-Previous: [Pre-start script](pre-start.md)

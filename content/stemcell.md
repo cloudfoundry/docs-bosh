@@ -20,8 +20,3 @@ By introducing the concept of a stemcell, the following problems have been solve
 - Versioning changes to the Operating System image
 - Reusing base Operating System images across VMs of different types
 - Reusing base Operating System images across different IaaS
-
----
-Next: [What is a Release?](release.md)
-
-Previous: [What problems does BOSH solve?](problems.md)

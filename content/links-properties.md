@@ -111,8 +111,3 @@ instance_groups:
     properties:
       password: some-password
 ```
-
----
-Next: [Manual linking](links-manual.md)
-
-[Back to Table of Contents](index.md#deployment-config)

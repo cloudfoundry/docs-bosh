@@ -25,8 +25,3 @@ BOSH software releases workflows are used throughout the development of the soft
 > **Agility**: The ongoing research into what are the repercussions of modern software engineering practices on the productivity in the software cycle, i.e. continuous integration.
 
 BOSH tool chain integrates well with current best practices of software engineering (including Continuous Delivery) by providing ways to easily create software releases in an automated way and to update complex deployed systems with simple commands.
-
----
-Next: [What is a Stemcell?](stemcell.md)
-
-Previous: [Welcome](index.md)

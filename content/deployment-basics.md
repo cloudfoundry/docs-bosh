@@ -81,8 +81,3 @@ Here is how deployment manifest describes a reasonably complex Zookeeper cluster
 Refer to [manifest v2 schema](manifest-v2.md) for detailed breakdown.
 
 Once manifest is complete referenced stemcells and releases must be uploaded.
-
----
-Next: [Upload Stemcells](uploading-stemcells.md)
-
-Previous: [Update Cloud Config](update-cloud-config.md)

@@ -319,6 +319,3 @@ AWS::EC2::Errors::RequestLimitExceeded Request limit exceeded.
 ```
 
 AWS API is throttling the number of request in your account. You can reduce the number of threads running in BOSH, or increase the value of `aws.max_retries` to let the AWS client library perform retries in a exponential backoff. Note that the more retries, the longer will take to fail.
-
----
-Next: [Using IAM instance profiles](aws-iam-instance-profiles.md)

@@ -46,10 +46,3 @@ The following steps will allow the Resurrector to recreate these VMs on a health
    * delete stale VMs (VMs whose name match this pattern: _vm-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx_)
    * delete stale stemcells (VMs whose name match this pattern: _sc-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx_)
    * VMs and stemcells can be deleted by right-clicking on them, selecting **All vCenter Actions &rarr; Delete from Disk**
-
----
-[Back to Table of Contents](index.md#cpi-config)
-
-Previous: [vSphere HA](vsphere-ha.md)
-
-Next: [Recovery from a vSphere Network Partitioning Fault](vsphere-network-partition.md)

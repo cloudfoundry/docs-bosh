@@ -232,8 +232,3 @@ Sample registry content:
 `/var/vcap/bosh/settings.json`: Local copy of the bootstrap settings used by the Agent to configure network and system properties for the VM. They are refreshed every time Agent is restarted.
 
 The `settings.json` payload format is the same as the settings format initially returned by the registry.
-
----
-Next: [Building a Stemcell](build-stemcell.html)
-
-Previous: [CPI API v1](cpi-api-v1.html)

@@ -429,6 +429,3 @@ Could not acquire HTTP NFC lease, message is: 'A specified parameter was not cor
 ```
 
 The [vCenter docs](https://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.vm.DefaultPowerOpInfo.html) show that the value should be `preset` rather than `default` inside the OVF file. Switching `powerOpInfo.*` properties resolved the problem.
-
----
-Next: [vSphere HA](vsphere-ha.md)

@@ -128,8 +128,3 @@ $ aws sts decode-authorization-message --encoded-message vHU-KncL6Yo4pG5J9p... |
 ```
 
 Decoded message above indicates that `iam:PassRole` action needs to be added to the `director` IAM role so that the AWS CPI can create VMs with `deployed-vm` IAM role.
-
----
-Next: [Using instance storage](aws-instance-storage.md)
-
-Previous: [AWS](aws-cpi.md)

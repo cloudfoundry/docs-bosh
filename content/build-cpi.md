@@ -113,6 +113,3 @@ Most CPIs have to deal with IaaS APIs that rate limit (e.g. OpenStack, AWS APIs)
 It usually useful to get a detailed log of CPI requests and responses from the callee. To get a full debug log from `bosh create-env` command set `BOSH_LOG_LEVEL=debug` environment variable.
 
 When working with the Director you can find similar debug logs via `bosh task X --debug` command.
-
----
-Next: [CPI API v1](cpi-api-v1.md)

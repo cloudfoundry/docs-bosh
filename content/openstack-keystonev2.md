@@ -24,10 +24,3 @@ Default configuration typically uses Keystone v3 API. This document describes ho
     ```
 
 1. Deploy the Director
-
----
-[Back to Table of Contents](index.md#cpi-config)
-
-Next: [Using nova-networking](openstack-nova-networking.md)
-
-Previous: [Using Auto-anti-affinity](openstack-auto-anti-affinity.md)

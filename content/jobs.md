@@ -108,6 +108,3 @@ Each template can also access the special `spec` object for instance-specific co
 - `spec.ip`: IP address of the instance. In case multiple IP addresses are available, the IP of the [addressable or default network](networks.md#multi-homed) is used. Available in bosh-release v258+.
 - `spec.name`: Name of the instance.
 - `spec.networks`: Entire set of network information for the instance.
-
----
-Next: [Errands](errands.md)

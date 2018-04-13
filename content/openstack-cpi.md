@@ -264,8 +264,3 @@ Image `4c1d6840-6ac7-4b42-bf29-c95fef6d986e' not found
 ```
 
 It's possible that image was deleted from OpenStack directly and BOSH is not aware of it. You can recover with `bosh upload stemcell X --fix` to reupload the stemcell.
-
----
-[Back to Table of Contents](index.md#cpi-config)
-
-Next: [Using Keystone v2 API](openstack-keystonev2.md)
