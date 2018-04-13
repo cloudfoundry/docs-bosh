@@ -3,7 +3,7 @@ site_url: "https://bosh.io/docs/"
 
 repo_name: 'cloudfoundry/docs-bosh'
 repo_url: 'https://github.com/cloudfoundry/docs-bosh'
-edit_uri: edit/master/
+edit_uri: edit/master/content/
 
 docs_dir: content
 
@@ -71,6 +71,12 @@ pages:
     - Windows Compatibility:
       - Overview: windows.md
       - Sample Release: windows-sample-release.md
+    - Using BPM:
+      - Overview: bpm/bpm.md
+      - Configuration: bpm/config.md
+      - Runtime: bpm/runtime.md
+      - Migrating to BPM: bpm/transitioning.md
+      - Undefined Behaviors: bpm/undefined.md
   - Operating Director:
     - Monitoring:
       - Auditing Events: events.md
