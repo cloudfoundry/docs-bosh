@@ -18,6 +18,13 @@ BOSH is open source, so you can find most of the code in either the [`cloudfound
 Since BOSH is a larger project, there are quite a few repositories for the various components. If you are not sure which repository is best to discuss an issue or make a change, please feel free to ask! [Slack](#slack) usually works best for that, but you can also just [create an issue](https://github.com/cloudfoundry/bosh/issues/new) if that's easier.
 
 
+## Roadmap
+
+We use [Pivotal Tracker](https://www.pivotaltracker.com/) for keeping track of what we're working on and prioritizing tasks. If you are interested in seeing what's going on or tracking a particular piece of work, check out these main projects: [Primary Backlog](https://www.pivotaltracker.com/n/projects/956238), [DNS-related](https://www.pivotaltracker.com/n/projects/2139998), ["Hotswap" feature](https://www.pivotaltracker.com/n/projects/2132441), ["Links API" feature](https://www.pivotaltracker.com/n/projects/2132440).
+
+If you are uncertain which link to use, most repositories will have Pivotal Tracker links for more specific information.
+
+
 ## Mailing List
 
 If you prefer mailing lists, you can find us through the [`cf-bosh` mailing list](https://lists.cloudfoundry.org/g/cf-bosh). Although it is quieter than [Slack](#slack), the community is usually able to help answer questions raised on the list. We also occasionally use this for announcements or product discussion.
