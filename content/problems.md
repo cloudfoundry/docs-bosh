@@ -29,4 +29,4 @@ BOSH tool chain integrates well with current best practices of software engineer
 ---
 Next: [What is a Stemcell?](stemcell.md)
 
-Previous: [What is BOSH?](about.md)
+Previous: [Welcome](index.md)

@@ -10,7 +10,6 @@ docs_dir: content
 pages:
 - About:
   - Welcome: index.md
-  - About: about.md
   - Project Goals: problems.md
   - Community: community.md
 - Installation:
