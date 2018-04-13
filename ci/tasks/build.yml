@@ -1,0 +1,16 @@
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: squidfunk/mkdocs-material
+    tag: 2.7.2
+run:
+  dir: docs
+  path: /usr/bin/mkdocs
+  args:
+  - build
+  - --site-dir=../docroot
+inputs:
+- name: docs
+outputs:
+- name: docroot
