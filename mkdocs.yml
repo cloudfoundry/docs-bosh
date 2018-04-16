@@ -233,7 +233,7 @@ theme:
   logo: assets/images/logo.d93e7da69dbf.png
 
 extra_css:
-- 'stylesheets/extra.61026d2ee9f4.css'
+- 'assets/stylesheets/extra.61026d2ee9f4.css'
 
 markdown_extensions:
 - markdown.extensions.admonition
