@@ -7,10 +7,13 @@ Default configuration typically uses Keystone v3 API. This document describes ho
 1. Configure OpenStack CPI
 
     In `properties.openstack`:
-    - switch property `auth_url` to use v2 endpoint.
-        <div class="note">Note: path is `v2.0` including the minor revision!</div>
-    - add property `tenant`
-    - remove properties `domain` and `project`
+
+      - switch property `auth_url` to use v2 endpoint.
+
+          Note: path is `v2.0` including the minor revision!
+
+      - add property `tenant`
+      - remove properties `domain` and `project`
 
     ```yaml
     properties:

@@ -39,16 +39,17 @@ This document shows how to set up new [environment](terminology.md#environment) 
     If Resource Pools want to be utilized, refer to [Deploying BOSH into Resource Pools](init-vsphere-rp.md) for additional CLI flags.
 
     Use the vSphere Web Client to find out and/or create any missing resources listed below:
-    - Configure `vcenter_ip` (e.g. '192.168.0.10') with the IP of the vCenter.
-    - Configure `vcenter_user` (e.g. 'root') and `vcenter_password` (e.g. 'vmware') with vCenter user name and password.
+
+      - Configure `vcenter_ip` (e.g. '192.168.0.10') with the IP of the vCenter.
+      - Configure `vcenter_user` (e.g. 'root') and `vcenter_password` (e.g. 'vmware') with vCenter user name and password.
       BOSH does not require user to be an admin, but it does require the following [privileges](https://github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release/blob/master/docs/required_vcenter_privileges.md).
-    - Configure `vcenter_dc` (e.g. 'my-dc') with the name of the datacenter the Director will use for VM creation.
-    - Configure `vcenter_vms` (e.g. 'my-bosh-vms') and `TEMPLATES-FOLDER-NAME` (e.g. 'my-bosh-templates') with the name of the folder created to hold VMs and the name of the folder created to hold stemcells. Folders will be automatically created under the chosen datacenter.
-    - Configure `vcenter_ds` (e.g. 'datastore[1-9]') with a regex matching the names of potential datastores the Director will use for storing VMs and associated persistent disks.
-    - Configure `vcenter_disks` (e.g. 'my-bosh-disks') with the name of the VMs folder. Disk folder will be automatically created in the chosen datastore.
-    - Configure `vcenter_cluster` (e.g. 'cluster1') with the name of the vSphere cluster. Create cluster under the chosen datacenter in the Clusters tab.
-    - Configure `network_name` (e.g. 'VM Network') with the name of the vSphere network. Create network under the chosen datacenter in the Networks tab. Above example uses `10.0.0.0/24` network and Director VM will be placed at `10.0.0.6`.
-    - [Optional] Configure `vcenter_rp` (eg. 'my-bosh-rp') with the name of the vSphere resource pool. Create resource pool under the choosen datacenter in the Clusters tab.
+      - Configure `vcenter_dc` (e.g. 'my-dc') with the name of the datacenter the Director will use for VM creation.
+      - Configure `vcenter_vms` (e.g. 'my-bosh-vms') and `TEMPLATES-FOLDER-NAME` (e.g. 'my-bosh-templates') with the name of the folder created to hold VMs and the name of the folder created to hold stemcells. Folders will be automatically created under the chosen datacenter.
+      - Configure `vcenter_ds` (e.g. 'datastore[1-9]') with a regex matching the names of potential datastores the Director will use for storing VMs and associated persistent disks.
+      - Configure `vcenter_disks` (e.g. 'my-bosh-disks') with the name of the VMs folder. Disk folder will be automatically created in the chosen datastore.
+      - Configure `vcenter_cluster` (e.g. 'cluster1') with the name of the vSphere cluster. Create cluster under the chosen datacenter in the Clusters tab.
+      - Configure `network_name` (e.g. 'VM Network') with the name of the vSphere network. Create network under the chosen datacenter in the Networks tab. Above example uses `10.0.0.0/24` network and Director VM will be placed at `10.0.0.6`.
+      - [Optional] Configure `vcenter_rp` (eg. 'my-bosh-rp') with the name of the vSphere resource pool. Create resource pool under the choosen datacenter in the Clusters tab.
 
     See [vSphere CPI errors](vsphere-cpi.md#errors) for list of common errors and resolutions.
 

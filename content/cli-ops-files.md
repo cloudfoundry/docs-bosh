@@ -64,8 +64,8 @@ All paths follow these rules:
 - Paths always start at the root of the document with a `/`
 
 - String components typically refer to hash keys (ex: `/key1`)
-  - Strings ending with `?` refer to hash keys that may or may not exist
-    - "optionality" carries over to the items to the right
+    - Strings ending with `?` refer to hash keys that may or may not exist
+        - "optionality" carries over to the items to the right
 
 - Integer components refer to array indices (ex: `/0`, `/-1`)
 
@@ -74,10 +74,10 @@ All paths follow these rules:
 - Array insertion could be affected via `:before` and `:after` (as of CLI v2.0.40+)
 
 - `-` component refers to an imaginary index after last array index (ex: `/-`)
-  - If there is an array of length 3 (`[0,1,2]`), then `-` would refer to 4th non-existent position
+    - If there is an array of length 3 (`[0,1,2]`), then `-` would refer to 4th non-existent position
 
 - `key=val` component matches hashes within an array (ex: `/key=val`)
-  - Values ending with `?` refer to array items that may or may not exist
+    - Values ending with `?` refer to array items that may or may not exist
 
 Path components without "optional" (`?`) annotation imply that referenced location must exist within a document. Operation will fail to be performed if that location is not found. "Optional" annotation can be used to signify indifference to the presense of referenced location, making it possible for operation either to ignore it (while removal) or create it lazily (while replacement). If a component in a path is annotated as optional, components following it will be considered optional implicitly.
 

@@ -33,11 +33,12 @@ This document shows how to initialize new [environment](terminology.md#environme
     ```
 
     To prepare your vCloud environment find out and/or create any missing resources listed below:
-    - Configure `vcloud_url` (e.g. 'https://jf629-vcd.vchs.vmware.com') with the URL of the vCloud Director.
-    - Configure `vcloud_user` (e.g. 'root') and `vcloud_password` (e.g. 'vmware') in your deployment manifest with vCloud user name and password. BOSH does not require user to be an admin; however, it does need certain user privileges.
-    - Configure `network_name` (e.g. 'VM Network') with the name of the vCloud network. Above example uses `10.0.0.0/24` network and Director VM will be placed at `10.0.0.6`.
-    - Configure `vcd_org` (e.g. 'VDC-M127910816-4610-275')
-    - Configure `vcd_name` (e.g. 'VDC-M127910816-4610-275')
+
+      - Configure `vcloud_url` (e.g. 'https://jf629-vcd.vchs.vmware.com') with the URL of the vCloud Director.
+      - Configure `vcloud_user` (e.g. 'root') and `vcloud_password` (e.g. 'vmware') in your deployment manifest with vCloud user name and password. BOSH does not require user to be an admin; however, it does need certain user privileges.
+      - Configure `network_name` (e.g. 'VM Network') with the name of the vCloud network. Above example uses `10.0.0.0/24` network and Director VM will be placed at `10.0.0.6`.
+      - Configure `vcd_org` (e.g. 'VDC-M127910816-4610-275')
+      - Configure `vcd_name` (e.g. 'VDC-M127910816-4610-275')
 
 1. Connect to the Director.
 

@@ -58,44 +58,44 @@ For example, `bosh delete deployment` in v1 corresponds to `bosh delete-deployme
 ## Notable differences per command {: #cmd }
 
 - `bosh alias-env` and all commands
-  - only allows connections to Director configured with verifiable certificates
-  - no longer asks to interactively log in
+    - only allows connections to Director configured with verifiable certificates
+    - no longer asks to interactively log in
 
 - `bosh log-in`
-  - no longer accepts username or password arguments
+    - no longer accepts username or password arguments
 
 - `bosh task`
-  - removed `--no-track` flag without replacement
+    - removed `--no-track` flag without replacement
 
 - `bosh tasks`
-  - improves argument syntax (`-r` for recent and `-a` for all)
+    - improves argument syntax (`-r` for recent and `-a` for all)
 
 - `bosh deploy`
-  - no longer checks or requires `director_uuid` in the deployment manifest
-    - to achieve similar safety make sure to give unique deployment names across environments
+    - no longer checks or requires `director_uuid` in the deployment manifest
+        - to achieve similar safety make sure to give unique deployment names across environments
 
 - `bosh instances`
-  - no longer accepts deployment name argument in favor of using global `--deployment` (`-d`) flag
+    - no longer accepts deployment name argument in favor of using global `--deployment` (`-d`) flag
 
 - `bosh vms`
-  - no longer accepts deployment name argument in favor of using global `--deployment` (`-d`) flag
+    - no longer accepts deployment name argument in favor of using global `--deployment` (`-d`) flag
 
 - `bosh logs`
-  - adds `-f` flag similar to `tail -f` (uses `bosh ssh` command internally)
+    - adds `-f` flag similar to `tail -f` (uses `bosh ssh` command internally)
 
 - `bosh ssh`
-  - improves argument syntax, use `ssh --help` for more info
-  - support for running commands against multiple machines
-  - adds `--opts` flag to pass through options to ssh command for port forwarding etc.
-  - adds `-r` flag to collate results from multiple machines
+    - improves argument syntax, use `ssh --help` for more info
+    - support for running commands against multiple machines
+    - adds `--opts` flag to pass through options to ssh command for port forwarding etc.
+    - adds `-r` flag to collate results from multiple machines
 
 - `bosh scp`
-  - improves argument syntax
-  - support for running command against multiple machines
+    - improves argument syntax
+    - support for running command against multiple machines
 
 - `bosh delete-deployment`
-  - removes explicit argument for specifying deployment in favor of global `--deployment` (`-d`) flag
+    - removes explicit argument for specifying deployment in favor of global `--deployment` (`-d`) flag
 
 - `bosh add-blob`
-  - requires a path to its release destination
-  - no longer uses symlinks to manage blobs but rather places file directly into `blobs/`
+    - requires a path to its release destination
+    - no longer uses symlinks to manage blobs but rather places file directly into `blobs/`
