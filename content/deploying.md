@@ -50,8 +50,3 @@ zookeeper/c5a3f7e6-4311-43ac-8500-a2337ca3e8a7    -              z1  10.244.0.5
 
 Succeeded
 ```
-
----
-[Back to Table of Contents](index.md#basic-deploy)
-
-Previous: [Upload Releases](uploading-releases.md)

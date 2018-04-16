@@ -27,8 +27,3 @@ $ ls -la /dev/disk/by-partlabel/raw-ephemeral-*
 lrwxrwxrwx 1 root root 12 Oct  5 03:09 /dev/disk/by-partlabel/raw-ephemeral-0 -> ../../xvdba1
 lrwxrwxrwx 1 root root 12 Oct  5 03:09 /dev/disk/by-partlabel/raw-ephemeral-1 -> ../../xvdbb1
 ```
-
----
-[Back to Table of Contents](index.md#cpi-config)
-
-Previous: [Using IAM instance profiles](aws-iam-instance-profiles.md)

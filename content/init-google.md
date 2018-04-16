@@ -49,8 +49,3 @@ This document shows how to initialize new [environment](terminology.md#environme
     ```
 
 1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.md#deployment-state) for details.
-
----
-[Back to Table of Contents](index.md#install)
-
-Previous: [Create an environment](init.md)

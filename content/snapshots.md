@@ -95,8 +95,3 @@ To schedule snapshots for the Director VM:
     ```
 
 1. Run `bosh deploy` to update your deployment.
-
----
-[Back to Table of Contents](index.md#hm)
-
-Previous: [Automatic repair with Resurrector](resurrector.md)

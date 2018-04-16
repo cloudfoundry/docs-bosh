@@ -190,6 +190,3 @@ $ bosh -e vbox -d zookeeper run-errand status --instance zookeeper/3e977542-d53e
 ```
 
 See [`bosh run-errand` command](cli-v2.md#run-errand) description for additional ways to use `--instance` flag. One of those way is to use `--instance group/first` (where `first` is a literal value) so that errand only runs on one of the instances.
-
----
-Previous: [Jobs](jobs.md)

@@ -92,8 +92,3 @@ There are two test suites each stemcell is expected to pass before it's consider
 
 - shared [Stemcell Tests](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/tree/master/bosh-stemcell/spec) which verify that proper packages and configurations are installed
 - shared [BOSH Acceptance Tests (BATS)](https://github.com/cloudfoundry/bosh/blob/master/docs/running_tests.md#bosh-acceptance-tests-bats) (provided by the BOSH team) which verify high level Director behavior with the stemcell being used
-
----
-[Back to Table of Contents](index.md#extend)
-
-Previous: [Agent-CPI interactions](agent-cpi-interactions.html)

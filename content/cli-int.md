@@ -147,8 +147,3 @@ pass: vbvdhjbzqelnq7cfyw09
 $ cat creds.yml
 admin_password: vbvdhjbzqelnq7cfyw09
 ```
-
----
-[Back to Table of Contents](index.md#cpi-config)
-
-Previous: [Operations Files](cli-ops-files.md)

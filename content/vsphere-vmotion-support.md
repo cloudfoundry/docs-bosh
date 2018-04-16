@@ -13,8 +13,3 @@ Later versions of the CPI are able to locate disks migrated by vSphere as long a
 
 As VMs are recreated, the CPI will move persistent disks out of VM folders so that they are not deleted with the VMs.
 This procedure will happen automatically when VMs are deleted (in `delete_vm` CPI call) and when disks are detached (in `detach_disk` CPI call).
-
----
-[Back to Table of Contents](index.md#cpi-config)
-
-Previous: [Migrating from one datastore to another](vsphere-migrate-datastores.md)

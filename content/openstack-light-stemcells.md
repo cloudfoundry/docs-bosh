@@ -21,8 +21,3 @@ You can create your own OpenStack light stemcells to re-use stemcell images alre
     ```
 
 You can use the light stemcell archive like a regular stemcell archive in BOSH deployment manifests and with `bosh create-env` command.
-
----
-[Back to Table of Contents](index.md#cpi-config)
-
-Previous: [Multi-homed VMs](openstack-multiple-networks.md)

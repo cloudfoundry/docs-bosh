@@ -81,8 +81,3 @@ echo 0 # ok to exit; do not wait for anything
 
 exit 0
 ```
-
----
-[Back to Table of Contents](index.md#release)
-
-Previous: [Post-deploy script](post-deploy.md)

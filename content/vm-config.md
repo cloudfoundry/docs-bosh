@@ -67,9 +67,4 @@ It's discouraged to modify or rely on the contents of this directory.
 
 * `/var/vcap/monit/monit.log`: Monit activity log. Includes information about starts, stops, restarts, etc. of release job processes monitored by Monit.
 
----
-[Back to Table of Contents](index.md#vm-config)
-
-Previous: [Structure of a BOSH VM](vm-struct.md)
-
 [1] VCAP stands for VMware Cloud Application Platform.

@@ -45,8 +45,3 @@ running on the partitioned ESXi host:
     esxcli vm process kill --type=force --world-id=199751
     ```
   - Follow the instructions [Recover from an ESXi host failure](vsphere-esxi-host-failure.md).
-
----
-[Back to Table of Contents](index.md#cpi-config)
-
-Previous: [Recovery from an ESXi host failure](vsphere-esxi-host-failure.md)
