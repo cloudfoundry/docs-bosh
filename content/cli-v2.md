@@ -50,7 +50,7 @@ See [Global flags](cli-global-flags.md) for more details on how to enable differ
 
 See [Environments](cli-envs.md).
 
-- `bosh environments` (Alias: `envs`) {: #environments }
+- `bosh environments` (Alias: `envs`)
 
     Lists aliased environments known to the CLI. Aliasing is done via `alias-env` command.
 
@@ -65,7 +65,7 @@ See [Environments](cli-envs.md).
     Succeeded
     ```
 
-- `bosh create-env manifest.yml [--state path] [-v ...] [-o ...] [--vars-store path]` {: #create-env }
+- `bosh create-env manifest.yml [--state path] [-v ...] [-o ...] [--vars-store path]`
 
     Creates single VM based on the manifest. Typically used to create a Director environment. [Operation files](https://bosh.io/docs/cli-ops-files.html) and [variables](https://bosh.io/docs/cli-int.html) can be provided to adjust and fill in manifest before doing a deploy.
 
@@ -87,7 +87,7 @@ See [Environments](cli-envs.md).
       -v outbound_network_name=NatNetwork
     ```
 
-- `bosh alias-env name -e location [--ca-cert=path]` {: #alias-env }
+- `bosh alias-env name -e location [--ca-cert=path]`
 
     Assigns a name to the created environment for easier access in subsequent CLI commands. Instead of specifying Director location and possibly a CA certificate, subsequent commands can just take given name via `--environment` flag (`-e`).
 
@@ -96,7 +96,7 @@ See [Environments](cli-envs.md).
     $ bosh alias-env gcp -e 10.0.0.6 --ca-cert <(bosh int creds.yml --path /director_ssl/ca)
     ```
 
-- `bosh -e location environment` (Alias: `env`) {: #environment }
+- `bosh -e location environment` (Alias: `env`)
 
     Shows Director information in the deployment environment.
 
@@ -116,7 +116,7 @@ See [Environments](cli-envs.md).
     Succeeded
     ```
 
-- `bosh delete-env manifest.yml [--state path] [-v ...] [-o ...] [--vars-store path]` {: #delete-env }
+- `bosh delete-env manifest.yml [--state path] [-v ...] [-o ...] [--vars-store path]`
 
     Deletes previously created VM based on the manifest. Same flags provided to `create-env` command should be given to the `delete-env` command.
 
@@ -141,7 +141,7 @@ See [Environments](cli-envs.md).
 ---
 ### Session {: #session-mgmt }
 
-- `bosh log-in` (Alias: `l`, `login`) {: #log-in }
+- `bosh log-in` (Alias: `l`, `login`)
 
     Logs in given user into the Director.
 
@@ -153,7 +153,7 @@ See [Environments](cli-envs.md).
     Password ():
     ```
 
-- `bosh log-out` (Alias: `logout`) {: #log-out }
+- `bosh log-out` (Alias: `logout`)
 
     Logs out currently logged in user.
 
@@ -162,7 +162,7 @@ See [Environments](cli-envs.md).
 
 See [Uploading Stemcells](uploading-stemcells.md).
 
-- `bosh -e my-env stemcells` (Alias: `ss`) {: #stemcells }
+- `bosh -e my-env stemcells` (Alias: `ss`)
 
     Lists stemcells previously uploaded into the Director. Shows their names, versions and CIDs.
 
@@ -182,7 +182,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
     Succeeded
     ```
 
-- `bosh -e my-env upload-stemcell location [--sha1=digest] [--fix]` (Alias: `us`) {: #upload-stemcell }
+- `bosh -e my-env upload-stemcell location [--sha1=digest] [--fix]` (Alias: `us`)
 
     Uploads stemcell to the Director. Succeeds even if stemcell is already imported.
 
@@ -195,7 +195,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
     $ bosh -e my-env us https://bosh.io/d/stemcells/bosh-stemcell-warden-boshlite-ubuntu-trusty-go_agent?v=3468.17
     ```
 
-- `bosh -e my-env delete-stemcell name/version` {: #delete-stemcell }
+- `bosh -e my-env delete-stemcell name/version`
 
     Deletes uploaded stemcell from the Director. Succeeds even if stemcell is not found.
 
@@ -203,7 +203,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
     $ bosh -e my-env delete-stemcell bosh-warden-boshlite-ubuntu-trusty-go_agent/3468.17
     ```
 
-- `bosh repack-stemcell src.tgz dst.tgz [--name=name] [--version=ver] [--cloud-properties=json-string]` {: #repack-stemcell }
+- `bosh repack-stemcell src.tgz dst.tgz [--name=name] [--version=ver] [--cloud-properties=json-string]`
 
     Produces new stemcell tarball with updated properties such as name, version, and cloud properties.
 
@@ -212,7 +212,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
 ---
 ### Release creation {: #release-creation }
 
-- `bosh init-release [--git] [--dir=dir]` {: #init-release }
+- `bosh init-release [--git] [--dir=dir]`
 
     Creates an empty release skeleton for a release in `dir`. By default `dir` is the current directory.
 
@@ -223,21 +223,21 @@ See [Uploading Stemcells](uploading-stemcells.md).
     $ cd release-dir
     ```
 
-- `bosh generate-job name [--dir=dir]` {: #generate-job }
+- `bosh generate-job name [--dir=dir]`
 
     Creates an empty job skeleton for a release in `dir`. Includes bare `spec` and an empty `monit` file.
 
-- `bosh generate-package name [--dir=dir]` {: #generate-package }
+- `bosh generate-package name [--dir=dir]`
 
     Creates an empty package skeleton for a release in `dir`. Includes bare `spec` and an empty `packaging` file.
 
-- `bosh vendor-package name src-dir [--dir=dir]` (v2.0.36+) {: #vendor-package }
+- `bosh vendor-package name src-dir [--dir=dir]` (v2.0.36+)
 
     Vendors a package from a different release into a release in `dir`. It includes `spec.lock` in the package directory so that CLI will reference specific package by its fingerprint when creating releases.
 
     See [Package vendoring](package-vendoring.md) for details.
 
-- `bosh create-release [--force] [--version=ver] [--timestamp-version] [--final] [--tarball=path] [--dir=dir]` (Alias: `cr`) {: #create-release }
+- `bosh create-release [--force] [--version=ver] [--timestamp-version] [--final] [--tarball=path] [--dir=dir]` (Alias: `cr`)
 
     Creates new version of a release stored in `dir`
 
@@ -262,7 +262,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
     $ bosh create-release releases/zookeeper/zookeeper-3.yml --tarball /tmp/my-release.tgz
     ```
 
-- `bosh finalize-release release.tgz [--force] [--version=ver] [--dir=dir]` {: #finalize-release }
+- `bosh finalize-release release.tgz [--force] [--version=ver] [--dir=dir]`
 
     Records contents of a release tarball as a final release with an optionally given version. Once `.final_builds` and `releases` directories are updated, it's strongly recommended to commit your changes to version control.
 
@@ -276,7 +276,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
     $ git push origin master
     ```
 
-- `bosh reset-release [--dir=dir]` {: #reset-release }
+- `bosh reset-release [--dir=dir]`
 
     Removes temporary artifacts such as dev releases, blobs, etc. kept in the release directory `dir`.
 
@@ -285,7 +285,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
 
 See [Release Blobs](release-blobs.md) for a detailed workflow.
 
-- `bosh blobs` {: #blobs }
+- `bosh blobs`
 
     Lists tracked blobs from `config/blobs.yml`. Shows uploaded and not-yet-uploaded blobs.
 
@@ -301,7 +301,7 @@ See [Release Blobs](release-blobs.md) for a detailed workflow.
     Succeeded
     ```
 
-- `bosh add-blob src-path dst-path` {: #add-blob }
+- `bosh add-blob src-path dst-path`
 
     Sarts tracking blob in `config/blobs.yml` for inclusion in packages.
 
@@ -310,7 +310,7 @@ See [Release Blobs](release-blobs.md) for a detailed workflow.
     $ bosh add-blob ~/Downloads/stress-1.0.4.tar.gz stress/stress-1.0.4.tar.gz
     ```
 
-- `bosh remove-blob blob-path` {: #remove-blob }
+- `bosh remove-blob blob-path`
 
     Stops tracking blob in `config/blobs.yml`. Does not remove previously uploaded copies from the blobstore as older release versions may still want to reference it.
 
@@ -319,7 +319,7 @@ See [Release Blobs](release-blobs.md) for a detailed workflow.
     $ bosh remove-blob stress/stress-1.0.4.tar.gz
     ```
 
-- `bosh upload-blobs` {: #upload-blob }
+- `bosh upload-blobs`
 
     Uploads previously added blobs that were not yet uploaded to the blobstore. Updates `config/blobs.yml` with returned blobstore IDs. Before creating a final release it's strongly recommended to upload blobs so that other release contributors can rebuild a release from scratch.
 
@@ -328,7 +328,7 @@ See [Release Blobs](release-blobs.md) for a detailed workflow.
     $ bosh upload-blobs
     ```
 
-- `bosh sync-blobs` {: #sync-blob }
+- `bosh sync-blobs`
 
     Downloads blobs into `blobs/` based on `config/blobs.yml`.
 
@@ -342,7 +342,7 @@ See [Release Blobs](release-blobs.md) for a detailed workflow.
 
 See [Uploading Releases](uploading-releases.md).
 
-- `bosh -e my-env releases` (Alias: `rs`) {: #releases }
+- `bosh -e my-env releases` (Alias: `rs`)
 
     Lists releases previously uploaded into the Director. Shows their names and versions.
 
@@ -375,7 +375,7 @@ See [Uploading Releases](uploading-releases.md).
     Succeeded
     ```
 
-- `bosh -e my-env upload-release [location] [--version=ver] [--sha1=digest] [--fix]` (Alias: `ur`) {: #upload-release }
+- `bosh -e my-env upload-release [location] [--version=ver] [--sha1=digest] [--fix]` (Alias: `ur`)
 
     Uploads release to the Director. Succeeds even if release is already imported.
 
@@ -389,7 +389,7 @@ See [Uploading Releases](uploading-releases.md).
     $ bosh -e my-env ur git+https://github.com/concourse/concourse --version 2.7.3
     ```
 
-- `bosh -e my-env delete-release name/version` {: #delete-release }
+- `bosh -e my-env delete-release name/version`
 
     Deletes uploaded release from the Director. Succeeds even if release is not found.
 
@@ -397,7 +397,7 @@ See [Uploading Releases](uploading-releases.md).
     $ bosh -e my-env delete-release cf-smoke-tests/94
     ```
 
-- `bosh -e my-env -d my-dep export-release name/version os/version [--dir=dir]` {: #export-release }
+- `bosh -e my-env -d my-dep export-release name/version os/version [--dir=dir]`
 
     Compiles and exports a release against a particular stemcell version.
 
@@ -409,7 +409,7 @@ See [Uploading Releases](uploading-releases.md).
     $ bosh -e my-env -d my-dep export-release cf-smoke-tests/94 ubuntu-trusty/3369
     ```
 
-- `bosh -e my-env inspect-release name/version` {: #inspect-release }
+- `bosh -e my-env inspect-release name/version`
 
     Lists all jobs, job metadata (such as links), packages, and compiled packages associated with a release version.
 
@@ -454,7 +454,7 @@ See [Uploading Releases](uploading-releases.md).
 
 See [Configs](configs.md).
 
-- `bosh -e my-env configs [--type=my-type] [--name=my-name]` {: #configs }
+- `bosh -e my-env configs [--type=my-type] [--name=my-name]`
 
     Lists all the configs on the Director.
 
@@ -473,7 +473,7 @@ See [Configs](configs.md).
     Succeeded
     ```
 
-- `bosh -e my-env config [id] [--type=my-type] [--name=my-name]` {: #config }
+- `bosh -e my-env config [id] [--type=my-type] [--name=my-name]`
 
     Either show config by `id` or by `name` and `type` on the Director.
 
@@ -482,7 +482,7 @@ See [Configs](configs.md).
     $ bosh -e my-env config 5
     ```
 
-- `bosh -e my-env update-config config.yml --type=my-type [--name=my-name]` {: #update-config }
+- `bosh -e my-env update-config config.yml --type=my-type [--name=my-name]`
 
     Update config on the Director.
 
@@ -494,7 +494,7 @@ See [Configs](configs.md).
     $ bosh -e my-env update-config config.yml --type=cloud --name=network1
     ```
 
-- `bosh -e my-env delete-config --type=my-type [--name=my-name]` {: #delete-config }
+- `bosh -e my-env delete-config --type=my-type [--name=my-name]`
 
     Delete config on the Director.
 
@@ -511,11 +511,11 @@ See [Configs](configs.md).
 
 See [Cloud config](cloud-config.md).
 
-- `bosh -e my-env cloud-config` (Alias: `cc`) {: #cloud-config }
+- `bosh -e my-env cloud-config` (Alias: `cc`)
 
     Show current cloud config on the Director.
 
-- `bosh -e my-env update-cloud-config config.yml [-v ...] [-o ...]` (Alias: `ucc`) {: #update-cloud-config }
+- `bosh -e my-env update-cloud-config config.yml [-v ...] [-o ...]` (Alias: `ucc`)
 
     Update current cloud config on the Director.
 
@@ -528,11 +528,11 @@ See [Cloud config](cloud-config.md).
 
 See [Runtime config](runtime-config.md).
 
-- `bosh -e my-env runtime-config` (Alias: `rc`) {: #runtime-config }
+- `bosh -e my-env runtime-config` (Alias: `rc`)
 
     Show current runtime config on the Director.
 
-- `bosh -e my-env update-runtime-config config.yml [-v ...] [-o ...]` (Alias: `urc`) {: #update-runtime-config }
+- `bosh -e my-env update-runtime-config config.yml [-v ...] [-o ...]` (Alias: `urc`)
 
     Update current runtime config on the Director.
 
@@ -545,11 +545,11 @@ See [Runtime config](runtime-config.md).
 
 See [CPI config](cpi-config.md).
 
-- `bosh -e my-env cpi-config` {: #cpi-config }
+- `bosh -e my-env cpi-config`
 
     Show current CPI config on the Director.
 
-- `bosh -e my-env update-cpi-config config.yml [-v ...] [-o ...]` {: #update-cpi-config }
+- `bosh -e my-env update-cpi-config config.yml [-v ...] [-o ...]`
 
     Update current CPI config on the Director.
 
@@ -560,7 +560,7 @@ See [CPI config](cpi-config.md).
 ---
 ### Deployments {: #deployment-mgmt }
 
-- `bosh -e my-env deployments` (Alias: `ds`) {: #deployments }
+- `bosh -e my-env deployments` (Alias: `ds`)
 
     Lists deployments tracked by the Director. Shows their names, used releases and stemcells.
 
@@ -590,7 +590,7 @@ See [CPI config](cpi-config.md).
     Succeeded
     ```
 
-- `bosh -e my-env -d my-dep deployment` (Alias: `dep`) {: #deployment }
+- `bosh -e my-env -d my-dep deployment` (Alias: `dep`)
 
     Shows general deployment information for a given deployment.
 
@@ -614,7 +614,7 @@ See [CPI config](cpi-config.md).
     Succeeded
     ```
 
-- `bosh -e my-env -d my-dep deploy manifest.yml [-v ...] [-o ...]` {: #deploy }
+- `bosh -e my-env -d my-dep deploy manifest.yml [-v ...] [-o ...]`
 
     Create or update specified deployment according to the provided manifest. Operation files and variables can be provided to adjust and fill in manifest before deploy begins.
 
@@ -624,7 +624,7 @@ See [CPI config](cpi-config.md).
     $ bosh -e vbox -d cf deploy cf.yml -v system_domain=sys.example.com -o large-footprint.yml
     ```
 
-- `bosh -e my-env -d my-dep delete-deployment [--force]` (Alias: `deld`) {: #delete-deployment }
+- `bosh -e my-env -d my-dep delete-deployment [--force]` (Alias: `deld`)
 
     Deletes specified deployment. If `--force` is provided, ignores variety of errors (from IaaS, blobstore, database) when deleting.
 
@@ -637,7 +637,7 @@ See [CPI config](cpi-config.md).
     $ bosh -e vbox -d cf deld --force
     ```
 
-- `bosh -e my-env [-d my-dep] instances [--ps] [--details] [--vitals] [--failing]` (Alias: `is`) {: #instances }
+- `bosh -e my-env [-d my-dep] instances [--ps] [--details] [--vitals] [--failing]` (Alias: `is`)
 
     Lists all instances managed by the Director or in a single deployment. Show instance names, IPs, and VM and process health.
 
@@ -654,7 +654,7 @@ See [CPI config](cpi-config.md).
     $ bosh -e vbox -d cf is --ps --vitals
     ```
 
-- `bosh -e my-env -d my-dep manifest` (Alias: `man`) {: #manifest }
+- `bosh -e my-env -d my-dep manifest` (Alias: `man`)
 
     Prints deployment manifest to `stdout`.
 
@@ -662,7 +662,7 @@ See [CPI config](cpi-config.md).
     $ bosh -e vbox -d cf man > /tmp/manifest.yml
     ```
 
-- `bosh -e my-env -d my-dep recreate [group[/instance-id]] [--skip-drain] [--fix] [--canaries=] [--max-in-flight=] [--dry-run]` {: #recreate }
+- `bosh -e my-env -d my-dep recreate [group[/instance-id]] [--skip-drain] [--fix] [--canaries=] [--max-in-flight=] [--dry-run]`
 
     Recreates VMs for specified instances. Follows typical instance lifecycle.
 
@@ -681,7 +681,7 @@ See [CPI config](cpi-config.md).
     $ bosh -e vbox -d cf recreate diego-cell --canaries=0 --max-in-flight=100%
     ```
 
-- `bosh -e my-env -d my-dep restart [group[/instance-id]] [--skip-drain] [--canaries=] [--max-in-flight=]` {: #restart }
+- `bosh -e my-env -d my-dep restart [group[/instance-id]] [--skip-drain] [--canaries=] [--max-in-flight=]`
 
     Restarts jobs (processes) on specified instances. Does not affect VM state.
 
@@ -689,14 +689,14 @@ See [CPI config](cpi-config.md).
     - `--canaries=` flag overrides manifest values for `canaries`
     - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
 
-- `bosh -e my-env -d my-dep start [group[/instance-id]] [--canaries=] [--max-in-flight=]` {: #start }
+- `bosh -e my-env -d my-dep start [group[/instance-id]] [--canaries=] [--max-in-flight=]`
 
     Starts jobs (processes) on specified instances. Does not affect VM state.
 
     - `--canaries=` flag overrides manifest values for `canaries`
     - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
 
-- `bosh -e my-env -d my-dep stop [group[/instance-id]] [--skip-drain] [--canaries=] [--max-in-flight=]` {: #stop }
+- `bosh -e my-env -d my-dep stop [group[/instance-id]] [--skip-drain] [--canaries=] [--max-in-flight=]`
 
     Stops jobs (processes) on specified instances. Does not affect VM state unless `--hard` flag is specified.
 
@@ -705,15 +705,15 @@ See [CPI config](cpi-config.md).
     - `--canaries=` flag overrides manifest values for `canaries`
     - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
 
-- `bosh -e my-env -d my-dep ignore group/instance-id` {: #ignore }
+- `bosh -e my-env -d my-dep ignore group/instance-id`
 
     Ignores instance from being affected by other commands such as `bosh deploy`.
 
-- `bosh -e my-env -d my-dep unignore group/instance-id` {: #unignore }
+- `bosh -e my-env -d my-dep unignore group/instance-id`
 
     Unignores instance from being affected by other commands such as `bosh deploy`.
 
-- `bosh -e my-env -d my-dep logs [group[/instance-id]] [--follow] ...` {: #logs }
+- `bosh -e my-env -d my-dep logs [group[/instance-id]] [--follow] ...`
 
     Downloads logs from one or more instances.
 
@@ -738,7 +738,7 @@ See [CPI config](cpi-config.md).
     $ bosh -e vbox -d cf logs -f --num=1000
     ```
 
-- `bosh -e my-env [-d my-dep] events [--* ...]` {: #events }
+- `bosh -e my-env [-d my-dep] events [--* ...]`
 
     Lists events.
 
@@ -762,18 +762,18 @@ See [CPI config](cpi-config.md).
     $ bosh -e vbox events --before="2016-05-08 17:26:32 UTC" --after="2016-05-07 UTC"
     ```
 
-- `bosh -e my-env event id` {: #event }
+- `bosh -e my-env event id`
 
     Shows single event details.
 
-- `bosh -e my-env -d my-dep variables` (Alias: `vars`) {: #variables }
+- `bosh -e my-env -d my-dep variables` (Alias: `vars`)
 
     List variables referenced by the deployment.
 
 ---
 ### VMs {: #vm-mgmt }
 
-- `bosh -e my-env [-d my-dep] vms [--vitals]` {: #vms }
+- `bosh -e my-env [-d my-dep] vms [--vitals]`
 
     Lists all VMs managed by the Director or VMs in a single deployment. Show instance names, IPs and VM CIDs.
 
@@ -785,7 +785,7 @@ See [CPI config](cpi-config.md).
     $ bosh -e vbox -d cf vms --vitals
     ```
 
-- `bosh -e my-env -d my-dep delete-vm cid` {: #delete-vm }
+- `bosh -e my-env -d my-dep delete-vm cid`
 
     Deletes VM without going through typical instance lifecycle. Clears out VM reference from a Director database if referenced by any instance.
 
@@ -796,11 +796,11 @@ See [CPI config](cpi-config.md).
 ---
 ### Disks {: #disk-mgmt }
 
-- `bosh -e my-env -d my-dep disks [--orphaned]` {: #disks }
+- `bosh -e my-env -d my-dep disks [--orphaned]`
 
     Lists disks. Currently only supports `--orphaned` flag.
 
-- `bosh -e my-env -d my-dep attach-disk group/instance-id disk-cid` {: #attach-disk }
+- `bosh -e my-env -d my-dep attach-disk group/instance-id disk-cid`
 
     Attaches disk to an instance, replacing currently attached disk (if any).
 
@@ -808,7 +808,7 @@ See [CPI config](cpi-config.md).
     $ bosh -e vbox -d cf attach-disk postgres/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 vol-shw8f293f2f2
     ```
 
-- `bosh -e my-env -d my-dep delete-disk cid` {: #delete-disk }
+- `bosh -e my-env -d my-dep delete-disk cid`
 
     Deletes orphaned disk.
 
@@ -819,7 +819,7 @@ See [CPI config](cpi-config.md).
 ---
 ### SSH {: #ssh-mgmt }
 
-- `bosh -e my-env -d my-dep ssh [destination] [-r] [-c=cmd] [--opts=opts] [--gw-* ...]` {: #ssh }
+- `bosh -e my-env -d my-dep ssh [destination] [-r] [-c=cmd] [--opts=opts] [--gw-* ...]`
 
     SSH into one or more instances.
 
@@ -846,7 +846,7 @@ See [CPI config](cpi-config.md).
     $ bosh -e vbox -d cf ssh uaa/0 --opts ' -L 8080:localhost:8080'
     ```
 
-- `bosh -e my-env -d my-dep scp src/dst:[file] src/dst:[file] [-r] [--gw-* ...]` {: #scp }
+- `bosh -e my-env -d my-dep scp src/dst:[file] src/dst:[file] [-r] [--gw-* ...]`
 
     SCP to/from one or more instances.
 
@@ -873,7 +873,7 @@ See [CPI config](cpi-config.md).
 ---
 ### Errands {: #errand-mgmt }
 
-- `bosh -e my-env -d my-dep errands` (Alias: `es`) {: #errands }
+- `bosh -e my-env -d my-dep errands` (Alias: `es`)
 
     Lists all errands defined by the deployment.
 
@@ -891,7 +891,7 @@ See [CPI config](cpi-config.md).
     Succeeded
     ```
 
-- `bosh -e my-env -d my-dep run-errand name [--keep-alive] [--when-changed] [--download-logs] [--logs-dir=dir] [--instance=instance-group/instance-id]` {: #run-errand }
+- `bosh -e my-env -d my-dep run-errand name [--keep-alive] [--when-changed] [--download-logs] [--logs-dir=dir] [--instance=instance-group/instance-id]``
 
     Runs errand job by name.
 
@@ -929,7 +929,7 @@ See [CPI config](cpi-config.md).
 ---
 ### Tasks {: #task-mgmt }
 
-- `bosh -e my-env tasks [--recent[=num]] [--all]` (Alias: `ts`) {: #tasks }
+- `bosh -e my-env tasks [--recent[=num]] [--all]` (Alias: `ts`)
 
     Lists active and previously ran tasks.
 
@@ -960,7 +960,7 @@ See [CPI config](cpi-config.md).
     $ bosh -e vbox ts -r=1000
     ```
 
-- `bosh -e my-env task id [--debug] [--result] [--event] [--cpi]` (Alias: `t`) {: #task }
+- `bosh -e my-env task id [--debug] [--result] [--event] [--cpi]` (Alias: `t`)
 
     Shows single task details. Continues to follow task if it did not finish. `Ctrl^C` does not cancel task.
 
@@ -969,7 +969,7 @@ See [CPI config](cpi-config.md).
     $ bosh -e vbox t 281 --debug
     ```
 
-- `bosh -e my-env cancel-task id` (Alias: `ct`) {: #cancel-task }
+- `bosh -e my-env cancel-task id` (Alias: `ct`)
 
     Cancel task at its next checkpoint. Does not wait until task is cancelled.
 
@@ -980,15 +980,15 @@ See [CPI config](cpi-config.md).
 ---
 ### Snapshots {: #snapshot-mgmt }
 
-- `bosh -e my-env -d my-dep snapshots` {: #snapshots }
+- `bosh -e my-env -d my-dep snapshots`
 
     Lists disk snapshots for given deployment.
 
-- `bosh -e my-env -d my-dep take-snapshot [group/instance-id]` {: #take-snapshot }
+- `bosh -e my-env -d my-dep take-snapshot [group/instance-id]`
 
     Takes snapshot for an instance or an entire deployment.
 
-- `bosh -e my-env -d my-dep delete-snapshot cid` {: #delete-snapshot }
+- `bosh -e my-env -d my-dep delete-snapshot cid`
 
     Deletes snapshot.
 
@@ -996,43 +996,43 @@ See [CPI config](cpi-config.md).
     $ bosh -e vbox -d cf delete-snapshot snap-shw38ty83f2f2
     ```
 
-- `bosh -e my-env -d my-dep delete-snapshots` {: #delete-snapshots }
+- `bosh -e my-env -d my-dep delete-snapshots`
 
     Deletes snapshots for an entire deployment.
 
 ---
 ### Deployment recovery {: #deployment-recovery }
 
-- `bosh -e my-env update-resurrection on/off` {: #update-resurrection }
+- `bosh -e my-env update-resurrection on/off`
 
     Enables or disables resurrection globally. This state is not reflected in the `bosh instances` command's `Resurrection` column.
 
     See [Automatic repair with Resurrector](resurrector.md) for details.
 
-- `bosh -e my-env -d my-dep cloud-check [--report] [--auto]` (Alias: `cck`) {: #cloud-check }
+- `bosh -e my-env -d my-dep cloud-check [--report] [--auto]` (Alias: `cck`)
 
     Checks for resource consistency and allows interactive repair.
 
     See [Manual repair with Cloud Check](cck.md) for details.
 
-- `bosh -e my-env locks` {: #locks }
+- `bosh -e my-env locks`
 
     Lists current locks.
 
 ---
 ### Misc {: #misc }
 
-- `bosh -e my-env clean-up [--all]` {: #clean-up }
+- `bosh -e my-env clean-up [--all]`
 
     Cleans up releases, stemcells, orphaned disks, and other unused resources.
 
     - `--all` flag forces cleanup for orphaned disks
 
-- `bosh help` {: #help }
+- `bosh help`
 
     Shows list of available commands and global options. Consider using `-h` flag for individual commands.
 
-- `bosh interpolate manifest.yml [-v ...] [-o ...] [--vars-store path] [--path op-path]` (Alias: `int`) {: #interpolate }
+- `bosh interpolate manifest.yml [-v ...] [-o ...] [--vars-store path] [--path op-path]` (Alias: `int`)
 
     Interpolates variables into a manifest sending result to stdout. [Operation files](cli-ops-files.md) and [variables](cli-int.md) can be provided to adjust and fill in manifest before doing a deploy.
 
