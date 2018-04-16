@@ -227,6 +227,3 @@ HTTP 401: Not authorized: '/deployments' requires one of the scopes: bosh.admin,
 ```
 
 This error occurs if the user doesn't have the right scopes for the requested command. It might be the case that you created a user without adding it to any groups. See [Adding/removing users and scopes](#uaac) above.
-
----
-[Back to Table of Contents](index.md#director-config)

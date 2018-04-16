@@ -212,6 +212,3 @@ compilation:
   vm_type: default
   network: default
 ```
-
----
-[Back to Table of Contents](index.md#cpi-config)

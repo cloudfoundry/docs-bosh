@@ -73,6 +73,3 @@ disk_pools:
 - name: default
   disk_size: 10_240
 ```
-
----
-[Back to Table of Contents](index.md#cpi-config)

@@ -102,6 +102,3 @@ To enable this feature:
 1. Optionally change frequency and number of events to keep.
 
 1. Redeploy the Director.
-
----
-[Back to Table of Contents](index.md#director-config)

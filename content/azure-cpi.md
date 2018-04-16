@@ -374,6 +374,3 @@ compilation:
 
   If you hit `Out of memory` or `Virtual memory exhausted`, please check whether you use Standard_A0 as instance_type. You should change instance_type to a VM size with more memory.
   Please reference the issue [#230](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/issues/230).
-
----
-[Back to Table of Contents](index.md#cpi-config)

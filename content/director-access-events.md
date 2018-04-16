@@ -62,6 +62,3 @@ To enable this feature:
 1. Optionally colocate [syslog-release's `syslog_forwarder` job](http://bosh.io/jobs/syslog_forwarder?source=github.com/cloudfoundry/syslog-release) with the Director to forward logs to a remote location.
 
 1. Redeploy the Director.
-
----
-[Back to Table of Contents](index.md#director-config)

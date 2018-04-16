@@ -95,6 +95,3 @@ jobs:
   networks:
   - name: default
 ```
-
----
-[Back to Table of Contents](index.md#deployment-config)

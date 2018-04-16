@@ -88,7 +88,7 @@ Schema for `cloud_properties` section:
 * **MaxMemory** [Integer, required]: Memory in megabytes. Example: `8192`.
 * **Datacenter** :
     * **Name** [String, required]: Name of the datacenter. Example: `lon02`.
-* **HourlyBillingFlag** [Boolean, optional]: If the vm is hourly billing. Default is `false`. 
+* **HourlyBillingFlag** [Boolean, optional]: If the vm is hourly billing. Default is `false`.
 
 Example:
 
@@ -186,6 +186,3 @@ compilation:
 The ``Bosh_ip`` property specified under ``cloud_properties`` is used for SoftLayer CPI to differentiate the director and common vms. The one with cloud_property ``Bosh_ip`` is a common vm. The one without ``Bosh_ip`` is the director.
 
 Please notice that when the VM hostname length is exactly 64, the deployment is failing due to ssh problem. This is SoftLayer’s limitation which can’t be fixed in a short term. We have a work around in the CPI that when the hostname with 64 characters is identified, a padding "-1" is appended to make it longer than 64.
-
----
-[Back to Table of Contents](index.md#cpi-config)

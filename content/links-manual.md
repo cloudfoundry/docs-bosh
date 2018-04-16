@@ -47,6 +47,3 @@ instance_groups:
           password: some-password
           name: my-app
 ```
-
----
-[Back to Table of Contents](index.md#deployment-config)

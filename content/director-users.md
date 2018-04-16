@@ -77,6 +77,3 @@ When a user initiates a [director task](director-tasks.md), the director logs th
 ## Health Monitor Authentication {: #hm }
 
 The Health Monitor is configured to use a custom user to query/submit requests to the Director. Since by default the Director does not come with any users, the Health Monitor is not able to successfully communicate with the Director. See the [Automatic repair with Resurrector](resurrector.md) topic for more details.
-
----
-[Back to Table of Contents](index.md#director-config)

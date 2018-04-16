@@ -28,6 +28,3 @@ Currently this configuration lives in the instance group `env` configuration. (E
 - changing `persistent_disk_fs` for an instance group that previously had a persistent disk will not simply reformat existing disk
 
 To move persistent data to a new persistent disk formatted with a new filesystem you have to set `persistent_disk_fs` configuration *and* change the disk size. If there was no existing persistent disk (for example, for a new deployment), the Agent will format it as requested.
-
----
-[Back to Table of Contents](index.md#deployment-config)

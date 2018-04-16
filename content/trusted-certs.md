@@ -58,6 +58,3 @@ To configure the Director with trusted certificates:
 The Director allows to specify one or more certificates concatenated together in the PEM format. Any text before, between and after certificate boundaries is ignored when importing the certificates, but may be useful for leaving notes about the certificate purpose.
 
 Providing multiple certificates makes downtimeless certificate rotation possible; however, it involves redeploying the Director and all deployments twice -- first to add a new certificate and second to remove an old certificate.
-
----
-[Back to Table of Contents](index.md#deployment-config)

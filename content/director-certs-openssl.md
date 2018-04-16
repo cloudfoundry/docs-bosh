@@ -127,6 +127,3 @@ $ bosh --ca-cert certs/rootCA.pem target 10.244.4.2
 
 !!! note
     If your certificates are trusted via system installed CA certificates, there is no need to provide `--ca-cert` option.
-
----
-[Back to Table of Contents](index.md#install)
