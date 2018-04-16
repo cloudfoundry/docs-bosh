@@ -8,7 +8,7 @@ The Director provides a very simple built-in user management system for authenti
 ## Default Configuration {: #default }
 
 !!! note
-    We are planning to remove this configuration. We recommend configuring the Director as described below in <a href="#preconfigured">Preconfigured Users</a> section.
+    We are planning to remove this configuration. We recommend configuring the Director as described below in [Preconfigured Users](#preconfigured) section.
 
 Once installed, the Director comes without any configured users by default. When there are no configured users you can use `admin` / `admin` credentials to login into the Director.
 

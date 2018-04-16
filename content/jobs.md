@@ -95,7 +95,7 @@ Advanced usage:
     - The first parameter can be an array, e.g. `<%= p(["some.property1", "some.property2"], some_value) %>`. Value of the first property which is set will be returned.
 - `<% if_p("some.property") do |prop| %>...<% end %>` - Evaluates the block only if `some.property` property has been provided. The property value is available in the variable `prop`. Multiple properties can be specified: `<% if_p("prop1", "prop2") do |prop1, prop2| %>`.
 
-<a id="properties-spec"></a>
+#### Using `spec` {: #properties-spec }
 
 Each template can also access the special `spec` object for instance-specific configuration:
 

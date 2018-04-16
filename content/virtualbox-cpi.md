@@ -104,7 +104,7 @@ properties:
 See [virtualbox_cpi job](https://bosh.io/jobs/virtualbox_cpi?source=github.com/cppforlife/bosh-virtualbox-cpi-release) for more details.
 
 ---
-## <a id='cloud-config'>Example Cloud Config</a>
+## Example Cloud Config {: #cloud-config }
 
 ```yaml
 azs:

@@ -14,7 +14,7 @@ This document shows how to initialize new [environment](terminology.md#environme
     * [Newton](http://www.openstack.org/software/newton) (actively tested)
 
     !!! tip
-        Juno has a <a href="https://bugs.launchpad.net/nova/+bug/1396854">bug</a> that prevents BOSH to assign specific IPs to VMs. You have to apply a Nova patch to avoid this problem.
+        Juno has a [bug](https://bugs.launchpad.net/nova/+bug/1396854) that prevents BOSH to assign specific IPs to VMs. You have to apply a Nova patch to avoid this problem.
 
 1. The following OpenStack services:
     * [Identity](https://www.openstack.org/software/releases/ocata/components/keystone):

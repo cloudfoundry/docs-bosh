@@ -259,10 +259,10 @@ jobs:
 In the above example, VM allocated to `my-multi-homed-job` deployment job will have `8.8.8.8` as its primary DNS server and the default gateway will be set to `my-network-1`'s gateway. VM allocated to `my-other-multi-homed-job` deployment job will also have `8.8.8.8` as its primary DNS server but the default gateway will be set to `my-network-2`'s gateway.
 
 !!! note
-    See <a href="#cpi-limitations">CPI limitations</a> to find which CPIs support this feature.
+    See [CPI limitations](#cpi-limitations) to find which CPIs support this feature.
 
 !!! note
-    See <a href="https://github.com/rakutentech/bosh-routing-release">rakutentech/bosh-routing-release</a> if you are looking for even more specific routing configuration.
+    See [rakutentech/bosh-routing-release](https://github.com/rakutentech/bosh-routing-release) if you are looking for even more specific routing configuration.
 
 ---
 ## CPI Limitations {: #cpi-limitations }

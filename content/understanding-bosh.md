@@ -5,12 +5,12 @@ title: Understanding BOSH
 BOSH is an open source tool chain for release engineering, deployment, and
 lifecycle management of large-scale distributed services.
 
-## Parts of a BOSH Deployment ## {: #stemcell-release-manifest }
+## Parts of a BOSH Deployment {: #stemcell-release-manifest }
 
 Every BOSH deployment consists of three parts: a stemcell, a release, and a
 manifest.
 
-### Stemcell ### {: #stemcell }
+### Stemcell {: #stemcell }
 
 A stemcell is a VM template.
 BOSH clones new VMs from the stemcell to create the VMs needed for a deployment.
@@ -22,7 +22,7 @@ storage, and network settings, and can have different software packages
 installed.
 Stemcell are tied to specific cloud infrastructures.
 
-### Release ### {: #release }
+### Release {: #release }
 
 A BOSH release is a collection of source code, configuration files, and startup
 scripts, with a version number that identifies these components.
@@ -34,7 +34,7 @@ package, with optional dependencies on other packages.
 * A job is a set of configuration files and scripts to run the binaries from a
 package.
 
-### Manifest ### {: #manifest }
+### Manifest {: #manifest }
 
 The BOSH deployment manifest is a YAML file defining the layout and properties
 of the deployment.
@@ -44,7 +44,7 @@ deployment using this manifest.
 The manifest describes the configuration of the cloud infrastructure, network
 architecture, and VM types, including which operating system each VM runs.
 
-## Deploying with BOSH ## {: #stemcell-release-manifest }
+## Deploying with BOSH {: #stemcell-release-manifest }
 
 A BOSH deployment creates runnable software on VMs from a static release.
 

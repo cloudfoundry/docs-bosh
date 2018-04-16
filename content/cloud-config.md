@@ -15,7 +15,7 @@ The cloud config is a YAML file that defines IaaS specific configuration used by
 To update cloud config on the Director use [`bosh update-cloud-config` command](cli-v2.md#update-cloud-config).
 
 !!! note
-    See <a href="#example">example cloud config</a> for AWS below.
+    See [example cloud config](#example) for AWS below.
 
 ```shell
 $ bosh -e vbox update-cloud-config cloud.yml

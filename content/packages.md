@@ -11,12 +11,12 @@ This topic describes how to create a BOSH package that includes either source co
 
 The information and procedures in this topic form [Step 3: Create Package Skeletons](./create-release.html#pkg-skeletons) of the Creating a Release topic. Refer to that topic to understand where BOSH packaging fits in the context of creating a BOSH release.
 
-## Prerequisite ## {: #prerequisite }
+## Prerequisite {: #prerequisite }
 
 Create a release directory. Refer to the [Create a Release Directory](./create-release.html#release-dir) section in the Creating
 a BOSH Release topic.
 
-## Edit a Package Spec ## {: #edit-a-package-spec }
+## Edit a Package Spec {: #edit-a-package-spec }
 
 You specify package contents in the package `spec` file. BOSH automatically creates this file as a template with the following
 sections when you run the `bosh generate package PACKAGE_NAME` command:
@@ -61,7 +61,7 @@ files:
 ```
 
 
-## Create a Packaging Script ## {: #create-a-packaging-script }
+## Create a Packaging Script {: #create-a-packaging-script }
 
 BOSH automatically creates a packaging script file template when you run the `bosh generate package PACKAGE_NAME` command. Each
 packaging script in a package must include a symlink in the format `/var/vcap/packages/<package name>` for each dependency and

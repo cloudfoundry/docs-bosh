@@ -211,7 +211,7 @@ $ bosh start JOB [INDEX] [--force]
 
 Creates a VM and reattaches active persistent disk if VM does not exist, then starts the job processes.
 
-<a id="vm-resurrection"></a>
+#### Resurrection {: #vm-resurrection }
 
 ```shell
 $ bosh vm resurrection [STATE]

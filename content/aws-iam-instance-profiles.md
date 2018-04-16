@@ -39,7 +39,7 @@ You may have to create one or more IAM instance profiles to limit access to AWS 
     ```
 
     !!! note
-        To use IAM instance profile as a credentials source when using `bosh create-env` command, you have to run the command from a <a href="terminology.html#jumpbox">jumpbox</a>, an existing AWS instance with IAM instance profile (you can reuse `director` IAM role). Alternatively if you are deploying the Director VM from outside of the AWS, you can use hard coded credentials with `bosh create-env` command and have the AWS CPI on the Director VM use IAM instance profile as a credentials source.
+        To use IAM instance profile as a credentials source when using `bosh create-env` command, you have to run the command from a [jumpbox](terminology.md#jumpbox), an existing AWS instance with IAM instance profile (you can reuse `director` IAM role). Alternatively if you are deploying the Director VM from outside of the AWS, you can use hard coded credentials with `bosh create-env` command and have the AWS CPI on the Director VM use IAM instance profile as a credentials source.
 
     !!! note
         Even though value specified is `env_or_profile`, `bosh create-env` command or the Director do not currently take advantage of the environment variables, only instance the profile, hence to take advantage of this feature you have to run on an AWS instance.

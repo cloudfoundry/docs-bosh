@@ -15,7 +15,7 @@ The CPI config is a YAML file that defines multiple CPIs and properties necessar
 To update CPI config on the Director use [`bosh update-cpi-config`](cli-v2.md#update-cpi-config) CLI command.
 
 !!! note
-    See <a href="#example">example CPI config</a> below.
+    See [example CPI config](#example) below.
 
 ```shell
 $ bosh update-cpi-config cpis.yml
@@ -46,7 +46,7 @@ Once CPI config is updated AZs in the cloud config can reference specific CPI to
 * **properties** [Hash, required]: Set of properties to provide to the CPI for each call so that CPI can authenticate and provision resources in an IaaS.
 
 !!! note
-    Properties will vary depending on the CPI you're trying to use. These are the `Global Configuration` of a given CPI. See <a href="cpi-config.html#cpi-config">a complete list of the CPI properties</a>.
+    Properties will vary depending on the CPI you're trying to use. These are the `Global Configuration` of a given CPI. See [a complete list of the CPI properties](cpi-config.md#cpi-config).
 
 OpenStack example:
 

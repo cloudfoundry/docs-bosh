@@ -122,7 +122,7 @@ properties:
 ```
 
 ---
-## <a id='cloud-config'>Example Cloud Config</a>
+## Example Cloud Config {: #cloud-config }
 
 See [bosh-deployment](https://github.com/cloudfoundry/bosh-deployment/blob/master/warden/cloud-config.yml).
 

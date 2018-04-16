@@ -45,7 +45,7 @@ To export a release:
     ```
 
     !!! note
-        This example assumes you are using <a href="./cloud-config.html">cloud config</a>, hence no compilation, networks and other sections were defined. If you are not using cloud config you will have to define them.
+        This example assumes you are using [cloud config](cloud-config.md), hence no compilation, networks and other sections were defined. If you are not using cloud config you will have to define them.
 
 1. Reference desired release versions you want to export.
 

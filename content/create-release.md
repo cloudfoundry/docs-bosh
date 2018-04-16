@@ -19,14 +19,14 @@ The two jobs split up the functionality provided by single Ruby app,
 `ardo_app` (you can use simple [gist](https://gist.github.com/antonsoroko/974924e0692aa2171229dafa5f2561b2) as app).
 
 ---
-## Preparation ## {: #prep }
+## Preparation {: #prep }
 
 This section needs to be completed once.
 Next, you iterate through Steps 1 through 6 until your dev release is
 satisfactory.
 Then you can do a final release.
 
-### Create the release directory ### {: #release-dir }
+### Create the release directory {: #release-dir }
 
 To create the release directory, navigate into the workspace where you want the
 release to be, and run:
@@ -58,20 +58,20 @@ The four directories you just created, `jobs`, `packages`, `src`, and `blobs`,
 appear on job VMs as `/var/vcap/jobs`, `/var/vcap/packages`, `/var/vcap/src`,
 and `/var/vcap/blobs`, respectively.
 
-### Populate the src directory ### {: #source }
+### Populate the src directory {: #source }
 
 Copy your source code into the `src` directory.
 Alternatively, link your source code to the directory using a mechanism such as
 a Git submodule or a Mercurial repo.
 
-### Choose a work strategy ### {: #strategy }
+### Choose a work strategy {: #strategy }
 
 Choose whether you want to work one step at a time or one job at a time.
 For releases with just a few jobs, going one step at a time is probably easiest.
 If you have a larger number of jobs, going one job at a time may be more efficient.
 
 ---
-## Step 1: Create Job Skeletons ## {: #job-skel }
+## Step 1: Create Job Skeletons {: #job-skel }
 
 Navigate into the release directory.
 
@@ -105,7 +105,7 @@ $ tree .
 9 directories, 5 files
 ```
 
-### Create control scripts  ### {: #control }
+### Create control scripts  {: #control }
 
 Every job needs a way to start and stop.
 You provide that by writing a control script and updating the `monit` file.
@@ -159,7 +159,7 @@ esac
 
 If your release needs templates other than the control script, create them now.
 
-### Update monit files  ### {: #monit }
+### Update monit files  {: #monit }
 
 The `monit` file:
 
@@ -189,7 +189,7 @@ Use `/var/vcap` paths as shown in the example.
 !!! note
     BOSH requires a <code>monit</code> file for each job in a release. When developing a release, you can use an empty <code>monit</code> file to meet this requirement without having to first create a control script.
 
-### Update job specs  ### {: #job-specs }
+### Update job specs  {: #job-specs }
 
 At compile time, BOSH transforms templates into files, which it then replicates
 on the job VMs.
@@ -217,7 +217,7 @@ templates:
 
 For each job, update the `spec` file with template names.
 
-### Commit ### {: #commit-one }
+### Commit {: #commit-one }
 
 You have now created one or more job skeletons; this is a good time to commit.
 
@@ -225,7 +225,7 @@ If you used the `--git` option with `bosh init-release` (as recommended), the
 correct `.gitignore` file has been automatically created for you.
 
 ---
-## Step 2: Make Dependency Graphs ## {: #graph }
+## Step 2: Make Dependency Graphs {: #graph }
 
 There are two kinds of dependencies in a BOSH release:
 
@@ -241,12 +241,12 @@ Three rules govern these dependencies:
 * Jobs can depend on packages.
 * Packages can depend on other packages.
 
-### <a id="build-graph"> </a>Building the Dependency Graph ###
+### Building the Dependency Graph {: #build-graph }
 
 Create a dependency graph to clarify your understanding of the
 dependencies between the jobs and packages in your release.
 
-#### <a id="runtime"> </a>Identify runtime dependencies ####
+#### Identify runtime dependencies {: #runtime }
 
 Whenever a control script or other template cites a package name, the job
 that the template belongs to depends on the cited package at runtime.
@@ -271,7 +271,7 @@ dependencies on both the `ardo_app` and `ruby_1.9.3` packages.
 
 We add these four runtime dependencies to our example dependency graph.
 
-#### <a id="compile-time"> </a>Identify compile-time dependencies ####
+#### Identify compile-time dependencies {: #compile-time }
 
 Use your knowledge about the runtime dependencies you have already noted.
 Consider the packages you have identified as dependencies.
@@ -289,7 +289,7 @@ The answer is yes, it depends on libyaml 0.1.4.
 
 We add this compile-time dependency to our example dependency graph.
 
-#### <a id="dep-graph-example"> </a>The complete example dependency graph ####
+#### The complete example dependency graph {: #dep-graph-example }
 
 The complete dependency graph for `ardo-release` looks like this:
 
@@ -298,7 +298,7 @@ The complete dependency graph for `ardo-release` looks like this:
 For a large or complicated release, consider making more than one dependency
 graph.
 
-## Step 3: Create Package Skeletons ## {: #pkg-skeletons }
+## Step 3: Create Package Skeletons {: #pkg-skeletons }
 
 Packages give BOSH the information needed to prepare the binaries and
 dependencies for your jobs.
@@ -347,7 +347,7 @@ $ cd src/ardo_app/
 $ bundle package
 ```
 
-### Update packaging specs ### {: #update-pkging-specs }
+### Update packaging specs {: #update-pkging-specs }
 
 Within each package directory, there is a `spec` file which states:
 
@@ -388,7 +388,7 @@ the source code should reside.
 Update the spec for each package.
 Refer to the example specs below for guidance.
 
-#### Example libyaml package spec #### {: #pkg-spec-libyaml }
+#### Example libyaml package spec {: #pkg-spec-libyaml }
 
 ```yaml
 ---
@@ -400,7 +400,7 @@ files:
 - libyaml_0.1.4/yaml-0.1.4.tar.gz # From http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz
 ```
 
-#### Example Ruby package spec #### {: #pkg-spec-ruby }
+#### Example Ruby package spec {: #pkg-spec-ruby }
 
 ```yaml
 ---
@@ -415,7 +415,7 @@ files:
 - ruby_1.9.3/bundler-1.2.1.gem      # https://rubygems.org/downloads/bundler-1.2.1.gem
 ```
 
-#### Example ardo_app package spec #### {: #pkg-spec-ardo }
+#### Example ardo_app package spec {: #pkg-spec-ardo }
 
 ```yaml
 ---
@@ -428,7 +428,7 @@ files:
 - ardo_app/**/*
 ```
 
-### Create packaging scripts ### {: #pkg-scripts }
+### Create packaging scripts {: #pkg-scripts }
 
 At compile time, BOSH takes the source files referenced in the package specs,
  and renders them into the executable binaries and scripts that your deployed
@@ -484,7 +484,7 @@ entailed in creating a release.
 Write your packaging scripts now.
 Refer to the examples below for guidance.
 
-#### Example libyaml packaging script #### {: #pkg-script-libyaml }
+#### Example libyaml packaging script {: #pkg-script-libyaml }
 
 ```
 set -e -x
@@ -498,7 +498,7 @@ pushd yaml-0.1.4
 popd
 ```
 
-#### Example Ruby packaging script #### {: #pkg-script-ruby }
+#### Example Ruby packaging script {: #pkg-script-ruby }
 
 ```
 set -e -x
@@ -522,7 +522,7 @@ popd
 ${BOSH_INSTALL_TARGET}/bin/gem install ruby_1.9.3/bundler-1.2.1.gem --no-ri --no-rdoc
 ```
 
-#### Example ardo_app packaging script #### {: #pkg-script-ardo }
+#### Example ardo_app packaging script {: #pkg-script-ardo }
 
 ```
 set -e -x
@@ -537,7 +537,7 @@ cd ${BOSH_INSTALL_TARGET}
   --without development test
 ```
 
-### Update job specs with dependencies ### {: #update-job-specs-with-deps }
+### Update job specs with dependencies {: #update-job-specs-with-deps }
 
 The dependency graph reveals runtime dependencies that
 need to be added to the `packages` block of the job spec.
@@ -554,7 +554,7 @@ packages:
 ```
 
 ---
-## Step 4: Add Blobs ## {: #blobs }
+## Step 4: Add Blobs {: #blobs }
 
 When creating a release, you will likely use a source code repository.
 But releases often use tar files or other binaries, also known as blobs.
@@ -567,7 +567,7 @@ BOSH lets you avoid checking blobs into a repository by doing the following:
 
 * For a final release, upload blobs to a blobstore, and direct BOSH to obtain the blobs from there.
 
-### Configure a blobstore  ### {: #config-blobstore }
+### Configure a blobstore  {: #config-blobstore }
 
 In the `config` directory, you record the information BOSH needs about the
 blobstore:
@@ -628,7 +628,7 @@ If you have a `private.yml` file:
 !!! note
     The `blobstore_secret` is required for the `local` type blobstore. This is true even though the `blobstore_secret` line is deprecated and its content does not matter. There is never a `blobstore_secret` line for blobstores of types other than `local`.
 
-### Inform BOSH where blobs are ### {: #inform }
+### Inform BOSH where blobs are {: #inform }
 
 In the package `spec` file, the `files` block lists any binaries you downloaded,
 along with the URLs from which you downloaded them.
@@ -679,7 +679,7 @@ is recommended because it produces a cleanly-organized blobs directory.
 Later, when you upload blobs for a final release, BOSH uses the hidden directory
 as a staging area.
 
-### Do not upload blobs for a dev release ### {: #no-upload }
+### Do not upload blobs for a dev release {: #no-upload }
 
 Once you have uploaded blobs to a non-local blobstore, those blobs may become
 essential to some other developer.
@@ -689,7 +689,7 @@ When creating dev releases, do not run `bosh upload-blobs`.
 (You only run it when you do a final release.)
 
 ---
-## Step 5: Create Job Properties  ## {: #create-props }
+## Step 5: Create Job Properties  {: #create-props }
 
 If your service needs to be configurable at deployment time,
 you create the desired inputs or controls and specify them in the release.
@@ -725,11 +725,11 @@ properties:
 ```
 
 ---
-## Step 6: Create a Dev Release  ## {: #dev-release }
+## Step 6: Create a Dev Release  {: #dev-release }
 
 All the elements needed to create a dev release should now be in place.
 
-### Release  ### {: #dev-release-release }
+### Release  {: #dev-release-release }
 
 For the dev release, use the `--force` option with the `bosh create-release`
 command.
@@ -745,7 +745,7 @@ Create the dev release:
 
 BOSH prompts for a release name, and assigns a dot-number version to the release.
 
-### Deploy the Dev Release  ### {: #dev-release-deploy }
+### Deploy the Dev Release  {: #dev-release-deploy }
 
 Deploying the release requires three or more steps, depending on whether
 BOSH is targeting the desired Director, and whether BOSH is already pointing
@@ -777,7 +777,7 @@ Deploy:
 
    `bosh deploy`
 
-### Test the Dev Release  ### {: #dev-release-test }
+### Test the Dev Release  {: #dev-release-test }
 
 What tests to run depends on the software you are releasing.
 
@@ -794,11 +794,11 @@ Using `bosh deploy --recreate` can provide a clearer picture because with that o
 BOSH deploys all the VMs from scratch.
 
 ---
-## Create a Final Release  ## {: #final-release }
+## Create a Final Release  {: #final-release }
 
 Only proceed to this step if your latest dev release passes all tests.
 
-### Upload blobs ### {: #upload-blobs }
+### Upload blobs {: #upload-blobs }
 
 When you use the `bosh create-release --force` command to create them, dev
 releases depend on locally-stored blobs.
@@ -822,14 +822,14 @@ To upload your blobs, run:
 
   `bosh upload-blobs`
 
-### Commit ### {: #final-commit-two }
+### Commit {: #final-commit-two }
 
 The `bosh upload-blobs` command has now populated the `blobs.yml` file
 in the `config` directory with metadata for uploaded blobs.
 
 This is a good reason to commit.
 
-### Release ### {: #final-release-release }
+### Release {: #final-release-release }
 
 Run:
 
@@ -840,11 +840,11 @@ BOSH prompts you for a release name, and assigns a whole-number version to the r
 This is a good time to push your code to a shared repository to give others access to
 your final release.
 
-### Commit ### {: #final-release-commit }
+### Commit {: #final-release-commit }
 
 Do one more commit before you deploy!
 
-### Deploy the Final Release  ### {: #final-release-deploy }
+### Deploy the Final Release  {: #final-release-deploy }
 
 Run:
 

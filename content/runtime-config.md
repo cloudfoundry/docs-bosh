@@ -13,7 +13,7 @@ The Director has a way to specify global configuration for all VMs in all deploy
 To update runtime config on the Director use [`bosh update runtime-config`](sysadmin-commands.md#cloud-config) CLI command.
 
 !!! note
-    See <a href="#example">example runtime config</a> below.
+    See [example runtime config](#example) below.
 
 ```shell
 $ bosh update-runtime-config runtime.yml
@@ -110,8 +110,8 @@ An addon is a release job that is colocated on all VMs managed by the Director.
   * **name** [String, required]: The job name.
   * **release** [String, required]: The release where the job exists.
   * **properties** [Hash, optional]: Specifies job properties. Properties allow the Director to configure jobs to a specific environment.
-* **include** [Hash, optional]: Specifies inclusion <a href="#placement-rules">placement rules</a> Available in bosh-release v260+.
-* **exclude** [Hash, optional]: Specifies exclusion <a href="#placement-rules">placement rules</a>. Available in bosh-release v260+.
+* **include** [Hash, optional]: Specifies inclusion [placement rules](#placement-rules) Available in bosh-release v260+.
+* **exclude** [Hash, optional]: Specifies exclusion [placement rules](#placement-rules). Available in bosh-release v260+.
 
 ### Placement Rules for `include` and `exclude` Directives {: #placement-rules }
 

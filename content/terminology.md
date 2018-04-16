@@ -92,12 +92,17 @@ A repository where BOSH stores release artifacts, logs, stemcells, and other con
 The basic unit of work performed by the Director. You can get the status and logs for any task. You can monitor the task throughout its lifecycle, which progresses through states like queued, processing, done, and error.
 
 ---
-## Director VM (previously known as MicroBOSH) {: #microbosh } {: #director-vm }
+## Director VM {: #director-vm }
 
 A single VM with the Director and other necessary components.
 
 ---
-## Disk Type (previously known as Disk Pool) {: #disk-pool } {: #disk-type }
+## Disk Pool {: #disk-pool }
+
+See [Disk Type](#disk-type).
+
+---
+## Disk Type {: #disk-type }
 
 Disk type is a named disk configuration specified in the cloud config. [See usage details](cloud-config.md#disk-types) and [read more about persistent disks](persistent-disks.md).
 
@@ -166,6 +171,11 @@ A VM that acts as a single access point for the Director and deployed VMs. For r
 ## Deployment manifest (or just manifest) {: #manifest }
 
 A YAML file that identifies one or more releases, stemcells and specifies how to configure them for a given deployment.
+
+---
+## MicroBOSH {: #microbosh }
+
+See [Director VM](#director-vm).
 
 ---
 ## Operator {: #operator }
