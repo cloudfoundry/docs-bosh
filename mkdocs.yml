@@ -5,6 +5,7 @@ repo_name: 'cloudfoundry/docs-bosh'
 repo_url: 'https://github.com/cloudfoundry/docs-bosh'
 edit_uri: edit/master/content/
 
+# non-default since our repo itself is called "docs"
 docs_dir: content
 
 pages:
@@ -223,17 +224,18 @@ pages:
 theme:
   name: material
   custom_dir: theme
+  favicon: assets/images/favicon.2776d0bae488.png
   feature:
     tabs: true
   palette:
     primary: blue
-    accent: blue
-  logo: images/logo.png
+    accent: indigo
+  logo: assets/images/logo.d93e7da69dbf.png
 
 extra_css:
-  - 'stylesheets/extra.css'
+- 'stylesheets/extra.61026d2ee9f4.css'
 
-markdown_extensions: # based on docs-cfcr
+markdown_extensions:
 - markdown.extensions.admonition
 - markdown.extensions.codehilite
 - markdown.extensions.def_list
@@ -257,10 +259,15 @@ markdown_extensions: # based on docs-cfcr
 
 extra:
   social:
-    - type: 'github'
-      link: 'https://github.com/cloudfoundry/bosh'
-    - type: 'slack'
-      link: 'https://cloudfoundry.slack.com/messages/C02HPPYQ2/'
+  - type: 'github'
+    link: 'https://github.com/cloudfoundry/bosh'
+  - type: 'slack'
+    link: 'https://cloudfoundry.slack.com/messages/C02HPPYQ2/'
+
+google_analytics:
+# avoid forks accidentally using us
+- !!python/object/apply:os.getenv ["GOOGLE_ANALYTICS_KEY"]
+- auto
 
 # since we publish via bosh.io, avoid unintentionally using gh-pages
 remote_branch: docroot

@@ -4,7 +4,7 @@
   {% if page and page.meta.schema %}
     <div class="bosh-schema">
   {% endif %}
-  {{ super() | replace("https://github.com/cloudfoundry/docs-bosh/edit/mkdocs/content/bpm/", "https://github.com/cloudfoundry-incubator/bpm-release/edit/master/docs/") }}
+  {{ super() | replace("https://github.com/cloudfoundry/docs-bosh/edit/master/content/bpm/", "https://github.com/cloudfoundry-incubator/bpm-release/edit/master/docs/") }}
   {% if page and page.schema %}
     </div>
   {% endif %}
