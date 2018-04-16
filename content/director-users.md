@@ -7,7 +7,8 @@ The Director provides a very simple built-in user management system for authenti
 ---
 ## Default Configuration {: #default }
 
-<p class="note"><strong>Note</strong>: We are planning to remove this configuration. We recommend configuring the Director as described below in <a href="#preconfigured">Preconfigured Users</a> section.</p>
+!!! note
+    We are planning to remove this configuration. We recommend configuring the Director as described below in <a href="#preconfigured">Preconfigured Users</a> section.
 
 Once installed, the Director comes without any configured users by default. When there are no configured users you can use `admin` / `admin` credentials to login into the Director.
 
@@ -40,7 +41,8 @@ User `some-operator' has been deleted
 ---
 ## Preconfigured Users {: #preconfigured }
 
-<p class="note"><strong>Note</strong>: This feature is available with bosh-release v177+ (1.2999.0).</p>
+!!! note
+    This feature is available with bosh-release v177+ (1.2999.0).
 
 In this configuration the Director is configured in advance with a list of users. There is no way to add or remove users without redeploying the Director.
 

@@ -2,7 +2,8 @@
 title: CLI Commands
 ---
 
-<p class="note">Note: See [CLI v2](cli-v2.md) for an updated CLI.</p>
+!!! note
+    See [CLI v2](cli-v2.md) for an updated CLI.
 
 This document lists the all CLI commands you use to perform system administration tasks.
 

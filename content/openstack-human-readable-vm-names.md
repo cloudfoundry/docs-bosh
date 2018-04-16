@@ -2,7 +2,8 @@
 title: Using human-readable VM names instead of UUIDs
 ---
 
-<p class="note">Note: This feature is available with bosh-openstack-cpi v23+.</p>
+!!! note
+    This feature is available with bosh-openstack-cpi v23+.
 
 You can enable human-readable VM names in your Director manifest to get VMs with names such as `runner_z1/0` instead of UUIDs such as `vm-3151dbb0-7cea-475b-9ff8-7faa94a8188e`.
 

@@ -2,7 +2,8 @@
 title: Pure IPv6 on vSphere
 ---
 
-<p class="note">This document is work in progress.</p>
+!!! abstract
+    This document is work in progress.
 
 ---
 ## Pure IPv6 Configuration {: #pure }

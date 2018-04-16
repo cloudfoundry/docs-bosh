@@ -2,7 +2,8 @@
 title: Deployment Manifest Schema
 ---
 
-<p class="note">Note: Once you opt into using cloud config all deployments must be converted to use manifest v2 format that disallows IaaS specific configuration. See <a href="manifest-v2.html">manifest v2 schema</a> for allowed configurations. v257+ supports deploying both v1 and v2 manifests to the same director.</p>
+!!! note
+    Once you opt into using cloud config all deployments must be converted to use manifest v2 format that disallows IaaS specific configuration. See <a href="manifest-v2.html">manifest v2 schema</a> for allowed configurations. v257+ supports deploying both v1 and v2 manifests to the same director.
 
 The deployment manifest is a YAML file that defines the components and properties of the deployment. When an operator initiates a new deployment using the CLI, the Director receives a version of the deployment manifest and creates a new deployment using this manifest.
 
@@ -317,7 +318,8 @@ properties:
 1. If an identically named property exists in the [Properties](#properties) block of the deployment manifest, the value of this property overrides the previous value.
 1. If an identically named property exists in the Properties sub-block of the [Jobs](#jobs) block of the deployment manifest, the value of this property overrides all previous values.
 
-<p class="note"><strong>Note</strong>: If you declare specific properties in a job template spec, BOSH ignores all other properties. If you do not declare any specific properties in a job template spec, BOSH applies all properties from the deployment manifest to the job. </p>
+!!! note
+    If you declare specific properties in a job template spec, BOSH ignores all other properties. If you do not declare any specific properties in a job template spec, BOSH applies all properties from the deployment manifest to the job. 
 
 ---
 ## Cloud Provider Block {: #cloud-provider }

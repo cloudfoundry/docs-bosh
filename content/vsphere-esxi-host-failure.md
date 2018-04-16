@@ -2,7 +2,8 @@
 title: Recovery from an ESXi Host Failure
 ---
 
-<p class="note">Note: Do not follow this procedure if vSphere HA is enabled and bosh-vsphere-cpi is v30+; vSphere HA will automatically move all VMs from the failed host to other good hosts.</p>
+!!! note
+    Do not follow this procedure if vSphere HA is enabled and bosh-vsphere-cpi is v30+; vSphere HA will automatically move all VMs from the failed host to other good hosts.
 
 This topic describes how to recreate VMs in the event of an ESXi host failure.
 The BOSH Resurrector is unable to recreate a VM on a failed ESXi host without

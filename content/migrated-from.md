@@ -100,8 +100,10 @@ Before the introduction of first class AZs, each instance group was associated w
       - {name: etcd_z2, az: z2}
     ```
 
-    <p class="note">Note that other referenced resources such as resource pool and network should be adjusted to work with AZs.</p>
+    !!! note
+        Other referenced resources such as resource pool and network should be adjusted to work with AZs.
 
-    <p class="note">Note: Migration from one AZ to a different AZ is not supported yet.</p>
+    !!! note
+        Migration from one AZ to a different AZ is not supported yet.
 
 1. Deploy.

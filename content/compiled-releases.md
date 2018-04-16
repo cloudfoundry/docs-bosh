@@ -2,9 +2,11 @@
 title: Compiled Releases
 ---
 
-<p class="note">Note: This feature is available with bosh-release v210+.</p>
+!!! note
+    This feature is available with bosh-release v210+.
 
-<p class="note">Note: CLI v2 is used in the examples.</p>
+!!! note
+    CLI v2 is used in the examples.
 
 Typically release tarballs are distributed with source packages; however, there may be a requirement to use compiled packages in an environment (for example a production environment) where:
 
@@ -42,7 +44,8 @@ To export a release:
       update_watch_time: 1000-90000
     ```
 
-    <p class="note">Note: This example assumes you are using <a href="./cloud-config.html">cloud config</a>, hence no compilation, networks and other sections were defined. If you are not using cloud config you will have to define them.</p>
+    !!! note
+        This example assumes you are using <a href="./cloud-config.html">cloud config</a>, hence no compilation, networks and other sections were defined. If you are not using cloud config you will have to define them.
 
 1. Reference desired release versions you want to export.
 

@@ -4,9 +4,11 @@ title: Post-deploy Script
 
 (See [Job Lifecycle](job-lifecycle.md) for an explanation of when post-deploy scripts run.)
 
-<p class="note">Note: This feature is available with bosh-release v255.4+ and only for releases deployed with 3125+ stemcells.</p>
+!!! note
+    This feature is available with bosh-release v255.4+ and only for releases deployed with 3125+ stemcells.
 
-<p class="note">Note: Releases that make use of post-deploy scripts and are deployed on older stemcells or with an older Director may potentially deploy; however, post-deploy script will not be called.</p>
+!!! note
+    Releases that make use of post-deploy scripts and are deployed on older stemcells or with an older Director may potentially deploy; however, post-deploy script will not be called.
 
 Release job can have a post-deploy script that will run after all jobs in the deployments successfully started (and ran post-start scripts). This script allows the job to execute any additional commands against a whole deployment before considering deploy finished.
 
@@ -43,7 +45,8 @@ Unlike a drain script, a post-deploy script uses an exit code to indicate its su
 
 Post-deploy script is called every time after job is started (ctl script is called) by the Director, which means that post-deploy script should perform its operations in an idempotent way.
 
-<p class="note">Note: Running `monit start` directly on a VM will not trigger post-deploy scripts.</p>
+!!! note
+    Running `monit start` directly on a VM will not trigger post-deploy scripts.
 
 Post-deploy scripts in a deployment are executed in parallel.
 

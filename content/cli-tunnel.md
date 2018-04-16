@@ -2,7 +2,8 @@
 title: CLI Tunneling
 ---
 
-<p class="note">Note: Applies to CLI v2.</p>
+!!! note
+    Applies to CLI v2.
 
 CLI supports tunneling all of its traffic (HTTP and SSH) through a SOCKS 5 proxy specified via `BOSH_ALL_PROXY` environment variable. (Custom environment variable was chosen instead of using `all_proxy` environment variable to avoid accidently tunneling non-CLI traffic.)
 

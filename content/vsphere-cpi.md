@@ -200,7 +200,8 @@ Schema:
     * **ca_cert** [String, optional]: A CA certificate that can authenticate the NSX-T server certificate. **Required** if the NSX-T Manager has a self-signed SSL certificate. Must be in PEM format.
     * **default_vif_type** [String, optional]: Supported Types: `PARENT`. Default VIF type attached to logical port. Available in NSX-T v2.0+.
 
-<p class="note">Note: If the NSX-V or NSX-T Manager has a self-signed certificate, the certificate must be set in the `ca_cert` property.</p>
+!!! note
+    If the NSX-V or NSX-T Manager has a self-signed certificate, the certificate must be set in the `ca_cert` property.
 
 Example of a CPI configuration that will place VMs into `BOSH_CL` cluster within `BOSH_DC`:
 

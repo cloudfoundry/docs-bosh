@@ -2,9 +2,11 @@
 title: Storage DRS and vMotion Support
 ---
 
-<p class="note">Note: Storage DRS and vMotion can be used with bosh-vsphere-cpi v18+.</p>
+!!! note
+    Storage DRS and vMotion can be used with bosh-vsphere-cpi v18+.
 
-<p class="note">Warning: If a VM was accidentally deleted after a disk was migrated via DRS or vMotion, BOSH may be unable to locate the disk.</p>
+!!! warning
+    If a VM was accidentally deleted after a disk was migrated via DRS or vMotion, BOSH may be unable to locate the disk.
 
 Typically Storage DRS and vMotion moves attached persistent disks with the VM.
 When doing so it renames attached disks and places them into moved VM folder (typically called `vm-<uuid>`).

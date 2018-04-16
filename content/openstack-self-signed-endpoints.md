@@ -2,7 +2,8 @@
 title: Validating self-signed OpenStack endpoints
 ---
 
-<p class="note">Note: This feature is available with bosh-openstack-cpi v23+.</p>
+!!! note
+    This feature is available with bosh-openstack-cpi v23+.
 
 When your OpenStack is using a self-signed certificate, you want to enable the OpenStack CPI to validate it. You can configure the OpenStack CPI with the public certificate of the RootCA that signed the OpenStack endpoint certificate.
 

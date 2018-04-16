@@ -2,7 +2,8 @@
 title: Access Event Logging
 ---
 
-<p class="note">Note: This feature is available in bosh-release v256+.</p>
+!!! note
+    This feature is available in bosh-release v256+.
 
 Director logs all API access events to syslog under `vcap.bosh.director` topic.
 

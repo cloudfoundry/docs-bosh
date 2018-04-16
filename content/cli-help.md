@@ -2,6 +2,7 @@
 title: CLI v2 Commands
 ---
 
-<p class="note">Note: Examples require CLI v2.</p>
+!!! note
+    Examples require CLI v2.
 
 This document lists all CLI v2 commands:

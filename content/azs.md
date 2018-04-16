@@ -2,9 +2,10 @@
 title: First class AZs (Availability Zones)
 ---
 
-<p class="note">Note: This feature is available with bosh-release v241+. Once you opt into using cloud config all deployments must be converted to use new format. There is no way to opt out of the cloud config once you opt in.</p>
+!!! note
+    This feature is available with bosh-release v241+. Once you opt into using cloud config all deployments must be converted to use new format. There is no way to opt out of the cloud config once you opt in.
 
-Previously to spread resources over multiple AZs, deployment jobs, resource pools, and networks had to be duplicated and named differently in the deployment manifest. By convention all of these resources were suffixed with "_z1" or "zX" to indicate which AZ they belonged to.
+Previously to spread resources over multiple AZs, deployment jobs, resource pools, and networks had to be duplicated and named differently in the deployment manifest. By convention all of these resources were suffixed with `_z1` or `zX` to indicate which AZ they belonged to.
 
 With first class AZs support in the Director it's no longer necessary to duplicate and rename resources. This allows the Director to eliminate and/or simplify manual configuration for balancing VMs across AZs and IP address management.
 
@@ -26,7 +27,8 @@ azs:
 ...
 ```
 
-<p class="note">Note that IaaS specific cloud properties related to AZs should now be <em>only</em> placed under <code>azs</code>. Make sure to remove them from <code>resource_pools/vm_types</code>' cloud properties.</p>
+!!! note
+    Note that IaaS specific cloud properties related to AZs should now be *only* placed under `azs`. Make sure to remove them from `resource_pools`/`vm_types` cloud properties.
 
 AZs schema:
 
@@ -69,7 +71,8 @@ Given above configuration, 5 instances will be spread over "z1" and "z2" AZs, mo
 - existing instances in a removed AZ will be removed and their [persistent disks will be orphaned](persistent-disks.md)
 - if static IPs are specified on one or more networks, AZ selection is focused to satisfy IPs' AZ assignment
 
-<p class="note">We are planning to eventually introduce <code>bosh rebalance</code> command to forcefully rebalance instances with persistent disks.</a>
+!!! note
+    We are planning to eventually introduce `bosh rebalance` command to forcefully rebalance instances with persistent disks.
 
 ---
 ## Listing VMs in AZs {: #listing-vms-in-azs }

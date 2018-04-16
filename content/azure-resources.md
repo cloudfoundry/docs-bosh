@@ -6,7 +6,8 @@ title: Creating Azure Resources
 
 To find out subscription and tenant ID use following commands:
 
-<p class="note">Note: All azure commands were tested with the azure-cli v[2.0.21] on Ubuntu 16.04. The azure commands may vary based on your version and OS.</p>
+!!! note
+    All azure commands were tested with the azure-cli v[2.0.21] on Ubuntu 16.04. The azure commands may vary based on your version and OS.
 
 ```shell
 $ az cloud set --name AzureCloud
@@ -30,13 +31,12 @@ $ az account list --output json
 ]
 ```
 
-<p class="note">
-Note:
-If `tenantId` is not present, you may be using a personal account to log in to your Azure subscription. Switch to using work or school account.
-If you are using Azure cloud in China, you should switch the cloud from `AzureCloud` to `AzureChinaCloud`.
-If you are using Azure cloud in Azure Government, you should switch the cloud from `AzureCloud` to `AzureUSGovernment`.
-If you are using Azure cloud in German Cloud, you should switch the cloud from `AzureCloud` to `AzureGermanCloud`.
-</p>
+!!! note
+    If `tenantId` is not present, you may be using a personal account to log in to your Azure subscription. Switch to using work or school account.
+
+     * If you are using Azure cloud in China, you should switch the cloud from `AzureCloud` to `AzureChinaCloud`.
+     * If you are using Azure cloud in Azure Government, you should switch the cloud from `AzureCloud` to `AzureUSGovernment`.
+     * If you are using Azure cloud in German Cloud, you should switch the cloud from `AzureCloud` to `AzureGermanCloud`.
 
 Once you've determined your subscription ID, switch to using that account:
 
@@ -208,10 +208,8 @@ $ az network public-ip show --name my-public-ip --resource-group bosh-res-group
 
 ```
 
-<p class="note">
-Note:
-You can skip below section if you are using managed disks with Azure CPI v21+
-</p>
+!!! note
+    You can skip below section if you are using managed disks with Azure CPI v21+
 
 ---
 ## Storage Account {: #storage-account }
@@ -288,7 +286,8 @@ $ az storage account show --name myboshstore --resource-group bosh-res-group
 }
 ```
 
-<p class="note">Note: Even if create command returns an error, check whether the storage account is created successfully via `storage account show` command.</a>
+!!! note
+    Even if create command returns an error, check whether the storage account is created successfully via `storage account show` command.
 
 Once storage account is created you can retrieve primary storage access key:
 
@@ -316,7 +315,8 @@ CPI expects to find `bosh` and `stemcell` containers within a default storage ac
 - `bosh` container is used for storing root and persistent disks.
 - `stemcell` container is used for storing uploaded stemcells.
 
-<p class="note">Note: If you are planning to use multiple storage accounts, make sure to set stemcell container permissions to "Public read access for blobs only".</a>
+!!! note
+    If you are planning to use multiple storage accounts, make sure to set stemcell container permissions to "Public read access for blobs only".
 
 ```shell
 $ az storage container create --name bosh --account-name myboshstore --account-key xxx

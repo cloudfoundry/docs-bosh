@@ -2,7 +2,8 @@
 title: Manual repair with Cloud Check
 ---
 
-<p class="note">Note: Updated for bosh-release v183 (1.3010.0).</p>
+!!! note
+    Updated for bosh-release v183 (1.3010.0).
 
 BOSH provides the Cloud Check CLI command (a.k.a cck) to repair IaaS resources used by a specific deployment. It is not commonly used during normal operations; however, it becomes essential when some IaaS operations fail and the Director cannot resolve problems without a human decision or when the Resurrector is not enabled.
 

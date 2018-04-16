@@ -4,9 +4,11 @@ title: Post-start Script
 
 (See [Job Lifecycle](job-lifecycle.md) for an explanation of when post-start scripts run.)
 
-<p class="note">Note: This feature is available with bosh-release v255.4+ and only for releases deployed with 3125+ stemcells.</p>
+!!! note
+    This feature is available with bosh-release v255.4+ and only for releases deployed with 3125+ stemcells.
 
-<p class="note">Note: Releases that make use of post-start scripts and are deployed on older stemcells or with an older Director may potentially deploy; however, post-start script will not be called.</p>
+!!! note
+    Releases that make use of post-start scripts and are deployed on older stemcells or with an older Director may potentially deploy; however, post-start script will not be called.
 
 Release job can have a post-start script that will run after the job is started (specifically after monit successfully starts a process). This script allows the job to execute any additional commands against a machine and/or persistent data before considering release job as successfully started.
 
@@ -38,7 +40,8 @@ Unlike a drain script, a post-start script uses an exit code to indicate its suc
 
 Post-start script is called every time after job is started (ctl script is called) by the Director, which means that post-start script should perform its operations in an idempotent way.
 
-<p class="note">Note: Running `monit start` directly on a VM will not trigger post-start scripts.</p>
+!!! note
+    Running `monit start` directly on a VM will not trigger post-start scripts.
 
 Post-start scripts in a single deployment job (typically is composed of multiple release jobs) are executed in parallel.
 

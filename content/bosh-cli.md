@@ -8,7 +8,8 @@ BOSH Command Line Interface (CLI) is used to interact with the Director. The CLI
 $ gem install bosh_cli --no-ri --no-rdoc
 ```
 
-<p class="note">Note: BOSH CLI requires Ruby 2+</p>
+!!! note
+    BOSH CLI requires Ruby 2+
 
 If gem installation does not succeed, make sure pre-requisites for your OS are met.
 

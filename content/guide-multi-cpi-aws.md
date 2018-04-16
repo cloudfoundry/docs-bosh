@@ -2,7 +2,8 @@
 title: Multi-CPI on AWS
 ---
 
-<p class="note">BOSH supports Multi-CPI since version v261+.</p>
+!!! note
+    BOSH supports Multi-CPI since version v261+.
 
 In this guide we explore how to configure BOSH to deploy VMs from a single deployment across two different regions in two separate AWS Accounts. Communication between regions will be configured via VPC Peering or through a VPN using IPSec.
 
@@ -49,7 +50,8 @@ To connect VPCs in the same region you have to create a VPC Peering Connection b
 
     ![image](images/multi-cpi/route-table-az-2.png)
 
-<p class="note">Note: If you want IPv6 traffic to be routed you also need to add the corresponding IPv6 CIDR blocks.</p>
+!!! note
+    If you want IPv6 traffic to be routed you also need to add the corresponding IPv6 CIDR blocks.
 
 ---
 ### OpenVPN using IPSec {: #openvpn }
@@ -182,7 +184,8 @@ $ bosh update-cpi-config cpi.yml
 
 And cloud config:
 
-<p class="note">Note: The `azs` section of your `cloud-config` now contains the `cpi` key with available values that are defined in your `cpi-config`.</p>
+!!! note
+    The `azs` section of your `cloud-config` now contains the `cpi` key with available values that are defined in your `cpi-config`.
 
 ```yaml
 azs:

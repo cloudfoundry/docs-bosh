@@ -2,7 +2,8 @@
 title: UAA Integration
 ---
 
-<p class="note">Note: This feature is available with bosh-release v209+ (1.3088.0) colocated with uaa v1+.</p>
+!!! note
+    This feature is available with bosh-release v209+ (1.3088.0) colocated with uaa v1+.
 
 In this configuration the Director is configured to delegate user management to the [UAA](https://github.com/cloudfoundry/uaa) server. The UAA server can be configured to manage its own list of users or work with an LDAP server, or a SAML provider. Regardless how the UAA server is configured the BOSH CLI will ask appropriate credentials and forward them to the UAA to request a token.
 
@@ -74,7 +75,8 @@ In this configuration the Director is configured to delegate user management to 
         zones: {internal: {hostnames: []}}
     ```
 
-    <p class="note">Note: Make sure UAA URL corresponds to the Director and UAA certificate subjects.</p>
+    !!! note
+        Make sure UAA URL corresponds to the Director and UAA certificate subjects.
 
     To configure UAA to use LDAP, SAML, etc. see [uaa release job properties](https://bosh.io/jobs/uaa?source=github.com/cloudfoundry/uaa-release).
 
@@ -92,7 +94,8 @@ In this configuration the Director is configured to delegate user management to 
         adapter: postgres
     ```
 
-    <p class="note">Note: If you are using externally configured database, you should skip this section.</p>
+    !!! note
+        If you are using externally configured database, you should skip this section.
 
 1. Configure the UAA server to point to that database:
 
@@ -121,9 +124,11 @@ In this configuration the Director is configured to delegate user management to 
             url: "https://54.236.100.56:8443"
     ```
 
-    <p class="note">Note: The UAA URL given to the Director will be advertised to the CLI and the CLI will use it to ask for an access token. This means that the CLI must be able to reach that IP.</p>
+    !!! note
+        The UAA URL given to the Director will be advertised to the CLI and the CLI will use it to ask for an access token. This means that the CLI must be able to reach that IP.
 
-    <p class="note">Note: Make sure UAA URL corresponds to the UAA certificate subject.</p>
+    !!! note
+        Make sure UAA URL corresponds to the UAA certificate subject.
 
 1. Configure Certificates and Keys
 
@@ -171,7 +176,8 @@ Client secret:  **************
 $ uaac user add some-new-user --emails new.user@example.com
 ```
 
-<p class="note">Note: Use UAA CLI v3.1.4+ to specify custom CA certificate.</p>
+!!! note
+    Use UAA CLI v3.1.4+ to specify custom CA certificate.
 
 You can add permissions to users by defining a group and adding users to that group:
 
@@ -192,7 +198,8 @@ Remove users to revoke authentication completely:
 $ uaac user delete some-new-user
 ```
 
-<p class="note">Note that changing group membership will take effect when a new access token is created for that user. New access are granted when their existing access token expires or when user logs out and logs in again. Hence it's recommended to set access token validity to a minute or so.</p>
+!!! note
+    Changing group membership will take effect when a new access token is created for that user. New access are granted when their existing access token expires or when user logs out and logs in again. Hence it's recommended to set access token validity to a minute or so.
 
 ---
 ## Logging into the Director as a UAA client {: #client-login }

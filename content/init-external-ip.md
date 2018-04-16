@@ -28,4 +28,5 @@ $ bosh create-env bosh-deployment/bosh.yml \
     -v external_ip=12.34.56.78
 ```
 
-<p class="note">Note that if you have already ran `bosh create-env` command before adding above operations file, you may have to remove generated Director (and other components such as UAA) SSL certificates from the variables store so that SSL certificates can be regenerated with SANs.</a>
+!!! note
+    If you have already ran `bosh create-env` command before adding above operations file, you may have to remove generated Director (and other components such as UAA) SSL certificates from the variables store so that SSL certificates can be regenerated with SANs.

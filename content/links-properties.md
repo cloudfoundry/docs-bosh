@@ -4,7 +4,8 @@ title: Link Properties
 
 (See [Links](links.md) for an introduction.)
 
-<p class="note">Note: This feature is available with bosh-release v255.5+.</p>
+!!! note
+    This feature is available with bosh-release v255.5+.
 
 In addition to sharing basic networking information (name, AZ, IP, etc.) links allow to show arbitrary information via properties. Most common example is sharing a port value. From our previous example here is a `web` job that communicates with a database:
 

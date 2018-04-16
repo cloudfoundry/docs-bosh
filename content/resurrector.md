@@ -13,7 +13,8 @@ Under certain conditions the Resurrector will consider the system in the "meltdo
 
 Resurrection can be turned off per specific deployment job instance or for all VMs managed by the Director via [`bosh vm resurrection` CLI command](sysadmin-commands.md#vm-resurrection).
 
-<p class='note'><strong>Note</strong>: The Health Monitor deploys with the Resurrector plugin disabled by default. To use it, you must enable the Resurrector plugin in your BOSH deployment manifest.</p>
+!!! note
+    The Health Monitor deploys with the Resurrector plugin disabled by default. To use it, you must enable the Resurrector plugin in your BOSH deployment manifest.
 
 ---
 ## Enabling and Configuring the Resurrector {: #enable }

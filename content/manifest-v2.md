@@ -2,9 +2,11 @@
 title: Manifest v2 Schema
 ---
 
-<p class="note">Note: This feature is available with bosh-release v255.4+.</p>
+!!! note
+    This feature is available with bosh-release v255.4+.
 
-<p class="note">Warning: If you are using director version between v241 and v256, once you opt into using cloud config all deployments must be converted to use new format. If you want to deploy both v1 and v2 manifests, update to director v257+.</p>
+!!! warning
+    If you are using director version between v241 and v256, once you opt into using cloud config all deployments must be converted to use new format. If you want to deploy both v1 and v2 manifests, update to director v257+.
 
 The deployment manifest is a YAML file that defines the components and properties of the deployment. When an operator initiates a new deployment using the CLI, the Director receives a manifest and creates or updates a deployment with matching name.
 
@@ -211,7 +213,8 @@ instance_groups:
 ---
 ## Addons Block {: #addons }
 
-<p class="note">Note: This feature is available with bosh-release v262+.</p>
+!!! note
+    This feature is available with bosh-release v262+.
 
 **addons** [Array, required]: Specifies the [addons](./terminology.html#addon) to be applied to this deployments.
 

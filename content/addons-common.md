@@ -36,7 +36,8 @@ See [syslog_forwarder job](https://bosh.io/jobs/syslog_forwarder?source=github.c
 ---
 ## Custom SSH login banner {: #login-banner }
 
-<p class="note">Note: This job work with 3232+ stemcell series due to how sshd is configured.</p>
+!!! note
+    This job work with 3232+ stemcell series due to how sshd is configured.
 
 Need: Configure custom login banner to comply with organizational regulations.
 
@@ -64,7 +65,8 @@ See [login_banner job](https://bosh.io/jobs/login_banner?source=github.com/cloud
 ---
 ## Custom SSH users {: #misc-users }
 
-<p class="note">Warning: This job does not remove users from the VM when user is removed from the manifest.</p>
+!!! warning
+    This job does not remove users from the VM when user is removed from the manifest.
 
 Need: Provide SSH access to all VMs for a third party automation system.
 

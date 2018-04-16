@@ -2,8 +2,11 @@
 title: Using Auto-anti-affinity
 ---
 
-<p class="note">Note: This feature is available with bosh-openstack-cpi v36+.</p>
-<p class="note">Note: This feature is available with OpenStack Mitaka and higher.</p>
+!!! note
+    This feature is available with bosh-openstack-cpi v36+.
+
+!!! note
+    This feature is available with OpenStack Mitaka and higher.
 
 In OpenStack, you can use server groups with different policies to influence how VMs are placed on the available hypervisors. In OpenStack Mitaka the policy `soft-anti-affinity` was added, allowing for a best-effort approach to place VMs within a server group on different hypervisors. This means the VM creation does not fail, even when the VM needs to be placed on a hypervisor that does already contain a VM from the same server group.
 

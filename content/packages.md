@@ -67,10 +67,11 @@ BOSH automatically creates a packaging script file template when you run the `bo
 packaging script in a package must include a symlink in the format `/var/vcap/packages/<package name>` for each dependency and
 deliver all compiled code to `BOSH_INSTALL_TARGET`. Store the script in the `packages/<package name>/packaging` directory.
 
-  <p class="note"><strong>Note</strong>: If your package contains source code, the script must compile the code and deliver it to
-<code>BOSH_INSTALL_TARGET</code>. If your package contains pre-compiled software, the script must extract the binary from the compressed file and copy it to <code>BOSH_INSTALL_TARGET</code>.
+!!! note
+    If your package contains source code, the script must compile the code and deliver it to `BOSH_INSTALL_TARGET`. If your package contains pre-compiled software, the script must extract the binary from the compressed file and copy it to `BOSH_INSTALL_TARGET`.
 
-  <p class="note"><strong>Note</strong>: If your package contains pre-compiled software, record the operating system that the pre-compiled software requires. Because a pre-compiled binary runs only on a specific operating system, any deployment using a package containing pre-compiled software requires a stemcell that contains that operating system.</p>
+!!! note
+    If your package contains pre-compiled software, record the operating system that the pre-compiled software requires. Because a pre-compiled binary runs only on a specific operating system, any deployment using a package containing pre-compiled software requires a stemcell that contains that operating system.
 
 Example Ruby packaging script:
 

@@ -12,4 +12,5 @@ $ bosh create-env bosh-deployment/bosh.yml \
     -v vcenter_rp=my-bosh-rp
 ```
 
-<p class="note">Note that the vSphere resource pool must already be created before running the `bosh create-env` command.</a>
+!!! note
+    The vSphere resource pool must already be created before running the `bosh create-env` command.

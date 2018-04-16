@@ -340,7 +340,8 @@ No return value
 
 ---
 ### `calculate_vm_cloud_properties` (Experimental) {: #calculate-vm-cloud-properties }
-<p class="note">Note: This method is not called by BOSH yet.</p>
+!!! note
+    This method is not called by BOSH yet.
 
 Returns a hash that can be used as VM `cloud_properties` when calling `create_vm`; it describes the IaaS instance type closest to the arguments passed.
 
@@ -538,7 +539,8 @@ No return value
 ---
 ### `set_disk_metadata` {: #set-disk-metadata }
 
-<p class="note">Note: This method is called by BOSH v262+.</p>
+!!! note
+    This method is called by BOSH v262+.
 
 Sets disk's metadata to make it easier for operators to categorize disks when looking at the IaaS management console. For example AWS CPI uses tags to store metadata for operators to see in the AWS Console.
 
@@ -622,7 +624,8 @@ No return value
 
 Determines cloud ID of the VM executing the CPI code. Currently used in combination with `get_disks` by the Director to determine which disks to self-snapshot.
 
-<p class="note">Note: Do not implement; this method will be deprecated and removed.</p>
+!!! note
+    Do not implement; this method will be deprecated and removed.
 
 #### Arguments
 

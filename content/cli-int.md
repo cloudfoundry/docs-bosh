@@ -2,11 +2,13 @@
 title: CLI Variable Interpolation
 ---
 
-<p class="note">Note: Applies to CLI v2.</p>
+!!! note
+    Applies to CLI v2.
 
 It's typically necessary to separate passwords, certificates, S3 bucket names etc. from YAML documents used with CLI commands such as `bosh create-env` and `bosh deploy`. Even though the structure of a YAML document (manifest) does not change these values are typically different. CLI provides special syntax in YAML documents to annotate such values making plain YAML document into a parameterized template.
 
-<p class="note">Note: Changing structure of a YAML document such as adding an S3 access configuration section is a bit more than just YAML document parameterization. Look into [operations files](cli-ops-files.md) for additional details.</p>
+!!! note
+    Changing structure of a YAML document such as adding an S3 access configuration section is a bit more than just YAML document parameterization. Look into [operations files](cli-ops-files.md) for additional details.
 
 ---
 ##  Variables {: #variables }
@@ -28,7 +30,8 @@ s3_access_secret_key: ((access_secret_key))
 
 Commands that accept YAML documents such as `bosh deploy` and `bosh update-cloud-config` typically have a set of flags that can be used to provide variable values. `bosh interpolate` command can be used to experiment with such flags as its only job is to print result of variable interpolation.
 
-<p class="note">Note that once Director officially supports config server API, it will be recommended to use connected config server to store variable values instead of providing them via CLI flags.</p>
+!!! note
+    Once Director officially supports config server API, it will be recommended to use connected config server to store variable values instead of providing them via CLI flags.
 
 CLI allows to provide variable values via usage of one or more of the following flags:
 
@@ -128,7 +131,8 @@ A variable can define its type and generation options.
 
 `--vars-store=path` flag provides a read write value source unlike all other variables flags that provide read only source. It is able to lazily generate and save (to a given file location) variable values based on their type and options.
 
-<p class="note">Note that once Director officially supports config server API, it will be recommended to avoid using `--vars-store` flag for all commands except `bosh create-env`. `bosh create-env` command will not be able to use config server API since it most likely will be deploying a config server alongside the Director.</p>
+!!! note
+    Once Director officially supports config server API, it will be recommended to avoid using `--vars-store` flag for all commands except `bosh create-env`. `bosh create-env` command will not be able to use config server API since it most likely will be deploying a config server alongside the Director.
 
 Currently CLI supports `certificate`, `password`, `rsa`, and `ssh` types. The Director (connected to a config server) may support additional types known by the config server.
 

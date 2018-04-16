@@ -69,7 +69,8 @@ VLANs provide the ability to partition devices and subnets on the network. To or
         -v sl_api_key=
     ```
 
-    <p class="note">Note: The reason why need to run `bosh create-env` command with sudo is that it needs to update `/etc/hosts` file which needs suffient permission.</p>
+    !!! note
+        The reason why need to run `bosh create-env` command with sudo is that it needs to update `/etc/hosts` file which needs suffient permission.
 
 1. Connect to the Director.
 

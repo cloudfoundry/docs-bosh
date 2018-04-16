@@ -105,7 +105,8 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
 
 1. Fill out the Edit inbound rules form and click **Save**.
 
-    <p class="note"><strong>Note</strong>: It highly discouraged to run any production environment with <code>0.0.0.0/0</code> source or to make any BOSH management ports publicly accessible.</p>
+    !!! note
+        It highly discouraged to run any production environment with <code>0.0.0.0/0</code> source or to make any BOSH management ports publicly accessible.
 
     <table border="1" class="nice">
       <tr>
@@ -123,7 +124,8 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
       <tr><td>All UDP</td><td>0 - 65535</td><td>ID of this security group</td><td>Management and data access</td></tr>
     </table>
 
-    <p class="note"><strong>Note</strong>:  To enter your security group as a *Source*, select *Custom IP*, and enter "bosh". Note: The AWS Console should autocomplete the security group ID (e.g. "sg-12ab34cd").</p>
+    !!! note
+        To enter your security group as a *Source*, select *Custom IP*, and enter "bosh". Note: The AWS Console should autocomplete the security group ID (e.g. "sg-12ab34cd").
 
     ![image](images/deploy-microbosh-to-aws/edit-security-group-rules.png)
 

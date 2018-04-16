@@ -2,7 +2,8 @@
 title: CLI `create-env` Dependencies
 ---
 
-<p class="note">Note: Applies to CLI v2.</p>
+!!! note
+    Applies to CLI v2.
 
 The `bosh create-env` (and `bosh delete-env`) command has dependencies.
 

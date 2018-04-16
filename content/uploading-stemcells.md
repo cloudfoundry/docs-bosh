@@ -2,7 +2,8 @@
 title: Upload Stemcells
 ---
 
-<p class="note">Note: Document uses CLI v2.</p>
+!!! note
+    Document uses CLI v2.
 
 (See [What is a Stemcell?](stemcell.md) for an introduction to stemcells.)
 

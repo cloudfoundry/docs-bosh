@@ -2,7 +2,8 @@
 title: Extended Registry configuration
 ---
 
-<p class="note">Note: We are actively pursuing to remove the Registry to simplify BOSH architecture.</p>
+!!! note
+    We are actively pursuing to remove the Registry to simplify BOSH architecture.
 
 Default configuration typically uses Registry and defaults it to IP source authentication. Due to certain networking configurations (NAT) IP source authentication may not work correctly, hence switching to basic authentication is necessary.
 

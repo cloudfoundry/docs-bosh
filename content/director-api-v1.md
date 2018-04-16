@@ -2,7 +2,8 @@
 title: Director API v1
 ---
 
-<p class="note">Note: Before using the Director API directly, we strongly encourage to consider using the CLI for automation such as performing a scheduled deploy from a CI. We hope that you will open a <a href="https://github.com/cloudfoundry/bosh/issues">GitHub issue</a> to share your use cases so that we can suggest or possibly make additions to the CLI.</a></p>
+!!! note
+    Before using the Director API directly, we strongly encourage to consider using the CLI for automation such as performing a scheduled deploy from a CI. We hope that you will open a <a href="https://github.com/cloudfoundry/bosh/issues">GitHub issue</a> to share your use cases so that we can suggest or possibly make additions to the CLI.</a>
 
 This document lists common API endpoints provided by the Director.
 
@@ -678,7 +679,8 @@ Deleting a deployment is performed in a Director task. Response will be a redire
 ---
 ## Instances in a deployment {: #instances }
 
-<p class="note">Note: This feature is available with bosh-release v256+.</p>
+!!! note
+    This feature is available with bosh-release v256+.
 
 [Instances](https://bosh.io/docs/terminology.html#instance) represent the expected state of the VMs of a deployment. The actual state of the VMs can be retrieved with the [`vms` endpoints](#vms). `instances` is similar to `vms`, but also contains instances that do not have a VM.
 

@@ -2,7 +2,8 @@
 title: CPI Config
 ---
 
-<p class="note">Note: This feature is available with bosh-release v261+.</p>
+!!! note
+    This feature is available with bosh-release v261+.
 
 In most cases having single Director use a single CPI and hence a single IaaS section (for example one AWS account, vSphere datacenter, or OpenStack tenant) is enough. But in some cases operator may want to rely on multiple IaaS sections to achieve necessary isolation, availability, capacity, scalability, security, and/or management needs. To address such configuration scenarios  Director can be configured with multiple CPIs at runtime (instead of only allowing single CPI configuration at the deploy time).
 
@@ -13,7 +14,8 @@ The CPI config is a YAML file that defines multiple CPIs and properties necessar
 
 To update CPI config on the Director use [`bosh update-cpi-config`](cli-v2.md#update-cpi-config) CLI command.
 
-<p class="note">Note: See <a href="#example">example CPI config</a> below.</p>
+!!! note
+    See <a href="#example">example CPI config</a> below.
 
 ```shell
 $ bosh update-cpi-config cpis.yml
@@ -43,7 +45,8 @@ Once CPI config is updated AZs in the cloud config can reference specific CPI to
 * **type** [String, required]: CPI type. Director will add `_cpi` suffix to the end of the type when calling CPI binary. Example: `openstack`, `google`.
 * **properties** [Hash, required]: Set of properties to provide to the CPI for each call so that CPI can authenticate and provision resources in an IaaS.
 
-<p class="note">Note: Properties will vary depending on the CPI you're trying to use. These are the `Global Configuration` of a given CPI. See <a href="cpi-config.html#cpi-config">a complete list of the CPI properties</a>.</p>
+!!! note
+    Properties will vary depending on the CPI you're trying to use. These are the `Global Configuration` of a given CPI. See <a href="cpi-config.html#cpi-config">a complete list of the CPI properties</a>.
 
 OpenStack example:
 

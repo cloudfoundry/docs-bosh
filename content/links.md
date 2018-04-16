@@ -2,7 +2,8 @@
 title: Links
 ---
 
-<p class="note">Note: This feature is available with bosh-release v255.5+.</p>
+!!! note
+    This feature is available with bosh-release v255.5+.
 
 Previously, if network communication was required between jobs, release authors had to add job properties to accept other job's network addresses (e.g. a `db_ips` property). Operators then had to explicitly assign static IPs or DNS names for each instance group and fill out network address properties. Such configuration typically relied on some helper tool like spiff or careful manual configuration. It also led to inconsistent network configuration as different jobs named their properties differently. All of that did not make it easy to automate and operate multiple environments.
 

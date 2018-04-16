@@ -4,7 +4,8 @@ title: Manual Linking
 
 (See [Links](links.md) and [Link properties](links-properties.md) for an introduction.)
 
-<p class="note">Note: This feature is available with bosh-release v256+.</p>
+!!! note
+    This feature is available with bosh-release v256+.
 
 For components/endpoints that are not managed by the Director or cannot be linked, operator can explicitly specify full link details in the manifest. This allows release authors to continue exposing a single interface (link) for connecting configuration, instead of exposing adhoc job properties for use when link is not provided.
 

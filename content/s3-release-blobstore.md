@@ -2,7 +2,8 @@
 title: Setting up an S3 Release Blobstore
 ---
 
-<p class="note">Note: Examples require CLI v2.</p>
+!!! note
+    Examples require CLI v2.
 
 This topic is written for release maintainers and describes how to set up a S3 bucket for storing release artifacts.
 
@@ -25,7 +26,8 @@ S3 bucket is used for storing release blobs and generated final release blobs. I
 }
 ```
 
-<p class="note"><strong>Note</strong>: S3 buckets have a global namespace. If you create a bucket, that name has been forever consumed for everyone using S3. If you choose to delete that bucket, the name will not be added back to the global pool of names. It is gone forever.</p>
+!!! note
+    S3 buckets have a global namespace. If you create a bucket, that name has been forever consumed for everyone using S3. If you choose to delete that bucket, the name will not be added back to the global pool of names. It is gone forever.
 
 ## Creating IAM User for the Maintainer {: #iam-user }
 
@@ -53,7 +55,8 @@ blobstore:
     bucket_name: <blobs_bucket_name>
 ```
 
-<p class="note"><strong>Note</strong>: The <code>.gitignore</code> file in the BOSH release should include <code>config/private.yml</code>. This file should <strong>not</strong> be committed to the release repo. It is only meant for the release maintainers. <code>config/final.yml</code>, on the other hand, should not be in the <code>.gitignore</code> file, and should be committed to the repository, as it is for users consuming and deploying the release.</p>
+!!! note
+    The <code>.gitignore</code> file in the BOSH release should include <code>config/private.yml</code>. This file should <strong>not</strong> be committed to the release repo. It is only meant for the release maintainers. <code>config/final.yml</code>, on the other hand, should not be in the <code>.gitignore</code> file, and should be committed to the repository, as it is for users consuming and deploying the release.
 
 - Attach a _user_ policy that would limit the user to permissions to read/write to the bucket that was just created:
 
@@ -68,7 +71,8 @@ blobstore:
 }
 ```
 
-<p class="note"><strong>Note</strong>: When you first create a bucket, it might take a little while for Amazon to be able to route requests correctly to the bucket and so downloads may fail with an obscure "Broken Pipe" error. The solution is to wait for some time before trying.
+!!! tip
+    When you first create a bucket, it might take a little while for Amazon to be able to route requests correctly to the bucket and so downloads may fail with an obscure "Broken Pipe" error. The solution is to wait for some time before trying.
 
 ## Setting S3 region {: #setting-region }
 

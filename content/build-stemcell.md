@@ -20,7 +20,8 @@ In the future, BOSH team will investigate how to best consolidate stemcells into
 ---
 ## Tarball Structure {: #tarball-structure }
 
-<p class="note">Note that tarball structure is subject to change without notice.</p>
+!!! info
+    This is an implementation detail. The tarball structure is subject to change without notice.
 
 ```shell
 $ tar tvf light-bosh-stemcell-3033-aws-xen-hvm-ubuntu-trusty-go_agent.tgz
@@ -38,7 +39,8 @@ $ tar tvf light-bosh-stemcell-3033-aws-xen-hvm-ubuntu-trusty-go_agent.tgz
 
 ### Metadata {: #metadata }
 
-<p class="note">Note that content of `stemcell.MF` is subject to change without notice.</p>
+!!! info
+    This is an implementation detail. The content of `stemcell.MF` is subject to change without notice.
 
 * **name** [String, required]: A unique name used to identify stemcell series.
 * **operating_system** [String, required]: Operating system in the stemcell. Example: `ubuntu-trusty`.

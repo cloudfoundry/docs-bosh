@@ -8,7 +8,8 @@ This topic describes how to configure BOSH with the minimum set of permissions o
 
 This section will guide you through how to configure the Google Cloud CPI and Director with the default blobstore.
 
-<p class="note">Note: If you wish to configure BOSH to use GCS blobstore also follow [these steps](google-required-permissions.md#director-with-gcs-blobstore)</p>
+!!! note
+    If you wish to configure BOSH to use GCS blobstore also follow [these steps](google-required-permissions.md#director-with-gcs-blobstore)
 
 1. Download and install the [Google Cloud CLI](https://cloud.google.com/sdk/) and [BOSH CLI v2](cli-v2.md#install).
 
@@ -120,7 +121,8 @@ This section will guide you through how to configure the Google Cloud CPI and Di
 
 In addition to configuring the Google CPI and Director with the previous permissions, in order to allow them to use GCS blobstore you need to grant additional permissions.
 
-<p class="note">Note: We highly recommend creating separate service accounts.</p>
+!!! note
+    We highly recommend creating separate service accounts.
 
 This configuration is similar to the previous one except that it's used when the Director and the Agents use GCS as their [blobstore](bosh-components.md#blobstore) instead of an internal blobstore provided by the bosh release.
 
@@ -153,7 +155,8 @@ This configuration is similar to the previous one except that it's used when the
     - storage.objects.create
     ```
 
-    <p class="note">Note: The agent does not need to delete files from the blobstore</p>
+    !!! note
+        The agent does not need to delete files from the blobstore
 
 4. Configure roles.
 

@@ -2,13 +2,16 @@
 title: Director SSL Certificate Configuration
 ---
 
-<p class="note">Note: See <a href="director-certs-openssl.html">Director SSL Certificate Configuration with OpenSSL</a> if you prefer to generate certs with OpenSSL config.</p>
+!!! note
+    See <a href="director-certs-openssl.html">Director SSL Certificate Configuration with OpenSSL</a> if you prefer to generate certs with OpenSSL config.
 
 Depending on you configuration, there are up to three endpoints to be secured using SSL certificates: The Director, the UAA, and the SAML Service Provider on the UAA.
 
-<p class="note">Note: If you are using the UAA for user management, an SSL certificate is mandatory for the Director and the UAA.</p>
+!!! note
+    If you are using the UAA for user management, an SSL certificate is mandatory for the Director and the UAA.
 
-<p class="note">Note: Unless you are using a configuration server, your SSL certificates will be stored in the Director's database.</p>
+!!! note
+    Unless you are using a configuration server, your SSL certificates will be stored in the Director's database.
 
 ## Generate SSL certificates {: #generate }
 
@@ -78,7 +81,8 @@ jobs:
 ...
 ```
 
-<p class="note">Note: A `path` to the key or certificate file is not supported.</p>
+!!! note
+    A `path` to the key or certificate file is not supported.
 
 If you are using the UAA for user management, additionally put certificates in these properties:
 
@@ -101,7 +105,8 @@ After you deployed your Director with the above changes, you need to specify `--
 $ bosh --ca-cert <(bosh int certs.yml --path /director_ssl/ca) target 10.244.4.2
 ```
 
-<p class="note">Note: If your certificates are trusted via system installed CA certificates, there is no need to provide `--ca-cert` option.</p>
+!!! note
+    If your certificates are trusted via system installed CA certificates, there is no need to provide `--ca-cert` option.
 
 ---
 [Back to Table of Contents](index.md#install)

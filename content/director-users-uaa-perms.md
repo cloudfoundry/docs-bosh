@@ -4,7 +4,8 @@ title: UAA Permissions
 
 All UAA users can log into all Directors which can verify the access token. However, user actions will be limited based on the presence of the following scopes in their UAA token:
 
-<p class="note">Warning: If you use the same private key to sign keys on different UAAs, users might obtain a token from one UAA and use it on the Director configured with a different UAA. It is therefore highly recommended to lock down scopes to individual Directors and not re-use your private key used for signing on the UAA.</p>
+!!! warning
+    If you use the same private key to sign keys on different UAAs, users might obtain a token from one UAA and use it on the Director configured with a different UAA. It is therefore highly recommended to lock down scopes to individual Directors and not re-use your private key used for signing on the UAA.
 
 ## Anonymous {: #anon }
 
@@ -43,7 +44,8 @@ Can access in read-only capacity:
 ---
 ## Team Admin {: #team-admin }
 
-<p class="note">Note: This feature is available with bosh-release v255.4+.</p>
+!!! note
+    This feature is available with bosh-release v255.4+.
 
 The Director has a concept of a team so that set of users can only manage specific deployments. When a user creates a deployment, created deployment will be *managed* by the teams that that user is part of. There is currently no way to assign or reassign deployment's teams.
 
@@ -74,7 +76,8 @@ Team admin cannot upload releases and stemcells.
 ---
 ## Stemcell uploader {: #stemcell-uploader }
 
-<p class="note">Note: This feature is available with bosh-release v261.2+.</p>
+!!! note
+    This feature is available with bosh-release v261.2+.
 
 Scopes:
 
@@ -85,7 +88,8 @@ Note that CLI will try to list stemcells before uploading given stemcell, hence 
 ---
 ## Release uploader {: #release-uploader }
 
-<p class="note">Note: This feature is available with bosh-release v261.2+.</p>
+!!! note
+    This feature is available with bosh-release v261.2+.
 
 Scopes:
 

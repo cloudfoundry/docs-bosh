@@ -2,7 +2,8 @@
 title: CLI Global Flags
 ---
 
-<p class="note">Note: Applies to CLI v2.</p>
+!!! note
+    Applies to CLI v2.
 
 ## Help flag {: #help }
 
@@ -14,7 +15,8 @@ title: CLI Global Flags
 
 - `-v` flag shows CLI version.
 
-<p class="note">Note: To see Director version use `bosh env` command.</p>
+!!! note
+    To see Director version use `bosh env` command.
 
 ---
 ## Environment flags {: #env }

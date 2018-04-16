@@ -13,7 +13,8 @@ This document shows how to initialize new [environment](terminology.md#environme
     * [Mitaka](http://www.openstack.org/software/mitaka) (actively tested)
     * [Newton](http://www.openstack.org/software/newton) (actively tested)
 
-    <p class="note">Note: Juno has a <a href="https://bugs.launchpad.net/nova/+bug/1396854">bug</a> that prevents BOSH to assign specific IPs to VMs. You have to apply a Nova patch to avoid this problem.</p>
+    !!! tip
+        Juno has a <a href="https://bugs.launchpad.net/nova/+bug/1396854">bug</a> that prevents BOSH to assign specific IPs to VMs. You have to apply a Nova patch to avoid this problem.
 
 1. The following OpenStack services:
     * [Identity](https://www.openstack.org/software/releases/ocata/components/keystone):
@@ -36,7 +37,8 @@ This document shows how to initialize new [environment](terminology.md#environme
 
     1. Manual configuration
 
-        <p class="note"><strong>Note</strong>: See the <a href="http://docs.openstack.org/">OpenStack documentation</a> for help finding more information.</p>
+        !!! note
+            See the [OpenStack documentation](http://docs.openstack.org/) for help finding more information.
 
         Alternatively, you can do the following things manually as described below:
         * Create a [Keypair](#keypair).
@@ -91,7 +93,8 @@ You must create and configure two Security Groups to restrict incoming network t
 
 1. Add the following rules to the BOSH Security Group:
 
-    <p class="note"><strong>Note</strong>: It highly discouraged to run any production environment with <code>0.0.0.0/0</code> source or to make any BOSH management ports publicly accessible.</p>
+    !!! warning
+        It highly discouraged to run any production environment with `0.0.0.0/0` source or to make any BOSH management ports publicly accessible.
 
     <table border="1" class="nice" >
       <tr>

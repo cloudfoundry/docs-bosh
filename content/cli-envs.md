@@ -2,7 +2,8 @@
 title: CLI Environments
 ---
 
-<p class="note">Note: Applies to CLI v2.</p>
+!!! note
+    Applies to CLI v2.
 
 An environment consists of a Director and deployments that it orchestrates.
 

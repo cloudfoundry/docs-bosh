@@ -2,7 +2,8 @@
 title: Native DNS Support [beta]
 ---
 
-<p class="note">Note: This feature is still under development; however, there are portions of DNS functionality that are already available in bosh-release v262+. 3468+ Linux stemcells are required.</p>
+!!! note
+    This feature is still under development; however, there are portions of DNS functionality that are already available in bosh-release v262+. 3468+ Linux stemcells are required.
 
 Using DNS instead of plain IPs within deployments:
 

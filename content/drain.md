@@ -23,7 +23,8 @@ templates:
   drain-web-requests.erb: bin/drain
 ```
 
-<p class="note">Note: Drain script from each release job will run if they are deployed on 3093+ stemcells. Before only the first release job's drain script ran.</p>
+!!! note
+    Drain script from each release job will run if they are deployed on 3093+ stemcells. Before only the first release job's drain script ran.
 
 ---
 ## Script Implementation {: #script-implementation }
@@ -42,9 +43,11 @@ You must ensure that your drain script exits in one of following ways:
 
     **dynamic draining**: If the drain script prints a negative integer, BOSH sleeps for that many seconds, then calls the drain script again.
 
-    <p class="note">Note: BOSH re-runs a script indefinitely as long as the script exits with a exit code <code>0</code> and outputs a negative integer.</p>
+    !!! note
+        BOSH re-runs a script indefinitely as long as the script exits with a exit code <code>0</code> and outputs a negative integer.
 
-    <p class="note">Note: It's recommended to only use static draining as dynamic draining will be eventually deprecated.</p>
+    !!! tip
+        It's recommended to only use static draining as dynamic draining will be eventually deprecated.
 
 ---
 ## Environment Variables {: #environment-variables }

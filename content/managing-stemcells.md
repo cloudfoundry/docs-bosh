@@ -17,7 +17,8 @@ You can identify stemcell version from inside the VM via following files:
 - `/var/vcap/bosh/etc/stemcell_version`: Example: `3232.1`
 - `/var/vcap/bosh/etc/stemcell_git_sha1`: Example: `8c8a6bd2ac5cacb11c421a97e90b888be9612ecb+`
 
-<p class="note">Note: Release authors should not use the contents of these files in their releases.</p>
+!!! note
+    Release authors should not use the contents of these files in their releases.
 
 See [Stemcell Building](build-stemcell.md#tarball-structure) to find stemcell archive structure.
 

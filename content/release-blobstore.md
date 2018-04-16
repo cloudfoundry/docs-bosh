@@ -2,7 +2,8 @@
 title: Release Blobstore
 ---
 
-<p class="note">Note: Examples require CLI v2.</p>
+!!! note
+    Examples require CLI v2.
 
 A release blobstore contains [release blob](release-blobs.md) and created final releases.
 

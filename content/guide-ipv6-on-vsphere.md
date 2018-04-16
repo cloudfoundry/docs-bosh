@@ -2,7 +2,8 @@
 title: IPv6 on vSphere
 ---
 
-<p class="note">BOSH supports IPv6 on vSphere since version bosh-release v264+, stemcell 3468.11+ and CLI v2.0.45+.</p>
+!!! note
+    BOSH supports IPv6 on vSphere since version bosh-release v264+, stemcell 3468.11+ and CLI v2.0.45+.
 
 In this guide we explore how to configure BOSH in an IPv6-enabled environment.
 

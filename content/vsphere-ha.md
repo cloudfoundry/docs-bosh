@@ -5,13 +5,14 @@ title: vSphere HA
 vSphere High Availability (HA) is a VMware product that detects ESXi host failure, for example host power off or network partition, and automatically restarts virtual machines on other hosts in the cluster.
 It can interoperate effectively with the [BOSH Resurrector](resurrector.md), which recreates VMs if the Director loses contact with a VM's BOSH Agent.
 
-<p class="note">Note: This feature is available with bosh-vsphere-cpi v30+.</p>
+!!! note
+    This feature is available with bosh-vsphere-cpi v30+.
 
 ### vCenter Configuration
 
 Configure vSphere HA as follows:
 
-* Check ***Cluster* &rarr; Manage &rarr; Settings &rarr; vSphere HA &rarr;
+* Check **Cluster* &rarr; Manage &rarr; Settings &rarr; vSphere HA &rarr;
 Edit... &rarr; Turn on vSphere HA**
 
 * Check **Host Monitoring**
@@ -34,5 +35,5 @@ jobs:
         agent_timeout: 180
 ```
 
-<p class="note"> Warning: If vSphere HA is not enabled on the cluster and a host failure occurs, the BOSH Resurrector will be unable to recreate the VMs without manual intervention.
-Follow the manual procedure as appropriate: <a href="vsphere-esxi-host-failure.html">Host Failure</a> or <a href="vsphere-network-partition.html">Network Partition</a>.</p>
+!!! warning
+    If vSphere HA is not enabled on the cluster and a host failure occurs, the BOSH Resurrector will be unable to recreate the VMs without manual intervention. Follow the manual procedure as appropriate: [Host Failure](vsphere-esxi-host-failure.md) or [Network Partition](vsphere-network-partition.md).

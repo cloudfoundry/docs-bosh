@@ -113,7 +113,8 @@ irb(main):001:0> Bosh::Director::Models::RenderedTemplatesArchive.count
 => 3
 ```
 
-<p class="note">Note: It's not recommended to modify the Director database via this or other manual methods. Please let us know via GitHub issue if you need a certain feature in the BOSH CLI to do some operation.</p>
+!!! note
+    It's not recommended to modify the Director database via this or other manual methods. Please let us know via GitHub issue if you need a certain feature in the BOSH CLI to do some operation.
 
 ---
 ## Task X cancelled {: #canceled-task }

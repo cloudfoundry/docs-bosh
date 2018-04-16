@@ -2,7 +2,8 @@
 title: Events
 ---
 
-<p class="note">Note: This feature is available in bosh-release v256+.</p>
+!!! note
+    This feature is available in bosh-release v256+.
 
 In addition to keeping a historical list of [Director tasks](terminology.md#director-task) for debugging history, the Director keeps detailed list of actions user and system took during its operation. Events are recorded into the Director database.
 

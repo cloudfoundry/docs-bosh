@@ -2,7 +2,8 @@
 title: Runtime Config
 ---
 
-<p class="note">Note: This feature is available with bosh-release v255.4+.</p>
+!!! note
+    This feature is available with bosh-release v255.4+.
 
 The Director has a way to specify global configuration for all VMs in all deployments. The runtime config is a YAML file that defines IaaS agnostic configuration that applies to all deployments.
 
@@ -11,7 +12,8 @@ The Director has a way to specify global configuration for all VMs in all deploy
 
 To update runtime config on the Director use [`bosh update runtime-config`](sysadmin-commands.md#cloud-config) CLI command.
 
-<p class="note">Note: See <a href="#example">example runtime config</a> below.</p>
+!!! note
+    See <a href="#example">example runtime config</a> below.
 
 ```shell
 $ bosh update-runtime-config runtime.yml
@@ -51,7 +53,8 @@ addons:
         ca_cert: ...
 ```
 
-<p class="note">Note: To remove all addons, specify empty arrays as follows:</p>
+!!! note
+    To remove all addons, specify empty arrays as follows:
 
 ```yaml
 releases: []

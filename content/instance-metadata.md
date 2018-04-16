@@ -2,7 +2,8 @@
 title: Instance Metadata
 ---
 
-<p class="note">Note: This feature is available with bosh-release v255.4+ and on 3213+ stemcell series.</p>
+!!! note
+    This feature is available with bosh-release v255.4+ and on 3213+ stemcell series.
 
 It's common for software to need to know where it was deployed so that it can make application level decisions or propagate location information in logs and metrics. Director instance specific information in multiple ways:
 

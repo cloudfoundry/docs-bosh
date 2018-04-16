@@ -2,7 +2,8 @@
 title: Release Blobs
 ---
 
-<p class="note">Note: Examples use CLI v2.</p>
+!!! note
+    Examples use CLI v2.
 
 A package may need to reference blobs (binary large objects) in addition to referencing other source files. For example when building a package for PostgreSQL server you may want to include `postgresql-9.6.1.tar.gz` from `https://www.postgresql.org/ftp/source/`. Typically it's not recommended to check in blobs directly into a Git repository because Git cannot efficiently track changes to such files. CLI provides a way to manage blobs in a reasonable manner with several commands:
 

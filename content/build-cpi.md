@@ -100,7 +100,8 @@ There are two test suites each CPI is expected to pass before it's considered to
 
 The CPI is expected to handle multiple method calls concurrently (and in parallel) with a promise that arguments represent different IaaS resources. For example, multiple `create_vm` CPI method calls may be issued that all use the same stemcell cloud ID; however, `attach_disk` CPI method will never be called with the same VM cloud ID concurrently.
 
-<p class="note">Note: Since each CPI method call is a separate OS process, simple locking techniques (Ruby's <code>Mutex.new</code> for example) will not work.</p>
+!!! note
+    Since each CPI method call is a separate OS process, simple locking techniques (Ruby's <code>Mutex.new</code> for example) will not work.
 
 ---
 ## Rate Limiting {: #rate-limiting }

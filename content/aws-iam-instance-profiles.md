@@ -2,13 +2,15 @@
 title: Using IAM Instance Profiles
 ---
 
-<p class="note">Note: This feature is available with bosh-release v208+ (1.3087.0) colocated with bosh-aws-cpi v31+.</p>
+!!! note
+    This feature is available with bosh-release v208+ (1.3087.0) colocated with bosh-aws-cpi v31+.
 
 This topic describes how to configure BOSH to use [AWS IAM instance profiles](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html) to avoid hard coding specific AWS credentials.
 
 You may have to create one or more IAM instance profiles to limit access to AWS resources depending on how BOSH is configured and what software you are planning to deploy. Below are a few example configurations.
 
-<p class="note">Note: Each IAM role when created has an associated IAM instance profile with the same name. There is no need to create instance profiles explicitly.</p>
+!!! note
+    Each IAM role when created has an associated IAM instance profile with the same name. There is no need to create instance profiles explicitly.
 
 ## Example A: AWS CPI and Director configured with default blobstore {: #only-director }
 
@@ -36,9 +38,11 @@ You may have to create one or more IAM instance profiles to limit access to AWS 
         # ...
     ```
 
-    <p class="note">Note: To use IAM instance profile as a credentials source when using `bosh create-env` command, you have to run the command from a <a href="terminology.html#jumpbox">jumpbox</a>, an existing AWS instance with IAM instance profile (you can reuse `director` IAM role). Alternatively if you are deploying the Director VM from outside of the AWS, you can use hard coded credentials with `bosh create-env` command and have the AWS CPI on the Director VM use IAM instance profile as a credentials source.</p>
+    !!! note
+        To use IAM instance profile as a credentials source when using `bosh create-env` command, you have to run the command from a <a href="terminology.html#jumpbox">jumpbox</a>, an existing AWS instance with IAM instance profile (you can reuse `director` IAM role). Alternatively if you are deploying the Director VM from outside of the AWS, you can use hard coded credentials with `bosh create-env` command and have the AWS CPI on the Director VM use IAM instance profile as a credentials source.
 
-    <p class="note">Note: Even though value specified is `env_or_profile`, `bosh create-env` command or the Director do not currently take advantage of the environment variables, only instance the profile, hence to take advantage of this feature you have to run on an AWS instance.</p>
+    !!! note
+        Even though value specified is `env_or_profile`, `bosh create-env` command or the Director do not currently take advantage of the environment variables, only instance the profile, hence to take advantage of this feature you have to run on an AWS instance.
 
 ---
 ## Example B: AWS CPI and Director configured with an S3 blobstore {: #director-with-s3-blobstore }
@@ -91,7 +95,8 @@ This configuration is similar to the previous one except that it's used when the
         # ...
     ```
 
-    <p class="note">Note: <code>iam_instance_profile</code> key in resource pool's cloud_properties takes precedence over the default IAM instance profile, so that specific VMs can have greater access to the AWS resources.</p>
+    !!! note
+    <code>iam_instance_profile</code> key in resource pool's cloud_properties takes precedence over the default IAM instance profile, so that specific VMs can have greater access to the AWS resources.
 
 ---
 ## Errors {: #errors }

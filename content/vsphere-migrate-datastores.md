@@ -2,7 +2,8 @@
 title: Migrating from one datastore to another
 ---
 
-<p class="note">Note: This feature is available with bosh-vsphere-cpi v9+.</p>
+!!! note
+    This feature is available with bosh-vsphere-cpi v9+.
 
 This topic describes how to migrate VMs and persistent disks from one datastore to another without downtime.
 

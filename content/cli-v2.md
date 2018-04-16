@@ -2,7 +2,8 @@
 title: CLI v2+
 ---
 
-<p class="note">Note: Applies to CLI v3.0.1+.</p>
+!!! note
+    Applies to CLI v3.0.1+.
 
 The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. CLI v2 is a new major version of CLI.
 

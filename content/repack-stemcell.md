@@ -2,7 +2,8 @@
 title: Repacking Stemcells
 ---
 
-<p class="note">Note: Applies to CLI v2 v2.0.12+.</p>
+!!! note
+    Applies to CLI v2 v2.0.12+.
 
 The [CLI v2](cli-v2.md) includes a command to repack stemcells; this enables limited customization of a stemcell including the following:
 
@@ -53,7 +54,8 @@ We take this opportunity to rename our stemcell so that we don't accidently conf
 $ bosh repack-stemcell --name=acme-ubuntu-encrypted --cloud-properties='{"encrypted": true, "kms_key_arn": "arn:aws:kms:us-east-1:088444384256:key/4ffbe966-d138-4f4d-a077-4c234d05b3b1"}' bosh-stemcell-3363.9-aws-xen-hvm-ubuntu-trusty-go_agent.tgz acme-encrypted-stemcell.tgz
 ```
 
-<p class="note">Note: Available in BOSH AWS CPI v63+.</p>
+!!! note
+    Available in BOSH AWS CPI v63+.
 
 The cloud properties will be merged with the existing cloud properties. It won't delete any properties, but it will overwrite the ones specified. For example, the above command will not delete the stemcell's cloud-property `infrastructure: aws`.
 

@@ -2,7 +2,8 @@
 title: Warden/Garden CPI
 ---
 
-<p class="note">Note: Updated for bosh-warden-cpi v28+.</p>
+!!! note
+    Updated for bosh-warden-cpi v28+.
 
 This topic describes cloud properties for different resources created by the Warden/Garden CPI.
 
@@ -34,7 +35,8 @@ networks:
     static: [10.244.1.34]
 ```
 
-<p class="note">Note: bosh-warden-cpi v24+ makes it possible to use subnets bigger than /30 as exemplified above. bosh-lite v9000.48.0 uses that newer bosh-warden-cpi.</p>
+!!! note
+    bosh-warden-cpi v24+ makes it possible to use subnets bigger than /30 as exemplified above. bosh-lite v9000.48.0 uses that newer bosh-warden-cpi.
 
 Example of a dynamic network:
 

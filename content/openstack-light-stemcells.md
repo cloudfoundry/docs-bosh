@@ -2,8 +2,11 @@
 title: Using Light Stemcells
 ---
 
-<p class="note">Note: This feature is available with bosh-openstack-cpi v28+.</p>
-<p class="note">Note: This feature is available with bosh-cli v2.0.40+.</p>
+!!! note
+    This feature is available with bosh-openstack-cpi v28+.
+
+!!! note
+    This feature is available with bosh-cli v2.0.40+.
 
 You can create your own OpenStack light stemcells to re-use stemcell images already uploaded to your OpenStack image store. **Note:** Future deployments will fail if the stemcell image referenced by a light stemcell is removed from your OpenStack image store.
 

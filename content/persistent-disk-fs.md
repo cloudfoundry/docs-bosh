@@ -2,7 +2,8 @@
 title: Customizing Persistent Disk Filesystem
 ---
 
-<p class="note">Note: This feature is available with 3215+ stemcell series.</p>
+!!! note
+    This feature is available with 3215+ stemcell series.
 
 Certain releases operate more reliably when persistent data is stored using particular filesystem. The Agent currently supports two different persistent disk filesystem types: `ext4` (default) and `xfs`.
 

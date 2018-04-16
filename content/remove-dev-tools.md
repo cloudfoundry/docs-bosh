@@ -2,7 +2,8 @@
 title: Removal of compilers and other development tools
 ---
 
-<p class="note">Note: This feature is available with bosh-release v255.4+ and on 3213+ stemcell series.</p>
+!!! note
+    This feature is available with bosh-release v255.4+ and on 3213+ stemcell series.
 
 It's typically unnecessary to have development tools installed on all VMs in a production environment. All stemcells come with a minimal set of development tools for compilation workers to successfully compile packages.
 

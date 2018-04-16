@@ -35,7 +35,8 @@ $ bosh tasks --no-filter
 Total tasks running now: 2
 ```
 
-<p class="note"><strong>Note</strong>: <code>--no-filter</code> flag shows all tasks. Without that flag, the Director returns a subset of running tasks that it deems important.</p>
+!!! note
+    <code>--no-filter</code> flag shows all tasks. Without that flag, the Director returns a subset of running tasks that it deems important.
 
 ### Joining tasks {: #join-active }
 
@@ -102,7 +103,8 @@ Showing 30 recent tasks
 
 You can also run `bosh tasks recent [NUM]` to retrieve more tasks.
 
-<p class="note"><strong>Note</strong>: <code>--no-filter</code> flag shows all tasks. Without that flag, the Director returns a subset of finished tasks that it deems important.</p>
+!!! note
+    <code>--no-filter</code> flag shows all tasks. Without that flag, the Director returns a subset of finished tasks that it deems important.
 
 ### Joining finished tasks {: #join-finished }
 

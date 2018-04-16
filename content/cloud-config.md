@@ -2,7 +2,8 @@
 title: Cloud Config
 ---
 
-<p class="note">Warning: If you are using Director version between v241 and v256, once you opt into using cloud config all deployments must be converted to use new format. If you want to deploy both v1 and v2 manifests, update to Director v257+.</p>
+!!! warning
+    If you are using Director version between v241 and v256, once you opt into using cloud config all deployments must be converted to use new format. If you want to deploy both v1 and v2 manifests, update to Director v257+.
 
 Previously each deployment manifest specified IaaS and IaaS agnostic configuration in a single file. As more deployments are managed by the Director, it becomes inconvenient to keep shared IaaS configuration in sync in all deployment manifests. In addition, multiple deployments typically want to use the same network subnet, hence IP ranges need to be separated and reserved.
 
@@ -13,7 +14,8 @@ The cloud config is a YAML file that defines IaaS specific configuration used by
 
 To update cloud config on the Director use [`bosh update-cloud-config` command](cli-v2.md#update-cloud-config).
 
-<p class="note">Note: See <a href="#example">example cloud config</a> for AWS below.</p>
+!!! note
+    See <a href="#example">example cloud config</a> for AWS below.
 
 ```shell
 $ bosh -e vbox update-cloud-config cloud.yml
@@ -186,7 +188,8 @@ vm_types:
 ---
 ## VM Extensions Block {: #vm-extensions }
 
-<p class="note">Note: This feature is available with bosh-release v255.4+.</p>
+!!! note
+    This feature is available with bosh-release v255.4+.
 
 **vm_extensions** [Array, optional]: Specifies the [VM extensions](./terminology.html#vm-extension) available to deployments.
 

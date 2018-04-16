@@ -2,7 +2,8 @@
 title: Trusted Certificates
 ---
 
-<p class="note">Note: This feature is available with bosh-release v176+ (1.2992.0) and stemcells v2992+.</p>
+!!! note
+    This feature is available with bosh-release v176+ (1.2992.0) and stemcells v2992+.
 
 This document describes how to configure the Director to add a set of trusted certificates to all VMs managed by that Director. Configured trusted certificates are added to the default certificate store on each VM and will be automatically seen by the majority of software (e.g. curl).
 
@@ -37,7 +38,8 @@ To configure the Director with trusted certificates:
 
 1. Redeploy the Director with the updated manifest.
 
-    <p class="note"><strong>Note</strong>: Currently only VMs managed by the Director will be updated with the trusted certificates. The Director VM will not have trusted certificates installed.</p>
+    !!! note
+        Currently only VMs managed by the Director will be updated with the trusted certificates. The Director VM will not have trusted certificates installed.
 
 1. Redeploy each deployment to immediately update deployment's VMs with trusted certificates. Otherwise trusted certificate changes will be picked up next time you run `bosh deploy` for that deployment.
 

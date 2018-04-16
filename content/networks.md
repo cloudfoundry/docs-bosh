@@ -131,11 +131,13 @@ jobs:
     static_ips: [10.10.1.11, 10.10.1.12]
 ```
 
-<p class="note"><strong>Note</strong>: If a deployment job uses static IP reservation, all instances must be given static IPs.</p>
+!!! note
+    If a deployment job uses static IP reservation, all instances must be given static IPs.
 
 A common problem that you may run into is configuring multiple deployments to use overlapping IP ranges. The Director does not consider an IP to be "used" even if the Director used that IP in a different deployment. There are two possible solutions for this problem: reconfigure one of the deployments to use a different IP range, or use the same IP range but configure each deployment such that reserved IPs exclude the deployment from each other.
 
-<p class="note">Note: While the Director usually selects the next available IP address, this behavior is not guaranteed.</p>
+!!! note
+    While the Director usually selects the next available IP address, this behavior is not guaranteed.
 
 ---
 ## Dynamic Networks {: #dynamic }
@@ -256,9 +258,11 @@ jobs:
 
 In the above example, VM allocated to `my-multi-homed-job` deployment job will have `8.8.8.8` as its primary DNS server and the default gateway will be set to `my-network-1`'s gateway. VM allocated to `my-other-multi-homed-job` deployment job will also have `8.8.8.8` as its primary DNS server but the default gateway will be set to `my-network-2`'s gateway.
 
-<p class="note">Note: See <a href="#cpi-limitations">CPI limitations</a> to find which CPIs support this feature.</p>
+!!! note
+    See <a href="#cpi-limitations">CPI limitations</a> to find which CPIs support this feature.
 
-<p class="note">Note: See <a href="https://github.com/rakutentech/bosh-routing-release">rakutentech/bosh-routing-release</a> if you are looking for even more specific routing configuration.</p>
+!!! note
+    See <a href="https://github.com/rakutentech/bosh-routing-release">rakutentech/bosh-routing-release</a> if you are looking for even more specific routing configuration.
 
 ---
 ## CPI Limitations {: #cpi-limitations }

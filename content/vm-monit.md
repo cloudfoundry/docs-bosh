@@ -44,7 +44,8 @@ On any BOSH managed VM, you can access Monit status for release jobs' processes 
 
 Each enabled release job has its own directory in `/var/vcap/jobs/` directory. Each release job directory contains a monit file (e.g. `/var/vcap/jobs/redis-server/monit`) with final monit configuration for that release job. This is how you can tell which processes belong to which release job. Most release job only start a single process.
 
-<p class="note">Note: Monit configuration file in release job directory is just a copy of the actual Monit configuration. Changing it will not affect running Monit configuration.</p>
+!!! note
+    Monit configuration file in release job directory is just a copy of the actual Monit configuration. Changing it will not affect running Monit configuration.
 
 To view status for all processes Monit is managing you can run `monit summary`:
 
@@ -69,7 +70,8 @@ Process 'health_monitor'            running
 System 'system_bm-24638eb6-55b9-4670-bb1a-23c9e3f77d91' running
 ```
 
-<p class="note">Note: You can use standard <code>watch</code> utility with the summary command to track process status over time.</p>
+!!! note
+    You can use standard <code>watch</code> utility with the summary command to track process status over time.
 
 You can also get more detailed information about individual processes via `monit status`:
 

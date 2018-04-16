@@ -48,7 +48,8 @@ To save output from an errand VM:
 $ bosh run errand smoke-tests --download-logs --logs-dir ~/workspace/smoke-tests-logs
 ```
 
-<p class="note">Note: By default upon errand completion errand VM is deleted, so you cannot access logs saved to disk by the errand. You can use <code>--keep-alive</code> flag when running an errand to keep the VM with its logs.</p>
+!!! note
+    By default upon errand completion errand VM is deleted, so you cannot access logs saved to disk by the errand. You can use <code>--keep-alive</code> flag when running an errand to keep the VM with its logs.
 
 ---
 ### Monit logs {: #monit-logs }
@@ -70,7 +71,8 @@ The Agent stores logs in `/var/vcap/bosh/log/` and outputs most recent content t
 $ sudo tail -f -n 200 /var/vcap/bosh/log/current
 ```
 
-<p class="note">Note: Agent logs are only accessible to the root user.</p>
+!!! note
+    Agent logs are only accessible to the root user.
 
 ---
 ### Log rotation {: #log-rotation }

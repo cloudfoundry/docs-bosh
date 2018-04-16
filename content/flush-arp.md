@@ -2,7 +2,8 @@
 title: Explicit ARP Flushing
 ---
 
-<p class="note">Note: This feature is available with bosh-release v256+ and 3232+ stemcell series.</p>
+!!! note
+    This feature is available with bosh-release v256+ and 3232+ stemcell series.
 
 Certain IaaSes may limit and/or disable gratuitous ARP for security reasons (for example AWS). Linux kernel performs periodic garbage collection of stale ARP entries; however, if there are open or stale connections these entries will not be cleared causing new connections to fail since they just use an existing *outdated* MAC address.
 

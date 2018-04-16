@@ -2,7 +2,8 @@
 title: Differences between CLI v2 vs v1
 ---
 
-<p class="note">Note: Applies to CLI v2 v2.0.13+.</p>
+!!! note
+    Applies to CLI v2 v2.0.13+.
 
 ## General {: #general }
 

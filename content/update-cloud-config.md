@@ -2,7 +2,8 @@
 title: Update Cloud Config
 ---
 
-<p class="note">Note: Document uses CLI v2.</p>
+!!! note
+    Document uses CLI v2.
 
 The [cloud config](terminology.md#cloud-config) is a YAML file that defines IaaS specific configuration used by all deployments. It allows to separate IaaS specific configuration into its own file and keep deployment manifests IaaS agnostic.
 

@@ -2,7 +2,8 @@
 title: Configs
 ---
 
-<p class="note">Note: Generic `configs` functionality is available with bosh-release v264+.</p>
+!!! note
+    Generic `configs` functionality is available with bosh-release v264+.
 
 Several configuration files such as cloud config must be specified for the Director to successfully complete a deploy. Even though only cloud config is required, there are other configs like runtime config and CPI config you may want to set. Given that functionality of saving, retrieving, viewing, diffing, and listing for different configs is very similar, Director provides a consolidated CLI and API functionality to support all these actions.
 

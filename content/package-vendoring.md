@@ -2,7 +2,8 @@
 title: Vendoring Packages
 ---
 
-<p class="note">Note: Requires CLI v2.0.36+.</p>
+!!! note
+    Requires CLI v2.0.36+.
 
 While authoring a release, it is usually necessary to include some commonly used packages:
 

@@ -2,7 +2,8 @@
 title: Using Instance Storage
 ---
 
-<p class="note">Note: This feature is available with bosh-aws-cpi v32+ and only for releases deployed with ? stemcells.</p>
+!!! note
+    This feature is available with bosh-aws-cpi v32+ and only for releases deployed with ? stemcells.
 
 Certain [instance types](https://aws.amazon.com/ec2/instance-types/) have access to instance storage. All BOSH managed VMs have to store some ephemeral data such as release jobs, packages, logs and other scratch data. First instance storage disk is used if possible; otherwise, a separate EBS volume is created as an ephemeral disk.
 
