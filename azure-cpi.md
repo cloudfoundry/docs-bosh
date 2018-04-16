@@ -201,11 +201,11 @@ Schema:
 * **ssh_user** [String, required]: SSH username. Default: `vcap`.
 * **ssh\_public\_key** [String, required]: SSH public key.
 * **default\_security\_group** [String, optional]: Name of the default [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) that will be applied to all created VMs. This property is required before v35.0.0, and optional in v35.0.0+.
-* **azure\_stack** [Hash, optional]: [Configration for AzureStack](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/azure-stack). Available in v23+.
+* **azure_stack** [Hash, optional]: [Configration for AzureStack](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/azure-stack). Available in v23+.
     * **domain** [String, optional]: The domain for your AzureStack deployment. Default is `local.azurestack.external`. You can use the default value for [Azure Stack development kit](https://azure.microsoft.com/en-us/overview/azure-stack/development-kit/). To get this value for Azure Stack integrated systems, contact your service provider.
-    * **authentication** [String, optional]: The authentication type for your AzureStack deployment. Possible values are: `AzureAD` and `ADFS`. You need to specify `certificate` if you select `ADFS`, because Azure Stack with ADFS authentication only supports the service principal with a certificate.
+    * **authentication** [String, optional]: The authentication type for your AzureStack deployment. Possible values are: `AzureAD`, `AzureChinaCloudAD` and `ADFS`. You need to specify `certificate` if you select `ADFS`, because Azure Stack with ADFS authentication only supports the service principal with a certificate.
     * **resource** [String, optional]: Active Directory Service Endpoint Resource ID, where you can get the token for your AzureStack deployment.
-    * **endpoint\_prefix** [String, optional]: The endpoint prefix for your AzureStack deployment. Default is `management`.
+    * **endpoint_prefix** [String, optional]: The endpoint prefix for your AzureStack deployment. Default is `management`.
     * **skip\_ssl\_validation** [Boolean, optional]: Toggles verification of the Azure Resource Manager REST API SSL certificate. Default is `false`. Deprecated in v35.0.0+.
     * **use\_http\_to\_access\_storage\_account** [Boolean, optional]: Flag for using HTTP to access storage account rather than the default HTTPS. Default is `false`. Deprecated in v35.0.0+.
     * **ca_cert** [String, required]: All required custom CA certificates for AzureStack. You can [export the Azure Stack CA root certificate](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-connect-cli#export-the-azure-stack-ca-root-certificate). Available in v27+.
@@ -214,10 +214,12 @@ Schema:
 * **parallel\_upload\_thread\_num** [Integer, optional]: The number of threads to upload stemcells in parallel. The default value is 16.
 * **debug_mode** [Boolean, optional]: Enable debug mode. The default value is `false`. When `debug_mode` is `true`:
     * CPI will log all raw HTTP requests/responses.
-    * The new created VMs (only for VMs in same region with `storage_account_name` specified in [Global Configuration](https://bosh.io/docs/azure-cpi.html#global)) will have [boot diagnostics](https://azure.microsoft.com/en-us/blog/boot-diagnostics-for-virtual-machines-v2/) enabled. Available in v26+.
+    * For Azure CPI v26~v35.1.0, the new created VMs (only for VMs in same region with `storage_account_name` specified in [Global Configuration](https://bosh.io/docs/azure-cpi.html#global)) will have [boot diagnostics](https://azure.microsoft.com/en-us/blog/boot-diagnostics-for-virtual-machines-v2/) enabled. **Note**: For Azure CPI v35.2.0+, VM boot diagnostics will NOT be configured by `debug_mode` any more, it will be configured by `enable_vm_boot_diagnostics`.
 * **use\_managed\_disks** [Boolean, optional]: Enable managed disks. The default value is `false`. For `AzureCloud`, the option is supported in v21+. For `AzureChinaCloud`, `AzureUSGovernment`, and `AzureGermanCloud`, the option is supported in v26+. For `AzureStack`, the option is not yet supported.
 * **pip\_idle\_timeout\_in\_minutes** [Integer, optional]: Set idle timeouts in minutes for dynamic public IPs. It must be in the range [4, 30]. The default value is 4. It is only used when **assign\_dynamic\_public\_ip** is set to `true` in **resouce_pool**. Available in V24+.
 * **keep\_failed\_vms** [Boolean, optional]: A flag to keep the failed VM. If it's set to `true` and CPI fails to **provision** the VM, CPI will keep the VM for troubleshooting. The default value is `false`. Available in v32+. Please note that the option is different from **keep\_unreachable\_vms** of the [director configuration](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh). The latter is to keep the VM whose BOSH agent is unresponsive.
+* **enable_telemetry** [Boolean, optional]: A flag to enable telemetry on CPI calls on Azure. The default value is `true`. Available in v35.2.0+.
+* **enable\_vm\_boot\_diagnostics** [Boolean, optional]: A flag to enable VM boot diagnostics on Azure. The default value is `true`. Available in v35.2.0+.
 
 See [all configuration options](https://bosh.io/jobs/cpi?source=github.com/cloudfoundry-incubator/bosh-azure-cpi-release).
 
