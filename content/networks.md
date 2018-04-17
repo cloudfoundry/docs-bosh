@@ -81,14 +81,14 @@ Schema for manual network definition:
 * **name** [String, required]: Name used to reference this network configuration
 * **type** [String, required]: Value should be `manual`
 * **subnets** [Array, required]: Lists subnets in this network
-  * **range** [String, required]: Subnet IP range that includes all IPs from this subnet
-  * **gateway** [String, required]: Subnet gateway IP
-  * **dns** [Array, optional]: DNS IP addresses for this subnet
-  * **reserved** [Array, optional]: Array of reserved IPs and/or IP ranges. BOSH does not assign IPs from this range to any VM
-  * **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to jobs requesting static IPs. Only IPs specified here can be used for static IP reservations.
-  * **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `z1`. Available in v241+.
-  * **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`. Available in v241+.
-  * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
+    * **range** [String, required]: Subnet IP range that includes all IPs from this subnet
+    * **gateway** [String, required]: Subnet gateway IP
+    * **dns** [Array, optional]: DNS IP addresses for this subnet
+    * **reserved** [Array, optional]: Array of reserved IPs and/or IP ranges. BOSH does not assign IPs from this range to any VM
+    * **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to jobs requesting static IPs. Only IPs specified here can be used for static IP reservations.
+    * **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `z1`. Available in v241+.
+    * **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`. Available in v241+.
+    * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
 
 Example:
 
@@ -170,10 +170,10 @@ Schema for dynamic network definition with multiple subnets (available in v241+)
 * **name** [String, required]: Name used to reference this network configuration
 * **type** [String, required]: Value should be `dynamic`
 * **subnets** [Array, required]: Lists subnets in this network.
-  * **dns** [Array, optional]: DNS IP addresses for this subnet
-  * **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `z1`.
-  * **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`.
-  * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
+    * **dns** [Array, optional]: DNS IP addresses for this subnet
+    * **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `z1`.
+    * **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`.
+    * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
 
 Example:
 

@@ -61,13 +61,13 @@ Once a Director task is created, clients can follow its progress by polling [`GE
 - **user** [String or null]: Logged in user's user name if authentication is provided, otherwise null.
 - **cpi** [String]: Name of the CPI the Director will use.
 - **user_authentication** [Hash]:
-	- **type** [String]: Type of the authentication the Director is configured to expect.
-	- **options** [Hash]: Additional information provided to how authentication should be performed.
+	  - **type** [String]: Type of the authentication the Director is configured to expect.
+	  - **options** [Hash]: Additional information provided to how authentication should be performed.
 - **features** [Hash]:
-	- **config_server** [Hash]:
-		- **status** [Boolean]: Default false.
-		- **extras** [Hash]:
-			- **urls** [Array]: List of URLs for the Config Server.
+	  - **config_server** [Hash]:
+		    - **status** [Boolean]: Default false.
+		    - **extras** [Hash]:
+			      - **urls** [Array]: List of URLs for the Config Server.
 
 #### Notes
 
@@ -485,7 +485,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=r
 - **operating_system** [String]: Operating system identifier. Example: `ubuntu-trusty` and `centos-7`.
 - **cid** [String]: Cloud ID of the stemcell.
 - **deployments** [Array]: List of deployments currently using this stemcell version.
-  - **name** [String]: Deployment name.
+    - **name** [String]: Deployment name.
 
 #### Example
 
@@ -518,11 +518,11 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/stemcells | jq .
 
 - **name** [String]: Name of the release.
 - **release_versions** [Array]: List of versions available.
-  - **version** [String]: Version of the release version.
-  - **commit_hash** [String]: Identifier in the SCM repository for the release version source code.
-  - **uncommitted_changes** [Boolean]: Whether or not the release version was created from a SCM repository with unsaved changes.
-  - **currently_deployed** [Boolean]: Whether or not the release version is used by any deployments.
-  - **job_names** [Array of strings]: List of job names associated with the release version.
+    - **version** [String]: Version of the release version.
+    - **commit_hash** [String]: Identifier in the SCM repository for the release version source code.
+    - **uncommitted_changes** [Boolean]: Whether or not the release version was created from a SCM repository with unsaved changes.
+    - **currently_deployed** [Boolean]: Whether or not the release version is used by any deployments.
+    - **job_names** [Array of strings]: List of job names associated with the release version.
 
 #### Example
 
@@ -578,11 +578,11 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/releases | jq .
 - **name** [String]: Name of the deployment.
 - **cloud_config** [String]: Indicator whether latest cloud config is used for this deployment. Possible values: `none`, `outdated`, `latest`.
 - **releases** [Array]: List of releases used by the deployment.
-	- **name** [String]: Name of the release.
-	- **version** [String]: Version of the release.
+	  - **name** [String]: Name of the release.
+	  - **version** [String]: Version of the release.
 - **stemcells** [Array]: List of stemcells used by the deploymemt.
-	- **name** [String]: Name of the stemcell.
-	- **version** [String]: Version of the stemcell.
+	  - **name** [String]: Name of the stemcell.
+	  - **version** [String]: Version of the stemcell.
 
 #### Example
 

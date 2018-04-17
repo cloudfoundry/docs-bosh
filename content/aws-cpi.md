@@ -77,8 +77,8 @@ Schema for `cloud_properties` section:
 * **tenancy** [String, optional]: VM [tenancy](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/dedicated-instance.html) configuration. Example: `dedicated`. Default is `default`.
 * **auto\_assign\_public\_ip** [Boolean, optional]: Assigns a public IP address to the created VM. This IP is ephemeral and may change; use an [Elastic IP](networks.md#vip) instead for a persistent address. Defaults to `false`. Available in v55+.
 * **advertised\_routes** [Array, optional]: Creates routes in an [AWS Route Table](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html) with the created BOSH VM as the target. Requires IAM action `ec2:CreateRoute`, `ec2:DescribeRouteTables`, `ec2:ReplaceRoute`.
-  * **table\_id** [String, required]: ID of the route table in which to create the route (e.g. `rt-abcdef123`).
-  * **destination** [String, required]: Destination CIDR for the route. All traffic with a destination within this CIDR will be routed through the created BOSH VM.
+    * **table\_id** [String, required]: ID of the route table in which to create the route (e.g. `rt-abcdef123`).
+    * **destination** [String, required]: Destination CIDR for the route. All traffic with a destination within this CIDR will be routed through the created BOSH VM.
 * **raw\_instance\_storage** [Boolean, optional]: Exposes all available [instance storage via labeled disks](aws-instance-storage.md). Defaults to `false`.
 * **source\_dest\_check** [Boolean, optional]: Specifies whether the instance must be the source or destination of any traffic it sends or receives. If set to `false`, the instance does *not* need to be the source or destination. Used for network address translation (NAT) boxes, frequently to communicate between VPCs. Defaults to `true`. Requires IAM action `ec2:ModifyInstanceAttribute`. Available in v59+.
 * **ephemeral_disk** [Hash, optional]: EBS backed ephemeral disk of custom size. Default disk size is either the size of first instance storage disk, if the instance_type offers it, or 10GB. Before v53: Used EBS only if instance storage is not large enough or not available for selected instance type.
@@ -122,12 +122,12 @@ resource_pools:
 Schema for `cloud_properties` section:
 
 * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `gp2`.
-  * `standard` stands for EBS magnetic drives
-  * `gp2` stands for EBS general purpose drives (SSD)
-  * `io1` stands for EBS provisioned IOPS drives (SSD)
+    * `standard` stands for EBS magnetic drives
+    * `gp2` stands for EBS general purpose drives (SSD)
+    * `io1` stands for EBS provisioned IOPS drives (SSD)
 * **iops** [Integer, optional]: Specifies the number of I/O operations per second to provision for the drive.
-  * Only valid for `io1` type drive.
-  * Required when `io1` type drive is specified.
+    * Only valid for `io1` type drive.
+    * Required when `io1` type drive is specified.
 * **encrypted** [Boolean, optional]: Turns on [EBS volume encryption](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html) for this persistent disk. VM root and ephemeral disk are not encrypted. Defaults to `false`. Overrides the global `encrypted` property.
 * **kms\_key\_arn** [String, optional]: Encrypts the disk using an encryption key stored in the [AWS Key Management Service (KMS)](https://aws.amazon.com/kms/). The format of the ID is `XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX`. Be sure to use the Key ID, not the Alias. If omitted the disk will be encrypted using the global `kms_key_arn` property. If, no global `kms_key_arn` is set will use your account's default `aws/ebs` encryption key.
 

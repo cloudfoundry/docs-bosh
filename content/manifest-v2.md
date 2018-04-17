@@ -145,37 +145,37 @@ update:
 * **azs** [Array, required]: List of AZs associated with this instance group (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`.
 * **instances** [Integer, required]: The number of instances in this group. Each instance is a VM.
 * **jobs** [Array, required]: Specifies the name and release of jobs that will be installed on each instance.
-  * **name** [String, required]: The job name
-  * **release** [String, required]: The release where the job exists
-  * **consumes** [Hash, optional]: Links consumed by the job. [Read more about link configuration](links.md#deployment)
-  * **provides** [Hash, optional]: Links provided by the job. [Read more about link configuration](links.md#deployment)
-  * **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job. Only properties specified here will be provided to the job.
+    * **name** [String, required]: The job name
+    * **release** [String, required]: The release where the job exists
+    * **consumes** [Hash, optional]: Links consumed by the job. [Read more about link configuration](links.md#deployment)
+    * **provides** [Hash, optional]: Links provided by the job. [Read more about link configuration](links.md#deployment)
+    * **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job. Only properties specified here will be provided to the job.
 * **vm_type** [String, required]: A valid VM type name from the cloud config. Alternatively you can specify `vm_resources` key.
 * **vm_extensions** [Array, optional]: A valid list of VM extension names from the cloud config.
 * **vm_resources** [Hash, optional]: Specifies generic VM resources such as CPU, RAM and disk size that are automatically translated into correct VM cloud properties to determine VM size. VM size is determined on best effort basis as some IaaSes may not support exact size configuration. Currently some CPIs (Google) do not support this functionality. Available in bosh-release v264+.
-  * **cpu** [Integer, required]: Number of CPUs.
-  * **ram** [Integer, required]: Amount of RAM in MB.
-  * **ephemeral\_disk\_size** [Integer, required]: Ephemeral disk size in MB.
+    * **cpu** [Integer, required]: Number of CPUs.
+    * **ram** [Integer, required]: Amount of RAM in MB.
+    * **ephemeral\_disk\_size** [Integer, required]: Ephemeral disk size in MB.
 * **stemcell** [String, required]: A valid stemcell alias from the Stemcells Block.
 * **persistent\_disk** [Integer, optional]: Persistent disk size in MB. Alternatively you can specify `persistent_disk_type` key. [Read more about persistent disks](./persistent-disks.html)
 * **persistent\_disk\_type** [String, optional]: A valid disk type name from the cloud config. [Read more about persistent disks](./persistent-disks.html)
 * **networks** [Array, required]: Specifies the networks this instance requires. Each network can have the following properties specified:
-  * **name** [String, required]: A valid network name from the cloud config.
-  * **static_ips** [Array, optional]: Array of IP addresses reserved for the instances on the network.
-  * **default** [Array, optional]: Specifies which network components (DNS, Gateway) BOSH populates by default from this network. This property is required if more than one network is specified.
+    * **name** [String, required]: A valid network name from the cloud config.
+    * **static_ips** [Array, optional]: Array of IP addresses reserved for the instances on the network.
+    * **default** [Array, optional]: Specifies which network components (DNS, Gateway) BOSH populates by default from this network. This property is required if more than one network is specified.
 * **update** [Hash, optional]: Specific update settings for this instance group. Use this to override [global job update settings](#update) on a per-instance-group basis.
 * **migrated_from** [Array, optional]: Specific migration settings for this instance group. Use this to [rename and/or migrate instance groups](migrated-from.md).
 * **lifecycle** [String, optional]: Specifies the kind of workload the instance group represents. Valid values are `service` and `errand`; defaults to `service`. A `service` runs indefinitely and restarts if it fails. An `errand` starts with a manual trigger and does not restart if it fails.
 * **properties** [Hash, optional]: Specifies instance group properties. Deprecated in favor of job level properties and links.
 * **env** [Hash, optional]: Specifies advanced BOSH Agent configuration for each instance in the group.
-  * **bosh** [Hash, optional]:
-      * **password** [String, optional]: Crypted password for `vcap/root` user (will be placed into /etc/shadow on Linux).
-      * **keep\_root\_password** [Boolean, optional]: Keep password for `root` and only change password for `vcap`. Default: `false`.
-      * **remove\_dev\_tools** [Boolean, optional]: Remove [compilers and dev tools](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/stemcell_builder/stages/dev_tools_config/assets/generate_dev_tools_file_list_ubuntu.sh) on non-compilation VMs. Default: `false`.
-      * **remove\_static\_libraries** [Boolean, optional]: Remove [static libraries](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/stemcell_builder/stages/static_libraries_config/assets/static_libraries_list.txt) on non-compilation VMs. Default: `false`.
-      * **swap\_size** [Integer, optional]: Size of swap partition in MB to create. Set this to 0 to avoid having a swap partition created. Default: RAM size of used VM type up to half of the ephemeral disk size.
-      * **ipv6** [Hash, optional]:
-          * **enable** [Boolean, optional]: Force IPv6 enabled in kernel (this configuration is not necessary if one of the VM addresses is IPv6). Default: `false`.
+    * **bosh** [Hash, optional]:
+        * **password** [String, optional]: Crypted password for `vcap/root` user (will be placed into /etc/shadow on Linux).
+        * **keep\_root\_password** [Boolean, optional]: Keep password for `root` and only change password for `vcap`. Default: `false`.
+        * **remove\_dev\_tools** [Boolean, optional]: Remove [compilers and dev tools](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/stemcell_builder/stages/dev_tools_config/assets/generate_dev_tools_file_list_ubuntu.sh) on non-compilation VMs. Default: `false`.
+        * **remove\_static\_libraries** [Boolean, optional]: Remove [static libraries](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/stemcell_builder/stages/static_libraries_config/assets/static_libraries_list.txt) on non-compilation VMs. Default: `false`.
+        * **swap\_size** [Integer, optional]: Size of swap partition in MB to create. Set this to 0 to avoid having a swap partition created. Default: RAM size of used VM type up to half of the ephemeral disk size.
+        * **ipv6** [Hash, optional]:
+            * **enable** [Boolean, optional]: Force IPv6 enabled in kernel (this configuration is not necessary if one of the VM addresses is IPv6). Default: `false`.
 
 Example:
 

@@ -77,15 +77,15 @@ Schema for `cloud_properties` section:
 * **instance_type** [String, required]: Type of the [instance](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-sizes/). Example: `Standard_A2`. [Basic Tier Virtual Machines](https://azure.microsoft.com/en-us/blog/basic-tier-virtual-machines-2/) should not be used if you need to bind the instance to Azure Load Balancer (ALB), because Basic Tier VM doesn't support ALB.
 * **root_disk** [Hash, optional]: OS disk of custom size.
     * **size** [Integer, optional]: Specifies the disk size in MiB.
-      * The size must be greater than 3 * 1024 and less than the max disk size for [unmanaged](https://azure.microsoft.com/en-us/pricing/details/storage/unmanaged-disks/) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. Please always use `N * 1024` as the size because Azure always uses GiB but not MiB.
-      * It has a default value `30 * 1024` only when ephemeral_disk.use\_root\_disk is set to true.
+        * The size must be greater than 3 * 1024 and less than the max disk size for [unmanaged](https://azure.microsoft.com/en-us/pricing/details/storage/unmanaged-disks/) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. Please always use `N * 1024` as the size because Azure always uses GiB but not MiB.
+        * It has a default value `30 * 1024` only when ephemeral_disk.use\_root\_disk is set to true.
 * **caching** [String, optional]: Type of the disk caching of the VMs' OS disks. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `ReadWrite`.
 * **ephemeral_disk** [Hash, optional]: Ephemeral disk to apply for all VMs that are in this resource pool. By default a data disk with the default size as below will be created as the ephemeral disk.
     * **use\_root\_disk** [Boolean, optional]: Enable to use OS disk to store the ephemeral data. The default value is false. When it is true, ephemeral_disk.size will not be used.
     * **size** [Integer, optional]: Specifies the disk size in MiB. If this is not set, the default size as below will be used. The size of the ephemeral disk for the BOSH VM should be larger than or equal to `30*1024` MiB. Please always use `N * 1024` as the size because Azure always uses GiB not MiB.
-      * If the Azure temporary disk size for the instance type is less than `30*1024` MiB, the default size is `30*1024` MiB because the space may not be enough.
-      * If the Azure temporary disk size for the instance type is larger than `1000*1024` MiB, the default size is `1000*1024` MiB because it is not expected to use such a large ephemeral disk in CF currently.
-      * Otherwise, the Azure temporary disk size will be used as the default size. See more information about [Azure temporary disk size](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-sizes/).
+        * If the Azure temporary disk size for the instance type is less than `30*1024` MiB, the default size is `30*1024` MiB because the space may not be enough.
+        * If the Azure temporary disk size for the instance type is larger than `1000*1024` MiB, the default size is `1000*1024` MiB because it is not expected to use such a large ephemeral disk in CF currently.
+        * Otherwise, the Azure temporary disk size will be used as the default size. See more information about [Azure temporary disk size](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-sizes/).
 
 * **load_balancer** [String, optional]: Name of a [load balancer](https://azure.microsoft.com/en-us/documentation/articles/load-balancer-overview/) the VMs should belong to. You need to create the load balancer manually before configuring it. Notes:
     * [Basic Tier Virtual Machines](https://azure.microsoft.com/en-us/blog/basic-tier-virtual-machines-2/) (Example: `Basic_A1`) doesn't support Azure Load Balancer.
@@ -103,8 +103,8 @@ Schema for `cloud_properties` section:
 * **availability_set** [String, optional]: Name of an [availability set](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) to use for VMs. [More details](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#availability-set).
     * If available set does not exist, it will be automatically created.
     * If `availability_set` is not specified, Azure CPI will search `env.bosh.group` as the name of availability set.
-      1. [bosh release](https://bosh.io/releases/github.com/cloudfoundry/bosh?all=1) v258+ will generate a value for `env.bosh.group` automatically.
-      1. On Azure the length of the availability set name must be between 1 and 80 characters. The name got from  `env.bosh.group` may be too long. CPI will truncate the name to the following format `az-MD5-[LAST-40-CHARACTERS-OF-GROUP]` if the length is greater than 80.
+        1. [bosh release](https://bosh.io/releases/github.com/cloudfoundry/bosh?all=1) v258+ will generate a value for `env.bosh.group` automatically.
+        1. On Azure the length of the availability set name must be between 1 and 80 characters. The name got from  `env.bosh.group` may be too long. CPI will truncate the name to the following format `az-MD5-[LAST-40-CHARACTERS-OF-GROUP]` if the length is greater than 80.
     * CPI v27+ will delete the empty availability set.
     * Only one of `availability_zone` and `availability_set` is allowed to be configured for a VM. If `availability_zone` is specified, the VM will be in a zone and not in any availability set.
 * **platform\_update\_domain_count** [Integer, optional]: The count of [update domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set.
@@ -117,24 +117,24 @@ Schema for `cloud_properties` section:
 * **storage\_account\_name** [String, optional]: Storage account for VMs. Valid only when `use_managed_disks` is `false`. If this is not set, the VMs will be created in the default storage account. See [this document](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#multiple-storage-accounts) for more details on why this option exists.
     * If you use `DS-series` or `GS-series` as `instance_type`, you should set this to a premium storage account. See more information about [Azure premium storage](https://azure.microsoft.com/en-us/documentation/articles/storage-premium-storage-preview-portal/). See [avaliable regions](http://azure.microsoft.com/en-us/regions/#services) where you can create premium storage accounts.
     * If you use a different storage account which must be in the same resource group, please make sure:
-      1. The permissions for the container `stemcell` in the default storage account is set to `Public read access for blobs only`.
-      1. A table `stemcells` is created in the default storage account.
-      1. Two containers `bosh` and `stemcell` are created in the new storage account.
+        1. The permissions for the container `stemcell` in the default storage account is set to `Public read access for blobs only`.
+        1. A table `stemcells` is created in the default storage account.
+        1. Two containers `bosh` and `stemcell` are created in the new storage account.
     * If this storage account does not exist, it can be created automatically by Azure CPI. But you must specify storage\_account\_type and make sure:
-      1. The name must be **unique within Azure**.
-      1. **The name must be between 3 and 24 characters in length and use numbers and lower-case letters only**.
+        1. The name must be **unique within Azure**.
+        1. **The name must be between 3 and 24 characters in length and use numbers and lower-case letters only**.
     * If you use a pattern `*keyword*`. CPI will filter all storage accounts under the default resource group by the pattern and pick one available storage account to create the VM.
-      1. The pattern must start with `*` and end with `*`.
-      1. The keyword must only contain numbers and lower-case letters because of the naming rule of storage account name.
-      1. The rule to select an available storage account is to check the number of disks under the container `bosh` does not exceed the limitation.
-      1. The default number of disks limitation is 30 but you can specify it in **storage\_account\_max\_disk\_number**.
+        1. The pattern must start with `*` and end with `*`.
+        1. The keyword must only contain numbers and lower-case letters because of the naming rule of storage account name.
+        1. The rule to select an available storage account is to check the number of disks under the container `bosh` does not exceed the limitation.
+        1. The default number of disks limitation is 30 but you can specify it in **storage\_account\_max\_disk\_number**.
 * **storage\_account\_max\_disk\_number** [Integer, optional]: Number of disks limitation in a storage account. Valid only when `use_managed_disks` is `false`. Default value is 30. This will be used only when **storage\_account\_name** is a pattern.
     * Every storage account has a limitation to host disks. You may hit the performance issue if you create too many disks in one storage account.
     * The maximum number of disks of a standard storage account is 40 because the maximum IOPS of a standard storage account is 20,000 and the maximum IOPS of a standard disk is 500.
     * If you are using premium storage account, Azure maps the disk size (rounded up) to the nearest Premium Storage Disk option (P10, P20 and P30). For example, a disk of size 100 GiB is classified as a P10 option.
-      1. The maximum number of disks of a premium storage account is 280 if you are using P10 (128 GiB) as your disk type.
-      1. The maximum number of disks of a premium storage account is 70 if you are using P20 (512 GiB) as your disk type.
-      1. The maximum number of disks of a premium storage account is 35 if you are using P30 (1024 GiB) as your disk type.
+        1. The maximum number of disks of a premium storage account is 280 if you are using P10 (128 GiB) as your disk type.
+        1. The maximum number of disks of a premium storage account is 70 if you are using P20 (512 GiB) as your disk type.
+        1. The maximum number of disks of a premium storage account is 35 if you are using P30 (1024 GiB) as your disk type.
     * **storage\_account\_max\_disk\_number** should be less than the maximum number. Suggest you to use (MAX - 10) as the value because CPI always creates VMs in parallel.
     * Please see more information about [azure-subscription-service-limits](https://azure.microsoft.com/en-us/documentation/articles/azure-subscription-service-limits/).
 * **storage\_account\_type** [String, optional]: Storage account type. Valid only when `use_managed_disks` is `false`. It is required if the storage account does not exist. It can be either `Standard_LRS`, `Standard_ZRS`, `Standard_GRS`, `Standard_RAGRS` or `Premium_LRS`. You can click [**HERE**](http://azure.microsoft.com/en-us/pricing/details/storage/) to learn more about the type of Azure storage account.

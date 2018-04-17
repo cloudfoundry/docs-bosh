@@ -107,9 +107,9 @@ An addon is a release job that is colocated on all VMs managed by the Director.
 
 * **name** [String, required]: A unique name used to identify and reference the addon.
 * **jobs** [Array of hashes, requires]: Specifies the name and release of release jobs to be colocated.
-  * **name** [String, required]: The job name.
-  * **release** [String, required]: The release where the job exists.
-  * **properties** [Hash, optional]: Specifies job properties. Properties allow the Director to configure jobs to a specific environment.
+    * **name** [String, required]: The job name.
+    * **release** [String, required]: The release where the job exists.
+    * **properties** [Hash, optional]: Specifies job properties. Properties allow the Director to configure jobs to a specific environment.
 * **include** [Hash, optional]: Specifies inclusion [placement rules](#placement-rules) Available in bosh-release v260+.
 * **exclude** [Hash, optional]: Specifies exclusion [placement rules](#placement-rules). Available in bosh-release v260+.
 
@@ -118,11 +118,11 @@ An addon is a release job that is colocated on all VMs managed by the Director.
 Available rules:
 
 * **stemcell** [Array of hashes, optional]
-  * **os** [String, required]: Matches stemcell's operating system. Example: `ubuntu-trusty`
+    * **os** [String, required]: Matches stemcell's operating system. Example: `ubuntu-trusty`
 * **deployments** [Array of strings, optional]: Matches based on deployment names.
 * **jobs** [Array of hashes, optional]
-  * **name** [String, required]: Matching job name.
-  * **release** [String, required]: Matching release name.
+    * **name** [String, required]: Matching job name.
+    * **release** [String, required]: Matching release name.
 * **networks** [Array of strings, optional]: Matches based on network names. Available in bosh-release v262+.
 
 All arrays within inclusion/exclusion rules use `or` operator.
