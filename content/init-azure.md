@@ -50,7 +50,7 @@ To prepare your Azure environment find out and/or create any missing resources i
 
     If running above commands outside of a connected Azure network, refer to [Exposing environment on a public IP](init-external-ip.md) for additional CLI flags.
 
-    See [Azure CPI errors](azure-cpi.md#errors) for list of common errors and resolutions.
+    See [Azure CPI errors](azure-cpi-errors.md) for list of common errors and resolutions.
 
 1. Connect to the Director.
 

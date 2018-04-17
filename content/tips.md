@@ -4,10 +4,10 @@ title: Tips
 
 This document lists several common problems. If you are looking for CPI specific errors see:
 
-- [AWS CPI errors](aws-cpi.md#errors)
-- [Azure CPI errors](azure-cpi.md#errors)
-- [OpenStack CPI errors](openstack-cpi.md#errors)
-- [vSphere CPI errors](vsphere-cpi.md#errors)
+- [AWS CPI errors](aws-cpi-errors.md)
+- [Azure CPI errors](azure-cpi-errors.md)
+- [OpenStack CPI errors](openstack-cpi-errors.md)
+- [vSphere CPI errors](vsphere-cpi-errors.md)
 
 ---
 ## Timed out pinging to ... after 600 seconds {: #unreachable-agent }

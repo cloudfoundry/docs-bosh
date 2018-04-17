@@ -164,7 +164,7 @@ $ bosh create-env bosh-deployment/bosh.yml \
 
     If running above commands outside of an AWS VPC, refer to [Exposing environment on a public IP](init-external-ip.md) for additional CLI flags.
 
-    See [AWS CPI errors](aws-cpi.md#errors) for list of common errors and resolutions.
+    See [AWS CPI errors](aws-cpi-errors.md) for list of common errors and resolutions.
 
 1. Connect to the Director.
 

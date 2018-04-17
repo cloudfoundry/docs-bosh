@@ -181,6 +181,7 @@ pages:
   - "--- Cloud Providers": divider.md
   - Amazon Web Services:
     - Usage: aws-cpi.md
+    - Common Errors: aws-cpi-errors.md
     - IAM Users: aws-iam-users.md
     - IAM Profiles: aws-iam-instance-profiles.md
     - Using Instance Storage: aws-instance-storage.md
@@ -189,9 +190,11 @@ pages:
     - Required Permissions: google-required-permissions.md
   - Microsoft Azure:
     - Usage: azure-cpi.md
+    - Common Errors: azure-cpi-errors.md
     - Creating Resources: azure-resources.md
   - OpenStack:
     - Usage: openstack-cpi.md
+    - Common Errors: openstack-cpi-errors.md
     - Using Auto-anti-affinity: openstack-auto-anti-affinity.md
     - Using Human-readable VM names: openstack-human-readable-vm-names.md
     - Using Keystone API v2: openstack-keystonev2.md
@@ -210,6 +213,7 @@ pages:
     - Usage: vcloud-cpi.md
   - VMware vSphere:
     - Usage: vsphere-cpi.md
+    - Common Errors: vsphere-cpi-errors.md
     - Recovery from an ESXi Host Failure: vsphere-esxi-host-failure.md
     - vSphere High Availability: vsphere-ha.md
     - Migrating Datastores: vsphere-migrate-datastores.md

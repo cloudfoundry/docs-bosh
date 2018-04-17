@@ -175,7 +175,7 @@ You must create and configure two Security Groups to restrict incoming network t
 
     If running above commands outside of an OpenStack network, refer to [Exposing environment on a public IP](init-external-ip.md) for additional CLI flags.
 
-    See [OpenStack CPI errors](openstack-cpi.md#errors) for list of common errors and resolutions.
+    See [OpenStack CPI errors](openstack-cpi-errors.md) for list of common errors and resolutions.
 
 1. Connect to the Director.
 
