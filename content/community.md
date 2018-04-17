@@ -20,9 +20,7 @@ Since BOSH is a larger project, there are quite a few repositories for the vario
 
 ## Roadmap
 
-We use [Pivotal Tracker](https://www.pivotaltracker.com/) for keeping track of what we're working on and prioritizing tasks. If you are interested in seeing what's going on or tracking a particular piece of work, check out these main projects: [Primary Backlog](https://www.pivotaltracker.com/n/projects/956238), [DNS-related](https://www.pivotaltracker.com/n/projects/2139998), ["Hotswap" feature](https://www.pivotaltracker.com/n/projects/2132441), ["Links API" feature](https://www.pivotaltracker.com/n/projects/2132440).
-
-If you are uncertain which link to use, most repositories will have Pivotal Tracker links for more specific information.
+We use [Pivotal Tracker](https://www.pivotaltracker.com/) for keeping track of what we're working on and prioritizing tasks. We have several projects, but our main project is [CF BOSH](https://www.pivotaltracker.com/n/projects/956238). For an aggregated view of all our projects, check out [bosh-stories](https://github.com/cloudfoundry/bosh-stories) to see a quick summary of our recent and upcoming work.
 
 
 ## Mailing List
