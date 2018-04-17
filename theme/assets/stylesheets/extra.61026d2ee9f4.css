@@ -36,6 +36,12 @@
   position: relative;
 }
 
+.bosh-schema dl::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
 .bosh-schema dd {
   margin: 0 0 .25em 6em
 }
