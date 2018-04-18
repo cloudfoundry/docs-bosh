@@ -1,282 +1,468 @@
 ---
-title: Manifest v2 Schema
+schema: true
 ---
 
-!!! note
-    This feature is available with bosh-release v255.4+.
+# Deployment Manifest
 
-!!! warning
-    If you are using director version between v241 and v256, once you opt into using cloud config all deployments must be converted to use new format. If you want to deploy both v1 and v2 manifests, update to director v257+.
+## deployment {: # }
 
-The deployment manifest is a YAML file that defines the components and properties of the deployment. When an operator initiates a new deployment using the CLI, the Director receives a manifest and creates or updates a deployment with matching name.
+The deployment manifest defines the components and properties of the deployment.
 
-Assuming that you are using [cloud config](cloud-config.md), your deployment manifest is expected to have:
+### `addons` {: #addons }
 
-* [Deployment Identification](#deployment): A name for the deployment and the UUID of the Director managing the deployment
-* [Features Block](#features): Opts into Director features to be used in this deployment
-* [Releases Block](#releases): Name and version of each release in a deployment
-* [Stemcells Block](#stemcells): Name and version of each stemcell in a deployment
-* [Update Block](#update): Defines how BOSH updates instances during deployment
-* [Instance Groups Block](#instance-groups): Configuration and resource information for instance groups
-* [Addons](#addons): Configures deployment specific addons
-* [Properties Block](#properties): Describes global properties and generalized configuration information
-* [Variables Block](#variables): Variables configuration
-* [Tags Block](#tags): Sets additional tags for the deployment
+Specifies the [addons](https://bosh.io/docs/terminology/#addon) to be applied to this deployments.
 
----
-## Deployment Identification {: #deployment }
+ * *Use*: Optional
+ * *Type*: array
 
-**name** [String, required]: The name of the deployment. A single Director can manage multiple deployments and distinguishes them by name.
+### `features` {: #features }
 
-**director_uuid** [String, required]: Not required by CLI v2. This string must match the UUID of the currently targeted Director for the CLI to allow any operations on the deployment. Use `bosh status` to display the UUID of the currently targeted Director.
+Specifies Director features that should be used within this deployment.
 
-Example:
+ * *Use*: Optional
+ * *Type*: object
 
-```yaml
-name: my-redis
-```
+> #### `randomize_az_placement` {: #features.randomize_az_placement }
+> 
+> Randomizes AZs for left over instances that cannot be distributed equally between AZs. For example, given an instance group with 5 instances and only 3 AZs, 1 remaining instance will be placed in randomly chosen AZ out of specified 3 AZs.
+> 
+>  * *Use*: Optional
+>  * *Type*: boolean
+> 
+> #### `use_dns_addresses` {: #features.use_dns_addresses }
+> 
+> Enables or disables returning of DNS addresses in links. Defaults to global Director `use_dns_addresses` configuration.
+> 
+>  * *Use*: Optional
+>  * *Type*: boolean
+> 
 
----
-## Features Block {: #features }
+### `instance_groups[]` {: #instance_groups }
 
-**features** [Hash, options]: Specifies Director features that should be used within this deployment.
+Specifies the mapping between release [jobs](https://bosh.io/docs/terminology/#job) and instance groups.
 
-* **use\_dns\_addresses** [Boolean, optional]: Enables or disables returning of DNS addresses in links. Defaults to global Director `use_dns_addresses` configuration.
-* **randomize\_az\_placement** [Boolean, optional]: Randomizes AZs for left over instances that cannot be distributed equally between AZs. For example, given an instance group with 5 instances and only 3 AZs, 1 remaining instance will be placed in randomly chosen AZ out of specified 3 AZs. Available in bosh-release v264+.
+ * *Use*: Optional
+ * *Type*: array
 
-Example:
+> #### `azs` {: #instance_groups.azs }
+> 
+> List of AZs associated with this instance group (should only be used when using [first class AZs](https://bosh.io/docs/azs/)).
+> 
+>  * *Use*: Optional
+>  * *Type*: array
+> 
+> #### `env` {: #instance_groups.env }
+> 
+>  * *Use*: Optional
+>  * *Details*: [See Schema](#def-env)
+> 
+> #### `instances` {: #instance_groups.instances }
+> 
+> The number of instances in this group. Each instance is a VM.
+> 
+>  * *Use*: Required
+>  * *Type*: integer
+> 
+> #### `jobs[]` {: #instance_groups.jobs }
+> 
+> Specifies the name and release of jobs that will be installed on each instance.
+> 
+>  * *Use*: Required
+>  * *Type*: array
+> 
+> > ##### `consumes` {: #instance_groups.jobs.consumes }
+> > 
+> > Links consumed by the job. [Read more about link configuration](https://bosh.io/docs/links/#deployment)
+> > 
+> >  * *Use*: Optional
+> >  * *Type*: object
+> > 
+> > 
+> > ##### `name` {: #instance_groups.jobs.name }
+> > 
+> > The job name.
+> > 
+> >  * *Use*: Required
+> >  * *Type*: string
+> > 
+> > ##### `properties` {: #instance_groups.jobs.properties }
+> > 
+> > Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job. Only properties specified here will be provided to the job.
+> > 
+> >  * *Use*: Optional
+> >  * *Type*: object
+> > 
+> > 
+> > ##### `provides` {: #instance_groups.jobs.provides }
+> > 
+> > Links provided by the job. [Read more about link configuration](https://bosh.io/docs/links/#deployment)
+> > 
+> >  * *Use*: Optional
+> >  * *Type*: object
+> > 
+> > 
+> > ##### `release` {: #instance_groups.jobs.release }
+> > 
+> > The release where the job exists.
+> > 
+> >  * *Use*: Required
+> >  * *Type*: string
+> > 
+> 
+> #### `lifecycle` {: #instance_groups.lifecycle }
+> 
+> Specifies the kind of task the job represents. Valid values are service and errand; defaults to service. A service runs indefinitely and restarts if it fails. An errand starts with a manual trigger and does not restart if it fails.
+> 
+>  * *Use*: Required
+>  * *Default*: `"service"`
+>  * *Supported Values*: `"errand"`, `"service"`
+> 
+> #### `name` {: #instance_groups.name }
+> 
+> A unique name used to identify and reference this association between a BOSH release job and a VM.
+> 
+>  * *Use*: Required
+>  * *Type*: string
+> 
+> #### `networks[]` {: #instance_groups.networks }
+> 
+> Specifies the networks this job requires.
+> 
+>  * *Use*: Required
+>  * *Type*: array
+> 
+> > ##### `default` {: #instance_groups.networks.default }
+> > 
+> > Specifies which network components (DNS, Gateway) BOSH populates by default from this network. This property is required if more than one network is specified.
+> > 
+> >  * *Use*: Optional
+> >  * *Type*: array
+> > 
+> > ##### `name` {: #instance_groups.networks.name }
+> > 
+> > A valid network name from the cloud config.
+> > 
+> >  * *Use*: Required
+> >  * *Type*: string
+> > 
+> > ##### `static_ips` {: #instance_groups.networks.static_ips }
+> > 
+> > Array of IP addresses reserved for the instances on the network.
+> > 
+> >  * *Use*: Optional
+> >  * *Type*: array
+> > 
+> 
+> #### `persistent_disk` {: #instance_groups.persistent_disk }
+> 
+> Persistent disk size in MB. Alternatively you can specify `persistent_disk_type` key. [Read more about persistent disks](https://bosh.io/docs/persistent-disks/)
+> 
+>  * *Use*: Optional
+>  * *Type*: integer
+> 
+> #### `persistent_disk_type` {: #instance_groups.persistent_disk_type }
+> 
+> A valid disk type name from the cloud config. [Read more about persistent disks](https://bosh.io/docs/persistent-disks/)
+> 
+>  * *Use*: Optional
+>  * *Type*: string
+> 
+> #### `properties` {: #instance_groups.properties }
+> 
+> Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. properties defined in a Job block are accessible only to that job, and override any identically named global properties.
+> 
+>  * *Use*: Optional
+>  * *Type*: object
+> 
+> 
+> #### `stemcell` {: #instance_groups.stemcell }
+> 
+> A valid stemcell alias from the Stemcells Block.
+> 
+>  * *Use*: Optional
+>  * *Type*: string
+> 
+> #### `update` {: #instance_groups.update }
+> 
+> Specific update settings for this instance group. Use this to override global job update settings on a per-instance-group basis.
+> 
+>  * *Use*: Optional
+>  * *Details*: [See Schema](#def-update)
+> 
+> #### `vm_extensions` {: #instance_groups.vm_extensions }
+> 
+> A valid list of VM extension names from the cloud config.
+> 
+>  * *Use*: Optional
+>  * *Type*: array
+> 
+> #### `vm_resources` {: #instance_groups.vm_resources }
+> 
+> Specifies generic VM resources such as CPU, RAM and disk size that are automatically translated into correct VM cloud properties to determine VM size. VM size is determined on best effort basis as some IaaSes may not support exact size configuration.
+> 
+>  * *Use*: Optional
+>  * *Type*: object
+> 
+> > ##### `cpu` {: #instance_groups.vm_resources.cpu }
+> > 
+> > Number of CPUs.
+> > 
+> >  * *Use*: Required
+> >  * *Type*: integer
+> > 
+> > ##### `ephemeral_disk_size` {: #instance_groups.vm_resources.ephemeral_disk_size }
+> > 
+> > Ephemeral disk size in MB.
+> > 
+> >  * *Use*: Required
+> >  * *Type*: integer
+> > 
+> > ##### `ram` {: #instance_groups.vm_resources.ram }
+> > 
+> > Amount of RAM in MB.
+> > 
+> >  * *Use*: Required
+> >  * *Type*: integer
+> > 
+> 
+> #### `vm_type` {: #instance_groups.vm_type }
+> 
+> A valid VM type name from the cloud config. Alternatively you can specify `vm_resources` key.
+> 
+>  * *Use*: Required
+>  * *Details*: [See Schema](#def-vm_type_ref)
+> 
 
-```yaml
-features:
-  use_dns_addresses: true
-```
+### `name` {: #name }
 
----
-## Releases Block {: #releases }
+The name of the deployment. A single Director can manage multiple deployments and distinguishes them by name.
 
-**releases** [Array, required]: The name and version of each release in the deployment.
+ * *Use*: Required
+ * *Type*: string
+ * *Example*: `"my-redis"`
 
-* **name** [String, required]: Name of a release used in the deployment.
-* **version** [String, required]: The version of the release to use. Version can be `latest`.
-* **url** [String, optional]: URL of a release to download. Works with CLI v2. Example: `https://bosh.io/d/github.com/cloudfoundry/syslog-release?v=11`.
-* **sha1** [String, optional]: SHA1 of asset referenced via URL. Works with CLI v2. Example: `332ac15609b220a3fdf5efad0e0aa069d8235788`.
+### `properties` {: #properties }
 
-See [Release URLs](release-urls.md) for more details.
+Describes global properties. Deprecated in favor of job level properties and links.
 
-Example:
+ * *Use*: Optional
+ * *Type*: object
 
-```yaml
-releases:
-- name: redis
-  version: 12
-```
 
-Example with a URL:
+### `releases[]` {: #releases }
 
-```yaml
-releases:
-- name: concourse
-  version: 3.3.2
-  url: https://bosh.io/d/github.com/concourse/concourse?v=3.3.2
-  sha1: 2c876303dc6866afb845e728eab58abae8ff3be2
-```
+The name and version of each release in the deployment.
 
----
-## Stemcells Block {: #stemcells }
+ * *Use*: Required
+ * *Type*: array
 
-**stemcells** [Array, required]: The name and version of each stemcell in the deployment.
+> #### `name` {: #releases.name }
+> 
+> Name of a release used in the deployment.
+> 
+>  * *Use*: Required
+>  * *Type*: string
+> 
+> #### `sha1` {: #releases.sha1 }
+> 
+> SHA1 of asset referenced via URL. Works with CLI v2
+> 
+>  * *Use*: Optional
+>  * *Type*: string
+> 
+> #### `url` {: #releases.url }
+> 
+> URL of a release to download. Works with CLI v2.
+> 
+>  * *Use*: Optional
+>  * *Type*: string
+> 
+> #### `version` {: #releases.version }
+> 
+> The version of the release to use. Version can be `latest`.
+> 
+>  * *Use*: Required
+>  * *Type*: string
+> 
 
-* **alias** [String, required]: Name of a stemcell used in the deployment
-* **os** [String, optional]: Operating system of a matching stemcell. Example: `ubuntu-trusty`.
-* **version** [String, required]: The version of a matching stemcell. Version can be `latest`.
-* **name** [String, optional]: Full name of a matching stemcell. Either `name` or `os` keys can be specified.
+### `stemcells` {: #stemcells }
 
-Note: `url` key is not supported in stemcells block because there is no single stemcell that works on all IaaSes. Since we want to keep deployment manifests decoupled from any cloud specific declarations we do not allow specifying URL.
+The name and version of each stemcell in the deployment.
 
-Example:
+ * *Use*: Optional
+ * *Type*: object
 
-```yaml
-stemcells:
-- alias: default
-  os: ubuntu-trusty
-  version: 3147
-- alias: default2
-  name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-  version: 3149
-```
+> #### `alias` {: #stemcells.alias }
+> 
+> Name of a stemcell used in the deployment.
+> 
+>  * *Use*: Required
+>  * *Type*: string
+> 
+> #### `name` {: #stemcells.name }
+> 
+> Full name of a matching stemcell. Either `name` or `os` keys must be specified.
+> 
+>  * *Use*: Optional
+>  * *Type*: string
+> 
+> #### `os` {: #stemcells.os }
+> 
+> Operating system of a matching stemcell. Either `name` or `os` keys must be specified.
+> 
+>  * *Use*: Optional
+>  * *Type*: string
+>  * *Example*: `"ubuntu-trusty"`
+> 
+> #### `version` {: #stemcells.version }
+> 
+> The version of a matching stemcell. Version can be `latest`.
+> 
+>  * *Use*: Required
+>  * *Type*: string
+> 
 
----
-## Update Block {: #update }
+### `tags` {: #tags }
 
-**update** [Hash, required]: This specifies instance update properties. These properties control how BOSH updates instances during the deployment.
+Specifies key value pairs to be sent to the CPI for VM tagging. Combined with runtime config level tags during the deploy.
 
-* **canaries** [Integer, required]: The number of [canary](./terminology.html#canary) instances.
-* **max\_in\_flight** [Integer or Percentage, required]: The maximum number of non-canary instances to update in parallel within an availability zone.
-* **canary\_watch\_time** [Integer or Range, required]: Only applies to monit start operation.
-    * If the `canary_watch_time` is an integer, the Director sleeps for that many milliseconds, then checks whether the canary instances are healthy.
-    * If the `canary_watch_time` is a range (low-high), the Director:
-        * Waits for `low` milliseconds
-        * Waits until instances are healthy or `high` milliseconds have passed since instances started updating
-* **update\_watch\_time** [Integer or Range, required]: Only applies to monit start operation.
-    * If the `update_watch_time` is an integer, the Director sleeps for that many milliseconds, then checks whether the instances are healthy.
-    * If the `update_watch_time` is a range (low-high), the Director:
-        * Waits for `low` milliseconds
-        * Waits until instances are healthy or `high` milliseconds have passed since instances started updating
-* **serial** [Boolean, optional]: If disabled (set to `false`), instance groups will be deployed in parallel, otherwise - sequentially. Instances within a group will still follow `canary` and `max_in_flight` configuration. Defaults to `true`.
+ * *Use*: Optional
+ * *Type*: object
+ * *Example*: `{
+  "project": "cf"
+}`
 
-See [job lifecycle](job-lifecycle.md) for more details on startup/shutdown procedure within each VM.
 
-Example:
+### `update` {: #update }
 
-```yaml
-update:
-  canaries: 1
-  max_in_flight: 10
-  canary_watch_time: 1000-30000
-  update_watch_time: 1000-30000
-```
+ * *Use*: Required
+ * *Details*: [See Schema](#def-update)
 
----
-## Instance Groups Block {: #instance-groups }
+### `variables[]` {: #variables }
 
-**instance_groups** [Array, required]: Specifies the mapping between release [jobs](./terminology.html#job) and instance groups.
+Describes variables.
 
-* **name** [String, required]: A unique name used to identify and reference instance group.
-* **azs** [Array, required]: List of AZs associated with this instance group (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`.
-* **instances** [Integer, required]: The number of instances in this group. Each instance is a VM.
-* **jobs** [Array, required]: Specifies the name and release of jobs that will be installed on each instance.
-    * **name** [String, required]: The job name
-    * **release** [String, required]: The release where the job exists
-    * **consumes** [Hash, optional]: Links consumed by the job. [Read more about link configuration](links.md#deployment)
-    * **provides** [Hash, optional]: Links provided by the job. [Read more about link configuration](links.md#deployment)
-    * **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job. Only properties specified here will be provided to the job.
-* **vm_type** [String, required]: A valid VM type name from the cloud config. Alternatively you can specify `vm_resources` key.
-* **vm_extensions** [Array, optional]: A valid list of VM extension names from the cloud config.
-* **vm_resources** [Hash, optional]: Specifies generic VM resources such as CPU, RAM and disk size that are automatically translated into correct VM cloud properties to determine VM size. VM size is determined on best effort basis as some IaaSes may not support exact size configuration. Currently some CPIs (Google) do not support this functionality. Available in bosh-release v264+.
-    * **cpu** [Integer, required]: Number of CPUs.
-    * **ram** [Integer, required]: Amount of RAM in MB.
-    * **ephemeral\_disk\_size** [Integer, required]: Ephemeral disk size in MB.
-* **stemcell** [String, required]: A valid stemcell alias from the Stemcells Block.
-* **persistent\_disk** [Integer, optional]: Persistent disk size in MB. Alternatively you can specify `persistent_disk_type` key. [Read more about persistent disks](./persistent-disks.html)
-* **persistent\_disk\_type** [String, optional]: A valid disk type name from the cloud config. [Read more about persistent disks](./persistent-disks.html)
-* **networks** [Array, required]: Specifies the networks this instance requires. Each network can have the following properties specified:
-    * **name** [String, required]: A valid network name from the cloud config.
-    * **static_ips** [Array, optional]: Array of IP addresses reserved for the instances on the network.
-    * **default** [Array, optional]: Specifies which network components (DNS, Gateway) BOSH populates by default from this network. This property is required if more than one network is specified.
-* **update** [Hash, optional]: Specific update settings for this instance group. Use this to override [global job update settings](#update) on a per-instance-group basis.
-* **migrated_from** [Array, optional]: Specific migration settings for this instance group. Use this to [rename and/or migrate instance groups](migrated-from.md).
-* **lifecycle** [String, optional]: Specifies the kind of workload the instance group represents. Valid values are `service` and `errand`; defaults to `service`. A `service` runs indefinitely and restarts if it fails. An `errand` starts with a manual trigger and does not restart if it fails.
-* **properties** [Hash, optional]: Specifies instance group properties. Deprecated in favor of job level properties and links.
-* **env** [Hash, optional]: Specifies advanced BOSH Agent configuration for each instance in the group.
-    * **bosh** [Hash, optional]:
-        * **password** [String, optional]: Crypted password for `vcap/root` user (will be placed into /etc/shadow on Linux).
-        * **keep\_root\_password** [Boolean, optional]: Keep password for `root` and only change password for `vcap`. Default: `false`.
-        * **remove\_dev\_tools** [Boolean, optional]: Remove [compilers and dev tools](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/stemcell_builder/stages/dev_tools_config/assets/generate_dev_tools_file_list_ubuntu.sh) on non-compilation VMs. Default: `false`.
-        * **remove\_static\_libraries** [Boolean, optional]: Remove [static libraries](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/stemcell_builder/stages/static_libraries_config/assets/static_libraries_list.txt) on non-compilation VMs. Default: `false`.
-        * **swap\_size** [Integer, optional]: Size of swap partition in MB to create. Set this to 0 to avoid having a swap partition created. Default: RAM size of used VM type up to half of the ephemeral disk size.
-        * **ipv6** [Hash, optional]:
-            * **enable** [Boolean, optional]: Force IPv6 enabled in kernel (this configuration is not necessary if one of the VM addresses is IPv6). Default: `false`.
+ * *Use*: Optional
+ * *Type*: array
 
-Example:
+> #### `name` {: #variables.name }
+> 
+> Unique name used to identify a variable.
+> 
+>  * *Use*: Optional
+>  * *Type*: string
+> 
+> #### `options` {: #variables.options }
+> 
+> Specifies generation options used for generating variable value if variable is not found.
+> 
+>  * *Use*: Optional
+>  * *Type*: object
+>  * *Example*: `{
+  "common_name": "some-ca",
+  "is_ca": true
+}`
+> 
+> 
+> #### `type` {: #variables.type }
+> 
+> Type of a variable.
+> 
+>  * *Use*: Optional
+>  * *Type*: string
+>  * *Supported Values*: `"certificate"`, `"password"`, `"rsa"`, `"ssh"`
+> 
 
-```yaml
-instance_groups:
-- name: redis-master
-  instances: 1
-  azs: [z1, z2]
-  jobs:
-  - name: redis-server
-    release: redis
-    properties:
-      port: 3606
-  vm_type: medium
-  vm_extensions: [public-lbs]
-  stemcell: default
-  persistent_disk_type: medium
-  networks:
-  - name: default
+## Agent Environment Settings {: #def-env }
 
-- name: redis-slave
-  instances: 2
-  azs: [z1, z2]
-  jobs:
-  - name: redis-server
-    release: redis
-    properties: {}
-  vm_type: medium
-  stemcell: default
-  persistent_disk_type: medium
-  networks:
-  - name: default
-```
+Specifies advanced BOSH Agent configuration for each instance in the group.
 
----
-## Addons Block {: #addons }
+> #### `bosh` {: #def-env.bosh }
+> 
+>  * *Use*: Optional
+>  * *Type*: object
+> 
+> > ##### `ipv6` {: #def-env.bosh.ipv6 }
+> > 
+> >  * *Use*: Optional
+> >  * *Type*: object
+> > 
+> > > ###### `enable` {: #def-env.bosh.ipv6.enable }
+> > > 
+> > > Force IPv6 enabled in kernel (this configuration is not necessary if one of the VM addresses is IPv6).
+> > > 
+> > >  * *Use*: Optional
+> > >  * *Type*: boolean
+> > >  * *Default*: `false`
+> > > 
+> > 
+> > ##### `keep_root_password` {: #def-env.bosh.keep_root_password }
+> > 
+> > Keep password for root and only change password for `vcap`.
+> > 
+> >  * *Use*: Optional
+> >  * *Type*: boolean
+> >  * *Default*: `false`
+> > 
+> > ##### `password` {: #def-env.bosh.password }
+> > 
+> > Crypted password for vcap/root user (will be placed into /etc/shadow on Linux).
+> > 
+> >  * *Use*: Optional
+> >  * *Type*: string
+> > 
+> > ##### `remove_dev_tools` {: #def-env.bosh.remove_dev_tools }
+> > 
+> > Remove [compilers and dev tools](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/stemcell_builder/stages/dev_tools_config/assets/generate_dev_tools_file_list_ubuntu.sh) on non-compilation VMs.
+> > 
+> >  * *Use*: Optional
+> >  * *Type*: boolean
+> >  * *Default*: `false`
+> > 
+> > ##### `remove_static_libraries` {: #def-env.bosh.remove_static_libraries }
+> > 
+> > Remove static libraries on non-compilation VMs
+> > 
+> >  * *Use*: Optional
+> >  * *Type*: boolean
+> >  * *Default*: `false`
+> > 
+> > ##### `swap_size` {: #def-env.bosh.swap_size }
+> > 
+> > Size of swap partition in MB to create. Set this to 0 to avoid having a swap partition created. Default: RAM size of used VM type up to half of the ephemeral disk size.
+> > 
+> >  * *Use*: Optional
+> >  * *Type*: integer
+> > 
+> 
+## Update Settings {: #def-update }
 
-!!! note
-    This feature is available with bosh-release v262+.
+This specifies instance update properties. These properties control how BOSH updates job instances during the deployment.
 
-**addons** [Array, required]: Specifies the [addons](./terminology.html#addon) to be applied to this deployments.
-
-See [Addons Block](runtime-config.md#addons) for the schema.
-
-Unlike addons specified in a runtime config, addons specified in the deployment manifest do not respect inclusion and exclusion rules for `deployments`.
-
-Example:
-
-```
-addons:
-- name: logging
-  jobs:
-  - name: logging-agent
-    release: logging
-    properties:
-      ...
-```
-
----
-## Properties Block {: #properties }
-
-**properties** [Hash, optional]: Describes global properties. Deprecated in favor of job level properties and links.
-
----
-## Variables Block {: #variables }
-
-**variables** [Array, optional]: Describes variables.
-
-* **name** [String, required]: Unique name used to identify a variable. Example: `admin_password`
-* **type** [String, required]: Type of a variable. Currently supported variable types are `certificate`, `password`, `rsa`, and `ssh`. Example: `password`.
-* **options** [Hash, optional]: Specifies generation options used for generating variable value if variable is not found. Example: `{is_ca: true, common_name: some-ca}`
-
-Example:
-
-```
-variables:
-- name: admin_password
-  type: password
-- name: default_ca
-  type: certificate
-  options:
-    is_ca: true
-    common_name: some-ca
-- name: director_ssl
-  type: certificate
-  options:
-    ca: default_ca
-    common_name: cc.cf.internal
-    alternative_names: [cc.cf.internal]
-```
-
-See [CLI Variable Interpolation](cli-int.md) for more details about variables.
-
----
-## Tags Block {: #tags }
-
-**tags** [Hash, optional]: Specifies key value pairs to be sent to the CPI for VM tagging. Combined with runtime config level tags during the deploy. Available in bosh-release v258+.
-
-Example:
-
-```yaml
-tags:
-  project: cf
-```
+> #### `canaries` {: #def-update.canaries }
+> 
+> The number of [canary](https://bosh.io/docs/terminology/#canary) instances.
+> 
+>  * *Use*: Required
+>  * *Type*: integer
+> 
+> #### `canary_watch_time` {: #def-update.canary_watch_time }
+> 
+>  * *Use*: Required
+> 
+> #### `max_in_flight` {: #def-update.max_in_flight }
+> 
+>  * *Use*: Required
+> 
+> #### `serial` {: #def-update.serial }
+> 
+> If disabled (set to false), deployment jobs will be deployed in parallel, otherwise - sequentially. Instances within a deployment job will still follow canary and max_in_flight configuration.
+> 
+>  * *Use*: Optional
+>  * *Type*: boolean
+>  * *Default*: `true`
+> 
+> #### `update_watch_time` {: #def-update.update_watch_time }
+> 
+>  * *Use*: Required
+> 

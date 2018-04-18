@@ -1,174 +1,175 @@
 ---
-title: Runtime Config
+schema: true
 ---
 
-!!! note
-    This feature is available with bosh-release v255.4+.
+# Runtime Config
 
-The Director has a way to specify global configuration for all VMs in all deployments. The runtime config is a YAML file that defines IaaS agnostic configuration that applies to all deployments.
+## Runtime Config {: # }
 
----
-## Updating and retrieving runtime config {: #update }
+The runtime config defines IaaS agnostic configuration that applies to all deployments.
 
-To update runtime config on the Director use [`bosh update runtime-config`](sysadmin-commands.md#cloud-config) CLI command.
+### `addons[]` {: #addons }
 
-!!! note
-    See [example runtime config](#example) below.
+Specifies the addons to be applied to all deployments.
 
-```shell
-$ bosh update-runtime-config runtime.yml
+ * *Use*: Optional
+ * *Type*: array
 
-$ bosh runtime-config
-Acting as user 'admin' on 'micro'
+> #### `exclude` {: #addons.exclude }
+> 
+> Specifies exclusion placement rules.
+> 
+>  * *Use*: Optional
+>  * *Details*: [See Schema](#def-placement_rules)
+> 
+> #### `include` {: #addons.include }
+> 
+> Specifies inclusion placement rules.
+> 
+>  * *Use*: Optional
+>  * *Details*: [See Schema](#def-placement_rules)
+> 
+> #### `jobs[]` {: #addons.jobs }
+> 
+> Specifies the name and release of release jobs to be colocated.
+> 
+>  * *Use*: Optional
+>  * *Type*: array
+> 
+> > ##### `name` {: #addons.jobs.name }
+> > 
+> > The job name.
+> > 
+> >  * *Use*: Required
+> >  * *Type*: string
+> > 
+> > ##### `properties` {: #addons.jobs.properties }
+> > 
+> > Specifies job properties. Properties allow the Director to configure jobs to a specific environment.
+> > 
+> >  * *Use*: Optional
+> >  * *Type*: object
+> > 
+> > 
+> > ##### `release` {: #addons.jobs.release }
+> > 
+> > The release where the job exists.
+> > 
+> >  * *Use*: Required
+> >  * *Type*: string
+> > 
+> 
+> #### `name` {: #addons.name }
+> 
+> A unique name used to identify and reference the addon.
+> 
+>  * *Use*: Optional
+>  * *Type*: string
+> 
 
-releases:
-- name: strongswan
-  version: 6.0.0
+### `releases[]` {: #releases }
 
-addons:
-- name: security
-  jobs:
-  - name: strongswan
-    release: strongswan
-...
-```
+Specifies the releases used by the addons.
 
-Once runtime config is updated all deployments will be considered outdated. `bosh deployments` does not currently show that but we have plans to show that information. The Director will apply runtime config changes to each deployment during the next `bosh deploy` for that deployment.
+ * *Use*: Required
+ * *Type*: array
 
----
-## Example {: #example }
+> #### `name` {: #releases.name }
+> 
+> Name of a release name used by an addon
+> 
+>  * *Use*: Required
+>  * *Type*: string
+> 
+> #### `sha1` {: #releases.sha1 }
+> 
+> SHA1 of asset referenced via URL. Works with CLI v2.
+> 
+>  * *Use*: Optional
+>  * *Type*: string
+>  * *Example*: `"332ac15609b220a3fdf5efad0e0aa069d8235788"`
+> 
+> #### `url` {: #releases.url }
+> 
+> URL of a release to download. Works with CLI v2.
+> 
+>  * *Use*: Optional
+>  * *Type*: string
+>  * *Example*: `"https://bosh.io/d/github.com/cloudfoundry/syslog-release?v=11"`
+> 
+> #### `version` {: #releases.version }
+> 
+> The version of the release to use. Version cannot be `latest`; it must be specified explicitly.
+> 
+>  * *Use*: Required
+>  * *Type*: string
+> 
 
-```yaml
-releases:
-- name: strongswan
-  version: 6.0.0
+### `tags` {: #tags }
 
-addons:
-- name: security
-  jobs:
-  - name: strongswan
-    release: strongswan
-    properties:
-      strongswan:
-        ca_cert: ...
-```
+Specifies key value pairs to be sent to the CPI for VM tagging. Combined with deployment level tags during the deploy.
 
-!!! note
-    To remove all addons, specify empty arrays as follows:
+ * *Use*: Optional
+ * *Type*: object
+ * *Example*: `{
+  "business_unit": "marketing",
+  "email_contact": "ops@marketing.example.com"
+}`
 
-```yaml
-releases: []
-addons: []
-```
 
----
-## Releases Block {: #releases }
+## Placement Rules {: #def-placement_rules }
 
-**releases** [Array, required]: Specifies the releases used by the addons.
+Placement rules for `include` and `exclude` directives.
 
-* **name** [String, required]: Name of a release name used by an addon.
-* **version** [String, required]: The version of the release to use. Version *cannot* be `latest`; it must be specified explicitly.
-* **url** [String, optional]: URL of a release to download. Works with CLI v2. Example: `https://bosh.io/d/github.com/cloudfoundry/syslog-release?v=11`.
-* **sha1** [String, optional]: SHA1 of asset referenced via URL. Works with CLI v2. Example: `332ac15609b220a3fdf5efad0e0aa069d8235788`.
-
-See [Release URLs](release-urls.md) for more details.
-
-Example:
-
-```yaml
-releases:
-- name: strongswan
-  version: 6.0.0
-```
-
-Example with a URL:
-
-```yaml
-releases:
-- name: concourse
-  version: 3.3.2
-  url: https://bosh.io/d/github.com/concourse/concourse?v=3.3.2
-  sha1: 2c876303dc6866afb845e728eab58abae8ff3be2
-```
-
----
-## Addons Block {: #addons }
-
-Operators typically want to ensure that certain software runs on all VMs managed by the Director. Examples of such software are:
-
-- security agents like Tripwire, IPsec, etc.
-- anti-viruses like McAfee
-- custom health monitoring agents like Datadog
-- logging agents like Loggregator's Metron
-
-An addon is a release job that is colocated on all VMs managed by the Director.
-
-**addons** [Array, optional]: Specifies the [addons](./terminology.html#addon) to be applied to all deployments.
-
-* **name** [String, required]: A unique name used to identify and reference the addon.
-* **jobs** [Array of hashes, requires]: Specifies the name and release of release jobs to be colocated.
-    * **name** [String, required]: The job name.
-    * **release** [String, required]: The release where the job exists.
-    * **properties** [Hash, optional]: Specifies job properties. Properties allow the Director to configure jobs to a specific environment.
-* **include** [Hash, optional]: Specifies inclusion [placement rules](#placement-rules) Available in bosh-release v260+.
-* **exclude** [Hash, optional]: Specifies exclusion [placement rules](#placement-rules). Available in bosh-release v260+.
-
-### Placement Rules for `include` and `exclude` Directives {: #placement-rules }
-
-Available rules:
-
-* **stemcell** [Array of hashes, optional]
-    * **os** [String, required]: Matches stemcell's operating system. Example: `ubuntu-trusty`
-* **deployments** [Array of strings, optional]: Matches based on deployment names.
-* **jobs** [Array of hashes, optional]
-    * **name** [String, required]: Matching job name.
-    * **release** [String, required]: Matching release name.
-* **networks** [Array of strings, optional]: Matches based on network names. Available in bosh-release v262+.
-
-All arrays within inclusion/exclusion rules use `or` operator.
-
-Example:
-
-```yaml
-addons:
-- name: security
-  jobs:
-  - name: strongswan
-    release: strongswan
-    properties:
-      strongswan:
-        ca_cert: ...
-  - name: syslog_drain
-    release: syslog
-    properties:
-      syslog_drain_ips: [10.10.0.20]
-  include:
-    deployments: [dep1, dep2]
-```
-
-Example with `include` rules:
-
-```yaml
-include:
-  deployments: [dep1, dep2]
-  jobs:
-  - name: redis
-    release: redis-release
-  stemcell:
-  - os: ubuntu-trusty
-```
-
-See [common addons list](addons-common.md) for several examples.
-
----
-## Tags Block {: #tags }
-
-**tags** [Hash, optional]: Specifies key value pairs to be sent to the CPI for VM tagging. Combined with deployment level tags during the deploy. Available in bosh-release v260+.
-
-Example:
-
-```yaml
-tags:
-  business_unit: marketing
-  email_contact: ops@marketing.co.com
-```
+> #### `deployments` {: #def-placement_rules.deployments }
+> 
+> Matches based on deployment names.
+> 
+>  * *Use*: Optional
+>  * *Type*: array
+> 
+> #### `jobs[]` {: #def-placement_rules.jobs }
+> 
+> Matches based on jobs running on the instance group.
+> 
+>  * *Use*: Optional
+>  * *Type*: array
+> 
+> > ##### `name` {: #def-placement_rules.jobs.name }
+> > 
+> > Matching job name.
+> > 
+> >  * *Use*: Required
+> >  * *Type*: string
+> > 
+> > ##### `release` {: #def-placement_rules.jobs.release }
+> > 
+> > Matching release name.
+> > 
+> >  * *Use*: Required
+> >  * *Type*: string
+> > 
+> 
+> #### `networks` {: #def-placement_rules.networks }
+> 
+> Matches based on network names.
+> 
+>  * *Use*: Optional
+>  * *Type*: array
+> 
+> #### `stemcell[]` {: #def-placement_rules.stemcell }
+> 
+> Matches based on stemcell used
+> 
+>  * *Use*: Optional
+>  * *Type*: array
+> 
+> > ##### `os` {: #def-placement_rules.stemcell.os }
+> > 
+> > Matches stemcell's operating system.
+> > 
+> >  * *Use*: Required
+> >  * *Type*: string
+> >  * *Example*: `"ubuntu-trusty"`
+> > 
+> 
