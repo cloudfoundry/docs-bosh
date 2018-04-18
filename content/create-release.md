@@ -764,7 +764,7 @@ See what releases are available:
   `bosh releases`
 
 If BOSH is already pointing to a release, edit the BOSH deployment manifest.
-Otherwise, create a manifest. See [BOSH Deployment Manifest](./deployment-manifest.html) for more information.
+Otherwise, create a manifest. See [BOSH Deployment Manifest](./manifest-v2.html) for more information.
 Simple manifest for `ardo_app` can be found [here](https://gist.github.com/antonsoroko/3be4c70b38f846b1d79eca7192a5ab58) (OpenStack) or [here](https://gist.github.com/uzzz/9ad9cad105032fecdbeb223798607a87) (AWS).
 
 Upload the new dev release.
