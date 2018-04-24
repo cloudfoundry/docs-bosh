@@ -1,7 +1,3 @@
----
-title: Persistent and Orphaned Disks
----
-
 !!! note
     This document was updated to mention orphaned disks introduced in bosh-release v241+ (1.3163.0).
 
