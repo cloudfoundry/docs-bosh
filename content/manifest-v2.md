@@ -169,7 +169,7 @@ update:
 * **properties** [Hash, optional]: Specifies instance group properties. Deprecated in favor of job level properties and links.
 * **env** [Hash, optional]: Specifies advanced BOSH Agent configuration for each instance in the group.
     * **persistent_disk_fs** [String, optional]: Filesystem type to use when formatting persistent disk. Supported values: `ext4`, `xfs`. Default is currently set to `ext4` but may change. [See details](persistent-disk-fs.md)
-    * **persistent_disk_mount_options** [Array, optional]: Mount options when mounting persistent disk.
+    * **persistent_disk_mount_options** [Array of strings, optional]: Mount options when mounting persistent disk. Example: `["noatime"]`.
     * **bosh** [Hash, optional]:
         * **password** [String, optional]: Crypted password for `vcap/root` user (will be placed into /etc/shadow on Linux).
         * **keep\_root\_password** [Boolean, optional]: Keep password for `root` and only change password for `vcap`. Default: `false`.
