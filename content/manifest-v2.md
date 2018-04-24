@@ -158,7 +158,7 @@ update:
     * **ephemeral\_disk\_size** [Integer, required]: Ephemeral disk size in MB.
 * **stemcell** [String, required]: A valid stemcell alias from the Stemcells Block.
 * **persistent\_disk** [Integer, optional]: Persistent disk size in MB. Alternatively you can specify `persistent_disk_type` key. [Read more about persistent disks](./persistent-disks.html)
-* **persistent\_disk\_type** [String, optional]: A valid disk type name from the cloud config. [Read more about persistent disks](./persistent-disks.html)
+* **persistent\_disk\_type** [String, optional]: A valid disk type name from the cloud config. [Read more about persistent disks](persistent-disks.md)
 * **networks** [Array, required]: Specifies the networks this instance requires. Each network can have the following properties specified:
     * **name** [String, required]: A valid network name from the cloud config.
     * **static_ips** [Array, optional]: Array of IP addresses reserved for the instances on the network.
@@ -168,6 +168,8 @@ update:
 * **lifecycle** [String, optional]: Specifies the kind of workload the instance group represents. Valid values are `service` and `errand`; defaults to `service`. A `service` runs indefinitely and restarts if it fails. An `errand` starts with a manual trigger and does not restart if it fails.
 * **properties** [Hash, optional]: Specifies instance group properties. Deprecated in favor of job level properties and links.
 * **env** [Hash, optional]: Specifies advanced BOSH Agent configuration for each instance in the group.
+    * **persistent_disk_fs** [String, optional]: Filesystem type to use when formatting persistent disk. Supported values: `ext4`, `xfs`. Default is currently set to `ext4` but may change. [See details](persistent-disk-fs.md)
+    * **persistent_disk_mount_options** [Array, optional]: Mount options when mounting persistent disk.
     * **bosh** [Hash, optional]:
         * **password** [String, optional]: Crypted password for `vcap/root` user (will be placed into /etc/shadow on Linux).
         * **keep\_root\_password** [Boolean, optional]: Keep password for `root` and only change password for `vcap`. Default: `false`.
