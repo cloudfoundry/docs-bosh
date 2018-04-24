@@ -33,13 +33,11 @@ pages:
       - Uploading Releases: uploading-releases.md
       - Deploying: deploying.md
     - Using Persistent Disks:
-      - Manually Attaching Disks: persistent-disks.md
-      - Orphan Disks: persistent-disks.md
+      - Persistent Disks: persistent-disks.md
       - Taking Snapshots: snapshots.md
       - Using XFS: persistent-disk-fs.md
     - Using Links:
-      - Using Implicit Links: links.md
-      - Sharing Links: links.md
+      - Links: links.md
       - Manually Configuring Links: links-manual.md
     - Running Errands: errands.md
     - VM Anti-Affinity: vm-anti-affinity.md
