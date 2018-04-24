@@ -339,9 +339,7 @@ After the Director received NotSupported error, it will delete the VM (via `dele
 No return value
 
 ---
-### `calculate_vm_cloud_properties` (Experimental) {: #calculate-vm-cloud-properties }
-!!! note
-    This method is not called by BOSH yet.
+### `calculate_vm_cloud_properties` {: #calculate-vm-cloud-properties }
 
 Returns a hash that can be used as VM `cloud_properties` when calling `create_vm`; it describes the IaaS instance type closest to the arguments passed.
 
