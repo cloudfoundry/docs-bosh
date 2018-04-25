@@ -34,7 +34,7 @@ networks:
 ```
 
 ---
-## VM Types {: #vm-types }
+## VM Types / VM Extensions {: #vm-types }
 
 Schema for `cloud_properties` section:
 

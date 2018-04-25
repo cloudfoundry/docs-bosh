@@ -45,7 +45,7 @@ networks:
 The CPI does not support vip networks.
 
 ---
-## Resource Pools / VM Types {: #resource-pools }
+## VM Types / VM Extensions {: #resource-pools }
 
 Schema for `cloud_properties` section:
 
@@ -76,7 +76,7 @@ vm_extensions:
 ```
 
 ---
-## Disk Pools {: #disk-pools }
+## Disk Types {: #disk-pools }
 
 Currently the CPI does not support any cloud properties for disks.
 

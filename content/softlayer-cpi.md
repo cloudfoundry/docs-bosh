@@ -73,7 +73,7 @@ networks:
 Currently SoftLayer CPI does not support vip network.
 
 ---
-## Resource Pools / VM Types {: #resource-pools }
+## VM Types / VM Extensions {: #resource-pools }
 
 Schema for `cloud_properties` section:
 
@@ -106,7 +106,7 @@ resource_pools:
 ```
 
 ---
-## Disk Pools / Disk Types {: #disk-pools }
+## Disk Types {: #disk-pools }
 
 Schema for `cloud_properties` section:
 
