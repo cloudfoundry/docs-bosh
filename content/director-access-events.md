@@ -1,7 +1,3 @@
----
-title: Access Event Logging
----
-
 !!! note
     This feature is available in bosh-release v256+.
 

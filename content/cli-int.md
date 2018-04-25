@@ -1,7 +1,3 @@
----
-title: CLI Variable Interpolation
----
-
 !!! note
     Applies to CLI v2.
 

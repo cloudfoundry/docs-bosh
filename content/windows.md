@@ -1,7 +1,3 @@
----
-title: BOSH on Windows
----
-
 BOSH can deploy jobs on Windows VMs. There is open source tooling and documentation available to build [AWS](https://github.com/cloudfoundry-incubator/aws-light-stemcell-builder), [Azure](https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/blob/master/azure-light-stemcell.md),
 [vSphere](https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/blob/master/create-manual-vsphere-stemcells.md) and [Openstack](https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/blob/master/create-manual-openstack-stemcells.md) stemcells for Windows.
 

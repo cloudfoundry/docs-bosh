@@ -1,7 +1,3 @@
----
-title: Setting up BOSH environment on Azure
----
-
 This document shows how to initialize new [environment](terminology.md#environment) on Microsoft Azure.
 
 ## Step 1: Prepare an Azure Environment {: #prepare }

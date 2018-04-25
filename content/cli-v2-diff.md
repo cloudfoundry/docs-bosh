@@ -1,7 +1,3 @@
----
-title: Differences between CLI v2 vs v1
----
-
 !!! note
     Applies to CLI v2 v2.0.13+.
 

@@ -1,7 +1,3 @@
----
-title: Recovery from an ESXi Host Failure
----
-
 !!! note
     Do not follow this procedure if vSphere HA is enabled and bosh-vsphere-cpi is v30+; vSphere HA will automatically move all VMs from the failed host to other good hosts.
 

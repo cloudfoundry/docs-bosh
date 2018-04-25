@@ -1,7 +1,3 @@
----
-title: What is a Release?
----
-
 A release is a versioned collection of configuration properties, configuration templates, start up scripts, source code, binary artifacts, and anything else required to build and deploy software in a reproducible way.
 
 A release is the layer placed on top of a [stemcell](stemcell.md). They are self-contained and provide very specific software for the purpose of that release. For example, a Redis release might include start-up and shutdown scripts for `redis-server`, a tarball with Redis source code obtained from the Redis official website, and a few configuration properties allowing cluster operators to alter that Redis configuration.

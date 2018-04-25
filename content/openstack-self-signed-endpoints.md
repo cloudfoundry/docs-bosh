@@ -1,7 +1,3 @@
----
-title: Validating self-signed OpenStack endpoints
----
-
 !!! note
     This feature is available with bosh-openstack-cpi v23+.
 

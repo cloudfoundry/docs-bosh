@@ -1,7 +1,3 @@
----
-title: Director tasks
----
-
 An operator uses the CLI to interact with the Director. Certain CLI commands result in complex and potentially long running operations against the IaaS, blobstore, or other resources. Such commands are associated with a Director task and continue running on the Director even if the CLI disconnects from the Director.
 
 To find out if a CLI command has an associated Director task, look for "Director task [NUM]" in its output:

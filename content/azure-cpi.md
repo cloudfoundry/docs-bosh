@@ -1,7 +1,3 @@
----
-title: Azure CPI
----
-
 This topic describes cloud properties for different resources created by the Azure CPI.
 
 ## AZs {: #azs }

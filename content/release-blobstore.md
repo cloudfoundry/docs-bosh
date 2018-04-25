@@ -1,7 +1,3 @@
----
-title: Release Blobstore
----
-
 !!! note
     Examples require CLI v2.
 

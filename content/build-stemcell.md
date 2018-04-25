@@ -1,7 +1,3 @@
----
-title: Stemcell Building
----
-
 (See [What is a Stemcell?](stemcell.md) for an introduction to stemcells.)
 
 To build a stemcell tarball for a supported IaaS-OS combination follow instructions in the [bosh-linux-stemcell-builder's README](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/README.md).

@@ -1,7 +1,3 @@
----
-title: Using Light Stemcells
----
-
 !!! note
     This feature is available with bosh-openstack-cpi v28+.
 

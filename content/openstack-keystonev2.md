@@ -1,7 +1,3 @@
----
-title: Using Keystone API v2
----
-
 Default configuration typically uses Keystone v3 API. This document describes how to use Keystone v2 if your OpenStack installation enforces this.
 
 1. Configure OpenStack CPI

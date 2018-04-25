@@ -1,7 +1,3 @@
----
-title: Director SSL Certificate Configuration
----
-
 !!! note
     See [Director SSL Certificate Configuration with OpenSSL](director-certs-openssl.md) if you prefer to generate certs with OpenSSL config.
 

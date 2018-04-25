@@ -1,7 +1,3 @@
----
-title: Removal of compilers and other development tools
----
-
 !!! note
     This feature is available with bosh-release v255.4+ and on 3213+ stemcell series.
 

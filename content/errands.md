@@ -1,7 +1,3 @@
----
-title: Errands
----
-
 (See [Jobs](jobs.md) for an introduction to jobs.)
 
 Any job that includes `bin/run` script in its spec file's templates section is considered to be an errand. Operator can trigger execution of an errand at any time after the deploy and receive back script's stdout, stderr and exit code upon its completion.

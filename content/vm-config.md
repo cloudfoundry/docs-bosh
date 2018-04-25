@@ -1,7 +1,3 @@
----
-title: VM Configuration Locations
----
-
 This topic describes important file system locations, configurations and other settings that are true for all VMs managed by BOSH.
 
 BOSH tries to encourage release authors to follow conventions listed below, so if you find inconsistencies or improper usage please report such problems to appropriate release authors.

@@ -1,7 +1,3 @@
----
-title: Multi-CPI on AWS
----
-
 !!! note
     BOSH supports Multi-CPI since version v261+.
 

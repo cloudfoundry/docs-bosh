@@ -1,7 +1,3 @@
----
-title: Components
----
-
 Before creating a new [environment](terminology.md#environment) we recommend to learn the names of major components that will be installed, used and configured:
 
 ![image](images/bosh-architecture.png)

@@ -1,7 +1,3 @@
----
-title: Manual Linking
----
-
 (See [Links](links.md) and [Link properties](links-properties.md) for an introduction.)
 
 !!! note

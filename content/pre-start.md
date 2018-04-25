@@ -1,7 +1,3 @@
----
-title: Pre-start Script
----
-
 (See [Job Lifecycle](job-lifecycle.md) for an explanation of when pre-start scripts run.)
 
 !!! note

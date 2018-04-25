@@ -1,7 +1,3 @@
----
-title: Customizing Persistent Disk Filesystem
----
-
 !!! note
     This feature is available with 3215+ stemcell series.
 

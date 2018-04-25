@@ -1,7 +1,3 @@
----
-title: OpenStack CPI
----
-
 This topic describes cloud properties for different resources created by the OpenStack CPI.
 
 ## AZs {: #azs }

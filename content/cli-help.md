@@ -1,7 +1,3 @@
----
-title: CLI v2 Commands
----
-
 !!! note
     Examples require CLI v2.
 

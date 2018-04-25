@@ -1,7 +1,3 @@
----
-title: Links - Common types
----
-
 Common suggested link types that release authors should conform to if type is used.
 
 ---

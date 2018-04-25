@@ -1,7 +1,3 @@
----
-title: Extended Registry configuration
----
-
 !!! note
     We are actively pursuing to remove the Registry to simplify BOSH architecture.
 

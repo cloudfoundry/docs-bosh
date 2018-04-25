@@ -1,7 +1,3 @@
----
-title: Storage DRS and vMotion Support
----
-
 !!! note
     Storage DRS and vMotion can be used with bosh-vsphere-cpi v18+.
 

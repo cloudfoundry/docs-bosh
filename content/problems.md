@@ -1,7 +1,3 @@
----
-title: What Problems Does BOSH Solve?
----
-
 BOSH allows individual developers and teams to easily version, package and deploy software in a reproducible manner.
 
 Any software, whether it is a simple static site or a complex multi-component service, will need to be updated and repackaged at some point. This updated software might need to be deployed to a cluster, or it might need to be packaged for end-users to deploy to their own servers. In a lot of cases, the developers who produced the software will be deploying it to their own production environment. Usually, a team will use a staging, development, or demo environment that is similarly configured to their production environment to verify that updates run as expected. These staging environments are often taxing to build and administer. Maintaining consistency between multiple environments is often painful to manage.

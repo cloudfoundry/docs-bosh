@@ -1,7 +1,3 @@
----
-title: Repacking Stemcells
----
-
 !!! note
     Applies to CLI v2 v2.0.12+.
 

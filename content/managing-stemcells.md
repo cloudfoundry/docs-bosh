@@ -1,7 +1,3 @@
----
-title: Managing stemcells
----
-
 (See [What is a Stemcell?](stemcell.md) and [Uploading stemcells](uploading-stemcells.md) for an introduction.)
 
 ---

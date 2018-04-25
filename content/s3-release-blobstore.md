@@ -1,7 +1,3 @@
----
-title: Setting up an S3 Release Blobstore
----
-
 !!! note
     Examples require CLI v2.
 

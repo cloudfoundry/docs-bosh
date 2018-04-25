@@ -1,7 +1,3 @@
----
-title: Required Service Account Permissions
----
-
 This topic describes how to configure BOSH with the minimum set of permissions on Google Cloud Engine.
 
 ## Google CPI and Director {: #bosh-director }

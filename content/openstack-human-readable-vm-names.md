@@ -1,7 +1,3 @@
----
-title: Using human-readable VM names instead of UUIDs
----
-
 !!! note
     This feature is available with bosh-openstack-cpi v23+.
 

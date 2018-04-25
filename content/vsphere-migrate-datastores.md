@@ -1,7 +1,3 @@
----
-title: Migrating from one datastore to another
----
-
 !!! note
     This feature is available with bosh-vsphere-cpi v9+.
 

@@ -1,7 +1,3 @@
----
-title: Warden/Garden CPI
----
-
 !!! note
     Updated for bosh-warden-cpi v28+.
 

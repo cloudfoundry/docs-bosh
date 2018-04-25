@@ -1,7 +1,3 @@
----
-title: Using Auto-anti-affinity
----
-
 !!! note
     This feature is available with bosh-openstack-cpi v36+.
 

@@ -1,7 +1,3 @@
----
-title: Common Addons
----
-
 (See [runtime config](runtime-config.md#addons) for an introduction to addons.)
 
 ## Syslog forwarding {: #syslog }

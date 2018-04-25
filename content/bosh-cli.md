@@ -1,7 +1,3 @@
----
-title: BOSH Command Line Interface
----
-
 BOSH Command Line Interface (CLI) is used to interact with the Director. The CLI is written in Ruby and is distributed via `bosh_cli` gem.
 
 ```shell

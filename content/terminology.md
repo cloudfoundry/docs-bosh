@@ -1,7 +1,3 @@
----
-title: Terminology
----
-
 ## AZ or Availability Zone {: #az }
 
 An availability zone represents a separated set of cloud resources (typically compute, networking and storage) such that failures in one AZ cause minimal impact in a different AZ. [See usage details](azs.md).

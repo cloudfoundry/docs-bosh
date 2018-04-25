@@ -1,7 +1,3 @@
----
-title: User management on the Director
----
-
 The Director provides a very simple built-in user management system for authentication of operators and internal services (for example, the Health Monitor). Alternatively, it can integrate with UAA for more advanced use cases.
 
 ---

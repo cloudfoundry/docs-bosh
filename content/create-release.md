@@ -1,7 +1,3 @@
----
-title: Creating a Release
----
-
 A release contains one or more pieces of software that work together.
 For example, you could create a release of a service with three pieces:
 two MySQL nodes and a dashboard app.

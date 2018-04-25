@@ -1,7 +1,3 @@
----
-title: Trusted Certificates
----
-
 !!! note
     This feature is available with bosh-release v176+ (1.2992.0) and stemcells v2992+.
 

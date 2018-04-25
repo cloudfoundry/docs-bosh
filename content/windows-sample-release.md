@@ -1,7 +1,3 @@
----
-title: Sample BOSH Windows Release
----
-
 This is a sample BOSH release than can be deployed using a Windows stemcell. It has a single job called `say-hello` that repeatedly prints out a message.
 
 After creating a deployment with this release and the `say-hello` job you can access the job's standard out with the `bosh log` command (see documentation on [logs](job-logs.md) for more information).

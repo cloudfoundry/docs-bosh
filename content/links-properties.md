@@ -1,7 +1,3 @@
----
-title: Link Properties
----
-
 (See [Links](links.md) for an introduction.)
 
 !!! note

@@ -1,7 +1,3 @@
----
-title: vSphere HA
----
-
 vSphere High Availability (HA) is a VMware product that detects ESXi host failure, for example host power off or network partition, and automatically restarts virtual machines on other hosts in the cluster.
 It can interoperate effectively with the [BOSH Resurrector](resurrector.md), which recreates VMs if the Director loses contact with a VM's BOSH Agent.
 

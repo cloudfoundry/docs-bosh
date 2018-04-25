@@ -1,7 +1,3 @@
----
-title: Drain Script
----
-
 (See [Job Lifecycle](job-lifecycle.md) for an explanation of when drain scripts run.)
 
 Release job can have a drain script that will run when the job is restarted or stopped. This script allows the job to clean up and get into a state where it can be safely stopped. For example, when writing a release for a load balancer, each node can safely stop accepting new connections and drain existing connections before fully stopping.

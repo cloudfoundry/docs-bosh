@@ -1,7 +1,3 @@
----
-title: Jumpbox
----
-
 It's recommended:
 
 - to maintain a separate jumpbox VM for your environment

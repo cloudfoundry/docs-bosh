@@ -1,7 +1,3 @@
----
-title: How to backup and restore a bosh director deployment?
----
-
 ## Why performing bosh director backup and restores ? {: #why-backup }
 
 If using bosh-init to deploy your bosh-director, it is useful to backup the deployment state file containing associated Iaas information (IP, floating IP, persistent disk volume id). This would enable recovery of a lost bosh director VM from the persistent disk still present in the Iaas. See [recovering state](cli-envs.md#recover-deployment-state).

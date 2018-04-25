@@ -1,7 +1,3 @@
----
-title: Configuring Health Monitor
----
-
 Sections below only show minimum configuration options to enable plugins. Add them to the deployment manifest for the Health Monitor. See [health_monitor release job properties](http://bosh.io/jobs/health_monitor?source=github.com/cloudfoundry/bosh) for more details.
 
 ---

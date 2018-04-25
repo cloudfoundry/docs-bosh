@@ -1,7 +1,3 @@
----
-title: Creating BOSH Packages
----
-
 A package is a component of a BOSH release that contains a packaging `spec` file and a packaging script.
 Each package also references source code or pre-compiled software that you store in the `src` directory of a BOSH [release  
 directory](create-release.md).

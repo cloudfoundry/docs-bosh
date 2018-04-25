@@ -1,7 +1,3 @@
----
-title: Persistent disk snapshotting
----
-
 !!! note
     This feature is experimental.
 

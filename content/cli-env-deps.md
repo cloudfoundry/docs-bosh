@@ -1,7 +1,3 @@
----
-title: CLI `create-env` Dependencies
----
-
 !!! note
     Applies to CLI v2.
 

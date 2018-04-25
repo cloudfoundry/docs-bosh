@@ -1,7 +1,3 @@
----
-title: BOSH Lite
----
-
 BOSH Lite v2 is a Director VM running in VirtualBox (typically locally). It is managed via [CLI v2](cli-v2.md). Internally CPI uses containers to emulate VMs which makes it an excellent choice for:
 
 - General BOSH exploration without investing time and resources to configure an IaaS

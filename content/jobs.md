@@ -1,7 +1,3 @@
----
-title: Jobs
----
-
 Each release job represents a specific chunk of work that the release performs. For example a DHCP release may have a "dhcp-server" job, and a Postgres release may have "postgres" and "periodic-backup" jobs. A release can define one or more jobs.
 
 A job typically includes:

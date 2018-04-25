@@ -1,7 +1,3 @@
----
-title: Vendoring Packages
----
-
 !!! note
     Requires CLI v2.0.36+.
 

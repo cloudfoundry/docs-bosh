@@ -1,7 +1,3 @@
----
-title: Multi-homed VMs
----
-
 !!! note
     This feature is available with bosh-openstack-cpi v24+.
 

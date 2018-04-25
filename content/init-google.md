@@ -1,7 +1,3 @@
----
-title: Creating environment on Google Cloud Platform
----
-
 This document shows how to initialize new [environment](terminology.md#environment) on Google Cloud Platform.
 
 1. Install [CLI v2](cli-v2.md).

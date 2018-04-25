@@ -1,7 +1,3 @@
----
-title: Director API v1
----
-
 !!! note
     Before using the Director API directly, we strongly encourage to consider using the CLI for automation such as performing a scheduled deploy from a CI. We hope that you will open a [GitHub issue](https://github.com/cloudfoundry/bosh/issues) to share your use cases so that we can suggest or possibly make additions to the CLI.
 

@@ -1,7 +1,3 @@
----
-title: Post-deploy Script
----
-
 (See [Job Lifecycle](job-lifecycle.md) for an explanation of when post-deploy scripts run.)
 
 !!! note

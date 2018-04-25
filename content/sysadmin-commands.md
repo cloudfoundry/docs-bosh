@@ -1,7 +1,3 @@
----
-title: CLI Commands
----
-
 !!! note
     See [CLI v2](cli-v2.md) for an updated CLI.
 

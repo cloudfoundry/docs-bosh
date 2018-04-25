@@ -1,7 +1,3 @@
----
-title: Recovery from a vSphere Network Partitioning Fault
----
-
 !!! warning
     Do not follow this procedure if vSphere HA is enabled and bosh-vsphere-cpi is v30+; vSphere HA will automatically recreate VMs that were on the partitioned host.
 

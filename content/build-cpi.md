@@ -1,7 +1,3 @@
----
-title: CPI Building
----
-
 This topic describes how to build a CPI.
 
 ## Distribution {: #distribution }

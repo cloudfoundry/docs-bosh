@@ -1,7 +1,3 @@
----
-title: Cloud Config
----
-
 !!! warning
     If you are using Director version between v241 and v256, once you opt into using cloud config all deployments must be converted to use new format. If you want to deploy both v1 and v2 manifests, update to Director v257+.
 

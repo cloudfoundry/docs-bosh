@@ -1,7 +1,3 @@
----
-title: Deployment Manifest Schema
----
-
 !!! note
     Once you opt into using cloud config all deployments must be converted to use manifest v2 format that disallows IaaS specific configuration. See [manifest v2 schema](manifest-v2.md) for allowed configurations. v257+ supports deploying both v1 and v2 manifests to the same director.
 

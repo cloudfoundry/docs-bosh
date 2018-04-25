@@ -1,7 +1,3 @@
----
-title: Release Blobs
----
-
 !!! note
     Examples use CLI v2.
 

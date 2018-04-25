@@ -1,7 +1,3 @@
----
-title: Creating environment on OpenStack
----
-
 This document shows how to initialize new [environment](terminology.md#environment) on OpenStack.
 
 ## Step 1: Prepare an OpenStack environment {: #prepare-openstack }

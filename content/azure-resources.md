@@ -1,7 +1,3 @@
----
-title: Creating Azure Resources
----
-
 ## Subscription {: #subscription }
 
 To find out subscription and tenant ID use following commands:

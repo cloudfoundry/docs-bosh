@@ -1,7 +1,3 @@
----
-title: vCloud CPI
----
-
 This topic describes cloud properties for different resources created by the vCloud CPI.
 
 ## AZs {: #azs }

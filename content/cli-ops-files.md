@@ -1,7 +1,3 @@
----
-title: Operations Files
----
-
 !!! note
     Applies to CLI v2.
 

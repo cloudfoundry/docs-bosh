@@ -1,7 +1,3 @@
----
-title: Location and use of logs
----
-
 This topic describes different types of logs and how to access them.
 
 ## VM logs {: #vm-logs }

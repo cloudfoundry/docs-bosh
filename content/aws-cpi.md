@@ -1,7 +1,3 @@
----
-title: AWS CPI
----
-
 This topic describes cloud properties for different resources created by the AWS CPI.
 
 ## AZs {: #azs }

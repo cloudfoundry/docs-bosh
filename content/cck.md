@@ -1,7 +1,3 @@
----
-title: Manual repair with Cloud Check
----
-
 !!! note
     Updated for bosh-release v183 (1.3010.0).
 

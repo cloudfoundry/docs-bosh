@@ -1,7 +1,3 @@
----
-title: SoftLayer CPI
----
-
 This topic describes cloud properties for different resources created by the SoftLayer CPI.
 
 ## AZs {: #azs }

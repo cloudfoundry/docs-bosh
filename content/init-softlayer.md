@@ -1,7 +1,3 @@
----
-title: Creating environment on SoftLayer
----
-
 This document shows how to create new [environment](terminology.md#environment) on SoftLayer.
 
 ## Step 1: Prepare a SoftLayer Environment {: #prepare }

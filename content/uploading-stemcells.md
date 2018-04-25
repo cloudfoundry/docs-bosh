@@ -1,7 +1,3 @@
----
-title: Upload Stemcells
----
-
 !!! note
     Document uses CLI v2.
 

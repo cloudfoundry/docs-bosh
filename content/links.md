@@ -1,7 +1,3 @@
----
-title: Links
----
-
 !!! note
     This feature is available with bosh-release v255.5+.
 

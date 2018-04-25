@@ -1,7 +1,3 @@
----
-title: First class AZs (Availability Zones)
----
-
 !!! note
     This feature is available with bosh-release v241+. Once you opt into using cloud config all deployments must be converted to use new format. There is no way to opt out of the cloud config once you opt in.
 

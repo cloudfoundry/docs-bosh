@@ -1,7 +1,3 @@
----
-title: UAA Permissions
----
-
 All UAA users can log into all Directors which can verify the access token. However, user actions will be limited based on the presence of the following scopes in their UAA token:
 
 !!! warning

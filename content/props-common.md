@@ -1,7 +1,3 @@
----
-title: Properties - Suggested configurations
----
-
 ## TLS configuration {: #tls }
 
 Following is a _suggested_ set of properties for TLS configuration:

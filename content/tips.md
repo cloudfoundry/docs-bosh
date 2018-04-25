@@ -1,7 +1,3 @@
----
-title: Tips
----
-
 This document lists several common problems. If you are looking for CPI specific errors see:
 
 - [AWS CPI errors](aws-cpi-errors.md)

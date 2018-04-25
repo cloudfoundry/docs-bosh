@@ -1,7 +1,3 @@
----
-title: Compiled Releases
----
-
 !!! note
     This feature is available with bosh-release v210+.
 

@@ -1,7 +1,3 @@
----
-title: Job Lifecycle
----
-
 There are several stages that all jobs (and their associated processes) on each VM go through during a deployment process:
 
 ## When start is issued {: #start }

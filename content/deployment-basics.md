@@ -1,7 +1,3 @@
----
-title: Build Deployment Manifest
----
-
 (See [What is a Deployment?](deployment.md) for an introduction to deployments.)
 
 A deployment is a collection of VMs, persistent disks and other resources. To create a deployment in the Director, it has to be described with a [deployment manifest](terminology.md#manifest). Most deployment manifests look something like this:

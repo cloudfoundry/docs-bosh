@@ -1,7 +1,3 @@
----
-title: Manifest v2 Schema
----
-
 !!! note
     This feature is available with bosh-release v255.4+.
 

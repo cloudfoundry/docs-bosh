@@ -1,7 +1,3 @@
----
-title: Using IAM Instance Profiles
----
-
 !!! note
     This feature is available with bosh-release v208+ (1.3087.0) colocated with bosh-aws-cpi v31+.
 

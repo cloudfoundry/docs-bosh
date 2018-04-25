@@ -1,7 +1,3 @@
----
-title: Uploading Releases
----
-
 !!! note
     Document uses CLI v2.
 

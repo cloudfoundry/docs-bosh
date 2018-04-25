@@ -1,7 +1,3 @@
----
-title: What is a Stemcell?
----
-
 A stemcell is a versioned Operating System image wrapped with IaaS specific packaging.
 
 A typical stemcell contains a bare minimum OS skeleton with a few common utilities pre-installed, a BOSH Agent, and a few configuration files to securely configure the OS by default. For example: with vSphere, the official stemcell for Ubuntu Trusty is an approximately 500MB VMDK file. With AWS, official stemcells are published as AMIs that can be used in your AWS account.

@@ -1,7 +1,3 @@
----
-title: Creating environment on vSphere
----
-
 This document shows how to set up new [environment](terminology.md#environment) on vSphere.
 
 1. Install [CLI v2](cli-v2.md).

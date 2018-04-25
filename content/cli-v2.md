@@ -1,7 +1,3 @@
----
-title: CLI v2+
----
-
 !!! note
     Applies to CLI v3.0.1+.
 

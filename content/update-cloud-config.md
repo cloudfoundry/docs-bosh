@@ -1,7 +1,3 @@
----
-title: Update Cloud Config
----
-
 !!! note
     Document uses CLI v2.
 

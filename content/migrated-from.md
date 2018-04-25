@@ -1,7 +1,3 @@
----
-title: Renaming/migrating instance groups
----
-
 Occasionally, it's convenient to rename one or more instance groups as their purpose changes or as better names are found. In most cases it's desirable to maintain existing persistent data by keeping existing persistent disks.
 
 Previously, the CLI provided the `rename job` command to rename a specific instance group one at a time. That approach worked OK in non-automated, non-frequently updated environments, but it was inconvenient for automated, frequently updated environments. As a replacement, the `migrated_from` directive was added to allow renames to happen in a more systematic way.

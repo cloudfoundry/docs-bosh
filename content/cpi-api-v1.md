@@ -1,7 +1,3 @@
----
-title: CPI API v1
----
-
 For an overview of the sequence of CPI calls, the following resources are helpful:
 
 - [BOSH components](bosh-components.md) and its example component interaction diagram

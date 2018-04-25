@@ -1,7 +1,3 @@
----
-title: Variable Types
----
-
 (See [Variable Interpolation](cli-int.md) for introduction.)
 
 Currently CLI supports `certificate`, `password`, `rsa`, and `ssh` types. The Director (connected to a config server) may support additional types known by the config server.

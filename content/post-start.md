@@ -1,7 +1,3 @@
----
-title: Post-start Script
----
-
 (See [Job Lifecycle](job-lifecycle.md) for an explanation of when post-start scripts run.)
 
 !!! note

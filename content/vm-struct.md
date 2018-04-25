@@ -1,7 +1,3 @@
----
-title: Structure of a BOSH VM
----
-
 All managed VMs include:
 
 - BOSH Agent

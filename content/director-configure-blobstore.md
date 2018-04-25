@@ -1,7 +1,3 @@
----
-title: Connecting the Director to an External Blobstore
----
-
 The Director stores uploaded releases, configuration files, logs and other data in a blobstore. A default DAV blobstore is sufficient for most BOSH environments; however, a highly-available external blobstore may be desired.
 
 ## Included DAV (default) {: #included }

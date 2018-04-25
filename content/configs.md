@@ -1,7 +1,3 @@
----
-title: Configs
----
-
 !!! note
     Generic `configs` functionality is available with bosh-release v264+.
 

@@ -1,7 +1,3 @@
----
-title: Director SSL Certificate Configuration with OpenSSL
----
-
 Depending on you configuration, there are up to three endpoints to be secured using SSL certificates: The Director, the UAA, and the SAML Service Provider on the UAA.
 
 !!! note

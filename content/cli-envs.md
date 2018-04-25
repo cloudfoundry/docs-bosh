@@ -1,7 +1,3 @@
----
-title: CLI Environments
----
-
 !!! note
     Applies to CLI v2.
 

@@ -1,7 +1,3 @@
----
-title: CPI Config
----
-
 !!! note
     This feature is available with bosh-release v261+.
 

@@ -1,7 +1,3 @@
----
-title: Managing releases
----
-
 (See [What is a Release?](release.md) and [Uploading releases](uploading-releases.md) for an introduction.)
 
 ---

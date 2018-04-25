@@ -1,7 +1,3 @@
----
-title: Recent Additions and Updates
----
-
 Removed referenced to `bosh-init`
 
 ---

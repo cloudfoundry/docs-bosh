@@ -1,7 +1,3 @@
----
-title: Release URLs
----
-
 This topic describes allowed types of URLs for downloading releases (typically found in deployment manifests).
 
 ## Local URLs {: #local }

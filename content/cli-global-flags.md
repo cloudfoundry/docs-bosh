@@ -1,7 +1,3 @@
----
-title: CLI Global Flags
----
-
 !!! note
     Applies to CLI v2.
 

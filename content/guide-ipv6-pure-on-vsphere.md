@@ -1,7 +1,3 @@
----
-title: Pure IPv6 on vSphere
----
-
 !!! abstract
     This document is work in progress.
 

@@ -1,7 +1,3 @@
----
-title: Events
----
-
 !!! note
     This feature is available in bosh-release v256+.
 

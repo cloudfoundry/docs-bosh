@@ -1,7 +1,3 @@
----
-title: UAA Integration
----
-
 !!! note
     This feature is available with bosh-release v209+ (1.3088.0) colocated with uaa v1+.
 

@@ -1,7 +1,3 @@
----
-title: Agent-CPI Interactions
----
-
 Here is an overview of the interactions between the CPI and the Agent on CloudStack as an example:
 
 * The CPI drives the IaaS and the Agent.
