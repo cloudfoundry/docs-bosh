@@ -17,7 +17,7 @@ To prepare your Azure environment find out and/or create any missing resources i
 ---
 ## Step 2: Deploy {: #deploy }
 
-1. Install [CLI v2](./cli-v2.html).
+1. Install [CLI v2](cli-v2.md).
 
 1. Use `bosh create-env` command to deploy the Director.
 

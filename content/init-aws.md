@@ -132,7 +132,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
 ---
 ## Step 2: Deploy {: #deploy }
 
-1. Install [CLI v2](./cli-v2.html).
+1. Install [CLI v2](cli-v2.md).
 
 1. Use `bosh create-env` command to deploy the Director.
 

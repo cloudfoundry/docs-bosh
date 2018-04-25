@@ -60,7 +60,7 @@ The persistent disk pool declaration allows you to specify the precise type and 
 
 * **persistent\_disk_pool** [String, optional]: Associated with an instance group; specifies a particular disk_pool.
 
-* **disk_pools** [Array, optional]: Specifies the [disk_pools](./terminology.html#disk-pool) a deployment uses. A deployment manifest can describe multiple disk pools and uses unique names to identify and reference them.
+* **disk_pools** [Array, optional]: Specifies the [disk_pools](terminology.md#disk-pool) a deployment uses. A deployment manifest can describe multiple disk pools and uses unique names to identify and reference them.
 
     * **name** [String, required]: A unique name used to identify and reference the disk pool.
     * **disk_size** [Integer, required]: Size of the disk in megabytes.

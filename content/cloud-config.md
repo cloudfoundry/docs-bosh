@@ -161,7 +161,7 @@ See [networks](networks.md) for more details.
 ---
 ## VM Types Block {: #vm-types }
 
-**vm_types** [Array, required]: Specifies the [VM types](./terminology.html#vm-type) available to deployments. At least one should be specified.
+**vm_types** [Array, required]: Specifies the [VM types](terminology.md#vm-type) available to deployments. At least one should be specified.
 
 * **name** [String, required]: A unique name used to identify and reference the VM type
 * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create VMs; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#vm-types-cloud-properties) below. Example: `instance_type: m3.medium`. Default is `{}` (empty Hash).
@@ -191,7 +191,7 @@ vm_types:
 !!! note
     This feature is available with bosh-release v255.4+.
 
-**vm_extensions** [Array, optional]: Specifies the [VM extensions](./terminology.html#vm-extension) available to deployments.
+**vm_extensions** [Array, optional]: Specifies the [VM extensions](terminology.md#vm-extension) available to deployments.
 
 * **name** [String, required]: A unique name used to identify and reference the VM extension
 * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to configure VMs. Example: `elbs: [...]`. Default is `{}` (empty Hash).
@@ -210,10 +210,10 @@ Any IaaS specific configuration could be placed into a VM extension's `cloud_pro
 ---
 ## Disk Types Block {: #disk-types }
 
-**disk_types** [Array, required]: Specifies the [disk types](./terminology.html#disk-types) available to deployments. At least one should be specified.
+**disk_types** [Array, required]: Specifies the [disk types](terminology.md#disk-types) available to deployments. At least one should be specified.
 
 * **name** [String, required]: A unique name used to identify and reference the disk type
-* **disk_size** [Integer, required]: Specifies the disk size. `disk_size` must be a positive integer. BOSH creates a [persistent disk](./persistent-disks.html) of that size in megabytes and attaches it to each job instance VM.
+* **disk_size** [Integer, required]: Specifies the disk size. `disk_size` must be a positive integer. BOSH creates a [persistent disk](persistent-disks.md) of that size in megabytes and attaches it to each job instance VM.
 * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create disks. Examples: `type`, `iops`. Default is `{}` (empty Hash).
 
 Example:

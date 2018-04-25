@@ -110,7 +110,7 @@ stemcells:
 
 **update** [Hash, required]: This specifies instance update properties. These properties control how BOSH updates instances during the deployment.
 
-* **canaries** [Integer, required]: The number of [canary](./terminology.html#canary) instances.
+* **canaries** [Integer, required]: The number of [canary](terminology.md#canary) instances.
 * **max\_in\_flight** [Integer or Percentage, required]: The maximum number of non-canary instances to update in parallel within an availability zone.
 * **canary\_watch\_time** [Integer or Range, required]: Only applies to monit start operation.
     * If the `canary_watch_time` is an integer, the Director sleeps for that many milliseconds, then checks whether the canary instances are healthy.
@@ -139,7 +139,7 @@ update:
 ---
 ## Instance Groups Block {: #instance-groups }
 
-**instance_groups** [Array, required]: Specifies the mapping between release [jobs](./terminology.html#job) and instance groups.
+**instance_groups** [Array, required]: Specifies the mapping between release [jobs](terminology.md#job) and instance groups.
 
 * **name** [String, required]: A unique name used to identify and reference instance group.
 * **azs** [Array, required]: List of AZs associated with this instance group (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`.
@@ -157,7 +157,7 @@ update:
     * **ram** [Integer, required]: Amount of RAM in MB.
     * **ephemeral\_disk\_size** [Integer, required]: Ephemeral disk size in MB.
 * **stemcell** [String, required]: A valid stemcell alias from the Stemcells Block.
-* **persistent\_disk** [Integer, optional]: Persistent disk size in MB. Alternatively you can specify `persistent_disk_type` key. [Read more about persistent disks](./persistent-disks.html)
+* **persistent\_disk** [Integer, optional]: Persistent disk size in MB. Alternatively you can specify `persistent_disk_type` key. [Read more about persistent disks](persistent-disks.md)
 * **persistent\_disk\_type** [String, optional]: A valid disk type name from the cloud config. [Read more about persistent disks](persistent-disks.md)
 * **networks** [Array, required]: Specifies the networks this instance requires. Each network can have the following properties specified:
     * **name** [String, required]: A valid network name from the cloud config.
@@ -218,7 +218,7 @@ instance_groups:
 !!! note
     This feature is available with bosh-release v262+.
 
-**addons** [Array, required]: Specifies the [addons](./terminology.html#addon) to be applied to this deployments.
+**addons** [Array, required]: Specifies the [addons](terminology.md#addon) to be applied to this deployments.
 
 See [Addons Block](runtime-config.md#addons) for the schema.
 

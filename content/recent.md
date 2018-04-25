@@ -23,7 +23,7 @@ Removed referenced to `bosh-init`
 ---
 
 * [Addon placement rules](runtime-config.md#addons)
-* [Director-wide tagging](runtime-config.md#tags.html)
+* [Director-wide tagging](runtime-config.md#tags)
 * [Deployment tagging](manifest-v2.md#tags)
 
 ---

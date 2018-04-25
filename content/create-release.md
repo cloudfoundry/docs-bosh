@@ -293,7 +293,7 @@ We add this compile-time dependency to our example dependency graph.
 
 The complete dependency graph for `ardo-release` looks like this:
 
-![image](./images/dep-graph.png)
+![image](images/dep-graph.png)
 
 For a large or complicated release, consider making more than one dependency
 graph.
@@ -708,7 +708,7 @@ using the property lookup helper:
 
        <%= p('<job_name>.<property_name>') %>
 
-1. Specify the property in the [deployment manifest](./manifest-v2.html#instance-groups).
+1. Specify the property in the [deployment manifest](manifest-v2.md#instance-groups).
 
 Adapt the example below to create any properties your release needs now.
 
@@ -764,7 +764,7 @@ See what releases are available:
   `bosh releases`
 
 If BOSH is already pointing to a release, edit the BOSH deployment manifest.
-Otherwise, create a manifest. See [BOSH Deployment Manifest](./manifest-v2.html) for more information.
+Otherwise, create a manifest. See [BOSH Deployment Manifest](manifest-v2.md) for more information.
 Simple manifest for `ardo_app` can be found [here](https://gist.github.com/antonsoroko/3be4c70b38f846b1d79eca7192a5ab58) (OpenStack) or [here](https://gist.github.com/uzzz/9ad9cad105032fecdbeb223798607a87) (AWS).
 
 Upload the new dev release.

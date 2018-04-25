@@ -2,7 +2,7 @@
 title: Sample BOSH Deployment Manifest
 ---
 
-The following is a sample BOSH deployment manifest. See [Understanding the BOSH Deployment Manifest](./deployment-manifest.html) for an explanation of the manifest contents.
+The following is a sample BOSH deployment manifest. See [Understanding the BOSH Deployment Manifest](deployment-manifest.md) for an explanation of the manifest contents.
 
 ```yaml
 ---

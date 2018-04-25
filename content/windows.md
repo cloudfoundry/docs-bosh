@@ -10,7 +10,7 @@ In general Windows BOSH Releases work in the same way as a standard BOSH release
 ---
 ## Releases {: #releases }
 
-The structure of a BOSH release for Windows is identical to [Linux BOSH Releases](http://bosh.io/docs/create-release.html).  This means the structure of a Windows BOSH release will be:
+The structure of a BOSH release for Windows is identical to [Linux BOSH Releases](create-release.md).  This means the structure of a Windows BOSH release will be:
 
 - metadata that specifies available configuration options
 - ERB configuration files
@@ -21,7 +21,7 @@ The structure of a BOSH release for Windows is identical to [Linux BOSH Releases
 ---
 ## Jobs {: #jobs }
 
-The structure of a BOSH job for Windows is similar to the [Standard Linux BOSH Job Lifecycle](http://bosh.io/docs/job-lifecycle.html), only with processes monitored by [Windows Service Wrapper](https://github.com/kohsuke/winsw) instead of monit.
+The structure of a BOSH job for Windows is similar to the [Standard Linux BOSH Job Lifecycle](job-lifecycle.md), only with processes monitored by [Windows Service Wrapper](https://github.com/kohsuke/winsw) instead of monit.
 
 The monit file for Windows is a JSON config file that describes processes to run:
 
@@ -42,7 +42,7 @@ The monit file for Windows is a JSON config file that describes processes to run
 
 The above monit file will execute the file `C:\var\vcap\jobs\say-hello\bin\start.ps1` with the environment variable `FOO` set to `BAR`. The BOSH agent ensures the process is running by executing within a [service wrapper](https://github.com/kohsuke/winsw).
 
-Also, note that Pre-Start, Post-Start, Drain, and Post-Deploy scripts (described in the [job lifecycle](http://bosh.io/docs/job-lifecycle.html)) must be powershell scripts and end with the `.ps1` extension, i.e., `pre-start.ps1`, `post-start.ps1`, `drain.ps1`, and `post-deploy.ps1`.
+Also, note that Pre-Start, Post-Start, Drain, and Post-Deploy scripts (described in the [job lifecycle](job-lifecycle.md)) must be powershell scripts and end with the `.ps1` extension, i.e., `pre-start.ps1`, `post-start.ps1`, `drain.ps1`, and `post-deploy.ps1`.
 
 ---
 ### Stop Scripts in Jobs {: #stop-scripts }

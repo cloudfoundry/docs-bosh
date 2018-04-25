@@ -4,7 +4,7 @@ title: VM Anti-affinity
 
 For certain deployment jobs, you might want to distribute the instances across multiple physical resources of the IaaS. Even though an IaaS abstracts away the underlying hardware resources, most have specific APIs to configure VM affinity and anti-affinity rules.
 
-One popular example of a deployment job that needs this type of configuration is Hadoop Datanode. If multiple Datanode instances are placed on the same physical machine, replicated data becomes unavailable if that machine fails. To make replication useful in this scenario, BOSH allows you to configure the resource pool for a deployment job. You configure VM anti-affinity rules for an IaaS using the `cloud_properties` sub-block of the `resource_pools` block in your [deployment manifest](./deployment-manifest.html).
+One popular example of a deployment job that needs this type of configuration is Hadoop Datanode. If multiple Datanode instances are placed on the same physical machine, replicated data becomes unavailable if that machine fails. To make replication useful in this scenario, BOSH allows you to configure the resource pool for a deployment job. You configure VM anti-affinity rules for an IaaS using the `cloud_properties` sub-block of the `resource_pools` block in your [deployment manifest](deployment-manifest.md).
 
 Currently only vSphere and OpenStack CPIs provide a way to do so.
 

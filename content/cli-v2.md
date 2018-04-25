@@ -68,7 +68,7 @@ See [Environments](cli-envs.md).
 
 - `bosh create-env manifest.yml [--state path] [-v ...] [-o ...] [--vars-store path]`
 
-    Creates single VM based on the manifest. Typically used to create a Director environment. [Operation files](https://bosh.io/docs/cli-ops-files.html) and [variables](https://bosh.io/docs/cli-int.html) can be provided to adjust and fill in manifest before doing a deploy.
+    Creates single VM based on the manifest. Typically used to create a Director environment. [Operation files](cli-ops-files.md) and [variables](cli-int.md) can be provided to adjust and fill in manifest before doing a deploy.
 
     `create-env` command replaces `bosh-init deploy` CLI command.
 

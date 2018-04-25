@@ -103,7 +103,7 @@ Operators typically want to ensure that certain software runs on all VMs managed
 
 An addon is a release job that is colocated on all VMs managed by the Director.
 
-**addons** [Array, optional]: Specifies the [addons](./terminology.html#addon) to be applied to all deployments.
+**addons** [Array, optional]: Specifies the [addons](terminology.md#addon) to be applied to all deployments.
 
 * **name** [String, required]: A unique name used to identify and reference the addon.
 * **jobs** [Array of hashes, requires]: Specifies the name and release of release jobs to be colocated.

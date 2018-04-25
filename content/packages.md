@@ -4,16 +4,16 @@ title: Creating BOSH Packages
 
 A package is a component of a BOSH release that contains a packaging `spec` file and a packaging script.
 Each package also references source code or pre-compiled software that you store in the `src` directory of a BOSH [release  
-directory](./create-release.html).
+directory](create-release.md).
 
 You build BOSH packages in a BOSH release directory. Your release might contain one or more packages.
 This topic describes how to create a BOSH package that includes either source code or pre-compiled software.
 
-The information and procedures in this topic form [Step 3: Create Package Skeletons](./create-release.html#pkg-skeletons) of the Creating a Release topic. Refer to that topic to understand where BOSH packaging fits in the context of creating a BOSH release.
+The information and procedures in this topic form [Step 3: Create Package Skeletons](create-release.md#pkg-skeletons) of the Creating a Release topic. Refer to that topic to understand where BOSH packaging fits in the context of creating a BOSH release.
 
 ## Prerequisite {: #prerequisite }
 
-Create a release directory. Refer to the [Create a Release Directory](./create-release.html#release-dir) section in the Creating
+Create a release directory. Refer to the [Create a Release Directory](create-release.md#release-dir) section in the Creating
 a BOSH Release topic.
 
 ## Edit a Package Spec {: #edit-a-package-spec }
@@ -29,7 +29,7 @@ To edit a package spec file:
 
 1. Identify all compile-time dependencies.
     A compile-time dependency occurs when a package depends on another package.
-	For more information, refer to the [Make  Dependency Graphs](./create-release.html#graph) section of the Creating a BOSH
+	For more information, refer to the [Make  Dependency Graphs](create-release.md#graph) section of the Creating a BOSH
 Release topic.
 1. Run `bosh generate package PACKAGE_NAME` for each compile-time dependency.
 1. Copy all files that the package requires to the `src` directory of the BOSH release directory.

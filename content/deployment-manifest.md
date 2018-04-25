@@ -19,7 +19,7 @@ Contents of a deployment manifest:
 * [Jobs Block](#jobs): Configuration and resource information for jobs
 * [Properties Block](#properties): Describes global properties and generalized configuration information
 
-The examples below originate from a [sample deployment manifest](./sample-manifest.html).
+The examples below originate from a [sample deployment manifest](sample-manifest.md).
 
 ---
 ## Deployment Identification {: #deployment }
@@ -107,7 +107,7 @@ See [networks](networks.md) for more details.
 ---
 ## Resource Pools Block {: #resource-pools }
 
-**resource_pools** [Array, required]: Specifies the [resource pools](./terminology.html#resource-pool) a deployment uses. A deployment manifest can describe multiple resource pools and uses unique names to identify and reference them.
+**resource_pools** [Array, required]: Specifies the [resource pools](terminology.md#resource-pool) a deployment uses. A deployment manifest can describe multiple resource pools and uses unique names to identify and reference them.
 
 * **name** [String, required]: A unique name used to identify and reference the resource pool
 * **network** [String, required]: References a valid network name defined in the Networks block. Newly created resource pool VMs use the described configuration.
@@ -166,10 +166,10 @@ resource_pools:
 ---
 ## Disk Pools Block {: #disk-pools }
 
-**disk_pools** [Array, required]: Specifies the [disk pools](./terminology.html#disk-pool) a deployment uses. A deployment manifest can describe multiple disk pools and uses unique names to identify and reference them.
+**disk_pools** [Array, required]: Specifies the [disk pools](terminology.md#disk-pool) a deployment uses. A deployment manifest can describe multiple disk pools and uses unique names to identify and reference them.
 
 * **name** [String, required]: A unique name used to identify and reference the disk pool
-* **disk_size** [Integer, required]: Specifies the disk size. `disk_size` must be a positive integer. BOSH creates a [persistent disk](./persistent-disks.html) of that size in megabytes and attaches it to each job instance VM.
+* **disk_size** [Integer, required]: Specifies the disk size. `disk_size` must be a positive integer. BOSH creates a [persistent disk](persistent-disks.md) of that size in megabytes and attaches it to each job instance VM.
 * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create disks. Examples: `type`, `iops`. Default is `{}` (empty Hash).
 
 Example:
@@ -219,7 +219,7 @@ compilation:
 
 **update** [Hash, required]: This specifies instance update properties. These properties control how BOSH updates job instances during the deployment.
 
-* **canaries** [Integer, required]: The number of [canary](./terminology.html#canary) instances.
+* **canaries** [Integer, required]: The number of [canary](terminology.md#canary) instances.
 * **max\_in\_flight** [Integer or Percentage, required]: The maximum number of non-canary instances to update in parallel.
 * **canary\_watch\_time** [Integer or Range, required]
     * If the `canary_watch_time` is an integer, the Director sleeps for that many milliseconds, then checks whether the canary instances are healthy.
@@ -246,14 +246,14 @@ update:
 ---
 ## Jobs Block {: #jobs }
 
-**jobs** [Array, required]: Specifies the mapping between BOSH release [jobs](./terminology.html#job) and cloud instances. Jobs are defined in the BOSH release. The Jobs block defines how BOSH associates jobs with the VMs started by the IaaS. The most commonly used job properties are:
+**jobs** [Array, required]: Specifies the mapping between BOSH release [jobs](terminology.md#job) and cloud instances. Jobs are defined in the BOSH release. The Jobs block defines how BOSH associates jobs with the VMs started by the IaaS. The most commonly used job properties are:
 
 * **name** [String, required]: A unique name used to identify and reference this  association between a BOSH release job and a VM.
 * **templates** [Array, required]: Specifies the name and release of a job template.
   * **name** [String, required]: The job template name
   * **release** [String, required]: The release where the job template exists
 * **lifecycle** [String, optional]: Specifies the kind of task the job represents. Valid values are `service` and `errand`; defaults to `service`. A `service` runs indefinitely and restarts if it fails. An `errand` starts with a manual trigger and does not restart if it fails.
-* **persistent_disk** [Integer, optional]: Specifies the persistent disk size; defaults to 0 (no persistent disk). If `persistent_disk` is a positive integer, BOSH creates a persistent disk of that size in megabytes and attaches it to each job instance VM. [Read more about persistent disks](./persistent-disks.html)
+* **persistent_disk** [Integer, optional]: Specifies the persistent disk size; defaults to 0 (no persistent disk). If `persistent_disk` is a positive integer, BOSH creates a persistent disk of that size in megabytes and attaches it to each job instance VM. [Read more about persistent disks](persistent-disks.md)
 * **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job, and override any identically named global properties.
 * **resource_pool** [String, required]: A valid resource pool name from the Resource Pools block. BOSH runs instances of this job in a VM from the named resource pool.
 * **update** [Hash, optional]: Specific update settings for this job. Use this to override [global job update settings](#update) on a per-job basis.

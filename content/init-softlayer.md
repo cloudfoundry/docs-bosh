@@ -38,7 +38,7 @@ VLANs provide the ability to partition devices and subnets on the network. To or
 ---
 ## Step 2: Deploy {: #deploy }
 
-1. Install [CLI v2](./cli-v2.html).
+1. Install [CLI v2](cli-v2.md).
 
 1. Establish VPN connection between your host and SoftLayer. The machine where to run CLI needs to communicate with the target Director VM over the SoftLayer private network.
 
