@@ -20,7 +20,7 @@ Tool that was replace by CLI v2's `create-env` command used for creating and upd
 ---
 ## BOSH Lite {: #bosh-lite }
 
-BOSH Lite is a Director VM that is configured to use Warden CPI, which emulates VMs with containers. It's typically installed locally with VirtualBox; however, it could also be installed onto any cloud BOSH supports. [See usage details](bosh-lite.md)
+BOSH Lite (aka bosh-lite) is a Director VM that is configured to use Warden CPI, which emulates VMs with containers. It's typically installed locally with VirtualBox; however, it could also be installed onto any cloud BOSH supports. [See usage details](bosh-lite.md)
 
 ---
 ## Canary (Instance) {: #canary }
