@@ -15,7 +15,7 @@ a BOSH Release topic.
 ## Edit a Package Spec {: #edit-a-package-spec }
 
 You specify package contents in the package `spec` file. BOSH automatically creates this file as a template with the following
-sections when you run the `bosh generate package PACKAGE_NAME` command:
+sections when you run the `bosh generate-package PACKAGE_NAME` command:
 
  * `name`: Defines the package name.
  * `dependencies`: **(Optional)** Defines a list of other packages that this package depends on.
@@ -27,7 +27,7 @@ To edit a package spec file:
     A compile-time dependency occurs when a package depends on another package.
 	For more information, refer to the [Make  Dependency Graphs](create-release.md#graph) section of the Creating a BOSH
 Release topic.
-1. Run `bosh generate package PACKAGE_NAME` for each compile-time dependency.
+1. Run `bosh generate-package PACKAGE_NAME` for each compile-time dependency.
 1. Copy all files that the package requires to the `src` directory of the BOSH release directory.
 
     Typically, these files are source code. If you are including pre-compiled software, copy a compressed file that contains the
@@ -59,7 +59,7 @@ files:
 
 ## Create a Packaging Script {: #create-a-packaging-script }
 
-BOSH automatically creates a packaging script file template when you run the `bosh generate package PACKAGE_NAME` command. Each
+BOSH automatically creates a packaging script file template when you run the `bosh generate-package PACKAGE_NAME` command. Each
 packaging script in a package must include a symlink in the format `/var/vcap/packages/<package name>` for each dependency and
 deliver all compiled code to `BOSH_INSTALL_TARGET`. Store the script in the `packages/<package name>/packaging` directory.
 
