@@ -1,4 +1,4 @@
-General documentation for [BOSH](https://bosh.io/). You can find a rendered version of these docs at [bosh.io/docs](https://bosh.io/docs/).
+General documentation for [BOSH](https://bosh.io/). We render these docs with [mkdocs](https://www.mkdocs.org/) using a [slightly-adapted](theme) [material](https://github.com/squidfunk/mkdocs-material) theme, and you can find a rendered version of these docs at [bosh.io/docs](https://bosh.io/docs/).
 
 
 ## Development
