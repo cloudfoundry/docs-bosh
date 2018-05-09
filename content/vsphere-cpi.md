@@ -65,6 +65,7 @@ Schema for `cloud_properties` section:
 * **disk** [Integer, required]: Ephemeral disk size in megabytes. Example: `10240`.
 * **cpu\_hot\_add\_enabled** [Boolean, optional]: Allows operator to add additional CPU resources while the VM is on. Default: `false`. Available in v21+.
 * **memory\_hot\_add\_enabled** [Boolean, optional]: Allows operator to add additional memory resources while the VM is on. Default: `false`. Available in v21+.
+* **upgrade\_hw\_version** [Boolean, optional]: Upgrades the virtual hardware version of a virtual machine to the latest supported version on the ESXi host. Overrides the global upgrade_hw_version. Default: `false`.
 * **nested\_hardware\_virtualization** [Boolean, optional]: Exposes hardware assisted virtualization to the VM. Default: `false`.
 * **datastores** [Array, optional]: Allows operator to specify a list of ephemeral datastores, datastore clusters for the VM. Datastore names are exact datastore names and not regex patterns. At least one of these datastores must be accessible from clusters provided in `resource_pools.cloud_properties`/`azs.cloud_properties` or in the global CPI configuration. Available in v23+. Datastore Clusters can be specified as an array of datastore cluster names. Available in v47+
 * **datacenters** [Array, optional]: Used to override the VM placement specified under `azs.cloud_properties`. The format is the same as under [`AZs`](#azs).
@@ -189,6 +190,7 @@ Schema:
     * **password** [String, required]: The login password for the NSX server.
     * **ca_cert** [String, optional]: A CA certificate that can authenticate the NSX server certificate. **Required** if the NSX Manager has a self-signed SSL certificate. Must be in PEM format.
 * **enable\_auto\_anti\_affinity\_drs\_rules** [Boolean, optional]: Creates DRS rule to place VMs on separate hosts. DRS Automation Level must be set to "Fully Automated"; does not work when DRS is set to "Partially Automated" or "Manual". May cause VMs to fail to power on if there are more VMs than hosts after initial deployment. Default: `false`. Available in v33+.
+* **upgrade\_hw\_version** [Boolean, optional]: Upgrades the virtual hardware version of a virtual machine to the latest supported version on the ESXi host. Default: `false`.
 * **nsxt** [Dictionary, optional]: NSX-T configuration options. Available in v45+.
     * **host** [String, required]: The NSX-T server's address. Can be a hostname (e.g. `nsx-server.example.com`) or an IP address.
     * **username** [String, required]: The login username for the NSX-T server.
