@@ -70,7 +70,7 @@ consumes:
   type: conn
 ```
 
-And then in the deployment manifest, we disambiguate the links with `provides` and `consumes` declarations on the jobs. The database instance groupd name their `database_conn` links. The application job uses these names to specify which database it will use for each of its links.
+And then in the deployment manifest, we disambiguate the links with `provides` and `consumes` declarations on the jobs. The database instance groups name their `database_conn` links. The application job uses these names to specify which database it will use for each of its links.
 
 ```yaml
 # ...
