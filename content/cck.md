@@ -234,6 +234,19 @@ cck determined that `i-914c046a` VM is unresponsive. Possible options are:
 In the above example options 4 was picked and VM reference was deleted.
 
 ---
+
+### Automate recovery selection using --recover parameter
+
+Automate recovery using bosh cck -n --recover="<option>", where <option> is one of the following:
+
+    skipResolutionName := "ignore"
+    recreateResolutionName := "recreate_vm"
+    rebootResolutionName := "reboot_vm"
+    deleteVmReference := "delete_vm_reference"
+    deleteDiskReference := "delete_disk_reference"
+    
+ For example: bosh -e my-env -d cf-2c9deec0f5552eaa804a cck -n --resolution="reboot_vm"
+
 ### Persistent Disk is not attached {: #unattached-persistent-disk }
 
 Assuming there was a deployment with a VM, somehow persistent disk got detached.
