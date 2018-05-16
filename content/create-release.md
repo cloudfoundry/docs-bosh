@@ -584,7 +584,8 @@ generated: the `blobs.yml` file and the `dev.yml` file.
 Adapt the examples below to fit the specifics of your release.
 Our example release uses the `local` type blobstore because otherwise it would
 be necessary to explain how to configure a public blobstore such as
-Amazon S3, which is too large a topic for this context.
+Amazon S3, which is too large a topic for this context. More information on full
+blobstore configuration can be found [here](release-blobstore.md).
 
 The `local` type blobstore is suitable for learning but the resulting release
 cannot be shared.
