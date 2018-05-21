@@ -124,6 +124,9 @@ Schema for `cloud_properties` section:
         1. The keyword must only contain numbers and lower-case letters because of the naming rule of storage account name.
         1. The rule to select an available storage account is to check the number of disks under the container `bosh` does not exceed the limitation.
         1. The default number of disks limitation is 30 but you can specify it in **storage\_account\_max\_disk\_number**.
+* **storage\_account\_type** [String, optional]: Storage account type. You can click [**HERE**](http://azure.microsoft.com/en-us/pricing/details/storage/) to learn more about the type of Azure storage account.
+    * When `use_managed_disks` is `true`, the root disk's type is specified by this property. It can be either `Standard_LRS` or `Premium_LRS`. If not specified, `Premium_LRS` will be used when its `instance_type` supports premium storage, otherwise, `Standard_LRS` will be used.
+    * When `use_managed_disks` is `false`, the newly-created storage account's type is specified by this property. It can be either `Standard_LRS`, `Standard_ZRS`, `Standard_GRS`, `Standard_RAGRS` or `Premium_LRS`. It's required if the storage account does not exist.
 * **storage\_account\_max\_disk\_number** [Integer, optional]: Number of disks limitation in a storage account. Valid only when `use_managed_disks` is `false`. Default value is 30. This will be used only when **storage\_account\_name** is a pattern.
     * Every storage account has a limitation to host disks. You may hit the performance issue if you create too many disks in one storage account.
     * The maximum number of disks of a standard storage account is 40 because the maximum IOPS of a standard storage account is 20,000 and the maximum IOPS of a standard disk is 500.
@@ -133,7 +136,6 @@ Schema for `cloud_properties` section:
         1. The maximum number of disks of a premium storage account is 35 if you are using P30 (1024 GiB) as your disk type.
     * **storage\_account\_max\_disk\_number** should be less than the maximum number. Suggest you to use (MAX - 10) as the value because CPI always creates VMs in parallel.
     * Please see more information about [azure-subscription-service-limits](https://azure.microsoft.com/en-us/documentation/articles/azure-subscription-service-limits/).
-* **storage\_account\_type** [String, optional]: Storage account type. Valid only when `use_managed_disks` is `false`. It is required if the storage account does not exist. It can be either `Standard_LRS`, `Standard_ZRS`, `Standard_GRS`, `Standard_RAGRS` or `Premium_LRS`. You can click [**HERE**](http://azure.microsoft.com/en-us/pricing/details/storage/) to learn more about the type of Azure storage account.
 * **storage\_account\_location** [String, optional]: Location of the storage account. This configuration is deprecated in CPI v25+: if you specify a storage account which does not exist, CPI (v25+) will create it automatically in the same location as VMs' VNET.
 
 * **resource\_group\_name** [String, optional]: Name of a resource group (Available in v26+). If it is set, related resources will be created in this resource group; otherwise, they will be created in `resource_group_name` specified in the global CPI settings. The resources affected by this property are:
