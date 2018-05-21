@@ -155,6 +155,12 @@ esac
 
 If your release needs templates other than the control script, create them now.
 
+For example if the job can be used to deploy clusters of nodes, especially in
+the case of stateful clusters (e.g. a database or distributed data store), you 
+will want to write a [drain script](drain.md) for your job to ensure that the
+service is not affected by the rolling provisioning/update operations performed
+by BOSH.
+
 ### Update monit files  {: #monit }
 
 The `monit` file:

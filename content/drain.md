@@ -1,6 +1,8 @@
 (See [Job Lifecycle](job-lifecycle.md) for an explanation of when drain scripts run.)
 
-Release job can have a drain script that will run when the job is restarted or stopped. This script allows the job to clean up and get into a state where it can be safely stopped. For example, when writing a release for a load balancer, each node can safely stop accepting new connections and drain existing connections before fully stopping.
+Release job can have a drain script that will run when the job is restarted or stopped. This script allows the job to clean up and get into a state where it can be safely stopped. For example:
+- when writing a release for a load balancer, each node can safely stop accepting new connections and drain existing connections before fully stopping.
+- when writing a release for a database or other distributed datastore, you can ensure that data is correctly replicated/distributed on all nodes before stopping the node.
 
 ---
 ## Job Configuration {: #job-configuration }
@@ -37,13 +39,15 @@ You must ensure that your drain script exits in one of following ways:
 
     **static draining**: If the drain script prints a zero or a positive integer, BOSH sleeps for that many seconds before continuing.
 
-    **dynamic draining**: If the drain script prints a negative integer, BOSH sleeps for that many seconds, then calls the drain script again.
+    **dynamic draining**: If the drain script prints a negative integer, BOSH sleeps for that many seconds, then calls the `drain` script again.
 
     !!! note
         BOSH re-runs a script indefinitely as long as the script exits with a exit code <code>0</code> and outputs a negative integer.
 
     !!! tip
-        It's recommended to only use static draining as dynamic draining will be eventually deprecated.
+        It's recommended to only use static draining as dynamic draining will be eventually deprecated. If you can't provide an upper bound
+        on how long BOSH should wait before continuing (as required in case of static draining) you can sleep/retry inside the `drain` script
+        since BOSH guarantees that `drain` scripts [will not timeout](drain.md#stop).
 
 Note that if drain script causes monitored job processes to exit, monit will not call stop script for that job.
 
@@ -95,22 +99,59 @@ an exemple script for an etcd member to leave its etcd cluster gracefully.
 Currently logs from the drain script are not saved on disk by default, though release author may choose to do so explicitly. We are planning to eventually make it more consistent with [pre-start script logging](pre-start.md#logs).
 
 ---
-## Example {: #example }
+## Examples {: #example }
 
+### Load-balancer
 ```bash
 #!/bin/bash
 
+# check if the process is running
 pid_path=/var/vcap/sys/run/worker/worker.pid
+if [ ! -f "$pid_path" ]; then echo 0; exit 0; fi
+pid=$(<"$pid_path")
+if ! ps -p "$pid" >/dev/null; then echo 0; exit 0; fi
 
-if [ -f $pid_path ]; then
-  pid=$(cat $pid_path)
-  kill $pid        # process is running; kill it softly
-  sleep 10         # wait a bit
-  kill -9 $pid     # kill it hard
-  rm -rf $pid_path # remove pid file
+# process is running; send signal to instruct the process to drain active 
+# connections and to steer traffic to the other instances of this job
+kill -USR2 $pid
+
+# we know that the operation above takes 15 seconds to complete; inform BOSH 
+# that it can continue after waiting 15 seconds
+echo 15; exit 0
+```
+
+# Stateful distributed job
+```bash
+#!/bin/bash
+
+# check if the process is running
+pid_path=/var/vcap/sys/run/worker/worker.pid
+if [ ! -f "$pid_path" ]; then echo 0; exit 0; fi
+pid=$(<"$pid_path")
+if ! ps -p "$pid" >/dev/null; then echo 0; exit 0; fi
+
+function cluster_in_sync() {
+  # run command to check if the data in the cluster is correctly replicated
+}
+
+function heal_cluster() {
+  # run command to ask the cluster to heal its internal state
+}
+
+# check if the cluster is in sync. if it is not in sync trigger a healing
+# operation and wait until healing is complete and the cluster is in sync
+if ! cluster_in_sync; then
+  heal_cluster
+  while ! cluster_in_sync; do
+    sleep 10
+  done
 fi
 
-echo 0 # ok to exit; do not wait for anything
+# ask the process to terminate, and wait until the process exits
+kill "$pid"
+while ps -p "$pid" >/dev/null; then sleep 1; fi
 
-exit 0
+# the cluster was in sync and the local node has been shut down; tell BOSH to
+# proceed with the operation
+echo 0; exit 0
 ```
