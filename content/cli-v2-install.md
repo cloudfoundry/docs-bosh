@@ -21,7 +21,7 @@ To install the `bosh` binary directly, choose the correct download for your syst
 1. Download the binary (this example is using Linux):
 
     ```shell
-    curl -LOo ./bosh https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-3.0.1-linux-amd64
+    curl -Lo ./bosh https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-3.0.1-linux-amd64
     ```
 
 1. Make the `bosh` binary executable:
