@@ -246,8 +246,8 @@ update:
 
 * **name** [String, required]: A unique name used to identify and reference this  association between a BOSH release job and a VM.
 * **templates** [Array, required]: Specifies the name and release of a job template.
-  * **name** [String, required]: The job template name
-  * **release** [String, required]: The release where the job template exists
+    * **name** [String, required]: The job template name
+    * **release** [String, required]: The release where the job template exists
 * **lifecycle** [String, optional]: Specifies the kind of task the job represents. Valid values are `service` and `errand`; defaults to `service`. A `service` runs indefinitely and restarts if it fails. An `errand` starts with a manual trigger and does not restart if it fails.
 * **persistent_disk** [Integer, optional]: Specifies the persistent disk size; defaults to 0 (no persistent disk). If `persistent_disk` is a positive integer, BOSH creates a persistent disk of that size in megabytes and attaches it to each job instance VM. [Read more about persistent disks](persistent-disks.md)
 * **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job, and override any identically named global properties.
@@ -255,9 +255,9 @@ update:
 * **update** [Hash, optional]: Specific update settings for this job. Use this to override [global job update settings](#update) on a per-job basis.
 * **instances** [Integer, required]: The number of job instances. Each instance is a VM running this particular job.
 * **networks** [Array, required]: Specifies the networks this job requires. Each network can have the following properties specified:
-  * **name** [String, required]: A valid network name from the Networks block
-  * **static_ips** [Array, optional]: Array of IP addresses reserved for the job on the network
-  * **default** [Array, optional]: Specifies which network components (DNS, Gateway) BOSH populates by default from this network. BOSH references this property if the Networks block defines multiple networks.
+    * **name** [String, required]: A valid network name from the Networks block
+    * **static_ips** [Array, optional]: Array of IP addresses reserved for the job on the network
+    * **default** [Array, optional]: Specifies which network components (DNS, Gateway) BOSH populates by default from this network. BOSH references this property if the Networks block defines multiple networks.
 
 Example:
 
@@ -323,8 +323,8 @@ properties:
 **cloud_provider** [Hash, required]: Specifies CPI configuration for the `bosh-init` to create VMs, etc. Regular deployment manifests cannot specify this block.
 
 * **template** [Hash, required]: Specifies the name of the CPI job and release where the CPI job exists. It will be used by the `bosh-init` to create VMs, persistent disks, etc.
-  * **name** [String, required]: The CPI job name.
-  * **release** [String, required]: The CPI release name.
+    * **name** [String, required]: The CPI job name.
+    * **release** [String, required]: The CPI release name.
 * **mbus** [String, required]: HTTPs URL used by the `bosh-init` to contact the Agent on a created VM. The URL includes basic auth credentials that should be customized for each deployment. Example: `"https://mbus:mbus-password@10.0.0.6:6868"`.
 * **properties** [Hash, required]: Properties required by the CPI job.
 
