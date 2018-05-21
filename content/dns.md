@@ -104,9 +104,14 @@ DNS release provides a way to delegate certain domains via [`handlers` property]
 ---
 ## Enabling DNS {: #enable }
 
-To enable native BOSH functionality, you must first enable [`local_dns.enabled` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.local_dns.enabled) in the Director job. See [bosh-deployment's local-dns.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/local-dns.yml) as an example.
+The native BOSH functionality is enabled with the
+[`local_dns.enabled` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.local_dns.enabled)
+of the Director job, which is the default in the standard
+[bosh-deployment](https://github.com/cloudfoundry/bosh-deployment/blob/master/bosh.yml).
 
-Enabling `local_dns.enabled` configuration will make Director broadcast DNS updates to all VMs. Only VMs based on 3421+ Linux stemcells will accept DNS broadcast message.
+With `local_dns.enabled` set to `true`, the Director broadcasts DNS updates to
+all VMs. Only VMs based on 3421+ Linux stemcells will accept DNS broadcast
+message.
 
 If you were relying on instance index based DNS records, you must enable [`local_dns.include_index` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.local_dns.enabled) in the Director job.
 
