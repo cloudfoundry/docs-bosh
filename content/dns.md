@@ -89,7 +89,14 @@ See [Migrating from Consul](dns.md#migrate-consul) for more details.
 
 ### Healthiness
 
-DNS release provides a way to reference all instances (or a subset of instances) in a link via single DNS record. By default only heatlhy instances are returned from a group query when there is at least one healthy insance. When there are no healthy instances, all instances will be returned. The notion of instance healthiness is directly tied to the state of processes running on a VM. DNS release will continiously poll for updated healthiness information (same information is visible via `bosh instances --ps` command) on all instances from groups that were resolved at least once.
+DNS release provides a way to reference all instances (or a subset of instances)
+in a link via single DNS record. Instances can be queried using their DNS
+addresses and a healthiness filter to filter healthy/unhealthy instances (see
+[Constructing Queries](#constructing-queries) for more information). The notion
+of instance healthiness is directly tied to the state of processes running on a
+VM. DNS release will continuously poll for updated healthiness information (same
+information is visible via `bosh instances --ps` command) on all instances from
+groups that were resolved at least once.
 
 To enable healthiness, use `health.enabled` property and specify necessary TLS certificates. Canonical DNS runtime config with healthiness enabled can be found here: https://github.com/cloudfoundry/bosh-deployment/blob/master/runtime-configs/dns.yml.
 
@@ -179,3 +186,73 @@ To ease migration from Consul DNS entries, DNS release provides [aliases feature
 1. define native DNS aliases that match existing Consul DNS entries
 1. redeploy all deployments that use Consul
 1. redeploy all deployments without `consul_agent` job
+
+---
+## Constructing DNS Queries {: #constructing-queries }
+
+BOSH DNS provides its own structured query language for querying instances?
+based on an instance's endemic and organizational relationship; e.g., by an
+instance's healthiness, its availability zone, or group id.
+
+An example of a DNS query is as follows:
+
+```bash
+dig @bosh-dns q-a*i*m*n*s*y*.q-g*.your-domain.bosh.
+```
+
+Query parameters are:
+
+* `a*` = availability zone
+  * where `*` is the numerical id of the availability zone
+* `i*` = instance id
+* `m*` = numerical uuid
+* `n*` = network
+  * where `*` is the numerical id of the network
+* `s*` = healthiness
+  * The following options are available:
+    * `s0` - _Default_ - 'smart' strategy that returns healthy and unchecked instances; if
+      there are no healthy or unchecked instances, all instances will be returned
+    * `s1` - returns only unhealthy instances
+    * `s3` - return only healthy instances
+    * `s4` - return all instances
+* `y*` = synchronous healthcheck
+  * The following options are available:
+    * `y0` - _Default_ - do not attempt to get healthiness on the first query
+    * `y1` - Perform a synchronous health check the first time the record is
+      resolved. This is useful for applications that are not designed to continuosly
+      re-resolve and therefore need to receive a healthy instance on the first
+      record resolution.
+* `g*` = group (internal)
+  * where `*` is the global instance group id
+  * this flag is used almost exclusively for debugging purposes only
+
+---
+## Consuming BOSH DNS in Job Templates {: #consuming-dns-job-templates }
+
+BOSH DNS' query language is not meant to be manually crafted. As a release
+author, one should use links for generating those queries in their job
+templates.
+
+An example of how to build a link-based query is:
+
+```erb
+<%=
+  link('db').address(
+    azs: ['az1'],
+    status: 'healthy',
+  )
+%>
+```
+
+Will result in: `q-a1s3.q-g5.your-domain.bosh.` assuming `az1` is of id `1` and
+the `db` group is of id `5`.
+
+The following options are available when constructing a link query:
+
+ * `azs` (`a*`): list of availability zone names
+ * `uuid` (`m*`): instance uuid
+ * `status` (`s*`): health status. Can be one of `default`, `healthy`, `unhealthy`, or `all`
+ * `default_network` (`n*`): network name
+ * `instance_group` (`g*`): instance group name
+ * `deployment_name` (`g*`): deployment name
+
