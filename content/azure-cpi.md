@@ -216,8 +216,8 @@ Schema:
 * **use\_managed\_disks** [Boolean, optional]: Enable managed disks. The default value is `false`. For `AzureCloud`, the option is supported in v21+. For `AzureChinaCloud`, `AzureUSGovernment`, and `AzureGermanCloud`, the option is supported in v26+. For `AzureStack`, the option is not yet supported.
 * **pip\_idle\_timeout\_in\_minutes** [Integer, optional]: Set idle timeouts in minutes for dynamic public IPs. It must be in the range [4, 30]. The default value is 4. It is only used when **assign\_dynamic\_public\_ip** is set to `true` in **resouce_pool**. Available in V24+.
 * **keep\_failed\_vms** [Boolean, optional]: A flag to keep the failed VM. If it's set to `true` and CPI fails to **provision** the VM, CPI will keep the VM for troubleshooting. The default value is `false`. Available in v32+. Please note that the option is different from **keep\_unreachable\_vms** of the [director configuration](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh). The latter is to keep the VM whose BOSH agent is unresponsive.
-* **enable_telemetry** [Boolean, optional]: A flag to enable telemetry on CPI calls on Azure. The default value is `true`. Available in v35.2.0+.
-* **enable\_vm\_boot\_diagnostics** [Boolean, optional]: A flag to enable VM boot diagnostics on Azure. The default value is `true`. Available in v35.2.0+.
+* **enable_telemetry** [Boolean, optional]: A flag to enable telemetry on CPI calls on Azure. Available since v35.2.0. The default value is `true` in v35.2.0, and is `false` in v35.3.0+.
+* **enable\_vm\_boot\_diagnostics** [Boolean, optional]: A flag to enable VM boot diagnostics on Azure. Available since v35.2.0. The default value is `true` in v35.2.0, and is `false` in v35.3.0+.
 
 See [all configuration options](https://bosh.io/jobs/cpi?source=github.com/cloudfoundry-incubator/bosh-azure-cpi-release).
 
