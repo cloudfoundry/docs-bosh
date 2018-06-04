@@ -149,15 +149,11 @@ Schema for `cloud_properties` section:
       1. Dynamic Public IP for the VM
       1. Availability Set
 
-Example of a `Standard_A2` instance:
+Example of a `Standard_A2` VM:
 
 ```yaml
-resource_pools:
+vm_types:
 - name: default
-  network: default
-  stemcell:
-    name: bosh-azure-hyperv-ubuntu-trusty-go_agent
-    version: latest
   cloud_properties:
     instance_type: Standard_A2
     availability_set: <availability-set-name>
@@ -166,6 +162,40 @@ resource_pools:
     ephemeral_disk:
       use_root_disk: false
       size: 30_720
+```
+
+Example of a load balancer:
+
+```yaml
+vm_extensions:
+- name: load-balancer
+  cloud_properties:
+    load_balancer: <load-balancer-name>
+```
+
+Example of an availability set:
+
+```yaml
+vm_extensions:
+- name: availability-set
+  cloud_properties:
+    availability_set: <availability-set-name>
+```
+
+The above load-balancer cloud configuration examples are referenced within the deployment manifest as such:
+
+```yaml
+instance_groups:
+- name: router
+  instances: 2
+  azs: [z1, z2]
+  networks: [{name: default}]
+  vm_type: default
+  stemcell: default
+  jobs:
+  - name: router
+    release: default
+  vm_extensions: [load-balancer]
 ```
 
 ---
@@ -181,7 +211,7 @@ Example of 10GB disk:
 * **disk_size** [Integer, required]: Size of the disk in MiB. On Azure the disk size must be greater than 1 * 1024 and less than the max disk size for [unmanaged](https://azure.microsoft.com/en-us/pricing/details/storage/unmanaged-disks/) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. Please always use `N * 1024` as the size because Azure always uses GiB not MiB.
 
 ```yaml
-disk_pools:
+disk_types:
 - name: default
   disk_size: 10_240
 ```
