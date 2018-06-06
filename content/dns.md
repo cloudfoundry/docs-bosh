@@ -12,6 +12,8 @@ Historically BOSH users did not have an easy highly available solution to enable
 
 Addition of native BOSH DNS solves these problems without making it hard to deploy and operate DNS servers.
 
+See [links](links.md) for more context in how to use links with BOSH.
+
 ---
 ## Architecture {: #arch }
 
