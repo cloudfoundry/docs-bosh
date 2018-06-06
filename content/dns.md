@@ -54,13 +54,13 @@ DNS release provides two jobs: `bosh-dns` (for Linux) and `bosh-dns-windows` (fo
 
 ### Recursors {: #recursors }
 
-Here is how DNS release chooses recurors before starting its operation:
+Here is how DNS release chooses recursors before starting its operation:
 
 1. by default will pick up recursors specified in `/etc/resolv.conf` (denoted by `nameserver` keyword)
   - alternatively, if `recursors` property is set use specified recursors
 1. exclude recursors specified in `excluded_recursors` property
 1. randomly pick one recursor from the list of recursors
-  - note that all recursors in this list will be considered equivalent, ie able to resolve same domains
+  - note that all recursors in this list will be considered equivalent, i.e. able to resolve same domains
 1. failover to using another randomly picked recursor, if current recursor exhibits connectivity problems
   - connectivity problems do not account for resolution problems (NXDOMAIN, or other DNS level errors)
 
@@ -95,7 +95,7 @@ To enable healthiness, use `health.enabled` property and specify necessary TLS c
 
 ### Caching
 
-DNS release provides a way to enable response caching based on response TTLs. Enabling caching typically will alleviate some pressure from your upstream DNS servers and decrease  latency of DNS resolutions.
+DNS release provides a way to enable response caching based on response TTLs. Enabling caching typically will alleviate some pressure from your upstream DNS servers and decrease latency of DNS resolutions.
 
 To enable caching, use `cache.enabled` property. Canonical DNS runtime config with caching enabled can be found here: https://github.com/cloudfoundry/bosh-deployment/blob/master/runtime-configs/dns.yml.
 
@@ -106,7 +106,7 @@ DNS release provides a way to delegate certain domains via [`handlers` property]
 ---
 ## Enabling DNS {: #enable }
 
-To enable native BOSH functionality, you must first enable [`local_dns.enabled` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.local_dns.enabled) in the Director job. See [bosh-deployment's local-dns.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/local-dns.yml) as an example.
+To enable native BOSH functionality, you must first enable [`local_dns.enabled` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.local_dns.enabled) in the Director job. See [bosh-deployment's bosh.yml](https://github.com/cloudfoundry/bosh-deployment/blob/90bac489919fd4512bc9bb4d24070d71b07cd586/bosh.yml#L92-L93) as an example.
 
 Enabling `local_dns.enabled` configuration will make Director broadcast DNS updates to all VMs. Only VMs based on 3421+ Linux stemcells will accept DNS broadcast message.
 
