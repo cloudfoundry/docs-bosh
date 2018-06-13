@@ -120,6 +120,7 @@ Available rules:
     * **name** [String, required]: Matching job name.
     * **release** [String, required]: Matching release name.
 * **networks** [Array of strings, optional]: Matches based on network names. Available in bosh-release v262+.
+* **teams** [Array of strings, optional]: Matches based on team names. Available in bosh-release v253+.
 
 All arrays within inclusion/exclusion rules use `or` operator.
 
