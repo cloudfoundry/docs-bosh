@@ -61,7 +61,7 @@ $ bosh events
 ...
 ```
 
-List of events can be also filtered by a deployment name (`--deployment`), a task ID (`--task`), and/or an instance (`--instance`). Additionally you can paginate by specifying `--before-id` flag to view next 200 events matching viewed criteria. In an upcoming release we will also include filtering based on an event timestamp to quickly identify events happened during specific timeframe.
+List of events can be also filtered by a deployment name (`--deployment`), a task ID (`--task`), and/or an instance (`--instance`). Additionally you can paginate by specifying `--before-id` flag to view next 200 events matching viewed criteria. See other available options on [CLI commands page](cli-v2.md).
 
 Example query commands:
 
