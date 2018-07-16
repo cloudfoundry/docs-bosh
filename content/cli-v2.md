@@ -8,9 +8,7 @@ The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. CLI 
 
 1. Download the binary for your platform and place it on your `PATH`:
 
-  - [bosh-cli-3.0.1-darwin-amd64](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-3.0.1-darwin-amd64) <span class="sha1">sha1: d2fea20210a47b8c8f1f7dbb27ffb5808d47ce87</span>
-  - [bosh-cli-3.0.1-linux-amd64](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-3.0.1-linux-amd64) <span class="sha1">sha1: ccc893bab8b219e9e4a628ed044ebca6c6de9ca0</span>
-  - [bosh-cli-3.0.1-windows-amd64.exe](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-3.0.1-windows-amd64.exe) <span class="sha1">sha1: 41c23c90cab9dc62fa0a1275dcaf64670579ed33</span> (Windows CLI support is partial)
+    --8<-- "snippets/bosh-cli/latest-versions-table.md"
 
     ```shell
     $ chmod +x ~/Downloads/bosh-cli-*
@@ -24,7 +22,7 @@ The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. CLI 
     version 3.0.1-712bfd7-2018-03-13T23:26:42Z
     ```
 
-    If the output does not begin with `version 2.0...` (or `3.0`) you are probably executing CLI v1 (Ruby based).
+    If the output does not begin with `version 2.0...` (or v2+) you are probably executing CLI v1 (Ruby based).
 
 1. [Install OS specified dependencies](cli-v2-install.md#additional-dependencies) for `bosh create-env` command
 
