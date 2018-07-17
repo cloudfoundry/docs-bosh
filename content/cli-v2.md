@@ -662,7 +662,7 @@ See [CPI config](cpi-config.md).
     Recreates VMs for specified instances. Follows typical instance lifecycle.
 
     - `--skip-drain` flag skips running drain scripts
-    - `--fix` flag replaces unresponsive VMs
+    - `--fix` flag specifies to recover an instance with an unresponsive agent instead of erroring
     - `--canaries=` flag overrides manifest values for `canaries`
     - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
     - `--dry-run` flag runs through as many operations without altering deployment
