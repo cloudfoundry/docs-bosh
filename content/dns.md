@@ -256,3 +256,131 @@ The following options are available when constructing a link query:
  * `instance_group` (`g*`): instance group name
  * `deployment_name` (`g*`): deployment name
 
+---
+## Rotating BOSH DNS Certificates {: #rotating-dns-certificates }
+
+BOSH DNS Health Monitor Certificates should be performed in three steps in order to achieve zero downtime.
+
+Given you used bosh-deployment to update your runtime config as in:
+```
+bosh update-runtime-config bosh-deployment/runtime-configs/dns.yml --vars-store bosh-dns-certs.yml
+```
+
+1. Step 1 (Add new CA Certificates to runtime config):
+
+  This will make sure the new certificates (step 2) will be properly validated against new CA Certificate,
+  and old certificates will be validated against the previous one.
+
+  ```
+  cat > rotate-dns-certs-1.yml <<EOF
+  ---
+  - type: replace
+    path: /variables/-
+    value:
+      name: /dns_healthcheck_tls_ca_new
+      type: certificate
+      options:
+        is_ca: true
+        common_name: dns-healthcheck-tls-ca
+
+  - type: replace
+    path: /variables/-
+    value:
+      name: /dns_healthcheck_server_tls_new
+      type: certificate
+      options:
+        ca: /dns_healthcheck_tls_ca_new
+        common_name: health.bosh-dns
+        extended_key_usage:
+        - server_auth
+
+  - type: replace
+    path: /variables/-
+    value:
+      name: /dns_healthcheck_client_tls_new
+      type: certificate
+      options:
+        ca: /dns_healthcheck_tls_ca_new
+        common_name: health.bosh-dns
+        extended_key_usage:
+        - client_auth
+
+  - type: replace
+    path: /addons/0/jobs/name=bosh-dns/properties/health/server/tls?
+    value:
+      ca: ((/dns_healthcheck_server_tls.ca))
+      certificate: ((/dns_healthcheck_server_tls.certificate))
+      private_key: ((/dns_healthcheck_server_tls.private_key))
+
+  - type: replace
+    path: /addons/0/jobs/name=bosh-dns/properties/health/client/tls?
+    value:
+      ca: ((/dns_healthcheck_client_tls.ca))
+      certificate: ((/dns_healthcheck_client_tls.certificate))
+      private_key: ((/dns_healthcheck_client_tls.private_key))
+
+  - type: replace
+    path: /addons/0/jobs/name=bosh-dns/properties/health/server/tls/ca
+    value: ((/dns_healthcheck_server_tls.ca))((/dns_healthcheck_server_tls_new.ca))
+
+  - type: replace
+    path: /addons/0/jobs/name=bosh-dns/properties/health/client/tls/ca
+    value: ((/dns_healthcheck_client_tls.ca))((/dns_healthcheck_client_tls_new.ca))
+  EOF
+
+  bosh update-runtime-config bosh-deployment/runtime-configs/dns.yml --vars-store bosh-dns-certs.yml \
+    -o rotate-dns-certs-1.yml
+  ```
+  Redeploy all VMs.
+
+1. Step 2 (Add new Certificates to runtime config):
+
+  At this step the VMs with new certificates will be able to properly start up since they match the new CA Certificate,
+  as well as the old ones. By the end of this step you will all VMs running with new certificates, however the previous
+  CA Certificates are still configured and should be removed for security reasons.
+
+  ```
+  cat > rotate-dns-certs-2.yml <<EOF
+  ---
+  - type: replace
+    path: /addons/0/jobs/name=bosh-dns/properties/health/server/tls/certificate
+    value: ((/dns_healthcheck_server_tls_new.certificate))
+
+  - type: replace
+    path: /addons/0/jobs/name=bosh-dns/properties/health/server/tls/private_key
+    value: ((/dns_healthcheck_server_tls_new.private_key))
+
+  - type: replace
+    path: /addons/0/jobs/name=bosh-dns/properties/health/client/tls/certificate
+    value: ((/dns_healthcheck_client_tls_new.certificate))
+
+  - type: replace
+    path: /addons/0/jobs/name=bosh-dns/properties/health/client/tls/private_key
+    value: ((/dns_healthcheck_client_tls_new.private_key))
+  EOF
+
+  bosh update-runtime-config bosh-deployment/runtime-configs/dns.yml --vars-store bosh-dns-certs.yml \
+    -o rotate-dns-certs-1.yml -o rotate-dns-certs-2.yml
+  ```
+  Redeploy all VMs.
+
+1. Step 3 (Remove old Certificates from runtime config):
+
+  Finally this step should remove the old certificates from all you deployments.
+
+  ```
+  cat rotate-dns-certs-3.yml <<EOF
+  ---
+  - type: replace
+    path: /addons/0/jobs/name=bosh-dns/properties/health/server/tls/ca
+    value: ((/dns_healthcheck_server_tls_new.ca))
+
+  - type: replace
+    path: /addons/0/jobs/name=bosh-dns/properties/health/client/tls/ca
+    value: ((/dns_healthcheck_client_tls_new.ca))
+  EOF
+
+  bosh update-runtime-config bosh-deployment/runtime-configs/dns.yml --vars-store bosh-dns-certs.yml \
+    -o rotate-dns-certs-1.yml -o rotate-dns-certs-2.yml -o rotate-dns-certs-3.yml
+  ```
+  Redeploy all VMs.
