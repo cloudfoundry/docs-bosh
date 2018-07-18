@@ -1,4 +1,4 @@
 | System         | Download                                                                                                         | Checksum (SHA1)                            |
 | -------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
-| Darwin / macOS | [bosh-cli-3.0.1-darwin-amd64](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-3.0.1-darwin-amd64)           | `d2fea20210a47b8c8f1f7dbb27ffb5808d47ce87` |
-| Linux          | [bosh-cli-3.0.1-linux-amd64](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-3.0.1-linux-amd64)             | `ccc893bab8b219e9e4a628ed044ebca6c6de9ca0` |
+| Darwin / macOS | [bosh-cli-4.0.1-darwin-amd64](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-4.0.1-darwin-amd64)           | `556ac2d4a9ea5b6eeca08114b91ee32586c8c5a0` |
+| Linux          | [bosh-cli-4.0.1-linux-amd64](https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-4.0.1-linux-amd64)             | `f45126ba33d94a407c5b548c1620bd5f363f4d06` |
