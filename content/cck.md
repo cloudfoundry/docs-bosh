@@ -237,15 +237,17 @@ In the above example options 4 was picked and VM reference was deleted.
 
 ### Automate recovery selection using --recover parameter
 
-Automate recovery using bosh cck -n --recover="<option>", where <option> is one of the following:
+Automate recovery using the `--recover=RESOLUTION` option, where `RESOLUTION` represents one of the following:
 
-    skipResolutionName := "ignore"
-    recreateResolutionName := "recreate_vm"
-    rebootResolutionName := "reboot_vm"
-    deleteVmReference := "delete_vm_reference"
-    deleteDiskReference := "delete_disk_reference"
-    
- For example: bosh -e my-env -d cf-2c9deec0f5552eaa804a cck -n --resolution="reboot_vm"
+ * `ignore` - skip resolution
+ * `recreate_vm` - recreate the VM
+ * `reboot_vm` - reboot the VM
+ * `delete_vm_reference` - remove the VM reference that Director has (this could cause IaaS resources to be abandoned)
+ * `delete_disk_reference` - remove the disk reference that Director has (this could cause IaaS resources to be abandoned)
+
+!!! warning
+    Consider using `cck` interactively because the selected resolution will be applied to all problems that are found. Specifying `--recover` can be risky if new, unexpected problems occur while you run the command and selected resolution may no longer be appropriate.
+
 
 ### Persistent Disk is not attached {: #unattached-persistent-disk }
 
