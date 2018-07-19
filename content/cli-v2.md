@@ -797,7 +797,7 @@ See [CPI config](cpi-config.md).
 
 - `bosh -e my-env -d my-dep attach-disk group/instance-id disk-cid`
 
-    Attaches disk to an instance, replacing currently attached disk (if any).
+    Attaches disk to an instance, replacing and orphaning the currently attached disk (if any).
 
     ```shell
     $ bosh -e vbox -d cf attach-disk postgres/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 vol-shw8f293f2f2
