@@ -234,6 +234,21 @@ cck determined that `i-914c046a` VM is unresponsive. Possible options are:
 In the above example options 4 was picked and VM reference was deleted.
 
 ---
+
+### Automate recovery selection using --recover parameter
+
+Automate recovery using the `--recover=RESOLUTION` option, where `RESOLUTION` represents one of the following:
+
+ * `ignore` - skip resolution
+ * `recreate_vm` - recreate the VM
+ * `reboot_vm` - reboot the VM
+ * `delete_vm_reference` - remove the VM reference that Director has (this could cause IaaS resources to be abandoned)
+ * `delete_disk_reference` - remove the disk reference that Director has (this could cause IaaS resources to be abandoned)
+
+!!! warning
+    Consider using `cck` interactively because the selected resolution will be applied to all problems that are found. Specifying `--recover` can be risky if new, unexpected problems occur while you run the command and selected resolution may no longer be appropriate.
+
+
 ### Persistent Disk is not attached {: #unattached-persistent-disk }
 
 Assuming there was a deployment with a VM, somehow persistent disk got detached.
