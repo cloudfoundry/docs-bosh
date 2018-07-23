@@ -36,7 +36,7 @@ CLI provides [`bosh upload-release` command](cli-v2.md#upload-release).
 
     Note that all release repositories have a `releases/` folder that contains release YAML files. These files have all the required information about how to assemble a specific version of a release (provided that the release maintainers produce and commit that version to the repository). You can use the YAML files to either directly upload a release, or to create a release tarball locally and then upload it.
 
-    ```shell
+        ```shell
   $ git clone https://github.com/cppforlife/zookeeper-release
 	$ cd zookeeper-release/
 	$ bosh -e vbox upload-release
