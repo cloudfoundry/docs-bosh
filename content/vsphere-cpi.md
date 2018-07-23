@@ -82,6 +82,10 @@ Schema for `cloud_properties` section:
 * **nsxt** [Dictionary, optional]: [VMware NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v45+.
     * **ns_groups** [Array, optional]: A collection of [NS Groups](http://pubs.vmware.com/nsxt-11/index.jsp?topic=%2Fcom.vmware.nsxt.admin.doc%2FGUID-718E769B-8D89-485B-8DBD-04F1F82CFE14.html) names that the instances should belong to. Available in NSX-T v1.1+.
     * **vif_type** [String, optional]: Supported types: `PARENT`, `null`. Overrides the global `default_vif_type`. Available in NSX-T v2.0+.
+    * **lb** [Dictionary, optional]: NSX-T logical Load Balancer. Available in CPI v48+
+        * **server_pools** [Array, optional] Server Pool must exist prior to the deployment. For static server pool, VM is directly added to the server pool. If server pool is dynamic, CPI looks up the NSGroup and adds the VM to the NSGroup.
+            * **name** [String, required]: Name of the Server Pool
+            * **port** [Integer, required]: The port that the VM's service is listening on (e.g. 80 for HTTP)
 
 Example of a VM asked to be placed into a specific vSphere resource pool with NSX-V and NSX-T integration:
 
@@ -114,6 +118,10 @@ resource_pools:
     nsxt: # NSX-T configuration
       ns_groups: [public, dmz]
       vif_type: PARENT
+      lb:
+        server_pools:
+        - name: cpi-pool-1
+          port: 80
 ```
 
 ---
