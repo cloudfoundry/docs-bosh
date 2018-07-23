@@ -68,7 +68,7 @@ Run through quick steps below or follow [deploy workflow](basic-workflow.md) tha
 1. Update cloud config
 
     ```shell
-    $ bosh -e vbox update-cloud-config ~/workspace/bosh-deployment/warden/cloud-config.yml
+    $ bosh -e vbox update-cloud-config bosh-deployment/warden/cloud-config.yml
     ```
 
 1. Upload stemcell
