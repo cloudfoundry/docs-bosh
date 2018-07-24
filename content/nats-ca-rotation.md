@@ -212,6 +212,10 @@ Recreating all VMs will remove the old CA from each.
 $ bosh -d deployment-name recreate
 ```
 
+### Future Director Deployments
+
+Note that the final ops file and same creds.yml must be used for future deploys, to keep the new CA and certificates. Removing the ops file will revert to the old CA as in creds.yml. Removing creds.yml will generate a new CA, requiring the steps above to rotate in.   
+
 ### Visualization of Steps
 
 ![image](images/nats_rotation.png)
