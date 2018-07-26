@@ -155,6 +155,7 @@ Schema:
 * **region** [String, required]: AWS region name. Example: `us-east-1`
 * **max_retries** [Integer, optional]: The maximum number of times AWS service errors (500) and throttling errors (`AWS::EC2::Errors::RequestLimitExceeded`) should be retried. There is an exponential backoff in between retries, so the more retries the longer it can take to fail. Defaults to 2.
 * **encrypted** [Boolean, optional]: Turns on [EBS volume encryption](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html) for all VM's root (system), ephemeral and persistent disks. Defaults to `false`. Available in v67+.
+!!! note EBS volume encryption doesn't work for windows stemcells due to an [AWS limitation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html#copy-ami-across-accounts), hence turning this on wouldn't encrypt EBS volumes associated with Windows VMs. 
 * **kms\_key\_arn** [String, optional]: Encrypts the disks using an encryption key stored in the [AWS Key Management Service (KMS)](https://aws.amazon.com/kms/). The format of the ID is `XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX`. Be sure to use the Key ID, not the Alias. If this property is omitted and `encrypted` is `true`, the disks will be encrypted using your account's default `aws/ebs` encryption key. Available in v67+.
 
 See [all configuration options](https://bosh.io/jobs/cpi?source=github.com/cloudfoundry-incubator/bosh-aws-cpi-release).
