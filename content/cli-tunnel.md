@@ -1,9 +1,9 @@
 !!! note
     Applies to CLI v2.
 
-CLI supports tunneling all of its traffic (HTTP and SSH) through a SOCKS 5 proxy specified via `BOSH_ALL_PROXY` environment variable. (Custom environment variable was chosen instead of using `all_proxy` environment variable to avoid accidently tunneling non-CLI traffic.)
+CLI supports tunnelling all of its traffic (HTTP and SSH) through a SOCKS 5 proxy specified via `BOSH_ALL_PROXY` environment variable. (Custom environment variable was chosen instead of using `all_proxy` environment variable to avoid accidentally tunnelling non-CLI traffic.)
 
-Common use cases for tunneling through a jumpbox VM include:
+Common use cases for tunnelling through a jumpbox VM include:
 
 - deploying Director VM with `bosh create-env` command
 - accessing the Director and UAA APIs
