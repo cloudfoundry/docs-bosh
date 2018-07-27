@@ -8,11 +8,25 @@ Common use cases for tunnelling through a jumpbox VM include:
 - deploying Director VM with `bosh create-env` command
 - accessing the Director and UAA APIs
 
+The tunnel can be created by the CLI or established separately.
+
+### Tunnel created by CLI
+
+```shell
+# provide CLI with SSH credentials to create a tunnel via the environment variable
+$ export BOSH_ALL_PROXY=ssh+socks5://jumpbox@jumpbox-ip:12345?private_key=jumpbox.key
+
+$ bosh create-env bosh-deployment/bosh.yml ...
+$ bosh alias-env aws -e director-ip --ca-cert ...
+```
+
+### Tunnel established separately
+
 ```shell
 # establish a tunnel and make it available on a local port
 $ ssh -4 -D 12345 -fNC jumpbox@jumpbox-ip -i jumpbox.key
 
-# let CLI know about above tunnel via environment variable
+# let CLI know about above tunnel via the environment variable
 $ export BOSH_ALL_PROXY=socks5://localhost:12345
 
 $ bosh create-env bosh-deployment/bosh.yml ...
