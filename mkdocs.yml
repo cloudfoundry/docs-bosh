@@ -151,6 +151,7 @@ pages:
   - Generic Configs: configs.md
   - Cloud Provider Interface:
     - Overview: cpi-api-v1.md
+    - RPC Interface: cpi-api-v1-rpc.md
     - Methods:
       - attach_disk: cpi-api-v1-method/attach-disk.md
       - calculate_vm_cloud_properties: cpi-api-v1-method/calculate-vm-cloud-properties.md

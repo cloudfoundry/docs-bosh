@@ -6,84 +6,34 @@ CPIs are distributed as regular releases, typically with a release job called `c
 
 Both `bosh create-env` command and the Director expect to be configured with a CPI release to function properly. In the case of `bosh create-env` command, specified CPI release is unpacked and installed on the machine running the command. For the Director, CPI release job is colocated on the same VM, so that the director release job can access it.
 
-CPIs written in Ruby:
 
-- [AWS CPI release](https://github.com/cloudfoundry-incubator/bosh-aws-cpi-release)
-- [Azure CPI release](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release)
-- [OpenStack CPI release](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release)
-- [vSphere CPI release](https://github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release)
-- [vCloud CPI release](https://github.com/cloudfoundry-incubator/bosh-vcloud-cpi-release)
+## Implementation
 
-CPIs written in golang:
+When building a CPI release, the primary requirement is that it provides a `bin/cpi` executable which implements a simple RPC API through `STDIN`/`STDOUT`. The [RPC API](cpi-api-v1-rpc.md) page provides an in-depth look the protocol and required methods.
 
-- [Warden CPI release](https://github.com/cppforlife/bosh-warden-cpi-release)
+If you are getting started with a new CPI, you may be interested in using one of the following languages which have some existing libraries and examples which will ease your implementation.
 
----
-## RPC {: #rpc }
 
-Since CPI is just an executable, following takes place for each CPI method call:
+### Ruby
 
-1. Callee starts a new CPI executable OS process (shells out)
-1. Callee sends a [single JSON request](#request) over STDIN
-   - CPI optionally starts logging debugging information to STDERR
-1. CPI responds with a [single JSON response](#response) over STDOUT
-1. CPI executable exits
-1. Callee parses and interprets JSON response ignoring process exit code
+The [`bosh_cpi`](https://rubygems.org/gems/bosh_cpi) gem provides a `Bosh::Cpi::Cli` class which handles the deserialization and serialization of the RPC calls. You can see examples of this in the following CPIs:
 
-As a reference the Director's implementation is in [bosh_cpi's external\_cpi.rb](https://github.com/cloudfoundry/bosh/blob/master/src/bosh-director/lib/cloud/external_cpi.rb) and the BOSH CLI implements it in [cpi\_cmd\_runner.go](https://github.com/cloudfoundry/bosh-cli/blob/master/cloud/cpi_cmd_runner.go).
+ * [Amazon Web Services CPI Release](https://github.com/cloudfoundry-incubator/bosh-aws-cpi-release)
+ * [Microsoft Azure CPI Release](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release)
+ * [OpenStack CPI Release](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release)
+ * [VMware vSphere CPI Release](https://github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release)
+ * [VMware vCloud CPI Release](https://github.com/cloudfoundry-incubator/bosh-vcloud-cpi-release)
 
-### Request {: #request }
 
-* **method** [String]: Name of the CPI method. Example: `create_vm`.
-* **arguments** [Array]: Array of arguments that are specific to the CPI method.
-* **context** [Hash]: Additional information provided as a context of this execution. Specified for backwards compatibility and should be ignored.
+### Go
 
-Example:
+There are a few CPI releases written in Go, as well:
 
-```yaml
-{
-	"method": "delete_disk",
-	"arguments": ["vol-1b7fb8fd"],
-	"context": { "director_uuid":"fefb87c8-38d1-46a5-4552-9749d6b1195c" }
-}
-```
+ * [Google CPI Release](https://github.com/cloudfoundry-incubator/bosh-google-cpi-release)
+ * [VirtualBox CPI Release](https://github.com/cppforlife/bosh-virtualbox-cpi-release)
+ * [Warden CPI Release](https://github.com/cppforlife/bosh-warden-cpi-release)
 
-### Response {: #response }
 
-* **result** [Null or simple values]: Single return value. It must be null if `error` is returned.
-* **error** [Null or hash]: Occurred error. It must be null if `result` is returned.
-	* **type** [String]: Type of the error.
-    * **message** [String]: Description of the error.
-    * **ok\_to\_retry** [Boolean]: Indicates whether callee should try calling the method again without changing any of the arguments.
-* **log** [String]: Additional information that may be useful for auditing, debugging and understanding what actions CPI took while executing a method. Typically includes info and debug logs, error backtraces.
-
-Example successful response from `create_vm` CPI call:
-
-```yaml
-{
-	"result": "i-384959",
-	"error": null,
-	"log": ""
-}
-```
-
-Example error response from `create_vm` CPI call:
-
-```yaml
-{
-	"result": null,
-	"error": {
-		"type": "Bosh::Clouds::CloudError",
-		"message": "Flavor `m1.2xlarge' not found",
-		"ok_to_retry": false
-	},
-	"log": "Rescued error: 'Flavor `m1.2xlarge' not found'. Backtrace: ~/.bosh_init/ins..."
-}
-```
-
-BOSH team maintains several CPIs written in Ruby. We currently take advantage of the `bosh_cpi` gem which provides `Bosh::Cpi::Cli` class that deserialized requests and serializes responses. If you are planning to write a CPI in Ruby, we recommend to take advantage of this gem.
-
----
 ## Testing {: #testing }
 
 There are two test suites each CPI is expected to pass before it's considered to be production-ready:
@@ -91,7 +41,7 @@ There are two test suites each CPI is expected to pass before it's considered to
 - its own [CPI Lifecycle Tests](https://github.com/cloudfoundry/bosh/blob/master/docs/running_tests.md#cpi-lifecycle-tests) which should provide integration level coverage for each CPI method
 - shared [BOSH Acceptance Tests (BATS)](https://github.com/cloudfoundry/bosh/blob/master/docs/running_tests.md#bosh-acceptance-tests-bats) (provided by the BOSH team) which verify high level Director behavior with the CPI activated
 
----
+
 ## Concurrency {: #concurrency }
 
 The CPI is expected to handle multiple method calls concurrently (and in parallel) with a promise that arguments represent different IaaS resources. For example, multiple `create_vm` CPI method calls may be issued that all use the same stemcell cloud ID; however, `attach_disk` CPI method will never be called with the same VM cloud ID concurrently.
@@ -99,12 +49,12 @@ The CPI is expected to handle multiple method calls concurrently (and in paralle
 !!! note
     Since each CPI method call is a separate OS process, simple locking techniques (Ruby's <code>Mutex.new</code> for example) will not work.
 
----
+
 ## Rate Limiting {: #rate-limiting }
 
-Most CPIs have to deal with IaaS APIs that rate limit (e.g. OpenStack, AWS APIs). Currently it's the responsibility of the CPI to handle rate-limiting errors, properly catch them, wait and retry actions that were interrupted. Given that there is no timeout around how long a CPI method can run, it's all right to wait as long as necessary to resume making API calls. Though it's suggested to log such information.
+Most CPIs have to deal with IaaS APIs that rate limit (e.g. OpenStack, AWS). Currently it is the responsibility of the CPI to handle rate-limiting errors, properly catch them, wait and retry actions that were interrupted. Given that there is no timeout around how long a CPI method can run, it's all right to wait as long as necessary to resume making API calls. Though it's suggested to log such information.
 
----
+
 ## Debugging {: #debugging }
 
 It usually useful to get a detailed log of CPI requests and responses from the callee. To get a full debug log from `bosh create-env` command set `BOSH_LOG_LEVEL=debug` environment variable.
