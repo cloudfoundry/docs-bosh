@@ -92,7 +92,7 @@ This configuration is similar to the previous one except that it's used when the
     ```
 
     !!! note
-    <code>iam_instance_profile</code> key in resource pool's cloud_properties takes precedence over the default IAM instance profile, so that specific VMs can have greater access to the AWS resources.
+        `iam_instance_profile` key in resource pool's cloud_properties takes precedence over the default IAM instance profile, so that specific VMs can have greater access to the AWS resources.
 
 ---
 ## Errors {: #errors }
