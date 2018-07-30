@@ -9,9 +9,9 @@ Both `bosh create-env` command and the Director expect to be configured with a C
 
 ## Implementation
 
-When building a CPI release, the primary requirement is that it provides a `bin/cpi` executable which implements a simple RPC API through `STDIN`/`STDOUT`. The [RPC API](cpi-api-v1-rpc.md) page provides an in-depth look the protocol and required methods.
+When building a CPI release, the primary requirement is that it provides a `bin/cpi` executable which implements a simple RPC API through `STDIN`/`STDOUT`. The [RPC API](cpi-api-v1-rpc.md) page provides an in-depth look at the protocol and required methods.
 
-If you are getting started with a new CPI, you may be interested in using one of the following languages which have some existing libraries and examples which will ease your implementation.
+If you are getting started with a new CPI, you may be interested in using one of the following languages. These releases take advantage of some existing libraries that you may find useful in your own implementation.
 
 
 ### Ruby
