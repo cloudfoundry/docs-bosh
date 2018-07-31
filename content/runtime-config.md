@@ -6,7 +6,7 @@ The Director has a way to specify global configuration for all VMs in all deploy
 ---
 ## Updating and retrieving runtime config {: #update }
 
-To update runtime config on the Director use [`bosh update runtime-config`](sysadmin-commands.md#cloud-config) CLI command.
+To update runtime config on the Director use [`bosh update-runtime-config`](sysadmin-commands.md#cloud-config) CLI command.
 
 !!! note
     See [example runtime config](#example) below.
