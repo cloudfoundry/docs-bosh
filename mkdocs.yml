@@ -189,7 +189,7 @@ pages:
       - Common Types: links-common-types.md
   - Operating Systems:
     - Ubuntu: ubuntu-os.md
-    - Microsoft Windows: windows-os.md
+    - Windows Server: windows-os.md
     - CentOS: centos-os.md
   - Legacy Documentation:
     # docs we should keep linkable

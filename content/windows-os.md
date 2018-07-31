@@ -1,16 +1,16 @@
-# Stemcell OS: Microsoft Windows
+# Stemcell OS: Microsoft Windows Server
 
 The Microsoft Windows images are built from the [cloudfoundry-incubator/bosh-windows-stemcell-builder](https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder) repository.
 
 
 ## Distributions
 
-### Windows 2016
+### Windows Server 2016
 
 You can find the official stemcells from [bosh.io/stemcells](https://bosh.io/stemcells#windows2016).
 
 
-### Windows 2012R2
+### Windows Server 2012 R2
 
 You can find the official stemcells from [bosh.io/stemcells](https://bosh.io/stemcells#windows2012R2).
 
