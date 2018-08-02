@@ -50,7 +50,9 @@ blobstore:
     bucket_name: <bucket_name>
 ```
 
-`config/private.yml`:
+By default, the current user session will be used to upload blobs.
+
+Optionally, it is possible to set `json_key` separately in `config/private.yml`:
 
 ```yaml
 ---
