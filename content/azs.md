@@ -46,14 +46,14 @@ AZs schema:
 ---
 ## Assigning AZs to deployment instance groups {: #assigning-azs }
 
-Once AZs are defined, deployment jobs can be placed into one or more AZs:
+Once AZs are defined, deployment instance_groups can be placed into one or more AZs:
 
 ```yaml
-jobs:
+instance_groups:
 - name: web
   instances: 5
   azs: [z1, z2]
-  templates:
+  jobs:
   - name: web
   networks:
   - name: private
