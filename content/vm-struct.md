@@ -9,9 +9,9 @@ Each BOSH managed VM may be assigned a single copy of a deployment job to run. A
 When the assignment is made, the Agent will populate `/var/vcap/` directory with the release jobs specified in the deployment job definition in the deployment manifest. If selected release jobs depend on release packages those will also be downloaded and placed into the `/var/vcap` directory. For example given a following deployment job definition:
 
 ```yaml
-jobs:
+instance_groups:
 - name: redis-master
-  templates:
+  jobs:
   - {name: redis-server, release: redis}
   - {name: syslog-forwarder, release: syslog}
   ...
