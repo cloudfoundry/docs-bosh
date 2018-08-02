@@ -2,7 +2,7 @@
 
 The base Ubuntu operating system is built from the [cloudfoundry/bosh-linux-stemcell-builder](https://github.com/cloudfoundry/bosh-linux-stemcell-builder) repository.
 
-The most recent versions of these distributions are built every other week to ensure the latest upstream patches are included. Critical and High CVEs result in new builds, regardless of the biweekly interval. These builds are published on [bosh.io](https://bosh.io/) as new, minor versions.
+The most recent versions of these distributions are built every two weeks to ensure the latest upstream patches are included. Critical and High CVEs result in new builds, regardless of the biweekly interval. These builds are published on [bosh.io/stemcells](https://bosh.io/stemcells) as new, minor versions.
 
 !!! tip
     [Ubuntu Xenial](#ubuntu-xenial) is the recommended Linux distribution for deploying with BOSH.
