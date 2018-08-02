@@ -14,7 +14,7 @@ CLI supports three different blobstore providers: `s3`, `gcs` and `local`.
 
 S3 provider is used for most production releases. It's can be used with any S3-compatible blobstore (in compatibility mode) like Google Cloud Storage and Swift.
 
-`config/final.yml`:
+**config/final.yml**
 
 ```yaml
 ---
@@ -24,7 +24,7 @@ blobstore:
     bucket_name: <bucket_name>
 ```
 
-`config/private.yml`:
+**config/private.yml**
 
 ```yaml
 ---
@@ -40,7 +40,7 @@ See [Configuring S3 release blobstore](s3-release-blobstore.md) for details and 
 
 Google Cloud Storage can be used without S3 compatibility mode.
 
-`config/final.yml`:
+**config/final.yml**
 
 ```yaml
 ---
@@ -50,9 +50,9 @@ blobstore:
     bucket_name: <bucket_name>
 ```
 
-By default, the current user session will be used to upload blobs.
+**config/private.yml**
 
-Optionally, it is possible to set `json_key` separately in `config/private.yml`:
+By default, your [Application Default Credentials](https://cloud.google.com/docs/authentication/production#providing_credentials_to_your_application) will be used. Alternatively, create a `config/private.yml` file to use a separate JSON key:
 
 ```yaml
 ---
@@ -68,7 +68,7 @@ blobstore:
 
 Local provider is useful for testing.
 
-`config/final.yml`:
+**config/final.yml**
 
 ```yaml
 ---
