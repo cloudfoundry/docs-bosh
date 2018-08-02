@@ -225,7 +225,6 @@ pages:
     - Using Human-readable VM names: openstack-human-readable-vm-names.md
     - Using Keystone API v2: openstack-keystonev2.md
     - Using Light Stemcells: openstack-light-stemcells.md
-    - Using nova-networking: openstack-nova-networking.md
     - Multi-homed VMs: openstack-multiple-networks.md
     - Extended Registry configuration: openstack-registry.md
     - Self-signed Endpoints: openstack-self-signed-endpoints.md
