@@ -81,7 +81,7 @@ blobstore:
   options:
     bucket_name: <blobs_bucket_name>
     region: eu-west-1
-    host: https://s3-eu-west-1.amazonaws.com
+    host: s3-eu-west-1.amazonaws.com
 ```
 
 A full list of S3 regions and endpoints is available [here](http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region).
