@@ -72,7 +72,7 @@ blobstore:
 
 ## Setting S3 region {: #setting-region }
 
-By default, Amazon S3 buckets resolve to the `us-east-1` (North Virginia) region. If your blobstore bucket resides in a different region, override the region and endpoint settings in `config/final.yml`. For example, a bucket in `eu-west-1` would be as follows:
+By default, Amazon S3 buckets resolve to the `us-east-1` (North Virginia) region. If your blobstore bucket resides in a different region, override the region and host settings in `config/final.yml`. For example, a bucket in `eu-west-1` would be as follows:
 
 ```yaml
 ---
@@ -81,7 +81,7 @@ blobstore:
   options:
     bucket_name: <blobs_bucket_name>
     region: eu-west-1
-    endpoint: https://s3-eu-west-1.amazonaws.com
+    host: https://s3-eu-west-1.amazonaws.com
 ```
 
 A full list of S3 regions and endpoints is available [here](http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region).
