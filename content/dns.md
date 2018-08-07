@@ -256,6 +256,110 @@ The following options are available when constructing a link query:
  * `instance_group` (`g*`): instance group name
  * `deployment_name` (`g*`): deployment name
 
+## Consuming Links with DNS in Variables for Certificate Generation {: #consuming-dns-variables}
+
+**alpha** With BOSH v267, BOSH DNS names can be used from a link to fill in a certificate which is generated in the variables section of the manifest.  Make sure the provider is of type `address`, for example look at making a [custom provider definition](links.md#custom-provider-definitions) in the manifest for the desired job.  Then the variable section can specify either the common name or the SANs (subject alternative name):
+
+manifest.yml:
+
+```
+name: app-service
+feature:
+  use_dns_addresses: true
+
+  ...
+
+instant_groups:
+  - name: serverig
+    jobs:
+      - name: app_server
+        provides:
+          app-server-address: { }
+        custom_provider_definitions:
+          - name: app-server-address  
+            type: address
+  ...
+
+variables:
+  - name: default_ca
+    type: certificate
+    options:
+      is_ca: true
+      common_name: Deploy CA
+  - name: app_server_cert
+    type: certificate
+    options:
+      ca: default_ca
+      common_name: Application Server
+    consumes:
+      alternative_name: { from: app-server-address }
+```
+
+which will generate a server certificate variable called `app_server_cert` with the SANs `q-s0.serverig.default.app-service.bosh`.
+
+#### Consuming a link for a certificate common name
+
+Some certificate consumers require the common name to contain the approprate DNS name.
+
+```
+variables:
+  - name: app_server_cert
+    type: certificate
+    options:
+      ca: default_ca
+    consumes:
+      common_name:
+        from: app-server-address
+```
+
+which will set the common name to `q-s0.serverig.default.app-service.bosh`.
+
+#### Allowing for wildcards
+
+If the application talks to specific instances or uses different healthiness filtering, it may be useful to request a wildcard DNS name when consuming a link for either SANs or common name:
+
+```
+variables:
+  - name: app_server_cert
+    type: certificate
+    options:
+      ca: default_ca
+      common_name: Application Server
+    consumes:
+      alternative_name:
+        from: app-server-address
+        properties: { wildcard: true }
+```
+
+Which will result in the variable called `app_server_cert` having SANs set to
+
+* DNS: `*.serverig.default.app-service.bosh`.
+
+#### Mixing consumed link name with static names
+
+If the certificate consumer use several DNS names or IP addresses, it is possible to mix together static names with names consumed from links.  For SANs the consumed links will be added to the static names.  For common name, the consumed link will be overridden by the static name.
+
+```
+variables:
+  - name: app_server_cert
+    type: certificate
+    options:
+      ca: default_ca
+      common_name: Application Server
+      alternative_names: [ ""*.appservers.cf.local", 172.158.20.255 ]
+    consumes:
+      alternative_name:
+        from: app-server-address
+        properties: { wildcard: true }
+      common_name: { from: app-server-address }
+```
+
+will have a common name of "Application Server" and SANs set to:
+
+* DNS: `*.appservers.cf.local`
+* DNS: `*.serverig.default.app-service.bosh`
+* IP: 172.158.20.255
+
 ---
 ## Rotating BOSH DNS Certificates {: #rotating-dns-certificates }
 

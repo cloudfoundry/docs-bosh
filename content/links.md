@@ -350,3 +350,27 @@ instance_groups:
 Common use cases:
 
 - one team is managing one deployment and wants to expose a link for other teams to consume in their deployments in a self service manner
+
+### Custom Provider Definitions {: #custom-provider-definitions }
+
+Providers can be added to jobs, which are not specified in the job's release spec, but instead are defined in the deployment manifest jobs or runtime config jobs section.
+The providers which are defined like this are called custom providers. This feature requires bosh-release v267+.
+
+```yaml
+instance_groups:
+- name: app
+  jobs:
+  - name: web
+    release: my-app
+    provides:
+      my_special_provider:
+        shared: true
+    custom_provider_definitions:
+      - name: my_special_provider
+        type: address
+        properties: [ vine, tree, flower ]
+```
+
+Providers defined in this way export the usual instances and address properties. Each custom provider needs a name and a type. The name can not already exist in the release spec.
+
+Additionally the custom provider can optionally specify which properties to share from the job release spec.
