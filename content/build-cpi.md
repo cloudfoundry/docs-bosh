@@ -29,6 +29,7 @@ The [`bosh_cpi`](https://rubygems.org/gems/bosh_cpi) gem provides a `Bosh::Cpi::
 
 There are a few CPI releases written in Go, as well:
 
+ * [Alibaba Cloud CPI Release](https://github.com/cloudfoundry-incubator/bosh-alicloud-cpi-release)
  * [Google CPI Release](https://github.com/cloudfoundry-incubator/bosh-google-cpi-release)
  * [VirtualBox CPI Release](https://github.com/cppforlife/bosh-virtualbox-cpi-release)
  * [Warden CPI Release](https://github.com/cppforlife/bosh-warden-cpi-release)

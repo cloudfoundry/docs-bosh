@@ -16,6 +16,7 @@ pages:
 - Installation:
   - Installing the CLI: cli-v2-install.md
   - Quick Start: quick-start.md
+  - Alibaba Cloud: init-alicloud.md
   - Amazon Web Services: init-aws.md
   - Google Cloud Platform: init-google.md
   - Microsoft Azure: init-azure.md
@@ -205,6 +206,8 @@ pages:
     - Deploying BOSH with create-env: init.md
 
   - "--- Cloud Providers": divider.md
+  - Alibaba Cloud:
+    - Usage: alicloud-cpi.md
   - Amazon Web Services:
     - Usage: aws-cpi.md
     - Common Errors: aws-cpi-errors.md
