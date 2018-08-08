@@ -205,6 +205,8 @@ Schema:
     * **password** [String, required]: The login password for the NSX-T server.
     * **ca_cert** [String, optional]: A CA certificate that can authenticate the NSX-T server certificate. **Required** if the NSX-T Manager has a self-signed SSL certificate. Must be in PEM format.
     * **default_vif_type** [String, optional]: Supported Types: `PARENT`. Default VIF type attached to logical port. Available in NSX-T v2.0+.
+    * **auth_certificate** [String, optional]: Certificate used for certificate-based authentication. Certificate-based authentication takes precedence over username/password if both specified
+    * **auth_private_key** [String, optional]: Private key file used for certificate-based authentication.
 
 !!! note
     If the NSX-V or NSX-T Manager has a self-signed certificate, the certificate must be set in the `ca_cert` property.
