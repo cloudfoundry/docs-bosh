@@ -152,6 +152,10 @@ Schema for `cloud_properties` section:
       1. Dynamic Public IP for the VM
       1. Availability Set
 
+* **tags** [Hash, optional]: Custom tags of VMs (Available in v35.4.0+). They are name-value pairs that are used to organize VMs.
+    * Before configuring it, please review [the limitations apply to tags](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-using-tags).
+    * In Azure, each VM can have a maximum of 15 tag name-value pairs. Currently, BOSH director and Azure CPI use at most 10 tags. So it's recommended to use up to 3 custom tags.
+
 Example of a `Standard_A2` VM:
 
 ```yaml
@@ -159,7 +163,6 @@ vm_types:
 - name: default
   cloud_properties:
     instance_type: Standard_A2
-    availability_set: <availability-set-name>
     root_disk:
       size: 30_720
     ephemeral_disk:
