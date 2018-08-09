@@ -206,19 +206,23 @@ pages:
 
   - "--- Cloud Providers": divider.md
   - Amazon Web Services:
+    - Overview: aws.md
     - Usage: aws-cpi.md
     - Common Errors: aws-cpi-errors.md
     - IAM Users: aws-iam-users.md
     - IAM Profiles: aws-iam-instance-profiles.md
     - Using Instance Storage: aws-instance-storage.md
   - Google Cloud Platform:
+    - Overview: google.md
     - Usage: google-cpi.md
     - Required Permissions: google-required-permissions.md
   - Microsoft Azure:
+    - Overview: azure.md
     - Usage: azure-cpi.md
     - Common Errors: azure-cpi-errors.md
     - Creating Resources: azure-resources.md
   - OpenStack:
+    - Overview: openstack.md
     - Usage: openstack-cpi.md
     - Common Errors: openstack-cpi-errors.md
     - Using Auto-anti-affinity: openstack-auto-anti-affinity.md
@@ -235,8 +239,10 @@ pages:
   - VirtualBox:
     - Usage: virtualbox-cpi.md
   - VMware vCloud:
+    - Overview: vcloud.md
     - Usage: vcloud-cpi.md
   - VMware vSphere:
+    - Overview: vsphere.md
     - Usage: vsphere-cpi.md
     - Common Errors: vsphere-cpi-errors.md
     - Recovery from an ESXi Host Failure: vsphere-esxi-host-failure.md
