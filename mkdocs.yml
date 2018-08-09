@@ -213,9 +213,11 @@ pages:
     - IAM Profiles: aws-iam-instance-profiles.md
     - Using Instance Storage: aws-instance-storage.md
   - Google Cloud Platform:
+    - Overview: google.md
     - Usage: google-cpi.md
     - Required Permissions: google-required-permissions.md
   - Microsoft Azure:
+    - Overview: azure.md
     - Usage: azure-cpi.md
     - Common Errors: azure-cpi-errors.md
     - Creating Resources: azure-resources.md
