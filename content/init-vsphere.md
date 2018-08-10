@@ -16,6 +16,7 @@ This document shows how to set up new [environment](terminology.md#environment) 
         --state=state.json \
         --vars-store=creds.yml \
         -o bosh-deployment/vsphere/cpi.yml \
+        -o bosh-deployment/vsphere/cloud-config.yml \
         -v director_name=bosh-1 \
         -v internal_cidr=10.0.0.0/24 \
         -v internal_gw=10.0.0.1 \
