@@ -4,35 +4,34 @@ title: OpenStack
 
 # OpenStack
 
-The `openstack` CPI can be used with [OpenStack](https://azure.microsoft.com/).
+The `openstack` CPI can be used with [OpenStack](https://www.openstack.org).
 
  * Release: [cloudfoundry-incubator/bosh-openstack-cpi-release](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release)
  * Issues: [GitHub Issues](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release/issues)
- * Slack: [cloudfoundry#bosh-azure-cpi](https://cloudfoundry.slack.com/messages/bosh-azure-cpi)
+ * Slack: [cloudfoundry#openstack](https://cloudfoundry.slack.com/messages/openstack)
 
 
 ## Requirements
 
 An OpenStack environment running one of the following supported releases:
 
- * [Liberty](http://www.openstack.org/software/liberty) (actively tested)
- * [Mitaka](http://www.openstack.org/software/mitaka) (actively tested)
- * [Newton](http://www.openstack.org/software/newton) (actively tested)
-
-    !!! tip
-        Juno has a [bug](https://bugs.launchpad.net/nova/+bug/1396854) that prevents BOSH to assign specific IPs to VMs. You have to apply a Nova patch to avoid this problem.
+  * [Mitaka](http://www.openstack.org/software/mitaka) (actively tested)
+  * [Newton](http://www.openstack.org/software/newton) (actively tested)
+  * [Ocata](http://www.openstack.org/software/ocata) (actively tested)
+  * [Pike](http://www.openstack.org/software/pike) (actively tested)
 
 And the following OpenStack services:
 
  * [Identity](https://www.openstack.org/software/releases/ocata/components/keystone):
    BOSH authenticates credentials and retrieves the endpoint URLs for other OpenStack services.
  * [Compute](https://www.openstack.org/software/releases/ocata/components/nova):
-   BOSH boots new VMs, assigns floating IPs to VMs, and creates and attaches volumes to VMs.
+   BOSH boots new VMs, assigns floating IPs to VMs
  * [Image](https://www.openstack.org/software/releases/ocata/components/glance):
    BOSH stores stemcells using the Image service.
  * *(Optional)* [OpenStack Networking](https://www.openstack.org/software/releases/ocata/components/neutron):
-   Provides network scaling and automated management functions that are useful when deploying complex distributed systems. **Note:** OpenStack networking is used as default as of v28 of the OpenStack CPI. To disable the use of the OpenStack Networking project, see [using nova-networking](openstack-nova-networking.md).
-
+   Provides network scaling and automated management functions that are useful when deploying complex distributed systems. **Note:** OpenStack networking is used as default as of v28 of the OpenStack CPI.
+ * *(Optional)* [OpenStack Block Storage](https://www.openstack.org/software/releases/ocata/components/cinder):
+   BOSH creates persistent volumes. While it is technically possible to use BOSH on OpenStack without block storage, you won't get persistent volumes without it.
 
 ## Concepts
 
@@ -40,14 +39,15 @@ The following table maps BOSH concepts to their OpenStack-native equivalents.
 
 | BOSH | OpenStack |
 | ---- | --------- |
-| Availability Zone | TODO |
-| Virtual Machine | TODO |
-| VM Config Metadata | BOSH Registry or Config Drive |
-| Network Subnet | TODO |
-| Virtual IP | TODO |
-| Persistent Disk | TODO |
-| Disk Snapshot | TODO |
-| Stemcell | TODO |
+| Availability Zone | [Availability Zone](https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/) |
+| Virtual Machine | [Instance](https://docs.openstack.org/nova/queens/user/launch-instances.html) |
+| Instance Type | [Flavor](https://docs.openstack.org/nova/latest/user/flavors.html) |
+| VM Config Metadata | BOSH Registry, [HTTP Metadata service](https://docs.openstack.org/nova/latest/user/metadata-service.html) or [Config Drive](https://docs.openstack.org/nova/queens/user/config-drive.html) |
+| Network Subnet | [Subnet](https://docs.openstack.org/neutron/queens/admin/intro-os-networking.html) |
+| Virtual IP | [Floating IP](https://docs.openstack.org/nova/queens/user/manage-ip-addresses.html) |
+| Persistent Disk | [Volume](https://docs.openstack.org/cinder/latest/cli/cli-manage-volumes.html) |
+| Disk Snapshot | [Volume Snapshot](https://docs.openstack.org/cinder/latest/cli/cli-manage-volumes.html) |
+| Stemcell | [Virtual Machine Image](https://docs.openstack.org/glance/queens/user/index.html) |
 
 
 ## Feature Support
