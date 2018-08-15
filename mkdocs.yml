@@ -222,6 +222,7 @@ pages:
     - Common Errors: azure-cpi-errors.md
     - Creating Resources: azure-resources.md
   - OpenStack:
+    - Overview: openstack.md
     - Usage: openstack-cpi.md
     - Common Errors: openstack-cpi-errors.md
     - Using Auto-anti-affinity: openstack-auto-anti-affinity.md
