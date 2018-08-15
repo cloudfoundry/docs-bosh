@@ -87,6 +87,8 @@ pages:
         - Configuring Director: director-users-uaa.md
         - Using Teams: director-users-uaa-perms.md
       - Configuring SSL Certificates: director-certs.md
+      - Rotating Credentials:
+        - TLS Blobstore CA Rotation: blobstore-tls.md
     - Configuring the Database:
       - Builtin PostgreSQL: director-configure-db.md
       - External MySQL: director-configure-db.md
