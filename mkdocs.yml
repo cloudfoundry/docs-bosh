@@ -241,6 +241,7 @@ pages:
   - VMware vCloud:
     - Usage: vcloud-cpi.md
   - VMware vSphere:
+    - Overview: vsphere.md
     - Usage: vsphere-cpi.md
     - Common Errors: vsphere-cpi-errors.md
     - Recovery from an ESXi Host Failure: vsphere-esxi-host-failure.md
