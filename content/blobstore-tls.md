@@ -26,7 +26,7 @@ instance_groups:
               password: ((blobstore_agent_password))
               tls:
                 cert:
-                  cat: ((blobstore_ca.certificate))
+                  ca: ((blobstore_ca.certificate))
 
     blobstore:
       address: ((internal_ip))
