@@ -139,7 +139,7 @@ $ uaac curl https://10.0.1.6:25555/links?deployment=zookeeper
 Create an external link with a user-defined consumer. Uses an existing provider.
 
 !!! note
-    The UAA client creating the link must have the `create_link` permission.
+    The UAA client creating the link must have a **full admin** or **team admin** scope. See [Director Users and Permissions](https://bosh.io/docs/director-users-uaa-perms/) for details.
 
 #### Request Headers
 * `Content-Type: application/json`
@@ -185,7 +185,7 @@ $ uaac curl -X POST https://10.0.1.6:25555/links -H 'Content-Type: application/j
 Delete links created with this API.
 
 !!! note
-    The UAA client creating the link must have the `delete_link` permission.
+    The UAA client deleting the link must have a **full admin** or **team admin** scope. See [Director Users and Permissions](https://bosh.io/docs/director-users-uaa-perms/) for details.
 
 #### Request
 
