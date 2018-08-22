@@ -171,7 +171,7 @@ The CPI can only talk to a single vCenter installation and manage VMs within a s
 
 Schema:
 
-* **host** [String, required]: IP address of the vCenter. Example: `172.16.68.3`.
+* **address** [String, required]: IP address or hostname of vCenter. Example: `172.16.68.3`.
 * **user** [String, required]: Username for the API access. Example: `root`.
 * **password** [String, required]: Password for the API access. Example: `vmware`
 * **http_logging** [Boolean, optional]: Enables logging all HTTP requests and responses to vSphere API. Default: `false`. Available in v37+.

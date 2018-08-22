@@ -69,7 +69,7 @@ cpis:
 - name: ((vcenter_identifier))
   type: vsphere
   properties:
-    host: ((vcenter_ip))
+    address: ((vcenter_ip))
     user: ((vcenter_user))
     password: ((vcenter_password))
     datacenters:
@@ -126,7 +126,7 @@ cpis:
 - name: vcenter-1a
   type: vsphere
   properties:
-    host: vcenter-1a-ip
+    address: vcenter-1a-ip
     user: vcenter-1a-user
     password: vcenter-1a-password
     datacenters:
@@ -141,7 +141,7 @@ cpis:
 - name: vcenter-1b
   type: vsphere
   properties:
-    host: vcenter-1b-ip
+    address: vcenter-1b-ip
     user: vcenter-1b-user
     password: vcenter-1b-password
     datacenters:
