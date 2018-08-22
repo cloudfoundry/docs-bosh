@@ -166,25 +166,21 @@ See [all configuration options](https://bosh.io/jobs/cpi?source=github.com/cloud
 Example with hard-coded credentials:
 
 ```yaml
-properties:
-  aws:
-    access_key_id: ACCESS-KEY-ID
-    secret_access_key: SECRET-ACCESS-KEY
-    default_key_name: bosh
-    default_security_groups: [bosh]
-    region: us-east-1
+access_key_id: ACCESS-KEY-ID
+secret_access_key: SECRET-ACCESS-KEY
+default_key_name: bosh
+default_security_groups: [bosh]
+region: us-east-1
 ```
 
 Example when [IAM instance profiles](aws-iam-instance-profiles.md) are used:
 
 ```yaml
-properties:
-  aws:
-    credentials_source: env_or_profile
-    default_key_name: bosh
-    default_security_groups: [bosh]
-    default_iam_instance_profile: deployed-vm
-    region: us-east-1
+credentials_source: env_or_profile
+default_key_name: bosh
+default_security_groups: [bosh]
+default_iam_instance_profile: deployed-vm
+region: us-east-1
 ```
 
 ---

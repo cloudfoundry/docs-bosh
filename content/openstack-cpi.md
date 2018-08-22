@@ -151,31 +151,27 @@ Schema:
 Example with Keystone V3:
 
 ```yaml
-properties:
-  openstack:
-    auth_url: http://pistoncloud.com:5000/v3
-    username: christopher
-    api_key: QRoqsenPsNGX6
-    project: Bosh
-    domain: sample-domain
-    region: RegionOne
-    default_key_name: bosh
-    default_security_groups: [bosh]
+auth_url: http://pistoncloud.com:5000/v3
+username: christopher
+api_key: QRoqsenPsNGX6
+project: Bosh
+domain: sample-domain
+region: RegionOne
+default_key_name: bosh
+default_security_groups: [bosh]
 ```
 
 Example with Keystone V2 and default volume type `ceph`:
 
 ```yaml
-properties:
-  openstack:
-    auth_url: http://pistoncloud.com:5000/v2.0
-    username: christopher
-    api_key: QRoqsenPsNGX6
-    tenant: Bosh
-    region: RegionOne
-    default_key_name: bosh
-    default_security_groups: [bosh]
-    default_volume_type: ceph
+auth_url: http://pistoncloud.com:5000/v2.0
+username: christopher
+api_key: QRoqsenPsNGX6
+tenant: Bosh
+region: RegionOne
+default_key_name: bosh
+default_security_groups: [bosh]
+default_volume_type: ceph
 ```
 
 ---

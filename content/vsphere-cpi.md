@@ -209,47 +209,43 @@ Schema:
 !!! note
     If the NSX-V or NSX-T Manager has a self-signed certificate, the certificate must be set in the `ca_cert` property.
 
-Example of a CPI configuration that will place VMs into `BOSH_CL` cluster within `BOSH_DC`:
+Example properties that will place VMs into `BOSH_CL` cluster within `BOSH_DC`:
 
 ```yaml
-properties:
-  vcenter:
-    address: 172.16.68.3
-    user: root
-    password: vmware
-    datacenters:
-    - name: BOSH_DC
-      vm_folder: prod-vms
-      template_folder: prod-templates
-      disk_path: prod-disks
-      datastore_pattern: '^prod-ds$'
-      persistent_datastore_pattern: '^prod-ds$'
-      clusters: [BOSH_CL]
+address: 172.16.68.3
+user: root
+password: vmware
+datacenters:
+- name: BOSH_DC
+  vm_folder: prod-vms
+  template_folder: prod-templates
+  disk_path: prod-disks
+  datastore_pattern: '^prod-ds$'
+  persistent_datastore_pattern: '^prod-ds$'
+  clusters: [BOSH_CL]
 ```
 
 Example that places VMs by default into `BOSH_RP` vSphere resource pool with NSX integration and enables VM anti-affinity DRS rule:
 
 ```yaml
-properties:
-  vcenter:
-    address: 172.16.68.3
-    user: root
-    password: vmware
-    default_disk_type: thin
-    enable_auto_anti_affinity_drs_rules: true
-    datacenters:
-    - name: BOSH_DC
-      vm_folder: prod-vms
-      template_folder: prod-templates
-      disk_path: prod-disks
-      datastore_pattern: '\Aprod-ds\z'
-      persistent_datastore_pattern: '\Aprod-ds\z'
-      clusters:
-      - BOSH_CL: {resource_pool: BOSH_RP}
-    nsx:
-      address: 172.16.68.4
-      user: administrator@vsphere.local
-      password: vmware
+address: 172.16.68.3
+user: root
+password: vmware
+default_disk_type: thin
+enable_auto_anti_affinity_drs_rules: true
+datacenters:
+- name: BOSH_DC
+  vm_folder: prod-vms
+  template_folder: prod-templates
+  disk_path: prod-disks
+  datastore_pattern: '\Aprod-ds\z'
+  persistent_datastore_pattern: '\Aprod-ds\z'
+  clusters:
+  - BOSH_CL: {resource_pool: BOSH_RP}
+nsx:
+  address: 172.16.68.4
+  user: administrator@vsphere.local
+  password: vmware
 ```
 
 ---

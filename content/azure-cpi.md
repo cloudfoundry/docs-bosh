@@ -266,18 +266,16 @@ See [Creating Azure resources](azure-resources.md) page for more details on how 
 Example with hard-coded credentials:
 
 ```yaml
-properties:
-  azure: &azure
-    environment: AzureCloud
-    subscription_id: 3c39a033-c306-4615-a4cb-260418d63879
-    tenant_id: 0412d4fa-43d2-414b-b392-25d5ca46561da
-    client_id: 33e56099-0bde-8z93-a005-89c0f6df7465
-    client_secret: client-secret
-    resource_group_name: bosh-res-group
-    storage_account_name: boshstore
-    ssh_user: vcap
-    ssh_public_key: "ssh-rsa AAAAB3N...6HySEF6IkbJ"
-    default_security_group: nsg-azure
+environment: AzureCloud
+subscription_id: 3c39a033-c306-4615-a4cb-260418d63879
+tenant_id: 0412d4fa-43d2-414b-b392-25d5ca46561da
+client_id: 33e56099-0bde-8z93-a005-89c0f6df7465
+client_secret: client-secret
+resource_group_name: bosh-res-group
+storage_account_name: boshstore
+ssh_user: vcap
+ssh_public_key: "ssh-rsa AAAAB3N...6HySEF6IkbJ"
+default_security_group: nsg-azure
 ```
 
 ---
