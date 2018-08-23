@@ -38,11 +38,11 @@ Once CPI config is updated AZs in the cloud config can reference specific CPI to
 **cpis** [Array, required]: Specifies the CPIs.
 
 * **name** [String, required]: Unique name for a CPI. Example: `openstack-1a`.
-* **type** [String, required]: CPI type. Director will add `_cpi` suffix to the end of the type when calling CPI binary. Example: `openstack`, `google`.
+* **type** [String, required]: CPI type. Director will add `_cpi` suffix to the end of the type when calling the CPI binary. Example: `openstack`, `google`.
 * **properties** [Hash, required]: Set of properties to provide to the CPI for each call so that CPI can authenticate and provision resources in an IaaS.
 
 !!! note
-    Properties will vary depending on the CPI you're trying to use. These are the `Global Configuration` of a given CPI. See [a complete list of the CPI properties](cpi-config.md#cpi-config).
+    Properties will vary depending on the CPI you're trying to use. See the "Global Configuration" section of your CPI for more details (e.g. [AWS](aws-cpi.md#global), [vSphere](vsphere-cpi.md#global)).
 
 OpenStack example:
 

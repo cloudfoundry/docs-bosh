@@ -113,10 +113,10 @@ An addon is a release job that is colocated on all VMs managed by the Director.
 
 Available rules:
 
-* **stemcell** [Array of hashes, optional]
+* **stemcell** [Array of hashes, optional]: at least one of the items must match
     * **os** [String, required]: Matches stemcell's operating system. Example: `ubuntu-trusty`
 * **deployments** [Array of strings, optional]: Matches based on deployment names.
-* **jobs** [Array of hashes, optional]
+* **jobs** [Array of hashes, optional]: at least one of the configured jobs must match
     * **name** [String, required]: Matching job name.
     * **release** [String, required]: Matching release name.
 * **networks** [Array of strings, optional]: Matches based on network names. Available in bosh-release v262+.

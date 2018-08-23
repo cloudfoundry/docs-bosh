@@ -1,6 +1,6 @@
 (See [Variable Interpolation](cli-int.md) for introduction.)
 
-Currently CLI supports `certificate`, `password`, `rsa`, and `ssh` types. The Director (connected to a config server) may support additional types known by the config server.
+Currently CLI supports `certificate`, `password`, `rsa`, and `ssh` types whose supported generation options are detailed below. The Director (connected to a config server, typically credhub) may support additional types known by the config server. Please refer to [Credhub documentation](https://docs.cloudfoundry.org/credhub/credential-types.html#cred-types) for full details over credhub supported credentials types and their associated available generation options.
 
 Note that `<value>` indicates value obtained via `((var))` variable syntax.
 
