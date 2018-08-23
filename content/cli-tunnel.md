@@ -14,7 +14,7 @@ The tunnel can be created by the CLI or established separately.
 
 ```shell
 # provide CLI with SSH credentials to create a tunnel via the environment variable
-$ export BOSH_ALL_PROXY=ssh+socks5://jumpbox@jumpbox-ip:12345?private_key=jumpbox.key
+$ export BOSH_ALL_PROXY=ssh+socks5://jumpbox@jumpbox-ip:22?private-key=jumpbox.key
 
 $ bosh create-env bosh-deployment/bosh.yml ...
 $ bosh alias-env aws -e director-ip --ca-cert ...
