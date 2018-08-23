@@ -185,6 +185,7 @@ pages:
         - Pre-start: pre-start.md
         - Post-start: post-start.md
         - Post-deploy: post-deploy.md
+        - Post-stop: post-stop.md
     - Links:
       - Common Types: links-common-types.md
   - Operating Systems:
