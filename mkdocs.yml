@@ -87,6 +87,7 @@ pages:
         - Configuring Director: director-users-uaa.md
         - Using Teams: director-users-uaa-perms.md
       - Configuring SSL Certificates: director-certs.md
+      - Director SSL Certificate Configuration with OpenSSL: director-certs-openssl.md
     - Configuring the Database:
       - Builtin PostgreSQL: director-configure-db.md
       - External MySQL: director-configure-db.md
@@ -196,6 +197,7 @@ pages:
     # docs we should keep linkable
     - Basic Workflow: basic-workflow.md
     - Deployment Manifest v1: deployment-manifest.md
+    - Sample Manifest: sample-manifest.md
     - CLI v1 Installation: bosh-cli.md
     - CLI v1 Commands: sysadmin-commands.md
     - CLI v1 Backup / Restore: director-backup.md
