@@ -126,7 +126,7 @@ $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 * `nats.tls.ca` property is updated to remove the old CA from the concatenated CAs.
 * The director and health monitor continue to only use new client certificates (for mTLS) that were signed by the new NATS CA. Also, in this step the director and health monitor will start to **ONLY** trust NATS server certificates that were signed by the new CA.
 * The NATS server is updated to use a new certificate (used to serve TLS connections) signed by the new NATS CA. Also, in this step the NATS server will start to **ONLY** trust client certificates (for mTLS) that were signed by the new CA.
-* All components can communicate using the new CA.
+* All components now communicate using the new CA.
 
 `remove-old-ca.yml`
 
