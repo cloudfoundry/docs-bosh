@@ -104,6 +104,8 @@ pages:
       - Common Addons: addons-common.md
     - Integrating with CredHub:
       - Variable Types: variable-types.md
+    - Certificates Rotation:
+      - Rotating NATS CA: nats-ca-rotation.md
     - Optional Features:
       - Explicit ARP Flushing: flush-arp.md
       - Removing Dev Tools from VMs: remove-dev-tools.md
@@ -135,7 +137,6 @@ pages:
       - Configuration Locations: vm-config.md
       - Using Logs: job-logs.md
       - Instance Metadata: instance-metadata.md
-    - Rotating NATS CAs: nats-ca-rotation.md
   - Development:
     - Building a CPI: build-cpi.md
     - Building a Stemcell: build-stemcell.md
