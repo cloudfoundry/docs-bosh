@@ -111,6 +111,9 @@ If your deployment consists of 1000 VMs, and you use the defaults, the Resurrect
 ---
 ## Enabling the Resurrector with Resurrection Config {: #enable-with-resurrection-config }
 
+!!! tip "Beta Feature"
+    This `resurrection` config method was first introduced in [v267.2.0](https://github.com/cloudfoundry/bosh/releases/tag/v267.2). We currently do not migrate existing resurrection state to this new configuration method, but are considering it as we improve the UX around this feature. Until we resolve that and because this may cause surprising behaviors with existing `update-resurrection` commands, test with caution.
+
 It is possible to configure resurrection based on deployments and instance group names using a Resurrection Configuration file.  These files override default resurrection behavior and instruct the BOSH director to resurrect (or not) based on the deployment and instance group names.
 
 If you create a file `resurrection.yml` like this, for example:
