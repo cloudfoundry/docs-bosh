@@ -135,6 +135,7 @@ pages:
       - Configuration Locations: vm-config.md
       - Using Logs: job-logs.md
       - Instance Metadata: instance-metadata.md
+    - Rotating NATS CAs: nats-ca-rotation.md
   - Development:
     - Building a CPI: build-cpi.md
     - Building a Stemcell: build-stemcell.md
