@@ -10,7 +10,7 @@ The following strategy rotates the NATS CA and NATS related certificates across 
 * Take note of any **ignored** VMs. They will be omitted from the VM recreation steps.
 
 
-### Step 1: Update the director, health monitor, and NATS server jobs, to introduce the new CA. {: #step-1}
+### Step 1: Update the director, health monitor, and NATS server jobs, to introduce the new CA.
 
 ```shell
 
@@ -100,7 +100,7 @@ $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 
 ```
 
-### Step 2: Recreate all VMs, for each deployment. {: #step-2}
+### Step 2: Recreate all VMs, for each deployment.
 
 Deployed VMs need to be recreated in order to receive new client certificates that are signed by the new CA. Also, they will receive a new list of CAs (old and new CAs certs concatenated) to trust when communicating with the NATS server. This recreation of the VMs is crucial for the NATS CA rotation.
 
@@ -111,7 +111,7 @@ $ bosh -d deployment-name recreate
 ```
 
 
-### Step 3: Update the director, health monitor, and NATS server jobs, to remove references for the old NATS CA and certificates signed by it. {: #step-3}
+### Step 3: Update the director, health monitor, and NATS server jobs, to remove references for the old NATS CA and certificates signed by it.
 
 ```shell
 $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
@@ -206,7 +206,7 @@ $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 ```
 
 
-### Step 4: Recreate all VMs, for each deployment. {: #step-4}
+### Step 4: Recreate all VMs, for each deployment.
 
 Recreating all VMs will remove the old CA from each.
 
@@ -215,14 +215,20 @@ For example:
 $ bosh -d deployment-name recreate
 ```
 
-### Future Director Deployments
+### Step 5: Clean-up
 
-Note that the final ops file and same creds.yml must be used for future deploys, to keep the new CA and certificates. Removing the ops file will revert to the old CA as in creds.yml. Removing creds.yml will generate a new CA, requiring the steps above to rotate in.   
+To make future updates to the BOSH director not rely on the transitional OPS files created above (`add-new-ca.yml` and `remove-old-ca.yml`), we recommend performing the manual steps described below to clean up the vars-store file (typically named creds.yml). These steps include:
+1. Create a backup of the vars-store file
+1. Remove old certificate values from the vars-store file
+1. Rename the newly generated NATS related variables to be similar to the old variable names. For example from the sample above (`nats_ca_2`, `nats_server_tls_2`, `nats_clients_director_tls_2`, and `nats_clients_health_monitor_tls_2`) will be renamed in the vars-store file to (`nats_ca`, `nats_server_tls`, `nats_clients_director_tls`, and `nats_clients_health_monitor_tls`)
+1. Delete the `add-new-ca.yml` and `remove-old-ca.yml` ops files, which are not needed anymore.
 
-### Visualization of Steps
-
-![image](images/nats_rotation.png)
+Warning: If you do not perform the clean-up procedure, you must ensure that the ops files (`add-new-ca.yml` and `remove-old-ca.yml`) are used every time a create-env is executed going forward (which can be unsustainable). Removing the ops files would revert to the old CA, which can lead to unresponsive agents for existing and newly created VMs.
 
 ### Limitations
 
-A dependency within the director and health monitor lacks the ability to verify against multiple CAs. For this reason, we specifically concatenate old_ca + new_ca. Only the first is considered for verification. mTLS between the director and NATS will fail when new_ca + old_ca, as the new_ca will only be considered for verification against the old certs NATS sends the director/HM. 
+A dependency within older versions of director and health monitor lacks the ability to verify against multiple CAs. For this reason, we specifically concatenate `old_ca` and `new_ca` in this specific order: `old_ca`+`new_ca`. Only the first certificate is considered for verification. mTLS between the director and NATS server, and the health monitor and the NATS server will fail if the order of the certs is reversed, as the `new_ca` will only be considered for verification against the old certs NATS server presents to its clients.
+
+### Visualization of the Steps
+
+![image](images/nats_rotation.png)
