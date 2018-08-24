@@ -104,12 +104,7 @@ $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 
 Deployed VMs need to be recreated in order to receive new client certificates that are signed by the new CA. Also, they will receive a new list of CAs (old and new CAs certs concatenated) to trust when communicating with the NATS server. This recreation of the VMs is crucial for the NATS CA rotation.
 
-For example:
-
-```shell
-$ bosh -d deployment-name recreate
-```
-
+To recreate the deployed VMs, please check the output of `bosh recreate -h` for options.
 
 ### Step 3: Update the director, health monitor, and NATS server jobs, to remove references for the old NATS CA and certificates signed by it.
 
@@ -208,12 +203,8 @@ $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 
 ### Step 4: Recreate all VMs, for each deployment.
 
-Recreating all VMs will remove the old CA from each.
-
-For example:
-```shell
-$ bosh -d deployment-name recreate
-```
+The recreation of all VMs will remove the old NATS CA reference from thier agent settings.
+To recreate the deployed VMs, please check the output of `bosh recreate -h` for options.
 
 ### Step 5: Clean-up
 
