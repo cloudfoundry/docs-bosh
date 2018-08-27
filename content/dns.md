@@ -68,24 +68,40 @@ Here is how DNS release chooses recursors before starting its operation:
 
 DNS release allows operators to specify custom names for BOSH generated DNS records to ease migration or work with legacy software that requires very specific DNS record formats (e.g. `master0`, `slave0`, `slave1`).
 
-There are two ways to specify aliases:
+There are two ways to configure aliases:
 
-- via [`aliases` property](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p=aliases)
-- via `dns/aliases.json` template inside your job
+0. Installing a `dns/aliases.json` file through your own release job. By default, `bosh-dns` will glob local `/var/vcap/jobs/*/dns/aliases.json` files for aliases.
+0. Statically configuring the [`aliases` property](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p=aliases) of the `bosh-dns` job running the DNS server.
 
-Example usage of `aliases` property:
+The alias configuration should be a hash, with keys representing the alias and array values representing the target hostnames. Target hostnames will be resolved and merged before sending the results back to the client.
 
-```yaml
-properties:
-  aliases:
-    bbs.service.cf.internal:
-    - "*.database-z1.diego1.cf-cfapps-io2-diego.bosh"
-    - "*.database-z2.diego2.cf-cfapps-io2-diego.bosh"
+There are two special characters which can be used (see below for example usages of them):
+
+ * asterisk (`*`) - used in target hostnames to match subdomains
+ * underscore (`_`) - represents a subdomain and can be used to match the subdomain in the target hostname (useful for queries needing to resolve instance IDs)
+
+#### Example
+
+Using the following aliases configuration:
+
+```json
+{ "sql-db.service.cf.internal": [
+    "*.mysql-z1.default.cf.bosh",
+    "*.mysql-z2.default.cf.bosh" ],
+  "_.cell.service.cf.internal": [
+    "_.diego-cell.default.cf.bosh",
+    "_.windows-cell.default.cf.bosh" ] }
 ```
 
-Above will resolve `bbs.service.cf.internal` to a all IPs (shuffled) matching following instance patterns: `*.database-z1.diego1.cf-cfapps-io2-diego.bosh` or `*.database-z2.diego2.cf-cfapps-io2-diego.bosh`.
+The following queries demonstrate the expected resolution behaviors:
 
-See [Migrating from Consul](dns.md#migrate-consul) for more details.
+ * `sql-db.service.cf.internal` will internally resolve to all VMs in the `mysql-z1` and `mysql-z2` instance groups.
+ * `myuuid.cell.service.cf.internal` might internally resolve to `myuuid.windows-cell.default.cf.bosh`, assuming `windows-cell` has an instance with a UUID of `myuuid`.
+ * `_.cell.service.cf.internal` (literal query) will not resolve since it is different than asterisk aliases.
+
+!!! tip
+    Aliases are very useful when [migrating from Consul](dns.md#migrate-consul).
+
 
 ### Healthiness
 

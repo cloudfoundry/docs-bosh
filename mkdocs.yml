@@ -87,6 +87,7 @@ pages:
         - Configuring Director: director-users-uaa.md
         - Using Teams: director-users-uaa-perms.md
       - Configuring SSL Certificates: director-certs.md
+      - Director SSL Certificate Configuration with OpenSSL: director-certs-openssl.md
     - Configuring the Database:
       - Builtin PostgreSQL: director-configure-db.md
       - External MySQL: director-configure-db.md
@@ -103,6 +104,8 @@ pages:
       - Common Addons: addons-common.md
     - Integrating with CredHub:
       - Variable Types: variable-types.md
+    - Certificates Rotation:
+      - Rotating NATS CA: nats-ca-rotation.md
     - Optional Features:
       - Explicit ARP Flushing: flush-arp.md
       - Removing Dev Tools from VMs: remove-dev-tools.md
@@ -151,6 +154,7 @@ pages:
   - Generic Configs: configs.md
   - Cloud Provider Interface:
     - Overview: cpi-api-v1.md
+    - RPC Interface: cpi-api-v1-rpc.md
     - Methods:
       - attach_disk: cpi-api-v1-method/attach-disk.md
       - calculate_vm_cloud_properties: cpi-api-v1-method/calculate-vm-cloud-properties.md
@@ -184,12 +188,18 @@ pages:
         - Pre-start: pre-start.md
         - Post-start: post-start.md
         - Post-deploy: post-deploy.md
+        - Post-stop: post-stop.md
     - Links:
       - Common Types: links-common-types.md
+  - Operating Systems:
+    - Ubuntu: ubuntu-os.md
+    - Windows Server: windows-os.md
+    - CentOS: centos-os.md
   - Legacy Documentation:
     # docs we should keep linkable
     - Basic Workflow: basic-workflow.md
     - Deployment Manifest v1: deployment-manifest.md
+    - Sample Manifest: sample-manifest.md
     - CLI v1 Installation: bosh-cli.md
     - CLI v1 Commands: sysadmin-commands.md
     - CLI v1 Backup / Restore: director-backup.md
@@ -201,26 +211,29 @@ pages:
 
   - "--- Cloud Providers": divider.md
   - Amazon Web Services:
+    - Overview: aws.md
     - Usage: aws-cpi.md
     - Common Errors: aws-cpi-errors.md
     - IAM Users: aws-iam-users.md
     - IAM Profiles: aws-iam-instance-profiles.md
     - Using Instance Storage: aws-instance-storage.md
   - Google Cloud Platform:
+    - Overview: google.md
     - Usage: google-cpi.md
     - Required Permissions: google-required-permissions.md
   - Microsoft Azure:
+    - Overview: azure.md
     - Usage: azure-cpi.md
     - Common Errors: azure-cpi-errors.md
     - Creating Resources: azure-resources.md
   - OpenStack:
+    - Overview: openstack.md
     - Usage: openstack-cpi.md
     - Common Errors: openstack-cpi-errors.md
     - Using Auto-anti-affinity: openstack-auto-anti-affinity.md
     - Using Human-readable VM names: openstack-human-readable-vm-names.md
     - Using Keystone API v2: openstack-keystonev2.md
     - Using Light Stemcells: openstack-light-stemcells.md
-    - Using nova-networking: openstack-nova-networking.md
     - Multi-homed VMs: openstack-multiple-networks.md
     - Extended Registry configuration: openstack-registry.md
     - Self-signed Endpoints: openstack-self-signed-endpoints.md
@@ -233,6 +246,7 @@ pages:
   - VMware vCloud:
     - Usage: vcloud-cpi.md
   - VMware vSphere:
+    - Overview: vsphere.md
     - Usage: vsphere-cpi.md
     - Common Errors: vsphere-cpi-errors.md
     - Recovery from an ESXi Host Failure: vsphere-esxi-host-failure.md

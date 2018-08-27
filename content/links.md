@@ -207,7 +207,7 @@ See [link properties](links-properties.md) for including additional link informa
 ---
 ## Deployment Configuration {: #deployment }
 
-Given the `web` and `postgres` job examples above, one can configure a deployment that connects a web app to the database. The following example demonstrates linking defined explicitly in the manifest by saying which jobs provide and consume a link `data_db`.
+Given the `web` and `postgres` job examples above, one can configure a deployment that connects a web app to the database. The following example demonstrates linking defined explicitly in the manifest by saying which jobs provide and consume a link `db_conn`.
 
 ```yaml
 instance_groups:
@@ -216,7 +216,7 @@ instance_groups:
   - name: web
     release: my-app
     consumes:
-      primary_db: {from: data_db}
+      primary_db: {from: db_conn}
       secondary_db: nil
 
 - name: data_db
@@ -224,7 +224,7 @@ instance_groups:
   - name: postgres
     release: postgres
     provides:
-      conn: {as: data_db}
+      conn: {as: db_conn}
 ```
 
 ### Implicit linking {: #implicit }
@@ -268,9 +268,9 @@ instance_groups:
   - name: etcd
     release: etcd
     consumes:
-      etcd: {from: diego-etcd}
+      etcd: {from: etcd-provider}
     provides:
-      etcd: {as: diego-etcd}
+      etcd: {as: etcd-provider}
 ```
 
 [Example of self linking in Zookeeper release](https://github.com/cppforlife/zookeeper-release/blob/master/jobs/zookeeper/spec).
@@ -292,7 +292,7 @@ instance_groups:
   - name: web
     release: my-app
     consumes:
-      primary_db: {from: data_db, network: vip}
+      primary_db: {from: db_conn, network: vip}
       secondary_db: nil
   networks:
   - name: private
@@ -302,7 +302,7 @@ instance_groups:
   - name: postgres
     release: postgres
     provides:
-      conn: {as: data_db}
+      conn: {as: db_conn}
   networks:
   - name: private
     default: [gateway, dns]

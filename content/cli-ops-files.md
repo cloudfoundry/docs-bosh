@@ -1,10 +1,7 @@
-!!! note
-    Applies to CLI v2.
-
 It's usually necessary to apply an opinionated set of structural changes to a YAML document (manifest, cloud config, etc.) before submitting it to the CLI commands (`bosh create-env`, `bosh deploy`, etc.) for processing. Such changes could be an addition or removal of certain job properties, instance groups, changes to property values.
 
-!!! note
-    Replacing values such as passwords and certificates is not considered a structural change. Refer to [CLI variable interpolation](cli-int.md) for details.
+!!! tip
+    Replacing values such as passwords and certificates is not considered a structural change. [Variable Interpolation](cli-int.md) is a better way to handle values.
 
 To get a final YAML document one can apply desired changes once and save the result; however, over time it may become harder or just tedious to reapply these changes if base document changes. Additionally if it's necessary to have multiple slightly different changes on top of the base document for different teams existing editing tools may not be enough. To make such workflows easier you can encode a set of changes into one or more operations file.
 
@@ -107,20 +104,26 @@ items:
 ---
 ### Hash
 
+Set `key` to `10`...
+
 ```yaml
 - type: replace
   path: /key
   value: 10
 ```
 
-- sets `key` to `10`
+---
+
+Remove `key`...
 
 ```yaml
 - type: remove
   path: /key
 ```
 
-- removes `key`
+---
+
+Errors because `key_not_there` is expected (and does not have `?`)...
 
 ```yaml
 - type: replace
@@ -128,14 +131,18 @@ items:
   value: 10
 ```
 
-- errors because `key_not_there` is expected (does not have `?`)
+---
+
+Errors because `key_not_there` is expected (does not have `?`)...
 
 ```yaml
 - type: remove
   path: /key_not_there
 ```
 
-- again this errors because `key_not_there` is expected (does not have `?`)
+---
+
+Creates `new_key` and sets it to `10` (note the `?`)...
 
 ```yaml
 - type: replace
@@ -143,7 +150,9 @@ items:
   value: 10
 ```
 
-- creates `new_key` because it ends with `?` and sets it to `10`
+---
+
+Requires that `key2` and `nested` hashes exist; and sets `super_nested` to `10`...
 
 ```yaml
 - type: replace
@@ -151,16 +160,18 @@ items:
   value: 10
 ```
 
-- requires that `key2` and `nested` hashes exist
-- sets `super_nested` to `10`
+---
+
+Requires that `key2` and `nested` hashes exist; and removes `super_nested`...
 
 ```yaml
 - type: remove
   path: /key2/nested/super_nested
 ```
 
-- requires that `key2` and `nested` hashes exist
-- removes `super_nested`
+---
+
+Requires that `key2` hash exists; allows `nested`, `another_nested` and `super_nested` not to exist because `?` carries over to nested keys; and creates `another_nested` and `super_nested` before setting `super_nested` to `10`...
 
 ```yaml
 - type: replace
@@ -168,22 +179,23 @@ items:
   value: 10
 ```
 
-- requires that `key2` hash exists
-- allows `nested`, `another_nested` and `super_nested` not to exist because `?` carries over to nested keys
-- creates `another_nested` and `super_nested` before setting `super_nested` to `10`, resulting in:
+Resulting in...
 
-  ```yaml
-  ...
-  key2:
-    nested:
-      another_nested:
-        super_nested: 10
-      super_nested: 2
-    other: 3
-  ```
+```yaml
+...
+key2:
+  nested:
+    another_nested:
+      super_nested: 10
+    super_nested: 2
+  other: 3
+```
 
 ---
+
 ### Array
+
+Requires `array` to exist and be an array; and replaces 0th item in `array` array with `10`...
 
 ```yaml
 - type: replace
@@ -191,16 +203,18 @@ items:
   value: 10
 ```
 
-- requires `array` to exist and be an array
-- replaces 0th item in `array` array with `10`
+---
+
+Requires `array` to exist and be an array; and removes the 0th item in `array`...
 
 ```yaml
 - type: remove
   path: /array/0
 ```
 
-- requires `array` to exist and be an array
-- removes 0th item in `array`
+---
+
+Requires `array` to exist and be an array; and appends `10` to the end of `array`...
 
 ```yaml
 - type: replace
@@ -208,8 +222,9 @@ items:
   value: 10
 ```
 
-- requires `array` to exist and be an array
-- appends `10` to the end of `array`
+---
+
+Creates `array2` array since it does not exist; and appends `10` to the end of `array2`...
 
 ```yaml
 - type: replace
@@ -217,8 +232,9 @@ items:
   value: 10
 ```
 
-- creates `array2` array since it does not exist
-- appends `10` to the end of `array2`
+---
+
+Requires `array` to exist and be an array; and replaces 0th item in `array` array with `10`...
 
 ```yaml
 - type: replace
@@ -226,8 +242,9 @@ items:
   value: 10
 ```
 
-- requires `array` to exist and be an array
-- replaces 0th item in `array` array with `10`
+---
+
+Requires `array` to exist and be an array; and replaces 1st item (starting at 0) in `array` array with `10`...
 
 ```yaml
 - type: replace
@@ -235,8 +252,9 @@ items:
   value: 10
 ```
 
-- requires `array` to exist and be an array
-- replaces 1st item (starting at 0) in `array` array with `10`
+---
+
+Requires `array` to exist and be an array; and inserts `10` after 0th item in `array` array...
 
 ```yaml
 - type: replace
@@ -244,8 +262,9 @@ items:
   value: 10
 ```
 
-- requires `array` to exist and be an array
-- inserts `10` after 0th item in `array` array
+---
+
+Requires `array` to exist and be an array; and inserts `10` before 0th item at the beginning of `array` array...
 
 ```yaml
 - type: replace
@@ -253,18 +272,20 @@ items:
   value: 10
 ```
 
-- requires `array` to exist and be an array
-- inserts `10` before 0th item at the beginning of `array` array
-
 ---
+
 ### Arrays of hashes
+
+Finds and removes array item with matching key `name` with value `item7`...
 
 ```yaml
 - type: remove
   path: /items/name=item7
 ```
 
-- finds and removes array item with matching key `name` with value `item7`
+---
+
+Errors because there are two values that have `item8` as their `name`...
 
 ```yaml
 - type: replace
@@ -272,7 +293,9 @@ items:
   value: 10
 ```
 
-- errors because there are two values that have `item8` as their `name`
+---
+
+Appends array item with matching key `name` with value `item9` because values ends with `?` and item does not exist; creates `count` and sets it to `10` within created array item...
 
 ```yaml
 - type: replace
@@ -280,18 +303,21 @@ items:
   value: 10
 ```
 
-- appends array item with matching key `name` with value `item9` because values ends with `?` and item does not exist
-- creates `count` and sets it to `10` within created array item, resulting in:
+Resulting in...
 
-  ```yaml
-  ...
-  items:
-  - name: item7
-  - name: item8
-  - name: item8
-  - name: item9
-    count: 10
-  ```
+```yaml
+...
+items:
+- name: item7
+- name: item8
+- name: item8
+- name: item9
+  count: 10
+```
+
+---
+
+Finds array item with matching key `name` with value `item7`; and adds hash `name: item6` before found array item...
 
 ```yaml
 - type: replace
@@ -300,14 +326,31 @@ items:
     name: item6
 ```
 
-- finds array item with matching key `name` with value `item7`
-- adds hash `name: item6` before found array item, resulting in:
+Resulting in...
 
-  ```yaml
-  ...
-  items:
-  - name: item6
-  - name: item7
-  - name: item8
-  - name: item8
-  ```
+```yaml
+...
+items:
+- name: item6
+- name: item7
+- name: item8
+- name: item8
+```
+
+
+## Escaping
+
+The following characters can be escaped with special sequences...
+
+| Desired | Escaped |
+| ------- | ------- |
+| `~` | `~0` |
+| `/` | `~1` |
+| `:` | `~7` |
+
+For example, to remove a variable with a `name` of `/root_certificate`, you might do...
+
+```yaml
+- path: /variables/name=~1root_certificate
+  type: remove
+```

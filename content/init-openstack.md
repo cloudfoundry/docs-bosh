@@ -20,7 +20,7 @@ This document shows how to initialize new [environment](terminology.md#environme
     * [Image](https://www.openstack.org/software/releases/ocata/components/glance):
         BOSH stores stemcells using the Image service.
     * **(Optional)** [OpenStack Networking](https://www.openstack.org/software/releases/ocata/components/neutron):
-        Provides network scaling and automated management functions that are useful when deploying complex distributed systems. **Note:** OpenStack networking is used as default as of v28 of the OpenStack CPI. To disable the use of the OpenStack Networking project, see [using nova-networking](openstack-nova-networking.md).
+        Provides network scaling and automated management functions that are useful when deploying complex distributed systems. **Note:** OpenStack networking is used as default as of v28 of the OpenStack CPI. To disable the use of the OpenStack Networking project, see [Customize the Deployment](#customize-deployment).
 
 1. Access to an existing OpenStack project.
 
@@ -249,7 +249,7 @@ The IP is used in generated SSL certificates, make sure to change or remove the 
 
 See [OpenStack CPI errors](openstack-cpi-errors.md) for list of common errors and resolutions.
 
-#### Customize the Deployment
+#### Customize the Deployment {: #customize-deployment }
 
 * using internal DNS, i.e. if it is required to resolve the OpenStack API endpoint: [bosh-deployment/misc/dns.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/dns.yml)
 * using `boot-from-volume` to have nova create the boot volume as a cinder device (necessary for live-migration of VMs): [bosh-deployment/openstack/boot-from-volume.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/boot-from-volume.yml)
@@ -259,6 +259,8 @@ See [OpenStack CPI errors](openstack-cpi-errors.md) for list of common errors an
 * using keystone v2 instead of keystone v3: [bosh-deployment/openstack/keystone-v2.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/keystone-v2.yml)
 * enable soft anti affinity for each instance group: [bosh-deployment/openstack/auto-anti-affinity.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/auto-anti-affinity.yml)
 * disable human readable VM names and use UUIDs instead: [bosh-deployment/openstack/disable-readable-vm-names.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/disable-readable-vm-names.yml)
+* using nova networking instead of neutron networking: [bosh-deployment/openstack/nova-networking.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/nova-networking.yml)
+* enable native CPI disk resizing: [bosh-deployment/misc/cpi-resize-disk.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/cpi-resize-disk.yml)
 
 ### Connect to the Director
 

@@ -6,7 +6,7 @@ The Director has a way to specify global configuration for all VMs in all deploy
 ---
 ## Updating and retrieving runtime config {: #update }
 
-To update runtime config on the Director use [`bosh update runtime-config`](sysadmin-commands.md#cloud-config) CLI command.
+To update runtime config on the Director use [`bosh update-runtime-config`](sysadmin-commands.md#cloud-config) CLI command.
 
 !!! note
     See [example runtime config](#example) below.
@@ -113,10 +113,10 @@ An addon is a release job that is colocated on all VMs managed by the Director.
 
 Available rules:
 
-* **stemcell** [Array of hashes, optional]
+* **stemcell** [Array of hashes, optional]: at least one of the items must match
     * **os** [String, required]: Matches stemcell's operating system. Example: `ubuntu-trusty`
 * **deployments** [Array of strings, optional]: Matches based on deployment names.
-* **jobs** [Array of hashes, optional]
+* **jobs** [Array of hashes, optional]: at least one of the configured jobs must match
     * **name** [String, required]: Matching job name.
     * **release** [String, required]: Matching release name.
 * **networks** [Array of strings, optional]: Matches based on network names. Available in bosh-release v262+.

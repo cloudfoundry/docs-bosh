@@ -22,33 +22,33 @@ CLI provides [`bosh upload-release` command](cli-v2.md#upload-release).
 
 - If you have a URL to a release tarball (for example a URL provided by bosh.io):
 
-	```shell
-	$ bosh -e vbox upload-release https://bosh.io/d/github.com/cppforlife/zookeeper-release?v=0.0.5 --sha1 65a07b7526f108b0863d76aada7fc29e2c9e2095
-	```
+    ```shell
+    $ bosh -e vbox upload-release https://bosh.io/d/github.com/cppforlife/zookeeper-release?v=0.0.5 --sha1 65a07b7526f108b0863d76aada7fc29e2c9e2095
+    ```
 
-	Alternatively, if you have a release tarball on your local machine:
+    Alternatively, if you have a release tarball on your local machine:
 
-	```shell
-	$ bosh -e vbox upload-release ~/Downloads/zookeeper-0.0.5.tgz
-	```
+    ```shell
+    $ bosh -e vbox upload-release ~/Downloads/zookeeper-0.0.5.tgz
+    ```
 
 - If you cloned release Git repository:
 
     Note that all release repositories have a `releases/` folder that contains release YAML files. These files have all the required information about how to assemble a specific version of a release (provided that the release maintainers produce and commit that version to the repository). You can use the YAML files to either directly upload a release, or to create a release tarball locally and then upload it.
 
     ```shell
-  $ git clone https://github.com/cppforlife/zookeeper-release
-	$ cd zookeeper-release/
-	$ bosh -e vbox upload-release
-	```
+    $ git clone https://github.com/cppforlife/zookeeper-release
+    $ cd zookeeper-release/
+    $ bosh -e vbox upload-release
+    ```
 
-	Alternatively, to build a release tarball locally from a release YAML file:
+    Alternatively, to build a release tarball locally from a release YAML file:
 
-	```shell
-	$ cd zookeeper-release/
-	$ bosh create-release releases/zookeeper/zookeeper-0.0.5.yml --tarball x.tgz
-	$ bosh -e vbox upload-release x.tgz
-	```
+    ```shell
+    $ cd zookeeper-release/
+    $ bosh create-release releases/zookeeper/zookeeper-0.0.5.yml --tarball x.tgz
+    $ bosh -e vbox upload-release x.tgz
+    ```
 
 Once the command succeeds, you can view all uploaded releases in the Director:
 

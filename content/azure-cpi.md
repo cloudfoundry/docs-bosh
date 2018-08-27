@@ -23,11 +23,12 @@ Schema for `cloud_properties` section:
 * **resource\_group\_name** [String, optional]: Name of a resource group. If it is set, Azure CPI will search the virtual network and security group in this resource group. Otherwise, Azure CPI will search the virtual network and security group in `resource_group_name` in the global CPI settings.
 * **virtual\_network\_name** [String, required]: Name of a virtual network. Example: `boshnet`.
 * **subnet_name** [String, required]: Name of a subnet within virtual network.
-* **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to network interfaces of all VMs placed in this network. The security group of a network interface can be specified either in a VM type/extension (higher priority) or a network configuration (lower priority); if it is not specified, the default security group (specified by `default_security_group` in the global CPI settings) will be used.
+* **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to network interfaces of all VMs placed in this network. The security group of a network interface can be specified either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default security group (specified by `default_security_group` in the global CPI settings) will be used.
 * **application\_security\_groups** [Array, optional]: The [application security group](https://docs.microsoft.com/en-us/azure/virtual-network/security-overview#application-security-groups) to apply to network interfaces of all VMs placed in this network. The application security groups of a network interface can be specified either in a VM type/extension (higher priority) or a network configuration (lower priority).
     * This property is supported in v31+.
     * You must reference the [document](https://docs.microsoft.com/en-us/azure/virtual-network/create-network-security-group-preview) to register your subscription with this new feature.
-* **ip_forwarding** [Boolean, optional]: The flag to enable [ip forwarding](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-network-interface#enable-or-disable-ip-forwarding) for network interfaces of all VMs placed in this network. The ip forwarding can be enabled/disabled either in a VM type/extension (higher priority) or a network configuration (lower priority). Available in v35.3.0+.
+* **ip_forwarding** [Boolean, optional]: The flag to enable [ip forwarding](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-network-interface#enable-or-disable-ip-forwarding) for network interfaces of all VMs placed in this network. The ip forwarding can be enabled/disabled either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default value is `false`. Available in v35.3.0+.
+* **accelerated_networking** [Boolean, optional]: The flag to enable [accelerated networking](https://docs.microsoft.com/en-us/azure/virtual-network/create-vm-accelerated-networking-cli) for network interfaces of all VMs placed in this network. The accelerated networking can be enabled/disabled either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default value is `false`. Available in v35.4.0+. This feature needs ubuntu-xenial v81+ and [specific instance type](https://docs.microsoft.com/en-us/azure/virtual-network/create-vm-accelerated-networking-cli#supported-vm-instances).
 
 See [how to create a virtual network and subnets](azure-resources.md#virtual-network).
 
@@ -47,6 +48,7 @@ networks:
       security_group: my-security-group-name
       application_security_groups: ["my-application-security-group-name-1", "my-application-security-group-name-2"]
       ip_forwarding: true
+      accelerated_networking: true
 ```
 
 ### Vip Network
@@ -91,11 +93,12 @@ Schema for `cloud_properties` section:
 * **application_gateway** [String, optional]: Name of the [application gateway](https://azure.microsoft.com/en-us/services/application-gateway/) which the VMs should be associated to.
     * This property is supported in CPI v28+.
     * You need to create the application gateway manually before configuring it. Please refer to [the guidance](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/application-gateway).
-* **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to network interfaces of all VMs who have this VM type/extension. The security group of a network interface can be specified either in a VM type/extension (higher priority) or a network configuration (lower priority); if it is not specified, the default security group (specified by `default_security_group` in the global CPI settings) will be used.
+* **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to network interfaces of all VMs who have this VM type/extension. The security group of a network interface can be specified either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default security group (specified by `default_security_group` in the global CPI settings) will be used.
 * **application\_security\_groups** [Array, optional]: The [application security group](https://docs.microsoft.com/en-us/azure/virtual-network/security-overview#application-security-groups) to apply to network interfaces of all VMs who have this VM type/extension. The application security groups of a network interface can be specified either in a VM type/extension (higher priority) or a network configuration (lower priority).
     * This property is supported in v31+.
     * You must reference the [document](https://docs.microsoft.com/en-us/azure/virtual-network/create-network-security-group-preview) to register your subscription with this new feature.
-* **ip_forwarding** [Boolean, optional]: The flag to enable [ip forwarding](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-network-interface#enable-or-disable-ip-forwarding) for network interfaces of all VMs who have this VM type/extension. The ip forwarding can be enabled/disabled either in a VM type/extension (higher priority) or a network configuration (lower priority). Available in v35.3.0+.
+* **ip_forwarding** [Boolean, optional]: The flag to enable [ip forwarding](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-network-interface#enable-or-disable-ip-forwarding) for network interfaces of all VMs who have this VM type/extension. The ip forwarding can be enabled/disabled either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default value is `false`. Available in v35.3.0+.
+* **accelerated_networking** [Boolean, optional]: The flag to enable [accelerated networking](https://docs.microsoft.com/en-us/azure/virtual-network/create-vm-accelerated-networking-cli) for network interfaces of all VMs who have this VM type/extension. The accelerated networking can be enabled/disabled either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default value is `false`. Available in v35.4.0+. This feature needs ubuntu-xenial v81+ and [specific instance type](https://docs.microsoft.com/en-us/azure/virtual-network/create-vm-accelerated-networking-cli#supported-vm-instances).
 
 * **assign\_dynamic\_public\_ip** [Boolean, optional]: Enable to create and assign dynamic public IP to the VM automatically (to solve the [azure SNAT issue](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/issues/217)). Default value is `false`. Only the VM without vip will be assigned a dynamic public IP when this value is set to true, and the dynamic public IP will be deleted when the VM is deleted.
 
@@ -149,6 +152,10 @@ Schema for `cloud_properties` section:
       1. Dynamic Public IP for the VM
       1. Availability Set
 
+* **tags** [Hash, optional]: Custom tags of VMs (Available in v35.4.0+). They are name-value pairs that are used to organize VMs.
+    * Before configuring it, please review [the limitations apply to tags](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-using-tags).
+    * In Azure, each VM can have a maximum of 15 tag name-value pairs. Currently, BOSH director and Azure CPI use at most 10 tags. So it is not recommended to use more than 3 custom tags.
+
 Example of a `Standard_A2` VM:
 
 ```yaml
@@ -156,7 +163,6 @@ vm_types:
 - name: default
   cloud_properties:
     instance_type: Standard_A2
-    availability_set: <availability-set-name>
     root_disk:
       size: 30_720
     ephemeral_disk:
@@ -260,18 +266,16 @@ See [Creating Azure resources](azure-resources.md) page for more details on how 
 Example with hard-coded credentials:
 
 ```yaml
-properties:
-  azure: &azure
-    environment: AzureCloud
-    subscription_id: 3c39a033-c306-4615-a4cb-260418d63879
-    tenant_id: 0412d4fa-43d2-414b-b392-25d5ca46561da
-    client_id: 33e56099-0bde-8z93-a005-89c0f6df7465
-    client_secret: client-secret
-    resource_group_name: bosh-res-group
-    storage_account_name: boshstore
-    ssh_user: vcap
-    ssh_public_key: "ssh-rsa AAAAB3N...6HySEF6IkbJ"
-    default_security_group: nsg-azure
+environment: AzureCloud
+subscription_id: 3c39a033-c306-4615-a4cb-260418d63879
+tenant_id: 0412d4fa-43d2-414b-b392-25d5ca46561da
+client_id: 33e56099-0bde-8z93-a005-89c0f6df7465
+client_secret: client-secret
+resource_group_name: bosh-res-group
+storage_account_name: boshstore
+ssh_user: vcap
+ssh_public_key: "ssh-rsa AAAAB3N...6HySEF6IkbJ"
+default_security_group: nsg-azure
 ```
 
 ---

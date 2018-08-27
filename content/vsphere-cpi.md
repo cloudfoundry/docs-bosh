@@ -82,6 +82,10 @@ Schema for `cloud_properties` section:
 * **nsxt** [Dictionary, optional]: [VMware NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v45+.
     * **ns_groups** [Array, optional]: A collection of [NS Groups](http://pubs.vmware.com/nsxt-11/index.jsp?topic=%2Fcom.vmware.nsxt.admin.doc%2FGUID-718E769B-8D89-485B-8DBD-04F1F82CFE14.html) names that the instances should belong to. Available in NSX-T v1.1+.
     * **vif_type** [String, optional]: Supported types: `PARENT`, `null`. Overrides the global `default_vif_type`. Available in NSX-T v2.0+.
+    * **lb** [Dictionary, optional]: NSX-T logical Load Balancer. Available in CPI v48+
+        * **server_pools** [Array, optional] Server Pool must exist prior to the deployment. For static server pool, VM is directly added to the server pool. If server pool is dynamic, CPI looks up the NSGroup and adds the VM to the NSGroup.
+            * **name** [String, required]: Name of the Server Pool
+            * **port** [Integer, required]: The port that the VM's service is listening on (e.g. 80 for HTTP)
 
 Example of a VM asked to be placed into a specific vSphere resource pool with NSX-V and NSX-T integration:
 
@@ -114,6 +118,10 @@ resource_pools:
     nsxt: # NSX-T configuration
       ns_groups: [public, dmz]
       vif_type: PARENT
+      lb:
+        server_pools:
+        - name: cpi-pool-1
+          port: 80
 ```
 
 ---
@@ -163,7 +171,7 @@ The CPI can only talk to a single vCenter installation and manage VMs within a s
 
 Schema:
 
-* **host** [String, required]: IP address of the vCenter. Example: `172.16.68.3`.
+* **host** [String, required]: IP address or hostname of vCenter. Example: `172.16.68.3`.
 * **user** [String, required]: Username for the API access. Example: `root`.
 * **password** [String, required]: Password for the API access. Example: `vmware`
 * **http_logging** [Boolean, optional]: Enables logging all HTTP requests and responses to vSphere API. Default: `false`. Available in v37+.
@@ -201,47 +209,46 @@ Schema:
 !!! note
     If the NSX-V or NSX-T Manager has a self-signed certificate, the certificate must be set in the `ca_cert` property.
 
-Example of a CPI configuration that will place VMs into `BOSH_CL` cluster within `BOSH_DC`:
+!!! warning
+    If you are configuring these properties through a release manifest (i.e. not via [CPI config](cpi-config.md)), you should configure the vCenter endpoint using `address` instead of `host`.
+
+Example properties that will place VMs into `BOSH_CL` cluster within `BOSH_DC`:
 
 ```yaml
-properties:
-  vcenter:
-    address: 172.16.68.3
-    user: root
-    password: vmware
-    datacenters:
-    - name: BOSH_DC
-      vm_folder: prod-vms
-      template_folder: prod-templates
-      disk_path: prod-disks
-      datastore_pattern: '^prod-ds$'
-      persistent_datastore_pattern: '^prod-ds$'
-      clusters: [BOSH_CL]
+host: 172.16.68.3
+user: root
+password: vmware
+datacenters:
+- name: BOSH_DC
+  vm_folder: prod-vms
+  template_folder: prod-templates
+  disk_path: prod-disks
+  datastore_pattern: '^prod-ds$'
+  persistent_datastore_pattern: '^prod-ds$'
+  clusters: [BOSH_CL]
 ```
 
 Example that places VMs by default into `BOSH_RP` vSphere resource pool with NSX integration and enables VM anti-affinity DRS rule:
 
 ```yaml
-properties:
-  vcenter:
-    address: 172.16.68.3
-    user: root
-    password: vmware
-    default_disk_type: thin
-    enable_auto_anti_affinity_drs_rules: true
-    datacenters:
-    - name: BOSH_DC
-      vm_folder: prod-vms
-      template_folder: prod-templates
-      disk_path: prod-disks
-      datastore_pattern: '\Aprod-ds\z'
-      persistent_datastore_pattern: '\Aprod-ds\z'
-      clusters:
-      - BOSH_CL: {resource_pool: BOSH_RP}
-    nsx:
-      address: 172.16.68.4
-      user: administrator@vsphere.local
-      password: vmware
+host: 172.16.68.3
+user: root
+password: vmware
+default_disk_type: thin
+enable_auto_anti_affinity_drs_rules: true
+datacenters:
+- name: BOSH_DC
+  vm_folder: prod-vms
+  template_folder: prod-templates
+  disk_path: prod-disks
+  datastore_pattern: '\Aprod-ds\z'
+  persistent_datastore_pattern: '\Aprod-ds\z'
+  clusters:
+  - BOSH_CL: {resource_pool: BOSH_RP}
+nsx:
+  address: 172.16.68.4
+  user: administrator@vsphere.local
+  password: vmware
 ```
 
 ---
