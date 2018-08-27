@@ -269,7 +269,7 @@ feature:
 
   ...
 
-instant_groups:
+instance_groups:
   - name: serverig
     jobs:
       - name: app_server
@@ -308,8 +308,7 @@ variables:
     options:
       ca: default_ca
     consumes:
-      common_name:
-        from: app-server-address
+      common_name: { from: app-server-address }
 ```
 
 which will set the common name to `q-s0.serverig.default.app-service.bosh`.
