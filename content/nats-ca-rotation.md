@@ -218,7 +218,7 @@ To make future updates to the BOSH director not rely on the transitional OPS fil
 
 1. Delete the `add-new-ca.yml` and `remove-old-ca.yml` ops files, which are not needed anymore.
 
-!!! error
+!!! warning
     **Warning:** If you do not perform the clean-up procedure, you must ensure that the ops files (`add-new-ca.yml` and `remove-old-ca.yml`) are used every time a create-env is executed going forward (which can be unsustainable). Removing the ops files would revert to the old CA, which can lead to unresponsive agents for existing and newly created VMs.
 
 ### Limitations
