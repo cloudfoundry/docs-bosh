@@ -29,6 +29,9 @@ $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 * The NATS server continues to use the old certificates (signed by old NATS CA) to serve TLS connections. NATS server is given the concatenated CAs from above to verify client certificates (for mTLS) signed by both old CA and new CA.
 * Each VM/agent continues to use the old client certificates to communicate with the NATS server.
 
+!!! warning
+    In the below operations file `add-new-ca.yml`, the `nats_server_tls_2` certificate is generated with the `internal_ip` as the only Subject Alternative Name. Please remember to add any other SANs that maybe neccessary to your environment.
+
 `add-new-ca.yml` 
 
 ```yaml
