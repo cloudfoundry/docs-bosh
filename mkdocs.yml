@@ -149,7 +149,9 @@ pages:
     - Usage: cloud-config.md
     - Availability Zones: azs.md
     - Networks: networks.md
-  - Director HTTP API: director-api-v1.md
+  - Director APIs:
+    - Director HTTP API: director-api-v1.md
+    - Links API: links-api.md
   - Director Runtime Config: runtime-config.md
   - Generic Configs: configs.md
   - Cloud Provider Interface:
