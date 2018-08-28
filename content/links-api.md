@@ -204,7 +204,7 @@ $ uaac curl -X DELETE https://10.0.1.6:25555/links/3
 
 ### `GET /link_address`: Link Address
 
-Obtain the DNS or IP address for a singular link.
+Obtain the DNS address for a singular link. This is equivalent to using `link("my-link").address` in jobs templates.
 
 #### Request Params
 * **link_id**: [String] The link ID.
@@ -216,7 +216,7 @@ $ uaac curl 'https://10.0.1.6:25555/link_address?link_id=3&azs[]=z1'
 ```
 
 #### Response Body
-* **address**: [String] IP or DNS address for the link.
+* **address**: [String] DNS address for the link.
 
 ```json
 {
