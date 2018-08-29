@@ -353,8 +353,24 @@ Common use cases:
 
 ### Custom Provider Definitions {: #custom-provider-definitions }
 
-Providers can be added to jobs, which are not specified in the job's release spec, but instead are defined in the deployment manifest jobs or runtime config jobs section.
-The providers which are defined like this are called custom providers. This feature requires bosh-release v267+.
+Additional link providers (called `custom providers`) can be defined for a job through the deployment manifest (or runtime config). Each custom provider needs a name and a type. The name can not already exist in the release spec. 
+Adding a custom provider for a job does not require any changes to the job's release; only deployment manifest changes are needed. 
+This feature is available in BOSH versions `v267+`.
+
+In the example below, the job `web` in release `my-app` is now providing a link with name `my_custom_link` and type `my_custom_link_type`. This link can be now consumed like any other provided link.
+
+```yaml
+instance_groups:
+- name: app
+  jobs:
+  - name: web
+    release: my-app
+    custom_provider_definitions:
+    - name: my_custom_link
+      type: my_custom_link_type
+```
+
+Below, is an example for aliasing the custom provided link and marking it as `shared`:
 
 ```yaml
 instance_groups:
@@ -363,14 +379,30 @@ instance_groups:
   - name: web
     release: my-app
     provides:
-      my_special_provider:
+      my_custom_link:
+        as: my_explicit_custom_link
         shared: true
     custom_provider_definitions:
-      - name: my_special_provider
-        type: address
-        properties: [ vine, tree, flower ]
+    - name: my_custom_link
+      type: my_custom_link_type
 ```
 
-Providers defined in this way export the usual instances and address properties. Each custom provider needs a name and a type. The name can not already exist in the release spec.
+Additionally, the custom provider can optionally specify which properties to share from the job release spec. Example:
 
-Additionally the custom provider can optionally specify which properties to share from the job release spec.
+```yaml
+instance_groups:
+- name: app
+  jobs:
+  - name: web
+    release: my-app
+    provides:
+      my_custom_link:
+        as: my_explicit_custom_link
+        shared: true
+    custom_provider_definitions:
+    - name: my_custom_link
+      type: my_custom_link_type
+      properties:
+      - port
+      - url
+```
