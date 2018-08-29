@@ -355,7 +355,8 @@ Common use cases:
 
 Additional link providers (called `custom providers`) can be defined for a job through the deployment manifest (or runtime config). Each custom provider needs a name and a type. The name can not already exist in the release spec. 
 Adding a custom provider for a job does not require any changes to the job's release; only deployment manifest changes are needed. 
-This feature is available in BOSH versions `v267+`.
+
+!!! note **Custom Provider Definitions** feature is available with bosh-release v267+.
 
 In the example below, the job `web` in release `my-app` is now providing a link with name `my_custom_link` and type `my_custom_link_type`. This link can be now consumed like any other provided link.
 
