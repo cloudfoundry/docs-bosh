@@ -275,17 +275,19 @@ The following options are available when constructing a link query:
 ---
 ## BOSH DNS Addresses in Config Server Generated Certs {: #dns-variables-integration}
 
-MARK ME AS Alpha Feature
+!!! note
+    This feature is still in alpha phase.
 
 With BOSH `v267+`, [Config Server](variable-types.md) generated certificates can be optionally created with automatic BOSH DNS records in their Common Name and/or Subject Alternative Names. 
 
 A [variable](variable-types.md) of type `certificate` can now **explicitly** consume two links:
-1. Name: `alternative_name`, Type: `address`. When consumed, the BOSH DNS address of the link provider will be added to the Subject Alternative Names of the generated certificate.
-1. Name: `common_name`, Type: `address`. When consumed, the BOSH DNS address of the link provider will be set as the Common Name of the generated certificate **ONLY IF** the variable definition does not specify a common name. If the variable definition specifies a common name, it will **NOT** be overridden. 
 
-Note that the above 2 links are optional. 
+1. **Name:** `alternative_name`, **Type:** `address`. When consumed, the BOSH DNS address of the link provider will be added to the Subject Alternative Names of the generated certificate.
+1. **Name:** `common_name`, **Type:** `address`. When consumed, the BOSH DNS address of the link provider will be set as the Common Name of the generated certificate **ONLY IF** the variable definition does not specify a common name. If the variable definition specifies a common name, it will **NOT** be overridden. 
 
-One recommended way to hook the links providers with the consumers variables is by using the [custom provider definition](links.md#custom-provider-definitions) feature.
+**Note that the above 2 links are optional.**
+
+The recommended way to hook the links providers with the consumers variables is by using the [custom provider definition](links.md#custom-provider-definitions) feature.
 
 ### Consuming `alternative_name`
 
@@ -293,8 +295,6 @@ In the example below, the variable of type certificate `app_server_cert` is expl
 
 ```
 name: app-service
-feature:
-  use_dns_addresses: true
 
   ...
 
@@ -362,9 +362,17 @@ Which will result in the variable called `app_server_cert` having a SAN set to
 
 * DNS: `*.server_ig.default.app-service.bosh`.
 
-### Mixing consumed link name with static names
+### When Variable Definition has SANS and/or CN Defined
 
-If the certificate consumer use several DNS names or IP addresses, it is possible to mix together static names with names consumed from links.  For SANs the consumed links will be added to the static names.  For common name, the consumed link will be overridden by the static name.
+If the variable of type certificate defines a list of Subject alternative Names in its options, and at the same time it consumes the `alternative_name` link, the BOSH DNS address of the provider will be added to the list SANs in the generated certificate. 
+
+In contrast, if the variable of type certificate defines a Common Name in its options, and at the same time it consumes the `common_name` link, the BOSH DNS address of the provider will **NOT** override the Common Name defined in options. 
+
+For example, the `app_server_cert` cert below will have "**Application Server**" as Common Name, and will have the following SANs:
+             
+ * DNS: `custom-record.appservers.cf.local`
+ * DNS: `*.serverig.default.app-service.bosh`
+ * IP: 172.158.20.255
 
 ```
 variables:
@@ -372,20 +380,16 @@ variables:
     type: certificate
     options:
       ca: default_ca
-      common_name: Application Server
-      alternative_names: [ ""*.appservers.cf.local", 172.158.20.255 ]
+      common_name: "Application Server"
+      alternative_names: [ "custom-record.appservers.cf.local", 172.158.20.255 ]
     consumes:
       alternative_name:
-        from: app-server-address
+        from: my-custom-app-server-address
         properties: { wildcard: true }
-      common_name: { from: app-server-address }
+      common_name: { from: my-custom-app-server-address }
 ```
 
-will have a common name of "Application Server" and SANs set to:
 
-* DNS: `*.appservers.cf.local`
-* DNS: `*.serverig.default.app-service.bosh`
-* IP: 172.158.20.255
 
 ---
 ## Rotating BOSH DNS Certificates {: #rotating-dns-certificates }
