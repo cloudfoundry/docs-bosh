@@ -274,9 +274,27 @@ The following options are available when constructing a link query:
 
 ## Consuming Links with DNS in Variables for Certificate Generation {: #consuming-dns-variables}
 
-**alpha** With BOSH v267, BOSH DNS names can be used from a link to fill in a certificate which is generated in the variables section of the manifest.  Make sure the provider is of type `address`, for example look at making a [custom provider definition](links.md#custom-provider-definitions) in the manifest for the desired job.  Then the variable section can specify either the common name or the SANs (subject alternative name):
+## BOSH DNS Addresses in Config Server Generated Certs {: #dns-variables-integration}
 
-manifest.yml:
+MARK ME AS Alpha Feature
+
+With BOSH `v267+`, [Config Server](variable-types.md) generated certificates can be optionally created with automatic BOSH DNS records in their Common Name and/or Subject Alternative Names. 
+
+A [variable](variable-types.md) of type `certificate` can now **explicitly** consume two links:
+1. Name: `alternative_name`, Type: `address`. When consumed, the BOSH DNS address of the link provider will be added to the Subject Alternative Names of the generated certificate.
+1. Name: `common_name`, Type: `address`. When consumed, the BOSH DNS address of the link provider will be set as the Common Name of the generated certificate **ONLY IF** the variable definition does not specify a common name. If the variable definition specifies a common name, it will **NOT** be overridden. 
+
+Note that the above 2 links are optional. 
+
+One recommended way to hook the links providers with the consumers variables is by using the [custom provider definition](links.md#custom-provider-definitions) feature.
+
+#### Consuming `alternative_name`
+
+In the example below, the variable of type certificate `app_server_cert` is explicitly consuming `alternative_name` from the `my-custom-app-server-address` provider. This will lead to the `app_server_cert` certificate being generated with an additional SAN: the BOSH DNS address of the instance group `server_ig` where the link provider (the job `app_server`) exists. For example: `q-s0.server_ig.default.app-service.bosh`.
+
+**alpha** With BOSH v267, BOSH DNS names can be used from a link to fill in a certificate which is generated in the variables section of the manifest.  
+Make sure the provider is of type `address`, for example look at making a [custom provider definition](links.md#custom-provider-definitions) in the manifest for the desired job.  
+Then the variable section can specify either the common name or the SANs (subject alternative name):
 
 ```
 name: app-service
@@ -286,36 +304,37 @@ feature:
   ...
 
 instance_groups:
-  - name: serverig
-    jobs:
-      - name: app_server
-        provides:
-          app-server-address: { }
-        custom_provider_definitions:
-          - name: app-server-address  
-            type: address
+- name: server_ig
+  jobs:
+   - name: app_server
+     provides:
+       app-server-address:
+         as: my-custom-app-server-address
+     custom_provider_definitions:
+     - name: app-server-address  
+       type: address
   ...
 
 variables:
-  - name: default_ca
-    type: certificate
-    options:
-      is_ca: true
-      common_name: Deploy CA
-  - name: app_server_cert
-    type: certificate
-    options:
-      ca: default_ca
-      common_name: Application Server
-    consumes:
-      alternative_name: { from: app-server-address }
+- name: default_ca
+  type: certificate
+  options:
+    is_ca: true
+    common_name: Default CA
+- name: app_server_cert
+  type: certificate
+  options:
+    ca: default_ca
+    common_name: My Application Server
+  consumes:
+    alternative_name: { from: my-custom-app-server-address }
 ```
 
-which will generate a server certificate variable called `app_server_cert` with the SANs `q-s0.serverig.default.app-service.bosh`.
+#### Consuming `common_name`
 
-#### Consuming a link for a certificate common name
+It is also possible to set the common name to the appropriate BOSH DNS record.
 
-Some certificate consumers require the common name to contain the approprate DNS name.
+In the example below, the variable of type certificate `app_server_cert` is explicitly consuming `common_name` from the `my-custom-app-server-address` provider. This will set the Common Name of `app_server_cert` generated certificate to be the BOSH DNS address of the instance group `server_ig` where the link provider (the job `app_server`) exists. For example, the common name will be set to `q-s0.server_ig.default.app-service.bosh`.
 
 ```
 variables:
@@ -324,10 +343,8 @@ variables:
     options:
       ca: default_ca
     consumes:
-      common_name: { from: app-server-address }
+      common_name: { from: my-custom-app-server-address }
 ```
-
-which will set the common name to `q-s0.serverig.default.app-service.bosh`.
 
 #### Allowing for wildcards
 
@@ -342,13 +359,13 @@ variables:
       common_name: Application Server
     consumes:
       alternative_name:
-        from: app-server-address
+        from: my-custom-app-server-address
         properties: { wildcard: true }
 ```
 
-Which will result in the variable called `app_server_cert` having SANs set to
+Which will result in the variable called `app_server_cert` having a SAN set to
 
-* DNS: `*.serverig.default.app-service.bosh`.
+* DNS: `*.server_ig.default.app-service.bosh`.
 
 #### Mixing consumed link name with static names
 
