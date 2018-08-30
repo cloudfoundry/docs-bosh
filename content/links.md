@@ -350,3 +350,60 @@ instance_groups:
 Common use cases:
 
 - one team is managing one deployment and wants to expose a link for other teams to consume in their deployments in a self service manner
+
+### Custom Provider Definitions {: #custom-provider-definitions }
+
+Additional link providers (called `custom providers`) can be defined for a job through the deployment manifest (or runtime config). Each custom provider needs a name and a type. The name can not already exist in the release spec. 
+Adding a custom provider for a job does not require any changes to the job's release; only deployment manifest changes are needed. 
+
+!!! note **Custom Provider Definitions** feature is available with bosh-release v267+.
+
+In the example below, the job `web` in release `my-app` is now providing a link with name `my_custom_link` and type `my_custom_link_type`. This link can be now consumed like any other provided link.
+
+```yaml
+instance_groups:
+- name: app
+  jobs:
+  - name: web
+    release: my-app
+    custom_provider_definitions:
+    - name: my_custom_link
+      type: my_custom_link_type
+```
+
+Below, is an example for aliasing the custom provided link and marking it as `shared`:
+
+```yaml
+instance_groups:
+- name: app
+  jobs:
+  - name: web
+    release: my-app
+    provides:
+      my_custom_link:
+        as: my_explicit_custom_link
+        shared: true
+    custom_provider_definitions:
+    - name: my_custom_link
+      type: my_custom_link_type
+```
+
+Additionally, the custom provider can optionally specify which properties to share from the job release spec. Example:
+
+```yaml
+instance_groups:
+- name: app
+  jobs:
+  - name: web
+    release: my-app
+    provides:
+      my_custom_link:
+        as: my_explicit_custom_link
+        shared: true
+    custom_provider_definitions:
+    - name: my_custom_link
+      type: my_custom_link_type
+      properties:
+      - port
+      - url
+```
