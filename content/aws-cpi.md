@@ -66,8 +66,8 @@ Schema for `cloud_properties` section:
 * **key_name** [String, optional]: Key pair name. Defaults to key pair name specified by `default_key_name` in global CPI settings. Example: `bosh`.
 * **spot\_bid\_price** [Float, optional]: Bid price in dollars for [AWS spot instance](http://aws.amazon.com/ec2/purchasing-options/spot-instances/). Using this option will slow down VM creation. Example: `0.03`.
 * **spot\_ondemand\_fallback** [Boolean, optional]: Set to `true` to use an on demand instance if a spot instance is not available during VM creation. Defaults to `false`. Available in v36.
-* **elbs** [Array, optional]: Array of ELB names that should be attached to created VMs. Example: `[prod-elb]`. Default is `[]`.
-* **lb\_target\_groups** [Array, optional]: Array of Load Balancer Target Groups to which created VMs should be attached. Example: `[prod-group1, prod-group2]`. Default is `[]`. Available in v63 or newer.
+* **elbs** [Array, optional]: Array of [Elastic (Classic) Load Balancer (ELB)](https://aws.amazon.com/documentation/elastic-load-balancing/) names that should be attached to created VMs. Example: `[prod-elb]`. Default is `[]`.
+* **lb\_target\_groups** [Array, optional]: Array of Load Balancer Target Groups to which created VMs should be attached. Target Groups can be used to link [Application Load Balancers (ALB)](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) and [Network Load Balancers (NLB)](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html) to instances. Example: `[prod-group1, prod-group2]`. Default is `[]`. Available in v63 or newer.
 * **iam\_instance\_profile** [String, optional]: Name of an [IAM instance profile](aws-iam-instance-profiles.md). Example: `director`.
 * **placement_group** [String, optional]: Name of a [placement group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html). Example: `my-group`.
 * **tenancy** [String, optional]: VM [tenancy](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/dedicated-instance.html) configuration. Example: `dedicated`. Default is `default`.
