@@ -23,6 +23,7 @@ The [`bosh_cpi`](https://rubygems.org/gems/bosh_cpi) gem provides a `Bosh::Cpi::
  * [OpenStack CPI Release](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release)
  * [VMware vSphere CPI Release](https://github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release)
  * [VMware vCloud CPI Release](https://github.com/cloudfoundry-incubator/bosh-vcloud-cpi-release)
+ * [HuaweiCloud CPI Release](https://github.com/cloudfoundry-incubator/bosh-huaweicloud-cpi-release)
 
 
 ### Go
