@@ -9,10 +9,10 @@ This document shows how to set up new [environment](terminology.md#environment) 
 * [Create and Configure Security Group](#create-security)
  ---
 ### Obtain HuaweiCloud Credentials {: #credentials }
- Your HuaweiCloud credentials consist of an Access Key ID and a Secret Access Key. Follow [Creating Users](https://www.alibabacloud.com/help/doc-detail/28647.htm) to create a new RAM user.
+ Follow [Creating Users](https://console.huaweicloud.com/iam/#/myCredential) to obtain the username and account.
  ---
 ### Create a Virtual Private Cloud (VPC) {: #create-vpc }
- 1. Log on to the [VPC console](https://www.huaweicloud.com/en-us/product/vpc.html).
+ 1. Log on to the [VPC console](https://console.huaweicloud.com/vpc).
  1. Select the region of the VPC. The VPC and the cloud resources to deploy must be in the same region.
  1. Click Create VPC, configure the VPC according to the following information, and click OK.
  See [Create a VPC](https://console.huaweicloud.com/vpc/?region=cn-north-1&locale=en-us#/vpc/createVpc).
@@ -24,16 +24,16 @@ This document shows how to set up new [environment](terminology.md#environment) 
  ---
 ### Create a Key Pair {: #create-key-pair }
  1. Log on to the [ECS console](https://auth.huaweicloud.com/authui/login.action?locale=en-us#/login).
- 1. In the left-side navigation pane, choose **Networks & Security** > **Key Pairs**.
- 1. On the Key Pairs page, select a region, and click **Create Key Pair**.
- 1. On the Create Key Pair page, enter a name for the key pair, and select **Automatically Create a Key Pair**.
+ 1. On the ECS Dashboard, In the left-side navigation pane, choose **Key Pairs**.
+ 1. On the Key Pairs page, click **Create Key Pair**.
+ 1. On the Create Key Pair page, enter a name for the key pair, and click **OK**.
  1. Save private key to `~/Downloads/bosh.pem`.
  See [Create an SSH key pair](https://support.huaweicloud.com/en-us/dew_faq/dew_01_0063.html)
  ---
 ### Create and Configure Security Group {: #create-security }
- Log on to the  ECS console.
-In the left-side navigation pane, select Networks & Security > > Security group.
- 1. On the ECS Dashboard, select **Networks & Security** and then select **Security group**.
+ Log on to the  VPC console.
+In the left-side navigation pane, select Network > > Virtual Private Cloud > > Security group.
+ 1. On the VPC Dashboard, select **Security group**.
  1. Select a region and then click **Create Security Group**.
  1. Complete the Create Security Group form with the following information:
     * **Security group name**: bosh
