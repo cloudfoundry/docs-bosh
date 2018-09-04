@@ -208,7 +208,7 @@ Obtain the DNS address for a singular link. This is equivalent to using `link("m
 
 #### Request Params
 * **link_id**: [String] The link ID.
-* **azs**: [Array] List of AZs to filter by (optional).
+* **azs[]**: [String] Name of the AZ to filter by (optional). This parameter should be provided multiple times when specifying multiple availability zones; see example below.
 * **status**: [String] Filter by health status. One of: healthy, unhealthy, all, default (optional).
 
 ```bash
@@ -222,4 +222,11 @@ $ uaac curl 'https://10.0.1.6:25555/link_address?link_id=3&azs[]=z1'
 {
   "address": "q-a1s0.zookeeper.default.zookeeper.bosh"
 }
+```
+
+#### Specifying Multiple AZs in the Same Request 
+The `azs[]` parameter should be provided multiple times when specifying multiple AZs in the query request. For example, to filter by availability zones **z1**, **z2**, and **z3**, the request will look like:
+
+```bash
+$ uaac curl 'https://10.0.1.6:25555/link_address?link_id=3&azs[]=z1&azs[]=z2&azs[]=z3'
 ```
