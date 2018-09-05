@@ -273,6 +273,126 @@ The following options are available when constructing a link query:
  * `deployment_name` (`g*`): deployment name
 
 ---
+## BOSH DNS Addresses in Config Server Generated Certs {: #dns-variables-integration}
+
+!!! note
+    This feature is still in alpha phase.
+
+With BOSH `v267+`, [Config Server](variable-types.md) generated certificates can be optionally created with automatic BOSH DNS records in their Common Name and/or Subject Alternative Names. 
+
+A [variable](variable-types.md) of type `certificate` can now **explicitly** consume two links:
+
+1. **Name:** `alternative_name`, **Type:** `address`. When consumed, the BOSH DNS address of the link provider will be added to the Subject Alternative Names of the generated certificate.
+1. **Name:** `common_name`, **Type:** `address`. When consumed, the BOSH DNS address of the link provider will be set as the Common Name of the generated certificate **ONLY IF** the variable definition does not specify a common name. If the variable definition specifies a common name, it will **NOT** be overridden. 
+
+**Note that the above 2 links are optional.**
+
+The recommended way to hook the links providers with the consumers variables is by using the [custom provider definition](links.md#custom-provider-definitions) feature.
+
+### Consuming `alternative_name`
+
+In the example below, the variable of type certificate `app_server_cert` is explicitly consuming `alternative_name` from the `my-custom-app-server-address` provider. This will lead to the `app_server_cert` certificate being generated with an additional SAN: the BOSH DNS address of the instance group `server_ig` where the link provider (the job `app_server`) exists. For example: `q-s0.server_ig.default.app-service.bosh`.
+
+```
+name: app-service
+
+  ...
+
+instance_groups:
+- name: server_ig
+  jobs:
+   - name: app_server
+     provides:
+       app-server-address:
+         as: my-custom-app-server-address
+     custom_provider_definitions:
+     - name: app-server-address  
+       type: address
+  ...
+
+variables:
+- name: default_ca
+  type: certificate
+  options:
+    is_ca: true
+    common_name: Default CA
+- name: app_server_cert
+  type: certificate
+  options:
+    ca: default_ca
+    common_name: My Application Server
+  consumes:
+    alternative_name: { from: my-custom-app-server-address }
+```
+
+### Consuming `common_name`
+
+It is also possible to set the common name to the appropriate BOSH DNS record.
+
+In the example below, the variable of type certificate `app_server_cert` is explicitly consuming `common_name` from the `my-custom-app-server-address` provider. This will set the Common Name of `app_server_cert` generated certificate to be the BOSH DNS address of the instance group `server_ig` where the link provider (the job `app_server`) exists. For example, the common name will be set to `q-s0.server_ig.default.app-service.bosh`.
+
+```
+variables:
+  - name: app_server_cert
+    type: certificate
+    options:
+      ca: default_ca
+    consumes:
+      common_name: { from: my-custom-app-server-address }
+```
+
+### Allowing for wildcards
+
+If the application talks to specific instances or uses different healthiness filtering, it may be useful to request a wildcard DNS name when consuming a link for either SANs or common name:
+
+```
+variables:
+  - name: app_server_cert
+    type: certificate
+    options:
+      ca: default_ca
+      common_name: Application Server
+    consumes:
+      alternative_name:
+        from: my-custom-app-server-address
+        properties: { wildcard: true }
+```
+
+Which will result in the variable called `app_server_cert` having a SAN set to
+
+* DNS: `*.server_ig.default.app-service.bosh`.
+
+### When Variable Definition has SANS and/or CN Defined in its Options
+
+If the variable of type certificate defines a list of Subject alternative Names in its options, and at the same time it consumes the `alternative_name` link, the BOSH DNS address of the provider will be added to the list SANs in the generated certificate. 
+
+In contrast, if the variable of type certificate defines a Common Name in its options, and at the same time it consumes the `common_name` link, the BOSH DNS address of the provider will **NOT** override the Common Name defined in options. 
+
+For example, the `app_server_cert` cert below will have "**Application Server**" as Common Name, and will have the following SANs:
+             
+ * DNS: `custom-record.appservers.cf.local`
+ * DNS: `*.serverig.default.app-service.bosh`
+ * IP: 172.158.20.255
+
+```
+variables:
+  - name: app_server_cert
+    type: certificate
+    options:
+      ca: default_ca
+      common_name: "Application Server"
+      alternative_names: [ "custom-record.appservers.cf.local", 172.158.20.255 ]
+    consumes:
+      alternative_name:
+        from: my-custom-app-server-address
+        properties: { wildcard: true }
+      common_name: { from: my-custom-app-server-address }
+```
+
+!!! Warning
+    In order for the variables to be regenerated by Config Server(usually Credhub) when any of their options changes, the [`features.converge_variables`](manifest-v2.md#features) flag should be set to `true` in the deployment manifest.
+ 
+---
 ## Rotating BOSH DNS Certificates {: #rotating-dns-certificates }
 
 BOSH DNS Health Monitor Certificates should be performed in three steps in order to achieve zero downtime.

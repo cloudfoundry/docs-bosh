@@ -120,6 +120,9 @@ stemcells:
         * Waits for `low` milliseconds
         * Waits until instances are healthy or `high` milliseconds have passed since instances started updating
 * **serial** [Boolean, optional]: If disabled (set to `false`), instance groups will be deployed in parallel, otherwise - sequentially. Instances within a group will still follow `canary` and `max_in_flight` configuration. Defaults to `true`.
+* **vm_strategy** [String, optional]: Influence how instances are updated when their VM needs to be recreated due to IaaS-related changes. Choose from one of the following strategies. Defaults to `delete-create`. Introduced in [bosh/267.2](https://github.com/cloudfoundry/bosh/releases/tag/v267.2).
+    * `delete-create` - fully stop processes and delete the VM before creating and provisioning a new VM.
+    * `create-swap-delete` - create and provision a new VM before stopping processes and transferring responsibilities from the old VM. Some configurations (e.g. static IPs) are not supported and will automatically revert to the `delete-create` strategy.
 
 See [job lifecycle](job-lifecycle.md) for more details on startup/shutdown procedure within each VM.
 

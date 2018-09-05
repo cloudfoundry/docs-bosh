@@ -40,6 +40,7 @@ pages:
       - Links: links.md
       - Manually Configuring Links: links-manual.md
     - Running Errands: errands.md
+    - VM Update Strategy: changing-deployment-vm-strategy.md
     - VM Anti-Affinity: vm-anti-affinity.md
     - Troubleshooting:
       - Monitoring: monitoring.md
@@ -106,6 +107,8 @@ pages:
       - Common Addons: addons-common.md
     - Integrating with CredHub:
       - Variable Types: variable-types.md
+    - Certificates Rotation:
+      - Rotating NATS CA: nats-ca-rotation.md
     - Optional Features:
       - Explicit ARP Flushing: flush-arp.md
       - Removing Dev Tools from VMs: remove-dev-tools.md
@@ -150,7 +153,9 @@ pages:
     - Usage: cloud-config.md
     - Availability Zones: azs.md
     - Networks: networks.md
-  - Director HTTP API: director-api-v1.md
+  - Director APIs:
+    - Director HTTP API: director-api-v1.md
+    - Links API: links-api.md
   - Director Runtime Config: runtime-config.md
   - Generic Configs: configs.md
   - Cloud Provider Interface:
