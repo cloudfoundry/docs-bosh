@@ -90,7 +90,7 @@ In the left-side navigation pane, select Network > > Virtual Private Cloud > > S
 
     ```
      If running above commands outside of an HuaweiCloud VPC, refer to [Exposing environment on a public IP](init-external-ip.md) for additional CLI flags.
-     See [HuaweiCloud CPI errors](HuaweiCloud-cpi-errors.md) for list of common errors and resolutions.
+     See [HuaweiCloud CPI errors](huaweicloud-cpi-errors.md) for list of common errors and resolutions.
  1. Connect to the Director.
      ```shell
     # Configure local alias
