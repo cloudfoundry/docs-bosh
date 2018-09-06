@@ -520,3 +520,50 @@ bosh update-runtime-config bosh-deployment/runtime-configs/dns.yml --vars-store 
     -o rotate-dns-certs-1.yml -o rotate-dns-certs-2.yml -o rotate-dns-certs-3.yml
   ```
   Redeploy all VMs.
+
+--
+## Instance `records.json` Data
+
+Each VM receives a local copy of the latest DNS data (via the BOSH agent on the VM) whenever VMs are added or removed from the system. This data file is installed to `/var/vcap/instance/dns/records.json`. Below is an example of the schema...
+
+```json
+{
+  "record_keys": [
+    "id",
+    "num_id",
+    "instance_group",
+    "group_ids",
+    "az",
+    "az_id",
+    "network",
+    "network_id",
+    "deployment",
+    "ip",
+    "domain",
+    "agent_id",
+    "instance_index"
+  ],
+  "record_infos": [
+    [
+      "4d516417-e1e5-4aa5-a038-91e369716821",
+      "12345",
+      "my-instance-group-name",
+      [
+        "2345"
+      ],
+      "my-az-name",
+      "34",
+      "my-network-name",
+      "45",
+      "my-deployment-name",
+      "192.0.2.101",
+      "bosh",
+      "6615c4f0-9a52-4ba0-b15c-6534b9bd99a9"
+    ],
+    ...
+  ]
+}
+```
+
+!!! warning
+    This is an internal API with the BOSH management plane. Depending on director versions being used in an environment, some keys may be missing and additional keys may be present. You should not use this information directly - use DNS queries against the BOSH DNS server to find VM details.
