@@ -1,4 +1,5 @@
 This topic describes cloud properties for different resources created by the HuaweiCloud CPI.
+The Huaweicloud CPI is designed for user most familiar with the Huawei cloud concepts and it only used in [Huaweicloud](https://www.huaweicloud.com/).
 
 ## AZs {: #azs }
 
