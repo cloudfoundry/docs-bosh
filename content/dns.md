@@ -102,19 +102,13 @@ The following queries demonstrate the expected resolution behaviors:
 !!! tip
     Aliases are very useful when [migrating from Consul](dns.md#migrate-consul).
 
-
 ### Healthiness
 
-DNS release provides a way to reference all instances (or a subset of instances)
-in a link via single DNS record. Instances can be queried using their DNS
-addresses and a healthiness filter to filter healthy/unhealthy instances (see
-[Constructing Queries](#constructing-queries) for more information). The notion
-of instance healthiness is directly tied to the state of processes running on a
-VM. DNS release will continuously poll for updated healthiness information (same
-information is visible via `bosh instances --ps` command) on all instances from
-groups that were resolved at least once.
+DNS release provides a way to reference all instances (or a subset of instances) in a link via single DNS record. Instances can be queried using their DNS addresses and optional filters to limit results (see [Constructing Queries](#constructing-queries) for more information). The notion of instance healthiness is directly tied to the state of processes running on a VM. DNS release will continuously poll for updated healthiness information (same information is visible via `bosh instances --ps` command) on all instances from groups that were resolved at least once.
 
 To enable healthiness, use `health.enabled` property and specify necessary TLS certificates. Canonical DNS runtime config with healthiness enabled can be found here: https://github.com/cloudfoundry/bosh-deployment/blob/master/runtime-configs/dns.yml.
+
+By default, a VM is considered healthy if the process manager reports all processes as healthy (e.g. `monit`). For specific jobs, release authors may install a script at `bin/dns/healthy` to provide more precise healthiness checks. The `healthy` script must exit `0` if the job is healthy, or any other exit code for unhealthy. These scripts are run at regular intervals (by default, 5s) in addition to checking the status from the process manager. If any processes are failing or any `healthy` script reports as unhealthy, the VM will be considered unhealthy.
 
 ### Caching
 
