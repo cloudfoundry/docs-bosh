@@ -32,6 +32,19 @@ Schema for `cloud_properties` section used by manual network subnet:
 
 * **name** [String, required]: Name of the vSphere network. Example: `VM Network`.
 
+### Managed Networks ###
+Create T1 router and attach it to T0 router. It also creates virtual switch and attaches it to T1 router.
+So every subnet in network will have its own switch. Route advertisement is enabled on T1 router.
+
+Schema for `cloud_properties` section used by managed network subnet:
+
+* **name** [String, required]: Name of the vSphere network. Example: `Subnet 1`.
+* **t0_router_id** [String, required]: Id of T0 router to which T1 will be attached. Example: `7ef20c24-5adb-47bf-8553-f66c1cfd9614`.
+* **transport_zone_id** [String, required]: Transport Zone id where switch is going to be created. VMs must be created at the hosts within this TZ. Example: `ee1a4cd1-701e-43f0-a2a7-110984298f7c`.
+* **t1_name** [String, optional]: Name of T1 router. Example: `VM Router`.
+* **switch_name** [String, optional]: Name of the switch. Example: `VM Network`.
+* **ip_block_id** [String, optional]: Id of IP Block. IP block must be created beforehand. When netmask_bits is set, this is used to allocate subnet of given size. Example `53c98f6e-d6db-4652-b1ae-c85a5fcdccae` 
+
 **Note:** To assign a distributed virtual portgroup when
 there exists a standard virtual portgroup with the same name,
 prepend the distributed virtual switch's name followed by a slash to the
@@ -40,6 +53,12 @@ be required when working with VxRack. Available in v28+.
 
 **Note:** The name may also be an NSX opaque network. Available in v40+.
 
+**Note:** To use managed networks make sure enable_cpi_management is set for director
+```yaml
+director:
+  networks:
+    enable_cpi_management: true
+```
 Example of manual network:
 
 ```yaml
@@ -53,7 +72,41 @@ networks:
       name: VM Network
 ```
 
-vSphere CPI does not support dynamic or vip networks.
+Example of managed network with range:
+
+```yaml
+networks:
+- name: default
+  type: manual
+  managed: true
+  subnets:
+  - name: Managed network
+    range: 10.10.0.0/24
+    cloud_properties:
+      t0_router_id: 7ef20c24-5adb-47bf-8553-f66c1cfd9614
+      transport_zone_id: ee1a4cd1-701e-43f0-a2a7-110984298f7c
+      t1_name: VM Router
+      switch_name: VM Network
+```
+
+Example of managed network with netmask_bits:
+
+```yaml
+networks:
+- name: default
+  type: manual
+  managed: true
+  subnets:
+  - name: Managed network
+    netmask_bits: 24
+    cloud_properties:
+      ip_block_id: 53c98f6e-d6db-4652-b1ae-c85a5fcdccae
+      t0_router_id: 7ef20c24-5adb-47bf-8553-f66c1cfd9614
+      transport_zone_id: ee1a4cd1-701e-43f0-a2a7-110984298f7c
+      t1_name: VM Router
+      switch_name: VM Network
+```
+vSphere CPI does not support dynamic and vip networks.
 
 ---
 ## VM Types / VM Extensions {: #resource-pools }
