@@ -15,7 +15,7 @@ A process that runs continuously on each VM that BOSH deploys (one Agent process
 ---
 ## bosh-init {: #bosh-init }
 
-Tool that was replace by CLI v2's `create-env` command used for creating and updating.
+Tool that was replaced by CLI v2's `create-env` command used for creating and updating.
 
 ---
 ## BOSH Lite {: #bosh-lite }
