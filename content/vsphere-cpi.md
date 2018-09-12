@@ -262,9 +262,6 @@ Schema:
 !!! note
     If the NSX-V or NSX-T Manager has a self-signed certificate, the certificate must be set in the `ca_cert` property.
 
-!!! warning
-    If you are configuring these properties through a release manifest (i.e. not via [CPI config](cpi-config.md)), you should configure the vCenter endpoint using `address` instead of `host`.
-
 Example properties that will place VMs into `BOSH_CL` cluster within `BOSH_DC`:
 
 ```yaml
