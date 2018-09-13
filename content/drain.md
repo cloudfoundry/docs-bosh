@@ -92,6 +92,18 @@ BOSH_JOB_NEXT_STATE={"persistent_disk":0}
 You'll find [here](https://github.com/cloudfoundry-incubator/cfcr-etcd-release/blob/master/jobs/etcd/templates/bin/drain.erb)
 an exemple script for an etcd member to leave its etcd cluster gracefully.
 
+---
+## Command-line arguments {: #command-line-arguments }
+
+The first argument passed to the drain script indicates the intended job lifecycle action.
+It can have the following values;
+* `job_changed` indicating that the job will be restarted
+* `job_shutdown` indicating that the job will be stopped and subsequently the VM will terminated
+
+The second arguemnt passed to the drain script indicates whether the job hash has changed.
+It can have the following values;
+* `hash_changed` indicating that the job's packages or rendered templates have changed.
+* `hash_unchanged` indicating that the job's packages and rendered templates have not changed.
 
 ---
 ## Logs {: #logs }
