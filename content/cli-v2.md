@@ -1077,3 +1077,19 @@ See [CPI config](cpi-config.md).
     $ bosh interpolate certs.yml --path /service_ssl/certificate
     $ bosh interpolate certs.yml --path /service_ssl/private_key
     ```
+
+- `bosh curl [--method=HTTP-METHOD] [--header=HTTP-HEADER] [--body=PATH-TO-FILE-WITH-HTTP-REQUEST-BODY] [--show-headers]`
+
+    Make an HTTP request to the BOSH Director. **Recommended to be used for debugging purposes only**.
+
+    - `--method` `(-X)` flag specifies the HTTP method. Allowed values: `GET`, `POST`, `PUT`, and `DELETE`. Defaults to `GET`
+    - `--header` `(-H)` flag allows adding an HTTP header to the request in `'name: value'` format. Can be specified multiple times for multiple headers.
+    - `--body` flag is the path to the file containing the HTTP request body (for `POST` and `PUT`)
+    - `--show-headers` `(-i)` flag shows HTTP headers in the response
+
+
+```
+$ bosh curl /deployments
+$ bosh curl /links?deployment=my-dep
+$ bosh curl -H 'Content-Type: application/json' --body ./request-body.txt --method=POST /links
+```
