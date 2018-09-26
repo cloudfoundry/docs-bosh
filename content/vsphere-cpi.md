@@ -171,7 +171,7 @@ The CPI can only talk to a single vCenter installation and manage VMs within a s
 
 Schema:
 
-* **host** [String, required]: IP address of the vCenter. Example: `172.16.68.3`.
+* **host** [String, required]: IP address or hostname of vCenter. Example: `172.16.68.3`.
 * **user** [String, required]: Username for the API access. Example: `root`.
 * **password** [String, required]: Password for the API access. Example: `vmware`
 * **http_logging** [Boolean, optional]: Enables logging all HTTP requests and responses to vSphere API. Default: `false`. Available in v37+.
@@ -209,47 +209,46 @@ Schema:
 !!! note
     If the NSX-V or NSX-T Manager has a self-signed certificate, the certificate must be set in the `ca_cert` property.
 
-Example of a CPI configuration that will place VMs into `BOSH_CL` cluster within `BOSH_DC`:
+!!! warning
+    If you are configuring these properties through a release manifest (i.e. not via [CPI config](cpi-config.md)), you should configure the vCenter endpoint using `address` instead of `host`.
+
+Example properties that will place VMs into `BOSH_CL` cluster within `BOSH_DC`:
 
 ```yaml
-properties:
-  vcenter:
-    address: 172.16.68.3
-    user: root
-    password: vmware
-    datacenters:
-    - name: BOSH_DC
-      vm_folder: prod-vms
-      template_folder: prod-templates
-      disk_path: prod-disks
-      datastore_pattern: '^prod-ds$'
-      persistent_datastore_pattern: '^prod-ds$'
-      clusters: [BOSH_CL]
+host: 172.16.68.3
+user: root
+password: vmware
+datacenters:
+- name: BOSH_DC
+  vm_folder: prod-vms
+  template_folder: prod-templates
+  disk_path: prod-disks
+  datastore_pattern: '^prod-ds$'
+  persistent_datastore_pattern: '^prod-ds$'
+  clusters: [BOSH_CL]
 ```
 
 Example that places VMs by default into `BOSH_RP` vSphere resource pool with NSX integration and enables VM anti-affinity DRS rule:
 
 ```yaml
-properties:
-  vcenter:
-    address: 172.16.68.3
-    user: root
-    password: vmware
-    default_disk_type: thin
-    enable_auto_anti_affinity_drs_rules: true
-    datacenters:
-    - name: BOSH_DC
-      vm_folder: prod-vms
-      template_folder: prod-templates
-      disk_path: prod-disks
-      datastore_pattern: '\Aprod-ds\z'
-      persistent_datastore_pattern: '\Aprod-ds\z'
-      clusters:
-      - BOSH_CL: {resource_pool: BOSH_RP}
-    nsx:
-      address: 172.16.68.4
-      user: administrator@vsphere.local
-      password: vmware
+host: 172.16.68.3
+user: root
+password: vmware
+default_disk_type: thin
+enable_auto_anti_affinity_drs_rules: true
+datacenters:
+- name: BOSH_DC
+  vm_folder: prod-vms
+  template_folder: prod-templates
+  disk_path: prod-disks
+  datastore_pattern: '\Aprod-ds\z'
+  persistent_datastore_pattern: '\Aprod-ds\z'
+  clusters:
+  - BOSH_CL: {resource_pool: BOSH_RP}
+nsx:
+  address: 172.16.68.4
+  user: administrator@vsphere.local
+  password: vmware
 ```
 
 ---

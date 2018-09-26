@@ -66,8 +66,8 @@ Schema for `cloud_properties` section:
 * **key_name** [String, optional]: Key pair name. Defaults to key pair name specified by `default_key_name` in global CPI settings. Example: `bosh`.
 * **spot\_bid\_price** [Float, optional]: Bid price in dollars for [AWS spot instance](http://aws.amazon.com/ec2/purchasing-options/spot-instances/). Using this option will slow down VM creation. Example: `0.03`.
 * **spot\_ondemand\_fallback** [Boolean, optional]: Set to `true` to use an on demand instance if a spot instance is not available during VM creation. Defaults to `false`. Available in v36.
-* **elbs** [Array, optional]: Array of ELB names that should be attached to created VMs. Example: `[prod-elb]`. Default is `[]`.
-* **lb\_target\_groups** [Array, optional]: Array of Load Balancer Target Groups to which created VMs should be attached. Example: `[prod-group1, prod-group2]`. Default is `[]`. Available in v63 or newer.
+* **elbs** [Array, optional]: Array of [Elastic (Classic) Load Balancer (ELB)](https://aws.amazon.com/documentation/elastic-load-balancing/) names that should be attached to created VMs. Example: `[prod-elb]`. Default is `[]`.
+* **lb\_target\_groups** [Array, optional]: Array of Load Balancer Target Groups to which created VMs should be attached. Target Groups can be used to link [Application Load Balancers (ALB)](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) and [Network Load Balancers (NLB)](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html) to instances. Example: `[prod-group1, prod-group2]`. Default is `[]`. Available in v63 or newer.
 * **iam\_instance\_profile** [String, optional]: Name of an [IAM instance profile](aws-iam-instance-profiles.md). Example: `director`.
 * **placement_group** [String, optional]: Name of a [placement group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html). Example: `my-group`.
 * **tenancy** [String, optional]: VM [tenancy](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/dedicated-instance.html) configuration. Example: `dedicated`. Default is `default`.
@@ -155,6 +155,10 @@ Schema:
 * **region** [String, required]: AWS region name. Example: `us-east-1`
 * **max_retries** [Integer, optional]: The maximum number of times AWS service errors (500) and throttling errors (`AWS::EC2::Errors::RequestLimitExceeded`) should be retried. There is an exponential backoff in between retries, so the more retries the longer it can take to fail. Defaults to 2.
 * **encrypted** [Boolean, optional]: Turns on [EBS volume encryption](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html) for all VM's root (system), ephemeral and persistent disks. Defaults to `false`. Available in v67+.
+
+    !!! warning
+        EBS volume encryption does not work for Windows stemcells due to an [AWS limitation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html#copy-ami-across-accounts). Enabling this will not encrypt the root disk of Windows VMs.
+
 * **kms\_key\_arn** [String, optional]: Encrypts the disks using an encryption key stored in the [AWS Key Management Service (KMS)](https://aws.amazon.com/kms/). The format of the ID is `XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX`. Be sure to use the Key ID, not the Alias. If this property is omitted and `encrypted` is `true`, the disks will be encrypted using your account's default `aws/ebs` encryption key. Available in v67+.
 
 See [all configuration options](https://bosh.io/jobs/cpi?source=github.com/cloudfoundry-incubator/bosh-aws-cpi-release).
@@ -162,25 +166,21 @@ See [all configuration options](https://bosh.io/jobs/cpi?source=github.com/cloud
 Example with hard-coded credentials:
 
 ```yaml
-properties:
-  aws:
-    access_key_id: ACCESS-KEY-ID
-    secret_access_key: SECRET-ACCESS-KEY
-    default_key_name: bosh
-    default_security_groups: [bosh]
-    region: us-east-1
+access_key_id: ACCESS-KEY-ID
+secret_access_key: SECRET-ACCESS-KEY
+default_key_name: bosh
+default_security_groups: [bosh]
+region: us-east-1
 ```
 
 Example when [IAM instance profiles](aws-iam-instance-profiles.md) are used:
 
 ```yaml
-properties:
-  aws:
-    credentials_source: env_or_profile
-    default_key_name: bosh
-    default_security_groups: [bosh]
-    default_iam_instance_profile: deployed-vm
-    region: us-east-1
+credentials_source: env_or_profile
+default_key_name: bosh
+default_security_groups: [bosh]
+default_iam_instance_profile: deployed-vm
+region: us-east-1
 ```
 
 ---

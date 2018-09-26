@@ -19,9 +19,9 @@ If a parameter is set to a value greater than what is available (e.g. 1024 CPUs)
 ## Arguments
 
  * `desired_instance_size` [Hash]: Parameters of the desired size of the VM consisting of the following keys:
-   * `cpu` [Integer]: Number of virtual cores desired
-   * `ram` [Integer]: Amount of RAM, in MiB (i.e. `4096` for 4 GiB)
-   * `ephemeral\_disk\_size` [Integer]: Size of ephemeral disk, in MB
+    * `cpu` [Integer]: Number of virtual cores desired
+    * `ram` [Integer]: Amount of RAM, in MiB (i.e. `4096` for 4 GiB)
+    * `ephemeral_disk_size` [Integer]: Size of ephemeral disk, in MB
 
 
 ## Result

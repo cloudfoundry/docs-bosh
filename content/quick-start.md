@@ -89,3 +89,11 @@ Run through quick steps below or follow [deploy workflow](basic-workflow.md) tha
     ```shell
     $ bosh -e vbox -d zookeeper run-errand smoke-tests
     ```
+
+## Clean up
+
+The test director can be deleted using the [`virtualbox/delete-env.sh`](https://github.com/cloudfoundry/bosh-deployment/blob/master/virtualbox/delete-env.sh) script.
+
+```shell
+$ ./bosh-deployment/virtualbox/delete-env.sh
+```

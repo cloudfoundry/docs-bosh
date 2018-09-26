@@ -336,3 +336,21 @@ items:
 - name: item8
 - name: item8
 ```
+
+
+## Escaping
+
+The following characters can be escaped with special sequences...
+
+| Desired | Escaped |
+| ------- | ------- |
+| `~` | `~0` |
+| `/` | `~1` |
+| `:` | `~7` |
+
+For example, to remove a variable with a `name` of `/root_certificate`, you might do...
+
+```yaml
+- path: /variables/name=~1root_certificate
+  type: remove
+```
