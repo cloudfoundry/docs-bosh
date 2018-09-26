@@ -25,11 +25,8 @@ For the Agent to eventually format, partition and mount attached disk, it needs 
 ```json
 {
   "agent_id": "4149ba0f-38d9-4485-476f-1581be36f290",
-
   "vm": { "name": "i-347844" },
-
   "networks": { ... },
-
   "disks": {
   	"system": "/dev/sda",
   	"ephemeral": "/dev/sdb",
@@ -38,15 +35,10 @@ For the Agent to eventually format, partition and mount attached disk, it needs 
   		"vol-7447851": { "path": "/dev/sdd" },
   	}
   },
-
   "mbus": "https://mbus:mbus-password@0.0.0.0:6868",
-
   "ntp": [ ... ],
-
   "blobstore": { ... },
-
   "env": {},
-
   "context": {
     "director_uuid": "<director-uuid>",
     "request_id": "<cpi-request-id>",
@@ -56,7 +48,6 @@ For the Agent to eventually format, partition and mount attached disk, it needs 
       }
     }
   },
-
   "api_version": 2
 }
 ```

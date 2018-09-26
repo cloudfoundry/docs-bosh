@@ -19,7 +19,6 @@ Creates a network that will be used to place VMs on.
 ```json
 {
   "method": "create_network",
-
   "arguments": [
     {
       "type": "manual",
@@ -31,13 +30,11 @@ Creates a network that will be used to place VMs on.
       "gateway": "192.168.10.1"
     }
   ],
-
   "context": {
-    "director_uuid": "deadbeef",
-    "request_id": "cpi-330102"
+    "director_uuid": "<director-uuid>",
+    "request_id": "<cpi-request-id>",
   },
-
-  "api_version": 2
+  "api_version": 1
 }
 ```
 

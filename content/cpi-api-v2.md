@@ -12,9 +12,12 @@ Examples of API request and response:
 
 
 Library:
+
 - Ruby: `bosh-cpi-ruby` gem [v2.5.0](https://github.com/cloudfoundry/bosh-cpi-ruby/releases/tag/v2.5.0)
 - GoLang: `bosh-cpi-go` [library](https://github.com/cppforlife/bosh-cpi-go)
+
 ---
+
 ## Glossary {: #glossary }
 
 - **cloud ID** is an ID (string) that the Director uses to reference any created infrastructure resource; typically CPI methods return cloud IDs and later receive them. For example AWS CPI's `create_vm` method would return `i-f789df` and `attach_disk` would take it.
@@ -103,6 +106,10 @@ cloud_properties:
  * Disk Management
     * [attach_disk](cpi-api-v2-method/attach-disk.md)
     * [detach_disk](cpi-api-v2-method/detach-disk.md)
- * Networking
-    * [create_network](cpi-api-v2-method/create-network.md)
-    * [delete_network](cpi-api-v2-method/delete-network.md)
+
+
+#### Additional methods in V1:
+
+* Networking
+   * [create_network](cpi-api-v1-method/create-network.md)
+   * [delete_network](cpi-api-v1-method/delete-network.md)

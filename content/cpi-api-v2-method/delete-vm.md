@@ -19,6 +19,22 @@ No return value
 
 ## Examples
 
+### API request
+
+```json
+{
+  "method": "delete_vm",
+  "arguments": [
+    "<vm_cid>"
+  ],
+  "context": {
+    "director_uuid": "<director-uuid>",
+    "request_id": "<cpi-request-id>",
+  },
+  "api_version": 2,
+}
+```
+
 ### Implementations
 
  * [cppforlife/bosh-warden-cpi-release](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/delete_vm.go)

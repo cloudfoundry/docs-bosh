@@ -19,3 +19,10 @@ resource_pools:
 - name: large_machines
   cloud_properties: {instance_type: r3.8xlarge}
 ```
+
+
+#### Additional methods in V1:
+
+* Networking
+    * [create_network](cpi-api-v1-method/create-network.md)
+    * [delete_network](cpi-api-v1-method/delete-network.md)
