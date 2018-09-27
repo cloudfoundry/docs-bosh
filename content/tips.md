@@ -77,13 +77,13 @@ This process occurs when one of the processes (from one of the installed jobs) d
 $ bosh deploy
 ...
 
-Failed compiling packages > dea_next/3e95ef8425be45468e044c05cc9aa65494281ab5: Action Failed get_task: Task bd35f7c1-2144-4045-763e-40beeafc9fa3 result: Compiling package dea_next: Uploading compiled package: Creating blob in inner blobstore: Making put command: Shelling out to bosh-blobstore-dav cli: Running command: 'bosh-blobstore-dav -c /var/vcap/bosh/etc/blobstore-dav.json put /var/vcap/data/tmp/bosh-platform-disk-TarballCompressor-CompressFilesInDir949066221 cd91a1c5-a034-4c69-4608-6b18cc3fcb2b', stdout: 'Error running app - Putting dav blob cd91a1c5-a034-4c69-4608-6b18cc3fcb2b: Wrong response code: 500; body: &lt;html&gt;
-&lt;head&gt;&lt;title&gt;500 Internal Server Error&lt;/title&gt;&lt;/head&gt;
-&lt;body bgcolor="white"&gt;
-&lt;center&gt;&lt;h1&gt;500 Internal Server Error&lt;/h1&gt;&lt;/center&gt;
-&lt;hr&gt;&lt;center&gt;nginx&lt;/center&gt;
-&lt;/body&gt;
-&lt;/html&gt;
+Failed compiling packages > dea_next/3e95ef8425be45468e044c05cc9aa65494281ab5: Action Failed get_task: Task bd35f7c1-2144-4045-763e-40beeafc9fa3 result: Compiling package dea_next: Uploading compiled package: Creating blob in inner blobstore: Making put command: Shelling out to bosh-blobstore-dav cli: Running command: 'bosh-blobstore-dav -c /var/vcap/bosh/etc/blobstore-dav.json put /var/vcap/data/tmp/bosh-platform-disk-TarballCompressor-CompressFilesInDir949066221 cd91a1c5-a034-4c69-4608-6b18cc3fcb2b', stdout: 'Error running app - Putting dav blob cd91a1c5-a034-4c69-4608-6b18cc3fcb2b: Wrong response code: 500; body: <html>
+<head><title>500 Internal Server Error</title></head>
+<body bgcolor="white">
+<center><h1>500 Internal Server Error</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
 ', stderr: '': exit status 1 (00:03:16)
 ```
 
@@ -135,22 +135,22 @@ This problem typically occurs if the Director's system time is out of sync, or i
 ```shell
 $ bosh upload release blah.tgz
 ...
-  Started creating new packages > blah_package/f9098f452f46fb072a6000b772166f349ffe27da. Failed: Could not create object, 413/&lt;html&gt;
-&lt;head&gt;&lt;title&gt;413 Request Entity Too Large&lt;/title&gt;&lt;/head&gt;
-&lt;body bgcolor="white"&gt;
-&lt;center&gt;&lt;h1&gt;413 Request Entity Too Large&lt;/h1&gt;&lt;/center&gt;
-&lt;hr&gt;&lt;center&gt;nginx&lt;/center&gt;
-&lt;/body&gt;
-&lt;/html&gt;
+  Started creating new packages > blah_package/f9098f452f46fb072a6000b772166f349ffe27da. Failed: Could not create object, 413/<html>
+<head><title>413 Request Entity Too Large</title></head>
+<body bgcolor="white">
+<center><h1>413 Request Entity Too Large</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
  (00:02:10)
 
-Error 100: Could not create object, 413/&lt;html&gt;
-&lt;head&gt;&lt;title&gt;413 Request Entity Too Large&lt;/title&gt;&lt;/head&gt;
-&lt;body bgcolor="white"&gt;
-&lt;center&gt;&lt;h1&gt;413 Request Entity Too Large&lt;/h1&gt;&lt;/center&gt;
-&lt;hr&gt;&lt;center&gt;nginx&lt;/center&gt;
-&lt;/body&gt;
-&lt;/html&gt;
+Error 100: Could not create object, 413/<html>
+<head><title>413 Request Entity Too Large</title></head>
+<body bgcolor="white">
+<center><h1>413 Request Entity Too Large</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
 ...
 ```
 
