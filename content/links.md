@@ -227,13 +227,76 @@ instance_groups:
       conn: {as: db_conn}
 ```
 
+### Explicit Linking {: #explicit }
+Explicit linking is defined as specifying your consumer in your deployment manifest. The consumer will be matched on both name and type.
+
+##### Providers
+Explicitly defined providers which can be both explicitly and implicitly consumed, can have the following optional properties:
+
+* **as** [String]: Overrides the name of the provider defined in the release spec. Example:
+```yaml
+instance_groups:
+- name: my_instance_group
+  jobs:
+  - name: my_provider_job
+    provides:
+      bar: {as: new_name}
+```
+* **shared** [Boolean]: *Default is false* Sets whether this provider is consumable from another deployment. See [cross deployment links](#cross-deployment).
+
+Providers that are specified as `nil` will cause your *explicit* consumer to fail resolution.
+
+Deployment Manifest:
+```yaml
+instance_group:
+- name: db_ig
+  jobs:
+  - name: db_job
+    provides:
+      database: nil
+```
+
+##### Consumers
+Explicitly defined consumers can have the following optional properties:
+
+* **from** [String]: Overrides the name of the provider to consume. This should match the name defined in the provider's release spec or the name defined by provider's `as` property in the manifest.
+* **deployment** [String]: The name of the deployment to consume from. If the deployment provided does not exist, it will fail with an error. If the name specified is the same as the current deployment, it will be considered non-cross-deployment.
+* **network** [String]: The name of a network used by the provider. See [custom network linking](#custom-network).
+* **ip_addresses** [Boolean]: *Default is false* Boolean for preferring usage of ip addresses instead of DNS names. In cases such as dynamic network, ip addresses are not available and will still return DNS names. See [dns](dns#links) for more details.
+
+Optional consumers may be defined as `nil` in your deployment manifest to block linking.
+
+Deployment Manifest:
+```yaml
+instance_groups:
+- name: app_ig
+  jobs:
+  - name: app
+    consumes:
+      database: nil
+```
+
 ### Implicit linking {: #implicit }
+Implicit linking is defined as not having your consumer in your deployment manifest but only lives in your release specification.
 
-If a link type is provided by only one job within a deployment, all release jobs in that deployment that consume links of that type will be implicitly connected to that provider.
+If a link type is provided by only one job within a deployment, all release jobs in that deployment that implicitly consume links of that type will resolve to that provider.
 
-Optional links are also implicitly connected; however, if no provider can be found, they continue to be `nil`.
+Providers that are specified as `nil` will cause your *implicit* consumer to fail resolution. Unless your consumer is defined as `optional` in your release.
 
-Implicit linking does not happen across deployments.
+Deployment Manifest:
+```yaml
+instance_groups:
+- name: app_ig
+  jobs:
+  - name: db_job
+    provides:
+      database: nil
+  - name: app
+```
+
+Optional links that can not be satisfied implicitly will return `nil` in the template rendering.
+
+Implicit linking does *not* happen across deployments.
 
 In the following example, it's unnecessary to explicitly specify that `web` job consumes the `primary_db` link of type `db` from the postgres release job, since the postgres job is the only one that provides a link of type `db`.
 
@@ -353,8 +416,8 @@ Common use cases:
 
 ### Custom Provider Definitions {: #custom-provider-definitions }
 
-Additional link providers (called `custom providers`) can be defined for a job through the deployment manifest (or runtime config). Each custom provider needs a name and a type. The name can not already exist in the release spec. 
-Adding a custom provider for a job does not require any changes to the job's release; only deployment manifest changes are needed. 
+Additional link providers (called `custom providers`) can be defined for a job through the deployment manifest (or runtime config). Each custom provider needs a name and a type. The name can not already exist in the release spec.
+Adding a custom provider for a job does not require any changes to the job's release; only deployment manifest changes are needed.
 
 !!! note
     **Custom Provider Definitions** feature is available with bosh-release v267+.
@@ -408,3 +471,52 @@ instance_groups:
       - port
       - url
 ```
+___
+
+## Possible Link Scenarios
+
+The rules for uniqueness are described in the tables below:
+
+Providers can be specified in any way you want as long as it is **not** consumed.
+
+| Provider Name | Provider Type | Consumer Type | Allowed |
+|---------------|---------------|---------------|---------|
+| Same          | Same          | No consumer   | True    |
+| Same          | Different     | No consumer   | True    |
+| Different     | Same          | No consumer   | True    |
+| Different     | Different     | No consumer   | True    |
+
+Providers with different names or types can always be **explicitly** consumed without conflicts.
+
+| Provider Name | Provider Type | Consumer Type | Allowed |
+|---------------|---------------|---------------|---------|
+| Same          | Same          | Explicit      | False   |
+| Same          | Different     | Explicit      | True    |
+| Different     | Same          | Explicit      | True    |
+| Different     | Different     | Explicit      | True    |
+
+Providers with different types can always be **implicitly** consumed without conflicts.
+
+| Provider Name | Provider Type | Consumer Type | Allowed |
+|---------------|---------------|---------------|---------|
+| Same          | Same          | Implicit      | False   |
+| Same          | Different     | Implicit      | True    |
+| Different     | Same          | Implicit      | False   |
+| Different     | Different     | Implicit      | True    |
+
+___
+
+## Links FAQ
+
+Q: What characters are valid for link names?<br/>
+A: You should try to use unicode characters for naming. However you can not begin with a colon (`:`) since the ruby YAML parser treats it as a symbol.
+
+Q: When are cross-deployment links resolved?<br/>
+A: They are only resolved during a deployment of the consumer. The provider is ready for consumption after the successful deploy of the provider deployment.
+
+Q: If a cross-deployment provider is deleted what happens to my consumer?<br/>
+A: Nothing happens to your consumer until you redeploy. Recreating your consumer deployment should be using the existing values provided to it. Although, there is no guarantee that the service will be available.
+
+Q: Are releases the only things that can provide and consume links?<br/>
+A: No, there are other things that can provide links, such as [manual links](links-manual), and [external links](links-api). There are also [custom link providers](links#custom-provider-definitions) which variables can use to [consume some DNS values](dns#dns-variables-integration).
+
