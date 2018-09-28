@@ -259,7 +259,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
 
 - `bosh finalize-release release.tgz [--force] [--version=ver] [--dir=dir]`
 
-    Records contents of a release tarball as a final release with an optionally given version. Once `.final_builds` and `releases` directories are updated, it's strongly recommended to commit your changes to version control.
+    Records contents of a release tarball in the release repository as a final release with an optionally given version. Once `.final_builds` and `releases` directories are updated, it's strongly recommended to commit your changes to version control.
 
     Typically this command is used as a final step in the CI pipeline to save the final artifact once it passed appropriate tests.
 
@@ -270,6 +270,8 @@ See [Uploading Stemcells](uploading-stemcells.md).
     $ git commit -am 'Final release 20'
     $ git push origin master
     ```
+
+    * Note: `finalize-release` does not change the input tarball in any way (i.e. if a `--version` flag is passed, it will not modify the version present in the tarball itself).
 
 - `bosh reset-release [--dir=dir]`
 
