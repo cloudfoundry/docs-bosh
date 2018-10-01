@@ -108,6 +108,7 @@ For example, here is how a `web` job which receives HTTP traffic and talks to at
 
 Note that when the `web` job is 'consuming' db links, the name of the link does not have to match the name of the provided db link (i.e. postgres has a link called `conn` while the `web` job consumes `primary_db` and/or `secondary_db`). The mapping between the provided link named `conn` and the consumed link named `primary_db` is done in the [deployment manifest file](#deployment).
 
+#### `web` Release Spec {: #web-release-spec}
 ```yaml
 name: web
 
@@ -131,6 +132,7 @@ Note that the `secondary_db` link has been marked as optional, to indicate that 
 
 Here is an example Postgres job that provides a `conn` link of type `db`.
 
+#### `postgres` Release Spec {: #postgres-release-spec}
 ```yaml
 name: postgres
 
@@ -227,61 +229,12 @@ instance_groups:
       conn: {as: db_conn}
 ```
 
-### Explicit Linking {: #explicit }
-Explicit linking is defined as specifying your consumer in your deployment manifest. The consumer will be matched on both name and type.
-
-##### Providers
-Explicitly defined providers which can be both explicitly and implicitly consumed, can have the following optional properties:
-
-* **as** [String]: Overrides the name of the provider defined in the release spec. Example:
-```yaml
-instance_groups:
-- name: my_instance_group
-  jobs:
-  - name: my_provider_job
-    provides:
-      bar: {as: new_name}
-```
-* **shared** [Boolean]: *Default is false* Sets whether this provider is consumable from another deployment. See [cross deployment links](#cross-deployment).
-
-Providers that are specified as `nil` will cause your *explicit* consumer to fail resolution.
-
-Deployment Manifest:
-```yaml
-instance_group:
-- name: db_ig
-  jobs:
-  - name: db_job
-    provides:
-      database: nil
-```
-
-##### Consumers
-Explicitly defined consumers can have the following optional properties:
-
-* **from** [String]: Overrides the name of the provider to consume. This should match the name defined in the provider's release spec or the name defined by provider's `as` property in the manifest.
-* **deployment** [String]: The name of the deployment to consume from. If the deployment provided does not exist, it will fail with an error. If the name specified is the same as the current deployment, it will be considered non-cross-deployment.
-* **network** [String]: The name of a network used by the provider. See [custom network linking](#custom-network).
-* **ip_addresses** [Boolean]: *Default is false* Boolean for preferring usage of ip addresses instead of DNS names. In cases such as dynamic network, ip addresses are not available and will still return DNS names. See [dns](dns#links) for more details.
-
-Optional consumers may be defined as `nil` in your deployment manifest to block linking.
-
-Deployment Manifest:
-```yaml
-instance_groups:
-- name: app_ig
-  jobs:
-  - name: app
-    consumes:
-      database: nil
-```
-
 ### Implicit linking {: #implicit }
-Implicit linking is defined as not having your consumer in your deployment manifest but only lives in your release specification.
+The default type of links in a deployment are the ones that are not mentioned in the `consumes` section of a job in the deployment manifest, but only defined in the release specification for the job.  This type of linking happens automatically, and is referred to as *implicit linking*.
 
-If a link type is provided by only one job within a deployment, all release jobs in that deployment that implicitly consume links of that type will resolve to that provider.
+Implicit linking is not supported between deployments.
 
-Providers that are specified as `nil` will cause your *implicit* consumer to fail resolution. Unless your consumer is defined as `optional` in your release.
+Providers that are specified as `nil` will not match any consumer.
 
 Deployment Manifest:
 ```yaml
@@ -294,11 +247,11 @@ instance_groups:
   - name: app
 ```
 
-Optional links that can not be satisfied implicitly will return `nil` in the template rendering.
+Unmatched consumers will cause the deployment to fail unless the consumer is defined as `optional` in the release. Optional links that can not be satisfied implicitly will return `nil` in the template rendering.
 
-Implicit linking does *not* happen across deployments.
+If a link `type` is provided by only one job within a deployment, all release jobs in that deployment that implicitly consume links of that `type` will resolve to that provider.
 
-In the following example, it's unnecessary to explicitly specify that `web` job consumes the `primary_db` link of type `db` from the postgres release job, since the postgres job is the only one that provides a link of type `db`.
+In the following example, it's unnecessary to explicitly specify that [web job](#web-release-spec) consumes the `primary_db` link of type `db` from the [postgres job](#postgres-release-spec), since the postgres job is the only one that provides a link of type `db`.
 
 ```yaml
 instance_groups:
@@ -317,6 +270,57 @@ instance_groups:
 Common use cases:
 
 - deployment contains multiple components that are expected to communicate between each other and there is no benefit for the operator to configure these connections explicitly
+
+### Explicit Linking {: #explicit }
+When there are multiple providers of the same `type` in a deployment, or a link from a different deployment is needed by a consuming job in this deployment, the consumer can specify the source in the deployment manifest.  *Explicit linking* is defined as specifying the consumer in the deployment manifest. The consumer will be matched on both name and type.
+
+#### Consumers
+Explicitly defined consumers can have the following optional properties:
+
+* **from** [String]: Overrides the name of the provider to consume. This should match the name defined in the provider's release spec or the name defined by provider's `as` property in the manifest.
+* **deployment** [String]: The name of the deployment to consume from. If the deployment provided does not exist, it will fail with an error. If the name specified is the same as the current deployment, it will be considered non-cross-deployment.
+* **network** [String]: The name of a network used by the provider. See [custom network linking](#custom-network).
+* **ip_addresses** [Boolean]: *Default is false* Boolean for preferring usage of ip addresses instead of DNS names. In cases such as dynamic network, ip addresses are not available and will still return DNS names. See [dns](dns.md#links) for more details.
+
+Optional consumers may be specified as `nil` in the deployment manifest to block consumption of any providers.
+
+Deployment Manifest:
+```yaml
+instance_groups:
+- name: web_ig
+  jobs:
+  - name: web
+    consumes:
+      backup_db: nil
+```
+
+#### Providers
+Explicitly specified providers in the deployment manifest which can be both explicitly and implicitly consumed, can have the following optional properties:
+
+* **as** [String]: Overrides the name of the provider defined in the release spec. Example:
+```yaml
+instance_groups:
+- name: my_instance_group
+  jobs:
+  - name: postgres
+    provides:
+      conn: {as: new_name}
+```
+* **shared** [Boolean]: *Default is false* Sets whether this provider is consumable from another deployment. See [cross deployment links](#cross-deployment).
+
+##### Blocking a Link Provider {: #blocking-link-provider}
+
+Providers that are specified as `nil` in the deployment manifest will block consumption of this provider.
+
+Deployment Manifest:
+```yaml
+instance_group:
+- name: db_ig
+  jobs:
+  - name: postgres
+    provides:
+      conn: nil
+```
 
 ### Self linking {: #self }
 
@@ -473,27 +477,50 @@ instance_groups:
 ```
 ___
 
-## Possible Link Scenarios
+## Avoiding Link Conflicts
 
-The rules for uniqueness are described in the tables below:
+When defining a manifest that contains multiple jobs that provide a link, sometimes the links names and types interfere with successfully making a deployment, with errors such as:
 
-Providers can be specified in any way you want as long as it is **not** consumed.
+```
+Failed to resolve link 'login' with alias 'provider_login' and type 'usernamepassword' from job 'consumer_job' in instance group 'consumer_ig'. Details below:
+  - No link providers found
+```
 
-| Provider Name | Provider Type | Consumer Type | Allowed |
-|---------------|---------------|---------------|---------|
-| Same          | Same          | No consumer   | True    |
-| Same          | Different     | No consumer   | True    |
-| Different     | Same          | No consumer   | True    |
-| Different     | Different     | No consumer   | True    |
+```
+- Failed to resolve link 'provider' with alias 'alias1' and type 'provider' from job 'consumer' in instance group 'first_consumer'. Multiple link providers found:
+  - Link provider 'provider' with alias 'alias1' from job 'provider' in instance group 'first_provider' in deployment 'simple'
+  - Link provider 'provider' with alias 'alias1' from job 'provider' in instance group 'second_provider' in deployment 'simple'
+```
 
-Providers with different names or types can always be **explicitly** consumed without conflicts.
+Where there are multiple links in the jobs specified in the deployment manifest, some situations are allowed with no conflicts but some scenarios will cause deployment errors.
 
-| Provider Name | Provider Type | Consumer Type | Allowed |
-|---------------|---------------|---------------|---------|
-| Same          | Same          | Explicit      | False   |
-| Same          | Different     | Explicit      | True    |
-| Different     | Same          | Explicit      | True    |
-| Different     | Different     | Explicit      | True    |
+### No Consumer
+
+As long as they are not consumed, multiple providers in a deployment manifest will never generate errors during deployment even if the names or types of the individual job providers are the same as each other.
+
+| Provider Name | Provider Type | Consumer Type | Allowed | Example (below)
+|---------------|---------------|---------------|---------|--------------
+| Same          | Same          | No consumer   | True    | `database` of type `db` in both `db_ig` and `backup_db_ig`
+| Same          | Different     | No consumer   | True    | `peers` of type `db_peers` in `db_ig` and `peers` of type `legacy_db_peers` in `backup_db_ig`
+| Different     | Same          | No consumer   | True    | `peers` in `db_ig` and `backup_peers` both of type `db` in `backup_db_ig`
+| Different     | Different     | No consumer   | True    | `database` of type `db` and `backup_peers` of type `db_peers`
+
+
+Example manifest for table above.
+```yaml
+instance_groups:
+  - name: db_ig
+    jobs:
+    - name: db_job
+  - name: backup_db_ig
+    jobs:
+    - name: db_job
+      provides:
+        peers: {as: backup_peers}
+        legacy_peers: {as: peers}
+```
+
+### Implicit Consumer
 
 Providers with different types can always be **implicitly** consumed without conflicts.
 
@@ -504,19 +531,51 @@ Providers with different types can always be **implicitly** consumed without con
 | Different     | Same          | Implicit      | False   |
 | Different     | Different     | Implicit      | True    |
 
+As shown in the table only the type is used to match up the link provider with the link consumer, and when there is more than one link provider of the same type, changing the name of the provider in the deployment manifest doesn't help.  To fix the error, the alternatives are either to [block](#blocking-link-provider) all but one link providers of each type, or switch to explicit links.
+
+### Explicit Consumer
+
+Providers with different names or types can always be **explicitly** consumed without conflicts.
+
+| Provider Name | Provider Type | Consumer Type | Allowed |
+|---------------|---------------|---------------|---------|
+| Same          | Same          | Explicit      | False   |
+| Same          | Different     | Explicit      | True    |
+| Different     | Same          | Explicit      | True    |
+| Different     | Different     | Explicit      | True    |
+
+Here is an example of the failing case from the above table, where `app` fails to consume `conn` because `db_ig`'s job `postgres` and `backup_db_ig`'s job `postgres` provide `conn` of type `db`.
+
+```yaml
+instance_groups:
+  - name: db_ig
+    jobs:
+    - name: postgres
+  - name: backup_db_ig
+    jobs:
+    - name: postgres
+  - name: app_ig
+    jobs:
+    - name: app
+      consumes:
+        conn: {from: conn}
+```
+
+To fix this, either the `provides` section of the providing job in the release manifest could be added to rename the link using `as`, or a second release could be introduced to provide a backup job with a different link name or type.
+
 ___
 
 ## Links FAQ
 
 Q: What characters are valid for link names?<br/>
-A: You should try to use unicode characters for naming. However you can not begin with a colon (`:`) since the ruby YAML parser treats it as a symbol.
+A: Unicode characters are permitted for naming. However a name cannot begin with a colon (`:`).
 
 Q: When are cross-deployment links resolved?<br/>
 A: They are only resolved during a deployment of the consumer. The provider is ready for consumption after the successful deploy of the provider deployment.
 
-Q: If a cross-deployment provider is deleted what happens to my consumer?<br/>
-A: Nothing happens to your consumer until you redeploy. Recreating your consumer deployment should be using the existing values provided to it. Although, there is no guarantee that the service will be available.
+Q: If a cross-deployment provider is deleted what happens to the consumer?<br/>
+A: Nothing happens to a consumer until a redeploy of the consumer deployment. Recreating consumer VMs in a deployment will preserve the existing values provided to it. Although, there is no guarantee that the provider will be available. If the provider is no longer providing the link on redeploy, that link will no longer resolve.
 
-Q: Are releases the only things that can provide and consume links?<br/>
-A: No, there are other things that can provide links, such as [manual links](links-manual), and [external links](links-api). There are also [custom link providers](links#custom-provider-definitions) which variables can use to [consume some DNS values](dns#dns-variables-integration).
+Q: Are releases the only entities that can provide and consume links?<br/>
+A: No, there are other entities that can provide links, such as [manual links](links-manual.md), and [external links](links-api.md). There are also [custom link providers](links.md#custom-provider-definitions) which variables can use to [consume some DNS values](dns.md#dns-variables-integration).
 
