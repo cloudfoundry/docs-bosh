@@ -1,46 +1,10 @@
 !!! note
     Applies to CLI v3.0.1+.
 
-The BOSH Command Line Interface (CLI) is what you use to run BOSH commands. CLI v2 is a new major version of CLI.
+Installation of the BOSH CLI is required as a prerequisite, see [Installing the CLI](cli-v2-install.md).
+Release notes can be found [on Github](https://github.com/cloudfoundry/bosh-cli/releases).
 
 ---
-## Install {: #install }
-
-1. Download the binary for your platform and place it on your `PATH`:
-
-    --8<-- "snippets/bosh-cli/latest-versions-table.md"
-
-    ```shell
-    $ chmod +x ~/Downloads/bosh-cli-*
-    $ sudo mv ~/Downloads/bosh-cli-* /usr/local/bin/bosh
-    ```
-
-1. Check `bosh` version to make sure it is properly installed:
-
-    ```shell
-    $ bosh -v
-    version 3.0.1-712bfd7-2018-03-13T23:26:42Z
-    ```
-
-    If the output does not begin with `version 2.0...` (or v2+) you are probably executing CLI v1 (Ruby based).
-
-1. [Install OS specified dependencies](cli-v2-install.md#additional-dependencies) for `bosh create-env` command
-
-Alternatively, refer to [cloudfoundry/homebrew-tap](https://github.com/cloudfoundry/homebrew-tap) to install CLI via Homebrew on OS X. We currently do not publish CLI via apt or yum repositories.
-
----
-## Release Notes {: #release-notes }
-
-CLI release notes can be found [on Github](https://github.com/cloudfoundry/bosh-cli/releases).
-
----
-## Global Flags {: #global-flags }
-
-See [Global flags](cli-global-flags.md) for more details on how to enable different output formats, debug logging, etc.
-
----
-## Commands {: #cmds }
-
 ### Environments {: #env-mgmt }
 
 See [Environments](cli-envs.md).
