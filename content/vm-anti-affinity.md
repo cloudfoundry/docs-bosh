@@ -48,15 +48,28 @@ If the vSphere CPI does not place the VMs on different hosts, check that you hav
 - Enabled a DRS rule and associated it with the appropriate VMs.
 - Given the DRS enough time to move the VMs to different hosts.
 
-<div class="note">
-  Notes:
+Notes:
 
-	<ul>
-	  <li>The vSphere CPI currently only supports
-one DRS rule per BOSH resource pool.</li>
-    <li>If a BOSH resource pool contains only one VM, the vSphere CPI does not create a DRS rule. After BOSH adds a second VM, the vSphere CPI will create and apply a DRS rule to all VMs in the BOSH resource pool.</li>
-  </ul>
-</div>
+- The vSphere CPI currently only supports one DRS rule per BOSH resource pool.
+- If a BOSH resource pool contains only one VM, the vSphere CPI does not create a DRS rule. After BOSH adds a second VM, the vSphere CPI will create and apply a DRS rule to all VMs in the BOSH resource pool.
+- You can also use YAML Anchors in the config. E.g
+
+```yaml
+# Assuming there are 2 clusters which need same DRS rule...
+
+resource_pools:
+- name: hadoop-datanodes
+  cloud_properties:
+    datacenters:
+    - name: my-dc
+      clusters:
+      - my-vsphere-cluster1:
+          drs_rules: &default_drs_rule
+          - name: separate-hadoop-datanodes-rule
+            type: separate_vms
+      - my-vsphere-cluster2:
+          drs_rules: *default_drs_rules
+```
 
 ---
 ## OpenStack Configuration {: #openstack }
