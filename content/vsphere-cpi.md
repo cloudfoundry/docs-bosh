@@ -33,12 +33,11 @@ Schema for `cloud_properties` section used by manual network subnet:
 * **name** [String, required]: Name of the vSphere network. Example: `VM Network`.
 
 ### Managed Networks ###
-Create T1 router and attach it to T0 router. It also creates virtual switch and attaches it to T1 router.
-So every subnet in network will have its own switch. Route advertisement is enabled on T1 router.
+Creates a T1 router and attaches it to T0 router. It will also create a virtual switch and attach it to the T1 router
 
 Schema for `cloud_properties` section used by managed network subnet:
 
-* **name** [String, required]: Name of the vSphere network. Example: `Subnet 1`.
+* **name** [String, required]: Name of the vSphere network. Example: `subnet-1`.
 * **t0_router_id** [String, required]: Id of T0 router to which T1 will be attached. Example: `7ef20c24-5adb-47bf-8553-f66c1cfd9614`.
 * **transport_zone_id** [String, required]: Transport Zone id where switch is going to be created. VMs must be created at the hosts within this TZ. Example: `ee1a4cd1-701e-43f0-a2a7-110984298f7c`.
 * **t1_name** [String, optional]: Name of T1 router. Example: `VM Router`.
@@ -80,7 +79,7 @@ networks:
   type: manual
   managed: true
   subnets:
-  - name: Managed network
+  - name: subnet-1
     range: 10.10.0.0/24
     cloud_properties:
       t0_router_id: 7ef20c24-5adb-47bf-8553-f66c1cfd9614
