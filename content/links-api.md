@@ -150,6 +150,7 @@ Create an external link with a user-defined consumer. Uses an existing provider.
     * **owner_object**:
         * **name**: [String] The name for the new consumer.
         * **type**: [String] Type is always "external".
+* **network**: [String] Name of a network used by the provider (optional). See [custom network linking](links.md#custom-network).
 
 ```bash
 $ uaac curl -X POST https://10.0.1.6:25555/links -H 'Content-Type: application/json' -d \
@@ -224,7 +225,7 @@ $ uaac curl 'https://10.0.1.6:25555/link_address?link_id=3&azs[]=z1'
 }
 ```
 
-#### Specifying Multiple AZs in the Same Request 
+#### Specifying Multiple AZs in the Same Request
 The `azs[]` parameter should be provided multiple times when specifying multiple AZs in the query request. For example, to filter by availability zones **z1**, **z2**, and **z3**, the request will look like:
 
 ```bash
