@@ -3,10 +3,10 @@
 ##### CPI Changes with V2 contracts:
 
   - CPI [`info`](cpi-api-v2-method/info.md) method exposes supported `api_version`.
-  - CPI [`create_vm`](cpi-api-v2-method/create_vm.md) method returns an array of vm_id, network_info.
-  - CPI [`attach_disk`](cpi-api-v2-method/attach_disk.md) method returns disk hints.
-  - CPI [`detach_disk`](cpi-api-v2-method/detach_disk.md) method has no changes.
-  - CPI [`delete_vm`](cpi-api-v2-method/delete_vm.md) method has no changes.
+  - CPI [`create_vm`](cpi-api-v2-method/create-vm.md) method returns an array of vm_id, network_info.
+  - CPI [`attach_disk`](cpi-api-v2-method/attach-disk.md) method returns disk hints.
+  - CPI [`detach_disk`](cpi-api-v2-method/detach-disk.md) method has no changes.
+  - CPI [`delete_vm`](cpi-api-v2-method/delete-vm.md) method has no changes.
 
 ##### V2 flow depending on registry availability (all examples are from `bosh-aws-cpi`)
 
@@ -57,8 +57,12 @@
 
 ##### Agent changes with V2 contracts:
 
-- Agent will now first check metadata service (Depending on IaaS) to get settings (for `settings.json`) before falling back to registry (if the full settings was not fetched; no `agent_id` in the current settings).
-- Disk hints are stored in `persistent_disk_hints.json` locally and used to mount/unmount disks.
+- Agent will check metadata service (depending on IaaS) to get settings (for `settings.json`) before falling back to registry (if the full settings was not fetched; no `agent_id` in the current settings).
+
+- Agent `mount_disk` accepts disk hints along with the disk cid. It stores the disk hints in `persistent_disk_hints.json`. It will then mount the disk.
+- Agent `unmount_disk` unmounts the disk according to what is stored in `persistent_disk_hints.json` and then remove the disk entry from the file.
+- Agent `update_persistent_disk` method stores disk hints locally on `persistent_disk_hints.json`.
+
 
 ##### Stemcell changes with V2 contracts:
 

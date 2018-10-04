@@ -1,4 +1,4 @@
-# Cloud Provider Interface
+# Cloud Provider Interface (Version 1)
 
 For a big picture overview of the sequence of CPI calls, the following resources are helpful:
 

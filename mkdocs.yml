@@ -156,40 +156,42 @@ pages:
   - Director Runtime Config: runtime-config.md
   - Generic Configs: configs.md
   - Cloud Provider Interface:
-    - V1 Overview: cpi-api-v1.md
+    - Version 1:
+      - Overview: cpi-api-v1.md
+      - Methods:
+        - attach_disk: cpi-api-v1-method/attach-disk.md
+        - calculate_vm_cloud_properties: cpi-api-v1-method/calculate-vm-cloud-properties.md
+        - configure_networks: cpi-api-v1-method/configure-networks.md
+        - create_disk: cpi-api-v1-method/create-disk.md
+        - create_network: cpi-api-v1-method/create-network.md
+        - create_stemcell: cpi-api-v1-method/create-stemcell.md
+        - create_vm: cpi-api-v1-method/create-vm.md
+        - current_vm_id: cpi-api-v1-method/current-vm-id.md
+        - delete_disk: cpi-api-v1-method/delete-disk.md
+        - delete_network: cpi-api-v1-method/delete-network.md
+        - delete_snapshot: cpi-api-v1-method/delete-snapshot.md
+        - delete_stemcell: cpi-api-v1-method/delete-stemcell.md
+        - delete_vm: cpi-api-v1-method/delete-vm.md
+        - detach_disk: cpi-api-v1-method/detach-disk.md
+        - get_disks: cpi-api-v1-method/get-disks.md
+        - has_disk: cpi-api-v1-method/has-disk.md
+        - has_vm: cpi-api-v1-method/has-vm.md
+        - info: cpi-api-v1-method/info.md
+        - reboot_vm: cpi-api-v1-method/reboot-vm.md
+        - resize_disk: cpi-api-v1-method/resize-disk.md
+        - set_disk_metadata: cpi-api-v1-method/set-disk-metadata.md
+        - set_vm_metadata: cpi-api-v1-method/set-vm-metadata.md
+        - snapshot_disk: cpi-api-v1-method/snapshot-disk.md
+    - Version 2:
+      - Overview: cpi-api-v2.md
+      - Methods:
+        - attach_disk: cpi-api-v2-method/attach-disk.md
+        - create_vm: cpi-api-v2-method/create-vm.md
+        - delete_vm: cpi-api-v2-method/delete-vm.md
+        - detach_disk: cpi-api-v2-method/detach-disk.md
+        - info: cpi-api-v2-method/info.md
+      - Migrating from version 1: v2-migration-guide.md
     - RPC Interface: cpi-api-v1-rpc.md
-    - V1 Methods:
-      - attach_disk: cpi-api-v1-method/attach-disk.md
-      - calculate_vm_cloud_properties: cpi-api-v1-method/calculate-vm-cloud-properties.md
-      - configure_networks: cpi-api-v1-method/configure-networks.md
-      - create_disk: cpi-api-v1-method/create-disk.md
-      - create_network: cpi-api-v1-method/create-network.md
-      - create_stemcell: cpi-api-v1-method/create-stemcell.md
-      - create_vm: cpi-api-v1-method/create-vm.md
-      - current_vm_id: cpi-api-v1-method/current-vm-id.md
-      - delete_disk: cpi-api-v1-method/delete-disk.md
-      - delete_network: cpi-api-v1-method/delete-network.md
-      - delete_snapshot: cpi-api-v1-method/delete-snapshot.md
-      - delete_stemcell: cpi-api-v1-method/delete-stemcell.md
-      - delete_vm: cpi-api-v1-method/delete-vm.md
-      - detach_disk: cpi-api-v1-method/detach-disk.md
-      - get_disks: cpi-api-v1-method/get-disks.md
-      - has_disk: cpi-api-v1-method/has-disk.md
-      - has_vm: cpi-api-v1-method/has-vm.md
-      - info: cpi-api-v1-method/info.md
-      - reboot_vm: cpi-api-v1-method/reboot-vm.md
-      - resize_disk: cpi-api-v1-method/resize-disk.md
-      - set_disk_metadata: cpi-api-v1-method/set-disk-metadata.md
-      - set_vm_metadata: cpi-api-v1-method/set-vm-metadata.md
-      - snapshot_disk: cpi-api-v1-method/snapshot-disk.md
-    - V2 Overview: cpi-api-v2.md
-    - Migrating from V1 to V2: v2-migration-guide.md
-    - V2 Methods:
-      - attach_disk: cpi-api-v2-method/attach-disk.md
-      - create_vm: cpi-api-v2-method/create-vm.md
-      - delete_vm: cpi-api-v2-method/delete-vm.md
-      - detach_disk: cpi-api-v2-method/detach-disk.md
-      - info: cpi-api-v2-method/info.md
   - Release Management:
     - Overview: release.md
     - Release URLs: release-urls.md
