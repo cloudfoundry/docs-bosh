@@ -182,7 +182,8 @@ pages:
       - set_disk_metadata: cpi-api-v1-method/set-disk-metadata.md
       - set_vm_metadata: cpi-api-v1-method/set-vm-metadata.md
       - snapshot_disk: cpi-api-v1-method/snapshot-disk.md
-    - CPI V2: cpi-api-v2.md
+    - V2 Overview: cpi-api-v2.md
+    - Migrating from V1 to V2: v2-migration-guide.md
     - V2 Methods:
       - attach_disk: cpi-api-v2-method/attach-disk.md
       - create_vm: cpi-api-v2-method/create-vm.md
