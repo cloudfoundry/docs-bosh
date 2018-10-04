@@ -616,6 +616,29 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments | jq .
 ```
 
 ---
+### `GET /deployments?exclude_configs=true&exclude_releases=true&exclude_stemcells=true`: List all deployments without configs, releases, and stemcells {: #list-just-deployments }
+
+#### Response body schema
+
+**[root]** [Array]: List of deployments.
+
+- **name** [String]: Name of the deployment.
+
+#### Example
+
+```shell
+$ curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments?exclude_configs=true&exclude_releases=true&exclude_stemcells=true | jq .
+```
+
+```yaml
+[
+  {
+    "name": "cf-warden"
+  }
+]
+```
+
+---
 ### `POST /deployments`: Create/update single deployment {: #post-deployment }
 
 #### Request query
