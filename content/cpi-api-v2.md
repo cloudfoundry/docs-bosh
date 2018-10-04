@@ -54,45 +54,11 @@ resource_pools:
 
 ### Implementation
 
-API version 2 of CPIs will differ from version 1 by the following:
-
- - Director will send CPI api_version based on info response from for all CPI calls.
-
-   ```json
-    {
-       "log": "",
-       "error": null,
-       "result": {
-         "api_version": 2, //cpi_api_version
-         "stemcell_formats": [
-           "dummy",
-         ]
-       }
-    }
-   ```
-
- - Director will also send stemcell `api_version` for all CPI calls.
- - Director will be expecting V2 responses when:
-   - CPI info call provide max supported version as >=2 **AND**
-   - Stemcell api_version is >=2 **AND**
-   - `api_version: 2` is present in the header.
-
-
-  ```json
-  {
-    "context": {
-      "director_uuid": "<director-uuid>",
-      "request_id": "<cpi-request-id>",
-      "vm": {
-        "stemcell": {
-          "api_version": 2
-        }
-      }
-    },
-    "api_version": 2
-  }
-  ```
-
+CPI version 2 differs from version 1 by the following:
+- CPI [info call](cpi-api-v2-method/info.md) will return `api_version`.
+- CPI accepts `api_version` to establish api contract.
+  - Director will send CPI `api_version` based on CPI's info response for all CPI calls.
+- Director will send stemcell `api_version` for all CPI calls.
 
 ### Changes in V2 api contracts
 
