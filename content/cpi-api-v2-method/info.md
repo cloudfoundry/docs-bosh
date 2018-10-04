@@ -10,7 +10,7 @@ No arguments
 
 ## Result
 
- * `stemcell_formats` [Array of strings]: Stemcell formats supported by the CPI. Currently used in combination with `create_stemcell` by the Director to determine which CPI to call when uploading a stemcell.
+ * `stemcell_formats` [Array of strings]: The list of stemcell formats this CPI supports.
  * `api_version` [int]: maximum supported version by CPI.
 
 ## Examples

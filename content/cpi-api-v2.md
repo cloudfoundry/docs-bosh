@@ -40,18 +40,17 @@ resource_pools:
 - To differentiate V2 calls the caller needs to pass in `"api_version": 2` in the header of the request.
 
 ### Reference Table (Based on each component version)
-* Reg./reg. : Registry
 
-| Director | CPI | Stemcell  | Should update Reg.   | Add agent setting to IaaS `user-metadata`   |
+| Director | CPI | Stemcell  | Should update registry   | Add agent setting to IaaS `user-metadata`   |
 |----------|-----|-----------|----------------------|---|
-| 1  | 1  | 1  | Update Reg.  | Don't add agent setting to IaaS  |
-| 1  | 1  | 2  | Update Reg.  | Don't add agent setting to IaaS  |
-| 1  | 2  | 2  | Update Reg.  | Don't add agent setting to IaaS  |
-| 2  | 2  | 2  | DON'T add anything to reg.   | Yes, agent will read `user-metadata` and not call reg.  |
-| 1  | 2  | 1  | Update Reg.  | Don't add agent setting to IaaS  |
-| 2  | 2  | 1  | Update Reg.  | Don't add agent setting to IaaS (no agent support)  |
-| 2  | 1  | 1  | Update Reg. (CPI will by default update reg.)  | Don't add agent setting to IaaS |
-| 2  | 1  | 2  | Update Reg. (CPI will by default update reg.)  | Don't add agent setting to IaaS |
+| 1  | 1  | 1  | Update registry  | Don't add agent setting to IaaS  |
+| 1  | 1  | 2  | Update registry  | Don't add agent setting to IaaS  |
+| 1  | 2  | 2  | Update registry  | Don't add agent setting to IaaS  |
+| 2  | 2  | 2  | DON'T add anything to registry   | Yes, agent will read `user-metadata` and not call registry  |
+| 1  | 2  | 1  | Update registry  | Don't add agent setting to IaaS  |
+| 2  | 2  | 1  | Update registry  | Don't add agent setting to IaaS (no agent support)  |
+| 2  | 1  | 1  | Update registry (CPI will by default update registry)  | Don't add agent setting to IaaS |
+| 2  | 1  | 2  | Update registry (CPI will by default update registry)  | Don't add agent setting to IaaS |
 
 ### Implementation
 
@@ -80,20 +79,22 @@ API version 2 of CPIs will differ from version 1 by the following:
 
 
   ```json
-   "context": {
-    "director_uuid": "<director-uuid>",
-    "request_id": "<cpi-request-id>",
-    "vm": {
-      "stemcell": {
-        "api_version": 2
+  {
+    "context": {
+      "director_uuid": "<director-uuid>",
+      "request_id": "<cpi-request-id>",
+      "vm": {
+        "stemcell": {
+          "api_version": 2
+        }
       }
-    }
-  },
-  "api_version": 2
+    },
+    "api_version": 2
+  }
   ```
 
 
-### Changes in V2 contracts
+### Changes in V2 api contracts
 
  * [info](cpi-api-v2-method/info.md)
  * VM Management
@@ -104,7 +105,7 @@ API version 2 of CPIs will differ from version 1 by the following:
     * [detach_disk](cpi-api-v2-method/detach-disk.md)
 
 
-#### Additional methods in V1:
+#### New methods in V2:
 
 * Networking
    * [create_network](cpi-api-v1-method/create-network.md)
