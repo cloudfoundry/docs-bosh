@@ -101,17 +101,20 @@ cloud_properties:
 
 ##### GoLang ![](cpi-api-v2-method/gopher.jpg)
 
-Check CPIs using this library:
-
-- [Warden CPI](https://github.com/cppforlife/bosh-warden-cpi-release)
-- [VirtualBox CPI](https://github.com/cppforlife/bosh-virtualbox-cpi-release)
-- [Docker CPI](https://github.com/cppforlife/bosh-docker-cpi-release)
-- [Kubernetes CPI](https://github.com/bosh-cpis/bosh-kubernetes-cpi-release)
+- Update [the library](https://github.com/cppforlife/bosh-cpi-go) to the latest version:
+  ```
+  go get -u github.com/cppforlife/bosh-cpi-go
+  ```
+- For code references, see these CPIs using the library:
+    - [Warden CPI](https://github.com/cppforlife/bosh-warden-cpi-release)
+    - [VirtualBox CPI](https://github.com/cppforlife/bosh-virtualbox-cpi-release)
+    - [Docker CPI](https://github.com/cppforlife/bosh-docker-cpi-release)
+    - [Kubernetes CPI](https://github.com/bosh-cpis/bosh-kubernetes-cpi-release)
 
 ---
 
 ### Reference pipeline to test  CPI with all combination of Director, CLI and  Stemcell
-[Pipeline for CPI V2 testing]( https://github.com/cloudfoundry-incubator/bosh-aws-cpi-release/blob/49447ba7ee208c31dddc1b7e3ec2a5f05c88ea99/ci/pipeline_cpi_v2.yml.erb)
+[Pipeline for CPI V2 testing](https://github.com/cloudfoundry-incubator/bosh-aws-cpi-release/blob/49447ba7ee208c31dddc1b7e3ec2a5f05c88ea99/ci/pipeline_cpi_v2.yml.erb)
 
 **NOTE:** Few other combination should be taken under consideration
 
