@@ -60,7 +60,7 @@ No return value
 
  #### Changes for V2
 
- The signature for `detach_disk` is the same as V1, but for CPIs that previously used the registry to track mount points, V2 does not use the registry.
+ The signature for `detach_disk` is the same as V1. For CPIs that previously used the registry to track mount points, V2 does not necessarily use the registry. The registry should be used if the stemcell API version is not sufficient. Without the registry, the Agent receives a message from the Director to remove the persistent disk from its settings. See [CPI V2 Migration Guide](../v2-migration-guide.md) for more information.
 
 ## Related
 

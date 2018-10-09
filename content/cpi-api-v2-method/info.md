@@ -35,10 +35,11 @@ No arguments
  "log": "",
  "error": null,
  "result": {
-   "api_version": 2, //cpi_api_version
+   "api_version": 2,
    "stemcell_formats": [
      "dummy"
    ]
  }
 }
 ```
+The `api_version` is the version that the CPI supports. New CPIs adopting the V2 contract should return `2`. If there is no version supplied, the Director assumes version 1 should be used.

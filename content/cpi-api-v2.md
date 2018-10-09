@@ -41,16 +41,57 @@ resource_pools:
 
 ### Reference Table (Based on each component version)
 
-| Director | CPI | Stemcell  | Should update registry   | Add agent setting to IaaS `user-metadata`   |
+The director must understand version 2, CPI must be version 2, and Stemcell must contain an Agent suitable for version 2 to completely avoid the registry. `user-metadata` refers to the agent settings sent with `create_vm`.
+
+| Director | CPI | Stemcell  | Should update registry   | Add *full agent settings** to IaaS `user-metadata`?   |
 |----------|-----|-----------|----------------------|---|
-| 1  | 1  | 1  | Update registry  | Don't add agent setting to IaaS  |
-| 1  | 1  | 2  | Update registry  | Don't add agent setting to IaaS  |
-| 1  | 2  | 2  | Update registry  | Don't add agent setting to IaaS  |
-| 2  | 2  | 2  | DON'T add anything to registry   | Yes, agent will read `user-metadata` and not call registry  |
-| 1  | 2  | 1  | Update registry  | Don't add agent setting to IaaS  |
-| 2  | 2  | 1  | Update registry  | Don't add agent setting to IaaS (no agent support)  |
-| 2  | 1  | 1  | Update registry (CPI will by default update registry)  | Don't add agent setting to IaaS |
-| 2  | 1  | 2  | Update registry (CPI will by default update registry)  | Don't add agent setting to IaaS |
+| 1  | 1  | 1  | Update registry | No |
+| 1  | 1  | 2  | Update registry | No |
+| 1  | 2  | 2  | Update registry | No |
+| **2**  | **2**  | **2**  | **Do not write to registry** | **Yes** |
+| 1  | 2  | 1  | Update registry | No |
+| 2  | 2  | 1  | Update registry | No |
+| 2  | 1  | 1  | Update registry | No |
+| 2  | 1  | 2  | Update registry | No |
+
+\* see below for information on settings to write to user-metadata.
+
+### Agent/VM Bootstrap Settings
+
+When using the registry, the agent needed a minimal set of settings on bootstrap, including the registry location. Without the registry, a more complete set of information is given to the agent via the `user-metadata` through `create_vm`. The `user-metadata` is IaaS-specific. For example, AWS uses the `user_data` field during instance creation.
+
+**CPI V1 & registry is used in V2 (see above for conditions)**
+```json
+{
+  "dns": {},
+  "networks": {},
+  "registry": {
+    "endpoint": "...",
+    "user": "...",
+    "password": "..."
+  }
+}
+```
+The registry is then consulted for the remainder of the required settings. The CPI has already written disk settings, etc.
+
+**CPI V2, when Registry is bypassed**
+```json
+{
+  "agent_id": "...",
+  "dns": {},
+  "networks": {},
+  "disks": {
+    "system": {"path": "/dev/sda1"},
+    "ephemeral": {"path": "/dev/sdb1"},
+    "persistent": {},
+  },
+  "vm": {
+    "name": "..."
+  }
+}
+```
+**Note** that the `persistent` disks will not be available when the CPI writes these settings. When the Director instructs the CPI to attach a disk, the `attach_disk` method is expected to return information on the attach point. The Director then informs the Agent about the disk, and the Agent updates its disk settings.
+
 
 ### Implementation
 
@@ -69,10 +110,3 @@ CPI version 2 differs from version 1 by the following:
  * Disk Management
     * [attach_disk](cpi-api-v2-method/attach-disk.md)
     * [detach_disk](cpi-api-v2-method/detach-disk.md)
-
-
-#### New methods in V2:
-
-* Networking
-   * [create_network](cpi-api-v1-method/create-network.md)
-   * [delete_network](cpi-api-v1-method/delete-network.md)

@@ -1,11 +1,6 @@
 # attach_disk
 
-Attaches disk to the VM.
-
-Typically each VM will have one disk attached at a time to store persistent data; however, there are important cases when multiple disks may be attached to a VM. Most common scenario involves persistent data migration from a smaller to a larger disk. Given a VM with a smaller disk attached, the operator decides to increase the disk size for that VM, so new larger disk is created, it is then attached to the VM. The Agent then copies over the data from one disk to another, and smaller disk subsequently is detached and deleted.
-
-Agent settings should have been updated with necessary information about given disk.
-
+Attaches a given disk to a given VM.
 
 ## Arguments
 
@@ -16,6 +11,11 @@ Agent settings should have been updated with necessary information about given d
 ## Result
 
  * `disk_hints` [Hash or String]: Disks that are associated with the VM
+
+ The `disk_hints` vary between each IaaS. The `disk_hints` describe the physical attach point of the disk. The Agent is updated with a mapping of volume ID to attach point.
+ For example, the AWS implementation of the CPI simply returns a string representing the device block id:
+
+ `"/dev/sdd"`
 
 
 ## Agent settings
@@ -39,16 +39,6 @@ For the Agent to eventually format, partition and mount attached disk, it needs 
   "ntp": [ ... ],
   "blobstore": { ... },
   "env": {},
-  "context": {
-    "director_uuid": "<director-uuid>",
-    "request_id": "<cpi-request-id>",
-    "vm": {
-      "stemcell": {
-        "api_version": 2
-      }
-    }
-  },
-  "api_version": 2
 }
 ```
 
@@ -86,6 +76,9 @@ For the Agent to eventually format, partition and mount attached disk, it needs 
   "log": ""
 }
 ```
+
+See [CPI API V2](../cpi-api-v2.md) and [CPI V2 Migration Guide](../v2-migration-guide.md) for more details about `api_version` for stemcell and CPI within the `context` portion of the request.
+
 
 ### Implementations
 

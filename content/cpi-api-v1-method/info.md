@@ -11,4 +11,3 @@ No arguments
 ## Result
 
  * `stemcell_formats` [Array of strings]: Stemcell formats supported by the CPI.
- * `api_version` [int]: maximum supported version by CPI. **new**

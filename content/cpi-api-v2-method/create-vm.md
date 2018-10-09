@@ -6,6 +6,8 @@ Waiting for the VM to finish booting is not required because the Director waits 
 
 Make sure to properly delete created resources if VM cannot be successfully created.
 
+As of CPI API V2, `create_vm` is updated to return an array of the resultant instance ID, and the networks associated with the VM.
+
 
 ## Arguments
 
@@ -28,7 +30,11 @@ Make sure to properly delete created resources if VM cannot be successfully crea
 
 ## Agent Settings
 
-For the Agent to successfully start on the created VM, several bootstrapping settings must be exposed which include network configuration, message bus location (NATS/HTTPS), agent id, etc. Each infrastructure might have a different way of providing such settings to the Agent. For example AWS CPI uses instance user metadata and BOSH Registry. vSphere CPI uses CDROM drive. Most CPIs choose to communicate with default Agent hence communication settings follow certain format:
+For the Agent to successfully start on the created VM, several bootstrapping settings must be exposed which include network configuration, message bus location (NATS/HTTPS), agent id, etc. Each infrastructure might have a different way of providing such settings to the Agent. For example AWS CPI uses instance user metadata and potentially the BOSH Registry. vSphere CPI uses CDROM drive.
+
+As of CPI V2, the registry may be avoided if the stemcell API version is sufficient. See [CPI API V2](../cpi-api-v2.md) and [CPI V2 Migration Guide](../v2-migration-guide.md) for more information on how the CPI, Agent, and Director behave in a registry-less environment.
+
+Most CPIs choose to communicate with default Agent hence communication settings follow certain format:
 
 ```yaml
 {
@@ -61,17 +67,7 @@ For the Agent to successfully start on the created VM, several bootstrapping set
     "provider": "local",
     "options": { "blobstore_path": "/var/vcap/micro_bosh/data/cache" }
   },
-  "env": {},
-  "context": {
-    "director_uuid": "<director-uuid>",
-    "request_id": "<cpi-request-id>",
-    "vm": {
-      "stemcell": {
-        "api_version": 2
-      }
-    }
-  },
-  "api_version": 2
+  "env": {}
 }
 ```
 
@@ -98,8 +94,8 @@ See [Agent Configuration](../vm-config.md#agent) for an overview of the Agent co
         "ip": "10.230.13.6",
         "default": [ "dns", "gateway" ],
         "cloud_properties": { "net_id": "subnet-48rt54" }
-        },
-        "private2": {
+      },
+      "private2": {
         "type": "dynamic",
         "cloud_properties": { "net_id": "subnet-e12364" }
       },
@@ -141,23 +137,15 @@ Response:
 {
   "result": [
     "<instance-id>",
-    { //networks
+    {
       "private": {
         "type": "manual",
         "netmask": "255.255.255.0",
         "gateway": "10.230.13.1",
         "ip": "10.230.13.6",
+        "dns": ["8.8.8.8"],
         "default": [ "dns", "gateway" ],
         "cloud_properties": { "net_id": "subnet-48rt54" }
-        },
-        "private2": {
-        "type": "dynamic",
-        "cloud_properties": { "net_id": "subnet-e12364" }
-      },
-      "public": {
-        "type": "vip",
-        "ip": "173.101.112.104",
-        "cloud_properties": {}
       }
     }
   ],
