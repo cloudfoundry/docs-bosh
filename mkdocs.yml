@@ -166,10 +166,12 @@ pages:
       - create_stemcell: cpi-api-v1-method/create-stemcell.md
       - create_vm: cpi-api-v1-method/create-vm.md
       - current_vm_id: cpi-api-v1-method/current-vm-id.md
+      - create_network: cpi-api-v1-method/create-network.md
       - delete_disk: cpi-api-v1-method/delete-disk.md
       - delete_snapshot: cpi-api-v1-method/delete-snapshot.md
       - delete_stemcell: cpi-api-v1-method/delete-stemcell.md
       - delete_vm: cpi-api-v1-method/delete-vm.md
+      - delete_network: cpi-api-v1-method/delete-network.md
       - detach_disk: cpi-api-v1-method/detach-disk.md
       - get_disks: cpi-api-v1-method/get-disks.md
       - has_disk: cpi-api-v1-method/has-disk.md

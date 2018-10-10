@@ -1,0 +1,39 @@
+# delete_network
+
+Deletes a network that was created using `create_network`.
+
+## Arguments
+
+* `network_id` [String]: network_id of network to delete.
+
+
+## Result
+
+No return value
+
+
+## Examples
+
+### API request
+
+```json
+{
+  "method": "create_network",
+  "arguments": ["<network_id>"],
+  "context": {
+    "director_uuid": "<director-uuid>",
+    "request_id": "<cpi-request-id>",
+  },
+  "api_version": 1
+}
+```
+
+
+### Implementations
+
+ * [cloudfoundry-incubator/bosh-vsphere-cpi-release](https://github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release/blob/master/src/vsphere_cpi/lib/cloud/vsphere/cloud.rb#L727-L731)
+
+
+## Related
+
+ * [create_network](create-network.md)
