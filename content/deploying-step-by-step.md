@@ -76,6 +76,7 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
         - if yes, create a new persistent disk with correct size and type and copy data from the old persistent disk
             - issue create_disk CPI call for the new disk
             - issue attach_disk CPI call on a new disk
+            - issue add_persistent_disk Agent call with new disk
             - issue mount_disk Agent call on a new disk
             - issue migrate_disk Agent call on a new disk
             - orphan the old disk
