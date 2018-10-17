@@ -200,7 +200,7 @@ To ease migration from Consul DNS entries, DNS release provides [aliases feature
 ---
 ## Constructing DNS Queries {: #constructing-queries }
 
-BOSH DNS provides its own structured query language for querying instances?
+BOSH DNS provides its own structured query language for querying instances
 based on an instance's endemic and organizational relationship; e.g., by an
 instance's healthiness, its availability zone, or group id.
 
