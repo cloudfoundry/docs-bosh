@@ -1,36 +1,51 @@
 This document shows how to set up new [environment](terminology.md#environment) on HuaweiCloud Cloud (HuaweiCloud)
- ## Step 1: Prepare an HuaweiCloud Account {: #prepare-HuaweiCloud }
+
+## Step 1: Prepare an HuaweiCloud Account {: #prepare-HuaweiCloud }
+
+### Prerequisites {: #prerequisites }
+ 
  If you do not have an HuaweiCloud account, [create one](https://reg.huaweicloud.com/registerui/public/custom/register.html?locale=zh-cn#/register).
  To configure your HuaweiCloud account:
- * [Obtain HuaweiCloud credentials](#credentials)
-* [Create a Virtual Private Cloud (VPC)](#create-vpc)
-* [Create an Elastic IP](#create-eip)
-* [Create a Key Pair](#create-key-pair)
-* [Create and Configure Security Group](#create-security)
- ---
+
+  * [Obtain HuaweiCloud credentials](#credentials)
+  * [Create a Virtual Private Cloud (VPC)](#create-vpc)
+  * [Create an Elastic IP](#create-eip)
+  * [Create a Key Pair](#create-key-pair)
+  * [Create and Configure Security Group](#create-security)
+
+---
 ### Obtain HuaweiCloud Credentials {: #credentials }
+
  Follow [Creating Users](https://console.huaweicloud.com/iam/#/myCredential) to obtain the username and account.
- ---
+
+---
 ### Create a Virtual Private Cloud (VPC) {: #create-vpc }
+
  1. Log on to the [VPC console](https://console.huaweicloud.com/vpc).
  1. Select the region of the VPC. The VPC and the cloud resources to deploy must be in the same region.
  1. Click Create VPC, configure the VPC according to the following information, and click OK.
  See [Create a VPC](https://console.huaweicloud.com/vpc/?region=cn-north-1&locale=en-us#/vpc/createVpc).
- ---
+
+--- 
 ### Create an Elastic IP {: #create-eip }
+
  1. On the VPC Dashboard, click **Elastic IPs** and click **Create EIP**.
  1. Configure the EIP according to the following information, and then click **Buy Now** to complete the payment.
  See [Create an EIP](https://www.huaweicloud.com/en-us/product/eip.html).
- ---
+
+---
 ### Create a Key Pair {: #create-key-pair }
+
  1. Log on to the [ECS console](https://auth.huaweicloud.com/authui/login.action?locale=en-us#/login).
  1. On the ECS Dashboard, In the left-side navigation pane, choose **Key Pairs**.
  1. On the Key Pairs page, click **Create Key Pair**.
  1. On the Create Key Pair page, enter a name for the key pair, and click **OK**.
  1. Save private key to `~/Downloads/bosh.pem`.
  See [Create an SSH key pair](https://support.huaweicloud.com/en-us/dew_faq/dew_01_0063.html)
- ---
+
+---
 ### Create and Configure Security Group {: #create-security }
+
  Log on to the  VPC console.
 In the left-side navigation pane, select Network > > Virtual Private Cloud > > Security group.
  1. On the VPC Dashboard, select **Security group**.
@@ -57,10 +72,12 @@ In the left-side navigation pane, select Network > > Virtual Private Cloud > > S
        <tr><td>All TCP</td><td>0 - 65535</td><td>ID of this security group</td><td>Management and data access</td></tr>
       <tr><td>All UDP</td><td>0 - 65535</td><td>ID of this security group</td><td>Management and data access</td></tr>
     </table>
- See [Creating a Security Group](https://www.alibabacloud.com/help/doc-detail/25468.htm)
- See [Add security group rules](https://www.alibabacloud.com/help/doc-detail/25471.htm)
- ---
+ See [Creating a Security Group](https://support.huaweicloud.com/usermanual-vpc/zh-cn_topic_0013748715.html)
+ See [Add security group rules](https://support.huaweicloud.com/usermanual-vpc/zh-cn_topic_0030969470.html)
+
+---
 ## Step 2: Deploy {: #deploy }
+
  1. Install [CLI v2](cli-v2.md).
  1. Use `bosh create-env` command to deploy the Director.
      ```shell
