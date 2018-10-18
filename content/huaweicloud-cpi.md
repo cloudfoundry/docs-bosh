@@ -21,7 +21,7 @@ azs:
 
 Schema for `cloud_properties` section used by dynamic network or manual network subnet:
 
-* **subnet_id** [String, required]: Subnet ID belong to VPC and  the instance will be created.
+* **subnet_id** [String, required]: Subnet ID in which the instances will be created.
 * **security_groups** [Array, optional]: Array of security group names or UUIDs to apply for all VMs that are placed on this subnet.
 
 Example of manual network:
@@ -78,11 +78,11 @@ resource_pools:
 
 Schema:
 
-* **auth_url** [String, required]: 
-* **username** [String, required]: 
-* **password** [String, required]: 
-* **tenant** [String, required]: Key pair name. Defaults to key pair name specified by `default_key_name` in the global CPI settings. Example: `bosh`.
-* **region** [String, required]: 
+* **auth_url** [String, required]: URL of the Huaweicloud Identity endpoint to connect to. Example: cn-north-1 Region endpoint https://iam.cn-north-1.myhwclouds.com.
+* **username** [String, required]: Huaweicloud user name and used to access the Registry.
+* **password** [String, required]: Password to access the Registry.
+* **tenant** [String, required]: Huaweicloud tenant name.
+* **region** [String, required]: Huaweicloud region name. A region is a [geographical area](https://developer.huaweicloud.com/en-us/endpoint) where you can run your services. Example: cn-north-1
 * **default_key_name** [String, optional]: Key pair name. Defaults to key pair name specified by `default_key_name` in the global CPI settings. Example: `bosh`.
 * **default_security_groups** [Array, optional]:  Array of security group names or UUIDs to apply for all VMs that are placed on this network. Defaults to security groups specified by `default_security_groups` in the global CPI settings unless security groups are specified on a resource pool/vm type for a VM.
 
