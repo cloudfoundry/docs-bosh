@@ -1,22 +1,22 @@
 # create_vm
 
-Creates a new VM based on the stemcell. Created VM must be powered on and accessible on the provided networks.
+Creates a new VM based on the stemcell. The newly created VM must be powered on and accessible on the provided networks.
 
 Waiting for the VM to finish booting is not required because the Director waits until the Agent on the VM responds back.
 
-Make sure to properly delete created resources if VM cannot be successfully created.
+If the VM's creation fails, please make sure to properly delete the associated resources.
 
-As of CPI API V2, `create_vm` is updated to return an array of the resultant instance ID, and the networks associated with the VM.
+As of V2 of the CPI API contract, `create_vm` returns an array of the resultant instance ID and the networks associated with the VM.
 
 
 ## Arguments
 
  * `agent_id` [String]: ID selected by the Director for the VM's agent.
  * `stemcell_cid` [String]: Cloud ID of the stemcell to use as a base image for new VM.
- * `cloud_properties` [Hash]: Cloud properties hash specified in the deployment manifest under VM's resource pool.
+ * `cloud_properties` [Hash]: Cloud properties hash specified in the deployment manifest under the VM's resource pool.
  * `networks` [Hash]: Networks hash that specifies which VM networks must be configured.
- * `disk_cids` [Array of strings] Array of disk cloud IDs for each disk that created VM will most _likely_ be attached; they could be used to optimize VM placement so that disks are located nearby.
- * `environment` [Hash]: Resource pool's env hash specified in deployment manifest including initial properties added by the BOSH director as shown below. Additionally, the director will append the following guaranteed values:
+ * `disk_cids` [Array of strings] Array of disk cloud IDs for the disks that the created VM will most _likely_ attach. The disk cloud IDs could be used to optimize VM placement so that disks are located nearby.
+ * `environment` [Hash]: Resource pool's env hash specified in the deployment manifest, including initial properties added by the BOSH director as shown below. Additionally, the director will append the following guaranteed values:
      * `bosh` [Hash]: A collection of properties used by the BOSH Agent, and optionally the CPI.
          * `group` [String]: A description of the requested VM in the format `<director-name>-<deployment-name>-<job-name>`.
          * `groups` [Array]: A collection of descriptions for the requested VM, combining `director-name`, `deployment-name` and `job-name` in a range of strings separated by a `-`.
@@ -34,7 +34,7 @@ For the Agent to successfully start on the created VM, several bootstrapping set
 
 As of CPI V2, the registry may be avoided if the stemcell API version is sufficient. See [CPI API V2](../cpi-api-v2.md) and [CPI V2 Migration Guide](../v2-migration-guide.md) for more information on how the CPI, Agent, and Director behave in a registry-less environment.
 
-Most CPIs choose to communicate with default Agent hence communication settings follow certain format:
+Most CPIs choose to communicate with the default Agent. Hence, the communication settings follow a certain format:
 
 ```yaml
 {
