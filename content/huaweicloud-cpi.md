@@ -76,12 +76,22 @@ resource_pools:
 ---
 ## Global Configuration {: #global }
 
+Schema:
+
+* **auth_url** [String, required]: 
+* **username** [String, required]: 
+* **password** [String, required]: 
+* **tenant** [String, required]: Key pair name. Defaults to key pair name specified by `default_key_name` in the global CPI settings. Example: `bosh`.
+* **region** [String, required]: 
+* **default_key_name** [String, optional]: Key pair name. Defaults to key pair name specified by `default_key_name` in the global CPI settings. Example: `bosh`.
+* **default_security_groups** [Array, optional]:  Array of security group names or UUIDs to apply for all VMs that are placed on this network. Defaults to security groups specified by `default_security_groups` in the global CPI settings unless security groups are specified on a resource pool/vm type for a VM.
+
 Example with HuaweiCloud message:
 
 ```yaml
 auth_url: https://iam.cn-north-1.myhwclouds.com
 username: test
-api_key: test_password
+password: test_password
 tenant: test
 region: cn-north-1
 default_key_name: bosh
