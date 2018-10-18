@@ -24,6 +24,7 @@ pages:
   - VirtualBox: bosh-lite.md
   - VMware vCloud: init-vcloud.md
   - VMware vSphere: init-vsphere.md
+  - Huawei Cloud: init-huaweicloud.md
 - Guides:
   - Deploying Software:
     - Core Concepts:
@@ -258,6 +259,9 @@ pages:
     - Recovery from a vSphere Network Partitioning Fault: vsphere-network-partition.md
     - Storage DRS and vMotion Support: vsphere-vmotion-support.md
     - Bootstrapping with Resource Pools: init-vsphere-rp.md
+  - Huawei Cloud:
+    - Usage: huaweicloud-cpi.md
+    - Common Errors: huaweicloud-cpi-errors.md
   - Warden:
     - Usage: warden-cpi.md
 # this hack avoids divider.md showing up in navigation and site search
