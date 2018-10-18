@@ -11,62 +11,62 @@
 ##### V2 flow depending on registry availability (all examples are from `bosh-aws-cpi`)
 
   - `create_vm`:
-    - Returns `network_info`, that director will use to perform additional tasks (future scoped for director).
-    - Depending on which stemcell `api_version` CPI receives in `context`
-      - when stemcell `api_version` is **>= 2**
-        - CPI does not update registry.
-        - Adds the agent settings into the [user_metadata](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/f27c51db1930d1d4c12cbbf074962380377e9e74/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb#L45-L54) when it send request to IaaS to [create instance](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/f27c51db1930d1d4c12cbbf074962380377e9e74/src/bosh_aws_cpi/lib/cloud/aws/cloud_core.rb#L94-L102).
-      - when stemcell `api_version` is **< 2**
-        - it should `update_registry` with all required [agent settings](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/f27c51db1930d1d4c12cbbf074962380377e9e74/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb#L58-L60) same as V1.
+    - Returns `network_info`, that the director will use to perform additional tasks (future scoped for director).
+    - Depending on which stemcell `api_version` the CPI receives in `context`
+      - when the stemcell `api_version` is **>= 2**
+        - The CPI does not update the registry.
+        - Adds the agent settings into the [user_metadata](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/f27c51db1930d1d4c12cbbf074962380377e9e74/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb#L45-L54) when it send the [create instance](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/f27c51db1930d1d4c12cbbf074962380377e9e74/src/bosh_aws_cpi/lib/cloud/aws/cloud_core.rb#L94-L102) request to the IaaS.
+      - when the stemcell `api_version` is **< 2**
+        - The CPI should call `update_registry` with all the required [agent settings](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/f27c51db1930d1d4c12cbbf074962380377e9e74/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb#L58-L60). This is the same as in V1.
 
   - `delete_vm`:
-    - No changes in api contract.
-    - Depending on which stemcell `api_version` CPI receives in `context`
-      - When stemcell `api_version` is **>= 2**
-        - New CPI doesn't attempt try to delete `instance_id` from registry, as the `instance_id` will not exist in registry to begin with.
-      - When stemcell `api_version` is **< 2**
-        - [Delete entry](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/f27c51db1930d1d4c12cbbf074962380377e9e74/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb#L110) with `instance_id` same as V1.
+    - No changes in the API contract.
+    - Depending on which stemcell `api_version` the CPI receives in `context`
+      - When the stemcell `api_version` is **>= 2**
+        - The new CPI does not attempt to delete `instance_id` from the registry, as the `instance_id` will not exist in registry to begin with.
+      - When the stemcell `api_version` is **< 2**
+        - The CPI calls [Delete entry](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/f27c51db1930d1d4c12cbbf074962380377e9e74/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb#L110) with `instance_id`, which is the same behaviour as in V1.
 
   - `attach_disk`:
-    - Returns `disk_hints` which will be used by director to perform additional tasks
-      - `disk_hints` format did not change; it is the same as the values put into registry from V1 contract.
+    - Returns `disk_hints`, which will be used by director to perform additional tasks
+      - The format of `disk_hints` did not change; it is the same as the values put into the registry in the context of the V1 contract.
       - Examples:
         ```
-        Older CPIs updates settings with disk settings as strings
+        Older CPIs update settings with disk settings as strings
         e.g "/dev/sdc"
       	    "3"
-        Newer CPIs returns settings with a hash:
+        Newer CPIs returns settings as a hash:
       	e.g {"path" => "/dev/sdc"}
       	    {"volume_id" => "3"}
       	    {"lun" => "0", "host_device_id" => "{host-device-id}"}
         ```
-    - Depending on which stemcell `api_version` CPI receives in `context`
-      - When stemcell `api_version` is **>= 2**
-        - It doesn't try to update registry with `disk_hints`.
-      - When stemcell `api_version` is **< 2**
-        - It [updates the registry](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/1d7c31ec1ea0bb65a287adfc1898810a615218b8/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb#L76-L80) with `disk_hints` same as V1.
+    - Depending on which stemcell `api_version` the CPI receives in `context`
+      - When the stemcell `api_version` is **>= 2**
+        - The CPI does not try to update the registry with `disk_hints`.
+      - When sthe temcell `api_version` is **< 2**
+        - The CPI [updates the registry](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/1d7c31ec1ea0bb65a287adfc1898810a615218b8/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb#L76-L80) with `disk_hints`, which is the same behaviour as in V1.
 
 
   - `detach_disk`:
-    - No changes in api contract
-    - Depending on which stemcell `api_version` CPI receives in `context`
-      - When stemcell `api_version` is **>= 2**
-        - It doesn't try to delete `disk_id` entry in agent settings in registry.
-      - When stemcell `api_version` is **< 2**
-        - It  [deletes](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/1d7c31ec1ea0bb65a287adfc1898810a615218b8/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb#L94-L98) `disk_id` from agent settings from registry same as V1.
+    - No changes in the API contract
+    - Depending on which stemcell `api_version` the CPI receives in `context`
+      - When the stemcell `api_version` is **>= 2**
+        - The CPI does not try to delete the `disk_id` entry in the agent settings inside the registry.
+      - When the stemcell `api_version` is **< 2**
+        - The CPI  [deletes](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/1d7c31ec1ea0bb65a287adfc1898810a615218b8/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb#L94-L98) `disk_id` from the agent settings inside the registry, which is the same behaviour as in V1.
 
 ##### Agent changes with V2 contracts:
 
-- Agent will check metadata service (depending on IaaS) to get settings (for `settings.json`) before falling back to registry (if the full settings was not fetched; no `agent_id` in the current settings).
+- The BOSH agent will leverage the IaaS' metadata service to obtain its settings (for `settings.json`) before falling back to the registry (if the full settings were not fetched or if there is no `agent_id` in the current settings).
 
-- Agent `mount_disk` accepts disk hints along with the disk cid. It stores the disk hints in `persistent_disk_hints.json`. It will then mount the disk.
-- Agent `unmount_disk` unmounts the disk according to what is stored in `persistent_disk_hints.json` and then remove the disk entry from the file.
-- Agent `update_persistent_disk` method stores disk hints locally on `persistent_disk_hints.json`.
+- The `mount_disk` action accepts disk hints along with the disk cid. It stores the disk hints in `persistent_disk_hints.json`. It will then mount the disk.
+- The `unmount_disk` action unmounts the disk according to what is stored in `persistent_disk_hints.json` and then removes the disk entry from the file.
+- The `update_persistent_disk` action stores disk hints locally in `persistent_disk_hints.json`.
 
 
 ##### Stemcell changes with V2 contracts:
 
-`stemcell.MF` should contain `api_version` if it contains a V2 supported agent in it, so that the director, CPI and cli can use registry-less operations. In order to get new behaviour `api_version: 2` must be present in `stemcell.MF`, or it will be default to version 1.
+`stemcell.MF` must contain an `api_version: 2` entry if the stemcell has a V2-compatible agent installed. This will enable the director, CPI and cli to run in registry-less mode. If the entry is missing, the agent will fallback to the V1 contract and use the registry.
 
 ```yaml
 ---
@@ -85,27 +85,27 @@ cloud_properties:
     us-west-1: ami-xxxxxx
 ```
 
-### Migration steps
+### Updating existing CPIs for registry-less operation
 !!! note
-    CPI V2 must fully support the V1 api contract.
+    CPIs implementing the V2 contract must also fully support the V1 API contract.
 
 ##### Ruby ![](https://cdn.emojidex.com/emoji/mdpi/Ruby.png)
 
-- Update your gem in CPI to [v2.5.0](https://github.com/cloudfoundry/bosh-cpi-ruby/releases/tag/v2.5.0)
+- Update the CPI Ruby gem to [v2.5.0](https://github.com/cloudfoundry/bosh-cpi-ruby/releases/tag/v2.5.0)
 
   ```
   gem install bosh_cpi -v 2.5.0
   ```
 
-- For code reference you can check each method in the updated [cloud_v2.rb](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/f27c51db1930d1d4c12cbbf074962380377e9e74/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb) in bosh-aws-cpi
+- For reference code you can check the updated [cloud_v2.rb](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/f27c51db1930d1d4c12cbbf074962380377e9e74/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb) in bosh-aws-cpi.
 
 ##### GoLang ![](cpi-api-v2-method/gopher.jpg)
 
-- Update [the library](https://github.com/cppforlife/bosh-cpi-go) to the latest version:
+- Update [the CPI GO library](https://github.com/cppforlife/bosh-cpi-go) to the latest version:
   ```
   go get -u github.com/cppforlife/bosh-cpi-go
   ```
-- For code references, see these CPIs using the library:
+- For reference code, see these CPIs using the library:
     - [Warden CPI](https://github.com/cppforlife/bosh-warden-cpi-release)
     - [VirtualBox CPI](https://github.com/cppforlife/bosh-virtualbox-cpi-release)
     - [Docker CPI](https://github.com/cppforlife/bosh-docker-cpi-release)
@@ -113,15 +113,16 @@ cloud_properties:
 
 ---
 
-### Reference pipeline to test  CPI with all combination of Director, CLI and  Stemcell
+### Reference pipeline to test a CPI with all combinations of the Director, CLI and  Stemcell
+This pipeline will use all permutations of the V1 and V2 contracts for the director, CLI and stemcell:
 [Pipeline for CPI V2 testing](https://github.com/cloudfoundry-incubator/bosh-aws-cpi-release/blob/49447ba7ee208c31dddc1b7e3ec2a5f05c88ea99/ci/pipeline_cpi_v2.yml.erb)
 
-**NOTE:** Few other combination should be taken under consideration
+**NOTE:** A few other factors must be considered.
 
-- Which version of cpi is specified in `cpi.json`.
-- Usage of V2 vs V1 director
-  - For testing, the director is specifying [`director.cpi_api_test_max_version`](https://github.com/cloudfoundry-incubator/bosh-cpi-certification/blob/82dcf1843a1c617e73b59e4640af2090e9e0c37f/aws/assets/ops/director_cpi_version.yml) in its properties to use only the specified version of CPI.
-- On CPI side you can specify `debug.cpi.api_version` for debugging. Examples:
+- Which version of the cpi API is specified in `cpi.json`.
+- Director using the V1 or V2 API contract
+  - For testing, the director is specifying [`director.cpi_api_test_max_version`](https://github.com/cloudfoundry-incubator/bosh-cpi-certification/blob/82dcf1843a1c617e73b59e4640af2090e9e0c37f/aws/assets/ops/director_cpi_version.yml) in its properties to use only the specified version of CPI contract.
+- On the CPI side you can specify `debug.cpi.api_version` for debugging. Examples:
   - [spec](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/f27c51db1930d1d4c12cbbf074962380377e9e74/jobs/aws_cpi/spec#L14-L16)
 
   ```yaml
