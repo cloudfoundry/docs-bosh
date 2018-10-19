@@ -2,9 +2,9 @@
 
 Detaches disk from the VM.
 
-If the persistent disk is attached to a VM that will be deleted, it's more likely `delete_vm` CPI method will be called without a call to `detach_disk` with an expectation that `delete_vm` will make sure disks are disassociated from the VM upon its deletion.
+If the persistent disk is attached to a VM that will be deleted, it is more likely that the `delete_vm` CPI method will be called without a call to `detach_disk`. The expectation here is that `delete_vm` will make sure the disks are disassociated from the VM upon its deletion.
 
-Agent settings should have been updated to remove information about given disk.
+Agent settings must have been updated to remove information about the given disk.
 
 
 ## Arguments
@@ -58,9 +58,9 @@ No return value
 
  * [cppforlife/bosh-warden-cpi-release](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/detach_disk.go)
 
- #### Changes for V2
+ #### Changes for V2 of the API contract
 
- The signature for `detach_disk` is the same as V1. For CPIs that previously used the registry to track mount points, V2 does not necessarily use the registry. The registry should be used if the stemcell API version is not sufficient. Without the registry, the Agent receives a message from the Director to remove the persistent disk from its settings. See [CPI V2 Migration Guide](../v2-migration-guide.md) for more information.
+The signature for `detach_disk` is the same as in V1 of the API contract. For CPIs that previously used the registry to track mount points, V2 does not necessarily use the registry. The registry should be used if the stemcell API version is not sufficient. Without the registry, the Agent receives a message from the Director to remove the persistent disk from its settings. See [CPI V2 Migration Guide](../v2-migration-guide.md) for more information.
 
 ## Related
 
