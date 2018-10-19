@@ -20,7 +20,7 @@ Attaches a given disk to a given VM.
 
 ## Agent settings
 
-For the Agent to eventually format, partition and mount attached disk, it needs to identify the disk attachment from inside the OS. The Agent can currently identify attached disk based on either device path, disk's ID, or SCSI volume ID. For example settings below show that CPI attached a disk `vol-7447851` at `/dev/sdd`:
+For the Agent to eventually format, partition and mount the newly attached disk, it needs to identify the disk attachment from inside the OS. The Agent can currently identify attached disks based on either their device path, disk's ID, or SCSI volume ID. For example, the sample settings below show that the CPI attached a disk `vol-7447851` at `/dev/sdd`:
 
 ```json
 {
