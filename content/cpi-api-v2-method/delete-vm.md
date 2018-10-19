@@ -2,7 +2,7 @@
 
 Deletes the VM.
 
-This method will be called while the VM still has persistent disks attached. It's important to make sure that IaaS behaves appropriately in this case and properly disassociates persistent disks from the VM.
+This method will be called while the VM still has persistent disks attached. It is important to make sure that the IaaS behaves appropriately in this case and properly disassociates the persistent disks from the VM.
 
 To avoid losing track of VMs, make sure to raise an error if VM deletion is not absolutely certain.
 
@@ -39,9 +39,9 @@ No return value
 
  * [cppforlife/bosh-warden-cpi-release](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/delete_vm.go)
 
-#### Changes for V2
+#### Changes for V2 of the API contract
 
-The signature for `delete_vm` is the same as V1. For CPIs that previously used the registry to track mount points, V2 does not necessarily use the registry. The registry is used if the stemcell API version is not sufficient. The Agent receives an `unmount_disk` from the Director and deletes the persistent disk settings when not using the registry. See [CPI V2 Migration Guide](../v2-migration-guide.md) for more information.
+The signature for `delete_vm` is the same as in V1 pf the API contract. For CPIs that previously used the registry to track mount points, V2 does not necessarily use the registry. The registry is used if the stemcell API version is not sufficient. The Agent receives an `unmount_disk` from the Director and deletes the persistent disk settings when not using the registry. See [CPI V2 Migration Guide](../v2-migration-guide.md) for more information.
 
 
 ## Related
