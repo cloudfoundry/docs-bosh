@@ -4,15 +4,26 @@ Creates a network that will be used to place VMs on.
 
 ## Arguments
 
-* `network_definition` [Hash]: network_definition properties required for creating network. May contain range and gateway keys. Has to have cloud_properties - properties required for creating this network  specific to a CPI.
+Properties required for creating network. May contain `range` and `gateway` keys. `cloud_properties` (required) are the properties required for creating this network specific to the CPI/IaaS.
 
+```
+{
+  type: String (required)
+  cloud_properties: Hash (required)
+  range: String (optional)
+  gateway: String (optional)
+  netmask_bits: Integer (optional)
+}
+```
 
 ## Result
 
-* network_info [Hash]: key has unique id of network, cloud_properties are properties required for placing VMs
+* Array with format `[network_id (string), addresses (hash), cloud properties (hash)]`
 
 
 ## Examples
+
+`cloud_properties` are IaaS-specific. See implementations below.
 
 ### API request
 
@@ -23,18 +34,17 @@ Creates a network that will be used to place VMs on.
     {
       "type": "manual",
       "cloud_properties": {
-        "a": "b",
-        "t0_id": "123456"
+        ...
       },
       "range": "192.168.10.0/24",
-      "gateway": "192.168.10.1"
+      "gateway": "192.168.10.1",
+      "netmask_bits": 24,
     }
   ],
   "context": {
     "director_uuid": "<director-uuid>",
     "request_id": "<cpi-request-id>",
-  },
-  "api_version": 1
+  }
 }
 ```
 
@@ -43,14 +53,20 @@ Creates a network that will be used to place VMs on.
 ```json
 {
   "result": [
+
+    // Network ID
     "<network_id>",
+
+    // Address properties
     {
       "range": "192.168.10.0/24",
       "gateway": "192.168.10.1",
       "reserved": ["192.168.10.2"]
     },
+
+    // Cloud Properties (IaaS specific)
     {
-      "name": "<network_name>"
+      ...
     }
   ],
   "error": null,

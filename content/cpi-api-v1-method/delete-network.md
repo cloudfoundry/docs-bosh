@@ -23,8 +23,7 @@ No return value
   "context": {
     "director_uuid": "<director-uuid>",
     "request_id": "<cpi-request-id>",
-  },
-  "api_version": 1
+  }
 }
 ```
 
