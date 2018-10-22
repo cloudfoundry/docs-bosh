@@ -7,9 +7,9 @@
 
 # Rotating the Blobstore CA
 
-Applies to a director with TLS enabled for the default DAV blobstore.
+This procedure applies to a director with TLS enabled for the default DAV blobstore.
 
-Example director configuration enabling TLS for the DAV blobstore. Refer to [bosh-deployment](https://github.com/cloudfoundry/bosh-deployment) for a full manifest reference.
+Below is a sample director configuration enabling TLS for the DAV blobstore. Refer to [bosh-deployment](https://github.com/cloudfoundry/bosh-deployment) for a complete manifest reference.
 ```
 ...
 instance_groups:
@@ -49,45 +49,36 @@ instance_groups:
 
 ## Ignored Instances
 
-Take note of any ignored instances with `bosh instances --details`. These instances will not be considered when redeploying or recreating instances. Ignored instances will only receive new certificates when recreated.
+Please take note of any ignored instances with `bosh instances --details`. These instances will not be considered when redeploying or recreating instances. Ignored instances will only receive the new certificates when recreated.
 
-## Introducing a New Certificate Authority (CA) **(for smaller environments)**
+## Introducing a New Certificate Authority (CA) 
 
-When rotating blobstore CA with this method, all instances **must** be recreated before jobs can be successfully updated on the instance.  Consider the method for larger instances if that is an issue.
-
-1. Create a backup of the existing credentials file (usually `creds.yml`). Remove the `blobstore_ca` and `blobstore_server_tls` records (including children) from the working copy of `creds.yml`. Removing the existing keys and values will regenerate them during the next director update.
-1. Redeploy the director with `bosh create-env` using the updated `creds.yml`.
-1. Recreate all instances in all deployments to update instances with the new CA.
-
-
-## Introducing a New Certificate Authority (CA) **(for larger environments)**
-
-This method transitionally allows both the blobstore with the old and new certificate on all VMs which makes quick patches of jobs possible if interrupted temporarily. To achieve this it requires multiple deploys and recreates of all deployments.  Note that this method is analogous to the [NATS CA rotation](nats-ca-rotation.md) which could be done at the same time.
+This procedure works by deploying both the old and the new CA on all the VMs in a transitional fashion. The old CA is purged eventually. To achieve this, the procedure requires multiple deploys and recreates of all the deployments.  Note that this method is analogous to the one used for [NATS CA rotation](nats-ca-rotation.md), which could be performed at the same time as this one.
 
 ### Preconditions
 
-* Director is in a healthy state.
-* All VMs are in `running` state in all deployments.
-* These instructions would have to be adapted if used with bosh-lite ops files, as they overwrite the same variables in this guide.
+* The Director is in a healthy state.
+* All the VMs are in the `running` state in all deployments.
+* These instructions must be adapted if used with bosh-lite ops files, as they overwrite the variables used in this procedure.
 
 
-### Step 1: Redeploy the director with new blobstore CA. {: #step-1}
+### Step 1: Redeploy the director with the new blobstore CA. {: #step-1}
 
 ```shell
 
 $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
  --state ./state.json \
  -o ~/workspace/bosh-deployment/[IAAS]/cpi.yml \
- -o ~/workspace/bosh-deployment/misc/blobstors-tls.yml \
+ -o ~/workspace/bosh-deployment/misc/blobstore-tls.yml \
  -o add-new-blobstore-ca.yml \
  -o ... additional opsfiles \
  --vars-store ./creds.yml \
  -v ... additional vars
 ```
 
-* Adds new variables for the new CA/certificates/private_key.
+* This adds new variables for the new CA/certificates/private_key.
 * The director is given a modified CA with the original CA and the new CA concatenated as `((blobstore_server_tls.ca))((blobstore_server_tls_2.ca))`.
-* Blobstore continues to use the old certificates and private key.
+* The blobstore continues to use the old certificates and private key.
 * Each VM/agent continues to use the old certificates to communicate with the blobstore.
 
 `add-new-blobstore-ca.yml`
@@ -118,10 +109,9 @@ $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
       alternative_names: [((internal_ip))]
 ```
 
-### Step 2: Recreate all VMs, for each deployment. {: #step-2}
+### Step 2: Recreate all the VMs, for each deployment. {: #step-2}
 
-VMs need to be recreated in order to receive new certificates generated from the new Blobstore CA being rotated in. If not recreated, agents will continue to attempt communication with the blobstore, which sends a certificate signed by the new CA. The agent cannot verify the certificate with the old CA.
-
+The VMs need to be recreated in order to receive the new certificates generated from the new Blobstore CA being rotated in. If the VMs are not recreated, the agents they contain will not be able to communicate with the blobstore since they will not trust the new CA used to sign the blobstore's certificate. 
 ```shell
 $ bosh -d deployment-name recreate
 ```
@@ -132,7 +122,7 @@ $ bosh -d deployment-name recreate
 $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
  --state ./state.json \
  -o ~/workspace/bosh-deployment/[IAAS]/cpi.yml \
- -o ~/workspace/bosh-deployment/misc/blobstors-tls.yml \
+ -o ~/workspace/bosh-deployment/misc/blobstore-tls.yml \
  -o remove-old-blobstore-ca.yml \
  -o ... additional opsfiles \
  --vars-store ./creds.yml \
@@ -141,9 +131,9 @@ $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 
 `remove-old-blobstore-ca.yml`
 
-* `blobstore.tls.ca` is updated to remove the old CA from the concatenated CAs.
+* `remove-old-blobstore-ca` below is used to remove the old CA from the concatenated CAs.
 * The blobstore server is updated to use a new certificate and private key, generated by the new CA.
-* All components can communicate using the new CA.
+* All the components can now communicate using the new CA.
 
 ```yaml
 ---
@@ -180,13 +170,16 @@ $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 
 ### Step 4: Recreate all VMs, for each deployment. {: #step-4}
 
-Recreating all VMs will remove the old CA from each.
+Recreating all the VMs will remove the old CA from them. The usual way to do this is:
 
 ```shell
 $ bosh -d deployment-name recreate
 ```
 
-#### Commands that will reset blobstore configuration on deployed VM
+Other BOSH commands can be used to recreate the VMs, while others will restart the VMs without recreating them. Please take note of the remarks below. 
+
+
+#### Commands that will reset the blobstore configuration on the deployed VMs
   - stop hard and start VMs
 ```
 $ bosh -d deployment-name stop --hard
@@ -197,7 +190,7 @@ $ bosh -d deployment-name start
 $ bosh -d deployment-name recreate
 ```
 
-#### Commands that will NOT reset blobstore configuration on deployed VM
+#### Commands that will NOT reset the blobstore configuration on the deployed VM
   - restart VMs
 ```
 $ bosh -d deployment-name restart
