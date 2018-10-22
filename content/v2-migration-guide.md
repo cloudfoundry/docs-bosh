@@ -1,6 +1,6 @@
-## Migrating from V1 to V2 contracts
+## Migrating from V1 to V2 of the CPI API contract
 
-##### CPI Changes with V2 contracts:
+##### CPI Changes in V2 of the API contract:
 
   - CPI [`info`](cpi-api-v2-method/info.md) method exposes supported `api_version`.
   - CPI [`create_vm`](cpi-api-v2-method/create-vm.md) method returns an array of vm_id, network_info.
@@ -55,7 +55,7 @@
       - When the stemcell `api_version` is **< 2**
         - The CPI  [deletes](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/1d7c31ec1ea0bb65a287adfc1898810a615218b8/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb#L94-L98) `disk_id` from the agent settings inside the registry, which is the same behaviour as in V1.
 
-##### Agent changes with V2 contracts:
+##### Agent changes in V2 of the API contract:
 
 - The BOSH agent will leverage the IaaS' metadata service to obtain its settings (for `settings.json`) before falling back to the registry (if the full settings were not fetched or if there is no `agent_id` in the current settings).
 
@@ -64,7 +64,7 @@
 - The `update_persistent_disk` action stores disk hints locally in `persistent_disk_hints.json`.
 
 
-##### Stemcell changes with V2 contracts:
+##### Stemcell changes in V2 of the API contract:
 
 `stemcell.MF` must contain an `api_version: 2` entry if the stemcell has a V2-compatible agent installed. This will enable the director, CPI and cli to run in registry-less mode. If the entry is missing, the agent will fallback to the V1 contract and use the registry.
 
