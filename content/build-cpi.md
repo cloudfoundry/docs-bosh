@@ -61,6 +61,6 @@ It is usually useful to get a detailed log of CPI requests and responses from th
 
 When working with the Director you can find similar debug logs via `bosh task X --debug` command.
 
-## Migrating from V1 to V2 {: #migrating }
+## Migrating from V1 to V2 of the CPI API contract {: #migrating }
 
 The CPI library can be safely upgraded to V2, as all the method calls in V1 are maintained. To take advantage of the new features, please refer to the [V1 to V2 migration guide](v2-migration-guide.md)
