@@ -39,7 +39,7 @@ During the bootstrap process, you will see a few stages:
  * Adding Network Routes - a route to the virtual network is added to ensure you will be able to connect to BOSH-managed VMs.
  * Generating `.envrc` - a settings file is generated so you can easily connect to the environment later.
  * Configuring Environment Alias - an alias is added for the `bosh` command so you can reference the environment as `vbox`.
- * Updating Cloud Config - default settings are applied to the Director so you easily deploy software later.
+ * Updating Cloud Config - default settings are applied to the Director so you can easily deploy software later.
 
 After a few moments, BOSH should be started. To verify, first load your connection settings, and then run your first `bosh` command where you should see similar output.
 
