@@ -16,7 +16,7 @@ Libraries:
 - Ruby: `bosh-cpi-ruby` gem [v2.5.0](https://github.com/cloudfoundry/bosh-cpi-ruby/releases/tag/v2.5.0)
 - GoLang: `bosh-cpi-go` [library](https://github.com/cppforlife/bosh-cpi-go)
 
-#### Migration from V1 of the API contract
+#### Migration from V1 of the CPI API contract
 
 Detailed instructions on how to migrate an existing CPI from V1 to V2 of the contract can be found [here](v2-migration-guide.md).
 
