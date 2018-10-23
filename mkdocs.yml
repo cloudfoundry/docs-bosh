@@ -41,6 +41,7 @@ pages:
       - Manually Configuring Links: links-manual.md
     - Running Errands: errands.md
     - VM Update Strategy: changing-deployment-vm-strategy.md
+    - VM Anti-Affinity: vm-anti-affinity.md
     - Troubleshooting:
       - Monitoring: monitoring.md
       - Process Monitoring with Monit: vm-monit.md
