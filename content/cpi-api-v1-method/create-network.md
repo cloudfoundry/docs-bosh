@@ -4,7 +4,7 @@ Creates a network that will be used to place VMs on.
 
 ## Arguments
 
-Properties required for creating network. May contain `range` and `gateway` keys. `cloud_properties` (required) are the properties required for creating this network specific to the CPI/IaaS.
+Properties required for creating the network. It may contain `range` and `gateway` keys. A `cloud_properties` is required to provide information specific to the CPI and target IaaS. 
 
 ```
 {
@@ -18,12 +18,12 @@ Properties required for creating network. May contain `range` and `gateway` keys
 
 ## Result
 
-* Array with format `[network_id (string), addresses (hash), cloud properties (hash)]`
+* Array with the following format: `[network_id (string), addresses (hash), cloud properties (hash)]`
 
 
 ## Examples
 
-`cloud_properties` are IaaS-specific. See implementations below.
+`cloud_properties` are IaaS-specific. See the current implementations below.
 
 ### API request
 
