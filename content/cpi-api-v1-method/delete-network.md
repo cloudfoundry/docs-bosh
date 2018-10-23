@@ -4,12 +4,12 @@ Deletes a network that was created using `create_network`.
 
 ## Arguments
 
-* `network_id` [String]: network_id of network to delete.
+* `network_id` [String]: network_id of the network to delete.
 
 
 ## Result
 
-No return value
+No return value.
 
 
 ## Examples
