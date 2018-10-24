@@ -74,7 +74,7 @@ This is important when the node is part of a cluster and needs to gracefully
 say goodbye to its pairs before leaving forever.
 
 When the drain script is run before the node is deleted, then the new
-persistent disk size is zero. For exemple, you would be able to see these
+persistent disk size is zero. For example, you would be able to see these
 values when `echo`ing them.
 
 ```bash
@@ -90,7 +90,7 @@ BOSH_JOB_NEXT_STATE={"persistent_disk":0}
 ```
 
 You'll find [here](https://github.com/cloudfoundry-incubator/cfcr-etcd-release/blob/master/jobs/etcd/templates/bin/drain.erb)
-an exemple script for an etcd member to leave its etcd cluster gracefully.
+an example script for an etcd member to leave its etcd cluster gracefully.
 
 
 ---
