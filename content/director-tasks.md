@@ -70,7 +70,7 @@ D, [2015-01-27 21:33:21 #2725] [] DEBUG -- DirectorJobRunner: (0.001125s) SELECT
 Tasks can be cancelled before and while they are running. Canceling an active task will not take immediate effect; however, the Director will stop task execution at a next safe checkpoint. To cancel a task, either press `Ctrl+C` while tracking the task or run:
 
 ```shell
-$ bosh cancel task 766
+$ bosh cancel-task 766
 ```
 
 ---
