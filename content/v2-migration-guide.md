@@ -4,6 +4,7 @@
 
   - CPI [`info`](cpi-api-v2-method/info.md) method exposes supported `api_version`.
   - CPI [`create_vm`](cpi-api-v2-method/create-vm.md) method returns an array of vm_id, network_info.
+    - CPI adds agent settings, i.e. agent id, networks, disks (previously sent to registry) into VM metadata / user-data
   - CPI [`attach_disk`](cpi-api-v2-method/attach-disk.md) method returns disk hints.
   - CPI [`detach_disk`](cpi-api-v2-method/detach-disk.md) method has no changes.
   - CPI [`delete_vm`](cpi-api-v2-method/delete-vm.md) method has no changes.
