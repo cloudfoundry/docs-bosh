@@ -62,9 +62,9 @@ When you are using `bosh` to bootstrap BOSH or other standalone VMs, you will ne
     If you will not be using `create-env` and `delete-env` commands, you can skip this section.
 
 
-### Ubuntu Trusty
+### Ubuntu
 
-If you are running on Ubuntu Trusty, ensure the following packages are installed on your system:
+If you are running on Ubuntu, ensure the following packages are installed on your system:
 
 ```shell
 $ sudo apt-get install -y build-essential zlibc zlib1g-dev ruby ruby-dev openssl libxslt-dev libxml2-dev libssl-dev libreadline6 libreadline6-dev libyaml-dev libsqlite3-dev sqlite3
