@@ -90,6 +90,7 @@ pages:
       - Configuring SSL Certificates: director-certs.md
       - Director SSL Certificate Configuration with OpenSSL: director-certs-openssl.md
       - Rotating Credentials:
+        - NATS CA Rotation: nats-ca-rotation.md
         - TLS Blobstore CA Rotation: blobstore-ca-rotation.md
     - Configuring the Database:
       - Builtin PostgreSQL: director-configure-db.md
@@ -140,7 +141,6 @@ pages:
       - Configuration Locations: vm-config.md
       - Using Logs: job-logs.md
       - Instance Metadata: instance-metadata.md
-    - Rotating NATS CAs: nats-ca-rotation.md
   - Development:
     - Building a CPI: build-cpi.md
     - Building a Stemcell: build-stemcell.md
