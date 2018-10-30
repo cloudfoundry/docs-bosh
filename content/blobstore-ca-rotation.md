@@ -204,7 +204,7 @@ $ bosh -d deployment-name start
 
 ## Troubleshooting
 
-* Performing a redeploy across one or more instances that continue to use the old CA will cause the deployment to fail using the smaller deployment technique.
+Any instances that have not been recreated with `bosh recreate` or through a redeploy causing a recreate will fail with errors like the one below. Perform a `bosh recreate --fix` on any instances impacting a redeploy.
 
 ```
 Task 135 | 14:43:43 | Updating instance zookeeper: zookeeper/c7f03a6d-fcde-4d85-874f-8cb1503082f6 (0) (canary) (00:00:01)
@@ -220,5 +220,3 @@ Task 135 | 14:43:43 | Updating instance zookeeper: zookeeper/c7f03a6d-fcde-4d85-
                     "crypto/rsa: verification error" while trying to verify
                     candidate authority certificate "default.blobstore-ca.bosh-internal")', stderr: '': exit status 1
 ```
-
-Any instances that have not been recreated with `bosh recreate` or a redeploy which causes a recreate will cause the above error. Perform a `bosh recreate` on any instances impacting a redeploy.
