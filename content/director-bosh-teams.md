@@ -8,11 +8,29 @@ currently no way to assign or reassign a deployment's teams.
 !!! note
     This feature is available with bosh-release v255.4+.
 
+## Add a client to a BOSH Team
+
+Scopes can be added to existing clients in order to associate the
+clients with BOSH Teams. You must be logged into UAA as [a privileged
+user to grant and revoke scopes](director-users-uaa-scopes.md#user-login). All BOSH Team scopes follow the format:
+
+```
+bosh.teams.<TEAM-NAME>.<SCOPE>
+```
+
+To add a BOSH Team scope to an existing client:
+
+```
+uaac client update <CLIENT-ID> --scope bosh.teams.<TEAM-NAME>.admin
+```
+
+Currently, Team Admin is the only team-level scope.
+
 ## Team Admin {: #team-admin }
 
 Scopes:
 
-- `bosh.teams.<team>.admin`: user has admin access for deployments managed by the team
+- `bosh.teams.<TEAM_NAME>.admin`: user has admin access for deployments managed by the team
 
 Can modify team managed deployments' associated resources:
 
@@ -33,4 +51,4 @@ Can view shared resources:
 - `bosh tasks`: list of team managed deployments' tasks and their full details
 
 Team admins cannot upload releases and stemcells. These are
-[director-wide scopes](director-users-uaa-scopes.md#stemcell-uploader).
+[director-wide scopes](director-users-uaa-scopes.md#director-wide-scopes).
