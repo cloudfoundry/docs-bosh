@@ -84,7 +84,9 @@ $ uaac member delete bosh.read some-new-user
     Changing group membership will take effect when a new access token is created for that user. New access are granted when their existing access token expires or when user logs out and logs in again. It is recommended to set access token validity to a short interval such as one minute.
 
 ---
-## Director-Wide Scopes {: #director-wide-scopes }
+## Top-level Scopes {: #top-level-scopes }
+
+UAA scopes can be assigned to groups, individual users, or clients.
 
 The scopes in the token sent by a user or client describes which
 operations that user or client is permissioned to perform. Scopes are
