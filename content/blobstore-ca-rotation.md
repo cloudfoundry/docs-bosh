@@ -65,8 +65,7 @@ This procedure works by deploying both the old and the new CA on all the VMs in 
 ### Step 1: Redeploy the director with the new blobstore CA. {: #step-1}
 
 ```shell
-
-$ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
+bosh create-env ~/workspace/bosh-deployment/bosh.yml \
  --state ./state.json \
  -o ~/workspace/bosh-deployment/[IAAS]/cpi.yml \
  -o ~/workspace/bosh-deployment/misc/blobstore-tls.yml \
@@ -113,13 +112,13 @@ $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 
 The VMs need to be recreated in order to receive the new certificates generated from the new Blobstore CA being rotated in. If the VMs are not recreated, the agents they contain will not be able to communicate with the blobstore since they will not trust the new CA used to sign the blobstore's certificate. 
 ```shell
-$ bosh -d deployment-name recreate
+bosh -d deployment-name recreate
 ```
 
 ### Step 3: Redeploy the director to remove the old Blobstore CA. {: #step-3}
 
 ```shell
-$ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
+bosh create-env ~/workspace/bosh-deployment/bosh.yml \
  --state ./state.json \
  -o ~/workspace/bosh-deployment/[IAAS]/cpi.yml \
  -o ~/workspace/bosh-deployment/misc/blobstore-tls.yml \
@@ -173,7 +172,7 @@ $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 Recreating all the VMs will remove the old CA from them. The usual way to do this is:
 
 ```shell
-$ bosh -d deployment-name recreate
+bosh -d deployment-name recreate
 ```
 
 Other BOSH commands can be used to recreate the VMs, while others will restart the VMs without recreating them. Please take note of the remarks below. 
@@ -182,23 +181,23 @@ Other BOSH commands can be used to recreate the VMs, while others will restart t
 #### Commands that will reset the blobstore configuration on the deployed VMs
   - stop hard and start VMs
 ```
-$ bosh -d deployment-name stop --hard
-$ bosh -d deployment-name start
+bosh -d deployment-name stop --hard
+bosh -d deployment-name start
 ```
   - recreate VMs
 ```
-$ bosh -d deployment-name recreate
+bosh -d deployment-name recreate
 ```
 
 #### Commands that will NOT reset the blobstore configuration on the deployed VM
   - restart VMs
 ```
-$ bosh -d deployment-name restart
+bosh -d deployment-name restart
 ```
   - just stop and start VMs
 ```
-$ bosh -d deployment-name stop
-$ bosh -d deployment-name start
+bosh -d deployment-name stop
+bosh -d deployment-name start
 ```
 
 

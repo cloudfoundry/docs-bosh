@@ -4,7 +4,10 @@
 A package may need to reference blobs (binary large objects) in addition to referencing other source files. For example when building a package for PostgreSQL server you may want to include `postgresql-9.6.1.tar.gz` from `https://www.postgresql.org/ftp/source/`. Typically it's not recommended to check in blobs directly into a Git repository because Git cannot efficiently track changes to such files. CLI provides a way to manage blobs in a reasonable manner with several commands:
 
 ```shell
-$ bosh -h|grep blob
+bosh -h|grep blob
+```
+
+```text
   add-blob               Add blob
   blobs                  List blobs
   remove-blob            Remove blob
@@ -26,7 +29,10 @@ files:
 Creating a release with above configuration causes following error:
 
 ```shell
-$ bosh create-release --force
+bosh create-release --force
+```
+
+```text
 Building a release from directory '/Users/user/workspace/cockroachdb-release':
   - Constructing packages from directory:
       - Reading package from '/Users/user/workspace/cockroachdb-release/packages/cockroachdb':
@@ -37,7 +43,7 @@ Building a release from directory '/Users/user/workspace/cockroachdb-release':
 CLI expects to find `cockroach-latest.linux-amd64.tgz` in either `blobs` or `src` directory. Since it's a blob it should not be in `src` directory but rather added with the following command:
 
 ```shell
-$ bosh add-blob ~/Downloads/cockroach-latest.linux-amd64.tgz cockroach-latest.linux-amd64.tgz
+bosh add-blob ~/Downloads/cockroach-latest.linux-amd64.tgz cockroach-latest.linux-amd64.tgz
 ```
 
 `add-blob` command:
@@ -51,7 +57,10 @@ $ bosh add-blob ~/Downloads/cockroach-latest.linux-amd64.tgz cockroach-latest.li
 To list currently tracked blobs use `bosh blobs` command:
 
 ```shell
-$ bosh blobs
+bosh blobs
+```
+
+```text
 Path                              Size    Blobstore ID                          SHA1
 cockroach-latest.linux-amd64.tgz  15 MiB  (local)                               469004231a9ed1d87de798f12fe2f49cc6ff1d2f
 go1.7.4.linux-amd64.tar.gz        80 MiB  7e6431ba-f2c6-4e80-6a16-cd5cd8722b57  2e5baf03d1590e048c84d1d5b4b6f2540efaaea1

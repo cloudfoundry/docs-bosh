@@ -26,12 +26,12 @@ In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director 
 
     ```shell
     # Create directory to keep state
-    $ mkdir ipv6 && cd ipv6
+    mkdir ipv6 && cd ipv6
 
     # Clone Director templates
-    $ git clone https://github.com/cloudfoundry/bosh-deployment
+    git clone https://github.com/cloudfoundry/bosh-deployment
 
-    $ bosh create-env bosh-deployment/bosh.yml \
+    bosh create-env bosh-deployment/bosh.yml \
         --state=state.json \
         --vars-store=creds.yml \
         -o bosh-deployment/vsphere/cpi.yml \
@@ -59,15 +59,18 @@ In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director 
 1. Connect to the Director:
 
     ```shell
-    $ bosh alias-env ipv6 -e 10.0.9.111 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
-    $ export BOSH_CLIENT=admin
-    $ export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
+    bosh alias-env ipv6 -e 10.0.9.111 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
+    export BOSH_CLIENT=admin
+    export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
     ```
 
 1. Confirm that it works:
 
     ```shell
-    $ bosh -e ipv6 env
+    bosh -e ipv6 env
+    ```
+    
+    ```text
     Using environment '10.0.9.111' as '?'
 
     Name: ...
@@ -102,21 +105,21 @@ Follow steps below or the [deploy workflow](basic-workflow.md) that goes through
     ```
 
     ```shell
-    $ bosh -e ipv6 update-cloud-config ~/workspace/bosh-deployment/vsphere/cloud-config.yml \
+    bosh -e ipv6 update-cloud-config ~/workspace/bosh-deployment/vsphere/cloud-config.yml \
         -v vcenter_cluster=cl \
         -v internal_cidr=10.0.9.0/24 \
         -v internal_gw=10.0.9.1 \
         -v network_name="VM Network" \
 
-    $ bosh -e ipv6 update-config cloud --name ipv6 ipv6-net.yml
+    bosh -e ipv6 update-config cloud --name ipv6 ipv6-net.yml
 
-    $ bosh -e ipv6 update-runtime-config ~/workspace/bosh-deployment/runtime-configs/dns.yml
+    bosh -e ipv6 update-runtime-config ~/workspace/bosh-deployment/runtime-configs/dns.yml
     ```
 
 1. Upload stemcell
 
     ```shell
-    $ bosh -e ipv6 upload-stemcell https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-trusty-go_agent?v=3468.17 \
+    bosh -e ipv6 upload-stemcell https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-trusty-go_agent?v=3468.17 \
       --sha1 1691f18b9141ac59aec893a1e8437a7d68a88038
     ```
 
@@ -146,16 +149,16 @@ Follow steps below or the [deploy workflow](basic-workflow.md) that goes through
     ```
 
     ```shell
-    $ bosh -e ipv6 -d zookeeper deploy <(wget -O- https://raw.githubusercontent.com/cppforlife/zookeeper-release/master/manifests/zookeeper.yml) \
+    bosh -e ipv6 -d zookeeper deploy <(wget -O- https://raw.githubusercontent.com/cppforlife/zookeeper-release/master/manifests/zookeeper.yml) \
       -o ipv6-net-use.yml
 
-    $ bosh -e ipv6 -d zookeeper instances
+    bosh -e ipv6 -d zookeeper instances
     ```
 
 1. Run Zookeeper smoke tests
 
     ```shell
-    $ bosh -e ipv6 -d zookeeper run-errand smoke-tests
+    bosh -e ipv6 -d zookeeper run-errand smoke-tests
     ```
 
 ---
@@ -186,12 +189,12 @@ In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director 
 
     ```shell
     # Create directory to keep state
-    $ mkdir ipv6 && cd ipv6
+    mkdir ipv6 && cd ipv6
 
     # Clone Director templates
-    $ git clone https://github.com/cloudfoundry/bosh-deployment
+    git clone https://github.com/cloudfoundry/bosh-deployment
 
-    $ bosh create-env bosh-deployment/bosh.yml \
+    bosh create-env bosh-deployment/bosh.yml \
         --state=state.json \
         --vars-store=creds.yml \
         -o bosh-deployment/vsphere/cpi.yml \
@@ -222,15 +225,18 @@ In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director 
 1. Connect to the Director:
 
     ```shell
-    $ bosh alias-env ipv6 -e https://[fddf:9b0b:7aac:ac45:0000:0000:0000:0108]:25555 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
-    $ export BOSH_CLIENT=admin
-    $ export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
+    bosh alias-env ipv6 -e https://[fddf:9b0b:7aac:ac45:0000:0000:0000:0108]:25555 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
+    export BOSH_CLIENT=admin
+    export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
     ```
 
 1. Confirm that it works:
 
     ```shell
-    $ bosh -e ipv6 env
+    bosh -e ipv6 env
+    ```
+    
+    ```text
     Using environment 'fddf:9b0b:7aac:ac45:0000:0000:0000:0108' as '?'
 
     Name: ...
@@ -246,19 +252,19 @@ Follow steps below or the [deploy workflow](basic-workflow.md) that goes through
 1. Update configs
 
     ```shell
-    $ bosh -e ipv6 update-cloud-config ~/workspace/bosh-deployment/vsphere/cloud-config.yml \
+    bosh -e ipv6 update-cloud-config ~/workspace/bosh-deployment/vsphere/cloud-config.yml \
         -v vcenter_cluster=cl \
         -v internal_cidr=fddf:9b0b:7aac:ac45:0000:0000:0000:0000/64 \
         -v internal_gw=fddf:9b0b:7aac:ac45:0000:0000:0000:0001 \
         -v network_name="VM Network"
 
-    $ bosh -e ipv6 update-runtime-config ~/workspace/bosh-deployment/runtime-configs/dns.yml
+    bosh -e ipv6 update-runtime-config ~/workspace/bosh-deployment/runtime-configs/dns.yml
     ```
 
 1. Upload stemcell
 
     ```shell
-    $ bosh -e ipv6 upload-stemcell https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-trusty-go_agent?v=3468.17 \
+    bosh -e ipv6 upload-stemcell https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-trusty-go_agent?v=3468.17 \
       --sha1 1691f18b9141ac59aec893a1e8437a7d68a88038
     ```
 
@@ -267,14 +273,14 @@ Follow steps below or the [deploy workflow](basic-workflow.md) that goes through
 1. Deploy example deployment and see IPv6 addresses
 
     ```shell
-    $ bosh -e ipv6 -d zookeeper deploy <(wget -O- https://raw.githubusercontent.com/cppforlife/zookeeper-release/master/manifests/zookeeper.yml)
+    bosh -e ipv6 -d zookeeper deploy <(wget -O- https://raw.githubusercontent.com/cppforlife/zookeeper-release/master/manifests/zookeeper.yml)
     # todo use_dns_addresses update
 
-    $ bosh -e ipv6 -d zookeeper instances
+    bosh -e ipv6 -d zookeeper instances
     ```
 
 1. Run Zookeeper smoke tests
 
     ```shell
-    $ bosh -e ipv6 -d zookeeper run-errand smoke-tests
+    bosh -e ipv6 -d zookeeper run-errand smoke-tests
     ```

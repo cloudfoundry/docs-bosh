@@ -20,8 +20,12 @@ In the future, BOSH team will investigate how to best consolidate stemcells into
     This is an implementation detail. The tarball structure is subject to change without notice.
 
 ```shell
-$ tar tvf light-bosh-stemcell-3033-aws-xen-hvm-ubuntu-trusty-go_agent.tgz
+tar tvf light-bosh-stemcell-3033-aws-xen-hvm-ubuntu-trusty-go_agent.tgz
+```
 
+Should result in:
+
+```text
 -rw-rw-r--  0 ubuntu ubuntu      0 Aug  4 09:45 image
 -rw-rw-r--  0 ubuntu ubuntu    710 Aug  4 10:06 stemcell.MF
 -rw-r--r--  0 ubuntu ubuntu  50594 Aug  4 09:23 packages.txt
@@ -50,7 +54,7 @@ Name, operating system and version values will be visible via `bosh stemcells` c
 Example:
 
 ```shell
-$ tar -Oxzf light-bosh-stemcell-3033-aws-xen-hvm-ubuntu-trusty-go_agent.tgz stemcell.MF
+tar -Oxzf light-bosh-stemcell-3033-aws-xen-hvm-ubuntu-trusty-go_agent.tgz stemcell.MF
 ```
 
 ```yaml

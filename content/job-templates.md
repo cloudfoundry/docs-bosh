@@ -75,8 +75,13 @@ Above set of tests provides enough gurantee that our ERB template is validating 
 
 At this point release directory will look something like this:
 
+```shell
+tree .
 ```
-web-server-release $ tree .
+
+Should output:
+
+```text
 .
 ├── Gemfile
 ├── Gemfile.lock

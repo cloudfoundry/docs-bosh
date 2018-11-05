@@ -41,8 +41,8 @@ variables:
 ```
 
 ```shell
-$ bosh interpolate tpl.yml -v internal_ip=10.244.4.2 --vars-store certs.yml
-$ cat certs.yml
+bosh interpolate tpl.yml -v internal_ip=10.244.4.2 --vars-store certs.yml
+cat certs.yml
 ```
 
 ## Configure the Director to use certificates {: #configure }
@@ -98,7 +98,7 @@ If you are using the UAA for user management, additionally put certificates in t
 After you deployed your Director with the above changes, you need to specify `--ca-cert` when targeting the Director:
 
 ```shell
-$ bosh --ca-cert <(bosh int certs.yml --path /director_ssl/ca) target 10.244.4.2
+bosh --ca-cert <(bosh int certs.yml --path /director_ssl/ca) target 10.244.4.2
 ```
 
 !!! note

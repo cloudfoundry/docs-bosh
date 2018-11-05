@@ -14,9 +14,11 @@ To update CPI config on the Director use [`bosh update-cpi-config`](cli-v2.md#up
     See [example CPI config](#example) below.
 
 ```shell
-$ bosh update-cpi-config cpis.yml
+bosh update-cpi-config cpis.yml
+bosh cpi-config
+```
 
-$ bosh cpi-config
+```text
 Using environment '192.168.56.6' as client 'admin'
 
 cpis:

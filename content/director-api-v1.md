@@ -73,10 +73,10 @@ Once a Director task is created, clients can follow its progress by polling [`GE
 #### Example
 
 ```shell
-$ curl -s -k https://192.168.50.4:25555/info | jq .
+curl -s -k https://192.168.50.4:25555/info | jq .
 ```
 
-```yaml
+```json
 {
   "name": "Bosh Lite Director",
   "uuid": "2daf673a-9755-4b4f-aa6d-3632fbed8012",
@@ -116,10 +116,10 @@ $ curl -s -k https://192.168.50.4:25555/info | jq .
 #### Example
 
 ```shell
-$ curl -s -k https://192.168.50.4:25555/configs?latest=true | jq .
+curl -s -k https://192.168.50.4:25555/configs?latest=true | jq .
 ```
 
-```yaml
+```json
 [
    {
     "content": "azs:\n- name: z1\n...",
@@ -158,10 +158,10 @@ The request body consists of a single JSON hash with the following key, value pa
 #### Example
 
 ```shell
-$ curl -s -k -H 'Content-Type: application/json' -d '{"name": "test", "type": "cloud", "content": "--- {}"}' https://192.168.50.4:25555/configs | jq .
+curl -s -k -H 'Content-Type: application/json' -d '{"name": "test", "type": "cloud", "content": "--- {}"}' https://192.168.50.4:25555/configs | jq .
 ```
 
-```yaml
+```json
 {
   "content": "--- {}",
   "id": "3",
@@ -195,10 +195,10 @@ The request body consists of a single JSON hash with the following key, value pa
 #### Example
 
 ```shell
-$ curl -s -k -H 'Content-Type: application/json' -d '{"name": "default", "type": "cloud", "content": "--- {}"}' https://192.168.50.4:25555/configs/diff | jq .
+curl -s -k -H 'Content-Type: application/json' -d '{"name": "default", "type": "cloud", "content": "--- {}"}' https://192.168.50.4:25555/configs/diff | jq .
 ```
 
-```yaml
+```json
 {
   "diff": [
     [
@@ -220,7 +220,7 @@ $ curl -s -k -H 'Content-Type: application/json' -d '{"name": "default", "type":
 #### Example
 
 ```shell
-$ curl -s -k -X DELETE https://192.168.50.4:25555/configs?type=cloud&name=test
+curl -s -k -X DELETE https://192.168.50.4:25555/configs?type=cloud&name=test
 ```
 
 ---
@@ -245,10 +245,10 @@ See [Director tasks](director-tasks.md) for related info.
 #### Example
 
 ```shell
-$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?verbose=2&limit=3' | jq .
+curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?verbose=2&limit=3' | jq .
 ```
 
-```yaml
+```json
 [
   {
     "id": 1180,
@@ -290,10 +290,10 @@ See schema [above](#list-tasks).
 #### Example
 
 ```shell
-$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?state=queued,processing,cancelling&verbose=2' | jq .
+curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?state=queued,processing,cancelling&verbose=2' | jq .
 ```
 
-```yaml
+```json
 [
   {
     "id": 1180,
@@ -319,10 +319,10 @@ See schema [above](#list-tasks).
 #### Example
 
 ```shell
-$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?deploymet=cf-warden' | jq .
+curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?deploymet=cf-warden' | jq .
 ```
 
-```yaml
+```json
 [
   {
     "id": 1180,
@@ -348,10 +348,10 @@ See schema [above](#list-tasks).
 #### Example
 
 ```shell
-$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?context_id=4528' | jq .
+curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?context_id=4528' | jq .
 ```
 
-```yaml
+```json
 [
   {
     "id": 1180,
@@ -377,10 +377,10 @@ See additional schema details [above](#list-tasks).
 #### Example
 
 ```shell
-$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1180' | jq .
+curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1180' | jq .
 ```
 
-```yaml
+```json
 {
   "id": 1180,
   "state": "processing",
@@ -402,10 +402,10 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1180' | jq .
 #### Example
 
 ```shell
-$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1180/output?type=debug'
+curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1180/output?type=debug'
 ```
 
-```
+```text
 ...
 D, [2015-11-09 02:19:36 #32545] [] DEBUG -- DirectorJobRunner: RECEIVED: director.37d8c089-853e-458c-8535-195085b4b7ed.459b05ae-8b69-4679-b2d5-b34e5fef2dcc {"value":{"agent_task_id":"c9f5b328-0656-41f1-631c-e17151be1e18","state":"running"}}
 D, [2015-11-09 02:19:36 #32545] [task:1180] DEBUG -- DirectorJobRunner: (0.000441s) SELECT NULL
@@ -422,31 +422,32 @@ D, [2015-11-09 02:19:36 #32545] [task:1180] DEBUG -- DirectorJobRunner: (0.00031
 #### Example
 
 ```shell
-$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=event'
+curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=event'
 ```
 
-```
-...
-{
-  "time": 1446959491,
-  "stage": "Deleting errand instances",
-  "tags": [ "smoke_tests" ],
-  "total": 1,
-  "task": "59d5b228-a732-4c68-6017-31fe5bc9d8c5",
-  "index": 1,
-  "state": "started",
-  "progress": 0
-}
-{
-  "time": 1446959496,
-  "stage": "Deleting errand instances",
-  "tags": [ "smoke_tests" ],
-  "total": 1,
-  "task": "59d5b228-a732-4c68-6017-31fe5bc9d8c5",
-  "index": 1,
-  "state": "finished",
-  "progress": 100
-}
+```json
+[
+  {
+    "time": 1446959491,
+    "stage": "Deleting errand instances",
+    "tags": [ "smoke_tests" ],
+    "total": 1,
+    "task": "59d5b228-a732-4c68-6017-31fe5bc9d8c5",
+    "index": 1,
+    "state": "started",
+    "progress": 0
+  },
+  {
+    "time": 1446959496,
+    "stage": "Deleting errand instances",
+    "tags": [ "smoke_tests" ],
+    "total": 1,
+    "task": "59d5b228-a732-4c68-6017-31fe5bc9d8c5",
+    "index": 1,
+    "state": "finished",
+    "progress": 100
+  }
+]
 ```
 
 ---
@@ -459,12 +460,58 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=e
 #### Example of VM details task
 
 ```shell
-$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=result'
+curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=result'
 ```
 
-```
-...
-{"vm_cid":"ec974048-3352-4ba4-669d-beab87b16bcb","disk_cid":null,"ips":["10.244.0.142"],"dns":[],"agent_id":"c5e7c705-459e-41c0-b640-db32d8dc6e71","job_name":"doppler_z1","index":0,"job_state":"running","resource_pool":"medium_z1","vitals":{"cpu":{"sys":"9.1","user":"2.1","wait":"1.7"},"disk":{"ephemeral":{"inode_percent":"11","percent":"36"},"system":{"inode_percent":"11","percent":"36"}},"load":["0.61","0.74","1.10"],"mem":{"kb":"2520960","percent":"41"},"swap":{"kb":"102200","percent":"10"}},"processes":[{"name":"doppler","state":"running"},{"name":"syslog_drain_binder","state":"running"},{"name":"metron_agent","state":"running"}],"resurrection_paused":false}
+```json
+{
+	"vm_cid": "ec974048-3352-4ba4-669d-beab87b16bcb",
+	"disk_cid": null,
+	"ips": ["10.244.0.142"],
+	"dns": [],
+	"agent_id": "c5e7c705-459e-41c0-b640-db32d8dc6e71",
+	"job_name": "doppler_z1",
+	"index": 0,
+	"job_state": "running",
+	"resource_pool": "medium_z1",
+	"vitals": {
+		"cpu": {
+			"sys": "9.1",
+			"user": "2.1",
+			"wait": "1.7"
+		},
+		"disk": {
+			"ephemeral": {
+				"inode_percent": "11",
+				"percent": "36"
+			},
+			"system": {
+				"inode_percent": "11",
+				"percent": "36"
+			}
+		},
+		"load": ["0.61", "0.74", "1.10"],
+		"mem": {
+			"kb": "2520960",
+			"percent": "41"
+		},
+		"swap": {
+			"kb": "102200",
+			"percent": "10"
+		}
+	},
+	"processes": [{
+		"name": "doppler",
+		"state": "running"
+	}, {
+		"name": "syslog_drain_binder",
+		"state": "running"
+	}, {
+		"name": "metron_agent",
+		"state": "running"
+	}],
+	"resurrection_paused": false
+}
 ```
 
 ---
@@ -486,10 +533,10 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=r
 #### Example
 
 ```shell
-$ curl -v -s -k https://admin:admin@192.168.50.4:25555/stemcells | jq .
+curl -v -s -k https://admin:admin@192.168.50.4:25555/stemcells | jq .
 ```
 
-```yaml
+```json
 [
   {
     "name": "bosh-warden-boshlite-ubuntu-trusty-go_agent",
@@ -523,10 +570,10 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/stemcells | jq .
 #### Example
 
 ```shell
-$ curl -v -s -k https://admin:admin@192.168.50.4:25555/releases | jq .
+curl -v -s -k https://admin:admin@192.168.50.4:25555/releases | jq .
 ```
 
-```yaml
+```json
 [
   {
     "name": "bosh-warden-cpi",
@@ -556,7 +603,7 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/releases | jq .
         "uncommitted_changes": true,
         "currently_deployed": true,
         "job_names": [ "drain", "errand", "http_server", "pre_start", "service" ]
-      },
+      }
     ]
   }
 ]
@@ -583,10 +630,10 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/releases | jq .
 #### Example
 
 ```shell
-$ curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments | jq .
+curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments | jq .
 ```
 
-```yaml
+```json
 [
   {
     "name": "cf-warden",
@@ -627,10 +674,10 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments | jq .
 #### Example
 
 ```shell
-$ curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments?exclude_configs=true&exclude_releases=true&exclude_stemcells=true | jq .
+curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments?exclude_configs=true&exclude_releases=true&exclude_stemcells=true | jq .
 ```
 
-```yaml
+```json
 [
   {
     "name": "cf-warden"
@@ -671,12 +718,12 @@ Creating/updating a deployment is performed in a Director task. Response will be
 #### Example
 
 ```shell
-$ curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments/cf-warden | jq .
+curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments/cf-warden | jq .
 ```
 
-```yaml
+```json
 {
-  "manifest": "---\nname: cf-warden\n...",
+  "manifest": "---\nname: cf-warden\n..."
 }
 ```
 
@@ -723,10 +770,10 @@ Deleting a deployment is performed in a Director task. Response will be a redire
 #### Example
 
 ```shell
-$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/example/instances' | jq .
+curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/example/instances' | jq .
 ```
 
-```yaml
+```json
 [
   {
     "agent_id": "c5e7c705-459e-41c0-b640-db32d8dc6e71",
@@ -737,8 +784,8 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/example/inst
     "expects_vm": true
   },
   {
-    "agent_id": nil,
-    "cid": nil,
+    "agent_id": null,
+    "cid": null,
     "job": "example_errand",
     "index": 0,
     "id": "548d6aa0-eb8f-4890-bd3a-e6b526f3aeea",
@@ -776,17 +823,24 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/example/inst
 #### Example
 
 ```shell
-$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/example/instances?format=full'
+curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/example/instances?format=full'
+```
+
+```text
 < HTTP/1.1 302 Moved Temporarily
 < Location: https://192.168.50.4:25555/tasks/1287
 ...
-
-$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1287' | jq .
-
-$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1287/output?type=result'
 ```
 
+```shell
+curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1287' | jq .
 ```
+
+```shell
+curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1287/output?type=result'
+```
+
+```text
 ...
 {"vm_cid":"3938cc70-8f5e-4318-ad05-24d991e0e66e","disk_cid":null,"ips":["10.0.1.3"],"dns":[],"agent_id":"d927e75b-2a2d-4015-b5cc-306a067e94e9","job_name":"example_service","index":1,"job_state":"running","state":"started","resource_pool":"resource_pool_1","vm_type":"resource_pool_1","vitals":{"cpu":{"sys":"0.3","user":"0.1","wait":"0.0"},"disk":{"ephemeral":{"inode_percent":"5","percent":"32"},"system":{"inode_percent":"34","percent":"66"}},"load":["0.00","0.01","0.10"],"mem":{"kb":"605008","percent":"7"},"swap":{"kb":"75436","percent":"1"}},"processes":[{"name":"beacon","state":"running","uptime":{"secs":1212184},"mem":{"kb":776,"percent":0},"cpu":{"total":0}},{"name":"baggageclaim","state":"running","uptime":{"secs":1212152},"mem":{"kb":8920,"percent":0.1},"cpu":{"total":0}},{"name":"garden","state":"running","uptime":{"secs":1212153},"mem":{"kb":235004,"percent":2.8},"cpu":{"total":0.2}}],"resurrection_paused":true,"az":null,"id":"abe6a4e9-cfca-490b-8515-2893f9e54d20","bootstrap":false,"ignore":false}
 {"vm_cid":"86eb5e7e-a1c8-4f7b-a20c-cd696bf80938","disk_cid":"70b3c01c-729e-4335-9630-1f1985a40c99","ips":["10.0.1.5"],"dns":[],"agent_id":"7a54d3bb-f77b-412f-b662-dbff7733a823","job_name":"example_errand","index":0,"job_state":"stopped","state":"stopped","resource_pool":"resource_pool_1","vm_type":"resource_pool_1","vitals":{"cpu":{"sys":"1.3","user":"4.9","wait":"0.1"},"disk":{"ephemeral":{"inode_percent":"0","percent":"0"},"persistent":{"inode_percent":"0","percent":"67"},"system":{"inode_percent":"34","percent":"48"}},"load":["0.00","0.03","0.05"],"mem":{"kb":"227028","percent":"6"},"swap":{"kb":"25972","percent":"1"}},"processes":[{"name":"postgresql","state":"running","uptime":{"secs":1212309},"mem":{"kb":489836,"percent":12.1},"cpu":{"total":0}}],"resurrection_paused":true,"az":null,"id":"548d7aa0-eb8f-4890-bd3a-e9b526f3aeeb","bootstrap":false,"ignore":false}
@@ -794,7 +848,7 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1287/output?type=r
 
 #### Formatted example of details of a single instance
 
-```yaml
+```json
 {
   "vm_cid": "86eb5e8e-a8c8-4f7b-a20c-cd696bf80938",
   "disk_cid": "70a3c01c-728e-4335-9630-1f1985a40c99",
@@ -888,10 +942,10 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1287/output?type=r
 #### Example
 
 ```shell
-$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/cf-warden/vms' | jq .
+curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/cf-warden/vms' | jq .
 ```
 
-```yaml
+```json
 [
   {
     "agent_id": "c5e7c705-459e-41c0-b640-db32d8dc6e71",
@@ -937,24 +991,114 @@ $ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/cf-warden/vm
 #### Example
 
 ```shell
-$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/cf-warden/vms?format=full'
+curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/cf-warden/vms?format=full'
 < HTTP/1.1 302 Moved Temporarily
 < Location: https://192.168.50.4:25555/tasks/1181
 ...
-
-$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181' | jq .
-
-$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=result'
 ```
 
+```shell
+curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181' | jq .
 ```
-...
-{"vm_cid":"3938cc70-8f5e-4318-ad05-24d991e0e66e","disk_cid":null,"ips":["10.0.1.3"],"dns":[],"agent_id":"d927e75b-2a2d-4015-b5cc-306a067e94e9","job_name":"example_service","index":0,"job_state":"running","state":"started","resource_pool":"resource_pool_1","vm_type":"resource_pool_1","vitals":{"cpu":{"sys":"0.3","user":"0.1","wait":"0.0"},"disk":{"ephemeral":{"inode_percent":"5","percent":"32"},"persistent":{"inode_percent":"3","percent":"67"},"system":{"inode_percent":"34","percent":"66"}},"load":["0.00","0.01","0.10"],"mem":{"kb":"605008","percent":"7"},"swap":{"kb":"75436","percent":"1"}},"processes":[{"name":"beacon","state":"running","uptime":{"secs":1212184},"mem":{"kb":776,"percent":0},"cpu":{"total":0}},{"name":"baggageclaim","state":"running","uptime":{"secs":1212152},"mem":{"kb":8920,"percent":0.1},"cpu":{"total":0}},{"name":"garden","state":"running","uptime":{"secs":1212153},"mem":{"kb":235004,"percent":2.8},"cpu":{"total":0.2}}],"resurrection_paused":true,"az":null,"id":"abe6a4e9-cfca-490b-8515-2893f9e54d20","bootstrap":false,"ignore":false}
+
+```shell
+curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=result'
+```
+
+```json
+{
+	"vm_cid": "3938cc70-8f5e-4318-ad05-24d991e0e66e",
+	"disk_cid": null,
+	"ips": ["10.0.1.3"],
+	"dns": [],
+	"agent_id": "d927e75b-2a2d-4015-b5cc-306a067e94e9",
+	"job_name": "example_service",
+	"index": 0,
+	"job_state": "running",
+	"state": "started",
+	"resource_pool": "resource_pool_1",
+	"vm_type": "resource_pool_1",
+	"vitals": {
+		"cpu": {
+			"sys": "0.3",
+			"user": "0.1",
+			"wait": "0.0"
+		},
+		"disk": {
+			"ephemeral": {
+				"inode_percent": "5",
+				"percent": "32"
+			},
+			"persistent": {
+				"inode_percent": "3",
+				"percent": "67"
+			},
+			"system": {
+				"inode_percent": "34",
+				"percent": "66"
+			}
+		},
+		"load": ["0.00", "0.01", "0.10"],
+		"mem": {
+			"kb": "605008",
+			"percent": "7"
+		},
+		"swap": {
+			"kb": "75436",
+			"percent": "1"
+		}
+	},
+	"processes": [{
+		"name": "beacon",
+		"state": "running",
+		"uptime": {
+			"secs": 1212184
+		},
+		"mem": {
+			"kb": 776,
+			"percent": 0
+		},
+		"cpu": {
+			"total": 0
+		}
+	}, {
+		"name": "baggageclaim",
+		"state": "running",
+		"uptime": {
+			"secs": 1212152
+		},
+		"mem": {
+			"kb": 8920,
+			"percent": 0.1
+		},
+		"cpu": {
+			"total": 0
+		}
+	}, {
+		"name": "garden",
+		"state": "running",
+		"uptime": {
+			"secs": 1212153
+		},
+		"mem": {
+			"kb": 235004,
+			"percent": 2.8
+		},
+		"cpu": {
+			"total": 0.2
+		}
+	}],
+	"resurrection_paused": true,
+	"az": null,
+	"id": "abe6a4e9-cfca-490b-8515-2893f9e54d20",
+	"bootstrap": false,
+	"ignore": false
+}
 ```
 
 #### Example of a single VM details formatted
 
-```yaml
+```json
 {
   "agent_id": "c5e7c705-459e-41c0-b640-db32d8dc6e71",
 
@@ -1053,10 +1197,10 @@ See [Events](events.md) for info.
 #### Example
 
 ```shell
-$ curl -v -s -k https://admin:admin@192.168.50.4:25555/events | jq .
+curl -v -s -k https://admin:admin@192.168.50.4:25555/events | jq .
 ```
 
-```yaml
+```json
 [
   {
     "id": "3134",
@@ -1073,7 +1217,7 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/events | jq .
         "releases": [
           "uaa/27",
           "bosh/261.4+dev.1493403626",
-          "bosh-aws-cpi/62+dev.1",
+          "bosh-aws-cpi/62+dev.1"
         ],
         "stemcells": [
           "bosh-aws-xen-hvm-ubuntu-trusty-go_agent/3363.9"
@@ -1083,7 +1227,7 @@ $ curl -v -s -k https://admin:admin@192.168.50.4:25555/events | jq .
         "releases": [
           "uaa/27",
           "bosh/261.4+dev.1493916984",
-          "bosh-aws-cpi/62+dev.1",
+          "bosh-aws-cpi/62+dev.1"
         ],
         "stemcells": [
           "bosh-aws-xen-hvm-ubuntu-trusty-go_agent/3363.9"
@@ -1119,10 +1263,10 @@ See additional schema details [above](#list-events).
 #### Example
 
 ```shell
-$ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/events/3133' | jq .
+curl -v -s -k 'https://admin:admin@192.168.50.4:25555/events/3133' | jq .
 ```
 
-```yaml
+```json
 {
   "id": "3133",
   "parent_id": "3132",

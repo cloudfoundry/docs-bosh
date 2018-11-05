@@ -17,18 +17,16 @@ To install the `bosh` binary directly:
 1. Make the `bosh` binary executable and move the binary to your `PATH`:
 
     ```shell
-    $ chmod +x ./bosh
-    $ sudo mv ./bosh /usr/local/bin/bosh
+    chmod +x ./bosh
+    sudo mv ./bosh /usr/local/bin/bosh
     ```
 
 1. You should now be able to use `bosh`. Verify by querying the CLI for its version:
 
     ```shell
-    $ bosh -v
-    version 5.3.1-8366c6fd-2018-09-25T18:25:51Z
-
-    Succeeded
-
+    bosh -v
+    # version 5.3.1-8366c6fd-2018-09-25T18:25:51Z
+    # Succeeded
     ```
 
 ### Using Homebrew on macOS
@@ -38,17 +36,15 @@ If you are on macOS with [Homebrew](https://brew.sh/), you can install using the
 1. Use `brew` to install `bosh-cli`:
 
     ```shell
-    $ brew install cloudfoundry/tap/bosh-cli
+    brew install cloudfoundry/tap/bosh-cli
     ```
 
 1. You should now be able to use `bosh`. Verify by querying the CLI for its version:
 
     ```shell
-    $ bosh -v
-    version 5.3.1-8366c6fd-2018-09-25T18:25:51Z
-
-    Succeeded
-
+    bosh -v
+    # version 5.3.1-8366c6fd-2018-09-25T18:25:51Z
+    # Succeeded
     ```
 
 !!! note
@@ -67,7 +63,7 @@ When you are using `bosh` to bootstrap BOSH or other standalone VMs, you will ne
 If you are running on Ubuntu, ensure the following packages are installed on your system:
 
 ```shell
-$ sudo apt-get install -y build-essential zlibc zlib1g-dev ruby ruby-dev openssl libxslt-dev libxml2-dev libssl-dev libreadline6 libreadline6-dev libyaml-dev libsqlite3-dev sqlite3
+sudo apt-get install -y build-essential zlibc zlib1g-dev ruby ruby-dev openssl libxslt-dev libxml2-dev libssl-dev libreadline6 libreadline6-dev libyaml-dev libsqlite3-dev sqlite3
 ```
 
 
@@ -76,13 +72,13 @@ $ sudo apt-get install -y build-essential zlibc zlib1g-dev ruby ruby-dev openssl
 1. Install the [Apple Command Line Tools](https://developer.apple.com/download/more/):
 
     ```shell
-    $ xcode-select --install
+    xcode-select --install
     ```
 
 2. Use [Homebrew](https://brew.sh/) to additionally install OpenSSL:
 
     ```shell
-    $ brew install openssl
+    brew install openssl
     ```
 
 
@@ -91,15 +87,14 @@ $ sudo apt-get install -y build-essential zlibc zlib1g-dev ruby ruby-dev openssl
 If you are running on CentOS, ensure the following packages are installed on your system:
 
 ```shell
-$ sudo yum install gcc gcc-c++ ruby ruby-devel mysql-devel postgresql-devel postgresql-libs sqlite-devel libxslt-devel libxml2-devel patch openssl
-$ gem install yajl-ruby
+sudo yum install gcc gcc-c++ ruby ruby-devel mysql-devel postgresql-devel postgresql-libs sqlite-devel libxslt-devel libxml2-devel patch openssl
+gem install yajl-ruby
 ```
 
 
 ### Windows
 
 The `create-env` and `destroy-env` commands are not yet supported on native Windows. Feel free to give it a try (and let us know if you have feedback), but we would recommend leveraging the Windows Subsystem for Linux if you need to run either command.
-
 
 ### Other
 

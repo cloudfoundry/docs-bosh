@@ -25,16 +25,16 @@ Such workflow may look like this:
 
 ```shell
 # Clone golang-release to your system
-$ git clone https://github.com/bosh-packages/golang-release ~/workspace/golang-release
+git clone https://github.com/bosh-packages/golang-release ~/workspace/golang-release
 
-$ cd ~/workspace/my-app-release
-$ bosh generate-package my-app
+cd ~/workspace/my-app-release
+bosh generate-package my-app
 
 # Make sure final blobstore credentials are available
-$ vim config/private.yml
+vim config/private.yml
 
 # Perform vendoring of golang-1.8-linux package
-$ bosh vendor-package golang-1.8-linux ~/workspace/golang-release
+bosh vendor-package golang-1.8-linux ~/workspace/golang-release
 ```
 
 In the above steps, CLI v2 vendors `golang-1.8-linux` package into your `my-app-release` release, and makes it available just like any other package as a dependency to other packages or jobs:

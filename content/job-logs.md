@@ -41,7 +41,7 @@ To save output from an errand VM:
     By default, the CLI downloads the logs to your present working directory. Use the `--logs-dir destination_directory` option to change this directory.
 
 ```shell
-$ bosh run errand smoke-tests --download-logs --logs-dir ~/workspace/smoke-tests-logs
+bosh run errand smoke-tests --download-logs --logs-dir ~/workspace/smoke-tests-logs
 ```
 
 !!! note
@@ -53,7 +53,7 @@ $ bosh run errand smoke-tests --download-logs --logs-dir ~/workspace/smoke-tests
 The Agent uses Monit to start, restart, and stop release job processes as specified by the release jobs. Monit detects errors and outputs often useful information to its log. Use `tail` to examine the `monit.log` on a VM:
 
 ```shell
-$ sudo tail -f -n 200 /var/vcap/monit/monit.log
+sudo tail -f -n 200 /var/vcap/monit/monit.log
 ```
 
 ---
@@ -64,7 +64,7 @@ Agent logs contain configuration and runtime information from the Agent running 
 The Agent stores logs in `/var/vcap/bosh/log/` and outputs most recent content to `/var/vcap/bosh/log/current`.
 
 ```shell
-$ sudo tail -f -n 200 /var/vcap/bosh/log/current
+sudo tail -f -n 200 /var/vcap/bosh/log/current
 ```
 
 !!! note

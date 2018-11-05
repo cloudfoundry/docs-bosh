@@ -59,13 +59,13 @@ Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/op
 0. Setup local Multi-CPI directories:
 
     ```shell
-    $ mkdir -p ~/workspace/multi-cpi-vpn
-    $ cd ~/workspace
+    mkdir -p ~/workspace/multi-cpi-vpn
+    cd ~/workspace
     # Clone OpenVPN BOSH Release
-    $ git clone git@github.com:dpb587/openvpn-bosh-release.git
+    git clone git@github.com:dpb587/openvpn-bosh-release.git
     # Clone Multi-CPI Knowledge-Base
-    $ git clone git@github.com:cdutra/bosh-multi-cpi-kb.git
-    $ cd multi-cpi-vpn
+    git clone git@github.com:cdutra/bosh-multi-cpi-kb.git
+    cd multi-cpi-vpn
     ```
 
 0. Allocate Elastic IPs for each VPN Server in their respective regions.
@@ -88,11 +88,11 @@ Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/op
 0. Generate certificates for each server and client.
 
     ```shell
-    $ bosh int ~/workspace/bosh-multi-cpi-kb/templates/vpn-ca.yml \
+    bosh int ~/workspace/bosh-multi-cpi-kb/templates/vpn-ca.yml \
       -l ~/workspace/multi-cpi-vpn/creds-az1.yml \
       --vars-store=~/workspace/multi-cpi-vpn/certs-vpn-az1.yml
 
-    $ bosh int ~/workspace/bosh-multi-cpi-kb/templates/vpn-ca.yml \
+    bosh int ~/workspace/bosh-multi-cpi-kb/templates/vpn-ca.yml \
       -l ~/workspace/multi-cpi-vpn/creds-az2.yml \
       --vars-store=~/workspace/multi-cpi-vpn/certs-vpn-az2.yml
     ```
@@ -101,7 +101,7 @@ Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/op
 
     ```shell
     # Create VPN server in z1
-    $ bosh create-env \
+    bosh create-env \
       --vars-store ~/workspace/multi-cpi-vpn/certs-vpn-az1.yml \
       --state ./openvpn-az1-state.json \
       -o ~/workspace/openvpn-bosh-release/deployment/init-aws.yml \
@@ -124,7 +124,7 @@ Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/op
       ~/workspace/openvpn-bosh-release/deployment/openvpn.yml
 
     # Create VPN server in z2
-    $ bosh create-env \
+    bosh create-env \
       --vars-store ~/workspace/multi-cpi-vpn/certs-vpn-az2.yml \
       --state ./openvpn-az2-state.json \
       -o ~/workspace/openvpn-bosh-release/deployment/init-aws.yml \
@@ -175,7 +175,7 @@ cpis:
 ```
 
 ```shell
-$ bosh update-cpi-config cpi.yml
+bosh update-cpi-config cpi.yml
 ```
 
 And cloud config:
@@ -225,7 +225,7 @@ compilation:
 ```
 
 ```shell
-$ bosh update-cloud-config cloud.yml
+bosh update-cloud-config cloud.yml
 ```
 
 ---
