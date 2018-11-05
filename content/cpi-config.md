@@ -170,6 +170,6 @@ azs:
 ## CPI Specific Stemcells {: #stemcells }
 Stemcells need to be assigned to a specific CPI and it occurs on upload. If you've already uploaded an appropriate stemcell you'll need to re-upload with `--fix`
 
-```bash
+```shell
 bosh upload-stemcell .tgz --fix
 ```

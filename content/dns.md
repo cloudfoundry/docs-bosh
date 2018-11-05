@@ -206,7 +206,7 @@ instance's healthiness, its availability zone, or group id.
 
 An example of a DNS query is as follows:
 
-```bash
+```shell
 dig @bosh-dns q-a*i*m*n*s*y*.q-g*.your-domain.bosh.
 ```
 

@@ -52,7 +52,7 @@ files:
 
 As a general convention, packages that need non-trivial configuration (via environment variables, or in some other ways) should include `bosh/compile.env` file that can be sourced by consumers to make use of that package much easier. Here is how `my-app` package's packaging may look like:
 
-```bash
+```shell
 set -e -x
 source /var/vcap/packages/golang-1.8-linux/bosh/compile.env
 

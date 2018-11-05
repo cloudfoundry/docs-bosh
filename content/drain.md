@@ -77,7 +77,7 @@ When the drain script is run before the node is deleted, then the new
 persistent disk size is zero. For exemple, you would be able to see these
 values when `echo`ing them.
 
-```bash
+```shell
 $ cat /var/vcap/jobs/my-job/bon/drain
 (
   echo BOSH_JOB_STATE=$BOSH_JOB_STATE
@@ -102,7 +102,7 @@ Currently logs from the drain script are not saved on disk by default, though re
 ## Examples {: #example }
 
 ### Load-balancer
-```bash
+```shell
 #!/bin/bash
 
 # check if the process is running
@@ -121,7 +121,7 @@ echo 15; exit 0
 ```
 
 # Stateful distributed job
-```bash
+```shell
 #!/bin/bash
 
 # check if the process is running

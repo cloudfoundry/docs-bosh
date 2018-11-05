@@ -10,7 +10,7 @@ Depending on you configuration, there are up to three endpoints to be secured us
 
 You can use the following script to generate a root CA certificate and use it to sign three generated SSL certificates:
 
-```bash
+```shell
 #!/bin/bash
 
 set -e

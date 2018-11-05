@@ -115,7 +115,7 @@ For each job, create a control script that configures the job to store logs in `
 
 The control script for the `web_ui` job looks like this:
 
-```bash
+```shell
 #!/bin/bash
 
 RUN_DIR=/var/vcap/sys/run/web_ui

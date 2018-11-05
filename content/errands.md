@@ -28,7 +28,7 @@ properties: {}
 
 with a `run.sh` template:
 
-```bash
+```shell
 #!/bin/bash
 set -e
 <% conn = link('conn') %>
