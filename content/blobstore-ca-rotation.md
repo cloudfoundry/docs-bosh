@@ -7,45 +7,9 @@
 
 # Rotating the Blobstore CA
 
-This procedure applies to a director with TLS enabled for the default DAV blobstore.
+As of director version 266.2.0+, TLS is enabled for the default DAV blobstore.
 
-Below is a sample director configuration enabling TLS for the DAV blobstore. Refer to [bosh-deployment](https://github.com/cloudfoundry/bosh-deployment) for a complete manifest reference.
-```
-...
-instance_groups:
-- name: bosh
-  properties:
-    agent:
-      env:
-        bosh:
-          blobstores:
-          - provider: dav
-            options:
-              endpoint: https://((internal_ip)):25250
-              user: agent
-              password: ((blobstore_agent_password))
-              tls:
-                cert:
-                  cat: ((blobstore_ca.certificate))
-
-    blobstore:
-      address: ((internal_ip))
-      port: 25250
-      provider: dav
-      director:
-        user: director
-        password: ((blobstore_director_password))
-      agent:
-        user: agent
-        password: ((blobstore_agent_password))
-      tls:
-        cert:
-          ca: ((blobstore_ca.certificate))
-          certificate: ((blobstore_server_tls.certificate))
-          private_key: ((blobstore_server_tls.private_key))
-...
-```
-
+Due to limitations in stemcell support, the agent does not contact the blobstore over TLS by default. Refer to additional opsfiles in [bosh-deployment](https://github.com/cloudfoundry/bosh-deployment) to enable full end-to-end TLS.
 
 ## Ignored Instances
 
@@ -68,7 +32,6 @@ This procedure works by deploying both the old and the new CA on all the VMs in 
 bosh create-env ~/workspace/bosh-deployment/bosh.yml \
  --state ./state.json \
  -o ~/workspace/bosh-deployment/[IAAS]/cpi.yml \
- -o ~/workspace/bosh-deployment/misc/blobstore-tls.yml \
  -o add-new-blobstore-ca.yml \
  -o ... additional opsfiles \
  --vars-store ./creds.yml \
@@ -88,6 +51,10 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
   path: /instance_groups/name=bosh/properties/agent/env/bosh/blobstores?/provider=dav/options/tls/cert/ca
   value: ((blobstore_server_tls_2.ca))((blobstore_server_tls.ca))
 
+- type: replace
+  path: /instance_groups/name=bosh/properties/blobstore/tls?/cert/ca
+  value: ((blobstore_server_tls_2.ca))((blobstore_server_tls.ca))
+ 
 - type: replace
   path: /variables/-
   value:
@@ -121,7 +88,6 @@ bosh -d deployment-name recreate
 bosh create-env ~/workspace/bosh-deployment/bosh.yml \
  --state ./state.json \
  -o ~/workspace/bosh-deployment/[IAAS]/cpi.yml \
- -o ~/workspace/bosh-deployment/misc/blobstore-tls.yml \
  -o remove-old-blobstore-ca.yml \
  -o ... additional opsfiles \
  --vars-store ./creds.yml \
