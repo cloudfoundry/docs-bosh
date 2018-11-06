@@ -86,7 +86,8 @@ pages:
       - Using Basic Users: director-users.md
       - Integrating with UAA:
         - Configuring Director: director-users-uaa.md
-        - Using Teams: director-users-uaa-perms.md
+        - Managing Permissions with UAA Scopes: director-users-uaa-scopes.md
+        - Using BOSH Teams: director-bosh-teams.md
       - Configuring SSL Certificates: director-certs.md
       - Director SSL Certificate Configuration with OpenSSL: director-certs-openssl.md
       - Rotating Credentials:

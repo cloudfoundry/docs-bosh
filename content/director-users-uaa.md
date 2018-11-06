@@ -4,7 +4,7 @@
 In this configuration the Director is configured to delegate user management to the [UAA](https://github.com/cloudfoundry/uaa) server. The UAA server can be configured to manage its own list of users or work with an LDAP server, or a SAML provider. Regardless how the UAA server is configured the BOSH CLI will ask appropriate credentials and forward them to the UAA to request a token.
 
 ---
-## Configuring the Director {: #configure }
+## Deploy the Director with UAA {: #configure }
 
 1. Change deployment manifest for the Director and add UAA release:
 
@@ -129,7 +129,7 @@ In this configuration the Director is configured to delegate user management to 
 1. Configure Certificates and Keys
 
     See [Director certificates configuration doc](director-certs.md) to find out how to generate necessary certificates.
-    Note, however, that `login.saml.serviceProviderKeyPassword` may need to be set to "", [see](https://bosh.io/releases/github.com/cloudfoundry/uaa-release?version=24).
+    Note, however, that `login.saml.serviceProviderKeyPassword` may need to be set to `""`, [see UAA v24 release notes](https://bosh.io/releases/github.com/cloudfoundry/uaa-release?version=24).
 
     To generate UAA signing (private key) and verification key (public key) in PEM format:
 
