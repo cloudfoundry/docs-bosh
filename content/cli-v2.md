@@ -983,15 +983,22 @@ See [CPI config](cpi-config.md).
 ---
 ### Misc {: #misc }
 
+#### Clean-Up {: #clean-up }
+
 - `bosh -e my-env clean-up [--all]`
 
     Cleans up releases, stemcells, orphaned disks, and other unused resources.
 
     - `--all` flag forces cleanup for orphaned disks
 
+
+#### Help {: #help }
+
 - `bosh help`
 
     Shows list of available commands and global options. Consider using `-h` flag for individual commands.
+
+#### Interpolate Variables {: #interpolate }
 
 - `bosh interpolate manifest.yml [-v ...] [-o ...] [--vars-store path] [--path op-path]` (Alias: `int`)
 
@@ -1043,6 +1050,8 @@ See [CPI config](cpi-config.md).
     $ bosh interpolate certs.yml --path /service_ssl/certificate
     $ bosh interpolate certs.yml --path /service_ssl/private_key
     ```
+
+#### HTTP Request {: #curl }
 
 - `bosh curl [--method=HTTP-METHOD] [--header=HTTP-HEADER] [--body=PATH-TO-FILE-WITH-HTTP-REQUEST-BODY] [--show-headers]`
 
