@@ -34,7 +34,7 @@ VLANs provide the ability to partition devices and subnets on the network. To or
 ---
 ## Step 2: Deploy {: #deploy }
 
-1. Install [BOSH CLI v2](cli-v2.md), make sure to download SoftLayer specific version of bosh-cli [linux](https://bosh-softlayer-artifacts.s3.amazonaws.com/bosh-cli-5.0.1.1-softlayer-linux-amd64) or [mac](https://bosh-softlayer-artifacts.s3.amazonaws.com/bosh-cli-5.0.1.1-softlayer-darwin-amd64).
+1. Install [BOSH CLI v2](cli-v2.md). If you are using dynamic IP for bosh director, make sure to download SoftLayer specific version of bosh-cli [linux](https://bosh-softlayer-artifacts.s3.amazonaws.com/bosh-cli-5.0.1.1-softlayer-linux-amd64) or [mac](https://bosh-softlayer-artifacts.s3.amazonaws.com/bosh-cli-5.0.1.1-softlayer-darwin-amd64). If you are using portable IP for director, you can use both the community version or SoftLayer specific version of bosh-cli.
 
 2. Establish VPN to make sure you can connect to IBM Cloud Infrastructure over private network from your workstation where to run BOSH CLI. 
 
