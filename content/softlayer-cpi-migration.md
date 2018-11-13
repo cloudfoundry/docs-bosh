@@ -1,6 +1,6 @@
-For the users using legacy Softlayer CPI who want to move to Softlayer CPI NG, please refer to this doc to do the migration.
+For the users using legacy SoftLayer CPI who want to move to SoftLayer CPI NG, please refer to this doc to do the migration.
 
-**Note: Softlayer CPI NG needs to work with Xenial stemcell. Please update to Xenial stemcell together with CPI NG.**
+**Note: SoftLayer CPI NG needs to work with Xenial stemcell. Please update to Xenial stemcell together with CPI NG.**
 
 ## Migrate bosh director
 
