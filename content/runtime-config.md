@@ -123,8 +123,6 @@ Available rules:
 * **networks** [Array of strings, optional]: Matches based on network names. Available in bosh-release v262+.
 * **teams** [Array of strings, optional]: Matches based on team names. Available in bosh-release v253+.
 
-All arrays within inclusion/exclusion rules use `or` operator.
-
 Example:
 
 ```yaml
@@ -157,6 +155,76 @@ include:
 ```
 
 See [common addons list](addons-common.md) for several examples.
+
+#### Precedent for Placement Rules
+
+Placement rules are chosen based on the AND operator; specifically, the director
+will chose applicability if the specified rule is in the `include` directive AND the
+rule is NOT in the `exclude` directive.
+
+For example, given the following config:
+
+```yaml
+addons:
+- name: my-addon
+  jobs:
+  - name: my-addon-job
+    release: my-addon-release
+    properties:
+      ...
+    include:
+      stemcell:
+      - os: ubuntu-xenial
+    exclude:
+      deployments:
+      - dep1
+      - dep2
+
+```
+
+The director will collocate `my-addon` to all VMs that use `ubuntu-xenial` stemcells, except for any VMs belonging to deployment `dep1` and `dep2`.
+
+
+Given a more advanced example:
+```yaml
+addons:
+- name: my-addon
+  jobs:
+  - name: my-addon-job
+    release: my-addon-release
+    properties:
+      ...
+    include:
+      deployments:
+      - dep3
+      stemcell:
+      - os: ubuntu-xenial
+      jobs:
+      - name: redis
+        release: redis-release
+    exclude:
+      stemcell:
+      - os: ubuntu-trusty
+      deployments:
+      - dep1
+      - dep2
+```
+
+The director will collocate `my-addon` to **ANY** VM that matches the following
+criteria:
+
+* is in deployment `dep3`
+* uses the `ubuntu-xenial` stemcell, or
+* has a job named `redis` with the `redis-release` release
+
+**EXCEPT** if the VM
+
+* uses `ubuntu-trusty` or
+* is a part of deployments `dep1` or `dep2`.
+
+This means, if there are multiple instance groups on `dep3` and one of them
+uses `ubuntu-trusty`, that specific instance group with `ubuntu-trusty` will not receive
+the collocated addon `my-addon`.
 
 ---
 ## Tags Block {: #tags }
