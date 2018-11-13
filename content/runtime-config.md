@@ -162,6 +162,12 @@ Placement rules are chosen based on the AND operator; specifically, the director
 will chose applicability if the specified rule is in the `include` directive AND the
 rule is NOT in the `exclude` directive.
 
+The rules inside a directive are based on the OR operator; as long as the VM
+meets the criteria of one of the rules, it will be considered `included` or
+`excluded`. All arrays within inclusion/exclusion rules also use the OR operator.
+
+
+
 For example, given the following config:
 
 ```yaml
@@ -213,13 +219,13 @@ addons:
 The director will collocate `my-addon` to **ANY** VM that matches the following
 criteria:
 
-* is in deployment `dep3`
+* is in deployment `dep3`, or
 * uses the `ubuntu-xenial` stemcell, or
 * has a job named `redis` with the `redis-release` release
 
 **EXCEPT** if the VM
 
-* uses `ubuntu-trusty` or
+* uses `ubuntu-trusty`, or
 * is a part of deployments `dep1` or `dep2`.
 
 This means, if there are multiple instance groups on `dep3` and one of them
