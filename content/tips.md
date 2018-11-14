@@ -34,6 +34,21 @@ This problem can occur due to:
 
 It's recommended to start a deploy again and SSH into one of the VMs and look at [the Agent logs](job-logs.md#agent-logs) while the Director waits for VMs to become accessible. See [`director.debug.keep_unreachable_vms` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.debug.keep_unreachable_vms) to let Director know to leave unreachable VMs for easier debugging.
 
+## Timed out sending 'get_task' to instance: 'unknown' ...
+
+```shell
+$ bosh deploy
+...
+
+Updating instance clock_global: clock_global/b0d76aa7-9a4e-44f6-8e28-72d941dc0e16 (0) (canary) (00:06:15)
+  L Error: Timed out sending 'get_task' to instance: 'unknown', agent-id: 'f66bf7ce-bd5e-4528-937a-a25ba8223508' after 45 seconds
+Error: Timed out sending 'get_task' to instance: 'unknown', agent-id: 'f66bf7ce-bd5e-4528-937a-a25ba8223508' after 45 seconds
+```
+
+In case when the VM spec has not been applied, the instance name is not available yet and the timeout error message will display that the instance name as 'unknown'. This also holds for other actions beyond `get_task`, such as `get_state`, `cancel_task`, `apply`, etc...
+
+The steps for remediation are similar to the [Timed out pinging to ... after 600 seconds](#unreachable-agent) case, where operators should try to SSH into VMs as the problem is occurring so they can look at the Agent logs.
+
 ---
 ## ...is not running after update {: #failed-job }
 

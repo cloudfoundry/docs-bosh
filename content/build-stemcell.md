@@ -42,34 +42,47 @@ $ tar tvf light-bosh-stemcell-3033-aws-xen-hvm-ubuntu-trusty-go_agent.tgz
 * **operating_system** [String, required]: Operating system in the stemcell. Example: `ubuntu-trusty`.
 * **version** [String, required]: Version of the stemcell. Example: `3033`.
 * **sha1** [String, required]: The SHA1 of the image file included in the stemcell tarball.
-* **bosh_protocol** [Integer, optional]: Deprecated.
+* **bosh_protocol** [String, optional]: Deprecated.
 * **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to import OS image. These properties will be passed in to the [`create_stemcell` CPI call](cpi-api-v1.md#create-stemcell).
+* **stemcell_formats** [Array of Strings, optional]: The list of stemcell formats that a [CPI must support](cpi-api-v2-method/info.md#result). The director will attempt to upload the stemcell to all CPIs that support any specified formats.
 
 Name, operating system and version values will be visible via `bosh stemcells` command once a stemcell is imported into the Director.
 
 Example:
 
 ```shell
-$ tar -Oxzf light-bosh-stemcell-3033-aws-xen-hvm-ubuntu-trusty-go_agent.tgz stemcell.MF
+$ tar -Oxzf light-bosh-stemcell-97.19-aws-xen-hvm-ubuntu-xenial-go_agent.tgz stemcell.MF
 ```
 
 ```yaml
 ---
-name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-operating_system: ubuntu-trusty
-version: '3033'
-sha1: c13273b00b762c5aa29240ea62e1b9b5a03ae02c
-bosh_protocol: 1
+name: bosh-aws-xen-hvm-ubuntu-xenial-go_agent
+version: '97.19'
+bosh_protocol: '1'
+sha1: da39a3ee5e6b4b0d3255bfef95601890afd80709
+operating_system: ubuntu-xenial
+stemcell_formats:
+- aws-light
 cloud_properties:
-  name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-  version: '3033'
-  infrastructure: aws
-  hypervisor: xen
-  root_device_name: /dev/sda1
   ami:
-    us-east-1: ami-3dc56656
-    us-west-1: ami-db9a659f
-    us-west-2: ami-dd5850ed
+    us-gov-west-1: ami-1431a975
+    ap-northeast-1: ami-0ddb32f9e2cb016f3
+    ap-northeast-2: ami-04f416b078c7eb965
+    ap-south-1: ami-0f04da873c8883a56
+    ap-southeast-1: ami-0628f639a2c1abd77
+    ap-southeast-2: ami-06f24628e83df3ca7
+    ca-central-1: ami-0b8196ea9d0c10b00
+    eu-central-1: ami-07ebdd782c27da598
+    eu-west-1: ami-0f7e184ff7b50cd36
+    eu-west-2: ami-01713a432b5494aa6
+    eu-west-3: ami-059850a6db5f0f1f0
+    sa-east-1: ami-0559933d31a7cbdf3
+    us-east-1: ami-0cdc0ee47ff314116
+    us-east-2: ami-05e20eb5a19355a32
+    us-west-1: ami-0eb351fd3b5bb07e0
+    us-west-2: ami-0147f5edb0c3600ab
+    cn-northwest-1: ami-0855153be65a20e35
+    cn-north-1: ami-01db1b9ef2de116fb
 ```
 
 ---
