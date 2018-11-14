@@ -16,6 +16,7 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
 
 1. Delete instance groups that are no longer specified by the deployment manifest
     - issue unmount_disk Agent call for attached disks
+    - issue remove_persistent_disk Agent call for attached disks
     - issue delete_vm CPI call for each VM
     - orphan persistent disks
     - [Update and propagate DNS records](deploying-step-by-step.md#dns)
@@ -76,8 +77,10 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
         - if yes, create a new persistent disk with correct size and type and copy data from the old persistent disk
             - issue create_disk CPI call for the new disk
             - issue attach_disk CPI call on a new disk
+            - issue add_persistent_disk Agent call with new disk
             - issue mount_disk Agent call on a new disk
             - issue migrate_disk Agent call on a new disk
+            - issue remove_persistent_disk Agent call for old disk
             - orphan the old disk
 
     1. Configure VM to have new set of jobs

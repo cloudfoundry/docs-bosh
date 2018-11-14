@@ -57,6 +57,10 @@ Most CPIs have to deal with IaaS APIs that rate limit (e.g. OpenStack, AWS). Cur
 
 ## Debugging {: #debugging }
 
-It usually useful to get a detailed log of CPI requests and responses from the callee. To get a full debug log from `bosh create-env` command set `BOSH_LOG_LEVEL=debug` environment variable.
+It is usually useful to get a detailed log of CPI requests and responses from the callee. To get a full debug log from `bosh create-env` command set `BOSH_LOG_LEVEL=debug` environment variable.
 
 When working with the Director you can find similar debug logs via `bosh task X --debug` command.
+
+## Migrating from V1 to V2 of the CPI API contract {: #migrating }
+
+The CPI library can be safely upgraded to V2, as all the method calls in V1 are maintained. To take advantage of the new features, please refer to the [V1 to V2 migration guide](v2-migration-guide.md)

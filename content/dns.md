@@ -200,12 +200,25 @@ To ease migration from Consul DNS entries, DNS release provides [aliases feature
 ---
 ## Constructing DNS Queries {: #constructing-queries }
 
-BOSH DNS provides its own structured query language for querying instances?
+BOSH DNS provides its own structured query language for querying instances
 based on an instance's endemic and organizational relationship; e.g., by an
 instance's healthiness, its availability zone, or group id.
 
-An example of a DNS query is as follows:
+A few example DNS queries:
 
+* `dig @bosh-dns q-s3.zookeeper.*.zk-prod.bosh`
+
+Query for BOSH instances that are healthy (`q-s3`), from instance group `zookeeper`, on all networks (`*`), in deployment `zk-prod`.
+
+* `dig @bosh-dns q-s1-a2.diego-cell.*.*.bosh`
+
+Query for BOSH instances that are unhealthy (`q-s1`), that are in availability zone 2 (`q-a2`), from instance group `diego_cell`, on any network (`*`) and any deployment (`*`). **Note:** BOSH DNS converts instance groups with underscores in their name to hyphens (e.g. `diego_cell` becomes `diego-cell`).
+
+* `dig @bosh-dns q-s4.*.bosh`
+
+Query for all BOSH instances regardless of healthiness (`q-s4`). This effectively returns all instances across all deployments on the BOSH director.
+
+More generally:
 ```bash
 dig @bosh-dns q-a*i*m*n*s*y*.q-g*.your-domain.bosh.
 ```
