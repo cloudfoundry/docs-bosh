@@ -16,6 +16,7 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
 
 1. Delete instance groups that are no longer specified by the deployment manifest
     - issue unmount_disk Agent call for attached disks
+    - issue remove_persistent_disk Agent call for attached disks
     - issue delete_vm CPI call for each VM
     - orphan persistent disks
     - [Update and propagate DNS records](deploying-step-by-step.md#dns)
