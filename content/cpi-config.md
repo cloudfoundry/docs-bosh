@@ -119,6 +119,9 @@ azs:
 ...
 ```
 
+!!! note
+    Each AZ must be configured with a `cpi`.
+
 Example of a CPI config referencing two separate vSphere installations:
 
 ```yaml
