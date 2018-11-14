@@ -44,6 +44,7 @@ $ tar tvf light-bosh-stemcell-3033-aws-xen-hvm-ubuntu-trusty-go_agent.tgz
 * **sha1** [String, required]: The SHA1 of the image file included in the stemcell tarball.
 * **bosh_protocol** [String, optional]: Deprecated.
 * **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to import OS image. These properties will be passed in to the [`create_stemcell` CPI call](cpi-api-v1.md#create-stemcell).
+* **api_version** [Integer, optional]: Highest supported API version of the Agent in the stemcell. Defaults to `1`.
 * **stemcell_formats** [Array of Strings, optional]: The list of stemcell formats that a [CPI must support](cpi-api-v2-method/info.md#result). The director will attempt to upload the stemcell to all CPIs that support any specified formats.
 
 Name, operating system and version values will be visible via `bosh stemcells` command once a stemcell is imported into the Director.
