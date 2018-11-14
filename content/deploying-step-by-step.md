@@ -80,6 +80,7 @@ The Director will do the following [steps](https://www.youtube.com/watch?v=ay6Gj
             - issue add_persistent_disk Agent call with new disk
             - issue mount_disk Agent call on a new disk
             - issue migrate_disk Agent call on a new disk
+            - issue remove_persistent_disk Agent call for old disk
             - orphan the old disk
 
     1. Configure VM to have new set of jobs
