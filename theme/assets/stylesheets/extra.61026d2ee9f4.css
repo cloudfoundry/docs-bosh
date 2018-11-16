@@ -1,0 +1,52 @@
+/* emphasize schema subsection levels through blockquote */
+.bosh-schema blockquote {
+  padding-bottom: .01rem;
+  padding-left: 1.8rem;
+  margin-left: 1.4rem;
+  border-left: .4rem solid rgba(0,0,0,.18);
+  color: rgba(0,0,0,.87);
+}
+
+/* in headers, the codehilite causes distracting indenting */
+.bosh-schema h2 .codehilite,
+.bosh-schema h3 .codehilite,
+.bosh-schema h4 .codehilite,
+.bosh-schema h5 .codehilite,
+.bosh-schema h6 .codehilite {
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: .2em;
+  padding-right: .2em;
+}
+
+/* normalize headers since they're equivalently significant */
+.bosh-schema h3,
+.bosh-schema h4,
+.bosh-schema h5,
+.bosh-schema h6 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-top: 3.2rem;
+  text-transform: none;
+}
+
+.bosh-schema dl {
+  margin-bottom: 1em;
+  margin-top: 1em;
+  position: relative;
+}
+
+.bosh-schema dl::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.bosh-schema dd {
+  margin: 0 0 .25em 6em
+}
+
+.bosh-schema dt {
+  font-style: italic;
+  position: absolute;
+}

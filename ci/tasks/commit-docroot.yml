@@ -1,0 +1,26 @@
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: alpine/git
+run:
+  path: /bin/sh
+  args:
+  - -c
+  - |
+    export GIT_COMMITTER_NAME=Concourse
+    export GIT_COMMITTER_EMAIL=concourse@localhost
+    export GIT_AUTHOR_NAME=$GIT_COMMITTER_NAME
+    export GIT_AUTHOR_EMAIL=$GIT_COMMITTER_EMAIL
+    git clone --quiet file://$PWD/repo repo-output
+    cd repo-output
+    rm -fr *
+    cp -rp ../docroot/* ./
+    git add .
+    git commit -m 'Update docs'
+inputs:
+- name: docroot
+- name: repo
+outputs:
+- name: repo
+  path: repo-output

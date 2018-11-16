@@ -1,9 +1,8 @@
-# BOSH Documentation
+General documentation for [BOSH](https://bosh.io/). We render these docs with [mkdocs](https://www.mkdocs.org/) using a [slightly-adapted](theme) [material](https://github.com/squidfunk/mkdocs-material) theme, and you can find a rendered version of these docs at [bosh.io/docs](https://bosh.io/docs/).
 
-This is a guide for anyone using BOSH, the Outer Shell to Cloud Foundry.
 
-This doc is one of several doc repositories that go into a complete documentation set.
+## Development
 
-The contents here are structured as a topic repository intended to be compiled into a larger document with [Bookbinder](http://github.com/pivotal-cf/docs-bookbinder).
+For local development, clone this repo, initialize submodule (external/bpm-release) and use the following Docker command to build docs and preview on [localhost:8000](http://localhost:8000/)...
 
-See the [docs-book-cloudfoundry](http://github.com/cloudfoundry/docs-book-cloudfoundry) repo for the complete list of open source documentation repositories, as well as information about the publishing process.
+    docker run --rm -it -p 8000:8000 -v "${PWD}:/docs" squidfunk/mkdocs-material:2.7.2

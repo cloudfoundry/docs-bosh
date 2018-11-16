@@ -1,0 +1,351 @@
+site_name: Cloud Foundry BOSH
+site_url: "https://bosh.io/docs/"
+
+repo_name: 'cloudfoundry/docs-bosh'
+repo_url: 'https://github.com/cloudfoundry/docs-bosh'
+edit_uri: edit/master/content/
+
+# non-default since our repo itself is called "docs"
+docs_dir: content
+
+pages:
+- About:
+  - Welcome: index.md
+  - Project Goals: problems.md
+  - Community: community.md
+- Installation:
+  - Installing the CLI: cli-v2-install.md
+  - Quick Start: quick-start.md
+  - Amazon Web Services: init-aws.md
+  - Google Cloud Platform: init-google.md
+  - Microsoft Azure: init-azure.md
+  - OpenStack: init-openstack.md
+  - SoftLayer: init-softlayer.md
+  - VirtualBox: bosh-lite.md
+  - VMware vCloud: init-vcloud.md
+  - VMware vSphere: init-vsphere.md
+- Guides:
+  - Deploying Software:
+    - Core Concepts:
+      - Updating Cloud Config: update-cloud-config.md
+      - Building a Manifest: deployment-basics.md
+      - Uploading Stemcells: uploading-stemcells.md
+      - Uploading Releases: uploading-releases.md
+      - Deploying: deploying.md
+    - Using Persistent Disks:
+      - Persistent Disks: persistent-disks.md
+      - Taking Snapshots: snapshots.md
+      - Using XFS: persistent-disk-fs.md
+    - Using Links:
+      - Links: links.md
+      - Manually Configuring Links: links-manual.md
+    - Running Errands: errands.md
+    - VM Update Strategy: changing-deployment-vm-strategy.md
+    - VM Anti-Affinity: vm-anti-affinity.md
+    - Troubleshooting:
+      - Monitoring: monitoring.md
+      - Process Monitoring with Monit: vm-monit.md
+      - IaaS Reconciliation: cck.md
+    - Migrating:
+      - To Availability Zones: migrated-from.md
+      - From the Ruby CLI: cli-v2-diff.md
+  - Packaging Software:
+    - Core Concepts:
+      - Creating a Release: create-release.md
+    - Using Links:
+      - Sharing Properties: links-properties.md
+    - Configuring the Blobstore:
+      - Release Blobstore: release-blobstore.md
+      - Using S3 & IAM Policies: s3-release-blobstore.md
+    - Working with Blobs: release-blobs.md
+    - Testing:
+      - Unit Testing Job Templates: job-templates.md
+    - Scheduled Processes: scheduled-procs.md
+    - Creating Compiled Releases: compiled-releases.md
+    - Using Errands: errands.md
+    - Configuring Processes:
+      - Recommended Property Types: props-common.md
+    - Packaging and Compiling:
+      - Creating Packages: packages.md
+      - Reusing Packages: package-vendoring.md
+    - Windows Compatibility:
+      - Overview: windows.md
+      - Sample Release: windows-sample-release.md
+    - Using BPM:
+      - Overview: bpm/bpm.md
+      - Configuration: bpm/config.md
+      - Runtime: bpm/runtime.md
+      - Migrating to BPM: bpm/transitioning.md
+      - Undefined Behaviors: bpm/undefined.md
+  - Operating Director:
+    - Monitoring:
+      - Auditing Events: events.md
+      - Reviewing Tasks: director-tasks.md
+      - Logging API Access: director-access-events.md
+    - Securing:
+      - Using Basic Users: director-users.md
+      - Integrating with UAA:
+        - Configuring Director: director-users-uaa.md
+        - Managing Permissions with UAA Scopes: director-users-uaa-scopes.md
+        - Using BOSH Teams: director-bosh-teams.md
+      - Configuring SSL Certificates: director-certs.md
+      - Director SSL Certificate Configuration with OpenSSL: director-certs-openssl.md
+      - Rotating Credentials:
+        - NATS CA Rotation: nats-ca-rotation.md
+        - TLS Blobstore CA Rotation: blobstore-ca-rotation.md
+    - Configuring the Database:
+      - Builtin PostgreSQL: director-configure-db.md
+      - External MySQL: director-configure-db.md
+    - Configuring the Blobstore:
+      - Builtin DAV Server: director-configure-blobstore.md
+      - Amazon S3: director-configure-blobstore.md
+      - Google Cloud Storage: director-configure-blobstore.md
+    - Managing Releases: managing-releases.md
+    - Managing Stemcells: managing-stemcells.md
+    - Auto-healing Capabilities: resurrector.md
+    - Using Health Monitor: hm-config.md
+    - Using Runtime Config:
+      - Overview: runtime-config.md
+      - Common Addons: addons-common.md
+    - Integrating with CredHub:
+      - Variable Types: variable-types.md
+    - Optional Features:
+      - Explicit ARP Flushing: flush-arp.md
+      - Removing Dev Tools from VMs: remove-dev-tools.md
+      - Installing Certificates on VMs: trusted-certs.md
+    - Troubleshooting: tips.md
+  - Using the CLI:
+    - Commands: cli-v2.md
+    - Global Flags: cli-global-flags.md
+    - Environments: cli-envs.md
+    - Tunneling: cli-tunnel.md
+    - Composing YAML:
+      - Interpolating Variables: cli-int.md
+      - Creating Ops Files: cli-ops-files.md
+  - Advanced Networking:
+    - Multi-Cloud Support:
+      - Using CPI Config: cpi-config.md
+      - Using AWS: guide-multi-cpi-aws.md
+    - Using IPv6 on vSphere: guide-ipv6-on-vsphere.md
+  - Advanced Bootstrapping:
+    - Using a Public IP: init-external-ip.md
+    - Enabling SSH Access: jumpbox.md
+  - In-depth Topics:
+    - Native DNS Support: dns.md
+    - Components of BOSH: bosh-components.md
+    - Deploying Step by Step: deploying-step-by-step.md
+    - Agent Interactions: agent-cpi-interactions.md
+    - Virtual Machines:
+      - Structure of a VM: vm-struct.md
+      - Configuration Locations: vm-config.md
+      - Using Logs: job-logs.md
+      - Instance Metadata: instance-metadata.md
+  - Development:
+    - Building a CPI: build-cpi.md
+    - Building a Stemcell: build-stemcell.md
+    - Repacking Stemcells: repack-stemcell.md
+    - Target Personas: personas.md
+- Reference:
+  - Terminology: terminology.md
+  - Deployment Config: manifest-v2.md
+  - Director Cloud Config:
+    - Usage: cloud-config.md
+    - Availability Zones: azs.md
+    - Networks: networks.md
+  - Director APIs:
+    - Director HTTP API: director-api-v1.md
+    - Links API: links-api.md
+  - Director Runtime Config: runtime-config.md
+  - Generic Configs: configs.md
+  - Cloud Provider Interface:
+    - Version 1:
+      - Overview: cpi-api-v1.md
+      - Methods:
+        - attach_disk: cpi-api-v1-method/attach-disk.md
+        - calculate_vm_cloud_properties: cpi-api-v1-method/calculate-vm-cloud-properties.md
+        - configure_networks: cpi-api-v1-method/configure-networks.md
+        - create_disk: cpi-api-v1-method/create-disk.md
+        - create_stemcell: cpi-api-v1-method/create-stemcell.md
+        - create_vm: cpi-api-v1-method/create-vm.md
+        - current_vm_id: cpi-api-v1-method/current-vm-id.md
+        - delete_disk: cpi-api-v1-method/delete-disk.md
+        - delete_snapshot: cpi-api-v1-method/delete-snapshot.md
+        - delete_stemcell: cpi-api-v1-method/delete-stemcell.md
+        - delete_vm: cpi-api-v1-method/delete-vm.md
+        - detach_disk: cpi-api-v1-method/detach-disk.md
+        - get_disks: cpi-api-v1-method/get-disks.md
+        - has_disk: cpi-api-v1-method/has-disk.md
+        - has_vm: cpi-api-v1-method/has-vm.md
+        - info: cpi-api-v1-method/info.md
+        - reboot_vm: cpi-api-v1-method/reboot-vm.md
+        - resize_disk: cpi-api-v1-method/resize-disk.md
+        - set_disk_metadata: cpi-api-v1-method/set-disk-metadata.md
+        - set_vm_metadata: cpi-api-v1-method/set-vm-metadata.md
+        - snapshot_disk: cpi-api-v1-method/snapshot-disk.md
+    - Version 2:
+      - Overview: cpi-api-v2.md
+      - Methods:
+        - attach_disk: cpi-api-v2-method/attach-disk.md
+        - create_vm: cpi-api-v2-method/create-vm.md
+        - delete_vm: cpi-api-v2-method/delete-vm.md
+        - detach_disk: cpi-api-v2-method/detach-disk.md
+        - info: cpi-api-v2-method/info.md
+      - Migrating from version 1: v2-migration-guide.md
+    - RPC Interface: cpi-api-v1-rpc.md
+      - Methods:
+        - attach_disk: cpi-api-v1-method/attach-disk.md
+        - calculate_vm_cloud_properties: cpi-api-v1-method/calculate-vm-cloud-properties.md
+        - configure_networks: cpi-api-v1-method/configure-networks.md
+        - create_disk: cpi-api-v1-method/create-disk.md
+        - create_stemcell: cpi-api-v1-method/create-stemcell.md
+        - create_vm: cpi-api-v1-method/create-vm.md
+        - current_vm_id: cpi-api-v1-method/current-vm-id.md
+        - create_network: cpi-api-v1-method/create-network.md
+        - delete_disk: cpi-api-v1-method/delete-disk.md
+        - delete_snapshot: cpi-api-v1-method/delete-snapshot.md
+        - delete_stemcell: cpi-api-v1-method/delete-stemcell.md
+        - delete_vm: cpi-api-v1-method/delete-vm.md
+        - delete_network: cpi-api-v1-method/delete-network.md
+        - detach_disk: cpi-api-v1-method/detach-disk.md
+        - get_disks: cpi-api-v1-method/get-disks.md
+        - has_disk: cpi-api-v1-method/has-disk.md
+        - has_vm: cpi-api-v1-method/has-vm.md
+        - info: cpi-api-v1-method/info.md
+        - reboot_vm: cpi-api-v1-method/reboot-vm.md
+        - resize_disk: cpi-api-v1-method/resize-disk.md
+        - set_disk_metadata: cpi-api-v1-method/set-disk-metadata.md
+        - set_vm_metadata: cpi-api-v1-method/set-vm-metadata.md
+        - snapshot_disk: cpi-api-v1-method/snapshot-disk.md
+  - Release Management:
+    - Overview: release.md
+    - Release URLs: release-urls.md
+    - Jobs:
+      - Usage: jobs.md
+      - Update Lifecycle: job-lifecycle.md
+      - Lifecycle Hooks:
+        - Drain: drain.md
+        - Pre-start: pre-start.md
+        - Post-start: post-start.md
+        - Post-deploy: post-deploy.md
+        - Post-stop: post-stop.md
+    - Links:
+      - Common Types: links-common-types.md
+  - Operating Systems:
+    - Ubuntu: ubuntu-os.md
+    - Windows Server: windows-os.md
+    - CentOS: centos-os.md
+  - Legacy Documentation:
+    # docs we should keep linkable
+    - Basic Workflow: basic-workflow.md
+    - Deployment Manifest v1: deployment-manifest.md
+    - Sample Manifest: sample-manifest.md
+    - CLI v1 Installation: bosh-cli.md
+    - CLI v1 Commands: sysadmin-commands.md
+    - CLI v1 Backup / Restore: director-backup.md
+    # docs which will be quickly migrated
+    - What is a Deployment?: deployment.md
+    - What is a Stemcell?: stemcell.md
+    - Recent Changes: recent.md
+    - Deploying BOSH with create-env: init.md
+
+  - "--- Cloud Providers": divider.md
+  - Amazon Web Services:
+    - Overview: aws.md
+    - Usage: aws-cpi.md
+    - Common Errors: aws-cpi-errors.md
+    - IAM Users: aws-iam-users.md
+    - IAM Profiles: aws-iam-instance-profiles.md
+    - Using Instance Storage: aws-instance-storage.md
+  - Google Cloud Platform:
+    - Overview: google.md
+    - Usage: google-cpi.md
+    - Required Permissions: google-required-permissions.md
+  - Microsoft Azure:
+    - Overview: azure.md
+    - Usage: azure-cpi.md
+    - Common Errors: azure-cpi-errors.md
+    - Creating Resources: azure-resources.md
+  - OpenStack:
+    - Overview: openstack.md
+    - Usage: openstack-cpi.md
+    - Common Errors: openstack-cpi-errors.md
+    - Using Human-readable VM names: openstack-human-readable-vm-names.md
+    - Using Keystone API v2: openstack-keystonev2.md
+    - Using Light Stemcells: openstack-light-stemcells.md
+    - Multi-homed VMs: openstack-multiple-networks.md
+    - Extended Registry configuration: openstack-registry.md
+    - Self-signed Endpoints: openstack-self-signed-endpoints.md
+  - RackHD:
+    - Usage: rackhd-cpi.md
+  - SoftLayer:
+    - Usage: softlayer-cpi.md
+  - VirtualBox:
+    - Usage: virtualbox-cpi.md
+  - VMware vCloud:
+    - Usage: vcloud-cpi.md
+  - VMware vSphere:
+    - Overview: vsphere.md
+    - Usage: vsphere-cpi.md
+    - Common Errors: vsphere-cpi-errors.md
+    - Recovery from an ESXi Host Failure: vsphere-esxi-host-failure.md
+    - vSphere High Availability: vsphere-ha.md
+    - Migrating Datastores: vsphere-migrate-datastores.md
+    - Recovery from a vSphere Network Partitioning Fault: vsphere-network-partition.md
+    - Storage DRS and vMotion Support: vsphere-vmotion-support.md
+    - Bootstrapping with Resource Pools: init-vsphere-rp.md
+  - Warden:
+    - Usage: warden-cpi.md
+# this hack avoids divider.md showing up in navigation and site search
+- "--- ": divider.md
+
+theme:
+  name: material
+  custom_dir: theme
+  favicon: assets/images/favicon.2776d0bae488.png
+  feature:
+    tabs: true
+  palette:
+    primary: blue
+    accent: indigo
+  logo: assets/images/logo.d93e7da69dbf.png
+
+extra_css:
+- 'assets/stylesheets/extra.61026d2ee9f4.css'
+
+markdown_extensions:
+- markdown.extensions.admonition
+- markdown.extensions.codehilite
+- markdown.extensions.def_list
+- markdown.extensions.attr_list
+- markdown.extensions.footnotes
+- markdown.extensions.meta
+- markdown.extensions.toc(permalink=true)
+- pymdownx.arithmatex
+- pymdownx.betterem(smart_enable=all)
+- pymdownx.caret
+- pymdownx.critic
+- pymdownx.emoji:
+    emoji_generator: !!python/name:pymdownx.emoji.to_svg
+- pymdownx.inlinehilite
+- pymdownx.magiclink
+- pymdownx.mark
+- pymdownx.smartsymbols
+- pymdownx.snippets
+- pymdownx.superfences
+- pymdownx.tasklist(custom_checkbox=true)
+- pymdownx.tilde
+
+extra:
+  social:
+  - type: 'github'
+    link: 'https://github.com/cloudfoundry/bosh'
+  - type: 'slack'
+    link: 'https://cloudfoundry.slack.com/messages/C02HPPYQ2/'
+
+google_analytics:
+# avoid forks accidentally using us
+- !!python/object/apply:os.getenv ["GOOGLE_ANALYTICS_KEY"]
+- auto
+
+# since we publish via bosh.io, avoid unintentionally using gh-pages
+remote_branch: docroot
