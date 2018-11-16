@@ -69,6 +69,11 @@ If you are running on Ubuntu, ensure the following packages are installed on you
 ```shell
 $ sudo apt-get install -y build-essential zlibc zlib1g-dev ruby ruby-dev openssl libxslt-dev libxml2-dev libssl-dev libreadline6 libreadline6-dev libyaml-dev libsqlite3-dev sqlite3
 ```
+ 
+You are running on ubuntu18.04 or higher, ensure the following packages are installed on your system:
+```shell
+$ sudo apt-get install -y build-essential zlibc zlib1g-dev ruby ruby-dev openssl libxslt-dev libxml2-dev libssl-dev libreadline6-dev libyaml-dev libsqlite3-dev sqlite3
+```
 
 
 ### macOS
