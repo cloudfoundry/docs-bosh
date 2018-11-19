@@ -13,6 +13,8 @@ Follow below steps to get it running on locally on VirtualBox:
 
 1. Install [CLI v2](cli-v2.md#install)
 
+1. Install [Ruby](https://www.ruby-lang.org/)
+
 1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
     Known working version:
