@@ -164,6 +164,9 @@ See [Uploading Stemcells](uploading-stemcells.md).
 
 - `bosh repack-stemcell src.tgz dst.tgz [--name=name] [--version=ver] [--cloud-properties=json-string]`
 
+    !!! warning
+        Starting in version CLI v5.4.0, repacking a stemcell will preserve a new field `api_version` in the manifest. Repacking any stemcells with `api_version` in their manifest with CLI v5.3.1 and lower will omit the field.
+
     Produces new stemcell tarball with updated properties such as name, version, and cloud properties.
 
     See [Repacking stemcells](repack-stemcell.md) for details.

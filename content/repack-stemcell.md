@@ -1,5 +1,8 @@
 !!! note
-    Applies to CLI v2 v2.0.12+.
+    Applies to CLI v2.0.12+.
+
+!!! warning
+    Starting in version CLI v5.4.0, repacking a stemcell will preserve a new field `api_version` in the manifest. Repacking any stemcells with `api_version` in their manifest with CLI v5.3.1 and lower will omit the field.
 
 The [CLI v2](cli-v2.md) includes a command to repack stemcells; this enables limited customization of a stemcell including the following:
 
