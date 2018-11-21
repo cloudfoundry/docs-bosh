@@ -206,7 +206,7 @@ $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 
 ### Step 4: Recreate all VMs, for each deployment.
 
-The recreation of all VMs will remove the old NATS CA reference from thier agent settings.
+The recreation of all VMs will remove the old NATS CA reference from their agent settings.
 To recreate the deployed VMs, please check the output of `bosh recreate -h` for options.
 
 ### Step 5: Clean-up
@@ -231,3 +231,13 @@ A dependency within older versions of director and health monitor lacks the abil
 ### Visualization of the Steps
 
 ![image](images/nats_rotation.png)
+
+## Troubleshooting
+
+NATS certificates may be expired if all `bosh deploy` tasks suddenly start failing. To confirm that the certificate is expired, you can use the OpenSSL utility:
+
+```
+bosh int /path/to/creds.yml --path /nats_server_tls/ca | openssl x509 -noout -dates
+```
+
+NATS will not emit specific error messages related to certificate expiration, but requests will time out after 600 seconds.
