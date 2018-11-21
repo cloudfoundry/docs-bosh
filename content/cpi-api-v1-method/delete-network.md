@@ -18,7 +18,7 @@ No return value.
 
 ```json
 {
-  "method": "create_network",
+  "method": "delete_network",
   "arguments": ["<network_id>"],
   "context": {
     "director_uuid": "<director-uuid>",
