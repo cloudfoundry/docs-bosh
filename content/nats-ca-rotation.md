@@ -109,6 +109,10 @@ Deployed VMs need to be recreated in order to receive new client certificates th
 
 To recreate the deployed VMs, please check the output of `bosh recreate -h` for options.
 
+!!! note
+    You may want to disable health monitor on the Director VM, which will trigger `scan-and-fix` tasks that acquire a lock on the deployment VMs.
+    You can do so by running `monit stop health_monitor` inside the Director VM. You should re-enable health monitor after all deployment VMs have been recreated.
+
 ### Step 3: Update the director, health monitor, and NATS server jobs, to remove references for the old NATS CA and certificates signed by it.
 
 ```shell
@@ -217,7 +221,7 @@ To make future updates to the BOSH director not rely on the transitional OPS fil
 
 1. Remove old certificate values from the vars-store file
 
-1. Rename the newly generated NATS related variables to be similar to the old variable names. For example from the sample above (`nats_ca_2`, `nats_server_tls_2`, `nats_clients_director_tls_2`, and `nats_clients_health_monitor_tls_2`) will be renamed in the vars-store file to (`nats_ca`, `nats_server_tls`, `nats_clients_director_tls`, and `nats_clients_health_monitor_tls`)
+1. Rename the newly generated NATS related variables to be the old variable names. For example from the sample above (`nats_ca_2`, `nats_server_tls_2`, `nats_clients_director_tls_2`, and `nats_clients_health_monitor_tls_2`) will be renamed in the vars-store file to (`nats_ca`, `nats_server_tls`, `nats_clients_director_tls`, and `nats_clients_health_monitor_tls`)
 
 1. Delete the `add-new-ca.yml` and `remove-old-ca.yml` ops files, which are not needed anymore.
 
