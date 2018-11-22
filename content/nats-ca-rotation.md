@@ -1,6 +1,6 @@
 # Rotating NATS Certificate Authorities
 
-The following strategy rotates the NATS CA and NATS related certificates across the director, health monitor, NATS server, and all the deployed VMs. See [Components of Bosh](bosh-components.md) for more information on core components.
+The procedure below rotates the NATS CA and NATS related certificates across the director, health monitor, NATS server, and all the deployed VMs. It can be used whether the certificates are still valid or have already expired. See [Components of Bosh](bosh-components.md) for more information on core components.
 
 
 ### Preconditions
@@ -243,5 +243,7 @@ NATS certificates may be expired if all `bosh deploy` tasks suddenly start faili
 ```
 bosh int /path/to/creds.yml --path /nats_server_tls/ca | openssl x509 -noout -dates
 ```
+
+The procedure above will enable you to restore NATS communications. 
 
 NATS will not emit specific error messages related to certificate expiration, but requests will time out after 600 seconds.
