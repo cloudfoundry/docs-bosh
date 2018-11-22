@@ -6,7 +6,7 @@ title: OpenStack
 
 The `openstack` CPI can be used with [OpenStack](https://www.openstack.org).
 
- * Release: [cloudfoundry-incubator/bosh-openstack-cpi-release](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release)
+ * Release: [cloudfoundry/bosh-openstack-cpi-release](https://github.com/cloudfoundry/bosh-openstack-cpi-release)
  * Issues: [GitHub Issues](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release/issues)
  * Slack: [cloudfoundry#openstack](https://cloudfoundry.slack.com/messages/openstack)
 
