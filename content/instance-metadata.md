@@ -12,7 +12,10 @@ Use [`spec` variable](jobs.md#properties-spec) in ERB templates to get access to
 Accessing information over filesystem might be useful when building core libraries so that explicit configuration is not required. Each VM has a `/var/vcap/instance` directory that contains following files:
 
 ```shell
-vcap@7e87e912-35cc-4b43-9645-5a7d7d6f2caa:~$ ls -la /var/vcap/instance/
+ls -la /var/vcap/instance/
+```
+
+```text
 total 24
 drwxr-xr-x  2 root root 4096 Mar 17 00:06 .
 drwxr-xr-x 11 root root 4096 Mar 17 00:16 ..

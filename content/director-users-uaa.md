@@ -134,8 +134,8 @@ In this configuration the Director is configured to delegate user management to 
     To generate UAA signing (private key) and verification key (public key) in PEM format:
 
     ```shell
-    $ ssh-keygen -t rsa -b 4096 -f uaa
-    $ openssl rsa -in uaa -pubout > uaa.pub
+    ssh-keygen -t rsa -b 4096 -f uaa
+    openssl rsa -in uaa -pubout > uaa.pub
     ```
 
     Put the keys in the Director deployment manifest:
@@ -149,4 +149,3 @@ In this configuration the Director is configured to delegate user management to 
 1. Allow access to port 8443 on the Director VM from your IaaS so that the CLI can access the UAA server.
 
 1. Redeploy the Director with the updated manifest.
-

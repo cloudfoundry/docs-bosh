@@ -5,7 +5,7 @@
 Service principal is most likely invalid. Verify that client ID, client secret and tenant ID successfully work:
 
 ```shell
-$ azure login --username client-id --password client-secret --service-principal --tenant tenant-id
+azure login --username client-id --password client-secret --service-principal --tenant tenant-id
 ```
 
 If your service principal worked and you get the above error suddenly, it may be caused by that your service principal expired. You need to go to Azure Portal to update client secret. By default, the service principal will expire in one year.

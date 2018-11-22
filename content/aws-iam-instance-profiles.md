@@ -55,7 +55,7 @@ This configuration is similar to the previous one except that it's used when the
         "Action": [ "s3:*" ],
         "Resource": [
           "arn:aws:s3:::<bosh_bucket_name>",
-          "arn:aws:s3:::<bosh_bucket_name>/*",
+          "arn:aws:s3:::<bosh_bucket_name>/*"
         ]
       }]
     }
@@ -75,7 +75,7 @@ This configuration is similar to the previous one except that it's used when the
         "Action": [ "s3:*" ],
         "Resource": [
           "arn:aws:s3:::<bosh_bucket_name>",
-          "arn:aws:s3:::<bosh_bucket_name>/*",
+          "arn:aws:s3:::<bosh_bucket_name>/*"
         ]
       }]
     }
@@ -104,7 +104,12 @@ You are not authorized to perform this operation. Encoded authorization failure 
 Use `aws sts decode-authorization-message` command to decode message included in the error. For example:
 
 ```shell
-$ aws sts decode-authorization-message --encoded-message vHU-KncL6Yo4pG5J9p... | jq.DecodedMessage
+aws sts decode-authorization-message --encoded-message vHU-KncL6Yo4pG5J9p... | jq.DecodedMessage
+```
+
+Should result in:
+
+```json
 {
   "allowed": false,
   "explicitDeny": false,

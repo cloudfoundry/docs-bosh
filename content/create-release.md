@@ -36,7 +36,12 @@ Use underscores for all other filenames in the release.
 View the release with `tree`:
 
 ```shell
-$ tree .
+tree .
+```
+
+Should result in:
+
+```text
 .
 ├── blobs
 ├── config
@@ -81,7 +86,12 @@ and once for the `bg_worker` job.
 View the job skeletons with `tree`:
 
 ```shell
-$ tree .
+tree .
+```
+
+Should result in:
+
+```text
 .
 ├── blobs
 ├── config
@@ -115,7 +125,7 @@ For each job, create a control script that configures the job to store logs in `
 
 The control script for the `web_ui` job looks like this:
 
-```bash
+```shell
 #!/bin/bash
 
 RUN_DIR=/var/vcap/sys/run/web_ui
@@ -316,7 +326,12 @@ we run it for `libyaml_0.1.4`, `ruby_1.9.3`, and `ardo_app`.
 View the package skeletons with `tree`:
 
 ```shell
-$ tree packages
+tree packages
+```
+
+Should result in:
+
+```text
 packages
 ├── ardo_app
 │   ├── packaging
@@ -345,8 +360,8 @@ dependencies together in a single package, though that is not recommended.
 Without using `pre_packaging` for our `ardo_app` we need to pack gems manually for further usage:
 
 ```shell
-$ cd src/ardo_app/
-$ bundle package
+cd src/ardo_app/
+bundle package
 ```
 
 ### Update packaging specs {: #update-pkging-specs }

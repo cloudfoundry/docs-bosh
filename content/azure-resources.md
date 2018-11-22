@@ -6,11 +6,14 @@ To find out subscription and tenant ID use following commands:
     All azure commands were tested with the azure-cli v[2.0.21] on Ubuntu 16.04. The azure commands may vary based on your version and OS.
 
 ```shell
-$ az cloud set --name AzureCloud
+az cloud set --name AzureCloud
+az login
+az account list --output json
+```
 
-$ az login
+Should result in:
 
-$ az account list --output json
+```json
 [
   {
     "cloudName": "AzureCloud",
@@ -37,15 +40,15 @@ $ az account list --output json
 Once you've determined your subscription ID, switch to using that account:
 
 ```shell
-$ az account set --subscription my-subscription-id
+az account set --subscription my-subscription-id
 ```
 
 Register the required providers:
 
 ```shell
-$ az provider register --namespace Microsoft.Network
-$ az provider register --namespace Microsoft.Storage
-$ az provider register --namespace Microsoft.Compute
+az provider register --namespace Microsoft.Network
+az provider register --namespace Microsoft.Storage
+az provider register --namespace Microsoft.Compute
 ```
 
 ---
@@ -54,7 +57,12 @@ $ az provider register --namespace Microsoft.Compute
 Azure CPI needs client ID and secret to make authenticated requests.
 
 ```shell
-$ az ad app create --display-name "mycpi" --password client-secret --identifier-uris "http://mycpi" --homepage "http://mycpi"
+az ad app create --display-name "mycpi" --password client-secret --identifier-uris "http://mycpi" --homepage "http://mycpi"
+```
+
+Should result in:
+
+```json
 {
   "appId": "my-app-id",
   "appPermissions": null,
@@ -75,8 +83,8 @@ Application ID (`my-app-id` in the above output) is the client ID and specified 
 Finally create service principal to enable authenticated access:
 
 ```shell
-$ az ad sp create --id my-app-id
-$ az role assignment create --role "Contributor" --assignee "http://mycpi" --scope /subscriptions/my-subscription-id
+az ad sp create --id my-app-id
+az role assignment create --role "Contributor" --assignee "http://mycpi" --scope /subscriptions/my-subscription-id
 ```
 
 ---
@@ -85,9 +93,13 @@ $ az role assignment create --role "Contributor" --assignee "http://mycpi" --sco
 Create a resource group in one of the supported [Azure locations](http://azure.microsoft.com/en-us/regions/):
 
 ```shell
-$ az group create --name bosh-res-group --location "Central US"
+az group create --name bosh-res-group --location "Central US"
+az group show --name bosh-res-group
+```
 
-$ az group show --name bosh-res-group
+Should result in:
+
+```json
 {
   "id": "/subscriptions/my-subscription-id/resourceGroups/bosh-res-group",
   "location": "centralus",
@@ -108,10 +120,14 @@ Make sure to wait for 'Provisioning State' to become `Succeeded`.
 Create a virtual network:
 
 ```shell
-$ az network vnet create --name boshnet --address-prefixes 10.0.0.0/8 --resource-group bosh-res-group --location "Central US" --dns-server 168.64.129.16
-$ az network vnet subnet create --name bosh --address-prefix 10.0.0.0/24 --vnet-name boshnet --resource-group bosh-res-group
+az network vnet create --name boshnet --address-prefixes 10.0.0.0/8 --resource-group bosh-res-group --location "Central US" --dns-server 168.64.129.16
+az network vnet subnet create --name bosh --address-prefix 10.0.0.0/24 --vnet-name boshnet --resource-group bosh-res-group
+az network vnet show --name boshnet --resource-group bosh-res-group
+```
 
-$ az network vnet show --name boshnet --resource-group bosh-res-group
+Should result in:
+
+```json
 {
   "addressSpace": {
     "addressPrefixes": [
@@ -159,16 +175,16 @@ $ az network vnet show --name boshnet --resource-group bosh-res-group
 Create two network security groups:
 
 ```shell
-$ az network nsg create --resource-group bosh-res-group --location "Central US" --name nsg-bosh
-$ az network nsg create --resource-group bosh-res-group --location "Central US" --name nsg-cf
+az network nsg create --resource-group bosh-res-group --location "Central US" --name nsg-bosh
+az network nsg create --resource-group bosh-res-group --location "Central US" --name nsg-cf
 
-$ az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-bosh --access Allow --protocol Tcp --direction Inbound --priority 200 --source-address-prefix Internet --source-port-range '*' --destination-address-prefix '*' --name 'ssh' --destination-port-range 22
-$ az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-bosh --access Allow --protocol Tcp --direction Inbound --priority 201 --source-address-prefix Internet --source-port-range '*' --destination-address-prefix '*' --name 'bosh-agent' --destination-port-range 6868
-$ az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-bosh --access Allow --protocol Tcp --direction Inbound --priority 202 --source-address-prefix Internet --source-port-range '*' --destination-address-prefix '*' --name 'bosh-director' --destination-port-range 25555
-$ az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-bosh --access Allow --protocol '*' --direction Inbound --priority 203 --source-address-prefix Internet --source-port-range '*' --destination-address-prefix '*' --name 'dns' --destination-port-range 53
+az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-bosh --access Allow --protocol Tcp --direction Inbound --priority 200 --source-address-prefix Internet --source-port-range '*' --destination-address-prefix '*' --name 'ssh' --destination-port-range 22
+az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-bosh --access Allow --protocol Tcp --direction Inbound --priority 201 --source-address-prefix Internet --source-port-range '*' --destination-address-prefix '*' --name 'bosh-agent' --destination-port-range 6868
+az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-bosh --access Allow --protocol Tcp --direction Inbound --priority 202 --source-address-prefix Internet --source-port-range '*' --destination-address-prefix '*' --name 'bosh-director' --destination-port-range 25555
+az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-bosh --access Allow --protocol '*' --direction Inbound --priority 203 --source-address-prefix Internet --source-port-range '*' --destination-address-prefix '*' --name 'dns' --destination-port-range 53
 
-$ az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-cf --access Allow --protocol Tcp --direction Inbound --priority 201 --source-address-prefix Internet --source-port-range '*' --destination-address-prefix '*' --name 'cf-https' --destination-port-range 443
-$ az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-cf --access Allow --protocol Tcp --direction Inbound --priority 202 --source-address-prefix Internet --source-port-range '*' --destination-address-prefix '*' --name 'cf-log' --destination-port-range 4443
+az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-cf --access Allow --protocol Tcp --direction Inbound --priority 201 --source-address-prefix Internet --source-port-range '*' --destination-address-prefix '*' --name 'cf-https' --destination-port-range 443
+az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-cf --access Allow --protocol Tcp --direction Inbound --priority 202 --source-address-prefix Internet --source-port-range '*' --destination-address-prefix '*' --name 'cf-log' --destination-port-range 4443
 ```
 
 ---
@@ -177,9 +193,13 @@ $ az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-cf -
 To make certain VMs publicly accessible, you will need to create a Public IP. If Azure Availability Zones is used in [AZs](azure-cpi.md#azs), the Public IP should be created with type `Standard SKU`; otherwise, you can use the default `Basic SKU`.
 
 ```shell
-$ az network public-ip create --name my-public-ip --allocation-method Static --resource-group bosh-res-group --location "Central US" --sku Basic # sku should be `Standard' when using Azure Availability Zones
+az network public-ip create --name my-public-ip --allocation-method Static --resource-group bosh-res-group --location "Central US" --sku Basic # sku should be `Standard' when using Azure Availability Zones
+az network public-ip show --name my-public-ip --resource-group bosh-res-group
+```
 
-$ az network public-ip show --name my-public-ip --resource-group bosh-res-group
+Should result in:
+
+```json
 {
   "dnsSettings": null,
   "etag": "W/\"b3686484-21fe-470a-a059-32d02b4f9589\"",
@@ -214,9 +234,13 @@ Create a default storage account to hold root disks, persistent disks, stemcells
 If unsure of desired SKU Name, choose `LRS`, desired Kind, choose `Storage`:
 
 ```shell
-$ az storage account create --name myboshstore --resource-group bosh-res-group --location "Central US"
+az storage account create --name myboshstore --resource-group bosh-res-group --location "Central US"
+az storage account show --name myboshstore --resource-group bosh-res-group
+```
 
-$ az storage account show --name myboshstore --resource-group bosh-res-group
+Should result in:
+
+```json
 {
   "accessTier": null,
   "creationTime": "2017-11-21T03:36:36.568159+00:00",
@@ -288,7 +312,12 @@ $ az storage account show --name myboshstore --resource-group bosh-res-group
 Once storage account is created you can retrieve primary storage access key:
 
 ```shell
-$ az storage account keys list --account-name myboshstore --resource-group bosh-res-group
+az storage account keys list --account-name myboshstore --resource-group bosh-res-group
+```
+
+Should result in:
+
+```json
 [
   {
     "keyName": "key1",
@@ -315,10 +344,14 @@ CPI expects to find `bosh` and `stemcell` containers within a default storage ac
     If you are planning to use multiple storage accounts, make sure to set stemcell container permissions to "Public read access for blobs only".
 
 ```shell
-$ az storage container create --name bosh --account-name myboshstore --account-key xxx
-$ az storage container create --name stemcell --account-name myboshstore --account-key xxx --public-access blob
+az storage container create --name bosh --account-name myboshstore --account-key xxx
+az storage container create --name stemcell --account-name myboshstore --account-key xxx --public-access blob
+az storage container list --account-name myboshstore --account-key xxx
+```
 
-$ az storage container list --account-name myboshstore --account-key xxx
+Should result in:
+
+```json
 [
   {
     "metadata": null,
@@ -365,9 +398,13 @@ To support multiple storage accounts, you need to create the following tables in
 - `stemcells` is used to store metadata of stemcells in multiple storage accounts
 
 ```shell
-$ az storage table create --name stemcells --account-name myboshstore --account-key xxx
+az storage table create --name stemcells --account-name myboshstore --account-key xxx
+az storage table list --account-name myboshstore --account-key xxx
+```
 
-$ az storage table list --account-name myboshstore --account-key xxx
+Should result in:
+
+```json
 [
   {
     "name": "stemcells"

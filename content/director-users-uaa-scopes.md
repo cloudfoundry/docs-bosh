@@ -15,9 +15,9 @@ as described in the access token. You can read more about UAA Access Tokens
 Depending on how the UAA is configured different prompts may be shown.
 
 ```shell
-$ bosh login
-Email: admin
-Password: **************
+bosh login
+# Email: admin
+# Password: **************
 ```
 
 ---
@@ -26,9 +26,9 @@ Password: **************
 Non-interactive login, e.g. for scripts during a CI build is supported by the UAA by using a different UAA client allowing `client_credentials` grant type.
 
 ```shell
-$ export BOSH_CLIENT=ci
-$ export BOSH_CLIENT_SECRET=ci-password
-$ bosh status
+export BOSH_CLIENT=ci
+export BOSH_CLIENT_SECRET=ci-password
+bosh status
 ```
 
 See [the resurrector UAA client configuration](resurrector.md#uaa-client) for an example to set up an additional client.
@@ -48,17 +48,17 @@ has readonly access on any Director.
 First, log into UAA using the client secret provided for the UAA admin client in the manifest at `uaa.admin.client_secret`.
 
 ```shell
-$ uaac target https://54.236.100.56:8443 --ca-cert certs/rootCA.pem
-$ uaac token client get admin
-Client secret:  **************
-$ uaac user add some-new-user --emails new.user@example.com
+uaac target https://54.236.100.56:8443 --ca-cert certs/rootCA.pem
+uaac token client get admin
+# Client secret:  **************
+uaac user add some-new-user --emails new.user@example.com
 ```
 
 When a user is deleted, all of their permissions are implicitly removed
 as well:
 
 ```shell
-$ uaac user delete some-new-user
+uaac user delete some-new-user
 ```
 
 !!! note
@@ -70,14 +70,14 @@ Groups are commonly used for role-based access control in UAA.
 You can add permissions to users by defining a group and adding users to that group:
 
 ```shell
-$ uaac group add bosh.read
-$ uaac member add bosh.read some-new-user
+uaac group add bosh.read
+uaac member add bosh.read some-new-user
 ```
 
 Remove permission by removing users from a group:
 
 ```shell
-$ uaac member delete bosh.read some-new-user
+uaac member delete bosh.read some-new-user
 ```
 
 !!! note
@@ -99,7 +99,7 @@ permissions management.
 You can inspect the scopes granted to a client:
 
 ```shell
-$ uaac client get <CLIENT ID>
+uaac client get <CLIENT ID>
 ```
 
 ---

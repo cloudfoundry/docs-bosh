@@ -221,16 +221,16 @@ Use `bosh create-env` command to deploy the Director.
 
 ```shell
 # Create directory to keep state
-$ mkdir bosh-1 && cd bosh-1
+mkdir bosh-1 && cd bosh-1
 
 # Clone Director templates
-$ git clone https://github.com/cloudfoundry/bosh-deployment
+git clone https://github.com/cloudfoundry/bosh-deployment
 
 # Copy the `bosh.pem` generated earlier here
-$ cp ~/Downloads/bosh.pem .
+cp ~/Downloads/bosh.pem .
 
 # Deploy the Director, all configuration variables are stored in `vars.yml`
-$ bosh create-env bosh-deployment/bosh.yml \
+bosh create-env bosh-deployment/bosh.yml \
     --state=bosh-state.json \
     --vars-store=director-creds.yml \
     --vars-file=vars.yml \
@@ -266,14 +266,14 @@ See [OpenStack CPI errors](openstack-cpi-errors.md) for list of common errors an
 
 ```shell
 # Configure local alias
-$ bosh alias-env bosh-1 -e 192.168.1.19 --ca-cert <(bosh int ./director-creds.yml --path /director_ssl/ca)
+bosh alias-env bosh-1 -e 192.168.1.19 --ca-cert <(bosh int ./director-creds.yml --path /director_ssl/ca)
 
 # Log in to the Director
-$ export BOSH_CLIENT=admin
-$ export BOSH_CLIENT_SECRET=`bosh int ./director-creds.yml --path /admin_password`
+export BOSH_CLIENT=admin
+export BOSH_CLIENT_SECRET=`bosh int ./director-creds.yml --path /admin_password`
 
 # Query the Director for more info
-$ bosh -e bosh-1 env
+bosh -e bosh-1 env
 ```
 
 Depending on previous choices you might have to use the internal IP instead of `external_ip`.
@@ -299,7 +299,7 @@ However you don't need the actual manifest, as you can recreate it by by running
 
 ```shell
 # Deploy the Director, all configuration variables are stored in `vars.yml`
-$ bosh interpolate bosh-deployment/bosh.yml \
+bosh interpolate bosh-deployment/bosh.yml \
     --vars-store=director-creds.yml \
     --vars-file=vars.yml \
     -o bosh-deployment/openstack/cpi.yml \
@@ -313,7 +313,7 @@ $ bosh interpolate bosh-deployment/bosh.yml \
 Once the director is deployed, you probably want to upload a [cloud config](https://bosh.io/docs/cloud-config/) with IaaS specific configuration for your deployments. The `vars.yml` contains most values, except custom DNS, necessary to interpolate the cloud config from `bosh-deployment/openstack/cloud-config.yml`:
 
 ```shell
-$ bosh update-cloud-config \
+bosh update-cloud-config \
     --vars-file=vars.yml \
     bosh-deployment/openstack/cloud-config.yml
 ```

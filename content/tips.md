@@ -9,8 +9,10 @@ This document lists several common problems. If you are looking for CPI specific
 ## Timed out pinging to ... after 600 seconds {: #unreachable-agent }
 
 ```shell
-$ bosh deploy
-...
+bosh deploy
+```
+
+```text
 
   Failed creating bound missing vms > cloud_controller_worker/0: Timed out pinging to 013ce5c9-e7fc-4f1d-ac24 after 600 seconds (00:16:03)
   Failed creating bound missing vms > uaa/0: Timed out pinging to b029652d-14c3-4d68-98c7 after 600 seconds (00:16:12)
@@ -53,8 +55,10 @@ The steps for remediation are similar to the [Timed out pinging to ... after 600
 ## ...is not running after update {: #failed-job }
 
 ```shell
-$ bosh deploy
-...
+bosh deploy
+```
+
+```text
 
   Started updating job access_z1 > access_z1/0 (canary)
      Done updating job route_emitter_z1 > route_emitter_z1/0 (canary) (00:00:13)
@@ -76,7 +80,7 @@ This problem may also arise when deployment manifest specifies too small of a [c
 ---
 ## umount: /var/vcap/store: device is busy {: #unmount-persistent-disk }
 
-```shell
+```text
 L Error: Action Failed get_task: Task 5be893c6-7a2c-4f3f-420b-433fd23528a1 result: Migrating persistent disk: Remounting persistent disk as readonly: Unmounting /var/vcap/store: Running command: 'umount /var/vcap/store', stdout: '', stderr: 'umount: /var/vcap/store: device is busy.
         (In some cases useful info about processes that use
          the device is found by lsof(8) or fuser(1))
@@ -89,7 +93,10 @@ This process occurs when one of the processes (from one of the installed jobs) d
 ## Running command: bosh-blobstore-dav -c ... 500 Internal Server Error {: #blobstore-out-of-space }
 
 ```shell
-$ bosh deploy
+bosh deploy
+```
+
+```text
 ...
 
 Failed compiling packages > dea_next/3e95ef8425be45468e044c05cc9aa65494281ab5: Action Failed get_task: Task bd35f7c1-2144-4045-763e-40beeafc9fa3 result: Compiling package dea_next: Uploading compiled package: Creating blob in inner blobstore: Making put command: Shelling out to bosh-blobstore-dav cli: Running command: 'bosh-blobstore-dav -c /var/vcap/bosh/etc/blobstore-dav.json put /var/vcap/data/tmp/bosh-platform-disk-TarballCompressor-CompressFilesInDir949066221 cd91a1c5-a034-4c69-4608-6b18cc3fcb2b', stdout: 'Error running app - Putting dav blob cd91a1c5-a034-4c69-4608-6b18cc3fcb2b: Wrong response code: 500; body: <html>
@@ -112,15 +119,18 @@ If `bosh clean-up` command fails with 500 Internal Server Error, consider removi
 Rarely it's necessary to dive into the Director DB. The easiest way to do so is to SSH into the Director VM and use `director_ctl console`. For example:
 
 ```shell
-$ ssh vcap@DIRECTOR-IP
+ssh vcap@DIRECTOR-IP
 
-$ /var/vcap/jobs/director/bin/director_ctl console
-=> Loading /var/vcap/jobs/director/config/director.yml
-=> ruby-debug not found, debugger disabled
-=> Welcome to BOSH Director console
-=> You can use 'app' to access REST API
-=> You can also use 'cloud', 'blobstore', 'nats' helpers to query these services
-irb(main):001:0> Bosh::Director::Models::RenderedTemplatesArchive.count
+/var/vcap/jobs/director/bin/director_ctl console
+```
+
+```ruby
+Bosh::Director::Models::RenderedTemplatesArchive.count
+```
+
+Should result in:
+
+```text
 => 3
 ```
 
@@ -131,7 +141,10 @@ irb(main):001:0> Bosh::Director::Models::RenderedTemplatesArchive.count
 ## Task X cancelled {: #canceled-task }
 
 ```shell
-$ bosh deploy
+bosh deploy
+```
+
+```text
 ...
 
   Started preparing package compilation > Finding packages to compile. Done (00:00:01)
@@ -148,7 +161,10 @@ This problem typically occurs if the Director's system time is out of sync, or i
 ## Upload release fails {: #upload-release-entity-too-large }
 
 ```shell
-$ bosh upload release blah.tgz
+bosh upload release blah.tgz
+```
+
+```text
 ...
   Started creating new packages > blah_package/f9098f452f46fb072a6000b772166f349ffe27da. Failed: Could not create object, 413/<html>
 <head><title>413 Request Entity Too Large</title></head>
@@ -175,7 +191,10 @@ This failure occurs due to nginx configuration problems with the director and th
 ## Persistent Disk with id <UUID> not found {: #persistent-disk-not-found }
 
 ```shell
-$ bosh create-env
+bosh create-env
+```
+
+```text
 (...)
 Command 'deploy' failed:
   Deploying:

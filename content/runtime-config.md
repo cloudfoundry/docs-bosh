@@ -12,9 +12,11 @@ To update runtime config on the Director use [`bosh update-runtime-config`](sysa
     See [example runtime config](#example) below.
 
 ```shell
-$ bosh update-runtime-config runtime.yml
+bosh update-runtime-config runtime.yml
+bosh runtime-config
+```
 
-$ bosh runtime-config
+```text
 Acting as user 'admin' on 'micro'
 
 releases:

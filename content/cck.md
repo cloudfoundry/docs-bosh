@@ -10,8 +10,10 @@ In addition to looking for those two types of problems, cck also checks correct 
 Once the deployment is set via the `bosh deployment` command you can simply run `bosh cck`. Here is an example output when no problems are detected:
 
 ```shell
-$ bosh cck
+bosh cck
+```
 
+```text
 Performing cloud check...
 
 Processing deployment manifest
@@ -46,8 +48,10 @@ No problems found
 Assuming there was a deployment with a VM, somehow that VM was deleted from the IaaS outside of BOSH, here is what cck would report:
 
 ```shell
-$ bosh cck
+bosh cck
+```
 
+```text
 Performing cloud check...
 
 Processing deployment manifest
@@ -118,8 +122,10 @@ In the above example options 3 was picked and VM reference was deleted.
 Assuming there was a deployment with a VM, somehow Agent is no longer responding to the Director. In this situation `bosh vms` will report VM's agent as `unresponsive agent`:
 
 ```shell
-$ bosh vms simple-deployment --details
+bosh vms simple-deployment --details
+```
 
+```text
 Deployment `simple-deployment'
 
 Director task 630
@@ -138,8 +144,10 @@ VMs total: 1
 Also `bosh deploy` will stop at `Binding existing deployment` stage since it is not able to communicate with unresponsive agent:
 
 ```shell
-$ bosh deploy
+bosh deploy
+```
 
+```text
 ..snip...
 
 Deploying
@@ -162,8 +170,10 @@ For a more detailed error report, run: bosh task 631 --debug
 ```
 
 ```shell
-$ bosh cck
+bosh cck
+```
 
+```text
 Performing cloud check...
 
 Processing deployment manifest
@@ -254,8 +264,10 @@ Automate recovery using the `--recover=RESOLUTION` option, where `RESOLUTION` re
 Assuming there was a deployment with a VM, somehow persistent disk got detached.
 
 ```shell
-$ bosh cck
+bosh cck
+```
 
+```text
 Performing cloud check...
 
 Processing deployment manifest

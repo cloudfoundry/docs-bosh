@@ -15,8 +15,10 @@ Currently following events are recorded:
 Run [`bosh events` command](sysadmin-commands.md#events) to view 200 recent events:
 
 ```shell
-$ bosh events
+bosh events
+```
 
+```text
 +--------------+------------------------------+-------+-------------+-------------+------------------------------------------------+------+-----------+------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------+
 | ID           | Time                         | User  | Action      | Object type | Object ID                                      | Task | Dep       | Inst                                           | Context                                                                                                                                            |
 +--------------+------------------------------+-------+-------------+-------------+------------------------------------------------+------+-----------+------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -66,9 +68,9 @@ List of events can be also filtered by a deployment name (`--deployment`), a tas
 Example query commands:
 
 ```shell
-$ bosh events --deployment slow-nats
-$ bosh events --deployment slow-nats --before-id 5208
-$ bosh events --instance zookeeper/ca5f695a-eb81-49fd-a577-33825cb1b5fc
+bosh events --deployment slow-nats
+bosh events --deployment slow-nats --before-id 5208
+bosh events --instance zookeeper/ca5f695a-eb81-49fd-a577-33825cb1b5fc
 ```
 
 ---

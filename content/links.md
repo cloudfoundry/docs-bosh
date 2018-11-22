@@ -48,7 +48,7 @@ consumes:
 
 Then, in the application job's templates, it can use the connection information from the link:
 
-```bash
+```shell
 #!/bin/bash
 # Application's templated control script.
 # ...
