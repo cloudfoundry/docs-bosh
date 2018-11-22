@@ -1,6 +1,6 @@
 # Rotating NATS Certificate Authorities
 
-The following strategy rotates the NATS CA and NATS related certificates across the director, health monitor, NATS server, and all the deployed VMs. See [Components of Bosh](bosh-components.md) for more information on core components.
+The procedure below rotates the NATS CA and NATS related certificates across the director, health monitor, NATS server, and all the deployed VMs. It can be used whether the certificates are still valid or have already expired. See [Components of Bosh](bosh-components.md) for more information on core components.
 
 
 ### Preconditions
@@ -108,6 +108,10 @@ Deployed VMs need to be recreated in order to receive new client certificates th
 
 To recreate the deployed VMs, please check the output of `bosh recreate -h` for options.
 
+!!! note
+    You may want to disable health monitor on the Director VM, which will trigger `scan-and-fix` tasks that acquire a lock on the deployment VMs.
+    You can do so by running `monit stop health_monitor` inside the Director VM. You should re-enable health monitor after all deployment VMs have been recreated.
+
 ### Step 3: Update the director, health monitor, and NATS server jobs, to remove references for the old NATS CA and certificates signed by it.
 
 ```shell
@@ -205,7 +209,7 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 
 ### Step 4: Recreate all VMs, for each deployment.
 
-The recreation of all VMs will remove the old NATS CA reference from thier agent settings.
+The recreation of all VMs will remove the old NATS CA reference from their agent settings.
 To recreate the deployed VMs, please check the output of `bosh recreate -h` for options.
 
 ### Step 5: Clean-up
@@ -216,7 +220,7 @@ To make future updates to the BOSH director not rely on the transitional OPS fil
 
 1. Remove old certificate values from the vars-store file
 
-1. Rename the newly generated NATS related variables to be similar to the old variable names. For example from the sample above (`nats_ca_2`, `nats_server_tls_2`, `nats_clients_director_tls_2`, and `nats_clients_health_monitor_tls_2`) will be renamed in the vars-store file to (`nats_ca`, `nats_server_tls`, `nats_clients_director_tls`, and `nats_clients_health_monitor_tls`)
+1. Rename the newly generated NATS related variables to be the old variable names. For example from the sample above (`nats_ca_2`, `nats_server_tls_2`, `nats_clients_director_tls_2`, and `nats_clients_health_monitor_tls_2`) will be renamed in the vars-store file to (`nats_ca`, `nats_server_tls`, `nats_clients_director_tls`, and `nats_clients_health_monitor_tls`)
 
 1. Delete the `add-new-ca.yml` and `remove-old-ca.yml` ops files, which are not needed anymore.
 
@@ -230,3 +234,15 @@ A dependency within older versions of director and health monitor lacks the abil
 ### Visualization of the Steps
 
 ![image](images/nats_rotation.png)
+
+## Troubleshooting
+
+NATS certificates may be expired if all `bosh deploy` tasks suddenly start failing. To confirm that the certificate is expired, you can use the OpenSSL utility:
+
+```
+bosh int /path/to/creds.yml --path /nats_server_tls/ca | openssl x509 -noout -dates
+```
+
+The procedure above will enable you to restore NATS communications. 
+
+NATS will not emit specific error messages related to certificate expiration, but requests will time out after 600 seconds.
