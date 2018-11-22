@@ -10,8 +10,8 @@ You can create your own OpenStack light stemcells to re-use stemcell images alre
 1. Upload the stemcell to your OpenStack with `bosh upload-stemcell`
 1. Retrieve the UUID and version of the uploaded stemcell image with `bosh stemcells`
 1. Use `bosh repack-stemcell` to create a light stemcell archive from a heavy stemcell
-```bash
-$ bosh repack-stemcell --version "<Stemcell version>" \
+```shell
+bosh repack-stemcell --version "<Stemcell version>" \
 --empty-image \
 --format openstack-light \
 --cloud-properties="{\"image_id\": \"<Stemcell UUID>\"}" \

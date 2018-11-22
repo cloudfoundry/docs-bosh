@@ -35,9 +35,8 @@ name: other-cf
 That could be demonstrated with the help of `bosh interpolate` command whose purpose is to simply apply operations files to base document and print the result:
 
 ```shell
-$ bosh interpolate base.yml --ops-file replace-name.yml
-
-name: other-cf
+bosh interpolate base.yml --ops-file replace-name.yml
+# name: other-cf
 ```
 
 ---

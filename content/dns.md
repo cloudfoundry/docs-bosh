@@ -219,7 +219,8 @@ Query for BOSH instances that are unhealthy (`q-s1`), that are in availability z
 Query for all BOSH instances regardless of healthiness (`q-s4`). This effectively returns all instances across all deployments on the BOSH director.
 
 More generally:
-```bash
+
+```shell
 dig @bosh-dns q-a*i*m*n*s*y*.q-g*.your-domain.bosh.
 ```
 

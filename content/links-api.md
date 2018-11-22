@@ -15,8 +15,13 @@ Obtain an array of providers created in a deployment.
 #### Request Query Params
 * **deployment**: [String] Deployment name.
 
-```bash
-$ bosh curl /link_providers?deployment=zookeeper
+```shell
+bosh curl /link_providers?deployment=zookeeper
+```
+
+Should result in:
+
+```json
 [
   {
     "owner_object": {
@@ -64,8 +69,13 @@ Obtain an array of consumers created for a deployment.
 #### Request Query Params
 * **deployment**: [String] Deployment name.
 
-```bash
-$ bosh curl /link_consumers?deployment=zookeeper
+```shell
+bosh curl /link_consumers?deployment=zookeeper
+```
+
+Should result in:
+
+```json
 [
   {
     "link_consumer_definition": {
@@ -114,8 +124,13 @@ Obtain an array of links created for a deployment.
 #### Request Query Params
 * **deployment**: [String] Deployment name.
 
-```bash
-$ bosh curl /links?deployment=zookeeper
+```shell
+bosh curl /links?deployment=zookeeper
+```
+
+Should result in:
+
+```json
 [
   {
     "created_at": "2018-08-14 18:00:36 UTC",
@@ -152,8 +167,8 @@ Create an external link with a user-defined consumer. Uses an existing provider.
         * **type**: [String] Type is always "external".
 * **network**: [String] Name of a network used by the provider (optional). See [custom network linking](links.md#custom-network).
 
-```bash
-$ bosh curl -X POST -H 'Content-Type: application/json' --body <(echo '{
+```shell
+bosh curl -X POST -H 'Content-Type: application/json' --body <(echo '{
   "link_provider_id": "1",
   "link_consumer": {
     "owner_object": {
@@ -191,8 +206,8 @@ Delete links created with this API.
 
 * **link-id**: [String] ID of link to delete.
 
-```bash
-$ bosh curl -X DELETE /links/3
+```shell
+bosh curl -X DELETE /links/3
 ```
 
 #### Response
@@ -211,8 +226,8 @@ Obtain the DNS address for a singular link. This is equivalent to using `link("m
 * **azs[]**: [String] Name of the AZ to filter by (optional). This parameter should be provided multiple times when specifying multiple availability zones; see example below.
 * **status**: [String] Filter by health status. One of: healthy, unhealthy, all, default (optional).
 
-```bash
-$ bosh curl '/link_address?link_id=3&azs[]=z1'
+```shell
+bosh curl '/link_address?link_id=3&azs[]=z1'
 ```
 
 #### Response Body
@@ -227,6 +242,6 @@ $ bosh curl '/link_address?link_id=3&azs[]=z1'
 #### Specifying Multiple AZs in the Same Request
 The `azs[]` parameter should be provided multiple times when specifying multiple AZs in the query request. For example, to filter by availability zones **z1**, **z2**, and **z3**, the request will look like:
 
-```bash
-$ bosh curl '/link_address?link_id=3&azs[]=z1&azs[]=z2&azs[]=z3'
+```shell
+bosh curl '/link_address?link_id=3&azs[]=z1&azs[]=z2&azs[]=z3'
 ```

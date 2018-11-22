@@ -13,8 +13,7 @@ The following strategy rotates the NATS CA and NATS related certificates across 
 ### Step 1: Update the director, health monitor, and NATS server jobs, to introduce the new CA.
 
 ```shell
-
-$ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
+bosh create-env ~/workspace/bosh-deployment/bosh.yml \
  --state ./state.json \
  -o ~/workspace/bosh-deployment/[IAAS]/cpi.yml \
  -o add-new-ca.yml \
@@ -112,7 +111,7 @@ To recreate the deployed VMs, please check the output of `bosh recreate -h` for 
 ### Step 3: Update the director, health monitor, and NATS server jobs, to remove references for the old NATS CA and certificates signed by it.
 
 ```shell
-$ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
+bosh create-env ~/workspace/bosh-deployment/bosh.yml \
  --state ./state.json \
  -o ~/workspace/bosh-deployment/[IAAS]/cpi.yml \
  -o remove-old-ca.yml \

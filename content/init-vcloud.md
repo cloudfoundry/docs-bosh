@@ -6,13 +6,13 @@ This document shows how to initialize new [environment](terminology.md#environme
 
     ```shell
     # Create directory to keep state
-    $ mkdir bosh-1 && cd bosh-1
+    mkdir bosh-1 && cd bosh-1
 
     # Clone Director templates
-    $ git clone https://github.com/cloudfoundry/bosh-deployment
+    git clone https://github.com/cloudfoundry/bosh-deployment
 
     # Fill below variables (replace example values) and deploy the Director
-    $ bosh create-env bosh-deployment/bosh.yml \
+    bosh create-env bosh-deployment/bosh.yml \
         --state=state.json \
         --vars-store=creds.yml \
         -o bosh-deployment/vcloud/cpi.yml \
@@ -40,14 +40,14 @@ This document shows how to initialize new [environment](terminology.md#environme
 
     ```shell
     # Configure local alias
-    $ bosh alias-env bosh-1 -e 10.0.0.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
+    bosh alias-env bosh-1 -e 10.0.0.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
 
     # Log in to the Director
-    $ export BOSH_CLIENT=admin
-    $ export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
+    export BOSH_CLIENT=admin
+    export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
 
     # Query the Director for more info
-    $ bosh -e bosh-1 env
+    bosh -e bosh-1 env
     ```
 
 1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.md#deployment-state) for details.

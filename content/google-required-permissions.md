@@ -101,7 +101,7 @@ This section will guide you through how to configure the Google Cloud CPI and Di
 
 3. Create the BOSH Director role:
 
-    ```bash
+    ```shell
     gcloud beta iam roles --project <project-id> create bosh.director \
       --file <( bosh int -v project_id=<project-id> bosh-director-role.yml )
     ```
@@ -156,7 +156,7 @@ This configuration is similar to the previous one except that it's used when the
 
 4. Configure roles.
 
-    ```bash
+    ```shell
     gcloud beta iam roles --project <project-id> create blobstore.director \
       --file <( bosh int -v project_id=<project-id> director-blobstore-role.yml )
 

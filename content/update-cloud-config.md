@@ -47,5 +47,5 @@ See [cloud config schema](cloud-config.md) for detailed breakdown.
 To configure Director with above cloud config use [`bosh update-cloud-config` command](cli-v2.md#update-cloud-config):
 
 ```shell
-$ bosh -e vbox update-cloud-config cloud-config.yml
+bosh -e vbox update-cloud-config cloud-config.yml
 ```

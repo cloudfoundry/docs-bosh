@@ -6,7 +6,12 @@ The Agent on each deployment job VM is responsible for managing lifecycle of eac
 Assuming you have a deployment, run `bosh instances` to see aggregate status for each deployment job VM:
 
 ```shell
-$ bosh instances
+bosh instances
+```
+
+Should result in:
+
+```text
 
 Deployment `my-deployment'
 
@@ -46,8 +51,12 @@ Each enabled release job has its own directory in `/var/vcap/jobs/` directory. E
 To view status for all processes Monit is managing you can run `monit summary`:
 
 ```shell
-$ monit summary
+monit summary
+```
 
+Should result in:
+
+```text
 The Monit daemon 5.2.4 uptime: 1d 22h 7m
 
 Process 'nats'                      running
@@ -72,8 +81,12 @@ System 'system_bm-24638eb6-55b9-4670-bb1a-23c9e3f77d91' running
 You can also get more detailed information about individual processes via `monit status`:
 
 ```shell
-$ monit status
+monit status
+```
 
+Should result in:
+
+```text
 The Monit daemon 5.2.4 uptime: 1d 22h 8m
 
 Process 'nats'
