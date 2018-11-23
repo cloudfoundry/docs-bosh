@@ -7,7 +7,7 @@ title: OpenStack
 The `openstack` CPI can be used with [OpenStack](https://www.openstack.org).
 
  * Release: [cloudfoundry/bosh-openstack-cpi-release](https://github.com/cloudfoundry/bosh-openstack-cpi-release)
- * Issues: [GitHub Issues](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release/issues)
+ * Issues: [GitHub Issues](https://github.com/cloudfoundry/bosh-openstack-cpi-release/issues)
  * Slack: [cloudfoundry#openstack](https://cloudfoundry.slack.com/messages/openstack)
 
 
@@ -66,5 +66,5 @@ The CPI supports multiple NICs being attached to a single VM.
 
 | Feature | Support |
 | ------- | ------- |
-| Multi-CPI | Supported, [v31](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release/releases/tag/v31)+ |
-| Native Disk Resize | Supported, [v33](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release/releases/tag/v33)+ |
+| Multi-CPI | Supported, [v31](https://github.com/cloudfoundry/bosh-openstack-cpi-release/releases/tag/v31)+ |
+| Native Disk Resize | Supported, [v33](https://github.com/cloudfoundry/bosh-openstack-cpi-release/releases/tag/v33)+ |
