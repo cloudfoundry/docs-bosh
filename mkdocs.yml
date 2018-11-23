@@ -93,6 +93,7 @@ pages:
       - Rotating Credentials:
         - NATS CA Rotation: nats-ca-rotation.md
         - TLS Blobstore CA Rotation: blobstore-ca-rotation.md
+        - Application Certificates: application-certificate-rotation.md
     - Configuring the Database:
       - Builtin PostgreSQL: director-configure-db.md
       - External MySQL: director-configure-db.md
