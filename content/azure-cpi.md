@@ -2,7 +2,7 @@ This topic describes cloud properties for different resources created by the Azu
 
 ## AZs {: #azs }
 
-* **availability_zone** [String, optional]: Availability zone to use for creating instances (available in v33+). Possible values: `'1'`, `'2'`, `'3'`. Read this [document](https://docs.microsoft.com/en-us/azure/availability-zones/az-overview) to get regions and VM sizes on Azure that support availability zones. [More details about availability zone](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/availability-zone).
+* **availability_zone** [String, optional]: Availability zone to use for creating instances (available in v33+). Possible values: `'1'`, `'2'`, `'3'`. Read this [document](https://docs.microsoft.com/en-us/azure/availability-zones/az-overview) to get regions and VM sizes on Azure that support availability zones. [More details about availability zone](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/availability-zone).
 
 Example:
 
@@ -92,7 +92,7 @@ Schema for `cloud_properties` section:
     * If `availability_zone` is specified for the VM, [standard sku load balancer](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-overview) must be used, as `basic sku load balancer` does not work for zone.
 * **application_gateway** [String, optional]: Name of the [application gateway](https://azure.microsoft.com/en-us/services/application-gateway/) which the VMs should be associated to.
     * This property is supported in CPI v28+.
-    * You need to create the application gateway manually before configuring it. Please refer to [the guidance](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/application-gateway).
+    * You need to create the application gateway manually before configuring it. Please refer to [the guidance](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/application-gateway).
 * **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to network interfaces of all VMs who have this VM type/extension. The security group of a network interface can be specified either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default security group (specified by `default_security_group` in the global CPI settings) will be used.
 * **application\_security\_groups** [Array, optional]: The [application security group](https://docs.microsoft.com/en-us/azure/virtual-network/security-overview#application-security-groups) to apply to network interfaces of all VMs who have this VM type/extension. The application security groups of a network interface can be specified either in a VM type/extension (higher priority) or a network configuration (lower priority).
     * This property is supported in v31+.
@@ -100,10 +100,10 @@ Schema for `cloud_properties` section:
 * **ip_forwarding** [Boolean, optional]: The flag to enable [ip forwarding](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-network-interface#enable-or-disable-ip-forwarding) for network interfaces of all VMs who have this VM type/extension. The ip forwarding can be enabled/disabled either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default value is `false`. Available in v35.3.0+.
 * **accelerated_networking** [Boolean, optional]: The flag to enable [accelerated networking](https://docs.microsoft.com/en-us/azure/virtual-network/create-vm-accelerated-networking-cli) for network interfaces of all VMs who have this VM type/extension. The accelerated networking can be enabled/disabled either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default value is `false`. Available in v35.4.0+. This feature needs ubuntu-xenial v81+ and [specific instance type](https://docs.microsoft.com/en-us/azure/virtual-network/create-vm-accelerated-networking-cli#supported-vm-instances).
 
-* **assign\_dynamic\_public\_ip** [Boolean, optional]: Enable to create and assign dynamic public IP to the VM automatically (to solve the [azure SNAT issue](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/issues/217)). Default value is `false`. Only the VM without vip will be assigned a dynamic public IP when this value is set to true, and the dynamic public IP will be deleted when the VM is deleted.
+* **assign\_dynamic\_public\_ip** [Boolean, optional]: Enable to create and assign dynamic public IP to the VM automatically (to solve the [azure SNAT issue](https://github.com/cloudfoundry/bosh-azure-cpi-release/issues/217)). Default value is `false`. Only the VM without vip will be assigned a dynamic public IP when this value is set to true, and the dynamic public IP will be deleted when the VM is deleted.
 
-* **availability_zone** [String, optional]: Availability zone to use for creating instances (available in v33+). Possible values: `'1'`, `'2'`, `'3'`. Read this [document](https://docs.microsoft.com/en-us/azure/availability-zones/az-overview) to get regions and VM sizes on Azure that support availability zones. [More details about availability zone](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/availability-zone).
-* **availability_set** [String, optional]: Name of an [availability set](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) to use for VMs. [More details](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#availability-set).
+* **availability_zone** [String, optional]: Availability zone to use for creating instances (available in v33+). Possible values: `'1'`, `'2'`, `'3'`. Read this [document](https://docs.microsoft.com/en-us/azure/availability-zones/az-overview) to get regions and VM sizes on Azure that support availability zones. [More details about availability zone](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/availability-zone).
+* **availability_set** [String, optional]: Name of an [availability set](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) to use for VMs. [More details](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#availability-set).
     * If available set does not exist, it will be automatically created.
     * If `availability_set` is not specified, Azure CPI will search `env.bosh.group` as the name of availability set.
         1. [bosh release](https://bosh.io/releases/github.com/cloudfoundry/bosh?all=1) v258+ will generate a value for `env.bosh.group` automatically.
@@ -117,7 +117,7 @@ Schema for `cloud_properties` section:
     * For Azure, the default value of an unmanaged availability set is `3`. The default value of a managed availability set is `2`, because [some regions don't support 3 fault domains for now](https://docs.microsoft.com/en-us/azure/virtual-machines/virtual-machines-windows-manage-availability#configure-multiple-virtual-machines-in-an-availability-set-for-redundancy)
     * For Azure Stack, the default value is `1`. Before 1802 update, only `1` is allowed. After [1802 update](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-update-1802), you can configure up to 3 fault domains.
 
-* **storage\_account\_name** [String, optional]: Storage account for VMs. Valid only when `use_managed_disks` is `false`. If this is not set, the VMs will be created in the default storage account. See [this document](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#multiple-storage-accounts) for more details on why this option exists.
+* **storage\_account\_name** [String, optional]: Storage account for VMs. Valid only when `use_managed_disks` is `false`. If this is not set, the VMs will be created in the default storage account. See [this document](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#multiple-storage-accounts) for more details on why this option exists.
     * If you use `DS-series` or `GS-series` as `instance_type`, you should set this to a premium storage account. See more information about [Azure premium storage](https://azure.microsoft.com/en-us/documentation/articles/storage-premium-storage-preview-portal/). See [avaliable regions](http://azure.microsoft.com/en-us/regions/#services) where you can create premium storage accounts.
     * If you use a different storage account which must be in the same resource group, please make sure:
         1. The permissions for the container `stemcell` in the default storage account is set to `Public read access for blobs only`.
@@ -233,13 +233,13 @@ Schema:
 * **tenant_id** [String, required]: Tenant ID of the service principal.
 * **client_id** [String, required]: Client ID of the service principal.
 * **client_secret** [String, optional]: Client secret of the service principal.
-* **certificate** [String, optional]: The certificate for your service principal. Azure CPI v35.0.0+ supports the [service principal with a certificate](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/use-service-principal-with-certificate). Only one of `client_secret` and `certificate` can be specified.
+* **certificate** [String, optional]: The certificate for your service principal. Azure CPI v35.0.0+ supports the [service principal with a certificate](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/use-service-principal-with-certificate). Only one of `client_secret` and `certificate` can be specified.
 * **resource\_group\_name** [String, required]: Resource group name.
 * **storage\_account\_name** [String, optional]: Storage account name. It will be used as a default storage account for VM disks and stemcells. If `use_managed_disks` is `false`, `storage_account_name` is required. Otherwise, `storage_account_name` is optional.
 * **ssh_user** [String, required]: SSH username. Default: `vcap`.
 * **ssh\_public\_key** [String, required]: SSH public key.
 * **default\_security\_group** [String, optional]: Name of the default [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) that will be applied to all created VMs. This property is required before v35.0.0, and optional in v35.0.0+.
-* **azure_stack** [Hash, optional]: [Configration for AzureStack](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/tree/master/docs/advanced/azure-stack). Available in v23+.
+* **azure_stack** [Hash, optional]: [Configration for AzureStack](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/azure-stack). Available in v23+.
     * **domain** [String, optional]: The domain for your AzureStack deployment. Default is `local.azurestack.external`. You can use the default value for [Azure Stack development kit](https://azure.microsoft.com/en-us/overview/azure-stack/development-kit/). To get this value for Azure Stack integrated systems, contact your service provider.
     * **authentication** [String, optional]: The authentication type for your AzureStack deployment. Possible values are: `AzureAD`, `AzureChinaCloudAD` and `ADFS`. You need to specify `certificate` if you select `ADFS`, because Azure Stack with ADFS authentication only supports the service principal with a certificate.
     * **resource** [String, optional]: Active Directory Service Endpoint Resource ID, where you can get the token for your AzureStack deployment.
@@ -259,7 +259,7 @@ Schema:
 * **enable_telemetry** [Boolean, optional]: A flag to enable telemetry on CPI calls on Azure. Available since v35.2.0. The default value is `true` in v35.2.0, and is `false` in v35.3.0+.
 * **enable\_vm\_boot\_diagnostics** [Boolean, optional]: A flag to enable VM boot diagnostics on Azure. Available since v35.2.0. The default value is `true` in v35.2.0, and is `false` in v35.3.0+.
 
-See [all configuration options](https://bosh.io/jobs/cpi?source=github.com/cloudfoundry-incubator/bosh-azure-cpi-release).
+See [all configuration options](https://bosh.io/jobs/cpi?source=github.com/cloudfoundry/bosh-azure-cpi-release).
 
 See [Creating Azure resources](azure-resources.md) page for more details on how to create and configure above resources.
 
