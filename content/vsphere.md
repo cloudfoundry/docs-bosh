@@ -6,8 +6,8 @@ title: VMware vSphere
 
 The `vsphere` CPI can be used with [VMware vSphere](https://www.vmware.com/products/vsphere.html).
 
- * Release: [cloudfoundry-incubator/bosh-vsphere-cpi-release](https://github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release)
- * Issues: [GitHub Issues](https://github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release/issues)
+ * Release: [cloudfoundry/bosh-vsphere-cpi-release](https://github.com/cloudfoundry/bosh-vsphere-cpi-release)
+ * Issues: [GitHub Issues](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/issues)
  * Slack: [cloudfoundry#bosh](https://cloudfoundry.slack.com/messages/bosh)
 
 ## Requirements
@@ -69,5 +69,5 @@ vSphere supports disk encryption and customer-managed keys when managed through 
 
 | Feature | Support |
 | ------- | ------- |
-| Multi-CPI | Supported, [v34](https://github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release/releases/tag/v34)+ |
+| Multi-CPI | Supported, [v34](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/releases/tag/v34)+ |
 | Native Disk Resize | Not Supported |
