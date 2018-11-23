@@ -115,5 +115,5 @@ A CPI Developer is primarily interested in seeing support for a particular IaaS 
 
 Some examples of CPI Developers are...
 
- * VMware team managing [cloudfoundry-incubator/bosh-vsphere-cpi-release](https://github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release)
- * SAP team managing [cloudfoundry-incubator/bosh-openstack-cpi-release](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release)
+ * VMware team managing [cloudfoundry/bosh-vsphere-cpi-release](https://github.com/cloudfoundry/bosh-vsphere-cpi-release)
+ * SAP team managing [cloudfoundry/bosh-openstack-cpi-release](https://github.com/cloudfoundry/bosh-openstack-cpi-release)

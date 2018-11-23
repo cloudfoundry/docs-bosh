@@ -2,7 +2,7 @@ This topic describes how to build a CPI.
 
 ## Distribution {: #distribution }
 
-CPIs are distributed as regular releases, typically with a release job called `cpi` and a few packages that provide compilation/runtime environment for that job if necessary (e.g. [bosh-aws-cpi-release](https://github.com/cloudfoundry-incubator/bosh-aws-cpi-release) includes Ruby and [bosh-warden-cpi-release](https://github.com/cppforlife/bosh-warden-cpi-release) includes golang). To qualify to be a CPI release, it must include a release job that has `bin/cpi` executable.
+CPIs are distributed as regular releases, typically with a release job called `cpi` and a few packages that provide compilation/runtime environment for that job if necessary (e.g. [bosh-aws-cpi-release](https://github.com/cloudfoundry/bosh-aws-cpi-release) includes Ruby and [bosh-warden-cpi-release](https://github.com/cppforlife/bosh-warden-cpi-release) includes golang). To qualify to be a CPI release, it must include a release job that has `bin/cpi` executable.
 
 Both `bosh create-env` command and the Director expect to be configured with a CPI release to function properly. In the case of `bosh create-env` command, specified CPI release is unpacked and installed on the machine running the command. For the Director, CPI release job is colocated on the same VM, so that the director release job can access it.
 
@@ -18,10 +18,10 @@ If you are getting started with a new CPI, you may be interested in using one of
 
 The [`bosh_cpi`](https://rubygems.org/gems/bosh_cpi) gem provides a `Bosh::Cpi::Cli` class which handles the deserialization and serialization of the RPC calls. You can see examples of this in the following CPIs:
 
- * [Amazon Web Services CPI Release](https://github.com/cloudfoundry-incubator/bosh-aws-cpi-release)
- * [Microsoft Azure CPI Release](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release)
- * [OpenStack CPI Release](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release)
- * [VMware vSphere CPI Release](https://github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release)
+ * [Amazon Web Services CPI Release](https://github.com/cloudfoundry/bosh-aws-cpi-release)
+ * [Microsoft Azure CPI Release](https://github.com/cloudfoundry/bosh-azure-cpi-release)
+ * [OpenStack CPI Release](https://github.com/cloudfoundry/bosh-openstack-cpi-release)
+ * [VMware vSphere CPI Release](https://github.com/cloudfoundry/bosh-vsphere-cpi-release)
  * [VMware vCloud CPI Release](https://github.com/cloudfoundry-incubator/bosh-vcloud-cpi-release)
 
 
@@ -29,7 +29,7 @@ The [`bosh_cpi`](https://rubygems.org/gems/bosh_cpi) gem provides a `Bosh::Cpi::
 
 There are a few CPI releases written in Go, as well:
 
- * [Google CPI Release](https://github.com/cloudfoundry-incubator/bosh-google-cpi-release)
+ * [Google CPI Release](https://github.com/cloudfoundry/bosh-google-cpi-release)
  * [VirtualBox CPI Release](https://github.com/cppforlife/bosh-virtualbox-cpi-release)
  * [Warden CPI Release](https://github.com/cppforlife/bosh-warden-cpi-release)
 

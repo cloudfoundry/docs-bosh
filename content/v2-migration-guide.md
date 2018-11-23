@@ -116,7 +116,7 @@ cloud_properties:
 
 ### Reference pipeline to test a CPI with all combinations of the Director, CLI and  Stemcell
 This pipeline will use all permutations of the V1 and V2 contracts for the director, CLI and stemcell:
-[Pipeline for CPI V2 testing](https://github.com/cloudfoundry-incubator/bosh-aws-cpi-release/blob/49447ba7ee208c31dddc1b7e3ec2a5f05c88ea99/ci/pipeline_cpi_v2.yml.erb)
+[Pipeline for CPI V2 testing](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/49447ba7ee208c31dddc1b7e3ec2a5f05c88ea99/ci/pipeline_cpi_v2.yml.erb)
 
 **NOTE:** A few other factors must be considered.
 

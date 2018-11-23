@@ -38,7 +38,7 @@ This document shows how to set up new [environment](terminology.md#environment) 
 
       - Configure `vcenter_ip` (e.g. '192.168.0.10') with the IP of the vCenter.
       - Configure `vcenter_user` (e.g. 'root') and `vcenter_password` (e.g. 'vmware') with vCenter user name and password.
-      BOSH does not require user to be an admin, but it does require the following [privileges](https://github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release/blob/master/docs/required_vcenter_privileges.md).
+      BOSH does not require user to be an admin, but it does require the following [privileges](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/blob/master/docs/required_vcenter_privileges.md).
       - Configure `vcenter_dc` (e.g. 'my-dc') with the name of the datacenter the Director will use for VM creation.
       - Configure `vcenter_vms` (e.g. 'my-bosh-vms') and `TEMPLATES-FOLDER-NAME` (e.g. 'my-bosh-templates') with the name of the folder created to hold VMs and the name of the folder created to hold stemcells. Folders will be automatically created under the chosen datacenter.
       - Configure `vcenter_ds` (e.g. 'datastore[1-9]') with a regex matching the names of potential datastores the Director will use for storing VMs and associated persistent disks.
