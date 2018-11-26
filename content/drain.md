@@ -74,7 +74,7 @@ This is important when the node is part of a cluster and needs to gracefully
 say goodbye to its pairs before leaving forever.
 
 When the drain script is run before the node is deleted, then the new
-persistent disk size is zero. For exemple, you would be able to see these
+persistent disk size is zero. For example, you would be able to see these
 values when `echo`ing them.
 
 ```shell
