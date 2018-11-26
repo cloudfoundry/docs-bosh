@@ -11,7 +11,7 @@ Follow below steps to get it running on locally on VirtualBox:
 
 1. Check that your machine has at least 8GB RAM, and 100GB free disk space. Smaller configurations may work.
 
-1. Install [CLI v2](cli-v2.md#install)
+1. Install [CLI v2](cli-v2-install.md)
 
 1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
