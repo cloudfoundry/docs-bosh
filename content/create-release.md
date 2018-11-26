@@ -43,14 +43,14 @@ Should result in:
 
 ```text
 .
-├── blobs
 ├── config
-│   └── blobs.yml
+│   ├── blobs.yml
+│   └── final.yml
 ├── jobs
 ├── packages
 └── src
 
-5 directories, 1 file
+4 directories, 2 files
 ```
 
 When deploying your release, BOSH places compiled code and other resources
@@ -63,7 +63,28 @@ and `/var/vcap/blobs`, respectively.
 
 Copy your source code into the `src` directory.
 Alternatively, link your source code to the directory using a mechanism such as
-a Git submodule or a Mercurial repo.
+a Git submodule or a Mercurial repo.  
+
+In our example, we create a folder named `ardo_app` and put our source code there.
+
+View the release with `tree`:
+```shell
+$ tree .
+.
+├── config
+│   ├── blobs.yml
+│   └── final.yml
+├── jobs
+├── packages
+└── src
+    └── ardo_app
+        ├── Gemfile
+        ├── Gemfile.lock
+        ├── app.rb
+        └── config.ru
+        
+5 directories, 6 files
+```
 
 ### Choose a work strategy {: #strategy }
 
@@ -93,9 +114,9 @@ Should result in:
 
 ```text
 .
-├── blobs
 ├── config
-│   └── blobs.yml
+│   ├── blobs.yml
+│   └── final.yml
 ├── jobs
 │   ├── bg_worker
 │   │   ├── monit
@@ -107,8 +128,13 @@ Should result in:
 │       └── templates
 ├── packages
 └── src
+    └── ardo
+        ├── Gemfile
+        ├── Gemfile.lock
+        ├── app.rb
+        └── config.ru
 
-9 directories, 5 files
+9 directories, 10 files
 ```
 
 ### Create control scripts  {: #control }
@@ -145,7 +171,7 @@ case $1 in
     export PATH=/var/vcap/packages/ruby_1.9.3/bin:$PATH
 
     exec /var/vcap/packages/ruby_1.9.3/bin/bundle exec \
-      rackup -p <%= properties.web_ui.port %> \
+      rackup -p <%= p('port') %> \
       >>  $LOG_DIR/web_ui.stdout.log \
       2>> $LOG_DIR/web_ui.stderr.log
 
@@ -635,7 +661,6 @@ blobstore_secret: 'does-not-matter'
 blobstore:
   local:
     blobstore_path: /tmp/ardo-blobs
-
 ```
 
 If you have a `private.yml` file:
@@ -671,31 +696,78 @@ Now you are ready to inform BOSH about these blobs.
 
 For each blob, run:
 
-`bosh add-blob <path_to_blob_on_local_system> <package_name>`
+`bosh add-blob <path_to_blob_on_local_system> <path_as_specified_in_spec_files>`
 
 e.g.
 
-`bosh add-blob ~/Downloads/yaml-0.1.4.tar.gz libyaml_0.1.4`
+`bosh add-blob ~/Downloads/yaml-0.1.4.tar.gz libyaml_0.1.4/yaml-0.1.4.tar.gz`
 
 The `bosh add-blob` command adds a local blob to the collection your release
 recognizes as BOSH blobs.
 
-The usage shown above is a blend of requirement and convention.
-It works like this:
+The usage shown above works like this:
 
 * For the first argument, you provide the path to the blob on your local system
 * For the second argument, you provide a destination within the `blobs` directory
 in your release
-* BOSH goes into the `blobs` directory and creates a subdirectory with
-the name of the package that the local blob represents
-* In the new subdirectory, BOSH creates a symbolic link to a copy of the blob
-which BOSH makes in a hidden directory
 
-Using the package name as the second argument of the `bosh add-blob` command
+Using the package name as the prefix for the second argument of the `bosh add-blob` command
 is recommended because it produces a cleanly-organized blobs directory.
 
 Later, when you upload blobs for a final release, BOSH uses the hidden directory
 as a staging area.
+
+View the release with `tree`:
+
+```shell
+$ tree .
+.
+├── blobs
+│   ├── libyaml_0.1.4
+│   │   └── yaml-0.1.4.tar.gz
+│   └── ruby_1.9.3
+│       ├── bundler-1.2.1.gem
+│       ├── ruby-1.9.3-p484.tar.gz
+│       └── rubygems-1.8.24.tgz
+├── config
+│   ├── blobs.yml
+│   └── final.yml
+├── jobs
+│   ├── bg_worker
+│   │   ├── monit
+│   │   ├── spec
+│   │   └── templates
+│   │       └── ctl.erb
+│   └── web_ui
+│       ├── monit
+│       ├── spec
+│       └── templates
+│           └── ctl.erb
+├── packages
+│   ├── ardo_app
+│   │   ├── packaging
+│   │   └── spec
+│   ├── libyaml_0.1.4
+│   │   ├── packaging
+│   │   └── spec
+│   └── ruby_1.9.3
+│       ├── packaging
+│       └── spec
+└── src
+    └── ardo_app
+        ├── Gemfile
+        ├── Gemfile.lock
+        ├── app.rb
+        ├── config.ru
+        └── vendor
+            └── cache
+                ├── rack-1.5.1.gem
+                ├── rack-protection-1.3.2.gem
+                ├── sinatra-1.3.4.gem
+                └── tilt-1.3.3.gem
+
+17 directories, 26 files
+```
 
 ### Do not upload blobs for a dev release {: #no-upload }
 
@@ -724,7 +796,7 @@ relevant templates.
 For example, a start command can take a property as an argument,
 using the property lookup helper:
 
-       <%= p('<job_name>.<property_name>') %>
+       <%= p('<property_name>') %>
 
 1. Specify the property in the [deployment manifest](manifest-v2.md#instance-groups).
 
@@ -737,9 +809,9 @@ We edit the spec for the web UI job to look like this:
 
 ```yaml
 properties:
-   port:
-     description: Port that web_ui app listens on
-     default: 80
+  port:
+    description: Port that web_ui app listens on
+    default: 80
 ```
 
 ---
@@ -783,7 +855,8 @@ See what releases are available:
 
 If BOSH is already pointing to a release, edit the BOSH deployment manifest.
 Otherwise, create a manifest. See [BOSH Deployment Manifest](manifest-v2.md) for more information.
-Simple manifest for `ardo_app` can be found [here](https://gist.github.com/antonsoroko/3be4c70b38f846b1d79eca7192a5ab58) (OpenStack) or [here](https://gist.github.com/uzzz/9ad9cad105032fecdbeb223798607a87) (AWS).
+Simple manifest for `ardo_app` can be found
+[here](https://gist.github.com/fredwangwang/0dc9cd7d17013d497e57f15a1b99762e).
 
 Upload the new dev release.
 
@@ -793,7 +866,10 @@ Assuming you are in the release directory, no path is needed with the above comm
 
 Deploy:
 
-   `bosh deploy`
+   `bosh -d bosh-tutorial-deployment deploy <path-to-manifest.yml>`
+
+!!! note
+    Once deployment finishes successfully, most likely you will not be able to access the ruby app you just deployed through the browser. It is because there is no firewall rule attached to the vms. You can attach a firewall rule to the vms, or just `bosh ssh` into the vms and run `curl localhost:<port>`
 
 ### Test the Dev Release  {: #dev-release-test }
 
