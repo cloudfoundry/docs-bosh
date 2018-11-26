@@ -23,6 +23,8 @@ Follow below steps to get it running on locally on VirtualBox:
     ```
 
     Note: If you encounter problems with VirtualBox networking try installing [Oracle VM VirtualBox Extension Pack](https://www.virtualbox.org/wiki/Downloads) as suggested by [Issue 202](https://github.com/cloudfoundry/bosh-lite/issues/202). Alternatively make sure you are on VirtualBox 5.1+ since previous versions had a [network connectivity bug](https://github.com/concourse/concourse-lite/issues/9).
+    
+    Warning: The Oracle VM VirtualBox Extension Pack is commercially licensed and not free!
 
 1. Install Director VM
 
