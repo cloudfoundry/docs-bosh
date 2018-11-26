@@ -23,24 +23,20 @@ At any time the Director might be performing multiple tasks at once. Active task
 To see all currently active tasks:
 
 ```shell
-bosh tasks --no-filter
+bosh tasks
 ```
 
 Should result in:
 
-```text
+```
 +-----+------------+-------------------------+-------+-------------------------------+--------+
 | #   | State      | Timestamp               | User  | Description                   | Result |
 +-----+------------+-------------------------+-------+-------------------------------+--------+
 | 766 | processing | 2015-01-27 21:39:30 UTC | admin | create deployment             |        |
 | 765 | queued     | 2015-01-27 21:35:02 UTC | admin | scheduled SnapshotDeployments |        |
 +-----+------------+-------------------------+-------+-------------------------------+--------+
-
-Total tasks running now: 2
 ```
 
-!!! note
-    <code>--no-filter</code> flag shows all tasks. Without that flag, the Director returns a subset of running tasks that it deems important.
 
 ### Joining tasks {: #join-active }
 
@@ -85,7 +81,7 @@ D, [2015-01-27 21:33:21 #2725] [] DEBUG -- DirectorJobRunner: (0.001125s) SELECT
 Tasks can be cancelled before and while they are running. Canceling an active task will not take immediate effect; however, the Director will stop task execution at a next safe checkpoint. To cancel a task, either press `Ctrl+C` while tracking the task or run:
 
 ```shell
-bosh cancel task 766
+bosh cancel-task 766
 ```
 
 ---
@@ -96,12 +92,12 @@ The Director keeps a record of tasks that have finished. Finished tasks can be i
 To view recently finished tasks:
 
 ```shell
-bosh tasks recent
+bosh tasks --recent
 ```
 
 Should result in:
 
-```text
+```
 +-----+-------+-------------------------+--------+--------------------------+-----------------------------------------------------------+
 | #   | State | Timestamp               | User   | Description              | Result                                                    |
 +-----+-------+-------------------------+--------+--------------------------+-----------------------------------------------------------+
@@ -116,10 +112,10 @@ Should result in:
 Showing 30 recent tasks
 ```
 
-You can also run `bosh tasks recent [NUM]` to retrieve more tasks.
+You can also run `bosh tasks --recent=NUM` to retrieve more tasks.
 
 !!! note
-    <code>--no-filter</code> flag shows all tasks. Without that flag, the Director returns a subset of finished tasks that it deems important.
+    <code>--all</code> flag shows all tasks. Without that flag, the Director returns a subset of finished tasks that it deems important.
 
 ### Joining finished tasks {: #join-finished }
 
