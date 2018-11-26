@@ -681,7 +681,7 @@ Now you are ready to inform BOSH about these blobs.
 
 For each blob, run:
 
-`bosh add-blob <path_to_blob_on_local_system> <path_as_specificed_in_files_section>`
+`bosh add-blob <path_to_blob_on_local_system> <path_as_specified_in_spec_files>`
 
 e.g.
 
