@@ -57,7 +57,10 @@ features:
 * **version** [String, required]: The version of the release to use. Version can be `latest`.
 * **url** [String, optional]: URL of a release to download. Works with CLI v2. Example: `https://bosh.io/d/github.com/cloudfoundry/syslog-release?v=11`.
 * **sha1** [String, optional]: SHA1 of asset referenced via URL. Works with CLI v2. Example: `332ac15609b220a3fdf5efad0e0aa069d8235788`.
-
+* **stemcell** [Hash, optional]: Stemcell for which the release is compiled (recommended for compiled releases).
+    * **os** [String, required]: Operating system of the stemcell. Example: `ubuntu-xenial`.
+    * **version** [String, required]: Version of the stemcell. Example: `97.18`.
+    
 See [Release URLs](release-urls.md) for more details.
 
 Example:
@@ -76,6 +79,19 @@ releases:
   version: 3.3.2
   url: https://bosh.io/d/github.com/concourse/concourse?v=3.3.2
   sha1: 2c876303dc6866afb845e728eab58abae8ff3be2
+```
+
+Example with a compiled release:
+
+```yaml
+releases:
+- name: cf-mysql
+  version: 36.15.0
+  url: https://storage.googleapis.com/cf-deployment-compiled-releases/cf-mysql-36.15.0-ubuntu-xenial-97.18-20181006-041256-899428687.tgz
+  sha1: 6466c44827c3493645ca34b084e7c21de23272b4
+  stemcell:
+    os: ubuntu-xenial
+    version: 97.18
 ```
 
 ---
