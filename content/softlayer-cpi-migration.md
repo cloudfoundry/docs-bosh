@@ -51,61 +51,76 @@ For the users using legacy SoftLayer CPI who want to move to SoftLayer CPI NG, p
 
 2. Add registry job to director manifest
 
-	```yaml
-	jobs:
-	- name: bosh
-	  instances: 1
-	  templates:
-	  ...
-	  - name: registry
-	    release: bosh
-	  ...
+```yaml
+    jobs:
+    - name: bosh
+      instances: 1
+      templates:
+      ...
+      - name: registry
+        release: bosh
+      ...
 
-	  properties:
-	    ...
-	    postgres: &db
-	      ...
-	      additional_databases: [bosh_registry]
-	      ...
-	    registry: &registry
-	      db:
-	        adapter: postgres
-	        host: 127.0.0.1
-	        user: ((postgres_username))
-	        password: ((postgres_password))
-	        database: bosh_registry
-	      username: ((registry_username))
-	      password: ((registry_password))
+      properties:
+        ...
+        postgres: &db
+          ...
+          additional_databases: [bosh_registry]
+          ...
+        registry: &registry
+          db:
+            adapter: postgres
+            host: 127.0.0.1
+            user: ((postgres_username))
+            password: ((postgres_password))
+            database: bosh_registry
+          username: ((registry_username))
+          password: ((registry_password))
 
-	cloud_provider:
-	  ...
-	  properties:
-	    ...
-	    softlayer:
-	      api_key: ((api_key))
-	      ssh_public_key: ((ssh_public_key))
-	      ssh_public_key_fingerprint: ((ssh_public_key_fingerprint))
-	      username: ((username))
-	  ssh_tunnel:
-	    host: director-hostname.softlayer.com
-	    port: 22
-	    private_key: ((private_key))
-	    user: root
-	```
+    cloud_provider:
+      ...
+      properties:
+        ...
+        softlayer:
+          api_key: ((api_key))
+          ssh_public_key: ((ssh_public_key))
+          ssh_public_key_fingerprint: ((ssh_public_key_fingerprint))
+          username: ((username))
+      ssh_tunnel:
+        host: director-hostname.softlayer.com
+        port: 22
+        private_key: ((private_key))
+        user: root
+```
 
 3. Move vlan info to network cloud_properties in director manifest
 
-	```yaml
-	networks:
-	- name: default
-	  type: dynamic
-	  dns:
-	  - 8.8.8.8
-	  - 10.0.80.11
-	  - 10.0.80.12
-	  cloud_properties:
-	    vlan_ids: [1292653, 1292651]
-	```
+```yaml
+networks:
+- name: manual_network
+  type: manual
+  subnets:
+  - range: 10.112.166.128/26
+    gateway: 10.112.166.129
+    azs: [z1, z2, z3]
+    dns: [10.1.2.3, 10.0.80.11, 10.0.80.12]
+    reserved:
+    - 10.112.166.128
+    - 10.112.166.129
+    - 10.112.166.130
+    - 10.112.166.131
+    static:
+    - 10.112.166.132 - 10.112.166.162
+    cloud_properties:
+      vlan_ids: [524954, 524956]
+- name: default      # Must define dynamic network in Softlayer
+  type: dynamic
+  subnets:
+  - az: lon02
+    dns: [10.1.2.3, 10.0.80.11, 10.0.80.12]
+    cloud_properties:
+      vlan_ids: [524954, 524956]
+```
 
 4. Update the director manifest to use the latest [Softlayer CPI](https://bosh.io/releases/github.com/cloudfoundry/bosh-softlayer-cpi-release?all=1) and [Xenial stemcell](https://bosh.io/stemcells/bosh-softlayer-xen-ubuntu-xenial-go_agent)
 
