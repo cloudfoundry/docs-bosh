@@ -16,32 +16,6 @@ azs:
 
 Assume `10.1.2.3` is the bosh director IP.
 
-Example of dynamic network (both public and private networks are available):
-
-```yaml
-networks:
-- name: default
-  type: dynamic
-  subnets:
-  - az: lon02
-    dns: [10.1.2.3, 10.0.80.11, 10.0.80.12]
-    cloud_properties:
-      vlan_ids: [524954, 524956]
-```
-
-Example of dynamic network (only private network is available):
-
-```yaml
-networks:
-- name: default
-  type: dynamic
-  subnets:
-  - az: z1
-    dns: [10.1.2.3, 10.0.80.11, 10.0.80.12]
-    cloud_properties:
-      vlan_ids: [524954]
-```
-
 Example of manual network:
 
 ```yaml
