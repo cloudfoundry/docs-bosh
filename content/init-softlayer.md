@@ -34,20 +34,11 @@ VLANs provide the ability to partition devices and subnets on the network. To or
 ---
 ## Step 2: Deploy {: #deploy }
 
-1. Install [BOSH CLI v2](cli-v2.md). If you are using dynamic IP for bosh director, make sure to download SoftLayer specific version of bosh-cli [linux](https://bosh-softlayer-artifacts.s3.amazonaws.com/bosh-cli-5.0.1.1-softlayer-linux-amd64) or [mac](https://bosh-softlayer-artifacts.s3.amazonaws.com/bosh-cli-5.0.1.1-softlayer-darwin-amd64). If you are using portable IP for director, you can use both the community version or SoftLayer specific version of bosh-cli.
+1. Install [BOSH CLI v2](cli-v2.md).
 
 2. Establish VPN to make sure you can connect to IBM Cloud Infrastructure over private network from your workstation where to run BOSH CLI. 
 
-3. \[Option 1 \] Apply a portable IP from Softlayer or
-
-   \[Option 2 \] Create a clean VM on Softlayer and generate state file (including VM CID and IP) using this [script](https://github.com/cloudfoundry/bosh-softlayer-cpi-release/blob/master/docs/create_vm_sl.sh)
-   
-   Example:
-   ```shell
-   ./create_vm_sl.sh -h <hostname> -d softlayer.com -c 2 -m 4096 -hb true -ld false -da false -ms 100 -dc dal09 -uv <public_vlan> -iv <private_vlane> -u <username> -k <api_key> > /tmp/state.json
-   ```
-   
-   No matter which option you select, let's say the portable IP or dynamic IP (in state.json) is `10.0.0.6`
+3. Apply a portable IP from Softlayer. Let's say it's `10.0.0.6`.
 
 4. Use `bosh create-env` command to deploy the Director.
 
@@ -65,10 +56,10 @@ VLANs provide the ability to partition devices and subnets on the network. To or
     $ sudo bosh create-env bosh-deployment/bosh.yml \
         --state=state.json \
         --vars-store=creds.yml \
-        -o bosh-deployment/softlayer/cpi.yml \  # bosh-deployment/softlayer/cpi-dynamic.yml  if option 2 using dynamic IP
+        -o bosh-deployment/softlayer/cpi.yml \  
         -v director_name=bosh \
-        -v internal_cidr=10.0.0.0/24 \        # Only for option 1 portable IP
-        -v internal_gw=10.0.0.1 \             # Only for option 1 portable IP
+        -v internal_cidr=10.0.0.0/24 \        
+        -v internal_gw=10.0.0.1 \             
         -v internal_ip=10.0.0.6 \
         -v sl_datacenter= \
         -v sl_vm_domain= \
