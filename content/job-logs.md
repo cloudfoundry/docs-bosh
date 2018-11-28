@@ -75,16 +75,7 @@ sudo tail -f -n 200 /var/vcap/bosh/log/current
 
 BOSH log rotates release job logs with the [Logrotate](http://linuxconfig.org/logrotate) log file management utility. Logrotate is configured by the Agent to act on all `.log` files in the `/var/vcap/sys/log/`, `/var/vcap/sys/log/*/`, and `/var/vcap/sys/log/*/*/` directories.
 
-Following non-configurable settings are used:
-
-* `missingok`: Skip missing log files and do not generate an error message
-* `rotate 7`: Keep seven log files at a time
-* `compress`: Compress old log files with gzip
-* `delaycompress`: Postpone compression of log files until the next rotation cycle
-* `copytruncate`: Copy log files, then truncate in place instead of creating new files
-* `size 50M`: Rotate log files when they exceed 50 MB in size
-
-Cron runs logrotate script every hour.
+Logs are rotated every 15 minutes (see [agent's `etcLogrotateDTemplate` configuration](https://github.com/cloudfoundry/bosh-agent/blob/master/platform/linux_platform.go#L525) for detailed settings).
 
 ---
 ### Syslog configuration {: #syslog-conf }
