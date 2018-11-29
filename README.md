@@ -14,7 +14,14 @@ cd docs-bosh
 
 git submodule update --init --recursive
 
-docker run --rm -it -p 8000:8000 -v "${PWD}:/docs" squidfunk/mkdocs-material:2.7.2
+# for quick development reloads
+docker run --rm -it -p 8000:8000 -v "${DIR}:/docs" \
+  squidfunk/mkdocs-material:2.7.2 \
+  -- serve --dev-addr=0.0.0.0:8000 --dirtyreload
+
+# for a production-like build environment (link checking, etc.)
+docker run --rm -it -p 8000:8000 -v "${DIR}:/docs" \
+  squidfunk/mkdocs-material:2.7.2
 ```
 
 You can then make changes in a text editor, and refresh in a local browser at [localhost:8000](http://localhost:8000/).
