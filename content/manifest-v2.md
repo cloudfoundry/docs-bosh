@@ -194,6 +194,9 @@ update:
         * **swap\_size** [Integer, optional]: Size of swap partition in MB to create. Set this to 0 to avoid having a swap partition created. Default: RAM size of used VM type up to half of the ephemeral disk size.
         * **ipv6** [Hash, optional]:
             * **enable** [Boolean, optional]: Force IPv6 enabled in kernel (this configuration is not necessary if one of the VM addresses is IPv6). Default: `false`.
+        * **job_dir** [Hash, optional]:
+            * **tmpfs** [Boolean, optional]: Mount all directories which contain [rendered job templates on tmpfs](job-tmpfs.md). Default: `false`.
+            * **tmpfs_size** [String, optional]: The size of the tmpfs mount. Accepted values are a number of bytes or a number with a suffix e.g. `64m` or `1g`. Default: `100m`.
 
 Example:
 
