@@ -7,7 +7,7 @@ The Resurrector continuously cross-references VMs expected to be running against
 
 Under certain conditions the Resurrector will consider the system in the "meltdown" and will stop sending requests to the Director. It will resume submitting scan and fix tasks to the Director once the conditions change.
 
-Resurrection can be turned off per specific deployment job instance or for all VMs managed by the Director via [`bosh vm resurrection` CLI command](sysadmin-commands.md#vm-resurrection).
+Resurrection can be turned off per specific deployment job instance or for all VMs managed by the Director via `bosh update-config --type resurrection`.
 
 !!! note
     The Health Monitor deploys with the Resurrector plugin disabled by default. To use it, you must enable the Resurrector plugin in your BOSH deployment manifest.
