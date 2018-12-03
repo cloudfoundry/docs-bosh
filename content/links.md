@@ -277,6 +277,7 @@ Common use cases:
 *Explicit linking* is defined as specifying the consumer in the deployment manifest. The consumer will be matched on both name and type.
 
 There are two use cases that require the use of *explicit* linking.
+
 * To distinguish between multiple providers of the same `type` in a deployment.
 * To consume a link provided by a different deployment.
 
