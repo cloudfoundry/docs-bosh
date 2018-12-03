@@ -16,7 +16,7 @@ As of V2 of the CPI API contract, `create_vm` returns an array of the resultant 
  * `cloud_properties` [Hash]: Cloud properties hash specified in the deployment manifest under the VM's resource pool.
  * `networks` [Hash]: Networks hash that specifies which VM networks must be configured.
  * `disk_cids` [Array of strings] Array of disk cloud IDs for the disks that the created VM will most _likely_ attach. The disk cloud IDs could be used to optimize VM placement so that disks are located nearby.
- * `environment` [Hash]: Resource pool's env hash specified in the deployment manifest, including initial properties added by the BOSH director as shown below. Additionally, the director will append the following guaranteed values:
+ * `environment` [Hash]: Resource pool's env hash specified in the deployment manifest, including initial properties added by the BOSH director as shown below. It gets passed by the CPI to the agent where it can be found in the user data's `env` hash in `/var/vcap/bosh/settings.json`. Additionally, the director will append the following guaranteed values:
      * `bosh` [Hash]: A collection of properties used by the BOSH Agent, and optionally the CPI.
          * `group` [String]: A description of the requested VM in the format `<director-name>-<deployment-name>-<job-name>`.
          * `groups` [Array]: A collection of descriptions for the requested VM, combining `director-name`, `deployment-name` and `job-name` in a range of strings separated by a `-`.
@@ -60,14 +60,52 @@ Most CPIs choose to communicate with the default Agent. Hence, the communication
     "ephemeral": "/dev/sdb",
     "persistent": {}
   },
-
-  "mbus": "https://mbus:mbus-password@0.0.0.0:6868"
-  "ntp": [ "0.pool.ntp.org", "1.pool.ntp.org" ],
+  "ntp": null,
+  "mbus": "",
   "blobstore": {
-    "provider": "local",
-    "options": { "blobstore_path": "/var/vcap/micro_bosh/data/cache" }
+    "provider": "",
+    "options": {}
   },
-  "env": {}
+  "env": {
+    "bosh": {
+      "password": "",
+      "keep_root_password": false,
+      "remove_dev_tools": false,
+      "remove_static_libraries": false,
+      "authorized_keys": null,
+      "swap_size": null,
+      "blobstores": [
+        {
+          "provider": "local",
+          "options": {
+            "blobstore_path": "/var/vcap/micro_bosh/data/cache"
+          }
+        }
+      ],
+      "mbus": {
+        "cert": {
+          "ca": "-----BEGIN CERTIFICATE---- ... -----END CERTIFICATE-----",
+          "certificate": "-----BEGIN RSA PRIVATE KEY----- ... -----END RSA PRIVATE KEY-----",
+          "private_key": "-----BEGIN CERTIFICATE---- ... -----END CERTIFICATE-----"
+        },
+        "urls": [
+          "https://mbus:mbus-password@0.0.0.0:6868"
+        ]
+      },
+      "ipv6": {
+        "enable": false
+      },
+      "job_dir": {
+        "tmpfs": false,
+        "tmpfs_size": "",
+      },
+      "ntp": [
+        "0.pool.ntp.org",
+        "1.pool.ntp.org"
+      ],
+      "parallel": null
+    }
+  }
 }
 ```
 
@@ -108,6 +146,29 @@ See [Agent Configuration](../vm-config.md#agent) for an overview of the Agent co
     [ "vol-3475945" ],
     {
       "bosh": {
+        "blobstores": [
+          {
+            "options": {
+              "endpoint": "http://10.0.1.10:25250",
+              "password": "<pwd>",
+              "tls": {
+                "cert": {
+                  "ca": "-----BEGIN CERTIFICATE----- ... -----END CERTIFICATE-----"
+                }
+              },
+              "user": "agent"
+            },
+            "provider": "dav"
+          }
+        ],
+        "mbus": {
+          "cert": {
+            "ca": "-----BEGIN CERTIFICATE----- ... -----END CERTIFICATE-----",
+            "certificate": "-----BEGIN CERTIFICATE----- ... -----END CERTIFICATE-----",
+            "private_key": "-----BEGIN RSA PRIVATE KEY----- ... -----END RSA PRIVATE KEY-----"
+          }
+        },
+        "password": "",
         "group": "my-group",
         "groups": [
           "my-second-group",
