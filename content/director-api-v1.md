@@ -92,6 +92,68 @@ curl -s -k https://192.168.50.4:25555/info | jq .
 
 ---
 
+### `GET /director/certificate_expiry`: Director Certificate Expiry {: #director-certificate-expiry }
+
+#### Response body schema
+
+**[root]** [Array]: List of active director certificates.
+
+  - **certificate_path** [String]: Name of the certificate property.
+  - **expiry** [String]: iso8601 format date of the expiry in UTC.
+  - **days_left** [Integer]: number of full days left rounded down (negative value are expired)
+
+#### Notes:
+
+- requires read scope authentication such as bosh.read
+
+#### Example
+
+```shell
+curl -s -k https://admin:admin@192.168.50.6:25555/director/certificate_expiry | jq .
+```
+
+```json
+[
+  {
+    "certificate_path": "director.ssl.cert",
+    "expiry": "2019-11-21T21:43:57Z",
+    "days_left": 356
+  },
+  {
+    "certificate_path": "blobstore.tls.cert.ca",
+    "expiry": "2019-11-21T21:44:03Z",
+    "days_left": 356
+  },
+  {
+    "certificate_path": "director.config_server.ca_cert",
+    "expiry": "2019-11-21T21:44:08Z",
+    "days_left": 356
+  },
+  {
+    "certificate_path": "director.config_server.uaa.ca_cert",
+    "expiry": "2019-11-21T21:43:56Z",
+    "days_left": 356
+  },
+  {
+    "certificate_path": "nats.tls.ca",
+    "expiry": "2019-11-21T21:43:58Z",
+    "days_left": 356
+  },
+  {
+    "certificate_path": "nats.tls.client_ca.certificate",
+    "expiry": "2019-11-21T21:43:58Z",
+    "days_left": 356
+  },
+  {
+    "certificate_path": "nats.tls.director.certificate",
+    "expiry": "2019-11-21T21:43:59Z",
+    "days_left": 356
+  }
+]
+```
+
+---
+
 ## Configs {: #configs }
 
 ### `GET /configs`: List configs {: #list-configs }
