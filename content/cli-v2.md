@@ -16,9 +16,9 @@ See [Environments](cli-envs.md).
     ```shell
     bosh envs
     ```
-    
+
     Should result in:
-    
+
     ```text
     URL              Alias
     104.154.171.255  gcp
@@ -58,31 +58,6 @@ See [Environments](cli-envs.md).
     ```shell
     bosh alias-env gcp -e bosh.corp.com
     bosh alias-env gcp -e 10.0.0.6 --ca-cert <(bosh int creds.yml --path /director_ssl/ca)
-    ```
-
-- `bosh -e location environment` (Alias: `env`)
-
-    Shows Director information in the deployment environment.
-
-    ```shell
-    bosh -e vbox env
-    ```
-    
-    Should result in:
-
-    ```text
-    Using environment '192.168.56.6' as '?'
-
-    Name      vbox
-    UUID      eeb27cc6-467e-4c1d-a8f9-f1a8de759f52
-    Version   260.5.0 (00000000)
-    CPI       warden_cpi
-    Features  compiled_package_cache: disabled
-              dns: disabled
-              snapshots: disabled
-    User      admin
-
-    Succeeded
     ```
 
 - `bosh delete-env manifest.yml [--state path] [-v ...] [-o ...] [--vars-store path]`
@@ -127,6 +102,70 @@ See [Environments](cli-envs.md).
     Logs out currently logged in user.
 
 ---
+### Director Environment {: #director-env}
+
+- `bosh -e location environment` (Alias: `env`)
+
+    Shows Director information in the deployment environment.
+
+    ```shell
+    bosh -e vbox env
+    ```
+
+    Should result in:
+
+    ```text
+    Using environment '192.168.56.6' as '?'
+
+    Name      vbox
+    UUID      eeb27cc6-467e-4c1d-a8f9-f1a8de759f52
+    Version   260.5.0 (00000000)
+    CPI       warden_cpi
+    Features  compiled_package_cache: disabled
+              dns: disabled
+              snapshots: disabled
+    User      admin
+
+    Succeeded
+    ```
+
+- `bosh -e location environment --details`
+
+    Shows Director information in the deployment environment, including information on the Director's certificates expiry dates.
+
+    ```shell
+    bosh -e vbox env --details
+    ```
+
+    Should result in:
+
+    ```text
+    Using environment '192.168.56.6' as '?'
+
+    Name      vbox
+    UUID      eeb27cc6-467e-4c1d-a8f9-f1a8de759f52
+    Version   260.5.0 (00000000)
+    CPI       warden_cpi
+    Features  compiled_package_cache: disabled
+              dns: disabled
+              snapshots: disabled
+    User      admin
+
+
+    CERTIFICATE EXPIRY DATE INFORMATION
+
+    Certificate                     Expiry Date (UTC)     Days Left  Status
+    director.ssl.cert               2018-12-04T21:43:57Z  0          expiring
+    blobstore.tls.cert.ca           2019-11-21T21:44:03Z  352        valid
+    nats.tls.ca                     2019-11-21T21:43:58Z  352        valid
+    nats.tls.client_ca.certificate  2018-12-21T21:43:58Z  17         expiring
+    nats.tls.director.certificate   2018-11-21T21:43:59Z  -13        expired
+
+    Succeeded
+    ```
+    The `Status` column is a visual shortcut that lists expired certificates in _red_, expiring (less than 30 full days) certificates in _yellow_ and all others in _green_.
+
+---
 ### Stemcells {: #stemcell-mgmt }
 
 See [Uploading Stemcells](uploading-stemcells.md).
@@ -138,9 +177,9 @@ See [Uploading Stemcells](uploading-stemcells.md).
     ```shell
     bosh -e my-env ss
     ```
- 
+
     Should result in:
-    
+
     ```text
     Using environment '192.168.56.6' as '?'
 
@@ -272,9 +311,9 @@ See [Release Blobs](release-blobs.md) for a detailed workflow.
     cd release-dir
     bosh blobs
     ```
-    
+
     Should result in:
-    
+
     ```text
     Path                               Size     Blobstore ID         Digest
     golang/go1.6.2.linux-amd64.tar.gz  81 MiB   f1833f76-ad8b-4b...  b8318b0...
@@ -333,9 +372,9 @@ See [Uploading Releases](uploading-releases.md).
     ```shell
     bosh -e my-env rs
     ```
-    
+
     Should result in:
- 
+
     ```text
     Using environment '192.168.56.6' as client 'admin'
 
@@ -405,9 +444,9 @@ See [Uploading Releases](uploading-releases.md).
     ```shell
     bosh -e gcp-test inspect-release consul/155
     ```
-    
+
     Should result in:
-    
+
     ```text
     Using environment '192.168.56.6' as client 'admin'
 
@@ -455,9 +494,9 @@ See [Configs](configs.md).
     ```shell
     bosh -e my-env configs
     ```
-    
+
     Should result in:
-    
+
     ```text
     Using environment '192.168.50.6' as client 'admin'
 
@@ -566,9 +605,9 @@ See [CPI config](cpi-config.md).
     ```shell
     bosh -e my-env ds
     ```
-    
+
     Should result in:
-    
+
     ```text
     Using environment '192.168.56.6' as client 'admin'
 
@@ -603,9 +642,9 @@ See [CPI config](cpi-config.md).
     ```shell
     bosh -e vbox -d cf dep
     ```
-    
+
     Should result in:
-    
+
     ```text
     Using environment '192.168.56.6' as client 'admin'
 
@@ -889,9 +928,9 @@ See [CPI config](cpi-config.md).
     ```shell
     bosh -e vbox -d cf es
     ```
-    
+
     Should result in:
- 
+
     ```text
     Using environment '192.168.56.6' as '?'
 
@@ -956,9 +995,9 @@ See [CPI config](cpi-config.md).
     # currently active tasks for my-dep deployment
     bosh -e vbox -d my-dep ts
     ```
-    
+
     Should result in:
-    
+
     ```text
     Using environment '192.168.56.6' as '?'
 
@@ -972,7 +1011,7 @@ See [CPI config](cpi-config.md).
 
     Succeeded
     ```
-    
+
     ```shell
     # show last 30 tasks
     bosh -e vbox ts -r --all
