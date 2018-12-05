@@ -104,7 +104,8 @@ releases:
 * **version** [String, required]: The version of a matching stemcell. Version can be `latest`.
 * **name** [String, optional]: Full name of a matching stemcell. Either `name` or `os` keys can be specified.
 
-Note: `url` key is not supported in stemcells block because there is no single stemcell that works on all IaaSes. Since we want to keep deployment manifests decoupled from any cloud specific declarations we do not allow specifying URL.
+!!! tip "IaaS-agnostic Configuration"
+    To ensure your manifest can easily be used across multiple IaaSes, prefer using `os` instead of the IaaS-specific `name` field. Note: unlike `releases`, this does not support automatic downloading of a stemcell through a `url` field.
 
 Example:
 
