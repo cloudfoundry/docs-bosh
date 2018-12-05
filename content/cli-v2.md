@@ -154,16 +154,16 @@ See [Environments](cli-envs.md).
 
     CERTIFICATE EXPIRY DATE INFORMATION
 
-    Certificate                     Expiry Date (UTC)     Days Left  Status
-    director.ssl.cert               2018-12-04T21:43:57Z  0          expiring
-    blobstore.tls.cert.ca           2019-11-21T21:44:03Z  352        valid
-    nats.tls.ca                     2019-11-21T21:43:58Z  352        valid
-    nats.tls.client_ca.certificate  2018-12-21T21:43:58Z  17         expiring
-    nats.tls.director.certificate   2018-11-21T21:43:59Z  -13        expired
+    Certificate                     Expiry Date (UTC)     Days Left
+    director.ssl.cert               2018-12-04T21:43:57Z  0
+    blobstore.tls.cert.ca           2019-11-21T21:44:03Z  352
+    nats.tls.ca                     2019-11-21T21:43:58Z  352
+    nats.tls.client_ca.certificate  2018-12-21T21:43:58Z  17
+    nats.tls.director.certificate   2018-11-21T21:43:59Z  -13
 
     Succeeded
     ```
-    The `Status` column is a visual shortcut that lists expired certificates in _red_, expiring (less than 30 full days) certificates in _yellow_ and all others in _green_.
+    The `Days left` column is has a visual shortcut that lists certificates with less than 30 full days of validity in _red_, and all others in _green_.
 
 ---
 ### Stemcells {: #stemcell-mgmt }
