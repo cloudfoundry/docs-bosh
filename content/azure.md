@@ -76,3 +76,4 @@ When using Storage Accounts, encryption keys can be managed through the [Azure K
 | ------- | ------- |
 | Multi-CPI | Not Supported |
 | Native Disk Resize | Not Supported |
+| Generic VM Resource Configuration | Supported, [v33](https://github.com/cloudfoundry/bosh-azure-cpi-release/releases/tag/v33)+ |

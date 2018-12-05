@@ -60,7 +60,7 @@ features:
 * **stemcell** [Hash, optional]: Stemcell for which the release is compiled (recommended for compiled releases).
     * **os** [String, required]: Operating system of the stemcell. Example: `ubuntu-xenial`.
     * **version** [String, required]: Version of the stemcell. Example: `97.18`.
-    
+
 See [Release URLs](release-urls.md) for more details.
 
 Example:
@@ -169,7 +169,7 @@ update:
     * **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job. Only properties specified here will be provided to the job.
 * **vm_type** [String, required]: A valid VM type name from the cloud config. Alternatively you can specify `vm_resources` key.
 * **vm_extensions** [Array, optional]: A valid list of VM extension names from the cloud config.
-* **vm_resources** [Hash, optional]: Specifies generic VM resources such as CPU, RAM and disk size that are automatically translated into correct VM cloud properties to determine VM size. VM size is determined on best effort basis as some IaaSes may not support exact size configuration. Currently some CPIs (Google) do not support this functionality. Available in bosh-release v264+.
+* **vm_resources** [Hash, optional]: Specifies generic VM resources such as CPU, RAM and disk size that are automatically translated into correct VM cloud properties to determine VM size. VM size is determined on best effort basis as some IaaSes may not support exact size configuration. Available in bosh-release v264+.
     * **cpu** [Integer, required]: Number of CPUs.
     * **ram** [Integer, required]: Amount of RAM in MB.
     * **ephemeral\_disk\_size** [Integer, required]: Ephemeral disk size in MB.

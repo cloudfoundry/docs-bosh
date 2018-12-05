@@ -65,3 +65,4 @@ AWS supports encryption functionality through their [Key Management Service](htt
 | --------- | ------- |
 | Multi-CPI | Supported, [v61](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v61)+ |
 | Native Disk Resize | Not Supported |
+| Generic VM Resource Configuration | Supported, [v56](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v56)+ |
