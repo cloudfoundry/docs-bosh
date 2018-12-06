@@ -70,8 +70,8 @@ CLI allows to provide variable values via usage of one or more of the following 
 - `--vars-env=prefix` flag sets variable values found in prefixed environment variables (casing is important)
 
     ```shell
-    export FOO_access_key_id=some-key
-    export FOO_access_secret_key=some-secret
+    export FOO_s3_access_key_id=some-key
+    export FOO_s3_access_secret_key=some-secret
 
     bosh interpolate base.yml --vars-env FOO
     # s3_access_key_id: some-key
