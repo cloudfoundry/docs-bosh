@@ -16,7 +16,7 @@ As of V2 of the CPI API contract, `create_vm` returns an array of the resultant 
  * `cloud_properties` [Hash]: Cloud properties hash specified in the deployment manifest under the VM's resource pool.
  * `networks` [Hash]: Networks hash that specifies which VM networks must be configured.
  * `disk_cids` [Array of strings] Array of disk cloud IDs for the disks that the created VM will most _likely_ attach. The disk cloud IDs could be used to optimize VM placement so that disks are located nearby.
- * `environment` [Hash]: Resource pool's env hash specified in the deployment manifest, including initial properties added by the BOSH director as shown below. It gets passed by the CPI to the agent where it can be found in the user data's `env` hash in `/var/vcap/bosh/settings.json`. Additionally, the director will append the following guaranteed values:
+ * `environment` [Hash]: Resource pool's env hash specified in the deployment manifest, including initial properties added by the BOSH director as shown below. Additionally, the director will append the following guaranteed values:
      * `bosh` [Hash]: A collection of properties used by the BOSH Agent, and optionally the CPI.
          * `group` [String]: A description of the requested VM in the format `<director-name>-<deployment-name>-<job-name>`.
          * `groups` [Array]: A collection of descriptions for the requested VM, combining `director-name`, `deployment-name` and `job-name` in a range of strings separated by a `-`.
