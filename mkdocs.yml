@@ -86,9 +86,13 @@ pages:
       - Using Basic Users: director-users.md
       - Integrating with UAA:
         - Configuring Director: director-users-uaa.md
-        - Using Teams: director-users-uaa-perms.md
+        - Managing Permissions with UAA Scopes: director-users-uaa-scopes.md
+        - Using BOSH Teams: director-bosh-teams.md
       - Configuring SSL Certificates: director-certs.md
       - Director SSL Certificate Configuration with OpenSSL: director-certs-openssl.md
+      - Rotating Credentials:
+        - NATS CA Rotation: nats-ca-rotation.md
+        - TLS Blobstore CA Rotation: blobstore-ca-rotation.md
     - Configuring the Database:
       - Builtin PostgreSQL: director-configure-db.md
       - External MySQL: director-configure-db.md
@@ -105,8 +109,6 @@ pages:
       - Common Addons: addons-common.md
     - Integrating with CredHub:
       - Variable Types: variable-types.md
-    - Certificates Rotation:
-      - Rotating NATS CA: nats-ca-rotation.md
     - Optional Features:
       - Explicit ARP Flushing: flush-arp.md
       - Removing Dev Tools from VMs: remove-dev-tools.md
@@ -156,30 +158,42 @@ pages:
   - Director Runtime Config: runtime-config.md
   - Generic Configs: configs.md
   - Cloud Provider Interface:
-    - Overview: cpi-api-v1.md
+    - Version 1:
+      - Overview: cpi-api-v1.md
+      - Methods:
+        - attach_disk: cpi-api-v1-method/attach-disk.md
+        - calculate_vm_cloud_properties: cpi-api-v1-method/calculate-vm-cloud-properties.md
+        - configure_networks: cpi-api-v1-method/configure-networks.md
+        - create_disk: cpi-api-v1-method/create-disk.md
+        - create_stemcell: cpi-api-v1-method/create-stemcell.md
+        - create_network: cpi-api-v1-method/create-network.md
+        - create_vm: cpi-api-v1-method/create-vm.md
+        - current_vm_id: cpi-api-v1-method/current-vm-id.md
+        - delete_disk: cpi-api-v1-method/delete-disk.md
+        - delete_snapshot: cpi-api-v1-method/delete-snapshot.md
+        - delete_stemcell: cpi-api-v1-method/delete-stemcell.md
+        - delete_network: cpi-api-v1-method/delete-network.md
+        - delete_vm: cpi-api-v1-method/delete-vm.md
+        - detach_disk: cpi-api-v1-method/detach-disk.md
+        - get_disks: cpi-api-v1-method/get-disks.md
+        - has_disk: cpi-api-v1-method/has-disk.md
+        - has_vm: cpi-api-v1-method/has-vm.md
+        - info: cpi-api-v1-method/info.md
+        - reboot_vm: cpi-api-v1-method/reboot-vm.md
+        - resize_disk: cpi-api-v1-method/resize-disk.md
+        - set_disk_metadata: cpi-api-v1-method/set-disk-metadata.md
+        - set_vm_metadata: cpi-api-v1-method/set-vm-metadata.md
+        - snapshot_disk: cpi-api-v1-method/snapshot-disk.md
+    - Version 2:
+      - Overview: cpi-api-v2.md
+      - Methods:
+        - attach_disk: cpi-api-v2-method/attach-disk.md
+        - create_vm: cpi-api-v2-method/create-vm.md
+        - delete_vm: cpi-api-v2-method/delete-vm.md
+        - detach_disk: cpi-api-v2-method/detach-disk.md
+        - info: cpi-api-v2-method/info.md
+      - Migrating from version 1: v2-migration-guide.md
     - RPC Interface: cpi-api-v1-rpc.md
-    - Methods:
-      - attach_disk: cpi-api-v1-method/attach-disk.md
-      - calculate_vm_cloud_properties: cpi-api-v1-method/calculate-vm-cloud-properties.md
-      - configure_networks: cpi-api-v1-method/configure-networks.md
-      - create_disk: cpi-api-v1-method/create-disk.md
-      - create_stemcell: cpi-api-v1-method/create-stemcell.md
-      - create_vm: cpi-api-v1-method/create-vm.md
-      - current_vm_id: cpi-api-v1-method/current-vm-id.md
-      - delete_disk: cpi-api-v1-method/delete-disk.md
-      - delete_snapshot: cpi-api-v1-method/delete-snapshot.md
-      - delete_stemcell: cpi-api-v1-method/delete-stemcell.md
-      - delete_vm: cpi-api-v1-method/delete-vm.md
-      - detach_disk: cpi-api-v1-method/detach-disk.md
-      - get_disks: cpi-api-v1-method/get-disks.md
-      - has_disk: cpi-api-v1-method/has-disk.md
-      - has_vm: cpi-api-v1-method/has-vm.md
-      - info: cpi-api-v1-method/info.md
-      - reboot_vm: cpi-api-v1-method/reboot-vm.md
-      - resize_disk: cpi-api-v1-method/resize-disk.md
-      - set_disk_metadata: cpi-api-v1-method/set-disk-metadata.md
-      - set_vm_metadata: cpi-api-v1-method/set-vm-metadata.md
-      - snapshot_disk: cpi-api-v1-method/snapshot-disk.md
   - Release Management:
     - Overview: release.md
     - Release URLs: release-urls.md
@@ -233,7 +247,6 @@ pages:
     - Overview: openstack.md
     - Usage: openstack-cpi.md
     - Common Errors: openstack-cpi-errors.md
-    - Using Auto-anti-affinity: openstack-auto-anti-affinity.md
     - Using Human-readable VM names: openstack-human-readable-vm-names.md
     - Using Keystone API v2: openstack-keystonev2.md
     - Using Light Stemcells: openstack-light-stemcells.md

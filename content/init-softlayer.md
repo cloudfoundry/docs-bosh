@@ -44,16 +44,13 @@ VLANs provide the ability to partition devices and subnets on the network. To or
 
     ```shell
     # Create a worksapce directory to keep state
-    $ mkdir -p bosh-workspace && cd bosh-workspace
-
-    # Copy state.json generated in step #3 into bosh-workspace
-    cp /tmp/state.json .
+    mkdir -p bosh-workspace && cd bosh-workspace
 
     # Clone Director templates
-    $ git clone https://github.com/cloudfoundry/bosh-deployment
+    git clone https://github.com/cloudfoundry/bosh-deployment
 
     # Fill below variables (replace example values) and deploy the Director
-    $ sudo bosh create-env bosh-deployment/bosh.yml \
+    sudo bosh create-env bosh-deployment/bosh.yml \
         --state=state.json \
         --vars-store=creds.yml \
         -o bosh-deployment/softlayer/cpi.yml \  
@@ -74,14 +71,14 @@ VLANs provide the ability to partition devices and subnets on the network. To or
 
     ```shell
     # Configure local alias
-    $ bosh alias-env bosh -e 10.0.0.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
+    bosh alias-env bosh-1 -e 10.0.0.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
 
     # Log in to the Director
-    $ export BOSH_CLIENT=admin
-    $ export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
+    export BOSH_CLIENT=admin
+    export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
 
     # Query the Director for more info
-    $ bosh -e bosh env
+    bosh -e bosh-1 env
     ```
 
 6. Save the deployment state files stored in your workspace directory `bosh-workspace` for future update/deletion. See [Deployment state](cli-envs.md#deployment-state) for details.

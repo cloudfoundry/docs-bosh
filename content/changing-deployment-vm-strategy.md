@@ -38,5 +38,5 @@ To change this behavior in your deployment, add `vm_strategy` to your deployment
 
 ## Caveats
 
- * The `create-swap-delete` strategy will not be used for instance groups which have networks using static IPs due to the exclusivity of the IPs in IaaSes.
+ * The `create-swap-delete` strategy will not be used for instances in instance groups that are using static IPs due to the exclusivity of the IPs in IaaSes.
  * When using `create-swap-delete`, your IaaS resource usage will inherently surge during the deploy while BOSH creates additional VMs in preparation for update. You may need to review any resource limits which are in effect for your IaaS and account.

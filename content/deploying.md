@@ -3,7 +3,12 @@ Once referenced stemcells and releases are uploaded to the Director and the depl
 To create a Zookeeper deployment from `zookeeper.yml` deployment manifest run the deploy command:
 
 ```shell
-$ bosh -e vbox -d zookeeper deploy zookeeper.yml
+bosh -e vbox -d zookeeper deploy zookeeper.yml
+```
+
+Should result in:
+
+```text
 Using environment '192.168.56.6' as '?'
 
 Task 1133
@@ -29,7 +34,12 @@ Succeeded
 After the deploy command completes with either success or failure you can run a command to list VMs created for this deployment:
 
 ```shell
-$ bosh -e vbox -d zookeeper instances
+bosh -e vbox -d zookeeper instances
+```
+
+Should result in:
+
+```text
 Using environment '192.168.56.6' as '?'
 
 Deployment 'zookeeper'

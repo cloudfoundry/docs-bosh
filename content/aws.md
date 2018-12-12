@@ -6,8 +6,8 @@ title: Amazon Web Services
 
 The `aws` CPI can be used with [Amazon Web Services](https://aws.amazon.com/).
 
- * Release: [cloudfoundry-incubator/bosh-aws-cpi-release](https://github.com/cloudfoundry-incubator/bosh-aws-cpi-release)
- * Issues: [GitHub Issues](https://github.com/cloudfoundry-incubator/bosh-aws-cpi-release/issues)
+ * Release: [cloudfoundry/bosh-aws-cpi-release](https://github.com/cloudfoundry/bosh-aws-cpi-release)
+ * Issues: [GitHub Issues](https://github.com/cloudfoundry/bosh-aws-cpi-release/issues)
  * Slack: [cloudfoundry#bosh](https://cloudfoundry.slack.com/messages/bosh)
 
 
@@ -49,9 +49,9 @@ AWS supports encryption functionality through their [Key Management Service](htt
 
 | Platform | Disk Type | Encryption | Customer-managed Keys |
 | -------- | --------- | ---------- | --------------------- |
-| Linux | Root Disk | Supported, [v69](https://github.com/cloudfoundry-incubator/bosh-aws-cpi-release/releases/tag/v69)+ | Supported |
-| Linux | Ephemeral Disk | Supported, [v69](https://github.com/cloudfoundry-incubator/bosh-aws-cpi-release/releases/tag/v69)+ | Supported |
-| Linux | Persistent Disk | Supported, [v69](https://github.com/cloudfoundry-incubator/bosh-aws-cpi-release/releases/tag/v69)+ | Supported |
+| Linux | Root Disk | Supported, [v69](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v69)+ | Supported |
+| Linux | Ephemeral Disk | Supported, [v69](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v69)+ | Supported |
+| Linux | Persistent Disk | Supported, [v69](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v69)+ | Supported |
 | Windows | Root Disk | Partially Supported (manual steps required) | Supported |
 | Windows | Ephemeral Disk | Not Supported | n/a |
 | Windows | Persistent Disk | Not Supported | n/a |
@@ -63,5 +63,6 @@ AWS supports encryption functionality through their [Key Management Service](htt
 
 | Feature   | Support |
 | --------- | ------- |
-| Multi-CPI | Supported, [v61](https://github.com/cloudfoundry-incubator/bosh-aws-cpi-release/releases/tag/v61)+ |
+| Multi-CPI | Supported, [v61](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v61)+ |
 | Native Disk Resize | Not Supported |
+| Generic VM Resource Configuration | Supported, [v56](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v56)+ |

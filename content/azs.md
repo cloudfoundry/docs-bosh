@@ -76,7 +76,10 @@ Given above configuration, 5 instances will be spread over "z1" and "z2" AZs, mo
 While deploy is in progress or after it finishes, `bosh instances` and `bosh vms` commands can be used to view instances and their associated AZs.
 
 ```shell
-$ bosh deploy
+bosh deploy
+```
+
+```text
 Acting as user 'admin' on 'micro'
 
 Deployment `underlay'

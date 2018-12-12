@@ -5,7 +5,7 @@
 Service principal is most likely invalid. Verify that client ID, client secret and tenant ID successfully work:
 
 ```shell
-$ azure login --username client-id --password client-secret --service-principal --tenant tenant-id
+azure login --username client-id --password client-secret --service-principal --tenant tenant-id
 ```
 
 If your service principal worked and you get the above error suddenly, it may be caused by that your service principal expired. You need to go to Azure Portal to update client secret. By default, the service principal will expire in one year.
@@ -76,11 +76,11 @@ The workaround is:
 
 For CPI v11 or later, the compatible stemcell version is v3181 or later. If the stemcell version is older than v3181, you may hit the following failure when deploying BOSH.
 
-It is recommended to use the latest version. For example, Stemcell v3232.5 or later, and CPI v12 or later. You may hit the issue [#135](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/issues/135) if you still use an older stemcell than v3232.5.
+It is recommended to use the latest version. For example, Stemcell v3232.5 or later, and CPI v12 or later. You may hit the issue [#135](https://github.com/cloudfoundry/bosh-azure-cpi-release/issues/135) if you still use an older stemcell than v3232.5.
 
 
 ## Out of memory
 
 If you hit `Out of memory` or `Virtual memory exhausted`, please check whether you use Standard_A0 as instance_type. You should change instance_type to a VM size with more memory.
 
-Please reference the [issue #230](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/issues/230).
+Please reference the [issue #230](https://github.com/cloudfoundry/bosh-azure-cpi-release/issues/230).

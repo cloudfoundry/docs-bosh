@@ -6,8 +6,8 @@ title: Microsoft Azure
 
 The `azure` CPI can be used with [Microsoft Azure](https://azure.microsoft.com/).
 
- * Release: [cloudfoundry-incubator/bosh-azure-cpi-release](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release)
- * Issues: [GitHub Issues](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/issues)
+ * Release: [cloudfoundry/bosh-azure-cpi-release](https://github.com/cloudfoundry/bosh-azure-cpi-release)
+ * Issues: [GitHub Issues](https://github.com/cloudfoundry/bosh-azure-cpi-release/issues)
  * Slack: [cloudfoundry#bosh-azure-cpi](https://cloudfoundry.slack.com/messages/bosh-azure-cpi)
 
 
@@ -76,3 +76,4 @@ When using Storage Accounts, encryption keys can be managed through the [Azure K
 | ------- | ------- |
 | Multi-CPI | Not Supported |
 | Native Disk Resize | Not Supported |
+| Generic VM Resource Configuration | Supported, [v33](https://github.com/cloudfoundry/bosh-azure-cpi-release/releases/tag/v33)+ |

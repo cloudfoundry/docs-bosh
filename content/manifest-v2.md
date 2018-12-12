@@ -57,6 +57,9 @@ features:
 * **version** [String, required]: The version of the release to use. Version can be `latest`.
 * **url** [String, optional]: URL of a release to download. Works with CLI v2. Example: `https://bosh.io/d/github.com/cloudfoundry/syslog-release?v=11`.
 * **sha1** [String, optional]: SHA1 of asset referenced via URL. Works with CLI v2. Example: `332ac15609b220a3fdf5efad0e0aa069d8235788`.
+* **stemcell** [Hash, optional]: Stemcell for which the release is compiled (recommended for compiled releases).
+    * **os** [String, required]: Operating system of the stemcell. Example: `ubuntu-xenial`.
+    * **version** [String, required]: Version of the stemcell. Example: `97.18`.
 
 See [Release URLs](release-urls.md) for more details.
 
@@ -78,6 +81,19 @@ releases:
   sha1: 2c876303dc6866afb845e728eab58abae8ff3be2
 ```
 
+Example with a compiled release:
+
+```yaml
+releases:
+- name: cf-mysql
+  version: 36.15.0
+  url: https://storage.googleapis.com/cf-deployment-compiled-releases/cf-mysql-36.15.0-ubuntu-xenial-97.18-20181006-041256-899428687.tgz
+  sha1: 6466c44827c3493645ca34b084e7c21de23272b4
+  stemcell:
+    os: ubuntu-xenial
+    version: 97.18
+```
+
 ---
 ## Stemcells Block {: #stemcells }
 
@@ -88,7 +104,8 @@ releases:
 * **version** [String, required]: The version of a matching stemcell. Version can be `latest`.
 * **name** [String, optional]: Full name of a matching stemcell. Either `name` or `os` keys can be specified.
 
-Note: `url` key is not supported in stemcells block because there is no single stemcell that works on all IaaSes. Since we want to keep deployment manifests decoupled from any cloud specific declarations we do not allow specifying URL.
+!!! tip "IaaS-agnostic Configuration"
+    To ensure your manifest can easily be used across multiple IaaSes, prefer using `os` instead of the IaaS-specific `name` field. Note: unlike `releases`, this does not support automatic downloading of a stemcell through a `url` field.
 
 Example:
 
@@ -152,7 +169,7 @@ update:
     * **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job. Only properties specified here will be provided to the job.
 * **vm_type** [String, required]: A valid VM type name from the cloud config. Alternatively you can specify `vm_resources` key.
 * **vm_extensions** [Array, optional]: A valid list of VM extension names from the cloud config.
-* **vm_resources** [Hash, optional]: Specifies generic VM resources such as CPU, RAM and disk size that are automatically translated into correct VM cloud properties to determine VM size. VM size is determined on best effort basis as some IaaSes may not support exact size configuration. Currently some CPIs (Google) do not support this functionality. Available in bosh-release v264+.
+* **vm_resources** [Hash, optional]: Specifies generic VM resources such as CPU, RAM and disk size that are automatically translated into correct VM cloud properties to determine VM size. VM size is determined on best effort basis as some IaaSes may not support exact size configuration. Available in bosh-release v264+.
     * **cpu** [Integer, required]: Number of CPUs.
     * **ram** [Integer, required]: Amount of RAM in MB.
     * **ephemeral\_disk\_size** [Integer, required]: Ephemeral disk size in MB.

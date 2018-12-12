@@ -6,19 +6,14 @@ title: OpenStack
 
 The `openstack` CPI can be used with [OpenStack](https://www.openstack.org).
 
- * Release: [cloudfoundry-incubator/bosh-openstack-cpi-release](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release)
- * Issues: [GitHub Issues](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release/issues)
+ * Release: [cloudfoundry/bosh-openstack-cpi-release](https://github.com/cloudfoundry/bosh-openstack-cpi-release)
+ * Issues: [GitHub Issues](https://github.com/cloudfoundry/bosh-openstack-cpi-release/issues)
  * Slack: [cloudfoundry#openstack](https://cloudfoundry.slack.com/messages/openstack)
 
 
 ## Requirements
 
-An OpenStack environment running one of the following supported releases:
-
-  * [Mitaka](http://www.openstack.org/software/mitaka) (actively tested)
-  * [Newton](http://www.openstack.org/software/newton) (actively tested)
-  * [Ocata](http://www.openstack.org/software/ocata) (actively tested)
-  * [Pike](http://www.openstack.org/software/pike) (actively tested)
+An OpenStack environment that is [supported by the CPI](https://github.com/cloudfoundry/bosh-openstack-cpi-release#supported-openstack-versions).
 
 And the following OpenStack services:
 
@@ -27,11 +22,11 @@ And the following OpenStack services:
  * [Compute](https://www.openstack.org/software/releases/latest/components/nova):
    BOSH boots new VMs, assigns floating IPs to VMs
  * [Image](https://www.openstack.org/software/releases/latest/components/glance):
-   BOSH stores stemcells using the Image service.
+   BOSH stores stemcells using the Image service. As of v40 of the OpenStack CPI, v2 of the Image service is required.
  * *(Optional)* [OpenStack Networking](https://www.openstack.org/software/releases/latest/components/neutron):
    Provides network scaling and automated management functions that are useful when deploying complex distributed systems. **Note:** OpenStack networking is used as default as of v28 of the OpenStack CPI.
  * *(Optional)* [OpenStack Block Storage](https://www.openstack.org/software/releases/latest/components/cinder):
-   BOSH creates persistent volumes. While it is technically possible to use BOSH on OpenStack without block storage, you won't get persistent volumes without it.
+   BOSH creates persistent volumes. While it is technically possible to use BOSH on OpenStack without block storage, you won't get persistent volumes without it. As of v40 of the OpenStack CPI, v2 of the Block Storage service is required.
 
 ## Concepts
 
@@ -71,5 +66,6 @@ The CPI supports multiple NICs being attached to a single VM.
 
 | Feature | Support |
 | ------- | ------- |
-| Multi-CPI | Supported, [v31](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release/releases/tag/v31)+ |
-| Native Disk Resize | Supported, [v33](https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release/releases/tag/v33)+ |
+| Multi-CPI | Supported, [v31](https://github.com/cloudfoundry/bosh-openstack-cpi-release/releases/tag/v31)+ |
+| Native Disk Resize | Supported, [v33](https://github.com/cloudfoundry/bosh-openstack-cpi-release/releases/tag/v33)+ |
+| Generic VM Resource Configuration | Supported, [v31](https://github.com/cloudfoundry/bosh-openstack-cpi-release/releases/tag/v31)+ |

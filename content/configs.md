@@ -23,7 +23,10 @@ One of the use cases for providing such open ended functionality is to provide s
 To add or update a config on the Director use the [`bosh update-config`](cli-v2.md#update-config) CLI command. If you do not provide a name using the `--name` option, `default` will be used.
 
 ```shell
-$ bosh update-config my-type configs.yml
+bosh update-config my-type configs.yml
+```
+
+```text
 Using environment '192.168.50.6' as client 'admin'
 
 + configs:
@@ -37,8 +40,13 @@ Using environment '192.168.50.6' as client 'admin'
 Continue? [yN]: y
 
 Succeeded
+```
 
-$ bosh config my-type
+```shell
+bosh config my-type
+```
+
+```text
 Using environment '192.168.56.6' as client 'admin'
 
 configs:
@@ -53,7 +61,10 @@ configs:
 Or you could split them into different "branches" using the `--name` option.
 
 ```shell
-$ bosh update-config my-type --name=team-a config-a.yml
+bosh update-config my-type --name=team-a config-a.yml
+```
+
+```text
 Using environment '192.168.50.6' as client 'admin'
 
 + configs:
@@ -64,8 +75,13 @@ Using environment '192.168.50.6' as client 'admin'
 Continue? [yN]: y
 
 Succeeded
+```
 
-$ bosh config my-type --name=team-a
+```shell
+bosh config my-type --name=team-a
+```
+
+```text
 Using environment '192.168.56.6' as client 'admin'
 
 configs:
@@ -74,12 +90,11 @@ configs:
       ...
 
 Succeeded
+```
 
-$ bosh update-config my-type --name=team-b config-b.yml
-...
-
-$ bosh config my-type --name=team-b
-...
+```shell
+bosh update-config my-type --name=team-b config-b.yml
+bosh config my-type --name=team-b
 ```
 
 ---
@@ -88,7 +103,10 @@ $ bosh config my-type --name=team-b
 To list all configs use the [`bosh configs`](cli-v2.md#configs) CLI command.
 
 ```shell
-$ bosh configs my-type
+bosh configs my-type
+```
+
+```text
 Using environment '192.168.50.6' as client 'admin'
 
 Type     Name
@@ -104,7 +122,10 @@ Succeeded
 You can also filter configs by `type` and/or `name`:
 
 ```shell
-$ bosh configs --type=my-type --name=team-a
+bosh configs --type=my-type --name=team-a
+```
+
+```text
 Using environment '192.168.50.6' as client 'admin'
 
 Type     Name
@@ -119,5 +140,5 @@ my-type  team-a
 To delete configs use the [`bosh delete-config`](cli-v2.md#delete-config) CLI command. If you do not provide a name using the `--name=` option, `default` will be used.
 
 ```shell
-$ bosh delete-config my-type
+bosh delete-config my-type
 ```

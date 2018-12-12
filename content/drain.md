@@ -74,24 +74,38 @@ This is important when the node is part of a cluster and needs to gracefully
 say goodbye to its pairs before leaving forever.
 
 When the drain script is run before the node is deleted, then the new
-persistent disk size is zero. For exemple, you would be able to see these
+persistent disk size is zero. For example, you would be able to see these
 values when `echo`ing them.
 
-```bash
-$ cat /var/vcap/jobs/my-job/bon/drain
+```shell
+cat /var/vcap/jobs/my-job/bon/drain
 (
   echo BOSH_JOB_STATE=$BOSH_JOB_STATE
   echo BOSH_JOB_NEXT_STATE=$BOSH_JOB_NEXT_STATE
-) \
-  > /var/vcap/sys/log/my-job/drain.stdout.log
-$ cat /var/vcap/sys/log/my-job/drain.stdout.log
-BOSH_JOB_STATE={"persistent_disk":2048}
-BOSH_JOB_NEXT_STATE={"persistent_disk":0}
+) > /var/vcap/sys/log/my-job/drain.stdout.log
+```
+
+```shell
+cat /var/vcap/sys/log/my-job/drain.stdout.log
+# BOSH_JOB_STATE={"persistent_disk":2048}
+# BOSH_JOB_NEXT_STATE={"persistent_disk":0}
 ```
 
 You'll find [here](https://github.com/cloudfoundry-incubator/cfcr-etcd-release/blob/master/jobs/etcd/templates/bin/drain.erb)
-an exemple script for an etcd member to leave its etcd cluster gracefully.
+an example script for an etcd member to leave its etcd cluster gracefully.
 
+---
+## Command-line arguments {: #command-line-arguments }
+
+The first argument passed to the drain script indicates the intended job lifecycle action.
+It can have the following values (note: "job" here actually means "instance"):
+* `job_changed` indicating that the instance will be restarted
+* `job_shutdown` indicating that the instance will be stopped and subsequently the VM will terminated
+
+The second arguemnt passed to the drain script indicates whether the job hash has changed.
+It can have the following values:
+* `hash_changed` indicating that the job's packages or rendered templates have changed.
+* `hash_unchanged` indicating that the job's packages and rendered templates have not changed.
 
 ---
 ## Logs {: #logs }
@@ -102,7 +116,7 @@ Currently logs from the drain script are not saved on disk by default, though re
 ## Examples {: #example }
 
 ### Load-balancer
-```bash
+```shell
 #!/bin/bash
 
 # check if the process is running
@@ -121,7 +135,7 @@ echo 15; exit 0
 ```
 
 # Stateful distributed job
-```bash
+```shell
 #!/bin/bash
 
 # check if the process is running

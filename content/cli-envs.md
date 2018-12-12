@@ -13,8 +13,10 @@ An environment consists of a Director and deployments that it orchestrates.
 Here is an example output which shows creation of a new VM and deployment of the Director onto it:
 
 ```shell
-$ bosh create-env bosh.yml --state=bosh.json -o ... -v ...
+bosh create-env bosh.yml --state=bosh.json -o ... -v ...
+```
 
+```text
 Deployment manifest: 'bosh.yml'
 Deployment state: 'bosh.json'
 
@@ -65,19 +67,22 @@ Finished deploying (00:04:37)
 Once Director VM is created you can check its basic information:
 
 ```shell
-$ bosh -e 10.0.0.6 --ca-cert <(bosh int creds.yml --path /director_ssl/ca) env
+bosh -e 10.0.0.6 --ca-cert <(bosh int creds.yml --path /director_ssl/ca) env
 ```
 
 Instead of specifying Director VM address via `--environment` (`-e`) flag and a CA certificate via `--ca-cert` flag in subsequent commands, a local alias can be created for environment with `bosh alias-env` command.
 
 ```shell
-$ bosh alias-env aws -e 10.0.0.6 --ca-cert <(bosh int creds.yml --path /director_ssl/ca)
+bosh alias-env aws -e 10.0.0.6 --ca-cert <(bosh int creds.yml --path /director_ssl/ca)
 ```
 
 Use `bosh envs` command to list local aliases:
 
 ```shell
-$ bosh envs
+bosh envs
+```
+
+```text
 URL            Alias
 10.0.0.6       aws
 192.168.50.6   vbox
@@ -90,7 +95,7 @@ Succeeded
 Subsequent commands can just reference created alias.
 
 ```shell
-$ bosh -e aws env
+bosh -e aws env
 ```
 
 Alternatively you can set `export BOSH_ENVIRONMENT=aws` once instead of using `--environment` flag for each command.
@@ -134,8 +139,10 @@ If for some reason you've lost your deployment state file, or have not saved the
 Here is an example output:
 
 ```shell
-$ bosh delete-env bosh.yml --state=bosh.json -o ... -v ...
+bosh delete-env bosh.yml --state=bosh.json -o ... -v ...
+```
 
+```text
 Deployment manifest: 'bosh.yml'
 Deployment state: 'state.json'
 

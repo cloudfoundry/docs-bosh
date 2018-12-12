@@ -32,6 +32,18 @@ Schema for `cloud_properties` section used by manual network subnet:
 
 * **name** [String, required]: Name of the vSphere network. Example: `VM Network`.
 
+### Managed Networks ###
+Creates a T1 router and attaches it to T0 router. It will also create a virtual switch and attach it to the T1 router
+
+Schema for `cloud_properties` section used by managed network subnet:
+
+* **name** [String, required]: Name of the vSphere network. Example: `subnet-1`.
+* **t0_router_id** [String, required]: Id of T0 router to which T1 will be attached. Example: `7ef20c24-5adb-47bf-8553-f66c1cfd9614`.
+* **transport_zone_id** [String, required]: Transport Zone id where switch is going to be created. VMs must be created at the hosts within this TZ. Example: `ee1a4cd1-701e-43f0-a2a7-110984298f7c`.
+* **t1_name** [String, optional]: Name of T1 router. Example: `VM Router`.
+* **switch_name** [String, optional]: Name of the switch. Example: `VM Network`.
+* **ip_block_id** [String, optional]: Id of IP Block. IP block must be created beforehand. When netmask_bits is set, this is used to allocate subnet of given size. Example `53c98f6e-d6db-4652-b1ae-c85a5fcdccae` 
+
 **Note:** To assign a distributed virtual portgroup when
 there exists a standard virtual portgroup with the same name,
 prepend the distributed virtual switch's name followed by a slash to the
@@ -40,6 +52,12 @@ be required when working with VxRack. Available in v28+.
 
 **Note:** The name may also be an NSX opaque network. Available in v40+.
 
+**Note:** To use managed networks make sure enable_cpi_management is set for director
+```yaml
+director:
+  networks:
+    enable_cpi_management: true
+```
 Example of manual network:
 
 ```yaml
@@ -53,7 +71,41 @@ networks:
       name: VM Network
 ```
 
-vSphere CPI does not support dynamic or vip networks.
+Example of managed network with range:
+
+```yaml
+networks:
+- name: default
+  type: manual
+  managed: true
+  subnets:
+  - name: subnet-1
+    range: 10.10.0.0/24
+    cloud_properties:
+      t0_router_id: 7ef20c24-5adb-47bf-8553-f66c1cfd9614
+      transport_zone_id: ee1a4cd1-701e-43f0-a2a7-110984298f7c
+      t1_name: VM Router
+      switch_name: VM Network
+```
+
+Example of managed network with netmask_bits:
+
+```yaml
+networks:
+- name: default
+  type: manual
+  managed: true
+  subnets:
+  - name: Managed network
+    netmask_bits: 24
+    cloud_properties:
+      ip_block_id: 53c98f6e-d6db-4652-b1ae-c85a5fcdccae
+      t0_router_id: 7ef20c24-5adb-47bf-8553-f66c1cfd9614
+      transport_zone_id: ee1a4cd1-701e-43f0-a2a7-110984298f7c
+      t1_name: VM Router
+      switch_name: VM Network
+```
+vSphere CPI does not support dynamic and vip networks.
 
 ---
 ## VM Types / VM Extensions {: #resource-pools }
@@ -69,6 +121,7 @@ Schema for `cloud_properties` section:
 * **nested\_hardware\_virtualization** [Boolean, optional]: Exposes hardware assisted virtualization to the VM. Default: `false`.
 * **datastores** [Array, optional]: Allows operator to specify a list of ephemeral datastores, datastore clusters for the VM. Datastore names are exact datastore names and not regex patterns. At least one of these datastores must be accessible from clusters provided in `resource_pools.cloud_properties`/`azs.cloud_properties` or in the global CPI configuration. Available in v23+. Datastore Clusters can be specified as an array of datastore cluster names. Available in v47+
 * **datacenters** [Array, optional]: Used to override the VM placement specified under `azs.cloud_properties`. The format is the same as under [`AZs`](#azs).
+* **vm_group** [String, optional]: Name of VM Group this VM should be part of.
 * **nsx** [Dictionary, optional]: [VMware NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v30+ and NSX v6.1+.
     * **security_groups** [Array, optional]: A collection of [security group](https://pubs.vmware.com/NSX-6/index.jsp#com.vmware.nsx.admin.doc/GUID-16B3134E-DDF1-445A-8646-BB0E98C3C9B5.html) names that the instances should belong to. The CPI will create the security groups if they do not exist.
     BOSH will also automatically create security groups based on metadata such as deployment name and instance group name. The full list of groups can be seen under [create_vm's environment groups](cpi-api-v1.md#create-vm).
@@ -105,6 +158,7 @@ resource_pools:
     - name: my-dc
       clusters:
       - my-vsphere-cluster: {resource_pool: other-vsphere-res-pool}
+    vm_group: cpi-vm-group  
     nsx: # NSX-V configuration
       security_groups: [public, dmz]
       lbs:
@@ -205,12 +259,11 @@ Schema:
     * **password** [String, required]: The login password for the NSX-T server.
     * **ca_cert** [String, optional]: A CA certificate that can authenticate the NSX-T server certificate. **Required** if the NSX-T Manager has a self-signed SSL certificate. Must be in PEM format.
     * **default_vif_type** [String, optional]: Supported Types: `PARENT`. Default VIF type attached to logical port. Available in NSX-T v2.0+.
+    * **auth_certificate** [String, optional]: Certificate used for certificate-based authentication. Certificate-based authentication takes precedence over username/password if both are specified. Available in v51+.
+    * **auth_private_key** [String, optional]: Private key file used for certificate-based authentication. Available in v51+.
 
 !!! note
     If the NSX-V or NSX-T Manager has a self-signed certificate, the certificate must be set in the `ca_cert` property.
-
-!!! warning
-    If you are configuring these properties through a release manifest (i.e. not via [CPI config](cpi-config.md)), you should configure the vCenter endpoint using `address` instead of `host`.
 
 Example properties that will place VMs into `BOSH_CL` cluster within `BOSH_DC`:
 
@@ -326,7 +379,7 @@ with your vSphere resource pool(s).
 
 * Setting `enable_auto_anti_affinity_drs_rules` to true may cause `bosh deploy` to fail after the initial deployment if there are more VMs than hosts. A workaround is to set `enable_auto_anti_affinity_drs_rules` to false to perform subsequent deployments.
 
-* Support for specifying Datastore Clusters for ephemeral and persistent disks is available with vSphere CPI version v47 and above. For additional detais see [Release Notes for v47](https://github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release/releases/tag/v47)
+* Support for specifying Datastore Clusters for ephemeral and persistent disks is available with vSphere CPI version v47 and above. For additional detais see [Release Notes for v47](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/releases/tag/v47)
 
 ### VMs {: #vms }
 

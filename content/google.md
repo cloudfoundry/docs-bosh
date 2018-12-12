@@ -6,8 +6,8 @@ title: Google Cloud Platform
 
 The `google` CPI can be used with [Google Cloud Platform](https://cloud.google.com/).
 
- * Release: [cloudfoundry-incubator/bosh-google-cpi-release](https://github.com/cloudfoundry-incubator/bosh-google-cpi-release)
- * Issues: [GitHub Issues](https://github.com/cloudfoundry-incubator/bosh-google-cpi-release/issues)
+ * Release: [cloudfoundry/bosh-google-cpi-release](https://github.com/cloudfoundry/bosh-google-cpi-release)
+ * Issues: [GitHub Issues](https://github.com/cloudfoundry/bosh-google-cpi-release/issues)
  * Slack: [cloudfoundry#bosh-gce-cpi](https://cloudfoundry.slack.com/messages/bosh-gce-cpi)
 
 
@@ -49,3 +49,4 @@ The CPI does not support multiple NICs being attached to a VM.
 | ------- | ------- |
 | Multi-CPI | Not Supported |
 | Native Disk Resize | Not Supported |
+| Generic VM Resource Configuration | Supported, [v27.0.0](https://github.com/cloudfoundry/bosh-google-cpi-release/releases/tag/v27.0.0)+ |

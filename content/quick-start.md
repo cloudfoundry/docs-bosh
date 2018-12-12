@@ -17,20 +17,20 @@ Before trying to deploy the Director, make sure you have satisfied the following
 First, create a workspace for our `virtualbox` environment. This directory will keep some state and configuration files that we will need.
 
 ```shell
-$ mkdir -p ~/bosh-env/virtualbox
-$ cd ~/bosh-env/virtualbox
+mkdir -p ~/bosh-env/virtualbox
+cd ~/bosh-env/virtualbox
 ```
 
 Next, we'll use [bosh-deployment](https://github.com/cloudfoundry/bosh-deployment), the recommended installation method, to bootstrap our director.
 
 ```shell
-$ git clone https://github.com/cloudfoundry/bosh-deployment.git
+git clone https://github.com/cloudfoundry/bosh-deployment.git
 ```
 
 Now, we can run the [`virtualbox/create-env.sh`](https://github.com/cloudfoundry/bosh-deployment/blob/master/virtualbox/create-env.sh) script to create our test director and configure the environment with some defaults.
 
 ```shell
-$ ./bosh-deployment/virtualbox/create-env.sh
+./bosh-deployment/virtualbox/create-env.sh
 ```
 
 During the bootstrap process, you will see a few stages:
@@ -39,13 +39,18 @@ During the bootstrap process, you will see a few stages:
  * Adding Network Routes - a route to the virtual network is added to ensure you will be able to connect to BOSH-managed VMs.
  * Generating `.envrc` - a settings file is generated so you can easily connect to the environment later.
  * Configuring Environment Alias - an alias is added for the `bosh` command so you can reference the environment as `vbox`.
- * Updating Cloud Config - default settings are applied to the Director so you easily deploy software later.
+ * Updating Cloud Config - default settings are applied to the Director so you can easily deploy software later.
 
 After a few moments, BOSH should be started. To verify, first load your connection settings, and then run your first `bosh` command where you should see similar output.
 
 ```shell
-$ source .envrc
-$ bosh -e vbox env
+source .envrc
+bosh -e vbox env
+```
+
+Should result in:
+
+```text
 Using environment '192.168.50.6' as client 'admin'
 
 Name      bosh-lite
@@ -68,26 +73,26 @@ Run through quick steps below or follow [deploy workflow](basic-workflow.md) tha
 1. Update cloud config
 
     ```shell
-    $ bosh -e vbox update-cloud-config bosh-deployment/warden/cloud-config.yml
+    bosh -e vbox update-cloud-config bosh-deployment/warden/cloud-config.yml
     ```
 
 1. Upload stemcell
 
     ```shell
-    $ bosh -e vbox upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3468.17 \
+    bosh -e vbox upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3468.17 \
       --sha1 1dad6d85d6e132810439daba7ca05694cec208ab
     ```
 
 1. Deploy example deployment
 
     ```shell
-    $ bosh -e vbox -d zookeeper deploy <(wget -O- https://raw.githubusercontent.com/cppforlife/zookeeper-release/master/manifests/zookeeper.yml)
+    bosh -e vbox -d zookeeper deploy <(wget -O- https://raw.githubusercontent.com/cppforlife/zookeeper-release/master/manifests/zookeeper.yml)
     ```
 
 1. Run Zookeeper smoke tests
 
     ```shell
-    $ bosh -e vbox -d zookeeper run-errand smoke-tests
+    bosh -e vbox -d zookeeper run-errand smoke-tests
     ```
 
 ## Clean up
@@ -95,5 +100,5 @@ Run through quick steps below or follow [deploy workflow](basic-workflow.md) tha
 The test director can be deleted using the [`virtualbox/delete-env.sh`](https://github.com/cloudfoundry/bosh-deployment/blob/master/virtualbox/delete-env.sh) script.
 
 ```shell
-$ ./bosh-deployment/virtualbox/delete-env.sh
+./bosh-deployment/virtualbox/delete-env.sh
 ```

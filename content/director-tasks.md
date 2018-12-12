@@ -3,11 +3,15 @@ An operator uses the CLI to interact with the Director. Certain CLI commands res
 To find out if a CLI command has an associated Director task, look for "Director task [NUM]" in its output:
 
 ```shell
-$ bosh -d zookeeper deploy zookeeper.yml
+bosh -d zookeeper deploy zookeeper.yml
+```
+
+Should result in:
+
+```text
 Using deployment 'zookeeper'
 
 Task 766 # <---
-
 ...snip...
 ```
 
@@ -19,30 +23,33 @@ At any time the Director might be performing multiple tasks at once. Active task
 To see all currently active tasks:
 
 ```shell
-$ bosh tasks --no-filter
+bosh tasks
+```
 
+Should result in:
+
+```
 +-----+------------+-------------------------+-------+-------------------------------+--------+
 | #   | State      | Timestamp               | User  | Description                   | Result |
 +-----+------------+-------------------------+-------+-------------------------------+--------+
 | 766 | processing | 2015-01-27 21:39:30 UTC | admin | create deployment             |        |
 | 765 | queued     | 2015-01-27 21:35:02 UTC | admin | scheduled SnapshotDeployments |        |
 +-----+------------+-------------------------+-------+-------------------------------+--------+
-
-Total tasks running now: 2
 ```
 
-!!! note
-    <code>--no-filter</code> flag shows all tasks. Without that flag, the Director returns a subset of running tasks that it deems important.
 
 ### Joining tasks {: #join-active }
 
 Since Director tasks continue to run in the background even if the CLI has disconnected, you can rejoin a task at any time:
 
 ```shell
-$ bosh task 766
+bosh task 766
+```
 
+Should result in:
+
+```text
 Director task 766
-
 ...snip...
 ```
 
@@ -53,8 +60,12 @@ Tasks can be joined in different output modes:
 - `cpi`: detailed logs showing all requests and responses from the CPI
 
 ```shell
-$ bosh task 766 --debug
+bosh task 766 --debug
+```
 
+Should result in:
+
+```text
 Director task 766
 
 I, [2015-01-27T21:33:19.469158 #1769] [0x3fab30147330]  INFO -- TaskHelper: Director Version: 1.2811.0
@@ -70,7 +81,7 @@ D, [2015-01-27 21:33:21 #2725] [] DEBUG -- DirectorJobRunner: (0.001125s) SELECT
 Tasks can be cancelled before and while they are running. Canceling an active task will not take immediate effect; however, the Director will stop task execution at a next safe checkpoint. To cancel a task, either press `Ctrl+C` while tracking the task or run:
 
 ```shell
-$ bosh cancel task 766
+bosh cancel-task 766
 ```
 
 ---
@@ -81,8 +92,12 @@ The Director keeps a record of tasks that have finished. Finished tasks can be i
 To view recently finished tasks:
 
 ```shell
-$ bosh tasks recent
+bosh tasks --recent
+```
 
+Should result in:
+
+```
 +-----+-------+-------------------------+--------+--------------------------+-----------------------------------------------------------+
 | #   | State | Timestamp               | User   | Description              | Result                                                    |
 +-----+-------+-------------------------+--------+--------------------------+-----------------------------------------------------------+
@@ -97,10 +112,10 @@ $ bosh tasks recent
 Showing 30 recent tasks
 ```
 
-You can also run `bosh tasks recent [NUM]` to retrieve more tasks.
+You can also run `bosh tasks --recent=NUM` to retrieve more tasks.
 
 !!! note
-    <code>--no-filter</code> flag shows all tasks. Without that flag, the Director returns a subset of finished tasks that it deems important.
+    <code>--all</code> flag shows all tasks. Without that flag, the Director returns a subset of finished tasks that it deems important.
 
 ### Joining finished tasks {: #join-finished }
 

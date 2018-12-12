@@ -6,13 +6,13 @@ This document shows how to set up new [environment](terminology.md#environment) 
 
     ```shell
     # Create directory to keep state
-    $ mkdir bosh-1 && cd bosh-1
+    mkdir bosh-1 && cd bosh-1
 
     # Clone Director templates
-    $ git clone https://github.com/cloudfoundry/bosh-deployment
+    git clone https://github.com/cloudfoundry/bosh-deployment
 
     # Fill below variables (replace example values) and deploy the Director
-    $ bosh create-env bosh-deployment/bosh.yml \
+    bosh create-env bosh-deployment/bosh.yml \
         --state=state.json \
         --vars-store=creds.yml \
         -o bosh-deployment/vsphere/cpi.yml \
@@ -38,7 +38,7 @@ This document shows how to set up new [environment](terminology.md#environment) 
 
       - Configure `vcenter_ip` (e.g. '192.168.0.10') with the IP of the vCenter.
       - Configure `vcenter_user` (e.g. 'root') and `vcenter_password` (e.g. 'vmware') with vCenter user name and password.
-      BOSH does not require user to be an admin, but it does require the following [privileges](https://github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release/blob/master/docs/required_vcenter_privileges.md).
+      BOSH does not require user to be an admin, but it does require the following [privileges](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/blob/master/docs/required_vcenter_privileges.md).
       - Configure `vcenter_dc` (e.g. 'my-dc') with the name of the datacenter the Director will use for VM creation.
       - Configure `vcenter_vms` (e.g. 'my-bosh-vms') and `TEMPLATES-FOLDER-NAME` (e.g. 'my-bosh-templates') with the name of the folder created to hold VMs and the name of the folder created to hold stemcells. Folders will be automatically created under the chosen datacenter.
       - Configure `vcenter_ds` (e.g. 'datastore[1-9]') with a regex matching the names of potential datastores the Director will use for storing VMs and associated persistent disks.
@@ -53,14 +53,14 @@ This document shows how to set up new [environment](terminology.md#environment) 
 
     ```shell
     # Configure local alias
-    $ bosh alias-env bosh-1 -e 10.0.0.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
+    bosh alias-env bosh-1 -e 10.0.0.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
 
     # Log in to the Director
-    $ export BOSH_CLIENT=admin
-    $ export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
+    export BOSH_CLIENT=admin
+    export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
 
     # Query the Director for more info
-    $ bosh -e bosh-1 env
+    bosh -e bosh-1 env
     ```
 
 1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.md#deployment-state) for details.
