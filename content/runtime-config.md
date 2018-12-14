@@ -180,13 +180,13 @@ addons:
     release: my-addon-release
     properties:
       ...
-    include:
-      stemcell:
-      - os: ubuntu-xenial
-    exclude:
-      deployments:
-      - dep1
-      - dep2
+  include:
+    stemcell:
+    - os: ubuntu-xenial
+  exclude:
+    deployments:
+    - dep1
+    - dep2
 
 ```
 
@@ -202,20 +202,20 @@ addons:
     release: my-addon-release
     properties:
       ...
-    include:
-      deployments:
-      - dep3
-      stemcell:
-      - os: ubuntu-xenial
-      jobs:
-      - name: redis
-        release: redis-release
-    exclude:
-      stemcell:
-      - os: ubuntu-trusty
-      deployments:
-      - dep1
-      - dep2
+  include:
+    deployments:
+    - dep3
+    stemcell:
+    - os: ubuntu-xenial
+    jobs:
+    - name: redis
+      release: redis-release
+  exclude:
+    stemcell:
+    - os: ubuntu-trusty
+    deployments:
+    - dep1
+    - dep2
 ```
 
 The director will collocate `my-addon` to **ANY** VM that matches the following
