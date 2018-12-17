@@ -29,7 +29,9 @@ See [Environments](cli-envs.md).
     Succeeded
     ```
 
-- `bosh create-env manifest.yml [--state path] [-v ...] [-o ...] [--vars-store path]`
+##### create-env {: #create-env }
+
+    `bosh create-env manifest.yml [--state path] [-v ...] [-o ...] [--vars-store path]`
 
     Creates single VM based on the manifest. Typically used to create a Director environment. [Operation files](cli-ops-files.md) and [variables](cli-int.md) can be provided to adjust and fill in manifest before doing a deploy.
 
@@ -85,6 +87,7 @@ See [Environments](cli-envs.md).
     Succeeded
     ```
 
+<a id=delete-env />
 - `bosh delete-env manifest.yml [--state path] [-v ...] [-o ...] [--vars-store path]`
 
     Deletes previously created VM based on the manifest. Same flags provided to `create-env` command should be given to the `delete-env` command.
