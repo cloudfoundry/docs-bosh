@@ -665,7 +665,7 @@ See [CPI config](cpi-config.md).
 
 - `bosh -e my-env -d my-dep manifest` (Alias: `man`)
 
-    Prints deployment manifest to `stdout`.
+    Prints deployment manifest to `stdout`. In case a deployment failed, it will print the manifest of the last succesful deploy.
 
     ```shell
     bosh -e vbox -d cf man > /tmp/manifest.yml
