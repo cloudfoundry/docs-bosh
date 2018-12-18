@@ -355,7 +355,7 @@ See [Release Blobs](release-blobs.md) for a detailed workflow.
     bosh upload-blobs
     ```
 
-#### Sync-Blob {: #sync-blob }
+#### Sync-Blobs {: #sync-blobs }
 
 - `bosh sync-blobs`
 
