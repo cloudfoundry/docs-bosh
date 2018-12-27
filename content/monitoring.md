@@ -17,7 +17,6 @@ Health Monitor includes the following plugins:
 - Graphite: Sends events to [Graphite](https://graphite.readthedocs.org/en/latest/)
 - PagerDuty: Sends events to [PagerDuty.com](http://pagerduty.com) using their API
 - DataDog: Sends events to [DataDog.com](http://datadoghq.com) using their API
-- AWS CloudWatch: Sends events to [Amazon's CloudWatch](http://aws.amazon.com/cloudwatch/) using their API
 
 See [Configuring Health Monitor](hm-config.md) for detailed plugins' configuration.
 
