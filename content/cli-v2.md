@@ -1030,7 +1030,7 @@ See [CPI config](cpi-config.md).
 
 #### Run-Errand {: #run-errand }
 
-- `bosh -e my-env -d my-dep run-errand name [--keep-alive] [--when-changed] [--download-logs] [--logs-dir=dir] [--instance=instance-group/instance-id]``
+- `bosh -e my-env -d my-dep run-errand name [--keep-alive] [--when-changed] [--download-logs] [--logs-dir=dir] [--instance=instance-group/instance-id]`
 
     Runs errand job by name.
 
