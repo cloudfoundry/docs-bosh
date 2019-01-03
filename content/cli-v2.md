@@ -344,7 +344,7 @@ See [Release Blobs](release-blobs.md) for a detailed workflow.
     bosh remove-blob stress/stress-1.0.4.tar.gz
     ```
 
-#### Upload-Blob {: #upload-blob }
+#### Upload-Blobs {: #upload-blobs }
 
 - `bosh upload-blobs`
 
@@ -1163,7 +1163,7 @@ See [CPI config](cpi-config.md).
 ---
 ### Deployment recovery {: #deployment-recovery }
 
-#### Update-Resurrection {: #Update-Resurrection }
+#### Update-Resurrection {: #update-resurrection }
 
 - `bosh -e my-env update-resurrection on/off`
 
