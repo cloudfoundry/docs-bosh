@@ -18,9 +18,9 @@ See [Environments](cli-envs.md).
     ```shell
     bosh envs
     ```
-    
+
     Should result in:
-    
+
     ```text
     URL              Alias
     104.154.171.255  gcp
@@ -66,6 +66,16 @@ See [Environments](cli-envs.md).
     bosh alias-env gcp -e 10.0.0.6 --ca-cert <(bosh int creds.yml --path /director_ssl/ca)
     ```
 
+#### Unalias-Env {: #unalias-env }
+
+- `bosh unalias-env ENV-NAME`
+
+    Remove an aliased environment. You can get list of aliases from `bosh envs`
+
+    ```shell
+    bosh unalias-env vbox
+    ```
+
 #### Environment {: #environment }
 
 - `bosh -e location environment` (Alias: `env`)
@@ -75,7 +85,7 @@ See [Environments](cli-envs.md).
     ```shell
     bosh -e vbox env
     ```
-    
+
     Should result in:
 
     ```text
@@ -154,9 +164,9 @@ See [Uploading Stemcells](uploading-stemcells.md).
     ```shell
     bosh -e my-env ss
     ```
- 
+
     Should result in:
-    
+
     ```text
     Using environment '192.168.56.6' as '?'
 
@@ -207,6 +217,16 @@ See [Uploading Stemcells](uploading-stemcells.md).
     Produces new stemcell tarball with updated properties such as name, version, and cloud properties.
 
     See [Repacking stemcells](repack-stemcell.md) for details.
+
+#### Inspect-Local-Stemcell {: #inspect-local-stemcell}
+
+- `bosh inspect-local-stemcell PATH`
+
+    Display information from stemcell metadata.
+
+    ```shell
+    bosh inspect-local-stemcell /path/to/bosh-stemcell-170.5-aws-xen-hvm-ubuntu-xenial-go_agent.tgz
+    ```
 
 ---
 ### Release creation {: #release-creation }
@@ -310,9 +330,9 @@ See [Release Blobs](release-blobs.md) for a detailed workflow.
     cd release-dir
     bosh blobs
     ```
-    
+
     Should result in:
-    
+
     ```text
     Path                               Size     Blobstore ID         Digest
     golang/go1.6.2.linux-amd64.tar.gz  81 MiB   f1833f76-ad8b-4b...  b8318b0...
@@ -380,9 +400,9 @@ See [Uploading Releases](uploading-releases.md).
     ```shell
     bosh -e my-env rs
     ```
-    
+
     Should result in:
- 
+
     ```text
     Using environment '192.168.56.6' as client 'admin'
 
@@ -460,9 +480,9 @@ See [Uploading Releases](uploading-releases.md).
     ```shell
     bosh -e gcp-test inspect-release consul/155
     ```
-    
+
     Should result in:
-    
+
     ```text
     Using environment '192.168.56.6' as client 'admin'
 
@@ -512,9 +532,9 @@ See [Configs](configs.md).
     ```shell
     bosh -e my-env configs
     ```
-    
+
     Should result in:
-    
+
     ```text
     Using environment '192.168.50.6' as client 'admin'
 
@@ -566,6 +586,22 @@ See [Configs](configs.md).
     ```shell
     bosh -e my-env delete-config --type=my-type
     bosh -e my-env delete-config --type=my-type --name=my-name
+    ```
+
+#### Diff-Config {: #diff-config }
+
+- `bosh -e my-env diff-config --type=my-type [--name=my-name]`
+
+    Diff two configs by ID or content.
+
+    - `--from-id` ID of first config to compare
+    - `--to-id` ID of second config to compare
+    - `--from-content` path to first config file to compare
+    - `--to-content` path to second config file to compare
+
+    ```shell
+    bosh -e my-env diff-config --from-id=1 --to-id=2
+    bosh -e my-env diff-config --from-content=/path/to/file1 --to-content=/path/to/file2
     ```
 
 ---
@@ -643,9 +679,9 @@ See [CPI config](cpi-config.md).
     ```shell
     bosh -e my-env ds
     ```
-    
+
     Should result in:
-    
+
     ```text
     Using environment '192.168.56.6' as client 'admin'
 
@@ -682,9 +718,9 @@ See [CPI config](cpi-config.md).
     ```shell
     bosh -e vbox -d cf dep
     ```
-    
+
     Should result in:
-    
+
     ```text
     Using environment '192.168.56.6' as client 'admin'
 
@@ -913,6 +949,16 @@ See [CPI config](cpi-config.md).
     bosh -e vbox -d cf delete-vm i-fs384238fjwjf8
     ```
 
+#### Orphaned-Vms {: #orphaned-vms }
+
+- `bosh -e my-env orphaned-vms`
+
+    List all the orphaned VMs for all deployments.
+
+    ```shell
+    bosh -e vbox orphaned-vms
+    ```
+
 ---
 ### Disks {: #disk-mgmt }
 
@@ -921,6 +967,16 @@ See [CPI config](cpi-config.md).
 - `bosh -e my-env -d my-dep disks [--orphaned]`
 
     Lists disks. Currently only supports `--orphaned` flag.
+
+#### Orphan-Disk {: #orphan-disk }
+
+- `bosh -e my-env orphan-disk DISK-CID`
+
+    Orphans a disk attached to an instance. You can get Disk-CID from `bosh instances --details`.
+
+    ```shell
+    bosh -e vbox orphan-disk xxxx-xxxx-xxxx
+    ```
 
 #### Attach-Disk {: #attach-disk }
 
@@ -941,6 +997,7 @@ See [CPI config](cpi-config.md).
     ```shell
     bosh -e vbox -d cf delete-disk vol-shw8f293f2f2
     ```
+
 
 ---
 ### SSH {: #ssh-mgmt }
@@ -1012,9 +1069,9 @@ See [CPI config](cpi-config.md).
     ```shell
     bosh -e vbox -d cf es
     ```
-    
+
     Should result in:
- 
+
     ```text
     Using environment '192.168.56.6' as '?'
 
@@ -1083,9 +1140,9 @@ See [CPI config](cpi-config.md).
     # currently active tasks for my-dep deployment
     bosh -e vbox -d my-dep ts
     ```
-    
+
     Should result in:
-    
+
     ```text
     Using environment '192.168.56.6' as '?'
 
@@ -1099,7 +1156,7 @@ See [CPI config](cpi-config.md).
 
     Succeeded
     ```
-    
+
     ```shell
     # show last 30 tasks
     bosh -e vbox ts -r --all
@@ -1184,6 +1241,29 @@ See [CPI config](cpi-config.md).
 - `bosh -e my-env locks`
 
     Lists current locks.
+
+---
+### Network {: #network}
+
+#### Networks {: #networks }
+
+- `bosh -e my-env networks`
+
+    List networks created by deployments.
+
+    ```shell
+    bosh -e vbox networks
+    ```
+
+#### Delete-Network {: #delete-network}
+
+- `bosh -e my-env delete-network NETWORK-NAME`
+
+    Deletes a network created during deployment. Check [CPI methods](https://bosh.io/docs/cpi-api-v1-method/create-network/#create_network) for more details
+
+    ```shell
+    bosh -e vbox delete-network network-name
+    ```
 
 ---
 ### Misc {: #misc }
