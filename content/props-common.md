@@ -99,9 +99,9 @@ variables:
 Following is a _suggested_ set of properties for environment proxy configuration:
 
 * **env** [Hash]
-    * **http_proxy** [String, optinal]: HTTP proxy that software should use. Default: not specified.
-    * **https_proxy** [String, optinal]: HTTPS proxy that software should use. Default: not specified.
-    * **no_proxy** [String, optinal]: List of comma-separated hosts that should skip connecting to the proxy in software. Default: not specified.
+    * **http_proxy** [String, optional]: HTTP proxy that software should use. Default: not specified.
+    * **https_proxy** [String, optional]: HTTPS proxy that software should use. Default: not specified.
+    * **no_proxy** [String, optional]: List of comma-separated hosts that should skip connecting to the proxy in software. Default: not specified.
 
 Example job spec:
 
