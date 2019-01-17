@@ -5,6 +5,9 @@ Here is an overview of the interactions between the CPI and the Agent on CloudSt
 * The CPI asks the IaaS to instantiate VM template, VMs, volumes and possibly other constructs (floating IPs, security groups, connect LBs, etc.)
 * The Agent is initially driven by the CPI through the bosh-registry, and then by the Director through NATS-based messaging. The registry provides Director-side metadata to the Agent.
 
+!!! note
+    If the CPI, Director and stemcell all support API version V2, [then the use of Bosh registry will be avoided](cpi-api-v2.md#reference-table-based-on-each-component-version). In this case, the agent will be initialized with enough information to configure the VM and all communication with the director is performed through NATS server.
+
 ![image](images/cpi-interactions-overview.png)
 
 <!--
@@ -160,6 +163,9 @@ The supported format of the metadata server by the bosh-agent is documented in [
 
 ----
 ### Registry {: #registry }
+
+!!! tip
+    As of CPI V2, the registry may be avoided if the stemcell API version is sufficient. See [CPI API V2](cpi-api-v2.md) and [CPI V2 Migration Guide](v2-migration-guide.md) for more information on how the CPI, Agent, and Director behave in a registry-less environment.
 
 The registry provides bosh-side metadata to the bosh agent.
 
