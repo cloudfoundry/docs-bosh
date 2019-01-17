@@ -75,6 +75,9 @@ The Director and the Agents communicate through a lightweight publish-subscribe 
 
 ### Registry {: #registry }
 
+!!! note
+    As of CPI V2, the registry may be avoided if the stemcell API version is sufficient. See [CPI API V2](cpi-api-v2.md) and [CPI V2 Migration Guide](v2-migration-guide.md) for more information on how the CPI, Agent, and Director behave in a registry-less environment.
+
 When the Director creates or updates a VM, it stores configuration information for the VM in the Registry so that it can be used during bootstrapping stage of the VM.
 
 ---
@@ -82,7 +85,7 @@ When the Director creates or updates a VM, it stores configuration information f
 
 This example shows how components interact when creating a new VM.
 
-### Creating a new VM {: #create-vm }
+### Creating a new VM with Registry {: #create-vm }
 
 ![image](images/deploy-sequence.png)
 
@@ -93,4 +96,15 @@ This example shows how components interact when creating a new VM.
 1. The Director uses CPI to update the Registry with the configuration information for the VM.
 1. The Agent running on the VM requests the configuration information for the VM from the Registry.
 1. The Registry responds with the IP addresses and IDs.
+1. The Agent uses the IP addresses and IDs to configure the VM.
+
+### Creating a new VM without Registry {: #create-vm-v2 }
+
+![image](images/deploy-sequence-registryless.png)
+
+1. Through the CLI, the operator takes an action (e.g. deploy for the first time, scaling up deployment) which requires creating a new VM.
+1. The CLI passes the instruction to the Director.
+1. The Director uses the CPI to tell the IaaS to launch a VM.
+1. The IaaS provides the Director with information (IP addresses and IDs) the Agent on the VM needs to configure the VM.
+1. The Director updates the Agent running on the VM with the IP addresses and IDs.
 1. The Agent uses the IP addresses and IDs to configure the VM.
