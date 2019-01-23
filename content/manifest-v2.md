@@ -196,8 +196,11 @@ update:
         * **ipv6** [Hash, optional]:
             * **enable** [Boolean, optional]: Force IPv6 enabled in kernel (this configuration is not necessary if one of the VM addresses is IPv6). Default: `false`.
         * **job_dir** [Hash, optional]:
-            * **tmpfs** [Boolean, optional]: Mount all directories which contain [rendered job templates on tmpfs](job-tmpfs.md). Default: `false`.
+            * **tmpfs** [Boolean, optional]: Mount all directories which contain [rendered job templates on tmpfs](creds-tmpfs.md). Default: `false`.
             * **tmpfs_size** [String, optional]: The size of the tmpfs mount. Accepted values are a number of bytes or a number with a suffix e.g. `64m` or `1g`. Default: `100m`.
+        * **agent** [Hash, optional]:
+            * **settings** [Hash, optional]:
+              * **tmpfs** [Boolean, optional]: Mount agent settings on a [tmpfs](creds-tmpfs.md) directory. Default: `false`.
 
 Example:
 

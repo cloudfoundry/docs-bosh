@@ -42,7 +42,7 @@ pages:
     - Running Errands: errands.md
     - VM Update Strategy: changing-deployment-vm-strategy.md
     - VM Anti-Affinity: vm-anti-affinity.md
-    - Credentials on tmpfs: job-tmpfs.md
+    - Credentials on tmpfs: creds-tmpfs.md
     - Troubleshooting:
       - Monitoring: monitoring.md
       - Process Monitoring with Monit: vm-monit.md
