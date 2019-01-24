@@ -1,6 +1,5 @@
 !!! tip "Beta Feature"
-    This `tmpfs` config method was first introduced in bosh [TODO: fill in
-    version](TODO) and stemcell [TODO: fill in version](TODO).
+    This `tmpfs` config method was first introduced in bosh [v268.5.0](https://github.com/cloudfoundry/bosh/releases/tag/v268.5.0) and stemcell [TODO: fill in version](TODO).
 
     It changes how job templates and/or agent configuration is placed on VMs, so
     it should be used with care. It prevents VMs from being rebooted. A reboot
