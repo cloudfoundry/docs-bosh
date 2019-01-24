@@ -7,11 +7,6 @@
 
     **This feature is only available on Linux stemcells!**
 
-In some environments we do not want credentials to be written to a physical disk
-and only ever want them to be resident in memory. The director has been able to
-avoid writing credentials to disk for some time now but they would be written to
-disk on the deployment VMs.
-
 Job configuration often contains credentials. In some environments we do not
 want these values to be written to a physical disk and only ever want them to be
 resident in memory. The director has been able to avoid writing credentials to
