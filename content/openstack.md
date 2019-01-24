@@ -37,12 +37,12 @@ The following table maps BOSH concepts to their OpenStack-native equivalents.
 | Availability Zone | [Availability Zone](https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/) |
 | Virtual Machine | [Instance](https://docs.openstack.org/nova/latest/user/launch-instances.html) |
 | Instance Type | [Flavor](https://docs.openstack.org/nova/latest/user/flavors.html) |
-| VM Config Metadata | BOSH Registry, [HTTP Metadata service](https://docs.openstack.org/nova/latest/user/metadata-service.html) or [Config Drive](https://docs.openstack.org/nova/latest/user/config-drive.html) |
 | Network Subnet | [Subnet](https://docs.openstack.org/neutron/latest/admin/intro-os-networking.html) |
 | Virtual IP | [Floating IP](https://docs.openstack.org/nova/latest/user/manage-ip-addresses.html) |
 | Persistent Disk | [Volume](https://docs.openstack.org/cinder/latest/cli/cli-manage-volumes.html) |
 | Disk Snapshot | [Volume Snapshot](https://docs.openstack.org/cinder/latest/cli/cli-manage-volumes.html) |
 | Stemcell | [Virtual Machine Image](https://docs.openstack.org/glance/latest/user/index.html) |
+| Agent Settings | [HTTP Metadata service](https://docs.openstack.org/nova/latest/user/metadata-service.html); [Config Drive](https://docs.openstack.org/nova/latest/user/config-drive.html); BOSH Registry |
 
 
 ## Feature Support
