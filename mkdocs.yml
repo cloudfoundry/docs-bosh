@@ -122,6 +122,20 @@ pages:
     - Composing YAML:
       - Interpolating Variables: cli-int.md
       - Creating Ops Files: cli-ops-files.md
+  - Core Concepts:
+    - Overview: guide/architecture/index.md
+    - Director API: guide/architecture/api.md
+    - Director Worker: guide/architecture/worker.md
+    - Health Monitor: guide/architecture/health-monitor.md
+    - Scheduler: guide/architecture/scheduler.md
+    - NATS: guide/architecture/nats.md
+    - Database: guide/architecture/database.md
+    - Blobstore: guide/architecture/blobstore.md
+    - Config Server: guide/architecture/config-server.md
+    - Registry: guide/architecture/registry.md
+    - Agent: guide/architecture/agent.md
+    - DNS: guide/architecture/dns.md
+    - BPM: guide/architecture/bpm.md
   - Advanced Networking:
     - Multi-Cloud Support:
       - Using CPI Config: cpi-config.md
