@@ -124,6 +124,7 @@ pages:
       - Creating Ops Files: cli-ops-files.md
   - Core Concepts:
     - Overview: guide/architecture/index.md
+    - CLI: guide/architecture/cli.md
     - Director API: guide/architecture/api.md
     - Director Worker: guide/architecture/worker.md
     - Health Monitor: guide/architecture/health-monitor.md

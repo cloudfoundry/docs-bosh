@@ -64,12 +64,17 @@ The [blobstore](blobstore.md) is used, primarily, as a download source of packag
 !!! tip
     All interactions with the blobstore rely on checksum verification to ensure the integrity of assets.
 
+ * Transport: HTTPS
+ * Authentication: Mutual TLS
+
 
 ### Registry
 
 !!! tip
-    The registry is being deprecated with newer versions of director, stemcells, and CPIs.
+    The registry is being deprecated with recent versions of director, stemcells, and CPIs.
 
+ * Transport: HTTP
+ * Authentication: Username, Password
 
 ## Additional Reading
 

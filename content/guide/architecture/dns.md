@@ -4,7 +4,7 @@ With services being distributed across many VMs, BOSH provides a DNS server whic
 
 The DNS server is designed to run locally on VMs, however it is not pre-installed on the stemcell like the [agent](agent.md) is. Typically the DNS service is configured via [runtime config](../../runtime-config.md) ([example](https://github.com/cloudfoundry/bosh-deployment/blob/master/runtime-configs/dns.yml)) which ensures the `bosh-dns` job is installed on every VM.
 
-In addition to a DNS server running on the VM, it also has a component to relay
+In addition to a DNS server running on the VM, a separate process provides a lightweight HTTPS server API to expose healthiness of a VM and its processes. Remote BOSH DNS servers can then query the health server to know if it should be consider healthy.
 
 
 ## Service Dependencies
@@ -14,15 +14,24 @@ In addition to a DNS server running on the VM, it also has a component to relay
 
 Because BOSH approaches the problem in a fully distributed, fault tolerant manner, the DNS server assumes it can find a copy of VM profiles on the local machine. The [agent](agent.md) is responsible for managing and updating the file (`/var/vcap/instance/dns/records.json`) and the DNS server reloads its host configuration whenever there are changes.
 
+ * Transport: Local Filesystem
+ * Security: n/a
+
 
 ### Recursors
 
 When the DNS server receives a query for a non-BOSH hostname, it will forward those requests to remote recursors. By default, the recursors configured by the operating system will be used. Alternatively, they can be explicitly defined when configuring the `bosh-dns` job.
 
+ * Transport: DNS via TCP, UDP
+ * Security: none
+
 
 ### Remote Healthiness
 
-In order to support limiting DNS responses to healthy IPs, 
+In order to support limiting DNS responses to healthy IPs, the DNS server will attempt to communicate with its healthiness server on the remote VMs.
+
+ * Transport: HTTPS
+ * Authentication: Mutual TLS
 
 
 ## Additional Resources
