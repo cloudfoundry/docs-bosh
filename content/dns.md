@@ -177,6 +177,73 @@ link("db").instances[0].address => "ef489dd9-48f6-45f0-b7af-7f3437919b17.db.defa
 Similar to how [links are affected](dns.md#links), `spec.address` will start returning DNS address once `use_dns_addresses` feature is enabled.
 
 ---
+## Short DNS addresses
+
+Short DNS addresses enable encoding instance-group and deployment as a short
+encoding (see `g-*` in [Constructing DNS Queries](dns.md#constructing-queries)).
+
+This can be configured per deployment by adding the following to the deployment manifest:
+```yaml
+...
+features:
+  use_short_dns_addresses: true
+``````
+
+---
+## Link DNS names
+
+This feature flag switches from instance-group health semantics to job health
+semantics.
+
+If you turn on this feature flag, the addresses that are filled in
+by link consumption will instead refer to the link that was consumed itself and
+will have health semantics that only care about the providing job's health
+status. Without this feature flag, link addresses that are consumed will provide a DNS
+name that resolves to an instance group with instance-group-based health
+semantics.
+
+For example, if you had a manifest like the following:
+
+```yaml
+instance_groups:
+- name: zookeeper
+  jobs:
+  - name: zookeeper
+    release: zookeeper
+    consumes:
+      peers: { as: peer_conn }
+...
+```
+
+And in a template it consumes that link address:
+
+```erb
+<%= link("peer_conn").address %>
+```
+
+Without `use_link_dns_names` the address helper above would return a hostname
+that will resolve to the IP addresses of healthy VMs containing the job providing the
+`peers` link. In this case, "healthy" is a VM where all jobs are considered
+healthy.
+
+With `use_link_dns_names` set to `true` the address helper above would return a
+hostname that will resolve to the IP addresses of VMs containing a healthy job
+providing the `peers` link. In this case, "healthy" is a VM where the
+link-providing job is healthy as defined by its [healthy
+executable](dns.md#healthiness).
+
+Turning on the `use_link_dns_names` feature flag automatically enables the
+`use_dns_addresses` and `use_short_dns_addresses` feature flags as well, as it
+requires them to work. Explicit settings will raise an error if they result in a conflict.
+
+This can be configured per deployment by adding the following to the deployment manifest:
+```yaml
+...
+features:
+  use_link_dns_names: true
+```
+
+---
 ## Migrating from PowerDNS {: #migrate-powerdns }
 
 Historically BOSH users did not have an easy highly available solution to enable DNS for their deployments. PowerDNS was a possible choice; however, it required more advanced configuration that we felt comfortable recommending to everyone. We are planning to deprecate and remove PowerDNS integration. To migrate from PowerDNS to native DNS:
