@@ -14,9 +14,12 @@ To update cloud config on the Director use [`bosh update-cloud-config` command](
     See [example cloud config](#example) for AWS below.
 
 ```shell
-$ bosh -e vbox update-cloud-config cloud.yml
+bosh -e vbox update-cloud-config cloud.yml
 
-$ bosh -e vbox cloud-config
+bosh -e vbox cloud-config
+```
+
+```text
 Acting as user 'admin' on 'micro'
 
 azs:
@@ -32,7 +35,10 @@ azs:
 Once cloud config is updated, all existing deployments will be considered outdated, as indicated by [`bosh deployments` command](cli-v2.md#deployments). The Director will apply cloud config changes to each deployment during the next run of `bosh deploy` command for that deployment.
 
 ```shell
-$ bosh -e vbox deployments
+bosh -e vbox deployments
+```
+
+```text
 Using environment '192.168.56.6' as '?'
 
 Name       Release(s)       Stemcell(s)             Team(s)  Cloud Config

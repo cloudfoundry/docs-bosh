@@ -14,9 +14,11 @@ To update CPI config on the Director use [`bosh update-cpi-config`](cli-v2.md#up
     See [example CPI config](#example) below.
 
 ```shell
-$ bosh update-cpi-config cpis.yml
+bosh update-cpi-config cpis.yml
+bosh cpi-config
+```
 
-$ bosh cpi-config
+```text
 Using environment '192.168.56.6' as client 'admin'
 
 cpis:
@@ -119,6 +121,9 @@ azs:
 ...
 ```
 
+!!! note
+    Each AZ must be configured with a `cpi`.
+
 Example of a CPI config referencing two separate vSphere installations:
 
 ```yaml
@@ -170,6 +175,6 @@ azs:
 ## CPI Specific Stemcells {: #stemcells }
 Stemcells need to be assigned to a specific CPI and it occurs on upload. If you've already uploaded an appropriate stemcell you'll need to re-upload with `--fix`
 
-```bash
+```shell
 bosh upload-stemcell .tgz --fix
 ```

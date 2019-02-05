@@ -52,7 +52,7 @@ blobstore:
 
 **config/private.yml**
 
-By default, your [Application Default Credentials](https://cloud.google.com/docs/authentication/production#providing_credentials_to_your_application) will be used. Alternatively, create a `config/private.yml` file to use a separate JSON key:
+By default, your [Application Default Credentials](https://cloud.google.com/docs/authentication/production#providing_credentials_to_your_application) will be used. Alternatively, create a `config/private.yml` file to use a separate JSON key. When using a separate JSON key, ensure that the service account has the privilege "Storage Legacy Bucket Owner" for the GCS bucket:
 
 ```yaml
 ---

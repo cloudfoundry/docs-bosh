@@ -1,11 +1,11 @@
-This document shows how to create new [environment](terminology.md#environment) on SoftLayer.
+This document shows how to create a new [environment](terminology.md#environment) on IBM Cloud Infrastructure (previously called SoftLayer).
 
-## Step 1: Prepare a SoftLayer Environment {: #prepare }
+## Step 1: Prepare an IBM Cloud Infrastructure Environment {: #prepare }
 
-To prepare your SoftLayer environment:
+To prepare your IBM Cloud Infrastructure environment:
 
 * [Create a SoftLayer account](#account)
-* [Generate an API Key](#api-key)
+* [Generate a SoftLayer API Key](#api-key)
 * [Access SoftLayer VPN](#vpn)
 * [Order VLANs](#vlan)
 
@@ -34,27 +34,29 @@ VLANs provide the ability to partition devices and subnets on the network. To or
 ---
 ## Step 2: Deploy {: #deploy }
 
-1. Install [CLI v2](cli-v2.md).
+1. Install [BOSH CLI v2](cli-v2.md).
 
-1. Establish VPN connection between your host and SoftLayer. The machine where to run CLI needs to communicate with the target Director VM over the SoftLayer private network.
+2. Establish VPN to make sure you can connect to IBM Cloud Infrastructure over private network from your workstation where to run BOSH CLI. 
 
-1. Use `bosh create-env` command to deploy the Director.
+3. Apply a portable IP from Softlayer. Let's say it's `10.0.0.6`.
+
+4. Use `bosh create-env` command to deploy the Director.
 
     ```shell
-    # Create directory to keep state
-    $ mkdir bosh-1 && cd bosh-1
+    # Create a worksapce directory to keep state
+    mkdir -p bosh-workspace && cd bosh-workspace
 
     # Clone Director templates
-    $ git clone https://github.com/cloudfoundry/bosh-deployment
+    git clone https://github.com/cloudfoundry/bosh-deployment
 
     # Fill below variables (replace example values) and deploy the Director
-    $ sudo bosh create-env bosh-deployment/bosh.yml \
+    sudo bosh create-env bosh-deployment/bosh.yml \
         --state=state.json \
         --vars-store=creds.yml \
-        -o bosh-deployment/softlayer/cpi.yml \
-        -v director_name=bosh-1 \
-        -v internal_cidr=10.0.0.0/24 \
-        -v internal_gw=10.0.0.1 \
+        -o bosh-deployment/softlayer/cpi.yml \  
+        -v director_name=bosh \
+        -v internal_cidr=10.0.0.0/24 \        
+        -v internal_gw=10.0.0.1 \             
         -v internal_ip=10.0.0.6 \
         -v sl_datacenter= \
         -v sl_vm_domain= \
@@ -65,21 +67,18 @@ VLANs provide the ability to partition devices and subnets on the network. To or
         -v sl_api_key=
     ```
 
-    !!! note
-        The reason why need to run `bosh create-env` command with sudo is that it needs to update `/etc/hosts` file which needs suffient permission.
-
-1. Connect to the Director.
+5. Connect to the Director.
 
     ```shell
     # Configure local alias
-    $ bosh alias-env bosh-1 -e 10.0.0.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
+    bosh alias-env bosh-1 -e 10.0.0.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
 
     # Log in to the Director
-    $ export BOSH_CLIENT=admin
-    $ export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
+    export BOSH_CLIENT=admin
+    export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
 
     # Query the Director for more info
-    $ bosh -e bosh-1 env
+    bosh -e bosh-1 env
     ```
 
-1. Save the deployment state files left in your deployment directory `bosh-1` so you can later update/delete your Director. See [Deployment state](cli-envs.md#deployment-state) for details.
+6. Save the deployment state files stored in your workspace directory `bosh-workspace` for future update/deletion. See [Deployment state](cli-envs.md#deployment-state) for details.

@@ -1,7 +1,7 @@
 BOSH Command Line Interface (CLI) is used to interact with the Director. The CLI is written in Ruby and is distributed via `bosh_cli` gem.
 
 ```shell
-$ gem install bosh_cli --no-ri --no-rdoc
+gem install bosh_cli --no-ri --no-rdoc
 ```
 
 !!! note
@@ -14,7 +14,7 @@ If gem installation does not succeed, make sure pre-requisites for your OS are m
 Make sure following packages are installed:
 
 ```shell
-$ sudo apt-get install build-essential ruby ruby-dev libxml2-dev libsqlite3-dev libxslt1-dev libpq-dev libmysqlclient-dev zlib1g-dev
+sudo apt-get install build-essential ruby ruby-dev libxml2-dev libsqlite3-dev libxslt1-dev libpq-dev libmysqlclient-dev zlib1g-dev
 ```
 
 Make sure `ruby` and `gem` binaries are on your path before continuing.
@@ -24,7 +24,7 @@ Make sure `ruby` and `gem` binaries are on your path before continuing.
 Make sure following packages are installed:
 
 ```shell
-$ sudo yum install gcc ruby ruby-devel mysql-devel postgresql-devel postgresql-libs sqlite-devel libxslt-devel libxml2-devel yajl-ruby
+sudo yum install gcc ruby ruby-devel mysql-devel postgresql-devel postgresql-libs sqlite-devel libxslt-devel libxml2-devel yajl-ruby
 ```
 
 ### Prerequisites on Mac OS X
@@ -43,8 +43,8 @@ You may see an error like this:
 Make sure you have installed Xcode and the command-line developer tools, and agreed to the license.
 
 ```shell
-$ xcode-select --install
-xcode-select: note: install requested for command line developer tools
+xcode-select --install
+# xcode-select: note: install requested for command line developer tools
 ```
 
 A window will pop up saying:
@@ -56,12 +56,12 @@ Choose Install to continue. Choose Get Xcode to install Xcode and the command li
 If you have successfully installed them, you will see this:
 
 ```shell
-$ xcode-select --install
-xcode-select: error: command line tools are already installed, use "Software Update" to install updates
+xcode-select --install
+# xcode-select: error: command line tools are already installed, use "Software Update" to install updates
 ```
 
 To agree to the license:
 
 ```shell
-$ sudo xcodebuild -license
+sudo xcodebuild -license
 ```

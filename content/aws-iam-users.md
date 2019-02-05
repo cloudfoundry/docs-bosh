@@ -36,4 +36,4 @@
 
     ![image](images/deploy-microbosh-to-aws/add-iam-inline-policy.png)
 
-    The CPI provides a [sample policy](https://github.com/cloudfoundry-incubator/bosh-aws-cpi-release/blob/master/docs/iam-policy.json) which supports all functionality provided by the CPI. Please review the policy to further limit unnecessary access for your environment.
+    The CPI provides a [sample policy](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/master/docs/iam-policy.json) which supports all functionality provided by the CPI. Please review the policy to further limit unnecessary access for your environment.

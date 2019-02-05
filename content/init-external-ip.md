@@ -7,7 +7,7 @@ When it's not desirable or possible to have a jumpbox, you can use following ste
 For CPIs that do not use registry (Google, vSphere, vCloud):
 
 ```shell
-$ bosh create-env bosh-deployment/bosh.yml \
+bosh create-env bosh-deployment/bosh.yml \
     -o ... \
     -o bosh-deployment/external-ip-not-recommended.yml \
     -v ... \
@@ -17,7 +17,7 @@ $ bosh create-env bosh-deployment/bosh.yml \
 Or for CPIs that do use registry (AWS, Azure, and OpenStack):
 
 ```shell
-$ bosh create-env bosh-deployment/bosh.yml \
+bosh create-env bosh-deployment/bosh.yml \
     -o ... \
     -o bosh-deployment/external-ip-with-registry-not-recommended.yml \
     -v ... \

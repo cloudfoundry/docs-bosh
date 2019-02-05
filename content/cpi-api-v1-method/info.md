@@ -12,3 +12,32 @@ No arguments
 
  * [Hash]: Information about the CPI.
     * `stemcell_formats` [Array of strings]: Stemcell formats supported by the CPI. Currently used in combination with `create_stemcell` by the Director to determine which CPI to call when uploading a stemcell.
+
+## Examples
+
+### API Request
+
+```json
+{
+ "method": "info",
+ "arguments": [],
+ "context": {
+   "director_uuid": "<director-uuid>",
+   "request_id": "<cpi-request-id>",
+ },
+}
+```
+
+### API Response
+
+```json
+{
+ "log": "",
+ "error": null,
+ "result": {
+   "stemcell_formats": [
+     "dummy"
+   ]
+ }
+}
+```

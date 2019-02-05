@@ -11,15 +11,15 @@ Follow below steps to get it running on locally on VirtualBox:
 
 1. Check that your machine has at least 8GB RAM, and 100GB free disk space. Smaller configurations may work.
 
-1. Install [CLI v2](cli-v2.md#install)
+1. Install [CLI v2](cli-v2-install.md)
 
 1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
     Known working version:
 
     ```shell
-    $ VBoxManage --version
-    5.1...
+    VBoxManage --version
+    # 5.1...
     ```
 
     Note: If you encounter problems with VirtualBox networking try installing [Oracle VM VirtualBox Extension Pack](https://www.virtualbox.org/wiki/Downloads) as suggested by [Issue 202](https://github.com/cloudfoundry/bosh-lite/issues/202). Alternatively make sure you are on VirtualBox 5.1+ since previous versions had a [network connectivity bug](https://github.com/concourse/concourse-lite/issues/9).
@@ -27,17 +27,15 @@ Follow below steps to get it running on locally on VirtualBox:
 1. Install Director VM
 
     ```shell
-    $ git clone https://github.com/cloudfoundry/bosh-deployment ~/workspace/bosh-deployment
-
-    $ mkdir -p ~/deployments/vbox
-
-    $ cd ~/deployments/vbox
+    git clone https://github.com/cloudfoundry/bosh-deployment ~/workspace/bosh-deployment
+    mkdir -p ~/deployments/vbox
+    cd ~/deployments/vbox
     ```
 
     Below command will try automatically create/enable Host-only network 192.168.50.0/24 ([details](https://github.com/cppforlife/bosh-virtualbox-cpi-release/blob/master/docs/networks-host-only.md)) and NAT network 'NatNetwork' with DHCP enabled ([details](https://github.com/cppforlife/bosh-virtualbox-cpi-release/blob/master/docs/networks-nat-network.md)).
 
     ```shell
-    $ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
+    bosh create-env ~/workspace/bosh-deployment/bosh.yml \
       --state ./state.json \
       -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
       -o ~/workspace/bosh-deployment/virtualbox/outbound-network.yml \
@@ -57,30 +55,29 @@ Follow below steps to get it running on locally on VirtualBox:
 1. Alias and log into the Director
 
     ```shell
-    $ bosh alias-env vbox -e 192.168.50.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
-    $ export BOSH_CLIENT=admin
-    $ export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
+    bosh alias-env vbox -e 192.168.50.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
+    export BOSH_CLIENT=admin
+    export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
     ```
 
 1. Confirm that it works
 
     ```shell
-    $ bosh -e vbox env
-    Using environment '192.168.50.6' as '?'
-
-    Name: ...
-    User: admin
-
-    Succeeded
+    bosh -e vbox env
+    # Using environment '192.168.50.6' as '?'
+    #
+    # Name: ...
+    # User: admin
+    # Succeeded
     ```
 
 1. Optionally, set up a local route for `bosh ssh` commands or accessing VMs directly
 
     ```shell
-    $ sudo route add -net 10.244.0.0/16     192.168.50.6 # Mac OS X
-    $ sudo ip route add   10.244.0.0/16 via 192.168.50.6 # Linux (using iproute2 suite)
-    $ sudo route add -net 10.244.0.0/16 gw  192.168.50.6 # Linux (using DEPRECATED route command)
-    $ route add           10.244.0.0/16     192.168.50.6 # Windows
+    sudo route add -net 10.244.0.0/16     192.168.50.6 # Mac OS X
+    sudo ip route add   10.244.0.0/16 via 192.168.50.6 # Linux (using iproute2 suite)
+    sudo route add -net 10.244.0.0/16 gw  192.168.50.6 # Linux (using DEPRECATED route command)
+    route add           10.244.0.0/16     192.168.50.6 # Windows
     ```
 
 
@@ -92,26 +89,27 @@ Run through quick steps below or follow [deploy workflow](basic-workflow.md) tha
 1. Update cloud config
 
     ```shell
-    $ bosh -e vbox update-cloud-config ~/workspace/bosh-deployment/warden/cloud-config.yml
+    bosh -e vbox update-cloud-config ~/workspace/bosh-deployment/warden/cloud-config.yml
     ```
 
 1. Upload stemcell
 
     ```shell
-    $ bosh -e vbox upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3586.24 \
+    bosh -e vbox upload-stemcell \
+      https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3586.24 \
       --sha1 32c1e09391d509d24026e55555df07a166f8b8eb
     ```
 
 1. Deploy example deployment
 
     ```shell
-    $ bosh -e vbox -d zookeeper deploy <(wget -O- https://raw.githubusercontent.com/cppforlife/zookeeper-release/master/manifests/zookeeper.yml)
+    bosh -e vbox -d zookeeper deploy <(wget -O- https://raw.githubusercontent.com/cppforlife/zookeeper-release/master/manifests/zookeeper.yml)
     ```
 
 1. Run Zookeeper smoke tests
 
     ```shell
-    $ bosh -e vbox -d zookeeper run-errand smoke-tests
+    bosh -e vbox -d zookeeper run-errand smoke-tests
     ```
 
 

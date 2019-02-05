@@ -10,7 +10,7 @@ Depending on you configuration, there are up to three endpoints to be secured us
 
 You can use the following script to generate a root CA certificate and use it to sign three generated SSL certificates:
 
-```bash
+```shell
 #!/bin/bash
 
 set -e
@@ -118,7 +118,7 @@ If you are using the UAA for user management, additionally put certificates in t
 After you deployed your Director with the above changes, you need to specify `--ca-cert` when targeting the Director:
 
 ```shell
-$ bosh --ca-cert certs/rootCA.pem target 10.244.4.2
+bosh --ca-cert certs/rootCA.pem target 10.244.4.2
 ```
 
 !!! note

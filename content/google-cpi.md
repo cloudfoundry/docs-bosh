@@ -163,7 +163,7 @@ disk_types:
 
 The CPI can only talk to a single Google Compute Engine region.
 
-See [all configuration options](https://bosh.io/jobs/google_cpi?source=github.com/cloudfoundry-incubator/bosh-google-cpi-release).
+See [all configuration options](https://bosh.io/jobs/google_cpi?source=github.com/cloudfoundry/bosh-google-cpi-release).
 
 ---
 ## Example Cloud Config {: #cloud-config }

@@ -34,35 +34,35 @@ CLI allows to provide variable values via usage of one or more of the following 
 - `--var=key=val` (`-v`) flag sets single variable value as an argument
 
     ```shell
-    $ bosh interpolate base.yml -v access_key_id=some-key -v access_secret_key=some-secret
-    s3_access_key_id: some-key
-    s3_access_secret_key: some-secret
+    bosh interpolate base.yml -v access_key_id=some-key -v access_secret_key=some-secret
+    # s3_access_key_id: some-key
+    # s3_access_secret_key: some-secret
     ```
 
 - `--var-file=key=path` flag sets single variable value as an entire file
 
     ```shell
-    $ cat 1.txt
-    some-key
+    cat 1.txt
+    # some-key
 
-    $ cat 2.txt
-    some-secret
+    cat 2.txt
+    # some-secret
 
-    $ bosh interpolate base.yml --var-file access_key_id=1.txt --var-file access_secret_key=2.txt
-    s3_access_key_id: some-key
-    s3_access_secret_key: some-secret
+    bosh interpolate base.yml --var-file access_key_id=1.txt --var-file access_secret_key=2.txt
+    # s3_access_key_id: some-key
+    # s3_access_secret_key: some-secret
     ```
 
 - `--vars-file=path` (`-l`) flag sets file that contains multiple variable values
 
     ```shell
-    $ cat secrets.yml
-    access_key_id: some-key
-    access_secret_key: some-secret
+    cat secrets.yml
+    # access_key_id: some-key
+    # access_secret_key: some-secret
 
-    $ bosh interpolate base.yml -l secrets.yml
-    s3_access_key_id: some-key
-    s3_access_secret_key: some-secret
+    bosh interpolate base.yml -l secrets.yml
+    # s3_access_key_id: some-key
+    #s3_access_secret_key: some-secret
     ```
 
 - via [`--vars-store=path` flag](#vars-store) flag sets file that contains multiple variable values (with a possibility that missing variables will be automatically generated)
@@ -70,18 +70,18 @@ CLI allows to provide variable values via usage of one or more of the following 
 - `--vars-env=prefix` flag sets variable values found in prefixed environment variables (casing is important)
 
     ```shell
-    $ export FOO_access_key_id=some-key
-    $ export FOO_access_secret_key=some-secret
+    export FOO_s3_access_key_id=some-key
+    export FOO_s3_access_secret_key=some-secret
 
-    $ bosh interpolate base.yml --vars-env FOO
-    s3_access_key_id: some-key
-    s3_access_secret_key: some-secret
+    bosh interpolate base.yml --vars-env FOO
+    # s3_access_key_id: some-key
+    # s3_access_secret_key: some-secret
     ```
 
 Here is a more realistic example of using base YAML document (`bosh.yml`) from [cloudfoundry/bosh-deployment repo](https://github.com/cloudfoundry/bosh-deployment) and specifying several variables and operations files to provide necessary missing values:
 
 ```shell
-$ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
+bosh create-env ~/workspace/bosh-deployment/bosh.yml \
   --state state.json \
   --vars-store ./creds.yml
   -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
@@ -135,15 +135,20 @@ Currently CLI supports `certificate`, `password`, `rsa`, and `ssh` types. The Di
 See [Variable Types](variable-types.md) for details on variable generation.
 
 ```shell
-$ cat base.yml
+cat base.yml
+```
+
+```yaml
 pass: ((admin_password))
 variables:
 - name: admin_password
   type: password
+```
 
-$ bosh interpolate base.yml --vars-store=creds.yml
-pass: vbvdhjbzqelnq7cfyw09
+```shell
+bosh interpolate base.yml --vars-store=creds.yml
+# pass: vbvdhjbzqelnq7cfyw09
 
-$ cat creds.yml
-admin_password: vbvdhjbzqelnq7cfyw09
+cat creds.yml
+# admin_password: vbvdhjbzqelnq7cfyw09
 ```

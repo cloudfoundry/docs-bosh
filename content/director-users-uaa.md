@@ -4,7 +4,7 @@
 In this configuration the Director is configured to delegate user management to the [UAA](https://github.com/cloudfoundry/uaa) server. The UAA server can be configured to manage its own list of users or work with an LDAP server, or a SAML provider. Regardless how the UAA server is configured the BOSH CLI will ask appropriate credentials and forward them to the UAA to request a token.
 
 ---
-## Configuring the Director {: #configure }
+## Deploy the Director with UAA {: #configure }
 
 1. Change deployment manifest for the Director and add UAA release:
 
@@ -129,13 +129,13 @@ In this configuration the Director is configured to delegate user management to 
 1. Configure Certificates and Keys
 
     See [Director certificates configuration doc](director-certs.md) to find out how to generate necessary certificates.
-    Note, however, that `login.saml.serviceProviderKeyPassword` may need to be set to "", [see](https://bosh.io/releases/github.com/cloudfoundry/uaa-release?version=24).
+    Note, however, that `login.saml.serviceProviderKeyPassword` may need to be set to `""`, [see UAA v24 release notes](https://bosh.io/releases/github.com/cloudfoundry/uaa-release?version=24).
 
     To generate UAA signing (private key) and verification key (public key) in PEM format:
 
     ```shell
-    $ ssh-keygen -t rsa -b 4096 -f uaa
-    $ openssl rsa -in uaa -pubout > uaa.pub
+    ssh-keygen -t rsa -b 4096 -f uaa
+    openssl rsa -in uaa -pubout > uaa.pub
     ```
 
     Put the keys in the Director deployment manifest:
@@ -149,77 +149,3 @@ In this configuration the Director is configured to delegate user management to 
 1. Allow access to port 8443 on the Director VM from your IaaS so that the CLI can access the UAA server.
 
 1. Redeploy the Director with the updated manifest.
-
----
-## Logging into the Director as a user {: #user-login }
-
-Depending on how the UAA is configured different prompts may be shown.
-
-```shell
-$ bosh login
-Email: admin
-Password: **************
-```
-
-### Adding/removing Users and Permissions {: #uaac }
-
-An example of how to use [UAA CLI](https://rubygems.org/gems/cf-uaac) to add a new user that has readonly access on any Director. Enter the client secret provided for the UAA admin client in the manifest at `uaa.admin.client_secret`.
-
-```shell
-$ uaac target https://54.236.100.56:8443 --ca-cert certs/rootCA.pem
-$ uaac token client get admin
-Client secret:  **************
-$ uaac user add some-new-user --emails new.user@example.com
-```
-
-!!! note
-    Use UAA CLI v3.1.4+ to specify custom CA certificate.
-
-You can add permissions to users by defining a group and adding users to that group:
-
-```shell
-$ uaac group add bosh.read
-$ uaac member add bosh.read some-new-user
-```
-
-Remove permission by removing users from a group:
-
-```shell
-$ uaac member delete bosh.read some-new-user
-```
-
-Remove users to revoke authentication completely:
-
-```shell
-$ uaac user delete some-new-user
-```
-
-!!! note
-    Changing group membership will take effect when a new access token is created for that user. New access are granted when their existing access token expires or when user logs out and logs in again. Hence it's recommended to set access token validity to a minute or so.
-
----
-## Logging into the Director as a UAA client {: #client-login }
-
-Non-interactive login, e.g. for scripts during a CI build is supported by the UAA by using a different UAA client allowing `client_credentials` grant type.
-
-```shell
-$ export BOSH_CLIENT=ci
-$ export BOSH_CLIENT_SECRET=ci-password
-$ bosh status
-```
-
-See [the resurrector UAA client configuration](resurrector.md#uaa-client) for an example to set up an additional client.
-
----
-## Permissions {: #permissions }
-
-See [UAA permissions](director-users-uaa-perms.md) to limit access to resources.
-
----
-## Errors {: #errors }
-
-```
-HTTP 401: Not authorized: '/deployments' requires one of the scopes: bosh.admin, bosh.UUID.admin, bosh.read, bosh.UUID.read
-```
-
-This error occurs if the user doesn't have the right scopes for the requested command. It might be the case that you created a user without adding it to any groups. See [Adding/removing users and scopes](#uaac) above.

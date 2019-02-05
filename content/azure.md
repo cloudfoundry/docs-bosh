@@ -6,8 +6,8 @@ title: Microsoft Azure
 
 The `azure` CPI can be used with [Microsoft Azure](https://azure.microsoft.com/).
 
- * Release: [cloudfoundry-incubator/bosh-azure-cpi-release](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release)
- * Issues: [GitHub Issues](https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/issues)
+ * Release: [cloudfoundry/bosh-azure-cpi-release](https://github.com/cloudfoundry/bosh-azure-cpi-release)
+ * Issues: [GitHub Issues](https://github.com/cloudfoundry/bosh-azure-cpi-release/issues)
  * Slack: [cloudfoundry#bosh-azure-cpi](https://cloudfoundry.slack.com/messages/bosh-azure-cpi)
 
 
@@ -19,12 +19,12 @@ The following table maps BOSH concepts to their Azure-native equivalents.
 | ---- | --------------- |
 | Availability Zone | [Availability Zone](https://docs.microsoft.com/en-us/azure/availability-zones/az-overview) |
 | Virtual Machine | [Virtual Machine](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes) |
-| VM Config Metadata | BOSH Registry |
 | Network Subnet | [Virtual Network Subnet](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview) |
 | Virtual IP | [Public IP](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-ip-addresses-overview-arm#public-ip-addresses) |
 | Persistent Disk | [Disk Storage](https://azure.microsoft.com/en-us/services/storage/disks/) and [Managed Disks](https://azure.microsoft.com/en-us/services/managed-disks/) |
 | Disk Snapshot | [Managed Disk Snapshot](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/managed-disks-overview#managed-disk-snapshots) |
 | Stemcell | Disk Storage Blobs and Managed Disk Blobs |
+| Agent Settings | Config Drive; BOSH Registry |
 
 
 ## Feature Support
@@ -76,3 +76,4 @@ When using Storage Accounts, encryption keys can be managed through the [Azure K
 | ------- | ------- |
 | Multi-CPI | Not Supported |
 | Native Disk Resize | Not Supported |
+| Generic VM Resource Configuration | Supported, [v33](https://github.com/cloudfoundry/bosh-azure-cpi-release/releases/tag/v33)+ |
