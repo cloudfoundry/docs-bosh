@@ -1,4 +1,4 @@
-The Director will do the following [steps](https://www.youtube.com/watch?v=ay6GjmiJTPM) when `bosh deploy` (or its related commands such as start, stop and recreate) command runs:
+The Director will do the following steps when `bosh deploy` (or its related commands such as start, stop and recreate) command runs:
 
 1. Check if there is a deployment with the name specified by the deployment manifest
     - if no, create a deployment
