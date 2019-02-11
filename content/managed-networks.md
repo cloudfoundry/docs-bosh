@@ -1,7 +1,7 @@
 !!! note
     Available as of Bosh director version 268.1.0
 
-BOSH director can manage the lifecycle of deployment networks by dynamically creating, updating and deleting them when needed at the IaaS layer.
+Historically, users had to manually create, update, or delete networks before configuring BOSH to use them. With managed networks, BOSH can manage the lifecycle of deployment networks by dynamically creating, updating and deleting them when needed at the IaaS layer.
 
 Network definitions are still defined in the cloud config. This allows for seamless integration between networks that are not lifecycle managed (the existing default of BOSH) and those that will be managed.
 
