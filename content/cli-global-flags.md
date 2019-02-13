@@ -55,6 +55,17 @@ Several commands that can operate in a Director and a deployment context (such a
 See [tunneling](cli-tunnel.md) for details.
 
 ---
+## HTTP proxy {: #http-proxy }
+
+Some commands such as `create-env` may require usage of an http proxy to access internet or the iaas. Define `HTTP_PROXY`, `HTTPS_PROXY` and `NO_PROXY` environment variables according to [go-lang support](https://golang.org/pkg/net/http/#ProxyFromEnvironment) documented in detail in [x/net/http/httpproxy#Config](https://godoc.org/golang.org/x/net/http/httpproxy#Config)
+
+```
+export HTTP_PROXY=http://myproxy.com:3128
+export HTTPS_PROXY=http://myproxy.com:3128
+export NO_PROXY="asinglehost.mydomain.com,mywholedomain.org,.onlymysubdomains.org,192.168.10.11,172.17.11.0/24"
+```
+
+---
 ## Logging {: #logging }
 
 Along with the UI output (stdout) and UI errors (stderr), CLI can output more verbose logs.
