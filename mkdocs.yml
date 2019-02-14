@@ -153,6 +153,7 @@ pages:
     - Usage: cloud-config.md
     - Availability Zones: azs.md
     - Networks: networks.md
+    - Managed Networks: managed-networks.md
   - Director APIs:
     - Director HTTP API: director-api-v1.md
     - Links API: links-api.md
