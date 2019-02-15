@@ -4,13 +4,7 @@ This document shows how to initialize new [environment](terminology.md#environme
 
 ### Prerequisites {: #prerequisites }
 
-1. An OpenStack environment running one of the following supported releases:
-    * [Liberty](http://www.openstack.org/software/liberty) (actively tested)
-    * [Mitaka](http://www.openstack.org/software/mitaka) (actively tested)
-    * [Newton](http://www.openstack.org/software/newton) (actively tested)
-
-    !!! tip
-        Juno has a [bug](https://bugs.launchpad.net/nova/+bug/1396854) that prevents BOSH to assign specific IPs to VMs. You have to apply a Nova patch to avoid this problem.
+1. An OpenStack environment running one of the supported releases. See [bosh-openstack-cpi](https://github.com/cloudfoundry/bosh-openstack-cpi-release#supported-openstack-versions) for information on the CPI's support policy.
 
 1. The following OpenStack services:
     * [Identity](https://www.openstack.org/software/releases/ocata/components/keystone):
