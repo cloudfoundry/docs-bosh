@@ -111,7 +111,7 @@ Sample `agent.json` which configures the agent to read from an HTTP metadata ser
 }
 ```
 
-Sample `agent.json` which configures the agent ot read from a config drive. See [reference sample config-drive json](https://github.com/cloudfoundry/bosh-agent/blob/cecf354d90f6cedf540799fb50395adb034b16d2/integration/assets/config-drive-agent.json). See [config drive integration test](https://github.com/cloudfoundry/bosh-agent/blob/cecf354d90f6cedf540799fb50395adb034b16d2/integration/config_drive_test.go):
+Sample `agent.json` which configures the agent to read from a config drive. See [reference sample config-drive json](https://github.com/cloudfoundry/bosh-agent/blob/cecf354d90f6cedf540799fb50395adb034b16d2/integration/assets/config-drive-agent.json). See [config drive integration test](https://github.com/cloudfoundry/bosh-agent/blob/cecf354d90f6cedf540799fb50395adb034b16d2/integration/config_drive_test.go):
 
 ```json
 {
