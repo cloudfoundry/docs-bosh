@@ -347,7 +347,7 @@ See [Release Blobs](release-blobs.md) for a detailed workflow.
 
 - `bosh add-blob src-path dst-path`
 
-    Sarts tracking blob in `config/blobs.yml` for inclusion in packages.
+    Starts tracking blob in `config/blobs.yml` for inclusion in packages.
 
     ```shell
     cd release-dir
