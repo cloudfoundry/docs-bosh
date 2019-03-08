@@ -6,7 +6,7 @@ The procedure below rotates the NATS CA and NATS related certificates across the
 ### Preconditions
 
 * Director is in a healthy state.
-* All VMs are in `running` state in all deployments.
+* All VMs are in `running` state in all deployments. See [below](#expired) if your VMs are unresponsive.
 * Take note of any **ignored** VMs. They will be omitted from the VM recreation steps.
 
 
@@ -226,6 +226,14 @@ To make future updates to the BOSH director not rely on the transitional OPS fil
 
 !!! warning
     **Warning:** If you do not perform the clean-up procedure, you must ensure that the ops files (`add-new-ca.yml` and `remove-old-ca.yml`) are used every time a create-env is executed going forward (which can be unsustainable). Removing the ops files would revert to the old CA, which can lead to unresponsive agents for existing and newly created VMs.
+
+### Expired
+
+If your deployment VMs are already in the state 'unresponsive agent', then the above procedure will not return the system to a healthy state. To replace a NATS CA that has already expired:
+
+1. Open the file used for the `--vars-store` argument to `bosh create-env` (typically `creds.yml`) and remove all NATS-related variable **keys** and **values**: `nats_ca`, `nats_clients_director_tls`, `nats_clients_health_monitor_tls`, and `nats_server_tls`. 
+2. Update the director with new certs with `bosh create-env`. The CLI generates new values for the credentials removed in step 1.
+3. Recreate all your deployments so they receive the new certificates with `bosh recreate -d ... --fix`. `--fix` is required to ignore the unresponsive state of the VM.
 
 ### Limitations
 
