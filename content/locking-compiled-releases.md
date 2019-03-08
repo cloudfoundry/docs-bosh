@@ -1,6 +1,5 @@
 !!! note
-    Available as of BOSH Director version TBD <-- Morgan please fill in
-
+        Available as of BOSH Director version [v268.7.0](https://github.com/cloudfoundry/bosh/releases/tag/v268.7.0)
 # Motivation
 
 When deploying instance groups that use compiled releases,
