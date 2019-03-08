@@ -20,18 +20,18 @@ Consider a manifest without `exported_from`
 
 If this `bpm` release was compiled against `ubuntu-xenial/250.4`
 and it is used by an instance group running on `ubuntu-xenial/250.17`,
-a deploy will use the `bpm` packages compiled against `ubuntu-xenial/250.4`.
+a deploy will use the `bpm` release compiled against `ubuntu-xenial/250.4`.
 
 If later, an operator uploads a new bpm release with the same `0.12.3` version,
 but compiled against a newer stemcell, `ubuntu-xenial/250.9`,
-Bosh will use the new packages compiled against the newer stemcell.
+Bosh will use the new release compiled against the newer stemcell.
 
 To lock a compiled release and reduce unexpected VM updates,
 use `exported_from` in the [releases](deployment-manifest.md#releases) block of your manifest.
 
 # Usage
 
-To specify which compiled packages to use in a deployment, add `exported_from` to the release:
+To specify which compiled release to use in a deployment, add `exported_from` to the release:
 
 ```yml
 releases:
@@ -46,6 +46,8 @@ releases:
 A deployment with this release specified will always use the packages from this release
 compiled against `250.4` and will not update the packages
 when newer releases are uploaded.
+
+To create a compiled release, follow the instructions on the [compiled releases page](compiled-releases/)
 
 ## Why an array?
 
