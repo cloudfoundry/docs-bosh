@@ -58,7 +58,10 @@ features:
 * **version** [String, required]: The version of the release to use. Version can be `latest`.
 * **url** [String, optional]: URL of a release to download. Works with CLI v2. Example: `https://bosh.io/d/github.com/cloudfoundry/syslog-release?v=11`.
 * **sha1** [String, optional]: SHA1 of asset referenced via URL. Works with CLI v2. Example: `332ac15609b220a3fdf5efad0e0aa069d8235788`.
-* **stemcell** [Hash, optional]: Stemcell for which the release is compiled (recommended for compiled releases).
+* **stemcell** [Hash, optional]: When `url` refers to a compiled release, the stemcell on which it was compiled (recommended when `url` refers to a compiled release).
+    * **os** [String, required]: Operating system of the stemcell. Example: `ubuntu-xenial`.
+    * **version** [String, required]: Version of the stemcell. Example: `97.18`.
+* **exported_from** [Array, optional]: Require the release be deployed from previously-compiled releases of specific stemcell versions.
     * **os** [String, required]: Operating system of the stemcell. Example: `ubuntu-xenial`.
     * **version** [String, required]: Version of the stemcell. Example: `97.18`.
 
@@ -92,6 +95,9 @@ releases:
   sha1: 6466c44827c3493645ca34b084e7c21de23272b4
   stemcell:
     os: ubuntu-xenial
+    version: 97.18
+  exported_from:
+  - os: ubuntu-xenial
     version: 97.18
 ```
 
