@@ -4,7 +4,7 @@
 # Motivation
 
 When deploying instance groups that use compiled releases,
-If the release is not compiled against the exact stemcell used by the instance group,
+if the release is not compiled against the exact stemcell used by the instance group,
 Bosh will use the release compiled against the most recent compatible stemcell.
 
 This leads to situations where a simple operator action such as "scale up by 1 VM"
