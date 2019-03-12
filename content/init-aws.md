@@ -162,6 +162,50 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
 
     See [AWS CPI errors](aws-cpi-errors.md) for list of common errors and resolutions.
 
+    !!! note
+        Make sure you have the following permissions on IAM.
+
+    ```shell
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Action": [
+                    "ec2:AssociateAddress",
+                    "ec2:AttachVolume",
+                    "ec2:CreateVolume",
+                    "ec2:DeleteSnapshot",
+                    "ec2:DeleteVolume",
+                    "ec2:DescribeAddresses",
+                    "ec2:DescribeImages",
+                    "ec2:DescribeInstances",
+                    "ec2:DescribeRegions",
+                    "ec2:DescribeSecurityGroups",
+                    "ec2:DescribeSnapshots",
+                    "ec2:DescribeSubnets",
+                    "ec2:DescribeVolumes",
+                    "ec2:DetachVolume",
+                    "ec2:CreateSnapshot",
+                    "ec2:CreateTags",
+                    "ec2:RunInstances",
+                    "ec2:TerminateInstances"
+                ],
+                "Effect": "Allow",
+                "Resource": "*"
+            },
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "elasticloadbalancing:*"
+                ],
+                "Resource": [
+                    "*"
+                ]
+            }
+        ]
+    }
+    ```
+
 1. Connect to the Director.
 
     ```shell
