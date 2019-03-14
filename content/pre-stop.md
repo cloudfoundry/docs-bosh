@@ -36,35 +36,43 @@ The pre-stop script also uses an exit code to indicate its success (exit code 0)
 
 Pre-stop script can access the following environment variables:
 
-* `BOSH_VM_NEXT_STATE_DELETE` a boolean that is true if after stop process the VM will be deleted and recreated.
-* `BOSH_INSTANCE_NEXT_STATE_DELETE` a boolean that is true if the instance is deleted after stop process is completed. In effect, the VM will be deleted and will not be recreated.
-* `BOSH_DEPLOYMENT_NEXT_STATE_DELETE` a boolean which indicates if the deployment is going to be deleted after completion of the stop process.
+* `BOSH_VM_NEXT_STATE` either `keep` if the VM will be unaffected by the stop process, or `delete` if after stop process the VM will be deleted and recreated.
+* `BOSH_INSTANCE_NEXT_STATE` either `keep` if the VM will be unaffected by the stop process, or `delete` if the instance is deleted after stop process is completed. In effect, the VM will be deleted and will not be recreated.
+* `BOSH_DEPLOYMENT_NEXT_STATE` either `keep` if the VM will be unaffected by the stop process, or `delete` if the deployment is going to be deleted after completion of the stop process.
 
 All possible cases of these environment variables:
 
 | Values | Possible Causes |
 | - | - |
-| <code>BOSH_VM_NEXT_STATE_DELETE = false<br>BOSH_INSTANCE_NEXT_STATE_DELETE = false<br>BOSH_DEPLOYMENT_NEXT_STATE_DELETE = false</code> | Something on the VM is being updated<br>The same VM will be kept |
-| <code>BOSH_VM_NEXT_STATE_DELETE = true<br>BOSH_INSTANCE_NEXT_STATE_DELETE = false<br>BOSH_DEPLOYMENT_NEXT_STATE_DELETE = false</code> | Stemcell update or VM recreate of some sort|
-| <code>BOSH_VM_NEXT_STATE_DELETE = true<br>BOSH_INSTANCE_NEXT_STATE_DELETE = true<br>BOSH_DEPLOYMENT_NEXT_STATE_DELETE = false</code> | Scaling down this instance|
-| <code>BOSH_VM_NEXT_STATE_DELETE = true<br>BOSH_INSTANCE_NEXT_STATE_DELETE = true<br>BOSH_DEPLOYMENT_NEXT_STATE_DELETE = true</code> | Removing the entire deployment|
+|<code>BOSH_VM_NEXT_STATE = keep<br>BOSH_INSTANCE_NEXT_STATE = keep<br>BOSH_DEPLOYMENT_NEXT_STATE = keep</code> | Something on the VM is being updated<br>The VM will be kept |
+|<code>BOSH_VM_NEXT_STATE = delete<br>BOSH_INSTANCE_NEXT_STATE = keep<br>BOSH_DEPLOYMENT_NEXT_STATE = keep</code> | Stemcell update or VM recreate|
+|<code>BOSH_VM_NEXT_STATE = delete<br>BOSH_INSTANCE_NEXT_STATE = delete<br>BOSH_DEPLOYMENT_NEXT_STATE = keep</code> | Scaling down this instance|
+|<code>BOSH_VM_NEXT_STATE = delete<br>BOSH_INSTANCE_NEXT_STATE = delete<br>BOSH_DEPLOYMENT_NEXT_STATE = delete</code> | Removing the entire deployment|
 
 
 !!! Note
-    if `BOSH_DEPLOYMENT_NEXT_STATE_DELETE` is true then one can safely conclude that consequently both instance and its VM will also be deleted. Similarly, when `BOSH_INSTANCE_NEXT_STATE_DELETE` is true then the corresponding VM also will be deleted after the stop process.
+    if `BOSH_DEPLOYMENT_NEXT_STATE` is set to `delete` then one can safely conclude that consequently both instance and its VM will also be deleted. Similarly, when `BOSH_INSTANCE_NEXT_STATE` is set to `delete` then the corresponding VM also will be deleted after the stop process.
 
 A sample script of using these new environment variables may look similar to:
 
 ```bash
 #!/bin/bash
+echo "Running pre-stop script"
 
-if [[ $BOSH_DEPLOYMENT_NEXT_STATE_DELETE ]]; then
+if [[ "${BOSH_VM_NEXT_STATE}" == "delete" ]] ; then
+  // at the end of stop process this VM is going to be removed
+  // eg. update_stemcell
+fi
+
+if [[ "${BOSH_INSTANCE_NEXT_STATE}" == "delete" ]] ; then
+  // at the end of stop process this instance is going to be removed
+  // eg. deregister_and_remove_data
+fi
+
+if [[ "${BOSH_DEPLOYMENT_NEXT_STATE}" == "delete" ]] ; then
   // at the end of stop process this deployment is going to be deleted
   // eg. shutdown_without_saving_data
 fi
 
-if [[ $BOSH_INSTANCE_NEXT_STATE_DELETE ]]; then
-  // at the end of stop process this instance is going to be removed
-  // eg. deregister_and_remove_data
-fi
+exit 0
 ```
