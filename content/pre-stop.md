@@ -36,9 +36,9 @@ The pre-stop script also uses an exit code to indicate its success (exit code 0)
 
 Pre-stop script can access the following environment variables:
 
-* `BOSH_VM_NEXT_STATE` either `keep` if the VM will be unaffected by the stop process, or `delete` if after stop process the VM will be deleted and recreated.
-* `BOSH_INSTANCE_NEXT_STATE` either `keep` if the VM will be unaffected by the stop process, or `delete` if the instance is deleted after stop process is completed. In effect, the VM will be deleted and will not be recreated.
-* `BOSH_DEPLOYMENT_NEXT_STATE` either `keep` if the VM will be unaffected by the stop process, or `delete` if the deployment is going to be deleted after completion of the stop process.
+* `BOSH_VM_NEXT_STATE` either `keep` if the VM will be the same VM that start is called on after the stop process, or `delete` if after stop process the VM will be deleted.
+* `BOSH_INSTANCE_NEXT_STATE` either `keep` if the instance will be unaffected by the stop process, or `delete` if the instance is deleted after stop process is completed. If this is set to `delete`, the VM will be deleted and a replacement for it will not be created.
+* `BOSH_DEPLOYMENT_NEXT_STATE` either `keep` if the deployment will remain after the stop process, or `delete` if the deployment is going to be deleted after completion of the stop process.
 
 All possible cases of these environment variables:
 
@@ -50,8 +50,7 @@ All possible cases of these environment variables:
 |<code>BOSH_VM_NEXT_STATE = delete<br>BOSH_INSTANCE_NEXT_STATE = delete<br>BOSH_DEPLOYMENT_NEXT_STATE = delete</code> | Removing the entire deployment|
 
 
-!!! Note
-    if `BOSH_DEPLOYMENT_NEXT_STATE` is set to `delete` then one can safely conclude that consequently both instance and its VM will also be deleted. Similarly, when `BOSH_INSTANCE_NEXT_STATE` is set to `delete` then the corresponding VM also will be deleted after the stop process.
+!!! note if `BOSH_DEPLOYMENT_NEXT_STATE` is set to `delete` then one can safely conclude that consequently both instance and its VM will also be deleted. Similarly, when `BOSH_INSTANCE_NEXT_STATE` is set to `delete` then the corresponding VM also will be deleted after the stop process.
 
 A sample script of using these new environment variables may look similar to:
 
