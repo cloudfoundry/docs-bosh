@@ -95,6 +95,8 @@ pages:
       - Rotating Credentials:
         - NATS CA Rotation: nats-ca-rotation.md
         - TLS Blobstore CA Rotation: blobstore-ca-rotation.md
+        - mbus Password Rotation: mbus-password-rotation.md
+        - Blobstore Agent Password Rotation: blobstore-agent-password-rotation.md
     - Configuring the Database:
       - Builtin PostgreSQL: director-configure-db.md
       - External MySQL: director-configure-db.md
