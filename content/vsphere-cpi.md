@@ -9,6 +9,7 @@ Schema for `cloud_properties` section:
     * **clusters** [Array, required]: Array of clusters to use for VM placement.
         * **&lt;cluster name&gt;** [String, required]: Cluster name.
             * **resource_pool** [String, optional]: Name of vSphere Resource Pool to use for VM placement.
+            * **host_group** [String, optional]: Name of Host Group to use for VM placement. Available in v52+.
             * **drs_rules** [Array, optional]: Array of DRS rules applied to [constrain VM placement](vm-anti-affinity.md#vsphere). Must have only one.
                 * **name** [String, required]: Name of a DRS rule that the Director will create.
                 * **type** [String, required]: Type of a DRS rule. Currently only `separate_vms` is supported.
@@ -23,6 +24,18 @@ azs:
     - name: my-dc
       clusters:
       - {my-vsphere-cluster: {resource_pool: my-vsphere-res-pool}}
+```
+
+Example with Host Group:
+
+```yaml
+azs:
+- name: z1
+  cloud_properties:
+    datacenters:
+    - name: my-dc
+      clusters:
+      - {my-vsphere-cluster: {host_group: my-vsphere-host-group}}
 ```
 
 ---
@@ -125,6 +138,7 @@ Schema for `cloud_properties` section:
 * **nsx** [Dictionary, optional]: [VMware NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v30+ and NSX v6.1+.
     * **security_groups** [Array, optional]: A collection of [security group](https://pubs.vmware.com/NSX-6/index.jsp#com.vmware.nsx.admin.doc/GUID-16B3134E-DDF1-445A-8646-BB0E98C3C9B5.html) names that the instances should belong to. The CPI will create the security groups if they do not exist.
     BOSH will also automatically create security groups based on metadata such as deployment name and instance group name. The full list of groups can be seen under [create_vm's environment groups](cpi-api-v1.md#create-vm).
+    **The security groups, if specified under NSX load balancers need not be specified(duplicated) again here. Although CPI makes best effort to de-duplicate them, it is advised not to specify them again.**
     * **lbs** [Array, optional]: A collection of [NSX Edge Load Balancers](https://pubs.vmware.com/NSX-6/index.jsp?topic=%2Fcom.vmware.nsx.admin.doc%2FGUID-152982CF-108F-47A6-B86A-0F0F6A56D628.html) (LBs) to which instances should be attached. The LB and [Server Pool](https://pubs.vmware.com/NSX-6/index.jsp?topic=%2Fcom.vmware.nsx.admin.doc%2FGUID-D5A3BDBA-57A6-43F4-AE5E-3A387FE69EDC.html) must exist prior to the deployment.
         * **edge_name** [String, required]: Name of the NSX Edge.
         * **pool_name** [String, required]: Name of the Edge's Server Pool.
@@ -246,6 +260,7 @@ Schema:
     * **clusters** [Array, required]: Array of clusters to use for VM placement.
         * **&lt;cluster name&gt;** [String, required]: Cluster name.
             * **resource_pool** [String, optional]: Specific vSphere resource pool to use within the cluster.
+            * **host_group** [String, optional]: Specific Host Group to use for VM placement. Available in v52+.
 * **nsx** [Dictionary, optional]: NSX-V configuration options.  This is required if the other NSX features are used below (e.g. 'security_groups' for `resource_pools`).
     * **address** [String, required]: The NSX server's address. Can be a hostname (e.g. `nsx-server.example.com`) or an IP address.
     * **user** [String, required]: The login username for the NSX server.
@@ -304,6 +319,27 @@ nsx:
   password: vmware
 ```
 
+Example that places VMs by default into `CLUSTER_HOST_GROUP` vSphere host group:
+
+```yaml
+host: 172.16.68.3
+user: root
+password: vmware
+default_disk_type: thin
+datacenters:
+- name: BOSH_DC
+  vm_folder: prod-vms
+  template_folder: prod-templates
+  disk_path: prod-disks
+  datastore_pattern: '\Aprod-ds\z'
+  persistent_datastore_pattern: '\Aprod-ds\z'
+  clusters:
+  - BOSH_CL: {host_group: CLUSTER_HOST_GROUP}
+nsx:
+  address: 172.16.68.4
+  user: administrator@vsphere.local
+  password: vmware
+```
 ---
 ## Example Cloud Config {: #cloud-config }
 
@@ -433,6 +469,16 @@ A cluster is identified by its name and its datacenter. Its location within fold
 In vSphere, cluster names do not need to be unique per datacenter, only their paths needs to be unique. The current vSphere CPI code does not handle this and would only see one cluster if two had the same name.
 
 Clusters do not have any unique ID like a VM's instanceUuid.
+
+#### Host Group {: #host-groups }
+
+Each cluster definition can have one host group.
+
+For any VM created on this cluster with host group specification , vSphere CPI
+
+- Adds the VM to a new vm group (name auto generated from specified host group name)
+- Creates a VM-Host Affinity rule (name auto generated) to always keep VM on the specified host group.
+- Deletes the vSphere-CPI generated VM Host Affinity rule and VM Group if no other VM in those rule and groups are remaining.
 
 #### VM Placement {: #vm-placement }
 
