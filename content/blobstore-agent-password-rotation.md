@@ -23,6 +23,8 @@ mv creds_new.yml creds.yml
 unset OLD_PWD
 ```
 
+Ops file:
+
 `rename-blobstore-agent-password.yml`:
 
 ```yaml
@@ -44,6 +46,8 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
  --vars-store ./creds.yml \
  -v ... additional vars
 ```
+
+Ops file:
 
 `rotate-blobstore-agent-password.yml`:
 
@@ -79,6 +83,8 @@ bosh interpolate ./creds.yml \
 mv creds_new.yml creds.yml
 ```
 
+Ops file:
+
 `remove-old-blobstore-agent-password.yml`:
 
 ```yaml
@@ -97,6 +103,8 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
  -v ... additional vars
 ```
 
+Ops file:
+
 `rename-default-agent-user.yml`:
 
 ```yaml
@@ -114,4 +122,4 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 * Since the new user name is `agent-new`, from now one you have to deploy the Director with the following `rename-default-agent-user.yml` ops file.
 
 ### Optional steps:
-Rotate a second time to get rid of the additional `rename-default-agent-user.yml` ops file by naming the new user `agent` and the old user `agent-new`.
+Rotate a second time to get rid of the additional `rename-default-agent-user.yml` ops file by naming the new user back to `agent`.

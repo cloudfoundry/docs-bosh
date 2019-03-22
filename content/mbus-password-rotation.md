@@ -1,4 +1,4 @@
-# Rotating the mbus password
+# Rotating mbus password
 
 Currently the mbus password can be rotated, but this will kill the Director's VM without executing the drain script first.
 
@@ -28,7 +28,7 @@ Ops file:
 
 * This will remove the `mbus_bootstrap_password` from the `creds.yml`, which will cause the next create-env to create a new one.
 
-### Step 2: Redeploy the Director with a new mbus password. {: #step-2}
+### Step 2: Redeploy the Director with a new mbus password {: #step-2}
 
 ```shell
 bosh create-env ~/workspace/bosh-deployment/bosh.yml \
