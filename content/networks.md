@@ -11,10 +11,10 @@ Each type of network supports one or both IP reservation types:
 * **static**: IP is explicitly requested by the user in the deployment manifest
 * **automatic**: IP is selected automatically based on the network type
 
-|                         | manual network     | dynamic network | vip network   |
-|-------------------------|--------------------|-----------------|---------------|
-| static IP assignment    | Supported          | Not supported   | Supported     |
-| automatic IP assignment | Supported, default | Supported       | Not supported |
+|                         | manual network     | dynamic network | vip network |
+|-------------------------|--------------------|-----------------|-------------|
+| Static IP assignment    | Supported          | Not supported   | Supported   |
+| Automatic IP assignment | Supported, default | Supported       | Supported   |
 
 ---
 ## General Structure {: #general }
@@ -183,36 +183,137 @@ networks:
 ```
 
 ---
-## VIP (Virtual IP) Networks {: #vip }
+## Virtual IP (VIP) Networks {: #vip }
 
-VIP networking enables the association of an IP address that is not backed by any particular NIC. This flexibility enables users to remap a virtual IP to a different instance in cases of a failure.
+Virtual IP networking enables the association of an IP address that is not backed by any particular NIC. This flexibility enables users to remap a virtual IP to a different instance in cases of a failure. For IaaS specific implementation details, see the respective cloud provider docs.
 
-VIP network attachment is not represented as a NIC in the IaaS layer. In the AWS CPI, it is implemented with [elastic IPs](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html). In OpenStack CPI, it is implemented with [floating IPs](http://docs.openstack.org/user-guide/content/floating_ip_allocate.html).
+VIP network static IPs can either be defined in the deployment manifest (static IP assignment) or in the cloud config (automatic IP assignment). The two assignment types cannot be combined for a given network.
 
-VIP networking only supports static IP reservations.
+### Static IP Assignment
 
-Schema for VIP network definition:
+Schema for VIP network where static IPs are configured in the deployment manifest:
 
 * **name** [String, required]: Name used to reference this network configuration
 * **type** [String, required]: Value should be `vip`
 * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the network. Default is `{}` (empty Hash).
 
-Example:
+Sample cloud config and deployment manifest:
 
 ```yaml
+# cloud-config.yml
+---
 networks:
-- name: my-network
+- name: my-vip-network
   type: vip
 
-jobs:
-- name: my-job
+# deployment.yml
+---
+instance_groups:
+- name: my-instance-group
   ...
   networks:
-  - name: my-network
+  - name: my-vip-network
     static_ips: [54.47.189.8]
 ```
 
-Unlike the manual networking setup, static IPs for VIP networks are only specified on the deployment job.
+
+### Automatic IP Assignment
+
+!!! note
+    TODO: Update with actual director version
+    Available as of BOSH Director version ???.???.???
+
+Schema for VIP network where static IPs are configured in the cloud config for use across deployments:
+
+* **name** [String, required]: Name used to reference this network configuration
+* **type** [String, required]: Value should be `vip`
+* **subnets** [Array, optional]: Lists subnets in this network
+    * **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `z1`.
+    * **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`.
+    * **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to jobs requesting static IPs. Only IPs specified here can be used for static IP reservations.
+    * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
+
+Sample cloud config and deployment manifest:
+
+```yaml
+# cloud-config.yml
+---
+networks:
+- name: my-vip-network
+  type: vip
+  subnets:
+  - azs: [z1, z2]
+    static:
+    - 203.0.113.10
+    - 203.0.113.12
+
+# deployment.yml
+---
+instance_groups:
+- name: my-instance-group
+  ...
+  networks:
+  - name: my-vip-network
+```
+
+#### Migrating from Static IP Assignment
+
+To migrate from static IP assignment to automatic IP assignment:
+
+1. Add subnet definitions to the network definition in the cloud config. These will be used to associate sets of IPs to availability zones.
+1. Find all IPs currently listed in the `static_ips` property of each instance group's use of that network.
+1. Move those IPs into the `static` property of their respective subnet.
+1. Delete the `static_ips` property from the network configuration of the instance groups.
+1. Update the cloud config and redeploy with the new manifests.
+
+!!! warning
+    You will need to perform these steps for each deployment using the VIP network. After enabling the VIP network for automatic IP assignment, deployments relying on it for static IP assignment will error on next deploy.
+
+Sample manifests before migration:
+
+```yaml
+# cloud-config.yml
+---
+networks:
+- name: my-vip-network
+  type: vip
+
+# deployment.yml
+---
+instance_groups:
+- name: my-instance-group
+  azs: [z1, z2]
+  ...
+  networks:
+  - name: my-vip-network
+    static_ips:
+    - 203.0.113.10
+    - 203.0.113.12
+```
+
+Sample manifests after migration:
+
+```yaml
+# cloud-config.yml
+---
+networks:
+- name: my-vip-network
+  type: vip
+  subnets:
+  - azs: [z1, z2]
+    static:
+    - 203.0.113.10
+    - 203.0.113.12
+
+# deployment.yml
+---
+instance_groups:
+- name: my-instance-group
+  ...
+  networks:
+  - name: my-vip-network
+```
+
 
 ---
 ## Multi-homed VMs {: #multi-homed }
