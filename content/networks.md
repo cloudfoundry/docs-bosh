@@ -1,10 +1,10 @@
-A BOSH network is an IaaS-agnostic representation of the networking layer. The Director is responsible for configuring each deployment job's networks with the help of the BOSH Agent and the IaaS. Networking configuration is usually assigned at the boot of the VM and/or when network configuration changes in the deployment manifest for already-running deployment jobs.
+A BOSH network is an IaaS-agnostic representation of the networking layer. The Director is responsible for configuring each instance group's networks with the help of the BOSH Agent and the IaaS. Networking configuration is usually assigned at the boot of the VM and/or when network configuration changes in the deployment manifest for already-running instance groups.
 
 There are three types of networks that BOSH supports:
 
-* **manual**: The Director decides how to assign IPs to each job instance based on the specified network subnets in the deployment manifest
+* **manual**: The Director decides how to assign IPs to each instance based on the specified network subnets in the deployment manifest
 * **dynamic**: The Director defers IP selection to the IaaS
-* **vip**: The Director allows one-off IP assignments to specific jobs to enable flexible IP routing (e.g. elastic IP)
+* **vip**: The Director allows one-off IP assignments to specific instances to enable flexible IP routing (e.g. elastic IP)
 
 Each type of network supports one or both IP reservation types:
 
@@ -25,12 +25,13 @@ Networking configuration is usually done in three steps:
   - Example on AWS: User creates a VPC and subnets with routing tables.
 - Adding networks section to the deployment manifest to define networks used in this deployment
   - Example: User adds a manual network with a subnet and adds AWS subnet ID into the subnet's cloud properties.
-- Adding network associations for one or more networks to each deployment job
+- Adding network associations for one or more networks to each instance group
 
 All deployment manifests have a similar structure in terms of network definitions and associations:
 
 ```yaml
-# Network definitions
+# cloud-config.yml
+---
 networks:
 - name: my-network
   ...
@@ -41,24 +42,26 @@ networks:
   # IaaS specific attributes
   cloud_properties: { ... }
 
-jobs:
-- name: my-job
+# deployment.yml
+---
+instance_groups:
+- name: my-instance-group
 
-  # Network associations for `my-job`
+  # Network associations for `my-instance-group`
   networks:
   - name: my-network
   ...
 
-- name: my-multi-homed-job
+- name: my-multi-homed-instance-group
   networks:
   - name: my-network
   - name: my-other-network
   ...
 
-- name: my-static-job
+- name: my-static-instance-group
   networks:
   - name: my-network
-    # Static IP reservations for `my-job`
+    # Static IP reservations for `my-instance-group`
     static_ips: [IP1]
   ...
 ```
@@ -70,7 +73,7 @@ See how to define each network type below.
 
 Manual networking allows you to specify one or more subnets and let the Director choose available IPs from one of the subnet ranges. A subnet definition specifies the CIDR range and, optionally, the gateway and DNS servers. In addition, certain IPs can be blacklisted (the Director will not use these IPs) via the `reserved` property.
 
-Each manual network attached to a job instance is typically represented as its own NIC in the IaaS layer.
+Each manual network attached to an instance is typically represented as its own NIC in the IaaS layer.
 
 Schema for manual network definition:
 
@@ -81,12 +84,12 @@ Schema for manual network definition:
     * **gateway** [String, required]: Subnet gateway IP
     * **dns** [Array, optional]: DNS IP addresses for this subnet
     * **reserved** [Array, optional]: Array of reserved IPs and/or IP ranges. BOSH does not assign IPs from this range to any VM
-    * **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to jobs requesting static IPs. Only IPs specified here can be used for static IP reservations.
+    * **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to instances requesting static IPs. Only IPs specified here can be used for static IP reservations.
     * **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `z1`. Available in v241+.
     * **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`. Available in v241+.
     * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
 
-Example:
+Example cloud config:
 
 ```yaml
 networks:
@@ -113,22 +116,22 @@ networks:
     cloud_properties: {subnet: subnet-9be6c6gh}
 ```
 
-Manual networks use automatic IP reservation by default. They also support static IP reservation. To assign specific IPs to instances of the deployment job, they must be specified in deployment job's `networks` section, in the `static_ips` property for the associated network. That network's subnet definition must also specify them in its `static` property:
+Manual networks use automatic IP reservation by default. They also support static IP reservation. To assign specific IPs to instances of the instance group, they must be specified in instance group's `networks` section, in the `static_ips` property for the associated network. That network's subnet definition must also specify them in its `static` property:
 
 ```yaml
-jobs:
-- name: my-job-with-static-ip
+instance_groups:
+- name: my-instance-group-with-static-ip
   instances: 2
   ...
   networks:
   - name: my-network
 
-    # IPs associated with 2 instances of `my-job-with-static-ip` job
+    # IPs associated with 2 instances of `my-instance-group-with-static-ip`
     static_ips: [10.10.1.11, 10.10.1.12]
 ```
 
 !!! note
-    If a deployment job uses static IP reservation, all instances must be given static IPs.
+    If an instance group uses static IP reservation, all instances must be given static IPs.
 
 A common problem that you may run into is configuring multiple deployments to use overlapping IP ranges. The Director does not consider an IP to be "used" even if the Director used that IP in a different deployment. There are two possible solutions for this problem: reconfigure one of the deployments to use a different IP range, or use the same IP range but configure each deployment such that reserved IPs exclude the deployment from each other.
 
@@ -138,9 +141,9 @@ A common problem that you may run into is configuring multiple deployments to us
 ---
 ## Dynamic Networks {: #dynamic }
 
-Dynamic networking defers IP selection to the IaaS. For example, AWS assigns a private IP to each instance in the VPC by default. By associating a deployment job to a dynamic network, BOSH will pick up AWS-assigned private IP addresses.
+Dynamic networking defers IP selection to the IaaS. For example, AWS assigns a private IP to each instance in the VPC by default. By associating an instance group to a dynamic network, BOSH will pick up AWS-assigned private IP addresses.
 
-Each dynamic network attached to a job instance is typically represented as its own NIC in the IaaS layer.
+Each dynamic network attached to an instance group is typically represented as its own NIC in the IaaS layer.
 
 Dynamic networking only supports automatic IP reservations.
 
@@ -151,7 +154,7 @@ Schema for dynamic network definition:
 * **dns** [Array, optional]: DNS IP addresses for this network
 * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the network. Default is `{}` (empty Hash).
 
-Example:
+Example cloud config:
 
 ```yaml
 networks:
@@ -171,7 +174,7 @@ Schema for dynamic network definition with multiple subnets (available in v241+)
     * **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`.
     * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
 
-Example:
+Example cloud config:
 
 ```yaml
 networks:
@@ -230,7 +233,7 @@ Schema for VIP network where static IPs are configured in the cloud config for u
 * **subnets** [Array, optional]: Lists subnets in this network
     * **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `z1`.
     * **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`.
-    * **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to jobs requesting static IPs. Only IPs specified here can be used for static IP reservations.
+    * **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to instances requesting static IPs. Only IPs specified here can be used for static IP reservations.
     * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
 
 Sample cloud config and deployment manifest:
@@ -318,15 +321,17 @@ instance_groups:
 ---
 ## Multi-homed VMs {: #multi-homed }
 
-A deployment job can be configured to have multiple IP addresses (multiple NICs) by being on multiple networks. Given that there are multiple network settings available for a deployment job, the Agent needs to decide which network's DNS settings to use and which network's gateway should be the default gateway on the VM. Agent performs such selection based on the network's `default` property specified in the deployment job.
+An instance group can be configured to have multiple IP addresses (multiple NICs) by being on multiple networks. Given that there are multiple network settings available for an instance group, the Agent needs to decide which network's DNS settings to use and which network's gateway should be the default gateway on the VM. Agent performs such selection based on the network's `default` property specified in the instance group.
 
 Schema for `default` property:
 
-* **default** [Array, optional]: Configures this network to provide its settings for specific category as a default. Possible values are: `dns`, `gateway` and since bosh-release v258 `addressable`. All values can be specified together. `addressable` can be used to specify which IP address other jobs see.
+* **default** [Array, optional]: Configures this network to provide its settings for specific category as a default. Possible values are: `dns`, `gateway` and since bosh-release v258 `addressable`. All values can be specified together. `addressable` can be used to specify which IP address other instances see.
 
 Example:
 
 ```yaml
+# cloud-config.yml
+---
 networks:
 - name: my-network-1
   type: dynamic
@@ -336,15 +341,17 @@ networks:
   type: dynamic
   dns: [4.4.4.4]
 
-jobs:
-- name: my-multi-homed-job
+# deployment.yml
+---
+instance_groups:
+- name: my-multi-homed-instance-group
   ...
   networks:
   - name: my-network-1
     default: [dns, gateway]
   - name: my-network-2
 
-- name: my-other-multi-homed-job
+- name: my-other-multi-homed-instance-group
   ...
   networks:
   - name: my-network-1
@@ -353,7 +360,7 @@ jobs:
     default: [gateway]
 ```
 
-In the above example, VM allocated to `my-multi-homed-job` deployment job will have `8.8.8.8` as its primary DNS server and the default gateway will be set to `my-network-1`'s gateway. VM allocated to `my-other-multi-homed-job` deployment job will also have `8.8.8.8` as its primary DNS server but the default gateway will be set to `my-network-2`'s gateway.
+In the above example, VM allocated to `my-multi-homed-instance-group` instance group will have `8.8.8.8` as its primary DNS server and the default gateway will be set to `my-network-1`'s gateway. VM allocated to `my-other-multi-homed-instance-group` instance group will also have `8.8.8.8` as its primary DNS server but the default gateway will be set to `my-network-2`'s gateway.
 
 !!! note
     See [CPI limitations](#cpi-limitations) to find which CPIs support this feature.
@@ -364,15 +371,15 @@ In the above example, VM allocated to `my-multi-homed-job` deployment job will h
 ---
 ## CPI Limitations {: #cpi-limitations }
 
-The Director does not enforce how many networks can be assigned to each job instance; however, each CPI might impose custom requirements either due to the IaaS limitations or simply because support was not yet implemented.
+The Director does not enforce how many networks can be assigned to each instance; however, each CPI might impose custom requirements either due to the IaaS limitations or simply because support was not yet implemented.
 
-|           | manual network                                                | dynamic network           | vip network                          |
-|-----------|---------------------------------------------------------------|---------------------------|--------------------------------------|
-| AWS       | Single per job instance                                       | Single per job instance   | Single, corresponds to an elastic IP |
-| Azure     | Multiple per job instance                                     | Multiple per job instance | Single, corresponds to a reserved IP |
-| OpenStack | [Multiple per job instance](openstack-multiple-networks.md) | Single per job instance   | Single, corresponds to a floating IP |
-| vSphere   | Multiple per job instance                                     | Not supported             | Not supported                        |
-| vCloud    | Multiple per job instance                                     | Not supported             | Not supported                        |
+|           | manual network                                                  | dynamic network             | vip network                          |
+|-----------|-----------------------------------------------------------------|-----------------------------|--------------------------------------|
+| AWS       | Single per instance group                                       | Single per instance group   | Single, corresponds to an elastic IP |
+| Azure     | Multiple per instance group                                     | Multiple per instance group | Single, corresponds to a reserved IP |
+| OpenStack | [Multiple per instance group](openstack-multiple-networks.md)   | Single per instance group   | Single, corresponds to a floating IP |
+| vSphere   | Multiple per instance group                                     | Not supported               | Not supported                        |
+| vCloud    | Multiple per instance group                                     | Not supported               | Not supported                        |
 
 ---
 ## CPI Specific `cloud_properties` {: #cloud-properties }
