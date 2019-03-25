@@ -152,3 +152,28 @@ bosh interpolate base.yml --vars-store=creds.yml
 cat creds.yml
 # admin_password: vbvdhjbzqelnq7cfyw09
 ```
+
+### Absolute Path Variables {: #absolute }
+
+When deploying, bosh will reference and store variables internally, following the convention `/director_name/deployment_name/variable_name`, this defines the _absolute path_ that allows for BOSH to unequivocally identify a variable.
+
+This can be leveraged to allow the operator to share (or reuse) a variable on subsequent deployments, providing it as the `name` of an [explicitly declared variable](#explicit).
+
+For example, given a director named `main`, having a deployment named `test` with one variable named `identity-credentials`, the variable can be (re)used in future changes to the deployment, by referencing `/main/test/identity-credentials` as the `name` of the variable:
+
+```yaml
+variables:
+- name: /main/test/identity-credentials
+  options:
+    ca: /main/test/identity-credentials-ca
+    common_name: Identity Credentials Intermediate CA
+    duration: 730
+    is_ca: true
+    key_usage:
+    - key_cert_sign
+  type: certificate
+```
+
+!!!warning
+    Variables can be referenced between deployments using their absolute path, however this is strongly discouraged and unsupported. BOSH provides a robust and preferred way to share properties between deployments, via [Links](links.md).
+
