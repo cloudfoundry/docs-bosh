@@ -509,8 +509,7 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=res
 	}, {
 		"name": "metron_agent",
 		"state": "running"
-	}],
-	"resurrection_paused": false
+	}]
 }
 ```
 
@@ -807,7 +806,6 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/example/instan
 - **disk_cid** [String or null]: Cloud ID of the associated persistent disk if one is attached.
 - **job_name** [String]: Name of the job.
 - **index** [Integer]: Numeric job index.
-- **resurrection_paused** [Boolean]: Whether or not resurrector will try to bring back the VM is it goes missing.
 - **job_state** [String]: Aggregate state of job. Possible values: `running` and other values that represent unhealthy state.
 - **ips** [Array of strings]: List of IPs.
 - **dns** [Array of strings]: List of DNS records.
@@ -842,8 +840,8 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1287/output?type=res
 
 ```text
 ...
-{"vm_cid":"3938cc70-8f5e-4318-ad05-24d991e0e66e","disk_cid":null,"ips":["10.0.1.3"],"dns":[],"agent_id":"d927e75b-2a2d-4015-b5cc-306a067e94e9","job_name":"example_service","index":1,"job_state":"running","state":"started","resource_pool":"resource_pool_1","vm_type":"resource_pool_1","vitals":{"cpu":{"sys":"0.3","user":"0.1","wait":"0.0"},"disk":{"ephemeral":{"inode_percent":"5","percent":"32"},"system":{"inode_percent":"34","percent":"66"}},"load":["0.00","0.01","0.10"],"mem":{"kb":"605008","percent":"7"},"swap":{"kb":"75436","percent":"1"}},"processes":[{"name":"beacon","state":"running","uptime":{"secs":1212184},"mem":{"kb":776,"percent":0},"cpu":{"total":0}},{"name":"baggageclaim","state":"running","uptime":{"secs":1212152},"mem":{"kb":8920,"percent":0.1},"cpu":{"total":0}},{"name":"garden","state":"running","uptime":{"secs":1212153},"mem":{"kb":235004,"percent":2.8},"cpu":{"total":0.2}}],"resurrection_paused":true,"az":null,"id":"abe6a4e9-cfca-490b-8515-2893f9e54d20","bootstrap":false,"ignore":false}
-{"vm_cid":"86eb5e7e-a1c8-4f7b-a20c-cd696bf80938","disk_cid":"70b3c01c-729e-4335-9630-1f1985a40c99","ips":["10.0.1.5"],"dns":[],"agent_id":"7a54d3bb-f77b-412f-b662-dbff7733a823","job_name":"example_errand","index":0,"job_state":"stopped","state":"stopped","resource_pool":"resource_pool_1","vm_type":"resource_pool_1","vitals":{"cpu":{"sys":"1.3","user":"4.9","wait":"0.1"},"disk":{"ephemeral":{"inode_percent":"0","percent":"0"},"persistent":{"inode_percent":"0","percent":"67"},"system":{"inode_percent":"34","percent":"48"}},"load":["0.00","0.03","0.05"],"mem":{"kb":"227028","percent":"6"},"swap":{"kb":"25972","percent":"1"}},"processes":[{"name":"postgresql","state":"running","uptime":{"secs":1212309},"mem":{"kb":489836,"percent":12.1},"cpu":{"total":0}}],"resurrection_paused":true,"az":null,"id":"548d7aa0-eb8f-4890-bd3a-e9b526f3aeeb","bootstrap":false,"ignore":false}
+{"vm_cid":"3938cc70-8f5e-4318-ad05-24d991e0e66e","disk_cid":null,"ips":["10.0.1.3"],"dns":[],"agent_id":"d927e75b-2a2d-4015-b5cc-306a067e94e9","job_name":"example_service","index":1,"job_state":"running","state":"started","resource_pool":"resource_pool_1","vm_type":"resource_pool_1","vitals":{"cpu":{"sys":"0.3","user":"0.1","wait":"0.0"},"disk":{"ephemeral":{"inode_percent":"5","percent":"32"},"system":{"inode_percent":"34","percent":"66"}},"load":["0.00","0.01","0.10"],"mem":{"kb":"605008","percent":"7"},"swap":{"kb":"75436","percent":"1"}},"processes":[{"name":"beacon","state":"running","uptime":{"secs":1212184},"mem":{"kb":776,"percent":0},"cpu":{"total":0}},{"name":"baggageclaim","state":"running","uptime":{"secs":1212152},"mem":{"kb":8920,"percent":0.1},"cpu":{"total":0}},{"name":"garden","state":"running","uptime":{"secs":1212153},"mem":{"kb":235004,"percent":2.8},"cpu":{"total":0.2}}],"az":null,"id":"abe6a4e9-cfca-490b-8515-2893f9e54d20","bootstrap":false,"ignore":false}
+{"vm_cid":"86eb5e7e-a1c8-4f7b-a20c-cd696bf80938","disk_cid":"70b3c01c-729e-4335-9630-1f1985a40c99","ips":["10.0.1.5"],"dns":[],"agent_id":"7a54d3bb-f77b-412f-b662-dbff7733a823","job_name":"example_errand","index":0,"job_state":"stopped","state":"stopped","resource_pool":"resource_pool_1","vm_type":"resource_pool_1","vitals":{"cpu":{"sys":"1.3","user":"4.9","wait":"0.1"},"disk":{"ephemeral":{"inode_percent":"0","percent":"0"},"persistent":{"inode_percent":"0","percent":"67"},"system":{"inode_percent":"34","percent":"48"}},"load":["0.00","0.03","0.05"],"mem":{"kb":"227028","percent":"6"},"swap":{"kb":"25972","percent":"1"}},"processes":[{"name":"postgresql","state":"running","uptime":{"secs":1212309},"mem":{"kb":489836,"percent":12.1},"cpu":{"total":0}}],"az":null,"id":"548d7aa0-eb8f-4890-bd3a-e9b526f3aeeb","bootstrap":false,"ignore":false}
 ```
 
 #### Formatted example of details of a single instance
@@ -913,7 +911,6 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1287/output?type=res
       }
     }
   ],
-  "resurrection_paused": true,
   "az": null,
   "id": "548d6aa0-eb8f-4890-bd3a-e9b526f3aeeb",
   "bootstrap": false,
@@ -975,7 +972,6 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/cf-warden/vms'
 - **disk_cid** [String or null]: Cloud ID of the associated persistent disk if one is attached.
 - **job_name** [String]: Name of the job.
 - **index** [Integer]: Numeric job index.
-- **resurrection_paused** [Boolean]: Whether or not resurrector will try to bring back the VM is it goes missing.
 - **job_state** [String]: Aggregate state of job. Possible values: `running` and other values that represent unhealthy state.
 - **ips** [Array of strings]: List of IPs.
 - **dns** [Array of strings]: List of DNS records.
@@ -1088,7 +1084,6 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=res
 			"total": 0.2
 		}
 	}],
-	"resurrection_paused": true,
 	"az": null,
 	"id": "abe6a4e9-cfca-490b-8515-2893f9e54d20",
 	"bootstrap": false,
@@ -1108,7 +1103,6 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=res
 
   "job_name": "doppler_z1",
   "index": 0,
-  "resurrection_paused": false,
 
   "job_state": "running",
   "ips": [ "10.244.0.142" ],
