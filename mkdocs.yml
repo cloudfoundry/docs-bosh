@@ -101,6 +101,8 @@ pages:
           - Agent Password Rotation: blobstore-agent-password-rotation.md
         - Bootstrap mbus:
           - SSL Rotation: mbus-ssl-rotation.md
+        - CredHub:
+          - Encryption Password Rotation: credhub-encryption-password-rotation.md
     - Configuring the Database:
       - Builtin PostgreSQL: director-configure-db.md
       - External MySQL: director-configure-db.md
