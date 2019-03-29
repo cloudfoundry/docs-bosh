@@ -12,12 +12,11 @@ This applies for the following credentials:
 * `hm_password`
 * `blobstore_director_password` when using local blobstore
 * `postgres_password` when using local postgres
-* `uaa_clients_director_to_credhub` assuming UAA and CredHub are co-located on
+* `uaa_clients_director_to_credhub` assuming UAA and CredHub are co-located on the director VM
 * `mbus_bootstrap_password` results in hard shut down of director VM
-  without running drain scripts (in future, this will be prevented by using
+  without running drain scripts (it is planned to prevent this by using
   mutual TLS). Therefore, it is important that no deployments are in progress
   before re-deploying the director.
-  the director VM
 
 ### Credentials with additional steps:
 
@@ -28,11 +27,11 @@ it is recommended to add a new admin user and password to `director.user_managem
 `nats.allow_legacy_agents` is set. Use mutual TLS instead. If `nats_password` needs to be rotated, all VMs deployed by the
 director must be recreated. After re-deploying the director and before
 re-deploying the VMs, the resurrector plugin of the health monitor may attempt
-to resurrect the VMs or may consider the deployments in meltdown mode.
-* `credhub_admin_client_secret`: for CredHub admin clients continue to authenticate after
+to resurrect the VMs or may consider the deployments are in meltdown mode.
+* `credhub_admin_client_secret`: for CredHub admin clients being able to authenticate after
 CredHub gets re-deployed and before the new CredHub admin secret is passed to the clients,
 it is recommended to add a new CredHub admin user and secret to `uaa.clients` before removing the old secret
-* `credhub_cli_user_password`: for the CredHub CLI user continue to authenticate after
+* `credhub_cli_user_password`: for the CredHub CLI user being able to authenticate after
 CredHub gets re-deployed and before the new CredHub CLI user password is passed to the clients,
 it is recommended to add a new CredHub CLI user and password to `uaa.scim.users` before removing the old password
 * `default_ca` including its signed certificates `director_ssl` and `mbus_bootstrap_ssl`:

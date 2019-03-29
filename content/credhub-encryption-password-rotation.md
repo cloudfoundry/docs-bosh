@@ -1,9 +1,11 @@
 # Rotating CredHub Encryption Password
 
 ### Preconditions
+
 * The director is in a healthy state.
 
 ### Assumptions
+
 * CredHub is co-located on the BOSH director VM
 
 ### Step 1: Update CredHub to encrypt with new password {: #step-1}
@@ -17,7 +19,7 @@ bosh interpolate creds.yml.bak \
 unset OLD_PWD
 ```
 
-`rename-credhub-encryption-password.yml`:
+Ops file `rename-credhub-encryption-password.yml`:
 
 ```yaml
 ---
@@ -35,12 +37,12 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
  -o ~/workspace/bosh-deployment/[IAAS]/cpi.yml \
  -o ~/workspace/bosh-deployment/credhub.yml \
  -o add-old-credhub-encryption-password.yml \
- -o ... additional opsfiles \
+ -o ... additional ops files \
  --vars-store ./creds.yml \
  -v ... additional vars
 ```
 
-`add-old-credhub-encryption-password.yml`:
+Ops file `add-old-credhub-encryption-password.yml`:
 
 ```yaml
 ---
@@ -54,7 +56,7 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 ```
 
 * create new password
-* inactivate old password
+* deactivate old password
 * let CredHub decrypt all secrets with old password and encrypt all secrets with
   new password
 
@@ -66,7 +68,7 @@ bosh interpolate creds.yml.bak \
  -o remove-old-credhub-encryption-password.yml > creds.yml
 ```
 
-`remove-old-credhub-encryption-password.yml`:
+Ops file `remove-old-credhub-encryption-password.yml`:
 
 ```yaml
 ---
@@ -79,7 +81,7 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
  --state ./state.json \
  -o ~/workspace/bosh-deployment/[IAAS]/cpi.yml \
  -o ~/workspace/bosh-deployment/credhub.yml \
- -o ... additional opsfiles \
+ -o ... additional ops files \
  --vars-store ./creds.yml \
  -v ... additional vars
 ```

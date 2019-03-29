@@ -10,7 +10,7 @@ As of director version 268.5.0+, blobstore agent password can be rotated.
 * The Director is in a healthy state.
 * Take note of any ignored VMs. They will be omitted from the VM recreation steps.
 * All the VMs are in the `running` state in all deployments.
-* These instructions must be adapted if used with bosh-lite ops files, as they overwrite the variables used in this procedure.
+* These instructions must be adapted if used with ops files (i.e. bosh-lite), as they overwrite the variables used in this procedure.
 
 ### Step 1: Update the director to add a new user {: #step-1}
 
@@ -23,9 +23,7 @@ mv creds_new.yml creds.yml
 unset OLD_PWD
 ```
 
-Ops file:
-
-`rename-blobstore-agent-password.yml`:
+Ops file `rename-blobstore-agent-password.yml`:
 
 ```yaml
 ---
@@ -42,14 +40,12 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
  --state state.json \
  -o ~/workspace/bosh-deployment/[IAAS]/cpi.yml \
  -o rotate-blobstore-agent-password.yml \
- -o ... additional opsfiles \
+ -o ... additional ops files \
  --vars-store ./creds.yml \
  -v ... additional vars
 ```
 
-Ops file:
-
-`rotate-blobstore-agent-password.yml`:
+Ops file `rotate-blobstore-agent-password.yml`:
 
 ```yaml
 ---
@@ -72,6 +68,7 @@ Ops file:
 * create new user and password
 
 ### Step 2: Redeploy all VMs {: #step-2}
+
 The recreation of all VMs will add the new credentials and remove the old credentials from their agent
 settings.
 
@@ -83,9 +80,7 @@ bosh interpolate ./creds.yml \
 mv creds_new.yml creds.yml
 ```
 
-Ops file:
-
-`remove-old-blobstore-agent-password.yml`:
+Ops file `remove-old-blobstore-agent-password.yml`:
 
 ```yaml
 ---
@@ -98,14 +93,12 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
  --state ./state.json \
  -o ~/workspace/bosh-deployment/[IAAS]/cpi.yml \
  -o ./rename-default-agent-user.yml \
- -o ... additional opsfiles \
+ -o ... additional ops files \
  --vars-store ./creds.yml \
  -v ... additional vars
 ```
 
-Ops file:
-
-`rename-default-agent-user.yml`:
+Ops file `rename-default-agent-user.yml`:
 
 ```yaml
 ---
@@ -119,7 +112,8 @@ Ops file:
 ```
 
 * Deploy director without the old user in the `additional_users` section of blobstore properties.
-* Since the new user name is `agent-new`, from now one you have to deploy the Director with the following `rename-default-agent-user.yml` ops file.
+* Since the new user name is `agent-new`, from now one you have to deploy the Director with the ops file `rename-default-agent-user.yml`.
 
 ### Optional steps:
+
 Rotate a second time to get rid of the additional `rename-default-agent-user.yml` ops file by naming the new user back to `agent`.
