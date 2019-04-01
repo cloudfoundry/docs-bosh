@@ -66,8 +66,6 @@ addons: []
 
 * **name** [String, required]: Name of a release name used by an addon.
 * **version** [String, required]: The version of the release to use. Version *cannot* be `latest`; it must be specified explicitly.
-* **url** [String, optional]: URL of a release to download. Works with CLI v2. Example: `https://bosh.io/d/github.com/cloudfoundry/syslog-release?v=11`.
-* **sha1** [String, optional]: SHA1 of asset referenced via URL. Works with CLI v2. Example: `332ac15609b220a3fdf5efad0e0aa069d8235788`.
 
 See [Release URLs](release-urls.md) for more details.
 
@@ -79,15 +77,8 @@ releases:
   version: 6.0.0
 ```
 
-Example with a URL:
-
-```yaml
-releases:
-- name: concourse
-  version: 3.3.2
-  url: https://bosh.io/d/github.com/concourse/concourse?v=3.3.2
-  sha1: 2c876303dc6866afb845e728eab58abae8ff3be2
-```
+!!!note
+    The releases defined in this block must already have been uploaded as part of a previous deployment, or using `bosh upload-release`
 
 ---
 ## Addons Block {: #addons }
