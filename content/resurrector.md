@@ -111,36 +111,17 @@ If your deployment consists of 1000 VMs, and you use the defaults, the Resurrect
 ---
 ## Enabling the Resurrector with Resurrection Config {: #enable-with-resurrection-config }
 
-!!! tip "Beta Feature"
-    This `resurrection` config method was first introduced in [v267.2.0](https://github.com/cloudfoundry/bosh/releases/tag/v267.2). We currently do not migrate existing resurrection state to this new configuration method, but are considering it as we improve the UX around this feature. Until we resolve that and because this may cause surprising behaviors with existing `update-resurrection` commands, test with caution.
+It is possible to configure resurrection based on deployments and instance group names using a Resurrection Configuration file. These files override default resurrection behavior and instruct the BOSH director to resurrect (or not) based on the deployment and instance group names.
 
-It is possible to configure resurrection based on deployments and instance group names using a Resurrection Configuration file.  These files override default resurrection behavior and instruct the BOSH director to resurrect (or not) based on the deployment and instance group names.
+The resurrection state will be updated directly after updating the resurrection config and does not require further actions. This means given a config which turns resurrection off and a deployment that has a missing VM, uploading a new config which enables resurrection for this deployment will trigger a scan and fix task to resurrect this VM.
 
-If you create a file `resurrection.yml` like this, for example:
-
-```
-rules:
-- enabled: false
-  include:
-    deployments:
-    - dep1
-
-- enabled: true
-  include:
-    deployments:
-    - dep1
-    instance_groups:
-    - api
-```
-
-Running `bosh update-config --type resurrection --name default resurrection.yml`
-will result in resurrection being disabled for most of the instances in deployment `dep1` which the exception of the `api` instance group.
 
 ### Resurrection config has the following structure:
-```
+
+```yaml
 rules:
 - enabled: [true,false]
-  include: # (optional, one of [include,exclude] must be present)
+  include: # (optional)
     deployments: # (optional, one of [deployments, instance_groups] must be present)
     - _deployment name1_
     - _deployment name2_
@@ -156,12 +137,57 @@ rules:
     - _instance group2_
 ```
 
-- `exclude` will result in the resurrection configuration being overridden
-  wherever the specified constraints do not match.  For example, an excluded
-  deployment `dep1` would apply to all deployments except `dep1`.
-- `include` will result in the resurrection configuration being overridden
-  wherever the specified constraints match.  For example, an included
-  deployment `dep1` would apply to the deployment `dep1` only.
+**Parameters:**
+
+- `rules` - a list of resurrection rules. If set to an empty list, resurrection will be enabled by default.
+- `enabled` - a boolean which enables (`true`) or disables (`false`) resurrection.
+- `exclude` *(Optional)* - a placement rule which will result in the resurrection configuration being overridden
+  wherever the specified constraints do not match. For example, an excluded deployment `dep1` would apply to all deployments except `dep1`.
+- `include` *(Optional)* - a placement rule which will result in the resurrection configuration being overridden
+  wherever the specified constraints match. For example, an included
+  deployment "dep1" would apply to the deployment "dep1" only.
+- `deployments` *(Optional)* - a list of deployments which can be used as a filter for the include/exclude directives.
+- `instance_groups` *(Optional)* - a list of instance groups which can be used as a filter for the include/exclude directives.
+
+
+### Example
+
+Create a ressurrection config file `resurrection.yml` like this, for example:
+
+```yaml
+rules:
+- enabled: false
+  include:
+    deployments:
+    - dep1
+
+- enabled: true
+  include:
+    deployments:
+    - dep1
+    instance_groups:
+    - api
+```
+
+Running `bosh update-config --type resurrection --name default resurrection.yml` will result in resurrection being disabled for most of the instances in deployment `dep1` with the exception of the `api` instance group.
+
+
+### Enabling / Disabling resurrection globally
+
+Ressurrection can be enabled on all deployments by uploading this resurrection config:
+
+```yaml
+rules:
+- enabled: true
+```
+
+Analogously, resurrection can be disabled on all deployments with this config:
+
+```yaml
+rules:
+- enabled: false
+```
+
 
 ---
 ## Disabling the Resurrector {: #disable }
