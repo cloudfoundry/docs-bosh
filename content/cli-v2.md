@@ -1222,6 +1222,12 @@ See [CPI config](cpi-config.md).
 
 #### Update-Resurrection {: #update-resurrection }
 
+!!! warning
+    The `update-resurrection` command is being deprecated in favor of the [resurrection config](resurrector.md#enable-with-resurrection-config) method,
+    which was introduced in [v267.2.0](https://github.com/cloudfoundry/bosh/releases/tag/v267.2).
+    It is strongly discouraged to use the CLI command anymore, because settings from the resurrection config can be overwritten,
+    which may result in surprising behaviors of the resurrector.
+
 - `bosh -e my-env update-resurrection on/off`
 
     Enables or disables resurrection globally. This state is not reflected in the `bosh instances` command's `Resurrection` column.
