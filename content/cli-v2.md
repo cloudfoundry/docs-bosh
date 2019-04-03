@@ -1272,9 +1272,11 @@ See [CPI config](cpi-config.md).
 
 - `bosh -e my-env clean-up [--all]`
 
-    Cleans up releases, stemcells, orphaned disks, and other unused resources.
+    Cleans up unused resources, but keeps orphaned disks and the two most recent versions of stemcells and releases.
 
-    - `--all` flag forces cleanup for orphaned disks
+    - `--all` flag cleans up all unused resources including orphaned disks.
+    
+    Note that orphan disks get deleted after a few days by default. See [Orphan Disks](persistent-disks.md#orphaned-disks) for more details.
 
 
 #### Help {: #help }
