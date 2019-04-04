@@ -513,6 +513,27 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=res
 }
 ```
 
+
+---
+### `POST /tasks/cancel`: Cancel tasks {: #cancel-tasks }
+
+#### Request headers
+
+- **Content-Type** must be `application/json`.
+- **X-Bosh-Context-Id** can be optionally configured with a Context ID that can be used to link related BOSH requests
+
+#### Request body scheme
+
+**[root]** [Hash]: Task filters.
+
+- **types** [Array]: Task types to cancel (e.g., `update_deployment`, `scan_and_fix`, `update_stemcell`). Default: all tasks.
+- **states** [Array]: Task states to cancel. Possible values are: `queued`, `processing`. Default: `queued`.
+
+#### Response
+
+Empty.
+
+
 ---
 ## Stemcells {: #stemcells }
 
