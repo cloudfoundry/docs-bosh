@@ -528,6 +528,7 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=res
 
 - **types** [Array]: Task types to cancel (e.g., `update_deployment`, `scan_and_fix`, `update_stemcell`). Default: all tasks.
 - **states** [Array]: Task states to cancel. Possible values are: `queued`, `processing`. Default: `queued`.
+- **deployment** [String]: Cancel tasks only for the given deployment. Default: all deployments.
 
 #### Response
 
