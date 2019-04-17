@@ -223,8 +223,7 @@ instance_groups:
 ### Automatic IP Assignment
 
 !!! note
-    TODO: Update with actual director version
-    Available as of BOSH Director version ???.???.???
+    Available as of BOSH Director version 269.0.0
 
 Schema for VIP network where static IPs are configured in the cloud config for use across deployments:
 
