@@ -35,7 +35,7 @@ CLI does not provide a way to specify UAA user login information since all non-i
 ---
 ## Output flags {: #output }
 
-- `-n` flag affirms any confirmation that typically requires use input (`BOSH_NON_INTERACTIVE=true` environment variable)
+- `-n` flag affirms any confirmation that typically requires user input (`BOSH_NON_INTERACTIVE=true` environment variable)
 - `--json` flag changes output format to JSON
 - `--tty` flag forces output to include all decorative text typically visible when command is not redirected
 - `--no-color` flag disables colors (enabled by default when command is redirected)
