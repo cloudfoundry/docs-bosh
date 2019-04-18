@@ -110,6 +110,186 @@ To enable healthiness, use `health.enabled` property and specify necessary TLS c
 
 By default, a VM is considered healthy if the process manager reports all processes as healthy (e.g. `monit`). For specific jobs, release authors may install a script at `bin/dns/healthy` to provide more precise healthiness checks. The `healthy` script must exit `0` if the job is healthy, or any other exit code for unhealthy. These scripts are run at regular intervals (by default, 5s) in addition to checking the status from the process manager. If any processes are failing or any `healthy` script reports as unhealthy, the VM will be considered unhealthy.
 
+#### Aliases to services
+
+##### Using aliases
+
+1. Jobs which provide services can be configured to be addressable via a static alias. A job that currently provides a link can be aliased directly by updating the manifest to add the alias in the `provides` configuration of the job. Here is an example:
+
+```
+instance_groups:
+- name: instance-group0
+  jobs:
+  - name: instance-job0
+    provides:
+      my-link:
+        aliases:
+        - domain: 'my-custom-alias.example.com'
+          health_filter: "healthy"
+    release: my-release
+    properties: {}
+```
+
+2. If the job as defined in the release does not currently provide a link, you can still define an alias to that job but first you must define a custom link provider in order to do so like this:
+
+```
+instance_groups:
+- name: instance-group0
+  jobs:
+  - name: instance-job0
+    provides:
+      my_custom_link:
+        aliases:
+        - domain: 'my-custom-alias.example.com'
+          health_filter: "healthy"
+    custom_provider_definitions:
+    - name: my_custom_link
+      type: my_custom_link_type
+    release: my-release
+    properties: {}
+```
+
+##### Types of aliases
+
+###### Basic alias
+
+A basic alias is an _unparameterized_ alias on a _constant domain_ with a _constant_ query.  It returns all IPs matching the filter that provide that link.
+
+Parameters:
+
+domain
+: required
+
+health_filter
+: optional; default: smart
+
+initial_health_check
+:  optional; default: asynchronous
+
+
+basic_deployment.yml:
+```
+aliases:
+  - domain: my-service.my-domain
+    health_filter: smart/healthy/unhealthy/all
+    initial_health_check: asynchronous/synchronous
+```
+
+###### Wildcard alias
+A wildcard alias is an _unparameterized_ alias on a _wildcard domain_ with a _constant_ query.
+It returns all IPs matching the filter that provide that link.
+
+Parameters:
+
+domain
+: required
+
+health_filter:
+optional; default: smart
+
+initial_health_check:
+optional; default: asynchronous
+
+wildcard_deployment.yml:
+```
+aliases:
+- domain: "*.cloud-controller-ng.service.cf.internal"
+  health_filter: smart/healthy/unhealthy/all
+  initial_health_check: asynchronous/synchronous
+```
+
+###### Placeholder alias
+A placeholder alias is a _parameterizable_ alias on a _wildcard domain_ with a _variable_ query.
+It returns IPs matching both the filter that provides that link and the placeholder replacement.
+
+It allows referencing a placeholder (_) specified in the alias. The type of the placeholder can be configured, to allow referencing by instance uuid, index, availability_zone, or network.
+
+Parameters:
+
+domain
+: required
+
+placeholder_type
+:  required
+
+health_filter
+: optional; default: smart
+
+initial_health_check
+:  optional; default: asynchronous
+
+placeholder_deployment.yml:
+```
+aliases:
+- domain: "_.cloud-controller-ng.service.cf.internal"
+  placeholder_type: uuid/index/az/network
+  health_filter: smart/healthy/unhealthy/all
+  initial_health_check: asynchronous/synchronous
+```
+
+###### Parameters in Detail
+
+*domain (required)*
+Describes the domain name the alias should return results for when queried.
+*placeholder_type (situationally required)*
+Only applicable if the domain contains the _ placeholder, and required in that case.
+Determines whether the _ will stand in for a uuid, index, availability_zone, or network.
+* uuid:  _ will be expected to be an instance-uuid
+* index: _ will be expected to be an instance-index
+* availability_zone: _ will be expected to be an availability zone name
+* network: _ will be expected to be a network name
+
+Examples
+A query to 3.cloud-controller-ng.service.cf.internal will return the IP for the 4th instance of cloud-controller-ng if placeholder_type is set to index.
+
+A query to e23e4567-e89b-12d3-a456-426655440000.cloud-controller-ng.service.cf.internal will return the IP for an instance of cloud-controller-ng with the uuid e23e4567-e89b-12d3-a456-426655440000 if placeholder_type is set to uuid.
+
+*health_filter (optional)*
+If present, filters the results to only return jobs matching the specified health status, e.g. only healthy ones, unhealthy ones, or all of them.
+* smart (default) returns only healthy or unchecked jobs; however, if all the jobs in an instance_group are unhealthy all of them are returned.
+* healthy returns only healthy jobs
+* unhealthy returns only unhealthy
+* all returns all jobs regardless of their health
+
+_Defaults to smart._
+*initial_health_check (optional)*
+Because BOSH has to start tracking a given job's health status, by default it will return all (unfiltered) IPs on the very first request and asynchronously begin tracking their health. 
+Setting this to synchronous will force BOSH to wait for the first health statuses to come in and filter by them. This will take longer, but guarantees that health has been checked at least once even for the very first DNS request. 
+* asynchronous (default) will return unchecked results to smart queries and begin health-checking those IP addresses in the background
+* synchronous forces BOSH to check job health on the very first request before returning any results
+
+###### Grouping link providers under an alias
+
+It is possible for more than one link provider to define domains with the exact same values.  If this happens, the queries will each be run independently and the results will be merged.
+
+For example, with the following deployment manifest:
+deployment.yml:
+```
+instance_groups:
+# ...
+- name: proxied
+  jobs:
+  - name: nginx
+    provides:
+      conn:
+        aliases:        
+        - domain: "api.bosh.internal"
+# ...
+- name: direct
+  jobs:
+  - name: web
+    provides:
+      auctioneer:
+        aliases:
+        - domain: "api.bosh.internal"
+          health_filter: all
+          initial_health_check: synchronous
+```
+
+Both proxied and direct define api.bosh.internal as an alias, but with different filters. Resolving the api.bosh.internal address would return both:
+1. IPs of VMs for the proxied instance group in which the nginx job is healthy or unchecked
+1. IPs of VMs for the direct instance group in which the web job is healthy (checking the health synchronously on the first request)
+
 ### Caching
 
 DNS release provides a way to enable response caching based on response TTLs. Enabling caching typically will alleviate some pressure from your upstream DNS servers and decrease latency of DNS resolutions.
