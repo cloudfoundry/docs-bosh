@@ -518,6 +518,43 @@ See [Uploading Releases](uploading-releases.md).
     Succeeded
     ```
 
+#### Inspect-Local-Release {: #inspect-local-release}
+
+- `bosh inspect-local-release PATH`
+
+    Lists all jobs, packages, and compiled packages associated with a release tarball.
+
+    ```shell
+    bosh inspect-local-release bpm-1.0.3-ubuntu-xenial-250.25-20190327-162856-776883319.tgz
+    ```
+
+    Should result in:
+
+    ```text
+    Name         bpm
+    Version      1.0.3
+    Commit Hash  d2f7197
+    Archive      bpm-1.0.3-ubuntu-xenial-250.25-20190327-162856-776883319.tgz
+
+    Job                                                   Digest                                    Packages
+    bpm/fafbd62c034aaf20947ec9c9e7102959ca73db8c          1d17ace7f7cef72554b5fe3106212dd43ed76953  -
+    test-errand/1ccf9ec7a47043218a7d080a5d674077bfc28529  ff901be8452289d0590a36eb7823174ae8104c7f  -
+    test-server/80db4f3e3ef3ce7301c5a256357dd158df147a70  bee2983cffc928354cc2a48f929ed1c4d42ce59d  -
+
+    3 jobs
+
+    Package                                               Digest                                    Dependencies  OS             OS Version
+    bpm-runc/b1010b27bec38acce027b2d1d8a1c10b71bb6f87     2046ffbd400ddf71fd6a01114a37714e0d531ea5  golang        ubuntu-xenial  250.25
+    bpm/0c350861f27a4b912fb578bfa88d97d1dafe1602          a9dfddb259c4674138da48b9a538aef6b18ab274  golang        ubuntu-xenial  250.25
+    bpm-runc
+    golang/4f7fa7648892d4d98b7912c945638c8f32f52d6f       2d1b33e23642b159cf012e83597a7ab63933eaa5  -             ubuntu-xenial  250.25
+    test-server/b748494d5c1031c9943e0d7f3982e4b09fce36f5  612a488cf46a32883bee4f0415fdcf83de9ee5ec  golang        ubuntu-xenial  250.25
+
+    4 packages
+
+    Succeeded
+    ```
+
 ---
 ### Configs {: #configs-mgmt }
 
