@@ -1,7 +1,7 @@
 (See [Job Lifecycle](job-lifecycle.md) for an explanation of when pre-stop scripts run.)
 
 !!! tip "Beta Feature"
-    The `pre-stop` script is available with bosh-release [TODO Morgan](https://linkToRelease) and only for releases deployed with `TODO Morgan` stemcells. Otherwise the `pre-stop` script will be ignored and does not run before stop.
+    The `pre-stop` script is available with bosh-release [v269.0.0](https://github.com/cloudfoundry/bosh/releases/tag/v269.0.0) and only for releases deployed with `v315.x` or greater stemcells. Otherwise the `pre-stop` script will be ignored and does not run before stop.
 
 Release job can have a pre-stop script that will run before a [drain script](drain.md) is called. Similarly to the drain script, the pre-stop script also allows the job to prepare the release job for a graceful shutdown.
 However unlike the drain script, during execution of the pre-stop script the release authors are exposed to more information related to future state of the VM, its instance and the whole deployment.
