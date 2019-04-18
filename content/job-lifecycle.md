@@ -35,13 +35,18 @@ Note that scripts should not rely on the order they are run. Agent may decide to
 
 1. `monit unmonitor` is called for each process
 
+1. [pre-stop scripts](pre-stop.md) run for all jobs on the VM in parallel
+	- (waits for all pre-stop scripts to finish)
+	- does not time out
+	- requires minimum BOSH `v269.0.0` and stemcell `v315.x`
+
 1. [drain scripts](drain.md) run for all jobs on the VM in parallel
 	- (waits for all drain scripts to finish)
 	- does not time out
 
 1. `monit stop` is called for each process
-  - times out after 5 minutes as of bosh v258+ on 3302+ stemcells
-  
+	- times out after 5 minutes as of bosh v258+ on 3302+ stemcells
+
 1. [post-stop scripts](post-stop.md) run for all jobs on the VM in parallel
 	- (waits for all post-stop scripts to finish)
 	- does not time out
