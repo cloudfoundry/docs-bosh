@@ -38,7 +38,7 @@ Note that scripts should not rely on the order they are run. Agent may decide to
 1. [pre-stop scripts](pre-stop.md) run for all jobs on the VM in parallel
 	- (waits for all pre-stop scripts to finish)
 	- does not time out
-	- requires bosh `v269.0.0` and stemcells `TODO Morgan`
+	- requires minimum BOSH `v269.0.0` and stemcell `v315.x`
 
 1. [drain scripts](drain.md) run for all jobs on the VM in parallel
 	- (waits for all drain scripts to finish)
