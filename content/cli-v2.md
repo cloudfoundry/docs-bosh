@@ -136,13 +136,16 @@ See [Environments](cli-envs.md).
 
     Logs in given user into the Director.
 
-    This command can only be used interactively. If non-interactive use is necessary (for example in scripts) please set `BOSH_CLIENT` and `BOSH_CLIENT_SECRET` environment variables instead of using this command. Note that if the Director is configured with UAA authentication you cannot use UAA users with BOSH_* environment variables but rather have to use UAA clients.
+    This command can only be used interactively. If non-interactive use is necessary (for example in scripts) please set `BOSH_CLIENT` and `BOSH_CLIENT_SECRET` environment variables instead of using this command.
 
     ```shell
     bosh -e my-env l
     # User (): admin
     # Password ():
     ```
+
+    !!! warning
+        For **UAA users**, the flags `--client`, `--client-secret` and the environment variables `BOSH_CLIENT` and `BOSH_CLIENT_SECRET` are not supported, and will not be forwarded to UAA. The only supported login flow for UAA is by using an interactive login. Alternatively UAA users can use UAA clients to login.
 
 #### Log-Out {: #log-out }
 
