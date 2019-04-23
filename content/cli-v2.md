@@ -854,6 +854,8 @@ See [CPI config](cpi-config.md).
     bosh -e vbox -d cf recreate diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 --skip-drain
     bosh -e vbox -d cf recreate diego-cell --canaries=0 --max-in-flight=100%
     ```
+    !!! warning
+        In case of a **failed** deployment, running `bosh recreate` will converge to the last **successfully deployed state**, not the intended state of the failed deployment. See [Deployment Convergence](deployment-convergence.md).
 
 #### Restart {: #restart }
 
@@ -865,6 +867,9 @@ See [CPI config](cpi-config.md).
     - `--canaries=` flag overrides manifest values for `canaries`
     - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
 
+    !!! warning
+        In case of a **failed** deployment, running `bosh restart` will converge to the last **successfully deployed state**, not the intended state of the failed deployment. See [Deployment Convergence](deployment-convergence.md).
+
 #### Start {: #start }
 
 - `bosh -e my-env -d my-dep start [group[/instance-id]] [--canaries=] [--max-in-flight=]`
@@ -873,6 +878,9 @@ See [CPI config](cpi-config.md).
 
     - `--canaries=` flag overrides manifest values for `canaries`
     - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
+
+    !!! warning
+        In case of a **failed** deployment, running `bosh start` will converge to the last **successfully deployed state**, not the intended state of the failed deployment. See [Deployment Convergence](deployment-convergence.md).
 
 #### Stop {: #stop }
 
@@ -1315,7 +1323,7 @@ See [CPI config](cpi-config.md).
     Cleans up unused resources but keeps orphaned disks and the two most recent versions of stemcells and releases.
 
     - `--all` flag cleans up all unused resources including orphaned disks.
-    
+
     Note that orphan disks get deleted after a few days by default. See [Orphan Disks](persistent-disks.md#orphaned-disks) for more details.
 
 
