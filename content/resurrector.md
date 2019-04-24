@@ -175,7 +175,7 @@ By default, resurrection is turned on and the following examples demonstrate how
 	    deployments:
 	    - dep1
 	```
-	Running `bosh update-config --type resurrection --name default resurrection.yml` disables resurrection for all deployments in the include block, i.e. `dep1`. For all other deployments, resurrection is still enabled.
+	Running `bosh update-config --type resurrection --name disable-dep1 resurrection.yml` disables resurrection for all deployments in the include block, i.e. `dep1`. For all other deployments, resurrection is still enabled.
 
 2. Disable resurrection for an instance group `instance-group-1` of a deployment `dep1` by creating a `resurrection.yml`:
 
@@ -189,7 +189,7 @@ By default, resurrection is turned on and the following examples demonstrate how
 	    - instance-group-1
 	```
 
-	Running `bosh update-config --type resurrection --name default resurrection.yml` disables resurrection for all instance groups of all the specified deployments, i.e. `instance-group-1` of deployment `dep1`. For all other instance groups and deployments, resurrection is still enabled.
+	Running `bosh update-config --type resurrection --name disable-dep1-instance-group-1 resurrection.yml` disables resurrection for all instance groups of all the specified deployments, i.e. `instance-group-1` of deployment `dep1`. For all other instance groups and deployments, resurrection is still enabled.
 
 3. Disable resurrection for all deployments except for deployment `dep1` by creating a `resurrection.yml`:
 
@@ -200,7 +200,7 @@ By default, resurrection is turned on and the following examples demonstrate how
 	    deployments:
 	    - dep1
 	```
-	Running `bosh update-config --type resurrection --name default resurrection.yml` disables resurrection for all deployments except deployment `dep-1`.
+	Running `bosh update-config --type resurrection --name disable-all-but-dep1 resurrection.yml` disables resurrection for all deployments except deployment `dep-1`.
 
 
 ### Disabling resurrection globally
