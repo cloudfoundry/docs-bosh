@@ -72,6 +72,7 @@ pages:
       - Reusing Packages: package-vendoring.md
     - Windows Compatibility:
       - Overview: windows.md
+      - Creating a Windows Stemcell for vSphere: windows-stemcell-create.md
       - Sample Release: windows-sample-release.md
     - Using BPM:
       - Overview: bpm/bpm.md
