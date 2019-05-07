@@ -67,10 +67,14 @@ Ops file `rotate-blobstore-agent-password.yml`:
 * move the old user and password to `additional_users` section of blobstore properties
 * create new user and password
 
-### Step 2: Redeploy all VMs {: #step-2}
+### Step 2: Recreate all VMs {: #step-2}
 
 The recreation of all VMs will add the new credentials and remove the old credentials from their agent
 settings.
+
+```shell
+bosh -d deployment-name recreate
+```
 
 ### Step 3: Update director to remove old user {: #step-3}
 
@@ -112,7 +116,7 @@ Ops file `rename-default-agent-user.yml`:
 ```
 
 * Deploy director without the old user in the `additional_users` section of blobstore properties.
-* Since the new user name is `agent-new`, from now one you have to deploy the Director with the ops file `rename-default-agent-user.yml`.
+* Since the new user name is `agent-new`, from now on you have to deploy the Director with the ops file `rename-default-agent-user.yml`.
 
 ### Optional steps:
 
