@@ -100,17 +100,3 @@ properties:
       application_key:
       pagerduty_service_name:
 ```
-
----
-## AWS CloudWatch {: #cloudwatch }
-
-Plugin that sends various events to [Amazon's CloudWatch](http://aws.amazon.com/cloudwatch/) using their API.
-
-```yaml
-properties:
-  hm:
-    cloud_watch_enabled: true
-  aws:
-    access_key_id:
-    secret_access_key:
-```

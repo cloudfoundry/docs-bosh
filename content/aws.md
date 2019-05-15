@@ -19,12 +19,12 @@ The following table maps BOSH concepts to their AWS-native equivalents.
 | ---- | ------------------- |
 | Availability Zone | [Availability Zone](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) |
 | Virtual Machine | [EC2 Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html) |
-| VM Config Metadata | BOSH Registry |
 | Network Subnet | [VPC Subnet](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html) |
 | Virtual IP | [EC2 Elastic IP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) |
 | Persistent Disk | [EC2 EBS Volume](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html) |
 | Disk Snapshot | [EC2 EBS Snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html) |
 | Stemcell | [EC2 Amazon Machine Image](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) |
+| Agent Settings | EC2 Instance User Metadata; BOSH Registry |
 
 
 ## Feature Support
@@ -65,3 +65,4 @@ AWS supports encryption functionality through their [Key Management Service](htt
 | --------- | ------- |
 | Multi-CPI | Supported, [v61](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v61)+ |
 | Native Disk Resize | Not Supported |
+| Generic VM Resource Configuration | Supported, [v56](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v56)+ |

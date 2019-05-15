@@ -78,6 +78,7 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 ### Step 2: Recreate all the VMs, for each deployment. {: #step-2}
 
 The VMs need to be recreated in order to receive the new certificates generated from the new Blobstore CA being rotated in. If the VMs are not recreated, the agents they contain will not be able to communicate with the blobstore since they will not trust the new CA used to sign the blobstore's certificate. 
+
 ```shell
 bosh -d deployment-name recreate
 ```

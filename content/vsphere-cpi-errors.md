@@ -6,6 +6,7 @@ This error may occur when global CPI configuration references:
 
 - cluster (via `clusters` key) that cannot be found in the datacenter
 - stemcell that cannot be found in the templates folder
+- cluster (via `clusters` key) that does not have any hosts (as a consequence of having no hosts , it has access to zero datastores)
 
 
 ## Missing Properties Exception

@@ -56,6 +56,46 @@ Name, operating system and version values will be visible via `bosh stemcells` c
 Example:
 
 ```shell
+tar -Oxzf bosh-stemcell-97.19-aws-xen-hvm-ubuntu-xenial-go_agent.tgz stemcell.MF
+```
+
+```yaml
+---
+name: bosh-aws-xen-hvm-ubuntu-xenial-go_agent
+version: '97.19'
+bosh_protocol: 1
+sha1: f2b1f5173b4529ef1f27d7a053558a722021f724
+operating_system: ubuntu-xenial
+stemcell_formats:
+- aws-raw
+cloud_properties:
+  name: bosh-aws-xen-hvm-ubuntu-xenial-go_agent
+  version: '97.19'
+  infrastructure: aws
+  hypervisor: xen
+  disk: 3072
+  disk_format: raw
+  container_format: bare
+  os_type: linux
+  os_distro: ubuntu
+  architecture: x86_64
+  root_device_name: "/dev/sda1"
+```
+
+---
+## Light Stemcells {: #light-stemcells }
+
+A "light" stemcell represents a reference to an IaaS resource where the stemcell has already been imported. This helps solve IaaS limitations which restrict how base VM images can be imported, such as:
+
+- AWS only allowing imports from within running AWS VMs;
+- OpenStack disallowing Glance image upload; or
+- IaaSes taking a long time to import an image.
+
+In these cases, a light stemcell tarball contains only metadata about the stemcell, but does not contain the actual `image` file with the OS disk image. In addition to the regular stemcell metadata, the `stemcell.MF` file should include a `cloud_properties` section with details about how the CPI may find the already-imported stemcell within the IaaS.
+
+On AWS, for example, stemcells are imported into a specific region as an [EC2 Amazon Machine Image](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) which is referenced by an `ami-*` identifier. If you look at the `stemcell.MF` file of the *light* stemcell tarball, you'll see a list of regions and their corresponding AMI. When a stemcell is uploaded, the [`create_stemcell` call](cpi-api-v1.md#create-stemcell) will return matching AMI ID without doing any IaaS API calls.
+
+```shell
 tar -Oxzf light-bosh-stemcell-97.19-aws-xen-hvm-ubuntu-xenial-go_agent.tgz stemcell.MF
 ```
 
@@ -90,16 +130,26 @@ cloud_properties:
     cn-north-1: ami-01db1b9ef2de116fb
 ```
 
----
-## Light Stemcells {: #light-stemcells }
 
-Some IaaSes (or how they are configured) limit how OS images can be imported. Here are couple of examples:
+### Publishing {: #light-stemcell-publishing }
 
-- AWS only allows creation of AMIs from running VMs on AWS
-- OpenStack can be configured to disallow Glance image upload
-- an IaaS may take long time to import an image making it beneficial to reuse existing images
+The process of building light stemcells will depend on your IaaS. Typically, you will have an automation pipeline which does the following:
 
-In such cases CPI must use already imported OS image and that's where light stemcells come in. Light stemcell tarballs include additional details about already imported OS images in the `cloud_properties` section. For example light stemcells for AWS have `ami` key in the `cloud_properties` section (as shown above), that contains region-to-AMI-ID mappings. When AWS CPI's [`create_stemcell` call](cpi-api-v1.md#create-stemcell) is made, it will return matching AMI ID without doing any IaaS API calls.
+1. Watch for new versions of heavy stemcells;
+1. Import it into your IaaS; and
+1. Patch the stemcell tarball to remove the heavy `image` and add your IaaS image reference.
+1. For IaaS operators: publish a reference to the tarball for bosh.io ([get in touch](community.md)).
+
+If you're getting started in this process, you may want to refer to the following examples:
+
+ * Amazon Web Services ([cloudfoundry/bosh-aws-light-stemcell-builder](https://github.com/cloudfoundry/bosh-aws-light-stemcell-builder))
+ * Google Cloud Platform ([cloudfoundry/bosh-google-light-stemcell-builder](https://github.com/cloudfoundry/bosh-google-light-stemcell-builder))
+ * OpenStack ([docs](openstack-light-stemcells.md)) - this uses the `repack-stemcell` command of the CLI
+
+While the import step is highly IaaS-specific, there are a couple general recommendations:
+
+ * You may want to reuse the process that the CPI uses internally with `create_stemcell`. If not reusing the same code, you should follow the exact same steps. There should be no noticeable difference between an IaaS base image created from a "light stemcell builder" vs an operator importing the stemcell on a director themselves.
+ * Your IaaS may support alternative methods for transferring images once they're imported. As long as the process does not change the underlying stemcell image, you may feel free to use it. For example, in AWS we import the image into a single region, then use the `CopyImage` AWS API call to copy the image to all other regions.
 
 ---
 ## Testing {: #testing }

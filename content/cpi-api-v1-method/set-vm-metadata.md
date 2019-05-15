@@ -1,8 +1,8 @@
 # set_vm_metadata
 
-Sets VM's metadata to make it easier for operators to categorize VMs when looking at the IaaS management console. For example AWS CPI uses tags to store metadata for operators to see in the AWS Console.
+Sets VM's metadata to make it easier for operators to categorize VM-based resources when looking at the IaaS management console. We recommend to set VM name based on the passed `name` key (note `name` may be missing).
 
-We recommend to set VM name based on *sometimes* provided `name` key.
+For example AWS CPI uses tags to store metadata for operators to see in the AWS Console.
 
 
 ## Arguments

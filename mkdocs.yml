@@ -42,6 +42,8 @@ pages:
     - Running Errands: errands.md
     - VM Update Strategy: changing-deployment-vm-strategy.md
     - VM Anti-Affinity: vm-anti-affinity.md
+    - Credentials on tmpfs: creds-tmpfs.md
+    - Locking compiled releases: locking-compiled-releases.md
     - Troubleshooting:
       - Monitoring: monitoring.md
       - Process Monitoring with Monit: vm-monit.md
@@ -70,6 +72,7 @@ pages:
       - Reusing Packages: package-vendoring.md
     - Windows Compatibility:
       - Overview: windows.md
+      - Creating a Windows Stemcell for vSphere: windows-stemcell-create.md
       - Sample Release: windows-sample-release.md
     - Using BPM:
       - Overview: bpm/bpm.md
@@ -91,8 +94,16 @@ pages:
       - Configuring SSL Certificates: director-certs.md
       - Director SSL Certificate Configuration with OpenSSL: director-certs-openssl.md
       - Rotating Credentials:
-        - NATS CA Rotation: nats-ca-rotation.md
-        - TLS Blobstore CA Rotation: blobstore-ca-rotation.md
+        - Credentials: credential-rotation.md
+        - NATS:
+          - CA Rotation: nats-ca-rotation.md
+        - Blobstore:
+          - CA Rotation: blobstore-ca-rotation.md
+          - Agent Password Rotation: blobstore-agent-password-rotation.md
+        - Bootstrap mbus:
+          - SSL Rotation: mbus-ssl-rotation.md
+        - CredHub:
+          - Encryption Password Rotation: credhub-encryption-password-rotation.md
     - Configuring the Database:
       - Builtin PostgreSQL: director-configure-db.md
       - External MySQL: director-configure-db.md
@@ -152,6 +163,7 @@ pages:
     - Usage: cloud-config.md
     - Availability Zones: azs.md
     - Networks: networks.md
+    - Managed Networks: managed-networks.md
   - Director APIs:
     - Director HTTP API: director-api-v1.md
     - Links API: links-api.md
@@ -205,9 +217,11 @@ pages:
         - Pre-start: pre-start.md
         - Post-start: post-start.md
         - Post-deploy: post-deploy.md
+        - Pre-stop: pre-stop.md
         - Post-stop: post-stop.md
     - Links:
       - Common Types: links-common-types.md
+    - Deployment Convergence: deployment-convergence.md
   - Operating Systems:
     - Ubuntu: ubuntu-os.md
     - Windows Server: windows-os.md

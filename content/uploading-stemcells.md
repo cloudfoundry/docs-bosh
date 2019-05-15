@@ -20,7 +20,7 @@ CLI provides [`bosh upload-stemcell` command](cli-v2.md#upload-stemcell).
     bosh -e vbox upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3468.17 --sha1 1dad6d85d6e132810439daba7ca05694cec208ab
     ```
 
-- If you have a stemcell tarball on your local machine:
+- If you have already downloaded a stemcell on your local machine:
 
     ```shell
     bosh upload-stemcell ~/Downloads/bosh-stemcell-3468.17-warden-boshlite-ubuntu-trusty-go_agent.tgz

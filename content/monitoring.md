@@ -17,7 +17,6 @@ Health Monitor includes the following plugins:
 - Graphite: Sends events to [Graphite](https://graphite.readthedocs.org/en/latest/)
 - PagerDuty: Sends events to [PagerDuty.com](http://pagerduty.com) using their API
 - DataDog: Sends events to [DataDog.com](http://datadoghq.com) using their API
-- AWS CloudWatch: Sends events to [Amazon's CloudWatch](http://aws.amazon.com/cloudwatch/) using their API
 
 See [Configuring Health Monitor](hm-config.md) for detailed plugins' configuration.
 
@@ -41,3 +40,19 @@ The Agent on each VM sends an alert when someone/something tries to log into the
 ## Deploy Events {: #deploy }
 
 The Director sends an alert when a deployment starts, successfully completes or errors.
+
+---
+## NATS {: #nats }
+
+NATS monitoring requires BOSH version `268.4+` and can be enabled by setting the director property `enable_metrics_endpoint` to `true` as described [here](https://bosh.io/jobs/nats?source=github.com/cloudfoundry/bosh#p%3dnats.enable_metrics_endpoint).
+The monitoring endpoint is exposed locally on the director VM. More information about it can be found in the [NATS documentation](https://nats.io/documentation/server/gnatsd-monitoring).
+
+---
+## NGINX {: #nginx }
+
+Nginx monitoring requires BOSH version `268.3+` and can be enabled by setting `enable_metrics_endpoint` to `true`.
+
+- Enable it for the director [here](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p%3ddirector.nginx.enable_metrics_endpoint). Metrics will be available locally on the director VM at the configured [director nginx port](https://bosh.cloudfoundry.org/jobs/director?source=github.com/cloudfoundry/bosh#p%3ddirector.port).
+- Enable it for a director with a local blobstore [here](https://bosh.io/jobs/blobstore?source=github.com/cloudfoundry/bosh#p%3dblobstore.nginx.enable_metrics_endpoint). Metrics will be available locally on the director VM at the configured [blobstore nginx port](https://bosh.io/jobs/blobstore?source=github.com/cloudfoundry/bosh#p%3dblobstore.port).
+
+More information about the endpoint can be found in the [NGINX documentation](http://nginx.org/en/docs/http/ngx_http_stub_status_module.html).

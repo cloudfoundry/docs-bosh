@@ -6,7 +6,7 @@ Stemcells do not contain any specific information about any software that will b
 
 In addition to being generic, stemcells for one OS (e.g. all Ubuntu Trusty stemcells) are exactly the same for all infrastructures. This property of stemcells allows BOSH users to quickly and reliably switch between different infrastructures without worrying about the differences between OS images.
 
-The Cloud Foundry BOSH team is responsible for producing and maintaining an official set of stemcells. Cloud Foundry currently supports Ubuntu Trusty and CentOS 6.5 on vSphere, AWS, OpenStack, and vCloud infrastructures.
+The Cloud Foundry BOSH team is responsible for producing and maintaining an official set of stemcells. See the [stemcells section of bosh.io](https://bosh.io/stemcells) to see the infrastructures and operating systems that are currently supported.
 
 Stemcells are distributed as tarballs.
 

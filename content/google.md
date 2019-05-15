@@ -19,12 +19,12 @@ The following table maps BOSH concepts to their respective IaaS concept.
 | ---- | --------------------- |
 | Availability Zone | [Zone](https://cloud.google.com/compute/docs/regions-zones/) |
 | Virtual Machine | [Virtual Machine Instance](https://cloud.google.com/compute/docs/instances/) |
-| VM Config Metadata | [Instance Metadata](https://cloud.google.com/compute/docs/storing-retrieving-metadata) |
 | Network Subnet | [VPC Subnet](https://cloud.google.com/vpc/docs/vpc#vpc_networks_and_subnets) |
 | Virtual IP | [Static External IP](https://cloud.google.com/compute/docs/ip-addresses/#reservedaddress) |
 | Persistent Disk | [Persistent Disks](https://cloud.google.com/persistent-disk/) |
 | Disk Snapshot | [Persistent Disk Snapshots](https://cloud.google.com/compute/docs/disks/create-snapshots) |
 | Stemcell | [Compute Custom Image](https://cloud.google.com/compute/docs/images#custom_images) |
+| Agent Settings | [Instance Custom Metadata](https://cloud.google.com/compute/docs/storing-retrieving-metadata) (`bosh_settings` key) |
 
 
 ## Feature Support
@@ -49,3 +49,4 @@ The CPI does not support multiple NICs being attached to a VM.
 | ------- | ------- |
 | Multi-CPI | Not Supported |
 | Native Disk Resize | Not Supported |
+| Generic VM Resource Configuration | Supported, [v27.0.0](https://github.com/cloudfoundry/bosh-google-cpi-release/releases/tag/v27.0.0)+ |

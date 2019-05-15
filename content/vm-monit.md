@@ -28,11 +28,13 @@ Task 10326 done
 +----------------+---------+---------------+-------------+
 ```
 
-There are 3 possible state values:
+There are several typical values for State:
 
-- `running`: the Director received response from the Agent and the Agent reported its aggregate status as successful. Running state indicates that all release jobs' processes are successfully running at that moment.
+- `running`: the Director received a response from the Agent and the Agent reported its aggregate status as successful. Running state indicates that all release jobs' processes are successfully running at that moment.
 
-- `failing`: the Director received response from the Agent and the Agent reported its aggregate status as not successful. Failing state indicatates _one_ of the release jobs' processes is not successfully running (could be failing to start, or exiting after some time, etc.).
+- `failing`: the Director received a response from the Agent and the Agent reported its aggregate status as not successful. Failing state indicatates _one_ or more of the release jobs' processes is not successfully running (could be failing to start, or exiting after some time, or still in the process of becoming healthy, etc.).
+
+- `starting`: the Director received a response from the Agent and the Agent reported its aggregate status as starting. Starting state indicates that _one_ or more of the release jobs' processes are being started and may not yet be running.
 
 - `unresponsive`: the Director did not receive any response from the Agent
 
