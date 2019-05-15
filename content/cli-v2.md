@@ -126,7 +126,6 @@ See [Environments](cli-envs.md).
       -v network_name=vboxnet0 \
       -v outbound_network_name=NatNetwork
     ```
-
 ---
 ### Session {: #session-mgmt }
 
@@ -152,6 +151,70 @@ See [Environments](cli-envs.md).
 - `bosh log-out` (Alias: `logout`)
 
     Logs out currently logged in user.
+
+---
+### Director Environment {: #director-env}
+
+- `bosh -e location environment` (Alias: `env`)
+
+    Shows Director information in the deployment environment.
+
+    ```shell
+    bosh -e vbox env
+    ```
+
+    Should result in:
+
+    ```text
+    Using environment '192.168.56.6' as '?'
+
+    Name      vbox
+    UUID      eeb27cc6-467e-4c1d-a8f9-f1a8de759f52
+    Version   260.5.0 (00000000)
+    CPI       warden_cpi
+    Features  compiled_package_cache: disabled
+              dns: disabled
+              snapshots: disabled
+    User      admin
+
+    Succeeded
+    ```
+
+- `bosh -e location environment --details`
+
+    Shows Director information in the deployment environment, including information on the Director's certificates expiry dates.
+
+    ```shell
+    bosh -e vbox env --details
+    ```
+
+    Should result in:
+
+    ```text
+    Using environment '192.168.56.6' as '?'
+
+    Name      vbox
+    UUID      eeb27cc6-467e-4c1d-a8f9-f1a8de759f52
+    Version   260.5.0 (00000000)
+    CPI       warden_cpi
+    Features  compiled_package_cache: disabled
+              dns: disabled
+              snapshots: disabled
+    User      admin
+
+
+    CERTIFICATE EXPIRY DATE INFORMATION
+
+    Certificate                     Expiry Date (UTC)     Days Left
+    director.ssl.cert               2018-12-04T21:43:57Z  0
+    blobstore.tls.cert.ca           2019-11-21T21:44:03Z  352
+    nats.tls.ca                     2019-11-21T21:43:58Z  352
+    nats.tls.client_ca.certificate  2018-12-21T21:43:58Z  17
+    nats.tls.director.certificate   2018-11-21T21:43:59Z  -13
+
+    Succeeded
+    ```
+    The `Days left` column is has a visual shortcut that lists certificates with less than 30 full days of validity in _red_, and all others in _green_.
 
 ---
 ### Stemcells {: #stemcell-mgmt }
