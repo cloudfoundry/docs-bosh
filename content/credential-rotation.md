@@ -1,5 +1,13 @@
 # Rotating Credentials
 
+!!! warning
+    This document's purpose is to outline the current credentials that Bosh
+    creates for the director and any special considerations an operator should
+    take to rotate them.
+
+    This document is intended for *advanced* usage and is not recommended to be used 
+    as instructions for credential rotation.
+
 ## Generic Credential Rotation
 
 In order to rotate a credential (e.g. password, certificate) remove the
