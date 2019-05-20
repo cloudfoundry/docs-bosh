@@ -903,7 +903,7 @@ See [CPI config](cpi-config.md).
 
     Recreates VMs for specified instances. Follows typical instance lifecycle.
 
-    - `--skip-drain` flag skips running drain scripts; Also skips pre-stop scripts as of director version TDB
+    - `--skip-drain` flag skips running drain scripts; Also skips pre-stop scripts as of director version v270.0.0
     - `--fix` flag specifies to recover an instance with an unresponsive agent instead of erroring
     - `--canaries=` flag overrides manifest values for `canaries`
     - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
@@ -926,7 +926,7 @@ See [CPI config](cpi-config.md).
 
     Restarts jobs (processes) on specified instances. Does not affect VM state.
 
-    - `--skip-drain` flag skips running drain scripts; Also skips pre-stop scripts as of director version TDB
+    - `--skip-drain` flag skips running drain scripts; Also skips pre-stop scripts as of director version v270.0.0
     - `--canaries=` flag overrides manifest values for `canaries`
     - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
 
@@ -952,7 +952,7 @@ See [CPI config](cpi-config.md).
     Stops jobs (processes) on specified instances. Does not affect VM state unless `--hard` flag is specified.
 
     - `--hard` flag forces VM deletion (keeping persistent disk)
-    - `--skip-drain` flag skips running drain scripts; Also skips pre-stop scripts as of director version TDB
+    - `--skip-drain` flag skips running drain scripts; Also skips pre-stop scripts as of director version v270.0.0
     - `--canaries=` flag overrides manifest values for `canaries`
     - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
 
