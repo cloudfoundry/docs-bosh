@@ -86,7 +86,7 @@ When to be cautious with this approach:
 ---
 ## Using job colocation {: #colocation }
 
-Job colocation can provide a powerful way to make a release extensible and pluggable where necessary. Unlike vendoring approach, release author choosing job colocation as a way to consume dependent software is explicitly stating that there is not necessarily a single one implementation of a particular dependency but rather it could be chosen by on operator at the time of a deploy.
+Job colocation can provide a powerful way to make a release extensible and pluggable where necessary. Unlike vendoring approach, release author choosing job colocation as a way to consume dependent software is explicitly stating that there is not necessarily a single one implementation of a particular dependency but rather it could be chosen by an operator at the time of a deploy.
 
 Here are two examples:
 
