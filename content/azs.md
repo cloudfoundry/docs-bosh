@@ -42,6 +42,7 @@ AZs schema:
 - [See Google Cloud Platform CPI AZ cloud properties](google-cpi.md#azs)
 - [See vSphere CPI AZ cloud properties](vsphere-cpi.md#azs)
 - [See vCloud CPI AZ cloud properties](vcloud-cpi.md#azs)
+- [See HuaweiCloud CPI AZ cloud properties](huaweicloud-cpi.md#azs)
 
 ---
 ## Assigning AZs to deployment instance groups {: #assigning-azs }
