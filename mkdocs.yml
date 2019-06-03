@@ -285,6 +285,7 @@ pages:
     - Recovery from a vSphere Network Partitioning Fault: vsphere-network-partition.md
     - Storage DRS and vMotion Support: vsphere-vmotion-support.md
     - Bootstrapping with Resource Pools: init-vsphere-rp.md
+    - Using Human-readable VM names: vsphere-human-readable-names.md
   - Warden:
     - Usage: warden-cpi.md
 # this hack avoids divider.md showing up in navigation and site search
