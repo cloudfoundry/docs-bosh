@@ -76,33 +76,6 @@ See [Environments](cli-envs.md).
     bosh unalias-env vbox
     ```
 
-#### Environment {: #environment }
-
-- `bosh -e location environment` (Alias: `env`)
-
-    Shows Director information in the deployment environment.
-
-    ```shell
-    bosh -e vbox env
-    ```
-
-    Should result in:
-
-    ```text
-    Using environment '192.168.56.6' as '?'
-
-    Name      vbox
-    UUID      eeb27cc6-467e-4c1d-a8f9-f1a8de759f52
-    Version   260.5.0 (00000000)
-    CPI       warden_cpi
-    Features  compiled_package_cache: disabled
-              dns: disabled
-              snapshots: disabled
-    User      admin
-
-    Succeeded
-    ```
-
 #### Delete-Env {: #delete-env }
 
 - `bosh delete-env manifest.yml [--state path] [-v ...] [-o ...] [--vars-store path]`
@@ -126,6 +99,7 @@ See [Environments](cli-envs.md).
       -v network_name=vboxnet0 \
       -v outbound_network_name=NatNetwork
     ```
+
 ---
 ### Session {: #session-mgmt }
 
@@ -155,6 +129,7 @@ See [Environments](cli-envs.md).
 ---
 ### Director Environment {: #director-env}
 
+#### Environment {: #environment }
 - `bosh -e location environment` (Alias: `env`)
 
     Shows Director information in the deployment environment.
@@ -419,6 +394,7 @@ See [Release Blobs](release-blobs.md) for a detailed workflow.
     cd release-dir
     bosh add-blob ~/Downloads/stress-1.0.4.tar.gz stress/stress-1.0.4.tar.gz
     ```
+
 #### Remove-Blob {: #remove-blob }
 
 - `bosh remove-blob blob-path`
