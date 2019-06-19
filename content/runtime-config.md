@@ -164,10 +164,9 @@ Placement rules are chosen based on the AND operator; specifically, the director
 will chose applicability if the specified rule is in the `include` directive AND the
 rule is NOT in the `exclude` directive.
 
-The rules inside a directive are based on the OR operator; as long as the VM
-meets the criteria of one of the rules, it will be considered `included` or
-`excluded`. All arrays within inclusion/exclusion rules also use the OR operator.
-
+The rules inside a directive are also based on the AND operator; if the VM
+meets the criteria of all of the rules, it will be considered `included` or
+`excluded`. All items within the arrays in an inclusion/exclusion rule use the OR operator.
 
 
 For example, given the following config:
@@ -181,58 +180,46 @@ addons:
     properties:
       ...
   include:
+    lifecycle: errand
     stemcell:
     - os: ubuntu-xenial
+    - os: windows2019
   exclude:
-    deployments:
-    - dep1
-    - dep2
-
-```
-
-The director will collocate `my-addon` to all VMs that use `ubuntu-xenial` stemcells, except for any VMs belonging to deployment `dep1` and `dep2`.
-
-
-Given a more advanced example:
-```yaml
-addons:
-- name: my-addon
-  jobs:
-  - name: my-addon-job
-    release: my-addon-release
-    properties:
-      ...
-  include:
-    deployments:
-    - dep3
-    stemcell:
-    - os: ubuntu-xenial
     jobs:
-    - name: redis
-      release: redis-release
-  exclude:
-    stemcell:
-    - os: ubuntu-trusty
+    - job1
     deployments:
     - dep1
     - dep2
+
 ```
 
-The director will collocate `my-addon` to **ANY** VM that matches the following
-criteria:
+The director will collocate `my-addon` to all errand VMs that use either the `ubuntu-xenial` or `windows2019` stemcells,
+except for any VMs with `job1` belonging to deployment `dep1` or `dep2`.
 
-* is in deployment `dep3`, or
-* uses the `ubuntu-xenial` stemcell, or
-* has a job named `redis` with the `redis-release` release
+In pseudocode:
 
-**EXCEPT** if the VM
-
-* uses `ubuntu-trusty`, or
-* is a part of deployments `dep1` or `dep2`.
-
-This means, if there are multiple instance groups on `dep3` and one of them
-uses `ubuntu-trusty`, that specific instance group with `ubuntu-trusty` will not receive
-the collocated addon `my-addon`.
+```
+  AND (
+    INCLUDE (
+      AND (
+        OR (
+          stemcell:ubuntu-xenial
+          stemcell:windows2019
+        )
+        lifecycle:errand
+      )
+    )
+    EXCLUDE (
+      AND (
+        jobs:job1
+        OR (
+          deployments:dep1
+          deployments:dep2
+        )
+      )
+    )
+  )
+```
 
 ---
 ## Tags Block {: #tags }
