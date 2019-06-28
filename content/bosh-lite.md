@@ -96,8 +96,8 @@ Run through quick steps below or follow [deploy workflow](basic-workflow.md) tha
 
     ```shell
     bosh -e vbox upload-stemcell \
-      https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3586.24 \
-      --sha1 32c1e09391d509d24026e55555df07a166f8b8eb
+      https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-xenial-go_agent?v=315.45 \
+      --sha1 674cd3c1e64d8c51e62770697a63c07ca04e9bbd
     ```
 
 1. Deploy example deployment
