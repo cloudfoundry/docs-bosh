@@ -137,6 +137,7 @@ Schema for `cloud_properties` section:
 * **datacenters** [Array, optional]: Used to override the VM placement specified under `azs.cloud_properties`. The format is the same as under [`AZs`](#azs).
 * **tags** [Array, optional]: A list of category and tag name-value pairs used to attach to created VMs. Available in v53+. Available on vCenter 6.5+. The tags to be attached must be exist on vCenter host. For each tag to be attached, both category and tag names should be specified.
 * **vm_group** [String, optional]: Name of VM Group this VM should be part of.
+* **disable\_drs** [Boolean, Optional]: Disables DRS on this VM type. In short, VM created with this vm_type will *NOT* be v-motioned by DRS. Available in v53+
 * **nsx** [Dictionary, optional]: [VMware NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v30+ and NSX v6.1+.
     * **security_groups** [Array, optional]: A collection of [security group](https://pubs.vmware.com/NSX-6/index.jsp#com.vmware.nsx.admin.doc/GUID-16B3134E-DDF1-445A-8646-BB0E98C3C9B5.html) names that the instances should belong to. The CPI will create the security groups if they do not exist.
     BOSH will also automatically create security groups based on metadata such as deployment name and instance group name. The full list of groups can be seen under [create_vm's environment groups](cpi-api-v1.md#create-vm).
