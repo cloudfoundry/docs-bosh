@@ -148,6 +148,8 @@ Schema for `cloud_properties` section:
         * **port** [Integer, required]: The port that the VM's service is listening on (e.g. 80 for HTTP).
         * **monitor_port** [Integer, optional]: The healthcheck port that the VM is listening on. Defaults to the value of `port`.
 * **vmx_options** [Dictionary, optional]: Allows operator to specify [VM advanced configuration options](https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.resmgmt.doc/GUID-F8C7EF4D-D023-4F54-A2AB-8CF840C10939.html). All values are subject to YAML's type interpretation, and given that for certain configuration options vSphere will accept only a specific value type please take note of the difference between values with similar appearances such as: `true` vs `"true"` and `"1234"` vs `1234`. Refer to the vSphere documentation for more information about what configuration options are accepted. Available in v42+.
+* **storage\_policy** [Dictionary, optional]: Storage Policy which is applied to a VM and its ephemeral disk. Available in v53+
+    * **name** [String, optional]: Name of the storage policy to be applied to the VM and its ephemeral disk. Available in v53+
 * **nsxt** [Dictionary, optional]: [VMware NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v45+.
     * **ns_groups** [Array, optional]: A collection of [NS Groups](http://pubs.vmware.com/nsxt-11/index.jsp?topic=%2Fcom.vmware.nsxt.admin.doc%2FGUID-718E769B-8D89-485B-8DBD-04F1F82CFE14.html) names that the instances should belong to. Available in NSX-T v1.1+.
     * **vif_type** [String, optional]: Supported types: `PARENT`, `null`. Overrides the global `default_vif_type`. Available in NSX-T v2.0+.
@@ -183,6 +185,8 @@ resource_pools:
         security_group: https-sg
         port: 443
         monitor_port: 4443 # optional, defaults to `port` value
+    storage_policy:
+      name: 'vcpi-os-linux'
     vmx_options:
       sched.mem.maxmemctl: "1330"
     nsxt: # NSX-T configuration
@@ -288,6 +292,7 @@ Schema:
     * **password** [String, required]: The login password for the NSX server.
     * **ca_cert** [String, optional]: A CA certificate that can authenticate the NSX server certificate. **Required** if the NSX Manager has a self-signed SSL certificate. Must be in PEM format.
 * **enable\_auto\_anti\_affinity\_drs\_rules** [Boolean, optional]: Creates DRS rule to place VMs on separate hosts. DRS Automation Level must be set to "Fully Automated"; does not work when DRS is set to "Partially Automated" or "Manual". May cause VMs to fail to power on if there are more VMs than hosts after initial deployment. Default: `false`. Available in v33+.
+* **vm\_storage\_policy\_name** [Boolean, optional]: Name of the storage Policy which is applied to a VM and its ephemeral disk. Availablein v53+
 * **upgrade\_hw\_version** [Boolean, optional]: Upgrades the virtual hardware version of a virtual machine to the latest supported version on the ESXi host. Default: `false`.
 * **nsxt** [Dictionary, optional]: NSX-T configuration options. Available in v45+.
     * **host** [String, required]: The NSX-T server's address. Can be a hostname (e.g. `nsx-server.example.com`) or an IP address.
@@ -325,6 +330,7 @@ user: root
 password: vmware
 default_disk_type: thin
 enable_auto_anti_affinity_drs_rules: true
+vm_storage_policy_name: 'vcpi-mac-policy'
 datacenters:
 - name: BOSH_DC
   vm_folder: prod-vms
@@ -518,3 +524,11 @@ When recreating an existing VM, the CPI tries to create it in a cluster and data
 The vSphere CPI only supports a single datacenter and errors if more than one is defined in the manifest. It is identified by name.
 
 The current code will not work with a datacenter inside a folder.
+
+### Storage Policy
+The order of precedence for policy and datastore specified for selecting ephemeral datastores is (in order they are written from 
+top to bottom , first being most preffered.)
+ - Storage policy is set in vm-type
+ - Datastores in vm-type
+ - Storage policy in Global config
+ - Datastore pattern in global config
