@@ -101,6 +101,9 @@ Each template can also access the special `spec` object for instance-specific co
 - `spec.deployment`: Name of the BOSH deployment containing this instance.
 - `spec.id`: ID of the instance.
 - `spec.index`: Instance index. Use `spec.bootstrap` to determine the first instead of checking whether the index is 0. Additionally, there is no guarantee that instances will be numbered consecutively, so that there are no gaps between different indices.
-- `spec.ip`: IP address of the instance. In case multiple IP addresses are available, the IP of the [addressable or default network](networks.md#multi-homed) is used. Available in bosh-release v258+.
 - `spec.name`: Name of the instance.
 - `spec.networks`: Entire set of network information for the instance.
+- `spec.ip`: IP address of the instance. In case multiple IP addresses are available, the IP of the [addressable or default network](networks.md#multi-homed) is used. Available in bosh-release v258+.
+
+!!! warning
+      When **dynamic** networks are being used, `spec.ip` might not be available.
