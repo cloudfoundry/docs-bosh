@@ -20,6 +20,7 @@ sections when you run the `bosh generate-package PACKAGE_NAME` command:
  * `name`: Defines the package name.
  * `dependencies`: **(Optional)** Defines a list of other packages that this package depends on.
  * `files`: Defines a list of files that this package contains. You can define this list explicitly or through pattern-matching.  
+ * `excluded_files`: **(Optional)** Defines a list of files to be excluded from the package. You can define this list explicitly or through pattern-matching.
 
 To edit a package spec file:
 
@@ -38,11 +39,10 @@ pre-compiled binary.
     * Add the names of any compile-time dependencies to each package spec file. Use `[]` to indicate an empty array if a package
 has no compile-time dependencies.
 
-    The example shows an edited Ruby spec file with dependencies and file names.
-    Ruby 1.9.3 has a compile-time dependency on libyaml\_0.1.4, and the ruby\_1.9.3 source code consists of three files.
+    The example shows a Ruby spec file with dependencies and file names.
+    Ruby 1.9.3 has a compile-time dependency on `libyaml_0.1.4`, and the `ruby_1.9.3` source code consists of three files plus everything on the `/security` directory, which we want to be packaged together with this package, **with the exception of the `secrets.yml` file**.
 
-
-    Example Ruby package spec file:
+    Example package spec file:
 
 ```yaml
 name: ruby_1.9.3
@@ -54,6 +54,10 @@ files:
 - ruby_1.9.3/ruby-1.9.3-p484.tar.gz
 - ruby_1.9.3/rubygems-1.8.24.tgz
 - ruby_1.9.3/bundler-1.2.1.gem
+- ruby_1.9.3/security/*
+
+excluded_files:
+- ruby_1.9.3/security/secrets.yml
 ```
 
 
@@ -91,6 +95,8 @@ pushd rubygems-1.8.24
 popd
 
 ${BOSH_INSTALL_TARGET}/bin/gem install ruby_1.9.3/bundler-1.2.1.gem --no-ri --no-rdoc
+
+cp -r security/ ${BOSH_INSTALL_TARGET}/common
 ```
 
 Example script referencing pre-compiled code:
