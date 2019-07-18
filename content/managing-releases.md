@@ -108,4 +108,11 @@ Assuming that somehow the Director blobstore loses referenced asset (job, source
 ---
 ## Cleaning up uploaded releases {: #clean-up }
 
-Over time the Director accumulates releases, hence it uses more blobstore space. Releases could be deleted manually via [`bosh delete-release`](cli-v2.md#delete-release) command or be cleaned up via [`bosh cleanup` command](cli-v2.md#clean-up).
+Over time the Director accumulates releases, hence it uses more blobstore space.
+
+Releases can be deleted individually via bosh [`delete-release`](cli-v2.md#delete-release) command.
+
+Alternatively releases can be cleaned up via bosh [`cleanup`](cli-v2.md#clean-up) command, which will delete all unused releases and stemcells except the two most recent versions.
+
+!!! note
+    To remove **all** unused releases, stemcells and orphaned disks at once, use `bosh cleanup --all`.
