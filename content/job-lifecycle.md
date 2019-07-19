@@ -53,3 +53,13 @@ Note that scripts should not rely on the order they are run. Agent may decide to
 	- requires bosh v265+
 
 1. Persistent disks are unmounted on the VM if configured
+
+## When the VM is rebooted
+
+Any deployed VM may be rebooted due to infrastructure disruptions or other operations.
+
+1. The VM reboot occurs, and VM is successfully booted. OS processes and services start.
+1. `monit` starts running
+1. `monit` begins starting processes registered. The job's `start program` is executed as per the `monitrc` file.
+
+Note that `pre-start`, `post-start`, `post-deploy` are **not** executed, since the bosh lifecycle is not invoked. It is recommended that a job's `monitrc` `start program` perform all operations required to start a job without depending on `pre-start` executing.
