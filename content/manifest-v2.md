@@ -286,7 +286,7 @@ addons:
 
 * **name** [String, required]: Unique name used to identify a variable. Example: `admin_password`
 * **type** [String, required]: Type of a variable. Currently supported variable types are `certificate`, `password`, `rsa`, and `ssh`. Example: `password`.
-* **update_mode** [String, options]: Update mode to use when generating credentials. Currently supported update modes are `no-overwrite`, `overwrite`, and `converge`. For further information, please refer to the [CredHub documentation](https://credhub-api.cfapps.io/version/2.5/#_overwriting_credential_values).
+* **update_mode** [String, options]: Update mode to use when generating credentials. Currently supported update modes are `no-overwrite`, `overwrite`, and `converge`. Defaults to `no-overwrite`. For further information, please refer to the [CredHub documentation](https://credhub-api.cfapps.io/version/2.5/#_overwriting_credential_values).
 * **options** [Hash, optional]: Specifies generation options used for generating variable value if variable is not found. Example: `{is_ca: true, common_name: some-ca}`
 
 Example:
