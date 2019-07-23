@@ -122,6 +122,7 @@ Available rules:
     * **name** [String, required]: Matching job name.
     * **release** [String, required]: Matching release name.
 * **instance_groups** [Array of strings, optional]: Matches based on instance group names. Available in bosh-release v268+.
+* **lifecycle** [String, optional]: Matches based on lifecycle type, either `service` or `errand`. Note that a service VM is any non-errand VM and that colocated errands may actually run on service VMs. Available in bosh-release v262+.
 * **networks** [Array of strings, optional]: Matches based on network names. Available in bosh-release v262+.
 * **teams** [Array of strings, optional]: Matches based on team names. Available in bosh-release v253+.
 
