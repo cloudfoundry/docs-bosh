@@ -20,6 +20,7 @@ variables:
   options:
     is_ca: true
     common_name: bosh_ca
+    duration: 1095
 - name: director_ssl
   type: certificate
   options:
@@ -44,6 +45,10 @@ variables:
 bosh interpolate tpl.yml -v internal_ip=10.244.4.2 --vars-store certs.yml
 cat certs.yml
 ```
+
+!!! note
+    `duration` is set in days, and will default to 365 days
+
 
 ## Configure the Director to use certificates {: #configure }
 
