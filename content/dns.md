@@ -315,7 +315,7 @@ Additionally you should colocate DNS release via an addon in all your deployment
 ## Disabling DNS {: #disable }
 To disable the native BOSH functionality, you must disable the [`local_dns.enabled` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.local_dns.enabled) in the Director job and remove the addon for the DNS release.
 
-**Note:** Because of a known issue in [the `bosh-dnsrelease`](https://github.com/cloudfoundry/bosh-dns-release/issues/34) you have to recreate all VMs afterwards.
+**Note:** Because of a known issue in [the `bosh-dnsrelease`](https://github.com/cloudfoundry/bosh-dns-release/issues/34) you have to recreate all VMs afterwards, in order to remove the local DNS server from `/etc/resolv.conf`.
 
 ---
 ## Impact on links {: #links }
