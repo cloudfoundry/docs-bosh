@@ -3,7 +3,11 @@
 
 Instance groups may need to store persistent data.
 
-If you attach a persistent disk to a virtual machine and then stop, terminate, or delete the VM, your persistent disk data remains intact. Attaching the persistent disk to another VM allows you to access your data.
+If you attach a persistent disk to a virtual machine and then stop the VM, your persistent disk data remains intact. Attaching the persistent disk to another VM allows you to access your data.
+
+** WARNING: If you terminate or delete a VM, the fate of the persistent disk depends on the IaaS provider. For example **
+* In AWS, the default behavior is to keep the persistent disk when you delete a VM.
+* But in vSphere, the persistent disk is permanently destroyed if you right click and pick "Delete from Disk" on a VM.
 
 Persistent disks are kept for each instance under the following circumstances:
 
