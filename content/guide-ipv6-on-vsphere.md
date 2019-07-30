@@ -111,7 +111,7 @@ Follow steps below or the [deploy workflow](basic-workflow.md) that goes through
         -v internal_gw=10.0.9.1 \
         -v network_name="VM Network" \
 
-    bosh -e ipv6 update-config cloud --name ipv6 ipv6-net.yml
+    bosh -e ipv6 update-config --type cloud --name ipv6 ipv6-net.yml
 
     bosh -e ipv6 update-runtime-config ~/workspace/bosh-deployment/runtime-configs/dns.yml
     ```
