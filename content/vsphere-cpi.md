@@ -303,6 +303,7 @@ Schema:
     * **default_vif_type** [String, optional]: Supported Types: `PARENT`. Default VIF type attached to logical port. Available in NSX-T v2.0+.
     * **auth_certificate** [String, optional]: Certificate used for certificate-based authentication. Certificate-based authentication takes precedence over username/password if both are specified. Available in v51+.
     * **auth_private_key** [String, optional]: Private key file used for certificate-based authentication. Available in v51+.
+    * **remote_auth** [Boolean, optional]: Enables remote authentication for NSX-T via vIDM. Available in v52.1.5+ and v53.0.1+
 
 !!! note
     If the NSX-V or NSX-T Manager has a self-signed certificate, the certificate must be set in the `ca_cert` property.
