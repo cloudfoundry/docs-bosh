@@ -1233,7 +1233,7 @@ See [CPI config](cpi-config.md).
     ```text
     Using environment '192.168.56.6' as '?'
 
-    #   State  Started At                    Last Activity At              User   Deployment   Description                   Result
+    #   State  Started At                    Finished At                   User   Deployment   Description                   Result
 
     27  done   Thu Feb 16 19:16:15 UTC 2017  Thu Feb 16 19:20:33 UTC 2017  admin  cockroachdb  create deployment             /deployments/cockroachdb
     26  done   Thu Feb 16 18:54:32 UTC 2017  Thu Feb 16 18:55:27 UTC 2017  admin  cockroachdb  delete deployment cockroachd  /deployments/cockroachdb
