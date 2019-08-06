@@ -312,6 +312,12 @@ If you were relying on instance index based DNS records, you must enable [`local
 Additionally you should colocate DNS release via an addon in all your deployments. See [bosh-deployment's runtime-configs/dns.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/runtime-configs/dns.yml) as an example.
 
 ---
+## Disabling DNS {: #disable }
+To disable the native BOSH functionality, you must disable the [`local_dns.enabled` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.local_dns.enabled) in the Director job and remove the addon for the DNS release.
+
+**Note:** Because of a known issue in [the `bosh-dnsrelease`](https://github.com/cloudfoundry/bosh-dns-release/issues/34) you have to recreate all VMs afterwards, in order to remove the local DNS server from `/etc/resolv.conf`.
+
+---
 ## Impact on links {: #links }
 
 Each link includes some networking information about its provider. Addresses returned by a link may be either IP addresses or DNS addresses.
