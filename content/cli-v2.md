@@ -875,7 +875,7 @@ See [CPI config](cpi-config.md).
 
 #### Recreate {: #recreate }
 
-- `bosh -e my-env -d my-dep recreate [group[/instance-id]] [--skip-drain] [--fix] [--canaries=] [--max-in-flight=] [--dry-run]`
+- `bosh -e my-env -d my-dep recreate [group[/instance-id]] [--skip-drain] [--fix] [--canaries=] [--max-in-flight=] [--dry-run] [--no-converge] [--converge]`
 
     Recreates VMs for specified instances. Follows typical instance lifecycle.
 
@@ -884,6 +884,8 @@ See [CPI config](cpi-config.md).
     - `--canaries=` flag overrides manifest values for `canaries`
     - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
     - `--dry-run` flag runs through as many operations without altering deployment
+    - `--converge` flag only converges the deployment with the last successful deployment state. This flag is optional and is the default behavior. See [Deployment Convergence](deployment-convergence.md) for more details
+    - `--no-converge` flag only updates the specified instance with current instance state. See [Deployment Convergence](deployment-convergence.md) for more details
 
     ```shell
     bosh -e vbox -d cf recreate
@@ -894,36 +896,40 @@ See [CPI config](cpi-config.md).
     bosh -e vbox -d cf recreate diego-cell --canaries=0 --max-in-flight=100%
     ```
     !!! warning
-        In case of a **failed** deployment, running `bosh recreate` will converge to the last **successfully deployed state**, not the intended state of the failed deployment. See [Deployment Convergence](deployment-convergence.md).
+        In case of a **failed** deployment, running `bosh recreate` without `--no-converge` will converge to the last **successfully deployed state**, not the intended state of the failed deployment. See [Deployment Convergence](deployment-convergence.md).
 
 #### Restart {: #restart }
 
-- `bosh -e my-env -d my-dep restart [group[/instance-id]] [--skip-drain] [--canaries=] [--max-in-flight=]`
+- `bosh -e my-env -d my-dep restart [group[/instance-id]] [--skip-drain] [--canaries=] [--max-in-flight=] [--no-converge] [--converge]`
 
     Restarts jobs (processes) on specified instances. Does not affect VM state.
 
     - `--skip-drain` flag skips running drain scripts; Also skips pre-stop scripts as of director version v270.0.0
     - `--canaries=` flag overrides manifest values for `canaries`
     - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
+    - `--converge` flag only converges the deployment with the last successful deployment state. This flag is optional and is the default behavior. See [Deployment Convergence](deployment-convergence.md) for more details
+    - `--no-converge` flag only updates the specified instance with current instance state. See [Deployment Convergence](deployment-convergence.md) for more details
 
     !!! warning
-        In case of a **failed** deployment, running `bosh restart` will converge to the last **successfully deployed state**, not the intended state of the failed deployment. See [Deployment Convergence](deployment-convergence.md).
+        In case of a **failed** deployment, running `bosh restart` without `--no-converge` will converge to the last **successfully deployed state**, not the intended state of the failed deployment. See [Deployment Convergence](deployment-convergence.md).
 
 #### Start {: #start }
 
-- `bosh -e my-env -d my-dep start [group[/instance-id]] [--canaries=] [--max-in-flight=]`
+- `bosh -e my-env -d my-dep start [group[/instance-id]] [--canaries=] [--max-in-flight=] [--no-converge] [--converge]`
 
     Starts jobs (processes) on specified instances. Does not affect VM state.
 
     - `--canaries=` flag overrides manifest values for `canaries`
     - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
+    - `--converge` flag only converges the deployment with the last successful deployment state. This flag is optional and is the default behavior. See [Deployment Convergence](deployment-convergence.md) for more details
+    - `--no-converge` flag only updates the specified instance with current instance state. See [Deployment Convergence](deployment-convergence.md) for more details
 
     !!! warning
-        In case of a **failed** deployment, running `bosh start` will converge to the last **successfully deployed state**, not the intended state of the failed deployment. See [Deployment Convergence](deployment-convergence.md).
+        In case of a **failed** deployment, running `bosh start` without `--no-converge` will converge to the last **successfully deployed state**, not the intended state of the failed deployment. See [Deployment Convergence](deployment-convergence.md).
 
 #### Stop {: #stop }
 
-- `bosh -e my-env -d my-dep stop [group[/instance-id]] [--skip-drain] [--canaries=] [--max-in-flight=]`
+- `bosh -e my-env -d my-dep stop [group[/instance-id]] [--skip-drain] [--canaries=] [--max-in-flight=] [--no-converge] [--converge]`
 
     Stops jobs (processes) on specified instances. Does not affect VM state unless `--hard` flag is specified.
 
@@ -931,6 +937,11 @@ See [CPI config](cpi-config.md).
     - `--skip-drain` flag skips running drain scripts; Also skips pre-stop scripts as of director version v270.0.0
     - `--canaries=` flag overrides manifest values for `canaries`
     - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
+    - `--converge` flag only converges the deployment with the last successful deployment state. This flag is optional and is the default behavior. See [Deployment Convergence](deployment-convergence.md) for more details
+    - `--no-converge` flag only updates the specified instance with current instance state. See [Deployment Convergence](deployment-convergence.md) for more details
+
+    !!! warning
+        In case of a **failed** deployment, running `bosh stop` without `--no-converge` will converge to the last **successfully deployed state**, not the intended state of the failed deployment. See [Deployment Convergence](deployment-convergence.md).
 
 #### Ignore {: #ignore }
 
