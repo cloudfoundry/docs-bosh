@@ -35,6 +35,7 @@ AZs schema:
 
 ### CPI Specific `cloud_properties` {: #azs-cloud-properties }
 
+- [See Alibaba Cloud CPI AZ cloud properties](alicloud-cpi.md#azs)
 - [See AWS CPI AZ cloud properties](aws-cpi.md#azs)
 - [See Azure CPI AZ cloud properties](azure-cpi.md#azs)
 - [See OpenStack CPI AZ cloud properties](openstack-cpi.md#azs)
