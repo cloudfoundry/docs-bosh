@@ -231,7 +231,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
 
     Stemcell location may be local file system path or an HTTP/HTTPS URL.
 
-    `--fix` flag allows operator to replace previously uploaded stemcell with the same name and version to repair stemcells that might have been corrupted in the cloud.
+    `--fix` replace previously uploaded stemcell with the same name and version to repair stemcells that might have been corrupted in the cloud.
 
     ```shell
     bosh -e my-env us ~/Downloads/bosh-stemcell-3468.17-warden-boshlite-ubuntu-trusty-go_agent.tgz
@@ -278,7 +278,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
 
     Creates an empty release skeleton for a release in `dir`. By default `dir` is the current directory.
 
-    `--git` flag initializes release skeleton as a Git repository, adding appropriate `.gitignore` file.
+    `--git` initialize release skeleton as a Git repository, adding appropriate `.gitignore` file.
 
     ```shell
     bosh init-release --git --dir release-dir
@@ -311,11 +311,11 @@ See [Uploading Stemcells](uploading-stemcells.md).
 
     Creates new version of a release stored in `dir`
 
-    - `--force` flag specifies to ignore uncommitted changes in the release directory; it should only be used when building dev releases
-    - `--version` flag allows operator to provide custom release version
-    - `--timestamp-version` flag will produce timestamp based dev release version
-    - `--tarball` flag specifies destination of a release tarball; if not specified, release tarball will not be produced
-    - `--sha2` flag to use SHA256 checksum
+    - `--force` include uncommitted changes in the release directory; it should only be used when building dev releases
+    - `--version` set release version
+    - `--timestamp-version` produce timestamp-based dev release version
+    - `--tarball` specify destination of a release tarball; if not specified, release tarball will not be produced
+    - `--sha2` use SHA256 checksum
 
     While iterating on a release it's common to run `bosh create-release --force && bosh -e my-env upload-release && bosh -e my-env -d my-dep deploy manifest.yml` command sequence.
 
@@ -481,7 +481,7 @@ See [Uploading Releases](uploading-releases.md).
 
     Release location may be local file system path, HTTP/HTTPS URL or a git URL.
 
-    `--fix` flag allows replacement of previously uploaded release with the same name and version to repair releases that might have been corrupted.
+    `--fix` replace previously uploaded release with the same name and version, usually to repair releases that might have been corrupted.
 
     ```shell
     bosh -e my-env ur
@@ -645,8 +645,8 @@ See [Configs](configs.md).
 
     Update config on the Director.
 
-    - `--type` (required) flag allows to specify config type
-    - `--name` flag allows to specify custom config name
+    - `--type` (required) specify a config type
+    - `--name` specify a custom config name
 
     ```shell
     bosh -e my-env update-config config.yml --type=cloud
@@ -659,8 +659,8 @@ See [Configs](configs.md).
 
     Delete config on the Director.
 
-    - `--type` (required) flag allows to specify config type
-    - `--name` flag allows to specify custom config name
+    - `--type` (required) specify a config type
+    - `--name` specify a custom config name
 
     ```shell
     bosh -e my-env delete-config --type=my-type
@@ -850,10 +850,10 @@ See [CPI config](cpi-config.md).
 
     Lists all instances managed by the Director or in a single deployment. Show instance names, IPs, and VM and process health.
 
-    - `--details` (`-i`) flag includes VM CID, persistent disk CIDs, and other instance level details
-    - `--ps` flag includes per process health information
-    - `--vitals` flag shows basic VM and process usage such RAM, CPU and disk.
-    - `--failing` flag hides all healthy instances and processes leaving only non-healthy ones; useful for scripting
+    - `--details` (`-i`) include VM CID, persistent disk CIDs, and other instance level details
+    - `--ps` include per process health information
+    - `--vitals` show basic VM and process usage such RAM, CPU and disk.
+    - `--failing` hide all healthy instances and processes leaving only non-healthy ones; useful for scripting
 
     ```shell
     bosh -e vbox is -i
@@ -879,13 +879,13 @@ See [CPI config](cpi-config.md).
 
     Recreates VMs for specified instances. Follows typical instance lifecycle.
 
-    - `--skip-drain` flag skips running drain scripts; Also skips pre-stop scripts as of director version v270.0.0
-    - `--fix` flag specifies to recover an instance with an unresponsive agent instead of erroring
-    - `--canaries=` flag overrides manifest values for `canaries`
-    - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
-    - `--dry-run` flag runs through as many operations without altering deployment
-    - `--converge` flag only converges the deployment with the last successful deployment state. This flag is optional and is the default behavior. See [Deployment Convergence](deployment-convergence.md) for more details
-    - `--no-converge` flag only updates the specified instance with current instance state. See [Deployment Convergence](deployment-convergence.md) for more details
+    - `--skip-drain` skip running drain scripts; Also skip pre-stop scripts as of director version v270.0.0
+    - `--fix` recover an instance with an unresponsive agent instead of erroring
+    - `--canaries=` override manifest values for `canaries`
+    - `--max-in-flight=` override manifest values for `max_in_flight`
+    - `--dry-run` run through as many operations as possible without altering deployment
+    - `--converge` converge the deployment with the last successful deployment state. This flag is optional and is the default behavior. See [Deployment Convergence](deployment-convergence.md) for more details
+    - `--no-converge` update only the specified instance with current instance state. See [Deployment Convergence](deployment-convergence.md) for more details
 
     ```shell
     bosh -e vbox -d cf recreate
@@ -904,11 +904,11 @@ See [CPI config](cpi-config.md).
 
     Restarts jobs (processes) on specified instances. Does not affect VM state.
 
-    - `--skip-drain` flag skips running drain scripts; Also skips pre-stop scripts as of director version v270.0.0
-    - `--canaries=` flag overrides manifest values for `canaries`
-    - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
-    - `--converge` flag only converges the deployment with the last successful deployment state. This flag is optional and is the default behavior. See [Deployment Convergence](deployment-convergence.md) for more details
-    - `--no-converge` flag only updates the specified instance with current instance state. See [Deployment Convergence](deployment-convergence.md) for more details
+    - `--skip-drain` skip running drain scripts; Also skip pre-stop scripts as of director version v270.0.0
+    - `--canaries=` override manifest values for `canaries`
+    - `--max-in-flight=` override manifest values for `max_in_flight`
+    - `--converge` converge the deployment with the last successful deployment state. This flag is optional and is the default behavior. See [Deployment Convergence](deployment-convergence.md) for more details
+    - `--no-converge` update only the specified instance with current instance state. See [Deployment Convergence](deployment-convergence.md) for more details
 
     !!! warning
         In case of a **failed** deployment, running `bosh restart` without `--no-converge` will converge to the last **successfully deployed state**, not the intended state of the failed deployment. See [Deployment Convergence](deployment-convergence.md).
@@ -919,10 +919,10 @@ See [CPI config](cpi-config.md).
 
     Starts jobs (processes) on specified instances. Does not affect VM state.
 
-    - `--canaries=` flag overrides manifest values for `canaries`
-    - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
-    - `--converge` flag only converges the deployment with the last successful deployment state. This flag is optional and is the default behavior. See [Deployment Convergence](deployment-convergence.md) for more details
-    - `--no-converge` flag only updates the specified instance with current instance state. See [Deployment Convergence](deployment-convergence.md) for more details
+    - `--canaries=` override manifest values for `canaries`
+    - `--max-in-flight=` override manifest values for `max_in_flight`
+    - `--converge` converge the deployment with the last successful deployment state. This flag is optional and is the default behavior. See [Deployment Convergence](deployment-convergence.md) for more details
+    - `--no-converge` update only the specified instance with current instance state. See [Deployment Convergence](deployment-convergence.md) for more details
 
     !!! warning
         In case of a **failed** deployment, running `bosh start` without `--no-converge` will converge to the last **successfully deployed state**, not the intended state of the failed deployment. See [Deployment Convergence](deployment-convergence.md).
@@ -933,12 +933,12 @@ See [CPI config](cpi-config.md).
 
     Stops jobs (processes) on specified instances. Does not affect VM state unless `--hard` flag is specified.
 
-    - `--hard` flag forces VM deletion (keeping persistent disk)
-    - `--skip-drain` flag skips running drain scripts; Also skips pre-stop scripts as of director version v270.0.0
-    - `--canaries=` flag overrides manifest values for `canaries`
-    - `--max-in-flight=` flag overrides manifest values for `max_in_flight`
-    - `--converge` flag only converges the deployment with the last successful deployment state. This flag is optional and is the default behavior. See [Deployment Convergence](deployment-convergence.md) for more details
-    - `--no-converge` flag only updates the specified instance with current instance state. See [Deployment Convergence](deployment-convergence.md) for more details
+    - `--hard` force VM deletion (keeping persistent disk)
+    - `--skip-drain` skip running drain scripts; Also skip pre-stop scripts as of director version v270.0.0
+    - `--canaries=` override manifest values for `canaries`
+    - `--max-in-flight=` override manifest values for `max_in_flight`
+    - `--converge` converge the deployment with the last successful deployment state. This flag is optional and is the default behavior. See [Deployment Convergence](deployment-convergence.md) for more details
+    - `--no-converge` update only the specified instance with current instance state. See [Deployment Convergence](deployment-convergence.md) for more details
 
     !!! warning
         In case of a **failed** deployment, running `bosh stop` without `--no-converge` will converge to the last **successfully deployed state**, not the intended state of the failed deployment. See [Deployment Convergence](deployment-convergence.md).
@@ -961,17 +961,17 @@ See [CPI config](cpi-config.md).
 
     Downloads logs from one or more instances.
 
-    - `--dir=` flag specifies destination directory
-    - `--job=` flag includes only specific jobs logs
-    - `--only=` flag filters logs (comma-separated)
-    - `--agent` flag includes only BOSH Agent logs
+    - `--dir=` specify destination directory
+    - `--job=` include only specific jobs logs
+    - `--only=` filter logs (comma-separated)
+    - `--agent` include only BOSH Agent logs
 
     Additional flags for following logs via SSH:
 
-    - `--follow` (`-f`) flag to turn on log following
-    - `--num` flag shows last number of lines immediately
-    - `--quiet` (`-q`) flag suppresses printing of headers when multiple files are examined
-    - `--gw-*` flags allow to configure SSH gateway configuration
+    - `--follow` (`-f`) follow logs
+    - `--num` show last number of lines immediately
+    - `--quiet` (`-q`) suppress printing of headers when multiple files are examined
+    - `--gw-*` configure SSH gateway configuration
 
     See [Location and use of logs](job-logs.md) for details.
 
@@ -990,15 +990,15 @@ See [CPI config](cpi-config.md).
 
     See [Events](events.md) for details.
 
-    - `--before-id=` flag shows events with ID less than the given ID
-    - `--before=` flag shows events before the given timestamp (ex: 2016-05-08 17:26:32)
-    - `--after=` flag shows events after the given timestamp (ex: 2016-05-08 17:26:32)
-    - `--task=` flag shows events with the given task ID
-    - `--instance=` flag shows events with given instance
-    - `--event-user=` flag shows events with given user
-    - `--action=` flag shows events with given action
-    - `--object-type=` flag shows events with given object type
-    - `--object-id=` flag shows events with given object ID
+    - `--before-id=` show events with ID less than the given ID
+    - `--before=` show events before the given timestamp (ex: 2016-05-08 17:26:32)
+    - `--after=` show events after the given timestamp (ex: 2016-05-08 17:26:32)
+    - `--task=` show events with the given task ID
+    - `--instance=` show events with given instance
+    - `--event-user=` show events with given user
+    - `--action=` show events with given action
+    - `--object-type=` show events with given object type
+    - `--object-id=` show events with given object ID
 
     ```shell
     bosh -e vbox events --instance diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0
@@ -1029,7 +1029,7 @@ See [CPI config](cpi-config.md).
 
     Lists all VMs managed by the Director or VMs in a single deployment. Show instance names, IPs and VM CIDs.
 
-    `--vitals` flag shows basic VM usage such RAM, CPU and disk.
+    `--vitals` show basic VM usage such RAM, CPU and disk.
 
     ```shell
     bosh -e vbox vms
@@ -1106,8 +1106,8 @@ See [CPI config](cpi-config.md).
 
     SSH into one or more instances.
 
-    - `--opts` flag allows operator to pass through options to `ssh`; useful for port forwarding
-    - `--gw-*` flags allows configuration of SSH gateway
+    - `--opts` specify pass-through options to `ssh`; useful for port forwarding
+    - `--gw-*` specify configuration of SSH gateway
 
     ```shell
     # execute command on all instances in a deployment
@@ -1135,8 +1135,8 @@ See [CPI config](cpi-config.md).
 
     SCP to/from one or more instances.
 
-    - `--recursive` (`-r`) flag allow to copy directory recursively
-    - `--gw-*` flags allow to configure gateway configuration
+    - `--recursive` (`-r`) copy directory recursively
+    - `--gw-*` specify configuration of SSH gateway
 
     ```shell
     # copy file from this machine to machines a deployment
@@ -1189,10 +1189,10 @@ See [CPI config](cpi-config.md).
 
     Runs errand job by name.
 
-    - `--keep-alive` flag keeps VM around where errand was executing
-    - `--when-changed` flag indicates whether to skip running an errand if it previously ran (successfully finished) and errand job configuration did not change
-    - `--download-logs` flag indicates whether to download full errand logs to a directory specified by `--logs-dir` (defaults to the current directory)
-    - `--instance=` flag select which instances to use for errand execution (v2.0.31+)
+    - `--keep-alive` preserve errand VM after it finishes executing
+    - `--when-changed` skip running an errand if it previously ran (successfully finished) and errand job configuration did not change
+    - `--download-logs` download full errand logs to a directory specified by `--logs-dir` (defaults to the current directory)
+    - `--instance=` select instances to use for errand execution (v2.0.31+)
 
     See [Errands](errands.md) for details.
 
@@ -1229,7 +1229,7 @@ See [CPI config](cpi-config.md).
 
     Lists active and previously ran tasks.
 
-    - `--deployment` (`-d`) flag filters tasks by a deployment
+    - `--deployment` (`-d`) show tasks for the specified deployment
 
     ```shell
     # currently active tasks
@@ -1372,7 +1372,7 @@ See [CPI config](cpi-config.md).
 
     Cleans up unused resources but keeps orphaned disks and the two most recent versions of stemcells and releases.
 
-    - `--all` flag cleans up all unused resources including orphaned disks.
+    - `--all` clean up all unused resources including orphaned disks.
 
     Note that orphan disks get deleted after a few days by default. See [Orphan Disks](persistent-disks.md#orphaned-disks) for more details.
 
@@ -1389,7 +1389,7 @@ See [CPI config](cpi-config.md).
 
     Interpolates variables into a manifest sending result to stdout. [Operation files](cli-ops-files.md) and [variables](cli-int.md) can be provided to adjust and fill in manifest before doing a deploy.
 
-    `--path` flag can be used to extract portion of a YAML document.
+    `--path` retrieve a section of a YAML document.
 
     ```shell
     bosh int bosh-deployment/bosh.yml \
@@ -1442,10 +1442,10 @@ See [CPI config](cpi-config.md).
 
     Make an HTTP request to the BOSH Director. **Recommended to be used for debugging purposes only**.
 
-    - `--method` `(-X)` flag specifies the HTTP method. Allowed values: `GET`, `POST`, `PUT`, and `DELETE`. Defaults to `GET`
-    - `--header` `(-H)` flag allows adding an HTTP header to the request in `'name: value'` format. Can be specified multiple times for multiple headers.
-    - `--body` flag is the path to the file containing the HTTP request body (for `POST` and `PUT`)
-    - `--show-headers` `(-i)` flag shows HTTP headers in the response
+    - `--method` `(-X)` specify the HTTP method. Allowed values: `GET`, `POST`, `PUT`, and `DELETE`. Defaults to `GET`
+    - `--header` `(-H)` add an HTTP header to the request in `'name: value'` format. Can be specified multiple times for multiple headers.
+    - `--body` path to the file containing the HTTP request's body (for `POST` and `PUT`)
+    - `--show-headers` `(-i)` show HTTP headers in the response
 
 
 ```shell
