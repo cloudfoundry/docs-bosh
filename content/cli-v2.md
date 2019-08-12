@@ -1284,6 +1284,24 @@ See [CPI config](cpi-config.md).
     bosh -e vbox ct 281
     ```
 
+#### Cancel-Tasks {: #cancel-tasks }
+
+- `bosh -e my-env cancel-tasks [--type=] [--state=]` (Alias: `cts`)
+
+    Cancel multiple tasks by type and state at their next checkpoints.
+
+    - `--type=` (`-t`) task types to cancel (cck_scan_and_fix, cck_apply, update_release, update_deployment, vms, etc.) (default is all types)
+    - `--state=` (`-s`) task states to cancel (queued, processing) (default: queued)
+
+    ```shell
+    bosh -e vbox cts \
+         -t scan_and_fix \
+         -t update_deployment \
+         -t fetch_logs \
+         -s queued \
+         -s processing
+    ```
+
 ---
 ### Snapshots {: #snapshot-mgmt }
 
