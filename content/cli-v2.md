@@ -1392,7 +1392,9 @@ See [CPI config](cpi-config.md).
 
     - `--all` flag cleans up all unused resources including orphaned disks.
 
-    Note that orphan disks get deleted after a few days by default. See [Orphan Disks](persistent-disks.md#orphaned-disks) for more details.
+    Orphan disks get deleted after a few days by default. See [Orphan Disks](persistent-disks.md#orphaned-disks) for more details.
+
+    **Note:** From BOSH v270.xxx, releases specified in runtime configs are considered 'in use' and won't be deleted by running `bosh clean-up [--all]`.
 
 
 #### Help {: #help }
