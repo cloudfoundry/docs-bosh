@@ -1394,7 +1394,7 @@ See [CPI config](cpi-config.md).
 
     Orphan disks get deleted after a few days by default. See [Orphan Disks](persistent-disks.md#orphaned-disks) for more details.
 
-    **Note:** From BOSH v270.xxx, releases specified in runtime configs are considered 'in use' and won't be deleted by running `bosh clean-up [--all]`.
+    **Note:** From BOSH v270.5.0, releases specified in runtime configs are considered 'in use' and won't be deleted by running `bosh clean-up [--all]`.
 
 
 #### Help {: #help }
