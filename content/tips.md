@@ -116,22 +116,22 @@ If `bosh clean-up` command fails with 500 Internal Server Error, consider removi
 ---
 ## Debugging Director database {: #director-db }
 
-Rarely it's necessary to dive into the Director DB. The easiest way to do so is to SSH into the Director VM and use `director_ctl console`. For example:
+It may be necessary to dive into the Director DB. The easiest way to do so is to SSH into the Director VM and use `console`. For example:
 
 ```shell
 ssh vcap@DIRECTOR-IP
 
-/var/vcap/jobs/director/bin/director_ctl console
+/var/vcap/jobs/director/bin/console
 ```
 
 ```ruby
-Bosh::Director::Models::RenderedTemplatesArchive.count
+Bosh::Director::Models::Deployment.map(:name)
 ```
 
-Should result in:
+Should result in an array listing the current BOSH deployments, e.g.:
 
 ```text
-=> 3
+=> ["cf-dev", "cf-staging", "cf-prod"]
 ```
 
 !!! note
