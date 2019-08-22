@@ -212,9 +212,9 @@ The SSH tunnel between your machine and the VM in the cloud can be terminated pr
 ---
 ## Errors creating or fetching credhub variables {: #variables-permission}
 
-Upgrading to credhub 2.0.0 introduces a breaking change with permissions. Users no longer have automatic implicit read/write access for new paths. Any new credentials the director may generate as part of a deployment will not be created, and any variables the user did not previously have access to will be inaccessible.
+Upgrading to Credhub 2.0.0 introduces a breaking change with permissions. Users no longer have automatic implicit read/write access for new paths. Any new credentials the director may generate as part of a deployment will not be created, and any variables the user did not previously have access to will be inaccessible.
 
-See [credhub 2.0.0 release notes](https://github.com/pivotal-cf/credhub-release/releases/tag/2.0.0) for more information.
+See [Credhub 2.0.0 release notes](https://github.com/pivotal-cf/credhub-release/releases/tag/2.0.0) for more information.
 
 ```shell
 
@@ -222,13 +222,17 @@ Failed to find variable '/bosh/deployment/my_variable' from config server: HTTP 
 
 ```
 
-Using the credhub CLI, check if you can read/write to existing paths or a new path:
+Using the Credhub CLI, ensure reads &amp; writes to existing paths, or new paths, work with current credentials.
+
+Login with the $UAA_CLIENT and $UAA_CLIENT_SECRET where `credhub.write` is listed within the `authorities`. Clients for UAA are defined under the UAA job: `properties.uaa.clients` in the bosh director manifest.
 
 ```shell
+
+credhub login --client $UAA_CLIENT --client-secret $UAA_CLIENT_SECRET
+
 # When the user does not have adequate permissions
 credhub set -n "/bosh/deployment/new_variable" -t password -w "test"
 The request could not be completed because the credential does not exist or you do not have sufficient authorization.
-
 
 # When the user has adequate permissions for this path
 credhub set -n "/bosh/deployment/new_variable" -t password -w "test"
@@ -240,3 +244,19 @@ value: test
 version_created_at: "X"
 
 ```
+
+In order to create new credentials with Credhub 2.0.0 with ACLs enabled, operators must update their director manifests to include permissions. Below is [typical configuration](https://github.com/pivotal-cf/credhub-release/releases/tag/2.0.0) for an admin for all credential paths:
+
+```shell
+
+ properties:
+   credhub:
+     authorization:
+       permissions:
+       - path: /*
+         actors: ["uaa-client:credhub_admin_client"]   # this client must exist
+         operations: [read,write,delete,read_acl,write_acl]
+
+```
+
+Otherwise, users can disable ACLs. Credhub recommends that ACLs are enabled and permissions are assigned explicitly.
