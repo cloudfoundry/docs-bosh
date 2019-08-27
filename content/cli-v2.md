@@ -1292,9 +1292,11 @@ See [CPI config](cpi-config.md).
 
     - `--type=` (`-t`) task types to cancel (cck_scan_and_fix, cck_apply, update_release, update_deployment, vms, etc.) (default is all types)
     - `--state=` (`-s`) task states to cancel (queued, processing) (default: queued)
+    - `--deployment=` (`-d`) cancels tasks for the specified deployment (default: all deployments)
 
     ```shell
     bosh -e vbox cts \
+         -d my-dep \
          -t scan_and_fix \
          -t update_deployment \
          -t fetch_logs \
