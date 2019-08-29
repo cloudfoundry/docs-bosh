@@ -114,7 +114,7 @@ By default, a VM is considered healthy if the process manager reports all proces
 
 ##### Using aliases
 
-1. Jobs which provide services can be configured to be addressable via a static alias. A job that currently provides a link can be aliased directly by updating the manifest to add the alias in the `provides` configuration of the job. Here is an example:
+Jobs which provide services can be configured to be addressable via a static alias. A job that currently provides a link can be aliased directly by updating the manifest to add the alias in the `provides` configuration of the job. Here is an example:
 
 ```
 instance_groups:
@@ -130,7 +130,7 @@ instance_groups:
     properties: {}
 ```
 
-2. If the job as defined in the release does not currently provide a link, you can still define an alias to that job but first you must define a custom link provider in order to do so like this:
+If the job as defined in the release does not currently provide a link, you can still define an alias to that job but first you must define a custom link provider in order to do so like this:
 
 ```
 instance_groups:
