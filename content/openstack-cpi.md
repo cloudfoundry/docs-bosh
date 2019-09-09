@@ -71,6 +71,7 @@ Schema for `cloud_properties` section:
     * **name** [String, required]: The name of the LBaaSv2 loadbalancer pool
     * **port** [Integer, required]: The port exposed on the instance
 * **boot\_from\_volume** [Boolean, optional]: Override global [`boot_from_volume`](https://bosh.io/jobs/openstack_cpi?source=github.com/cloudfoundry/bosh-openstack-cpi-release#p=openstack.boot_from_volume) to enable cinder-backed boot volumes for this VM Type. Available in v34+.
+* **allowed_address_pairs** [Array, optional]: Array of String. Expected to contain a single VRRP IP address that associated VMs will be allowed to use in addition to their primary IP address. See [Using VRRP](openstack-vrrp.md) for more details. Available in v37+. 
 
 Example of an `m1.small` instance:
 
