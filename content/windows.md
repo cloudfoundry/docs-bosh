@@ -65,8 +65,8 @@ For instance, to use separate scripts for start and stop:
       "executable": "powershell.exe",
       "args": [ "/var/vcap/jobs/say-hello/bin/start.ps1" ],
       "stop": {
-        "executable": "powershell.exe",:
-        "args": [ "/var/vcap/jobs/say-hello/bin/stop.ps1" ],
+        "executable": "powershell.exe",
+        "args": [ "/var/vcap/jobs/say-hello/bin/stop.ps1" ]
       }
     }
   ]
