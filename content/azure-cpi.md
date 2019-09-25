@@ -154,7 +154,7 @@ Schema for `cloud_properties` section:
 
 * **tags** [Hash, optional]: Custom tags of VMs (Available in v35.4.0+). They are name-value pairs that are used to organize VMs.
     * Before configuring it, please review [the limitations apply to tags](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-using-tags).
-    * In Azure, each VM can have a maximum of 15 tag name-value pairs. Currently, BOSH director and Azure CPI use at most 10 tags. So it is not recommended to use more than 3 custom tags.
+    * In Azure, each VM can have a maximum of 50 tag name-value pairs. Currently, BOSH director and Azure CPI use at most 10 tags. So it is not recommended to use more than 35 custom tags. *Note: As of writing this the tag count upgrade for Azure VMs has not been roled out to National Azure Clouds. Please contact your Azure Cloud Solution Architect for more details on availability of the new 50 tag limit.*
 
 Example of a `Standard_A2` VM:
 
