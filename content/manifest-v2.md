@@ -199,11 +199,12 @@ update:
 * **migrated_from** [Array, optional]: Specific migration settings for this instance group. Use this to [rename and/or migrate instance groups](migrated-from.md).
 * **lifecycle** [String, optional]: Specifies the kind of workload the instance group represents. Valid values are `service` and `errand`; defaults to `service`. A `service` runs indefinitely and restarts if it fails. An `errand` starts with a manual trigger and does not restart if it fails.
 * **properties** [Hash, optional]: Specifies instance group properties. Deprecated in favor of job level properties and links.
-* **env** [Hash, optional]: Specifies advanced BOSH Agent configuration for each instance in the group.
+* **env** [Hash, optional]: Specifies advanced BOSH Agent configuration for each instance in the group. [Read more about the agent.](agent-cpi-interactions.md#agent-settings-format)
     * **persistent_disk_fs** [String, optional]: Filesystem type to use when formatting persistent disk. Supported values: `ext4`, `xfs`. Default is currently set to `ext4` but may change. [See details](persistent-disk-fs.md)
     * **persistent_disk_mount_options** [Array of strings, optional]: Mount options when mounting persistent disk. Example: `["noatime"]`.
     * **bosh** [Hash, optional]:
         * **password** [String, optional]: Crypted password for `vcap/root` user (will be placed into /etc/shadow on Linux).
+        * **authorized_keys** [String, optional]: Public key for the `vcap` user, will be placed in `.ssh/authorized_keys`. This value can be used to enable SSH access onto VMs in this instance group.
         * **keep\_root\_password** [Boolean, optional]: Keep password for `root` and only change password for `vcap`. Default: `false`.
         * **remove\_dev\_tools** [Boolean, optional]: Remove [compilers and dev tools](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/stemcell_builder/stages/dev_tools_config/assets/generate_dev_tools_file_list_ubuntu.sh) on non-compilation VMs. Default: `false`.
         * **remove\_static\_libraries** [Boolean, optional]: Remove [static libraries](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/stemcell_builder/stages/static_libraries_config/assets/static_libraries_list.txt) on non-compilation VMs. Default: `false`.
