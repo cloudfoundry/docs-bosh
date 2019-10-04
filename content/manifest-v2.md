@@ -155,6 +155,9 @@ stemcells:
 * **vm_strategy** [String, optional]: Influence how instances are updated when their VM needs to be recreated due to IaaS-related changes. Choose from one of the following strategies. Defaults to `delete-create`. Introduced in [bosh/267.2](https://github.com/cloudfoundry/bosh/releases/tag/v267.2).
     * `delete-create` - fully stop processes and delete the VM before creating and provisioning a new VM.
     * `create-swap-delete` - create and provision a new VM before stopping processes and transferring responsibilities from the old VM. Some configurations (e.g. static IPs) are not supported and will automatically revert to the `delete-create` strategy.
+* **initial_deploy_az_update_strategy** [String, optional]: Configure how instances are updated across multiple availability zones on the first deploy of a new deployment. Instances will still be updated with respect to `canaries` and `max_in_flight`. Defaults to `serial`. **Note**: VMs are all created in parallel regardless.
+    * `serial` - Instances in each instance group will be updated one availability zone at a time.
+    * `parallel` - Instances in each instance group will be updated all at once, regardless of availability zone.
 
 See [job lifecycle](job-lifecycle.md) for more details on startup/shutdown procedure within each VM.
 
@@ -166,6 +169,7 @@ update:
   max_in_flight: 10
   canary_watch_time: 1000-30000
   update_watch_time: 1000-30000
+  initial_deploy_az_update_strategy: serial
 ```
 
 ---
