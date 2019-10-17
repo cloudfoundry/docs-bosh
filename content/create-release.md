@@ -864,6 +864,13 @@ Upload the new dev release.
 
 Assuming you are in the release directory, no path is needed with the above command.
 
+Upload stem cells:
+
+If your BOSH director does not have any stem cells yet, you can find the latest versions [here](https://bosh.cloudfoundry.org/stemcells/).  Select the cloud provider you are using to find the OS version you want to use.  The command to send to BOSH will look like this:
+
+   ```bosh upload-stemcell --sha1 <sha> \
+  https://bosh.io/d/stemcells/bosh-google-kvm-ubuntu-xenial-go_agent?v=<version>```
+
 Deploy:
 
    `bosh -d bosh-tutorial-deployment deploy <path-to-manifest.yml>`
