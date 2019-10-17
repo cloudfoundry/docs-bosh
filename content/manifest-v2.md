@@ -122,6 +122,8 @@ releases:
 !!! tip "IaaS-agnostic Configuration"
     To ensure your manifest can easily be used across multiple IaaSes, prefer using `os` instead of the IaaS-specific `name` field. Note: unlike `releases`, this does not support automatic downloading of a stemcell through a `url` field.
 
+You can find the latest versions of stem cells for your cloud provider here: https://bosh.cloudfoundry.org/stemcells/
+
 Example:
 
 ```yaml
@@ -228,17 +230,20 @@ Example:
 instance_groups:
 - name: redis-master
   instances: 1
+  # to view existing azs, do `bosh int <(bosh cloud-config) --path=/azs`
   azs: [z1, z2]
   jobs:
   - name: redis-server
     release: redis
     properties:
       port: 3606
+  # to view available vm_types, do `bosh int <(bosh cloud-config) --path=/vm_types`
   vm_type: medium
   vm_extensions: [public-lbs]
   stemcell: default
   persistent_disk_type: medium
   networks:
+  # to view available networks, do `bosh int <(bosh cloud-config) --path=/networks`
   - name: default
 
 - name: redis-slave
