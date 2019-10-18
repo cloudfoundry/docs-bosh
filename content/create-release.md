@@ -646,11 +646,11 @@ Example `final.yml`:
 
 ```yaml
 ---
+name: ardo_app
 blobstore:
   provider: local
   options:
     blobstore_path: /tmp/ardo-blobs
-final_name: ardo_app
 ```
 
 Example `private.yml`:
