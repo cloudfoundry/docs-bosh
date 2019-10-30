@@ -35,7 +35,7 @@ You must ensure that your drain script exits in one of following ways:
 
 - exit with a non-`0` exit code to indicate drain script failed
 
-- exit with `0` exit code and also print an integer followed by a newline to `stdout` (nothing else must be printed to `stdout`):
+- exit with `0` exit code and also print an integer followed by a newline to `stdout`:
 
     **static draining**: If the drain script prints a zero or a positive integer, BOSH sleeps for that many seconds before continuing.
 
@@ -48,6 +48,9 @@ You must ensure that your drain script exits in one of following ways:
         It's recommended to only use static draining as dynamic draining will be eventually deprecated. If you can't provide an upper bound
         on how long BOSH should wait before continuing (as required in case of static draining) you can sleep/retry inside the `drain` script
         since BOSH guarantees that `drain` scripts [will not timeout](drain.md#stop).
+
+    !!! warning
+        The **drain script must not print anything to `stdout`** except for one draining integer followed by a newline. Otherwise the job lifecycle is broken and `bosh deploy` will fail.
 
 Note that if drain script causes monitored job processes to exit, monit will not call stop script for that job.
 
@@ -69,27 +72,15 @@ example:
 With this, the `drain` script can determine when the size of the persistent
 disk changes and take action.
 
-But more importantly, it can detect when the current node is being deleted.
-This is important when the node is part of a cluster and needs to gracefully
-say goodbye to its pairs before leaving forever.
-
-When the drain script is run before the node is deleted, then the new
-persistent disk size is zero. For example, you would be able to see these
-values when `echo`ing them.
-
+Most importantly, in case a node is being deleted the new persistent disk size will be zero:
 ```shell
-cat /var/vcap/jobs/my-job/bon/drain
-(
-  echo BOSH_JOB_STATE=$BOSH_JOB_STATE
-  echo BOSH_JOB_NEXT_STATE=$BOSH_JOB_NEXT_STATE
-) > /var/vcap/sys/log/my-job/drain.stdout.log
+if echo "${BOSH_JOB_NEXT_STATE}" | grep -q "\"persistent_disk\":0"; then
+    is_node_deleted=1
+else
+    is_node_deleted=0
+fi
 ```
-
-```shell
-cat /var/vcap/sys/log/my-job/drain.stdout.log
-# BOSH_JOB_STATE={"persistent_disk":2048}
-# BOSH_JOB_NEXT_STATE={"persistent_disk":0}
-```
+This behaviour can be used to determine when a cluster node needs to gracefully say goodbye to its peers before leaving forever.
 
 You'll find [here](https://github.com/cloudfoundry-incubator/cfcr-etcd-release/blob/master/jobs/etcd/templates/bin/drain.erb)
 an example script for an etcd member to leave its etcd cluster gracefully.
@@ -99,11 +90,13 @@ an example script for an etcd member to leave its etcd cluster gracefully.
 
 The first argument passed to the drain script indicates the intended job lifecycle action.
 It can have the following values (note: "job" here actually means "instance"):
+
 * `job_changed` indicating that the instance will be restarted
 * `job_shutdown` indicating that the instance will be stopped and subsequently the VM will terminated
 
 The second arguemnt passed to the drain script indicates whether the job hash has changed.
 It can have the following values:
+
 * `hash_changed` indicating that the job's packages or rendered templates have changed.
 * `hash_unchanged` indicating that the job's packages and rendered templates have not changed.
 
