@@ -147,6 +147,7 @@ pages:
     - Components of BOSH: bosh-components.md
     - Deploying Step by Step: deploying-step-by-step.md
     - Agent Interactions: agent-cpi-interactions.md
+    - Configuring NTP: ntp-config.md
     - Virtual Machines:
       - Structure of a VM: vm-struct.md
       - Configuration Locations: vm-config.md
