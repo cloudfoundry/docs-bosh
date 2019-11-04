@@ -54,6 +54,12 @@ In this configuration the Director is configured to delegate user management to 
             - bosh.admin
 
         clients:
+          admin:
+            authorities: bosh.admin
+            authorized-grant-types: client_credentials
+            override: true
+            scope: ""
+            secret: ((admin_password))
           bosh_cli:
             override: true
             authorized-grant-types: password,refresh_token
@@ -66,8 +72,6 @@ In this configuration the Director is configured to delegate user management to 
 
         admin:
           # client_secret: admin-password # <--- Uncomment & change
-        login:
-          # client_secret: login-password # <--- Uncomment & change
         zones: {internal: {hostnames: []}}
     ```
 
