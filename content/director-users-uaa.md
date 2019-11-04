@@ -149,6 +149,17 @@ In this configuration the Director is configured to delegate user management to 
         - Public key used to verify tokens (e.g. `./uaa.pub`)
     - `director.user_management.uaa.public_key`
         - Public key used by the Director to verify tokens without contacting the UAA (e.g. `./uaa.pub`)
+        
+1. Add UAA encryption key:
+
+    ```yaml
+    properties:
+      encryption:
+        active_key_label: "uaa-encryption-key"
+        encryption_keys:
+        - label: "uaa-encryption-key"
+          passphrase: "ENTER-PASSPHRASE"
+    ```
 
 1. Allow access to port 8443 on the Director VM from your IaaS so that the CLI can access the UAA server.
 
