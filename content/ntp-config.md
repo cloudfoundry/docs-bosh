@@ -61,11 +61,11 @@ If you for some reason wanted to configure the NTP servers specifically for one
 instance group in a deployment you can do so using `agent.env.bosh.ntp`
 property on that instance group in its deployment manifest.
 
-## It is also possible but not recommended to configure NTP via CPI job properties
+## Configuring NTP via CPI job properties is DEPRECATED
 
 If you configure NTP on an instance group that has CPI jobs, some CPIs will pick
 up that configuration and place it in the agent settings on deployed VMs. The
 agent will detect those settings and use them as a fallback in the event that
 the agent env does not include NTP configuration. This configuration style is
-not recommended since it is not guaranteed to take precedence and the
-configuration style may vary across IaaSes.
+deprecated since it is not guaranteed to take precedence and the configuration
+style may vary across IaaSes.
