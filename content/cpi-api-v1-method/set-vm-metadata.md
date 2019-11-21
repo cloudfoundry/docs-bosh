@@ -8,7 +8,7 @@ For example AWS CPI uses tags to store metadata for operators to see in the AWS 
 ## Arguments
 
  * `vm_cid` [String]: Cloud ID of the VM to modify; returned from `create_vm`.
- * `metadata` [Hash]: Collection of key-value pairs. CPI should not rely on presence of specific keys.
+ * `metadata` [Hash]: Collection of key-value pairs, including the top-level `tags` in the deployment manifest. CPI should not rely on presence of specific keys.
 
 
 ## Result
@@ -30,7 +30,8 @@ No return value
     "name": "redis/ce7d2040-212e-4d5a-a62d-952a12c50741",
     "job": "redis",
     "id": "ce7d2040-212e-4d5a-a62d-952a12c50741",
-    "index": "1"
+    "index": "1",
+    "tag-name": "tag-value"
   }
 ]
 ```
