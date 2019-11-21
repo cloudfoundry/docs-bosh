@@ -1,5 +1,5 @@
 !!! note "Version compatibility"
-    This `blobstore.enable_signed_urls` config property was first introduced in bosh [v268.5.0](https://github.com/cloudfoundry/bosh/releases/tag/v268.5.0) and stemcell [Xenial 621](https://bosh.io/stemcells/#ubuntu-xenial).
+    This `blobstore.enable_signed_urls` config property was first introduced in bosh v270.8 and the ubuntu-xenial 621.x stemcell.
 
 ## Overview
 
@@ -14,6 +14,10 @@ following properties:
 
 * `blobstore.enable_signed_urls`: Set this to true to have the director begin
   sending signed urls to the agent.
+
+You must continue configuring `blobstore.*` properties. Enabling signed URLs
+should work alongside blobstore provider specific encryption options such as
+`blobstore.encryption_key` (GCS) and `blobstore.sse_kms_key_id` (AWS).
 
 **DAV ONLY**
 
