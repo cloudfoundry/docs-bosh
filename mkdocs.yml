@@ -112,6 +112,7 @@ pages:
       - Builtin DAV Server: director-configure-blobstore.md
       - Amazon S3: director-configure-blobstore.md
       - Google Cloud Storage: director-configure-blobstore.md
+      - Signed URLs: director-blobstore-signed-urls.md
     - Managing Releases: managing-releases.md
     - Managing Stemcells: managing-stemcells.md
     - Auto-healing Capabilities: resurrector.md
