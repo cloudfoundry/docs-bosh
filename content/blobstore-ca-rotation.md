@@ -142,7 +142,7 @@ Recreating all the VMs will remove the old CA from them. The usual way to do thi
 bosh -d deployment-name recreate
 ```
 
-Other BOSH commands can be used to recreate the VMs, while others will restart the VMs without recreating them. Please take note of the remarks below. 
+Other BOSH commands can be used to recreate the VMs, while others will restart the VMs without recreating them. Please take note of the remarks below.
 
 
 #### Commands that will reset the blobstore configuration on the deployed VMs
@@ -167,6 +167,51 @@ bosh -d deployment-name stop
 bosh -d deployment-name start
 ```
 
+### Opsfile Cleanup
+
+In order to continue using the new CA and certificates, operators would be required to include
+the above opsfiles for subsequent `bosh create-env` commands. This is not ideal and can lead to disruptions and downtime if the old CA is used again by mistake.
+
+The following opsfile in conjunction with the `bosh interpolate` command will replace the old
+certificate values with the new, and remove the second variable created for the above process.
+
+
+```
+# update_blobstore_var_values.yml
+
+---
+- type: replace
+  path: /blobstore_server_tls
+  value: ((blobstore_server_tls_2))
+
+- type: replace
+  path: /blobstore_ca
+  value: ((blobstore_ca_2))
+
+- type: remove
+  path: /blobstore_ca_2
+
+- type: remove
+  path: /blobstore_server_tls_2
+
+```
+
+Create a backup of the credentials and apply the opsfile:
+
+```
+cp creds.yml creds.yml.backup
+
+bosh interpolate creds.yml \
+  -o update_blobstore_var_values.yml \
+  --vars-file creds.yml > updated_creds.yml
+
+mv updated_creds.yml creds.yml
+```
+
+**Do not** include the `add-new-blobstore-ca` and `remove-old-blobstore-ca` in subsequent `bosh create-env` commands.
+
+!!! warning
+    **Warning:** If you do not perform the clean-up procedure, you must ensure that the ops files (`add-new-blobstore-ca.yml` and `remove-old-blobstore-ca.yml`) are used every time a create-env is executed going forward (which can be unsustainable). Removing the ops files would revert to the old CA, which will prevent blobstore fetching during deployments or other operations.
 
 ## Troubleshooting
 
