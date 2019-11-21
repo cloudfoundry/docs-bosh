@@ -4,8 +4,8 @@
 ## Overview
 
 Opting into this features changes the agent to manage artifacts on the blobstore
-using signed URLs. The goal is to restrict access to the blobstore by isolating
-bosh actions and removing credentials from disk.
+using signed URLs. The goal is to remove blobstore credentials from all bosh
+deployed vms and replace access with signed URLs granting scoped actions
 
 ## Usage
 
@@ -29,7 +29,8 @@ This ops-file assumes a DAV blobstore.
 Historically there have been many ways of configuring the blobstore. Examples
 include through the CPI and through the agent `env` hash. We recommend moving
 away from these as they are legacy and in order to gain the benefits this
-feature provides.
+feature provides. Specifically, configuring the blobstore through these
+properties _will result_ in blobstore credentials on VMs' disks.
 
 Additionally, when updating `blobstore.enable_signed_urls` from true to false,
 the director will stop generating and sending signed urls to the agents.
