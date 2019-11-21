@@ -30,3 +30,10 @@ Historically there have been many ways of configuring the blobstore. Examples
 include through the CPI and through the agent `env` hash. We recommend moving
 away from these as they are legacy and in order to gain the benefits this
 feature provides.
+
+Additionally, when updating `blobstore.enable_signed_urls` from true to false,
+the director will stop generating and sending signed urls to the agents.
+Unfortunately, all of the agents do not have blobstore credentials to correctly
+process those requests. As an operator updating that property to false, you
+**must** recreate all VMs managed by bosh in order to propagate blobstore
+credentials to the VMs.
