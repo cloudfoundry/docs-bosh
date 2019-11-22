@@ -54,9 +54,9 @@ Note that scripts should not rely on the order they are run. Agent may decide to
 
 1. Persistent disks are unmounted on the VM if configured
 
-## When the VM is rebooted
+## Non-Bosh VM Operations
 
-Any deployed VM may be rebooted due to infrastructure disruptions or other operations.
+Any deployed VM may be rebooted due to infrastructure disruptions or other operations. In general, the deployment lifecycle hooks are _not_ executed. Only local monitoring is invoked to restart jobs.
 
 1. The VM reboot occurs, and VM is successfully booted. OS processes and services start.
 1. `monit` starts running
