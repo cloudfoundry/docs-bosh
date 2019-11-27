@@ -318,7 +318,7 @@ See [CLI Variable Interpolation](cli-int.md) for more details about variables.
 ---
 ## Tags Block {: #tags }
 
-**tags** [Hash, optional]: Specifies key value pairs to be sent to the CPI for VM tagging. Combined with runtime config level tags during the deploy. Available in bosh-release v258+.
+**tags** [Hash, optional]: Specifies key value pairs to be sent to the CPI for VM and disk tagging. Combined with runtime config level tags during the deploy. Available in bosh-release v258+.
 
 Example:
 
