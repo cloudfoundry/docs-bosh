@@ -105,6 +105,7 @@ pages:
           - SSL Rotation: mbus-ssl-rotation.md
         - CredHub:
           - Encryption Password Rotation: credhub-encryption-password-rotation.md
+      - Signed URLs: director-blobstore-signed-urls.md
     - Configuring the Database:
       - Builtin PostgreSQL: director-configure-db.md
       - External MySQL: director-configure-db.md
