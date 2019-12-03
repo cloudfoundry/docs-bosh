@@ -3,13 +3,13 @@
 
 ## Overview
 
-Opting into this features changes the agent to manage artifacts on the blobstore
+Opting into this feature changes the agent to manage artifacts on the blobstore
 using signed URLs. The goal is to remove blobstore credentials from all bosh
-deployed vms and replace access with signed URLs granting scoped actions
+deployed vms and replace access with signed URLs granting scoped actions.
 
 ## Usage
 
-For the purpose of this feature, supported stemcells are ubuntu-xenial 621.x and
+For the purpose of this feature, "supported stemcells" are ubuntu-xenial 621.x and
 later. Supported windows stemcells are coming soon.
 
 ### Enabling the feature flag
@@ -34,9 +34,9 @@ disks. This is because we cannot guarantee that all VMs are deployed with
 supported stemcells. The bosh-agent on past stemcells still requires blobstore
 credentials.
 
-As an operator, you can achieve having credentials not be on disk by:
+As an operator, you can remove credentials from deployment VMs by making the following changes:
 
-* If all deployments are using supported stemcells, you may override
+* If all deployments are using supported stemcells, override
   the `blobstores` to an empty array in the director manifest.
 
   ```
@@ -50,7 +50,7 @@ As an operator, you can achieve having credentials not be on disk by:
             blobstores: []
   ```
 
-* For deployments on supported stemcells, you may override a deployment manifest
+* For deployments on supported stemcells, override individual deployment manifests with the following
   property:
 
   ```
@@ -75,8 +75,9 @@ For DAV blobstores, please also configure:
 ## Notes
 
 Additionally, when updating `blobstore.enable_signed_urls` from true to false,
-the director will stop generating and sending signed urls to the agents.
-Unfortunately, all of the agents do not have blobstore credentials to correctly
-process those requests. As an operator updating that property to false, you
-**must** recreate all VMs managed by bosh in order to propagate blobstore
-credentials to the VMs.
+the director will stop generating and sending signed urls to the agents. If you
+update the property to false, you **must** also recreate all VMs managed by bosh
+in order to propagate blobstore credentials to the VMs. If you do not recreate 
+the VMs, none of the agents will have blobstore credentials to correctly
+process requests.
+
