@@ -41,7 +41,7 @@ The Health Monitor uses status and lifecycle events received from Agents to moni
 
 ### Resurrector {: #resurrector }
 
-If enabled, the Resurrector plugin automatically recreates VMs identified by the Health Monitor as missing or unresponsive. It uses same Director API that CLI uses.
+If enabled, the Resurrector plugin automatically recreates VMs identified by the Health Monitor as missing.
 
 ---
 ## DNS Server {: #dns }
