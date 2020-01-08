@@ -1,9 +1,8 @@
-The Resurrector is a plugin to the [Health Monitor](bosh-components.md#health-monitor). It's responsible for automatically recreating VMs that become inaccessible.
+The Resurrector is a plugin to the [Health Monitor](bosh-components.md#health-monitor). It's responsible for automatically recreating missing VMs.
 
-The Resurrector continuously cross-references VMs expected to be running against the VMs that are sending heartbeats. When resurrector does not receive heartbeats for a VM for a certain period of time, it will kick off a task on the Director (scan and fix task) to try to "resurrect" that VM. The Director may do one of two things:
+The Resurrector continuously cross-references VMs expected to be running against the VMs that are sending heartbeats. When resurrector does not receive heartbeats for a VM for a certain period of time, it will kick off a task on the Director (scan and fix task) to try to "resurrect" that VM.
 
-- create a new VM if the old VM is missing from the IaaS
-- replace a VM if the Agent on that VM is not responding to commands
+If the scan and fix task determines the VM is missing from the IAAS then the director will create a new VM. If the VM exists but was unresponsive the director will take no action because there are many potential causes. Manual remediation can be done with `bosh cloud-check`.
 
 Under certain conditions the Resurrector will consider the system in the "meltdown" and will stop sending requests to the Director. It will resume submitting scan and fix tasks to the Director once the conditions change.
 
