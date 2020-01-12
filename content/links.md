@@ -576,6 +576,7 @@ instance_groups:
 ```
 
 There are two possible ways to fix this:
+
 * Add the `provides` section of the providing job in the release manifest to rename the link using the `as` property.
 * Introduce a second release to provide a backup job with a different link name or type.
 
