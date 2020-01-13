@@ -55,24 +55,24 @@ instance_groups:
 
 Here is how deployment manifest describes a reasonably complex Zookeeper cluster:
 
-- Zookepeer source code, configuration file, startup scripts
-  - include `zookeeper` release version `0.0.5` to the `releases` section
-- Operating system image onto which install software
-  - include latest version of `ubuntu-trusty` stemcell
-- Create 5 Zookeeper VMs spread
-  - add `zookeeper` [instance group](terminology.md#instance-group) with `instances: 5`
-- Spread VMs over multiple availability zones
-  - add `azs: [z1, z2, z3]`
-- Install Zookeeper software onto VMs
-  - add `zookeeper` job to this instance group
-- Size VMs in the same way
-  - add `vm_type: default` which references VM type from cloud config
-- Attach a 10GB [persistent disk](terminology.md#persistent-disk) to each Zookeeper VM
-  - add `persistent_disk: 10240` to `zookeeper` instance group
-- Place VMs onto some [network](networks.md)
-  - add `networks: [{name: default}]` to `zookeeper` instance group
-- Provide a way to smoke test Zookeeper cluster
-  - add `smoke-tests` instance group with `smoke-tests` job from Zookeeper release
+1. Zookepeer source code, configuration file, startup scripts
+    - include `zookeeper` release version `0.0.5` to the `releases` section
+1.  Operating system image onto which install software
+    - include latest version of `ubuntu-trusty` stemcell
+1. Create 5 Zookeeper VMs spread
+    - add `zookeeper` [instance group](terminology.md#instance-group) with `instances: 5`
+1. Spread VMs over multiple availability zones
+    - add `azs: [z1, z2, z3]`
+1. Install Zookeeper software onto VMs
+    - add `zookeeper` job to this instance group
+1. Size VMs in the same way
+    - add `vm_type: default` which references VM type from cloud config
+1. Attach a 10GB [persistent disk](terminology.md#persistent-disk) to each Zookeeper VM
+    - add `persistent_disk: 10240` to `zookeeper` instance group
+1. Place VMs onto some [network](networks.md)
+    - add `networks: [{name: default}]` to `zookeeper` instance group
+1. Provide a way to smoke test Zookeeper cluster
+    - add `smoke-tests` instance group with `smoke-tests` job from Zookeeper release
 
 Refer to [manifest v2 schema](manifest-v2.md) for detailed breakdown.
 
