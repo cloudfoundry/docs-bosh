@@ -68,10 +68,10 @@ Packages may also include `bosh/runtime.env` for loading specific functionality 
 
 Additional notes about `vendor-package` command:
 
-- command is idempotent hence could be run in the CI continuously tracking source release and automatically vendoring in updates
-- command requires access to final blobstore (specified via `config/private.yml`) as it will download source release package blob and upload it into destination release's blobstore
-- dependencies of a vendored packaged are vendored as well
-- after running the command, the `packages` directory will contain a directory named after the vendored package. That directory will have a `spec.lock` file which references the name and fingerprint of the vendored package. `spec.lock` and updates to the `.final_builds` directory must be saved (checked in).
+- The command is idempotent, hence could be run in the CI continuously tracking source release and automatically vendoring in updates.
+- The command requires access to final blobstore (specified via `config/private.yml`) as it will download source release package blob and upload it into destination release's blobstore.
+- The dependencies of a vendored package are vendored as well.
+- After running the command, the `packages` directory will contain a directory named after the vendored package. That directory will have a `spec.lock` file which references the name and fingerprint of the vendored package. `spec.lock` and updates to the `.final_builds` directory must be saved (checked in).
 
 When to use this approach:
 
