@@ -3,7 +3,10 @@
 
 A disk snapshot is a shallow or full copy of a persistent disk at the time of the snapshot creation. Disk snapshotting is implemented with the help of CPIs which use the IaaS snapshot functionality to efficiently make copies of disks.
 
-Take a disk snapshot of a persistent disk before deploying major updates or for other important events. If the changes corrupt persistent disk, promote a disk snapshot to be a persistent disk and attach it to the VM to restore data prior to your changes. Currently BOSH does not provide a CLI command to recover from a snapshot so you must use the recovery features of your IaaS with the [snapshot Content IDs (CIDs)](#manual) to recover the snapshots.
+Take a disk snapshot of a persistent disk before deploying major updates or for other important events. If the changes corrupt persistent disk, promote a disk snapshot to be a persistent disk and attach it to the VM to restore data prior to your changes. 
+
+!!! note
+    Currently, BOSH does not provide a CLI command to recover from a snapshot, so you must use the recovery features of your IaaS with the [snapshot Content IDs (CIDs)](#manual) to recover the snapshots.
 
 !!! note
     While snapshots allow you to recover disk to a prior state, snapshots are not backups. Taking a snapshot does not necessarily create a complete copy of the original disk. If the original disk is deleted, your IaaS may invalidate any snapshot files.
