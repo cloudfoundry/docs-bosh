@@ -1,9 +1,9 @@
 !!! note
     This feature is available in bosh-release v256+.
 
-In addition to keeping a historical list of [Director tasks](terminology.md#director-task) for debugging history, the Director keeps detailed list of actions user and system took during its operation. Events are recorded into the Director database.
+In addition to keeping a historical list of [Director tasks](terminology.md#director-task) for debugging history, the Director keeps a detailed list of user and system actions.
 
-Currently following events are recorded:
+Currently, the following events are recorded into the Director database:
 
 - cloud config update
 - runtime config update
@@ -63,9 +63,9 @@ bosh events
 ...
 ```
 
-List of events can be also filtered by a deployment name (`--deployment`), a task ID (`--task`), and/or an instance (`--instance`). Additionally you can paginate by specifying `--before-id` flag to view next 200 events matching viewed criteria. See other available options on [CLI commands page](cli-v2.md).
+The list of events can be filtered by a deployment name (`--deployment`), a task ID (`--task`), and/or an instance (`--instance`). Additionally, you can paginate by specifying `--before-id` flag to view next 200 events matching viewed criteria. See other available options on [CLI commands page](cli-v2.md).
 
-Example query commands:
+For example, you can query events like so:
 
 ```shell
 bosh events --deployment slow-nats
@@ -76,7 +76,7 @@ bosh events --instance zookeeper/ca5f695a-eb81-49fd-a577-33825cb1b5fc
 ---
 ## Ending vs. Single Actions {: #ending-vs-single }
 
-Each event represents an action. Some actions take time to perform (e.g. delete a VM), and other actions are just one-off events (e.g. set up SSH access). Actions that take time are represented by two events (starting and ending one) instead of just one. In the example below delete VM action is recorded as starting in event #5096 and finishing in event #5199.
+Each event represents an action. Some actions take time to perform (e.g. delete a VM), and other actions are just one-off events (e.g. set up SSH access). Actions that take time are represented by two events (starting and ending one) instead of just one. In the example below **delete VM** action is recorded as starting in event #5096 and finishing in event #5199.
 
 ```shell
 | 5199 <- 5096 | Thu May 12 00:47:48 UTC 2016 | admin | delete | vm | i-054a17a75c0c9b279 | 1059 | tiny | zookeeper/ca5f695a-eb81-49fd-a577-33825cb1b5fc ...
@@ -97,6 +97,6 @@ To enable this feature:
           record_events: true
     ```
 
-1. Optionally change frequency and number of events to keep.
+1. Optionally, change frequency and number of events to keep.
 
 1. Redeploy the Director.
