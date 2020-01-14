@@ -23,7 +23,7 @@ There are several stages that all jobs (and their associated processes) on each 
 	- does not time out
 
 !!! note
-    Scripts should not rely on the order they are run. Agent may decide to run them serially or       in parallel.
+    Scripts should not rely on the order they are run. Agent may decide to run them serially or in parallel.
 
 ---
 ## When processes are running {: #running }
@@ -64,4 +64,4 @@ Any deployed VM may be rebooted due to infrastructure disruptions or other opera
 1. `monit` begins starting processes registered. The job's `start program` is executed as per the `monitrc` file.
 
 !!! note
-    `pre-start`, `post-start`, `post-deploy` are **not** executed, since the bosh lifecycle is       not invoked. It is recommended that a job's `monitrc` `start program` perform all operations     required to start a job without depending on `pre-start` executing.
+    `pre-start`, `post-start`, `post-deploy` are **not** executed, since the bosh lifecycle is not invoked. It is recommended that a job's `monitrc` `start program` perform all operations required to start a job without depending on `pre-start` executing.
