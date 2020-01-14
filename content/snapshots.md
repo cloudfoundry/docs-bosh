@@ -22,7 +22,7 @@ To enable disk snapshots in the Director:
         enable_snapshots: true
     ```
 
-1. Run `bosh create-env manifest.yml` to update your Director deployment.
+1. Run `bosh create-env manifest.yml` to update your Director deployment (see `create-env`[command](https://bosh.io/docs/cli-v2/#create-env) for details).
 
 ## Manual Snapshots {: #manual }
 
@@ -79,7 +79,7 @@ To schedule snapshots for all VMs in all deployments:
         snapshot_schedule: 0 0 7 * * * UTC
     ```
 
-1. Run `bosh create-env manifest.yml` to update your Director deployment.
+1. Run `bosh create-env manifest.yml` to update your Director deployment (see `create-env`[command](https://bosh.io/docs/cli-v2/#create-env) for details).
 
 To schedule snapshots for the Director VM:
 
@@ -94,4 +94,4 @@ To schedule snapshots for the Director VM:
         self_snapshot_schedule: 0 0 6 * * * UTC
     ```
 
-1. Run `bosh create-env manifest.yml` to update your Director deployment.
+1. Run `bosh create-env manifest.yml` to update your Director deployment (see `create-env`[command](https://bosh.io/docs/cli-v2/#create-env) for details).
