@@ -369,6 +369,7 @@ nsx:
   user: administrator@vsphere.local
   password: vmware
 ```
+
 ---
 ## Example Cloud Config {: #cloud-config }
 
