@@ -14,7 +14,7 @@ Since the IaaS might or might not provide snapshotting functionality, disk snaps
 
 To enable disk snapshots in the Director:
 
-1. Add an `enable_snapshots` key with it's value set to `true` to the `director` block of your Director deployment manifest.
+1. Add an `enable_snapshots` [key](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh&version=270.10.0#p%3ddirector.enable_snapshots) with it's value set to `true` to the `director` block of your Director deployment manifest.
 
     ```yaml
     properties:
@@ -64,11 +64,11 @@ Once you enable snapshots in the Director, the Director automatically takes a sn
 The Director can take snapshot of persistent disks at regular intervals for all VMs in all deployments and/or the VM the Director is running on.
 
 !!! note
-    When the Director starts a scheduled snapshot, it does not pause any processes or flush           buffered data to disk. Depending on your IaaS, a scheduled snapshot might not fully capture       all the data on your VM at the point you take the snapshot.
+    When the Director starts a scheduled snapshot, it does not pause any processes or flush       buffered data to disk. Depending on your IaaS, a scheduled snapshot might not fully capture       all the data on your VM at the point you take the snapshot.
 
 To schedule snapshots for all VMs in all deployments:
 
-1. Add a `snapshot_schedule` key to the `director` block of your Director deployment manifest.
+1. Add a `snapshot_schedule` [key](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh&version=270.10.0#p%3ddirector.snapshot_schedule) to the `director` block of your Director deployment manifest.
 
 1. Add a [cron-formatted](https://github.com/jmettraux/rufus-scheduler/blob/two/README.rdoc#a-note-about-cron-jobs) schedule as a value for the `snapshot_schedule` key.
 
@@ -83,7 +83,7 @@ To schedule snapshots for all VMs in all deployments:
 
 To schedule snapshots for the Director VM:
 
-1. Add a `self_snapshot_schedule` key to the `director` block of your Director deployment manifest.
+1. Add a `self_snapshot_schedule` [key](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh&version=270.10.0#p%3ddirector.self_snapshot_schedule) to the `director` block of your Director deployment manifest.
 
 1. Add a cron-formatted schedule as a value for the `self_snapshot_schedule` key.
 
