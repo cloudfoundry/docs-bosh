@@ -83,6 +83,7 @@ pages:
       - Undefined Behaviors: bpm/undefined.md
   - Operating Director:
     - Monitoring:
+      - Prometheus Metrics: director-metrics.md
       - Auditing Events: events.md
       - Reviewing Tasks: director-tasks.md
       - Logging API Access: director-access-events.md
