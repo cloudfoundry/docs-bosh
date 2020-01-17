@@ -59,10 +59,43 @@ Here is how DNS release chooses recursors before starting its operation:
 1. by default will pick up recursors specified in `/etc/resolv.conf` (denoted by `nameserver` keyword)
   - alternatively, if `recursors` property is set use specified recursors
 1. exclude recursors specified in `excluded_recursors` property
-1. randomly pick one recursor from the list of recursors
-  - note that all recursors in this list will be considered equivalent, i.e. able to resolve same domains
-1. failover to using another randomly picked recursor, if current recursor exhibits connectivity problems
+1. pick a recursor from the list of recursors
+1. if you have a version of the DNS release after and including 1.12, the selection of recursors is based on `recursor_selection` strategy:
+  - if `recursor_selection` is "smart":
+    - note that all recursors in this list will be considered equivalent, i.e. able to resolve same domains
+  - if `recursor_selection` is "serial":
+    - the next recursor (in order) from the list of recursors is chosen
+1. if you have a version before 1.12, then the behaviour is the same as having `recursor_selection` set to "smart" from above
+1. failover to using another recursor, if current recursor exhibits connectivity problems
   - connectivity problems do not account for resolution problems (NXDOMAIN, or other DNS level errors)
+
+#### More on recursor_selection
+
+In DNS release 1.12, the `recursor_selection` property was added to allow operators to dictate how recursors are chosen. There are two strategies: `smart` and `serial`.
+
+`smart` is the default strategy which picks recursors randomly when doing a failover (pre-1.12 behaviour).
+
+`serial` is the strategy where recursors are picked in the order they are given (from `/etc/resolv.conf` or from the `recursors` property).
+
+Example with `recursor_selection` set to "smart" (default):
+
+```yml
+  jobs:
+  - name: bosh-dns
+    properties:
+      recursor_selection: smart
+    release: bosh-dns
+```
+
+Example with `recursor_selection` set to "serial":
+
+```yml
+  jobs:
+  - name: bosh-dns
+    properties:
+      recursor_selection: serial
+    release: bosh-dns
+```
 
 ### Aliases {: #aliases }
 
