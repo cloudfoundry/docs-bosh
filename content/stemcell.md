@@ -35,25 +35,38 @@ solved:
 
 ## Common Questions For Linux Stemcells {: #faq }
 
-**Is there a way I can tell what version of <package> is used in a BOSH stemcell
+**Is there a way I can tell what version of a package is used in a BOSH stemcell
 without actually installing it?**
 
-Download the stemcell and run `tar -xvf stemcell.tgz packages.txt`
+Download the stemcell and run `tar -xvf stemcell.tgz packages.txt`. The
+`packages.txt` contains a list of all packages installed on the stemcell and
+their respective versions.
 
 **What does the stemcell version number mean?**
 
-In terms of semver, the major version is the Ubuntu distro coming from Canonical
-(trusty, xenial, bionic...etc). The minor version is the first number of the
-stemcell version. The patch version is the second number of the stemcell
+We have a versioning system that resembles semver. Using an example stemcell
+version, `621.45`:
+
+* `621` is the major version number.
+* `45` is the patch version number.
+
+The minor version is absent.
+
+Another component to the stemcell version is the Ubuntu distribution that is
+the base for the stemcell. There can be major breaking changes in adopting the
+next distro, and this can be treated like the "major" component of a semver
 version.
 
 **When are stemcells published?**
 
 The schedule for stemcells roughly looks like:
 
-* New LTS distributions from Canonical are consumed around every 2-3 years.
-* New minor lines are cut every 3-4 months. This is to ensure backwards
-  compatibility between the bosh-agent and bosh-director.
+* New LTS distributions from Canonical are consumed around every 2-3 years. This
+  is usually an overhaul on how the bosh-agent interacts with the base operating
+  system.
+* New stemcell major lines are cut every 3-4 months. This is to ensure backwards
+  compatibility between the bosh-agent and bosh-director, as we add new
+  features.
 * New patches are cut every 2 weeks to pick up any low & medium CVEs published
   by https://usn.ubuntu.com
 
