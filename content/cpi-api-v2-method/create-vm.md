@@ -20,6 +20,7 @@ As of V2 of the CPI API contract, `create_vm` returns an array of the resultant 
      * `bosh` [Hash]: A collection of properties used by the BOSH Agent, and optionally the CPI.
          * `group` [String]: A description of the requested VM in the format `<director-name>-<deployment-name>-<job-name>`.
          * `groups` [Array]: A collection of descriptions for the requested VM, combining `director-name`, `deployment-name` and `job-name` in a range of strings separated by a `-`.
+         * `tags` [Hash]: Tags from the top-level `tags` in the deployment manifest. Some security policies on some IaaSes require tags during VM creation. e.g. `{'tag-name': 'tag-value'}`. As of director v270.7.0+.
 
 
 ## Result
@@ -112,7 +113,10 @@ See [Agent Configuration](../vm-config.md#agent) for an overview of the Agent co
         "groups": [
           "my-second-group",
           "another-group"
-        ]
+        ],
+        "tags": {
+          "tag1": "value"
+        }
       }
     }
   ],
@@ -156,7 +160,7 @@ Response:
 
 ### Implementations
 
- * [cppforlife/bosh-warden-cpi-release](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/create_vm.go)
+ * [cloudfoundry/bosh-aws-cpi-release](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/00e11f480847a4e88533f1e95b7c626a213d780b/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb#L41)
 
 
 ## Related

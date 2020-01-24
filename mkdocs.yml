@@ -83,6 +83,7 @@ pages:
       - Undefined Behaviors: bpm/undefined.md
   - Operating Director:
     - Monitoring:
+      - Prometheus Metrics: director-metrics.md
       - Auditing Events: events.md
       - Reviewing Tasks: director-tasks.md
       - Logging API Access: director-access-events.md
@@ -105,6 +106,7 @@ pages:
           - SSL Rotation: mbus-ssl-rotation.md
         - CredHub:
           - Encryption Password Rotation: credhub-encryption-password-rotation.md
+      - Signed URLs: director-blobstore-signed-urls.md
     - Configuring the Database:
       - Builtin PostgreSQL: director-configure-db.md
       - External MySQL: director-configure-db.md
@@ -147,6 +149,7 @@ pages:
     - Components of BOSH: bosh-components.md
     - Deploying Step by Step: deploying-step-by-step.md
     - Agent Interactions: agent-cpi-interactions.md
+    - Configuring NTP: ntp-config.md
     - Virtual Machines:
       - Structure of a VM: vm-struct.md
       - Configuration Locations: vm-config.md

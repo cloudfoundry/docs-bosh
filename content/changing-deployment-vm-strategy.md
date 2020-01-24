@@ -31,10 +31,9 @@ To change this behavior in your deployment, add `vm_strategy` to your deployment
 
 ## Use Cases
 
- * H/A Tradeoff - some deployments may consider ~20s of downtime through `create-swap-delete` to be acceptable when compared to the requirements of running a component with full H/A redundancy.
-    * Persistent Disks - when using persistent disks, there is still a dependency on the IaaS for detaching and attaching the disk. Note: IaaSes take different periods of time for this operation, and even within the same IaaS, duration can vary.
- * Reduce Deployment Time - some deployments may benefit from bulk creating VMs up front rather than as part of the instance update process. Deployment time may remain roughly the same, however, once created, the time during which VMs are being updated and needing special monitoring should be noticeably reduced.
-
+ * Reduce Deployment Time - when you use the `create-swap-delete` strategy BOSH creates VMs in parallel at the start of the deploy, which will reduce the time taken for VMs to be created or recreated.
+ * H/A Replacement - you may want to use `create-swap-delete` with a non-H/A deployment due to the reduced update time and downtime (~20s), instead of running a full H/A deployment with either strategy.
+    * Persistent Disks - if you are using a persistent disk and considering using `create-swap-delete` with a non-H/A deployment, the downtime will also depend on the time taken for the IaaS to detach and attach the persistent disks. IaaSes take different periods of time for this operation, and duration can vary even within the same IaaS.
 
 ## Caveats
 

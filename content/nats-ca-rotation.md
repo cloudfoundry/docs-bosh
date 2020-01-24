@@ -214,15 +214,55 @@ To recreate the deployed VMs, please check the output of `bosh recreate -h` for 
 
 ### Step 5: Clean-up
 
-To make future updates to the BOSH director not rely on the transitional OPS files created above (`add-new-ca.yml` and `remove-old-ca.yml`), we recommend performing the manual steps described below to clean up the vars-store file (typically named creds.yml). These steps include:
+Operators are encouraged to clean up the credentials file after applying the aforementioned procedure, in order to prevent the old CA from returning in a subsequent `bosh create-env` in error. The following procedure will update the credentials store to replace the old certificate values with the new values generated.
 
-1. Create a backup of the vars-store file
+```
+# update_nats_var_values.yml
 
-1. Remove old certificate values from the vars-store file
+---
+- type: replace
+  path: /nats_ca
+  value: ((nats_ca_2))
 
-1. Rename the newly generated NATS related variables to be the old variable names. For example from the sample above (`nats_ca_2`, `nats_server_tls_2`, `nats_clients_director_tls_2`, and `nats_clients_health_monitor_tls_2`) will be renamed in the vars-store file to (`nats_ca`, `nats_server_tls`, `nats_clients_director_tls`, and `nats_clients_health_monitor_tls`)
+- type: replace
+  path: /nats_clients_director_tls
+  value: ((nats_clients_director_tls_2))
 
-1. Delete the `add-new-ca.yml` and `remove-old-ca.yml` ops files, which are not needed anymore.
+- type: replace
+  path: /nats_clients_health_monitor_tls
+  value: ((nats_clients_health_monitor_tls_2))
+
+- type: replace
+  path: /nats_server_tls
+  value: ((nats_server_tls_2))
+
+- type: remove
+  path: /nats_ca_2
+
+- type: remove
+  path: /nats_clients_director_tls_2
+
+- type: remove
+  path: /nats_clients_health_monitor_tls_2
+
+- type: remove
+  path: /nats_server_tls_2
+
+```
+
+Create a backup of the current credentials and apply the opsfile:
+
+```
+cp creds.yml creds.yml.bkp
+
+bosh interpolate creds.yml \
+  -o update_nats_var_values.yml \
+  --vars-file creds.yml > updated_creds.yml
+
+mv updated_creds.yml creds.yml
+```
+
+**Do not** use the `add-new-ca.yml` and `remove-old-ca.yml` ops files in subsequent `bosh create-env` commands.
 
 !!! warning
     **Warning:** If you do not perform the clean-up procedure, you must ensure that the ops files (`add-new-ca.yml` and `remove-old-ca.yml`) are used every time a create-env is executed going forward (which can be unsustainable). Removing the ops files would revert to the old CA, which can lead to unresponsive agents for existing and newly created VMs.

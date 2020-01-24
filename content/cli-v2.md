@@ -1555,11 +1555,13 @@ See [CPI config](cpi-config.md).
 
 #### Clean-Up {: #clean-up }
 
-- `bosh [GLOBAL-CLI-OPTIONS] clean-up [--all]`
+- `bosh[GLOBAL-CLI-OPTIONS] clean-up [--all] [--dry-run] [--keep-orphaned-disks]`
 
     Cleans up unused resources but keeps orphaned disks and the two most recent versions of stemcells and releases.
 
     - `--all` clean up all unused resources including orphaned disks.
+    - `--dry-run` list resources that would be cleaned up.
+    - `--keep-orphaned-disks` do not delete orphaned disks with `--all`.
 
     Orphan disks get deleted after a few days by default. See [Orphan Disks](persistent-disks.md#orphaned-disks) for more details.
 
