@@ -9,9 +9,9 @@ Schema for `cloud_properties` section:
     * **clusters** [Array, required]: Array of clusters to use for VM placement.
         * **&lt;cluster name&gt;** [String, required]: Cluster name.
             * **resource_pool** [String, optional]: Name of vSphere Resource Pool to use for VM placement.
-            * **host_group** [Dictionary, optional]: Properties of the Host Group to use for VM placement. Available in v52+.
-              * **name** [String, required]: Name of the host group in vSphere
-              * **drs_rule** [String, optional]: One of the values from MUST or SHOULD. Is case insensitive. Defaults to SHOULD if not specified or in case of a spelling mistake. 
+            * **host_group** [Dictionary, optional]: Properties of the Host Group to use for VM placement. Available in v52+. (Backwards compatible with old format of specifying Host Group with just a name string of the host group )
+                * **name** [String, required]: Name of the host group in vSphere
+                * **drs_rule** [String, optional]: One of the values from MUST or SHOULD. Is case insensitive. Defaults to SHOULD if not specified or in case of a spelling mistake. 
             * **drs_rules** [Array, optional]: Array of DRS rules applied to [constrain VM placement](vm-anti-affinity.md#vsphere). Must have only one.
                 * **name** [String, required]: Name of a DRS rule that the Director will create.
                 * **type** [String, required]: Type of a DRS rule. Currently only `separate_vms` is supported.
