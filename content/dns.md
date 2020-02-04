@@ -145,6 +145,9 @@ By default, a VM is considered healthy if the process manager reports all proces
 
 #### Aliases to services
 
+!!! note
+    This feature is available with bosh-release v269+.
+
 ##### Using aliases
 
 Jobs which provide services can be configured to be addressable via a static alias. A job that currently provides a link can be aliased directly by updating the manifest to add the alias in the `provides` configuration of the job. Here is an example:
