@@ -90,6 +90,7 @@ Advanced usage:
     - Operator `p` can take optional parameter as a default value, e.g. `<%= p("some.property", some_value) %>`. This value is used as a last resort.
     - The first parameter can be an array, e.g. `<%= p(["some.property1", "some.property2"], some_value) %>`. Value of the first property which is set will be returned.
 - `<% if_p("some.property") do |prop| %>...<% end %>` - Evaluates the block only if `some.property` property has been provided. The property value is available in the variable `prop`. Multiple properties can be specified: `<% if_p("prop1", "prop2") do |prop1, prop2| %>`.
+- While not recommended, inline Ruby methods can be applied to the property objects if the object type is known in advance. For example, to remove the first and last line of a string object: `<%= p("some.property").lines[1..-2].join %>`. You can find the Ruby object and method reference [here](https://github.com/cloudfoundry/bosh/blob/master/src/bosh-template/lib/bosh/template/evaluation_context.rb). It's recommended to have multiple properties instead of inline operations.
 
 #### Using `spec` {: #properties-spec }
 
