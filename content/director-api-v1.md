@@ -242,7 +242,15 @@ See [Director tasks](director-tasks.md) for related info.
 - **user** [String]: User which started the task.
 - **context_id** [String]: Context ID of the task, if provided when task was created, otherwise empty string.
 
-#### Example
+#### Query filters
+
+- **state:** [String]: Filter by task state
+- **verbose** [Integer]: Use integer greater than 1 to show all task types
+- **context_id** [Integer]: Context ID associated with task
+- **limit** [Integer]: Maximum number of tasks to show
+- **deployment** [String]: Deployment name.
+
+#### Examples
 
 ```shell
 curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?verbose=2&limit=3' | jq .
@@ -280,15 +288,6 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?verbose=2&limit=3' |
 ]
 ```
 
----
-### `GET /tasks?state=...`: List currently running tasks {: #list-current-tasks }
-
-#### Response body schema
-
-See schema [above](#list-tasks).
-
-#### Example
-
 ```shell
 curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?state=queued,processing,cancelling&verbose=2' | jq .
 ```
@@ -307,17 +306,6 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?state=queued,process
 ]
 ```
 
----
-### `GET /tasks?deployment=...`: List tasks associated with a deployment {: #list-deployment-tasks }
-
-Other tasks query params can be applied.
-
-#### Response body schema
-
-See schema [above](#list-tasks).
-
-#### Example
-
 ```shell
 curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?deploymet=cf-warden' | jq .
 ```
@@ -335,17 +323,6 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?deploymet=cf-warden'
   }
 ]
 ```
-
----
-### `GET /tasks?context_id=...`: List tasks associated with a context ID {: #list-context-tasks }
-
-Other tasks query params can be applied.
-
-#### Response body schema
-
-See schema [above](#list-tasks).
-
-#### Example
 
 ```shell
 curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?context_id=4528' | jq .
@@ -1199,7 +1176,7 @@ See [Events](events.md) for info.
 
 #### Query filters
 
-- **before_id`:** [String]: Event ID.
+- **before_id:** [String]: Event ID.
 - **before_time** [String]: Ruby parseable time. Example: `Thu May 4 17:06:40 UTC 2017`.
 - **after_time** [String]: Ruby parseable time. Example: `Thu May 4 17:06:40 UTC 2017`
 - **task** [String]: Task ID.
