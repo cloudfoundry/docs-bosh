@@ -67,7 +67,7 @@ Once you enable snapshots in the Director, the Director automatically takes a sn
 The Director can take snapshot of persistent disks at regular intervals for all VMs in all deployments and/or the VM the Director is running on.
 
 !!! note
-    When the Director starts a scheduled snapshot, it does not pause any processes or flush       buffered data to disk. Depending on your IaaS, a scheduled snapshot might not fully capture       all the data on your VM at the point you take the snapshot.
+    When the Director starts a scheduled snapshot, it does not pause any processes or flush buffered data to disk. Depending on your IaaS, a scheduled snapshot might not fully capture all the data on your VM at the point you take the snapshot.
 
 To schedule snapshots for all VMs in all deployments:
 
