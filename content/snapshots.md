@@ -9,15 +9,15 @@ Take a disk snapshot of a persistent disk before deploying major updates or for 
     Currently, BOSH does not provide a CLI command to recover from a snapshot, so you must use the recovery features of your IaaS with the [snapshot Content IDs (CIDs)](#manual) to recover the snapshots.
 
 !!! note
-    While snapshots allow you to recover disk to a prior state, snapshots are not backups. Taking a snapshot does not necessarily create a complete copy of the original disk. If the original disk is deleted, your IaaS may invalidate any snapshot files.
+    While snapshots allow you to recover disk to a prior state, snapshots are not backups. Taking a snapshot does not necessarily create a complete copy of the original disk. If the original  disk is deleted, your IaaS may invalidate any snapshot files.
 
 ## Enabling Snapshots {: #enable }
 
-Since the IaaS might or might not provide snapshotting functionality, disk snapshots are disabled by default. If your IaaS supports snapshots, you must enable snapshots in your IaaS and in the Director to use disk snapshots.
+Since the IaaS might or might not provide snapshotting functionality, disk snapshots are disabled by default. If your IaaS supports snapshots, you must first enable snapshots in your IaaS and then in the Director.
 
-To enable disk snapshots:
+To enable disk snapshots in the Director:
 
-1. Change the deployment manifest for the Director:
+1. Add an `enable_snapshots` [key](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh&version=270.10.0#p%3ddirector.enable_snapshots) with it's value set to `true` to the `director` block of your Director deployment manifest.
 
     ```yaml
     properties:
@@ -25,7 +25,7 @@ To enable disk snapshots:
         enable_snapshots: true
     ```
 
-1. Run `bosh deploy` to update your deployment.
+1. Run `bosh create-env manifest.yml` to update your Director deployment (see `create-env`[command](https://bosh.io/docs/cli-v2/#create-env) for details).
 
 ## Manual Snapshots {: #manual }
 
@@ -64,14 +64,14 @@ Once you enable snapshots in the Director, the Director automatically takes a sn
 
 ## Scheduled Snapshots {: #automatic }
 
-The Director can take snapshot of a persistent disk at regular intervals for all VMs in all deployments and the VM the Director is running on.
+The Director can take snapshot of persistent disks at regular intervals for all VMs in all deployments and/or the VM the Director is running on.
 
 !!! note
-    When the Director starts a scheduled snapshot, it does not pause any processes or flush buffered data to disk. Depending on your IaaS, a scheduled snapshot might not fully capture all the data on your VM at the point you take the snapshot.
+    When the Director starts a scheduled snapshot, it does not pause any processes or flush       buffered data to disk. Depending on your IaaS, a scheduled snapshot might not fully capture       all the data on your VM at the point you take the snapshot.
 
 To schedule snapshots for all VMs in all deployments:
 
-1. Add a `snapshot_schedule` key to the `director` block of your deployment manifest.
+1. Add a `snapshot_schedule` [key](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh&version=270.10.0#p%3ddirector.snapshot_schedule) to the `director` block of your Director deployment manifest.
 
 1. Add a [cron-formatted](https://github.com/jmettraux/rufus-scheduler/blob/two/README.rdoc#a-note-about-cron-jobs) schedule as a value for the `snapshot_schedule` key.
 
@@ -82,11 +82,11 @@ To schedule snapshots for all VMs in all deployments:
         snapshot_schedule: 0 0 7 * * * UTC
     ```
 
-1. Run `bosh deploy` to update your deployment.
+1. Run `bosh create-env manifest.yml` to update your Director deployment (see `create-env`[command](https://bosh.io/docs/cli-v2/#create-env) for details).
 
 To schedule snapshots for the Director VM:
 
-1. Add a `self_snapshot_schedule` key to the `director` block of your deployment manifest.
+1. Add a `self_snapshot_schedule` [key](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh&version=270.10.0#p%3ddirector.self_snapshot_schedule) to the `director` block of your Director deployment manifest.
 
 1. Add a cron-formatted schedule as a value for the `self_snapshot_schedule` key.
 
@@ -97,4 +97,4 @@ To schedule snapshots for the Director VM:
         self_snapshot_schedule: 0 0 6 * * * UTC
     ```
 
-1. Run `bosh deploy` to update your deployment.
+1. Run `bosh create-env manifest.yml` to update your Director deployment (see `create-env`[command](https://bosh.io/docs/cli-v2/#create-env) for details).
