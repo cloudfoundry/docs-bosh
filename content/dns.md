@@ -66,8 +66,8 @@ Here is how DNS release chooses recursors before starting its operation:
   - if `recursor_selection` is "serial":
     - the next recursor (in order) from the list of recursors is chosen
 1. if you have a version before 1.12, then the behaviour is the same as having `recursor_selection` set to "smart" from above
-1. failover to using another recursor, if current recursor exhibits connectivity problems
-  - connectivity problems do not account for resolution problems (NXDOMAIN, or other DNS level errors)
+1. failover to using another recursor, if current recursor fails
+  - if you have a version before 1.18 connectivity problems do not account for resolution problems (NXDOMAIN, or other DNS level errors)
 
 #### More on recursor_selection
 
