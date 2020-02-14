@@ -1,6 +1,6 @@
 (See [Job Lifecycle](job-lifecycle.md) for an explanation of when pre-stop scripts run.)
 
-!!! tip "Beta Feature"
+!!! note
     The `pre-stop` script is available with bosh-release [v269.0.0](https://github.com/cloudfoundry/bosh/releases/tag/v269.0.0) and only for releases deployed with `v315.x` or greater stemcells. Otherwise the `pre-stop` script will be ignored and does not run before stop.
 
 Release job can have a pre-stop script that will run before a [drain script](drain.md) is called. Similarly to the drain script, the pre-stop script also allows the job to prepare the release job for a graceful shutdown.
@@ -50,7 +50,8 @@ All possible cases of these environment variables:
 |<code>BOSH_VM_NEXT_STATE = delete<br>BOSH_INSTANCE_NEXT_STATE = delete<br>BOSH_DEPLOYMENT_NEXT_STATE = delete</code> | Removing the entire deployment|
 
 
-!!! note if `BOSH_DEPLOYMENT_NEXT_STATE` is set to `delete` then one can safely conclude that consequently both instance and its VM will also be deleted. Similarly, when `BOSH_INSTANCE_NEXT_STATE` is set to `delete` then the corresponding VM also will be deleted after the stop process.
+!!! note
+    If `BOSH_DEPLOYMENT_NEXT_STATE` is set to `delete` then one can safely conclude that consequently both instance and its VM will also be deleted. Similarly, when `BOSH_INSTANCE_NEXT_STATE` is set to `delete` then the corresponding VM also will be deleted after the stop process.
 
 A sample script of using these new environment variables may look similar to:
 
