@@ -26,7 +26,7 @@ For reference, there are two primary implementations of the "caller" which invok
 
 * `method` [String]: Name of the CPI method. Example: `create_vm`.
 * `arguments` [Array]: Array of arguments that are specific to the CPI method.
-* `context` [Hash]: Additional information provided as a context of this execution. Specified for backwards compatibility and should be ignored.
+* `context` [Hash]: Additional information provided as a context of this execution.
 
 An example request for [`delete_disk`](cpi-api-v1-method/delete-disk.md) might look like:
 
@@ -34,9 +34,30 @@ An example request for [`delete_disk`](cpi-api-v1-method/delete-disk.md) might l
 {
   "method": "delete_disk",
   "arguments": ["vol-1b7fb8fd"],
-  "context": { "director_uuid":"fefb87c8-38d1-46a5-4552-9749d6b1195c" }
+  "context": { ... }
 }
 ```
+
+#### Context
+The context contains additional information that may or may not be required in
+an individual CPI method. At the time of this writing (director version 270.11.0+),
+the following context is sent for each CPI call:
+
+```
+{
+  "director_uuid": "<director uuid>",
+  "request_id": "<CPI request id>",
+  "vm": {
+    "stemcell": {
+      "api_version": <stemcell API version: 2+>
+    }
+  },
+  <additional properties derived from CPI config>
+}
+```
+The CPI request ID is useful to trace a single invocation through the debug logs.
+The stemcell API version is sent if it is defined in the stemcell's manifest, for the stemcell this operation is relevant for (e.g. `create_vm`). Sometimes there is no stemcell involved in the operation, so this is undefined (e.g. `info`).
+The API version is used to determine eligibility for [registry-based property storage](v2-migration-guide.md#stemcell-changes-in-v2-of-the-api-contract).
 
 
 ### Response {: #response }
