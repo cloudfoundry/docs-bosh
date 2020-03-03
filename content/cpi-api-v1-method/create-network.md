@@ -77,7 +77,7 @@ Properties required for creating the network. It may contain `range` and `gatewa
 
 ### Implementations
 
- * [cloudfoundry/bosh-vsphere-cpi-release](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/blob/master/src/vsphere_cpi/lib/cloud/vsphere/cloud.rb#L720-L725)
+ * [cloudfoundry/bosh-vsphere-cpi-release](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/blob/dfe878579cbab768af07a12bb5543cd016cbb762/src/vsphere_cpi/lib/cloud/vsphere/cloud.rb#L683)
 
 
 ## Related
