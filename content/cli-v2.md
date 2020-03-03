@@ -1102,8 +1102,8 @@ See [CPI config](cpi-config.md).
     - `--num=NUMBER` Last number of lines
     - `-q`, `--quiet` Suppresses printing of headers when multiple files are being examined
     - `--job=NAME` Limit to only specific jobs
-    - `--only=FILTERS` Filter logs (comma-separated)
-    - `--agent` Include only agent logs
+    - `--only=FILTERS` Filter logs in `/var/vcap/sys/log/` (comma-separated)
+    - `--agent` Include agent log
     - `--gw-disable` Disable usage of gateway connection [$BOSH_GW_DISABLE]
     - `--gw-user=USER` Username for gateway connection [$BOSH_GW_USER]
     - `--gw-host=HOST` Host for gateway connection [$BOSH_GW_HOST]
@@ -1115,6 +1115,7 @@ See [CPI config](cpi-config.md).
     ```shell
     bosh -e vbox -d cf logs diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0
     bosh -e vbox -d cf logs diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 --job=rep --job=silkd
+    bosh -e vbox -d cf logs diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 --agent --only=*/*stderr.log
     bosh -e vbox -d cf logs -f
     bosh -e vbox -d cf logs -f --num=1000
     ```
