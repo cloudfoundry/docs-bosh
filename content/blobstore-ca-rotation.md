@@ -213,6 +213,14 @@ mv updated_creds.yml creds.yml
 !!! warning
     **Warning:** If you do not perform the clean-up procedure, you must ensure that the ops files (`add-new-blobstore-ca.yml` and `remove-old-blobstore-ca.yml`) are used every time a create-env is executed going forward (which can be unsustainable). Removing the ops files would revert to the old CA, which will prevent blobstore fetching during deployments or other operations.
 
+### Expired
+
+If your blobstore CA has already expired, then any actions that fetch from the blobstore will fail. It is also highly likely that the [NATS CA has expired](nats-ca-rotation#expired) as the duration of both is usually the same. The procedure above ensures connectivity between the director and VMs while rotating, which requires a non-expired CA to perform.
+
+1. Open the file used for the `--vars-store` argument to `bosh create-env` (typically `creds.yml`) and remove all blobstore-related variable **keys** and **values**: `blobstore_ca` and `blobstore_server_tls`, it is not necessary to remove the password values.
+2. Update the director with new certs with `bosh create-env`. The CLI generates new values for the credentials removed in step 1.
+3. Recreate all your deployments so they receive the new certificates with `bosh recreate -d ... --fix`. `--fix` is required to ignore the unresponsive state of the VM.
+
 ## Troubleshooting
 
 Any instances that have not been recreated with `bosh recreate` or through a redeploy causing a recreate will fail with errors like the one below. Perform a `bosh recreate --fix` on any instances impacting a redeploy.
