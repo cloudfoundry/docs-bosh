@@ -1,26 +1,19 @@
-!!! note
-    This feature is still under development; however, there are portions of DNS functionality that are already available in bosh-release v262+. 3468+ Linux stemcells are required.
-
-Using DNS instead of plain IPs within deployments:
+Using DNS within deployments:
 
 - allows easy use of dynamic networks since IPs change with every redeploy
 - provides a way to reference deployed VMs more transparently
 - provides client side load balancing
 - reduces number of configuration changes that need to be propagated when changing cluster layout
 
-Historically BOSH users did not have an easy highly available solution to enable DNS for their deployments. PowerDNS was a possible choice; however, it required more advanced configuration that we did not feel comfortable recommending to everyone.
-
-Addition of native BOSH DNS solves these problems without making it hard to deploy and operate DNS servers.
-
 See [links](links.md) for more context in how to use links with BOSH.
 
 ---
 ## Architecture {: #arch }
 
-To provide native DNS support following changes were made:
+To provide native DNS support:
 
 - Director keeps track of DNS entries assigned to each instance
-- Agent (on stemcells 3421+) updates DNS records metadata on its VM
+- Agent (on stemcells ubuntu-trusty/3421+, all ubuntu-xenial) updates DNS records metadata on its VM
 - DNS release (more details below) provides resolution of BOSH specific DNS records
 
 Given that the Director is the sole orchestrator of the system, it is now responsible for updating DNS records during a deploy. As VMs are created and deleted following DNS related steps happen:
@@ -43,12 +36,12 @@ There are two types of DNS addresses that native DNS supports:
 - group specific queries that resolve to multiple instances
   - provided by `link("...").address` ERB accessor
 
-Since BOSH DNS is automatically managed, DNS addresses are not meant to be constructed manually by operators or scripts. To obtain a DNS address you can use upcoming Links API or job template accessors within your jobs.
+Since BOSH DNS is automatically managed, DNS addresses are not meant to be constructed manually by operators or scripts. To obtain a DNS address you can use Links API or job template accessors within your jobs.
 
 ---
 ## DNS release {: #dns-release }
 
-To take advantage of native DNS functionality, it's expected that [DNS release](https://bosh.io/releases/github.com/cloudfoundry/bosh-dns-release?all=1) runs on each VM. We recommend to colocate DNS release by definiting it in an [addon](runtime-config.md#addons).
+To take advantage of native DNS functionality, it's expected that [DNS release](https://bosh.io/releases/github.com/cloudfoundry/bosh-dns-release?all=1) runs on each VM. We recommend to colocate DNS release by defining it in an [addon](runtime-config.md#addons).
 
 DNS release provides two jobs: `bosh-dns` (for Linux) and `bosh-dns-windows` (for Windows) which start a simple DNS server bound to a [link local address](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p=address).
 
