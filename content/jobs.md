@@ -106,5 +106,7 @@ Each template can also access the special `spec` object for instance-specific co
 - `spec.release`: BOSH release for the instance.
 - `spec.ip`: IP address of the instance. In case multiple IP addresses are available, the IP of the [addressable or default network](networks.md#multi-homed) is used. Available in bosh-release v258+.
 
+Use the `spec` object directly in your templates: `<%= spec.ip %>`
+
 !!! warning
       When **dynamic** networks are being used, `spec.ip` might not be available.
