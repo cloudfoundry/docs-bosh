@@ -184,19 +184,7 @@ instance_groups:
 
 A basic alias is an _unparameterized_ alias on a _constant domain_ with a _constant_ query.  It returns all IPs matching the filter that provide that link.
 
-Parameters:
-
-domain
-: required
-
-health_filter
-: optional; default: smart
-
-initial_health_check
-:  optional; default: asynchronous
-
-
-basic_deployment.yml:
+Example:
 ```
 aliases:
   - domain: my-service.my-domain
@@ -208,18 +196,7 @@ aliases:
 A wildcard alias is an _unparameterized_ alias on a _wildcard domain_ with a _constant_ query.
 It returns all IPs matching the filter that provide that link.
 
-Parameters:
-
-domain
-: required
-
-health_filter:
-optional; default: smart
-
-initial_health_check:
-optional; default: asynchronous
-
-wildcard_deployment.yml:
+Example:
 ```
 aliases:
 - domain: "*.cloud-controller-ng.service.cf.internal"
@@ -233,21 +210,7 @@ It returns IPs matching both the filter that provides that link and the placehol
 
 It allows referencing a placeholder (_) specified in the alias. The type of the placeholder can be configured, to allow referencing by instance uuid, index, availability_zone, or network.
 
-Parameters:
-
-domain
-: required
-
-placeholder_type
-:  required
-
-health_filter
-: optional; default: smart
-
-initial_health_check
-:  optional; default: asynchronous
-
-placeholder_deployment.yml:
+Example:
 ```
 aliases:
 - domain: "_.cloud-controller-ng.service.cf.internal"
@@ -258,34 +221,50 @@ aliases:
 
 ###### Parameters in Detail
 
-*domain (required)*
+**domain** [String] (*required*) 
+
 Describes the domain name the alias should return results for when queried.
-*placeholder_type (situationally required)*
+
+**placeholder_type** [String] (*situationally required*)
+
 Only applicable if the domain contains the _ placeholder, and required in that case.
 Determines whether the _ will stand in for a uuid, index, availability_zone, or network.
-* uuid:  _ will be expected to be an instance-uuid
-* index: _ will be expected to be an instance-index
-* availability_zone: _ will be expected to be an availability zone name
-* network: _ will be expected to be a network name
 
-Examples
-A query to 3.cloud-controller-ng.service.cf.internal will return the IP for the 4th instance of cloud-controller-ng if placeholder_type is set to index.
+- `uuid`:  _ will be expected to be an instance-uuid
 
-A query to e23e4567-e89b-12d3-a456-426655440000.cloud-controller-ng.service.cf.internal will return the IP for an instance of cloud-controller-ng with the uuid e23e4567-e89b-12d3-a456-426655440000 if placeholder_type is set to uuid.
+- `index`: _ will be expected to be an instance-index
 
-*health_filter (optional)*
+- `availability_zone`: _ will be expected to be an availability zone name
+
+- `network`: _ will be expected to be a network name
+
+Examples:
+
+- A query to `3.cloud-controller-ng.service.cf.internal` will return the IP for the 4th instance of cloud-controller-ng if `placeholder_type` is set to `index`.
+
+- A query to `e23e4567-e89b-12d3-a456-426655440000.cloud-controller-ng.service.cf.internal` will return the IP for an instance of cloud-controller-ng with the uuid `e23e4567-e89b-12d3-a456-426655440000` if `placeholder_type` is set to `uuid`.
+
+**health_filter** [String] (*optional*)
+
 If present, filters the results to only return jobs matching the specified health status, e.g. only healthy ones, unhealthy ones, or all of them.
-* smart (default) returns only healthy or unchecked jobs; however, if all the jobs in an instance_group are unhealthy all of them are returned.
-* healthy returns only healthy jobs
-* unhealthy returns only unhealthy
-* all returns all jobs regardless of their health
 
-_Defaults to smart._
-*initial_health_check (optional)*
+-  `smart` (default) returns only healthy or unchecked jobs; however, if all the jobs in an instance_group are unhealthy all of them are returned.
+
+-  `healthy` returns only healthy jobs
+
+-  `unhealthy` returns only unhealthy
+
+-  `all` returns all jobs regardless of their health
+
+
+**initial_health_check** [String] (*optional*)
+
 Because BOSH has to start tracking a given job's health status, by default it will return all (unfiltered) IPs on the very first request and asynchronously begin tracking their health. 
-Setting this to synchronous will force BOSH to wait for the first health statuses to come in and filter by them. This will take longer, but guarantees that health has been checked at least once even for the very first DNS request. 
-* asynchronous (default) will return unchecked results to smart queries and begin health-checking those IP addresses in the background
-* synchronous forces BOSH to check job health on the very first request before returning any results
+Setting this to `synchronous` will force BOSH to wait for the first health statuses to come in and filter by them. This will take longer, but guarantees that health has been checked at least once even for the very first DNS request. 
+
+- `asynchronous` (default) will return unchecked results to smart queries and begin health-checking those IP addresses in the background
+
+- `synchronous` forces BOSH to check job health on the very first request before returning any results
 
 ###### Grouping link providers under an alias
 
