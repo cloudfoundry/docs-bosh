@@ -98,7 +98,7 @@ gem install yajl-ruby
 
 ### Windows
 
-The `create-env` and `destroy-env` commands are not yet supported on native Windows. Feel free to give it a try (and let us know if you have feedback), but we would recommend leveraging the Windows Subsystem for Linux if you need to run either command.
+The `create-env` and `delete-env` commands are not yet supported on native Windows. Feel free to give it a try (and let us know if you have feedback), but we would recommend leveraging the Windows Subsystem for Linux if you need to run either command.
 
 ### Other
 
