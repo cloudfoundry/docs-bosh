@@ -122,7 +122,7 @@ In the above example options 3 was picked and VM reference was deleted.
 Assuming there was a deployment with a VM, somehow Agent is no longer responding to the Director. In this situation `bosh vms` will report VM's agent as `unresponsive agent`:
 
 ```shell
-bosh vms simple-deployment --details
+bosh -d simple-deployment vms --details
 ```
 
 ```text
@@ -245,20 +245,6 @@ In the above example options 4 was picked and VM reference was deleted.
 
 ---
 
-### Automate recovery selection using --recover parameter
-
-Automate recovery using the `--recover=RESOLUTION` option, where `RESOLUTION` represents one of the following:
-
- * `ignore` - skip resolution
- * `recreate_vm` - recreate the VM
- * `reboot_vm` - reboot the VM
- * `delete_vm_reference` - remove the VM reference that Director has (this could cause IaaS resources to be abandoned)
- * `delete_disk_reference` - remove the disk reference that Director has (this could cause IaaS resources to be abandoned)
-
-!!! warning
-    Consider using `cck` interactively because the selected resolution will be applied to all problems that are found. Specifying `--recover` can be risky if new, unexpected problems occur while you run the command and selected resolution may no longer be appropriate.
-
-
 ### Persistent Disk is not attached {: #unattached-persistent-disk }
 
 Assuming there was a deployment with a VM, somehow persistent disk got detached.
@@ -328,15 +314,81 @@ Cloudcheck is finished
 
 cck determined that `vol-549f071f` persistent disk is not attached to `i-4fcd99b4` VM. Possible options are:
 
-1. `Skip for now`: the Director will not try to resolve this problem during
+1. `Skip for now`: the Director will not try to resolve this problem right now
 
 2. `Reattach disk to instance`: the Director will reattach persistent disk to the VM and mount it at its usual location `/var/vcap/store`.
 
-    Note on current behaviour: Release job processes will not be restarted when persistent disk is remounted.
+    Note on current behavior: Release job processes will not be restarted when persistent disk is remounted.
 
 3. `Reattach disk and reboot instance`: the Director will reattach persistent disk to the VM and reboot it so that Agent can safely mount persistent disk before starting any release job processes.
 
-    Note on current behaviour: cck will not wait until VM reboots and restarts all release job processes.
+    Note on current behavior: cck will not wait until VM reboots and restarts all release job processes.
+
+---
+### Inactive Disk {: #inactive-disk }
+
+Assuming there are are disks that are marked as inactive,
+
+```shell
+bosh cck
+```
+
+```text
+Using environment '10.0.0.5' as client 'admin'
+
+Using deployment 'test-deployment'
+
+Task 417
+
+Task 417 | 23:59:42 | Scanning 7 VMs: Checking VM states (00:00:06)
+Task 417 | 23:59:48 | Scanning 7 VMs: 7 OK, 0 unresponsive, 0 missing, 0 unbound (00:00:00)
+Task 417 | 23:59:48 | Scanning 2 persistent disks: Looking for inactive disks (00:00:01)
+Task 417 | 23:59:49 | Scanning 2 persistent disks: 0 OK, 0 missing, 2 inactive, 0 mount-info mismatch (00:00:00)
+
+Task 417 Started  Tue Apr 21 23:59:42 UTC 2020
+Task 417 Finished Tue Apr 21 23:59:49 UTC 2020
+Task 417 Duration 00:00:07
+Task 417 done
+
+#   Type           Description
+9   inactive_disk  Disk 'disk-eaca0b50-daf5-4fba-6dbf-06354e11e0af' (102400M) for instance 'database/5cc2ab64-a269-4c91-b6ba-9a6ff3c2d9d3 (0)' is inactive
+10  inactive_disk  Disk 'disk-270c7959-5f06-4597-727c-6c4283afd138' (102400M) for instance 'blobstore/f048378e-27c8-4ab6-b08a-1c47d09570c5 (0)' is inactive
+
+2 problems
+
+1: Skip for now
+2: Delete disk
+3: Activate disk
+Disk 'disk-eaca0b50-daf5-4fba-6dbf-06354e11e0af' (102400M) for instance 'database/5cc2ab64-a269-4c91-b6ba-9a6ff3c2d9d3 (0)' is inactive (1): 3
+
+1: Skip for now
+2: Delete disk
+3: Activate disk
+Disk 'disk-270c7959-5f06-4597-727c-6c4283afd138' (102400M) for instance 'blobstore/f048378e-27c8-4ab6-b08a-1c47d09570c5 (0)' is inactive (1): 3
+
+Continue? [yN]: y
+
+
+Task 419
+
+Task 419 | 00:00:43 | Applying problem resolutions: Disk 'disk-eaca0b50-daf5-4fba-6dbf-06354e11e0af' (102400M) for instance 'database/5cc2ab64-a269-4c91-b6ba-9a6ff3c2d9d3 (0)' is inactive (inactive_disk 1): Activate disk (00:00:06)
+Task 419 | 00:00:49 | Applying problem resolutions: Disk 'disk-270c7959-5f06-4597-727c-6c4283afd138' (102400M) for instance 'blobstore/f048378e-27c8-4ab6-b08a-1c47d09570c5 (0)' is inactive (inactive_disk 2): Activate disk (00:00:06)
+
+Task 419 Started  Wed Apr 22 00:00:43 UTC 2020
+Task 419 Finished Wed Apr 22 00:00:55 UTC 2020
+Task 419 Duration 00:00:12
+Task 419 done
+
+Succeeded
+```
+
+cck determined that `disk-eaca0b50-daf5-4fba-6dbf-06354e11e0af` persistent disk is inactive. Possible options are:
+
+1. `Skip for now`: the Director will not try to resolve this problem right now
+
+2. `Delete disk`: the Director will check if the disk is unmounted, detach from any active VM, and mark it as an orphaned disk
+
+3. `Activate disk`: the director will check if the disk is mounted and if the active VM already has a disk before marking the disk as active
 
 ---
 ### Persistent Disk is missing {: #missing-persistent-disk }
@@ -344,3 +396,24 @@ cck determined that `vol-549f071f` persistent disk is not attached to `i-4fcd99b
 Assuming there was a deployment with a VM, somehow persistent disk got deleted.
 
 Note: Not all CPIs implement needed functionality to determine if disk is missing. Those CPIs will report missing disk as [Persistent Disk is not attached](#unattached-persistent-disk) problem; however, both reattaching resolutions will fail since persistent disk would not be found.
+
+---
+
+## Automate recovery selection {: #automatic-recovery }
+
+Automate recovery using the `--resolution=RESOLUTION-VALUE` cck option, where `RESOLUTION-VALUE` represents one of the following:
+
+ * `ignore` - skip resolution
+ * `recreate_vm` - recreate VM and wait for processes to start
+ * `recreate_vm_without_wait` - recreate VM without waiting for processes to start
+ * `reboot_vm` - reboot the VM
+ * `delete_vm` - delete the VM
+ * `delete_vm_reference` - remove the VM reference that Director has (this could cause IaaS resources to be abandoned)
+ * `delete_disk` - delete the disk
+ * `delete_disk_reference` - remove the disk reference that Director has (this could cause IaaS resources to be abandoned)
+ * `activate_disk` - mark the disk as active
+ * `reattach_disk` - reattach persistent disk to the VM and mount it at its usual location `/var/vcap/store`
+ * `reattach_disk_and_reboot`- reattach the persistent disk to the VM and reboot it so that Agent can safely mount persistent disk before starting any release job processes. cck will not wait until VM reboots and restarts all release job processes
+
+!!! warning
+    Consider using `cck` interactively because the selected resolution will be applied to all problems that are found. Specifying `--resolution` can be risky if new, unexpected problems occur while you run the command and selected resolution may no longer be appropriate.
