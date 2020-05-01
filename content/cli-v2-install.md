@@ -36,7 +36,7 @@ If you are on macOS with [Homebrew](https://brew.sh/), you can install using the
 1. Use `brew` to install `bosh-cli`:
 
     ```shell
-    brew install cloudfoundry/tap/bosh-cli
+    brew install cloudfoundry/homebrew-tap/bosh-cli
     ```
 
 1. You should now be able to use `bosh`. Verify by querying the CLI for its version:
