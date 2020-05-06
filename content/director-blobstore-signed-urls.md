@@ -10,7 +10,7 @@ deployed vms and replace access with signed URLs granting scoped actions.
 ## Usage
 
 For the purpose of this feature, "supported stemcells" are ubuntu-xenial 621.x and
-later. Supported windows stemcells are coming soon.
+later, and windows 2019.17 and later.
 
 ### Enabling the feature flag
 
