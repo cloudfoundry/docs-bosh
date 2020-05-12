@@ -1,5 +1,5 @@
 !!! note "Version compatibility"
-    This `blobstore.enable_signed_urls` config property was first introduced in bosh v270.8 and the ubuntu-xenial 621.x stemcell.
+    This `blobstore.enable_signed_urls` config property was first introduced in bosh v270.8, the ubuntu-xenial 621.x stemcell, and the windows 2019.17 stemcell.
 
 ## Overview
 
