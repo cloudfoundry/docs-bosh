@@ -40,7 +40,7 @@ Finished installing CPI (00:00:16)
 
 Starting registry... Finished (00:00:00)
 
-Uploading stemcell 'bosh-warden-boshlite-ubuntu-trusty-go_agent/0000'... Finished (00:00:14)
+Uploading stemcell 'bosh-warden-boshlite-ubuntu-xenial-go_agent/0000'... Finished (00:00:14)
 
 Started deploying
   Creating VM for instance 'bosh/0' from stemcell '47017a4e-4a81-41cf-4afc-1121346d46b4'... Finished (00:00:00)

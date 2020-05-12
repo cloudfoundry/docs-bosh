@@ -20,7 +20,7 @@ In the future, BOSH team will investigate how to best consolidate stemcells into
     This is an implementation detail. The tarball structure is subject to change without notice.
 
 ```shell
-tar tvf light-bosh-stemcell-3033-aws-xen-hvm-ubuntu-trusty-go_agent.tgz
+tar tvf light-bosh-stemcell-621.74-aws-xen-hvm-ubuntu-xenial-go_agent.tgz
 ```
 
 Should result in:
@@ -43,8 +43,8 @@ Should result in:
     This is an implementation detail. The content of `stemcell.MF` is subject to change without notice.
 
 * **name** [String, required]: A unique name used to identify stemcell series.
-* **operating_system** [String, required]: Operating system in the stemcell. Example: `ubuntu-trusty`.
-* **version** [String, required]: Version of the stemcell. Example: `3033`.
+* **operating_system** [String, required]: Operating system in the stemcell. Example: `ubuntu-xenial`.
+* **version** [String, required]: Version of the stemcell. Example: `621.74`.
 * **sha1** [String, required]: The SHA1 of the image file included in the stemcell tarball.
 * **bosh_protocol** [String, optional]: Deprecated.
 * **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to import OS image. These properties will be passed in to the [`create_stemcell` CPI call](cpi-api-v1.md#create-stemcell).
@@ -56,21 +56,22 @@ Name, operating system and version values will be visible via `bosh stemcells` c
 Example:
 
 ```shell
-tar -Oxzf bosh-stemcell-97.19-aws-xen-hvm-ubuntu-xenial-go_agent.tgz stemcell.MF
+tar -Oxzf bosh-stemcell-621.74-aws-xen-hvm-ubuntu-xenial-go_agent.tgz stemcell.MF
 ```
 
 ```yaml
 ---
 name: bosh-aws-xen-hvm-ubuntu-xenial-go_agent
-version: '97.19'
+version: '621.74'
 bosh_protocol: 1
-sha1: f2b1f5173b4529ef1f27d7a053558a722021f724
+api_version: 3
+sha1: 98b0844541831392cb2efc66292143a3332c705a
 operating_system: ubuntu-xenial
 stemcell_formats:
 - aws-raw
 cloud_properties:
   name: bosh-aws-xen-hvm-ubuntu-xenial-go_agent
-  version: '97.19'
+  version: '621.74'
   infrastructure: aws
   hypervisor: xen
   disk: 3072
@@ -96,14 +97,15 @@ In these cases, a light stemcell tarball contains only metadata about the stemce
 On AWS, for example, stemcells are imported into a specific region as an [EC2 Amazon Machine Image](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) which is referenced by an `ami-*` identifier. If you look at the `stemcell.MF` file of the *light* stemcell tarball, you'll see a list of regions and their corresponding AMI. When a stemcell is uploaded, the [`create_stemcell` call](cpi-api-v1.md#create-stemcell) will return matching AMI ID without doing any IaaS API calls.
 
 ```shell
-tar -Oxzf light-bosh-stemcell-97.19-aws-xen-hvm-ubuntu-xenial-go_agent.tgz stemcell.MF
+tar -Oxzf light-bosh-stemcell-621.74-aws-xen-hvm-ubuntu-xenial-go_agent.tgz stemcell.MF
 ```
 
 ```yaml
 ---
 name: bosh-aws-xen-hvm-ubuntu-xenial-go_agent
-version: '97.19'
+version: '621.74'
 bosh_protocol: '1'
+api_version: 3
 sha1: da39a3ee5e6b4b0d3255bfef95601890afd80709
 operating_system: ubuntu-xenial
 stemcell_formats:

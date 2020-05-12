@@ -69,7 +69,7 @@ In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director 
     ```shell
     bosh -e ipv6 env
     ```
-    
+
     ```text
     Using environment '10.0.9.111' as '?'
 
@@ -119,11 +119,11 @@ Follow steps below or the [deploy workflow](basic-workflow.md) that goes through
 1. Upload stemcell
 
     ```shell
-    bosh -e ipv6 upload-stemcell https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-trusty-go_agent?v=3468.17 \
-      --sha1 1691f18b9141ac59aec893a1e8437a7d68a88038
+    bosh -e ipv6 upload-stemcell --sha1 0d927b9c5f79b369e646f5c835e33496bf7356c5 \
+    https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-xenial-go_agent?v=621.74
     ```
 
-    Note that IPv6 is currently only available for Ubuntu Trusty stemcells.
+    Note that IPv6 is currently only available for Ubuntu Xenial and Ubuntu Trusty stemcells.
 
 1. Deploy example deployment and see IPv6 addresses
 
@@ -235,7 +235,7 @@ In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director 
     ```shell
     bosh -e ipv6 env
     ```
-    
+
     ```text
     Using environment 'fddf:9b0b:7aac:ac45:0000:0000:0000:0108' as '?'
 
@@ -264,11 +264,11 @@ Follow steps below or the [deploy workflow](basic-workflow.md) that goes through
 1. Upload stemcell
 
     ```shell
-    bosh -e ipv6 upload-stemcell https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-trusty-go_agent?v=3468.17 \
-      --sha1 1691f18b9141ac59aec893a1e8437a7d68a88038
+    bosh -e ipv6 upload-stemcell --sha1 0d927b9c5f79b369e646f5c835e33496bf7356c5 \
+    https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-xenial-go_agent?v=621.74
     ```
 
-    Note that IPv6 is currently only available for Ubuntu Trusty stemcells.
+    Note that IPv6 is currently only available for Ubuntu Xenial and Ubuntu Trusty stemcells.
 
 1. Deploy example deployment and see IPv6 addresses
 

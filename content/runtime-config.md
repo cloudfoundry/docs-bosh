@@ -116,7 +116,7 @@ An addon is a release job that is colocated on all VMs managed by the Director.
 Available rules:
 
 * **stemcell** [Array of hashes, optional]: at least one of the items must match
-    * **os** [String, required]: Matches stemcell's operating system. Example: `ubuntu-trusty`
+    * **os** [String, required]: Matches stemcell's operating system. Example: `ubuntu-xenial`
 * **deployments** [Array of strings, optional]: Matches based on deployment names.
 * **jobs** [Array of hashes, optional]: at least one of the configured jobs must match
     * **name** [String, required]: Matching job name.
@@ -154,7 +154,7 @@ include:
   - name: redis
     release: redis-release
   stemcell:
-  - os: ubuntu-trusty
+  - os: ubuntu-xenial
 ```
 
 See [common addons list](addons-common.md) for several examples.

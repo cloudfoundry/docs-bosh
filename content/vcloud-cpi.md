@@ -49,7 +49,7 @@ resource_pools:
 - name: default
   network: default
   stemcell:
-    name: bosh-vcloud-esxi-ubuntu-trusty-go_agent
+    name: bosh-vcloud-esxi-ubuntu-xenial-go_agent
     version: latest
   cloud_properties:
     cpu: 1

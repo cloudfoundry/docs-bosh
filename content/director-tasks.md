@@ -104,7 +104,7 @@ Should result in:
 | 768 | done  | 2015-01-27 21:39:30 UTC | admin  | run errand smoke-tests   | Errand `smoke-tests' completed successfully (exit code 0) |
 | 766 | done  | 2015-01-27 21:33:42 UTC | admin  | create deployment        | /deployments/mysql-dep                                    |
 | 765 | error | 2015-01-27 21:27:48 UTC | admin  | create deployment        | Timed out pinging to 95206a0e-4dd9-4598-a074-2aee54793f0f |
-| 764 | done  | 2015-01-27 21:25:50 UTC | admin  | create stemcell          | /stemcells/bosh-aws-xen-ubuntu-trusty-go_agent/2827       |
+| 764 | done  | 2015-01-27 21:25:50 UTC | admin  | create stemcell          | /stemcells/bosh-aws-xen-ubuntu-xenial-go_agent/2827       |
 | 760 | done  | 2015-01-27 21:25:01 UTC | admin  | create release           | Created release `cf-mysql/16'                             |
 | 759 | error | 2015-01-27 21:23:43 UTC | admin  | create release           | No space left on device @ io_write -...                   |
 +-----+-------+-------------------------+--------+--------------------------+-----------------------------------------------------------+

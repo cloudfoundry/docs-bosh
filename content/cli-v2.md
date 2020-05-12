@@ -230,10 +230,10 @@ See [Uploading Stemcells](uploading-stemcells.md).
     ```text
     Using environment '192.168.56.6' as '?'
 
-    Name                                         Version  OS             CPI  CID
-    bosh-warden-boshlite-ubuntu-trusty-go_agent  3363*    ubuntu-trusty  -    6cbb176a-6a43-42...
-    ~                                            3312     ubuntu-trusty  -    43r3496a-4rt3-52...
-    bosh-warden-boshlite-centos-7-go_agent       3363*    centos-7       -    38yr83gg-349r-94...
+    Name                                         Version    OS             CPI  CID
+    bosh-warden-boshlite-ubuntu-xenial-go_agent  621.74*    ubuntu-xenial  -    6cbb176a-6a43-42...
+    ~                                            456.112    ubuntu-xenial  -    43r3496a-4rt3-52...
+    bosh-warden-boshlite-centos-7-go_agent       3363*      centos-7       -    38yr83gg-349r-94...
 
     (*) Currently deployed
 
@@ -258,8 +258,8 @@ See [Uploading Stemcells](uploading-stemcells.md).
 
 
     ```shell
-    bosh -e my-env us ~/Downloads/bosh-stemcell-3468.17-warden-boshlite-ubuntu-trusty-go_agent.tgz
-    bosh -e my-env us https://bosh.io/d/stemcells/bosh-stemcell-warden-boshlite-ubuntu-trusty-go_agent?v=3468.17
+    bosh -e my-env us ~/Downloads/bosh-stemcell-621.74-warden-boshlite-ubuntu-xenial-go_agent.tgz
+    bosh -e my-env us https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-xenial-go_agent?v=621.74
     ```
 
 #### Delete-Stemcell {: #delete-stemcell }
@@ -271,7 +271,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
     - `--force` Ignore errors
 
     ```shell
-    bosh -e my-env delete-stemcell bosh-warden-boshlite-ubuntu-trusty-go_agent/3468.17
+    bosh -e my-env delete-stemcell bosh-warden-boshlite-ubuntu-xenial-go_agent/621.74
     ```
 
 #### Repack-Stemcell {: #repack-stemcell }
@@ -581,7 +581,7 @@ See [Uploading Releases](uploading-releases.md).
     - `--job=NAME` Name of job to export
 
     ```shell
-    bosh -e my-env -d my-dep export-release cf-smoke-tests/94 ubuntu-trusty/3369
+    bosh -e my-env -d my-dep export-release cf-smoke-tests/94 ubuntu-xenial/621.74
     ```
 
 #### Inspect-Release {: #inspect-release }
@@ -618,13 +618,13 @@ See [Uploading Releases](uploading-releases.md).
     acceptance-tests/9d56ac03d7410dcdfd96a8c96bbc79eb4b53c864          (source)              79fb9ba7-cd23-4b93-...  e08ee88f5...
     confab-windows/52b117effcd95138eca94c789530bcd6499cff9d            (source)              53d4b206-b064-462d-...  43f92c8d0...
     confab/b2ff0bbd68b7d600ecb1ffaf41f59af073e894fd                    (source)              b93214eb-a816-4029-...  4b627d264...
-    ~                                                                  ubuntu-trusty/3363.9  f66fe541-8c21-4fe3-...  8e662c2e2...
+    ~                                                                  ubuntu-xenial/621.74  f66fe541-8c21-4fe3-...  8e662c2e2...
     consul-windows/2a8e0b7ce1424d1d5efe5c7184791481a0c26424            (source)              9516870b-801e-42ea-...  19db18127...
     consul/6049d3016cd34ac64ccbf7837b06b6db81942102                    (source)              04aa38af-e883-4842-...  c42cacfc7...
-    ~                                                                  ubuntu-trusty/3363.9  ab4afda6-881e-46b1-...  27c1390fa...
+    ~                                                                  ubuntu-xenial/621.74  ab4afda6-881e-46b1-...  27c1390fa...
     golang1.7-windows/1a80382e081cd429cf518f0c783f4e4172cac79e         (source)              d7670210-7038-4749-...  b91caa06a...
     golang1.7/181f7537c2ec17ac2406d9f2eb3322fd80fa2a1c                 (source)              ac8aa36a-8965-46e9-...  ca440d716...
-    ~                                                                  ubuntu-trusty/3363.9  9d40794f-0c50-4d0c-...  9d6e29221...
+    ~                                                                  ubuntu-xenial/621.74  9d40794f-0c50-4d0c-...  9d6e29221...
 
     11 packages
 
@@ -882,7 +882,7 @@ See [CPI config](cpi-config.md).
     Using environment '192.168.56.6' as client 'admin'
 
     Name                                Release(s)                Stemcell(s)                                         Team(s)  Cloud Config
-    cf                                  binary-buildpack/1.0.9    bosh-warden-boshlite-ubuntu-trusty-go_agent/3363.9  -        latest
+    cf                                  binary-buildpack/1.0.9    bosh-warden-boshlite-ubuntu-xenial-go_agent/621.74  -        latest
                                         capi/1.21.0
                                         cf-mysql/34
                                         cf-smoke-tests/11
@@ -896,7 +896,7 @@ See [CPI config](cpi-config.md).
                                         routing/0.145.0
                                         statsd-injector/1.0.20
                                         uaa/25
-    service-instance_0d4140a0-42b7-...  mysql/0.6.0               bosh-warden-boshlite-ubuntu-trusty-go_agent/3363.9  -        latest
+    service-instance_0d4140a0-42b7-...  mysql/0.6.0               bosh-warden-boshlite-ubuntu-xenial-go_agent/621.74  -        latest
 
     2 deployments
 
@@ -921,7 +921,7 @@ See [CPI config](cpi-config.md).
     Using environment '192.168.56.6' as client 'admin'
 
     Name  Release(s)              Stemcell(s)                                         Team(s)  Cloud Config
-    cf    binary-buildpack/1.0.9  bosh-warden-boshlite-ubuntu-trusty-go_agent/3363.9  -        latest
+    cf    binary-buildpack/1.0.9  bosh-warden-boshlite-ubuntu-xenial-go_agent/621.74  -        latest
           capi/1.21.0
           cf-mysql/34
           cf-smoke-tests/11

@@ -115,7 +115,7 @@ releases:
 **stemcells** [Array, required]: The name and version of each stemcell in the deployment.
 
 * **alias** [String, required]: Name of a stemcell used in the deployment
-* **os** [String, optional]: Operating system of a matching stemcell. Example: `ubuntu-trusty`.
+* **os** [String, optional]: Operating system of a matching stemcell. Example: `ubuntu-xenial`.
 * **version** [String, required]: The version of a matching stemcell. Version can be `latest`.
 * **name** [String, optional]: Full name of a matching stemcell. Either `name` or `os` keys can be specified.
 
@@ -127,11 +127,11 @@ Example:
 ```yaml
 stemcells:
 - alias: default
-  os: ubuntu-trusty
-  version: 3147
+  os: ubuntu-xenial
+  version: 621.74
 - alias: default2
-  name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-  version: 3149
+  name: bosh-aws-xen-hvm-ubuntu-xenial-go_agent
+  version: 621.74
 ```
 
 ---

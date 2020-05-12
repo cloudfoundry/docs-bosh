@@ -11,7 +11,7 @@ Schema for `cloud_properties` section:
             * **resource_pool** [String, optional]: Name of vSphere Resource Pool to use for VM placement.
             * **host_group** [Dictionary, optional]: Properties of the Host Group to use for VM placement. Available in v52+. (Backwards compatible with old format of specifying Host Group with just a name string of the host group )
                 * **name** [String, required]: Name of the host group in vSphere
-                * **drs_rule** [String, optional]: One of the values from MUST or SHOULD. Is case insensitive. Defaults to SHOULD if not specified or in case of a spelling mistake. 
+                * **drs_rule** [String, optional]: One of the values from MUST or SHOULD. Is case insensitive. Defaults to SHOULD if not specified or in case of a spelling mistake.
             * **drs_rules** [Array, optional]: Array of DRS rules applied to [constrain VM placement](vm-anti-affinity.md#vsphere). Must have only one.
                 * **name** [String, required]: Name of a DRS rule that the Director will create.
                 * **type** [String, required]: Type of a DRS rule. Currently only `separate_vms` is supported.
@@ -168,7 +168,7 @@ resource_pools:
 - name: nsx
   network: default
   stemcell:
-    name: bosh-vsphere-esxi-ubuntu-trusty-go_agent
+    name: bosh-vsphere-esxi-ubuntu-xenial-go_agent
     version: latest
   cloud_properties:
     cpu: 1
@@ -531,7 +531,7 @@ The vSphere CPI only supports a single datacenter and errors if more than one is
 The current code will not work with a datacenter inside a folder.
 
 ### Storage Policy
-The order of precedence for policy and datastore specified for selecting ephemeral datastores is (in order they are written from 
+The order of precedence for policy and datastore specified for selecting ephemeral datastores is (in order they are written from
 top to bottom , first being most preffered.)
  - Storage policy is set in vm-type
  - Datastores in vm-type

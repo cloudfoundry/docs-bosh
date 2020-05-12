@@ -85,13 +85,13 @@ zookeeper/2b29580fbc390762956826f4cb0d3517b6a01ca9    97f299f8-7abf-4393-b3db-1b
 
 Package                                               Compiled for          Blobstore ID                          Digest
 golang-1.7/482e72c8435a11e1d1c3c25e4ee86ced53cc8739   (source)              d96c7916-d852-4e8a-ab48-404b0be1fdce  12917d086a9d92d208abfba279acd11aa627eec1
-~                                                     ubuntu-trusty/3421.4  bb02fe9d-9bc6-46ab-4319-8b68262c76cb  b8b55284bc386d279dce1056249f9f511b03e26a
+~                                                     ubuntu-xenial/621.74  bb02fe9d-9bc6-46ab-4319-8b68262c76cb  b8b55284bc386d279dce1056249f9f511b03e26a
 java/c524e46e61b37894935ae28016973e0e8644fcde         (source)              68e0a834-3da4-4e74-a34e-0452cec61574  a1f0001e124f33ad6c9258e6113a3e730c7e82b9
-~                                                     ubuntu-trusty/3421.4  94c5f41b-1167-4a9e-5c25-e8e985baa5c8  e61c93539b557c7f8833dc73aa9dd84fd4a1c7b5
+~                                                     ubuntu-xenial/621.74  94c5f41b-1167-4a9e-5c25-e8e985baa5c8  e61c93539b557c7f8833dc73aa9dd84fd4a1c7b5
 smoke-tests/2a8864e206d64ac968c19c6883b7043cb8d3b880  (source)              18dad544-9a4d-4160-bf5c-bcfc70b103a4  40d38f6c3cfa4712bfcdca15a67c459a1672a027
-~                                                     ubuntu-trusty/3421.4  bb48ec91-af8c-4d29-6edd-fcbff4d322fe  52445ef444b0da7a14bf7bb05612c3cbc1de5e29
+~                                                     ubuntu-xenial/621.74  bb48ec91-af8c-4d29-6edd-fcbff4d322fe  52445ef444b0da7a14bf7bb05612c3cbc1de5e29
 zookeeper/ca455273c83e828eb50a21d21811684eceda2603    (source)              99911f20-f806-41c6-bd33-8d34d7cd94e3  d42e0023eb3d493e165ed0e36ae8643c8bfe535d
-~                                                     ubuntu-trusty/3421.4  7c65efb0-9d99-4fe2-6283-157bfd231b18  b9c279eb3a99cc3bc27b6dfe1d6d372d2b86854e
+~                                                     ubuntu-xenial/621.74  7c65efb0-9d99-4fe2-6283-157bfd231b18  b9c279eb3a99cc3bc27b6dfe1d6d372d2b86854e
 
 8 packages
 

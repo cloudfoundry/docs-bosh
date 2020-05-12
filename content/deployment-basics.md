@@ -14,7 +14,7 @@ releases:
 
 stemcells:
 - alias: default
-  os: ubuntu-trusty
+  os: ubuntu-xenial
   version: latest
 
 update:
@@ -58,7 +58,7 @@ Here is how deployment manifest describes a reasonably complex Zookeeper cluster
 1. Zookepeer source code, configuration file, startup scripts
     - include `zookeeper` release version `0.0.5` to the `releases` section
 1.  Operating system image onto which install software
-    - include latest version of `ubuntu-trusty` stemcell
+    - include latest version of `ubuntu-xenial` stemcell
 1. Create 5 Zookeeper VMs spread
     - add `zookeeper` [instance group](terminology.md#instance-group) with `instances: 5`
 1. Spread VMs over multiple availability zones

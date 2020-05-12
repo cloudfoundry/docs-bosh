@@ -12,7 +12,7 @@ resource_pools:
 - name: redis-servers
   network: default
   stemcell:
-    name: bosh-aws-xen-ubuntu-trusty-go_agent
+    name: bosh-aws-xen-ubuntu-xenial-go_agent
     version: 2708
   cloud_properties:
     instance_type: m1.small

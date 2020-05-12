@@ -22,14 +22,14 @@ bosh repack-stemcell src.tgz dst.tgz [--name=new_name] [--version=new_version] [
 In this example, we first download the stemcell we plan to modify, and then we create a new stemcell that's identical to the one we downloaded with the exception of a new name (`acme-corporation-stemcell`):
 
 ```shell
-curl -OL https://s3.amazonaws.com/bosh-gce-light-stemcells/light-bosh-stemcell-3363.9-google-kvm-ubuntu-trusty-go_agent.tgz
-bosh repack-stemcell --name=acme-corporation-stemcell light-bosh-stemcell-3363.9-google-kvm-ubuntu-trusty-go_agent.tgz acme-corporation-stemcell.tgz
+curl -OL https://s3.amazonaws.com/bosh-gce-light-stemcells/light-bosh-stemcell-621.74-google-kvm-ubuntu-xenial-go_agent.tgz
+bosh repack-stemcell --name=acme-corporation-stemcell light-bosh-stemcell-621.74-google-kvm-ubuntu-xenial-go_agent.tgz acme-corporation-stemcell.tgz
 ```
 
 We decide to change the stemcell version number to `100` as well as the name (note: this does not change the stemcell version in the `/var/vcap/bosh/etc/stemcell_version` file in the root filesystem of the stemcell):
 
 ```shell
-bosh repack-stemcell --name=acme-corporation-stemcell --version=100 light-bosh-stemcell-3363.9-google-kvm-ubuntu-trusty-go_agent.tgz acme-corporation-stemcell.tgz
+bosh repack-stemcell --name=acme-corporation-stemcell --version=100 light-bosh-stemcell-621.74-google-kvm-ubuntu-xenial-go_agent.tgz acme-corporation-stemcell.tgz
 ```
 
 When we've uploaded the stemcell and we run `bosh stemcells`, we will see our stemcell listed with the new name and new version.
@@ -50,7 +50,7 @@ We modify the cloud-properties of an AWS stemcell to encrypt the root filesystem
 We take this opportunity to rename our stemcell so that we don't accidently confuse the unencrypted stemcells with the encrypted stemcells.
 
 ```shell
-bosh repack-stemcell --name=acme-ubuntu-encrypted --cloud-properties='{"encrypted": true, "kms_key_arn": "arn:aws:kms:us-east-1:088444384256:key/4ffbe966-d138-4f4d-a077-4c234d05b3b1"}' bosh-stemcell-3363.9-aws-xen-hvm-ubuntu-trusty-go_agent.tgz acme-encrypted-stemcell.tgz
+bosh repack-stemcell --name=acme-ubuntu-encrypted --cloud-properties='{"encrypted": true, "kms_key_arn": "arn:aws:kms:us-east-1:088444384256:key/4ffbe966-d138-4f4d-a077-4c234d05b3b1"}' bosh-stemcell-621.74-aws-xen-hvm-ubuntu-xenial-go_agent.tgz acme-encrypted-stemcell.tgz
 ```
 
 !!! note
@@ -65,7 +65,7 @@ The `repack-stemcell` works by modifying the stemcell manifest file (`stemcell.M
 The stemcell's manifest may be examined by extracting the `stemcell.MF` file from the stemcell tarball:
 
 ```shell
-curl -L https://bosh.io/d/stemcells/bosh-google-kvm-ubuntu-trusty-go_agent | tar -Oxvf - -- stemcell.MF
+curl -L https://bosh.io/d/stemcells/bosh-google-kvm-ubuntu-xenial-go_agent | tar -Oxvf - -- stemcell.MF
 ```
 
 Should  result in:
@@ -76,14 +76,15 @@ Should  result in:
 100   137  100   137    0     0    268      0 --:--:-- --:--:-- --:--:--   268
 100 19230  100 19230    0     0  18442      0  0:00:01  0:00:01 --:--:-- 18442
 x stemcell.MF---
-name: bosh-google-kvm-ubuntu-trusty-go_agent
-version: '3363.9'
+name: bosh-google-kvm-ubuntu-xenial-go_agent
+version: "621.74"
 bosh_protocol: 1
+api_version: 3
 sha1: da39a3ee5e6b4b0d3255bfef95601890afd80709
-operating_system: ubuntu-trusty
+operating_system: ubuntu-xenial
 cloud_properties:
-  name: bosh-google-kvm-ubuntu-trusty-go_agent
-  version: '3363.9'
+  name: bosh-google-kvm-ubuntu-xenial-go_agent
+  version: "621.74"
   infrastructure: google
   hypervisor: kvm
   disk: 3072
@@ -92,7 +93,7 @@ cloud_properties:
   os_type: linux
   os_distro: ubuntu
   architecture: x86_64
-  root_device_name: "/dev/sda1"
-  source_url: https://storage.googleapis.com/bosh-gce-raw-stemcells/bosh-stemcell-3363.9-google-kvm-ubuntu-trusty-go_agent-raw.tar.gz
-  raw_disk_sha1: fd8ef3f59b01e5e923c0ff1f70fcfcfdbbd49aeb
+  root_device_name: /dev/sda1
+  source_url: https://storage.googleapis.com/bosh-gce-raw-stemcells/bosh-stemcell-621.74-google-kvm-ubuntu-xenial-go_agent-raw-1588608687.tar.gz
+  raw_disk_sha1: 20a78432acf485051e9eefedfb9f7309c7285c0c
 ```
