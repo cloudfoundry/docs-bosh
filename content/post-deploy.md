@@ -11,7 +11,7 @@ Release job can have a post-deploy script that will run after all jobs in the de
 ---
 ## Director Configuration {: #director-configuration }
 
-Currently the Director does not run post deploy scripts by default. Use [`director.enable_post_deploy` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.enable_post_deploy) to enable running scripts.
+The [`director.enable_post_deploy` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.enable_post_deploy) must be set to true to run post-deploy scripts. Prior to 268.7.0, this defaulted to false.
 
 ---
 ## Job Configuration {: #job-configuration }
