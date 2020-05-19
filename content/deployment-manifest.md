@@ -215,8 +215,9 @@ compilation:
 
 **update** [Hash, required]: This specifies instance update properties. These properties control how BOSH updates job instances during the deployment.
 
-* **canaries** [Integer, required]: The number of [canary](terminology.md#canary) instances.
-* **max\_in\_flight** [Integer or Percentage, required]: The maximum number of non-canary instances to update in parallel.
+* **canaries** [Integer or Percentage, required]: The number of [canary](terminology.md#canary) instances.
+* **max\_in\_flight** [Integer or Percentage, required]: The maximum number of non-canary instances to update in parallel within an availability zone. Updates will not begin in another availability zone until all VMs are updated in the current availability zone.
+    * If the `max_in_flight` is a percentage, the minimum `max_in_flight` will never fall below 1.
 * **canary\_watch\_time** [Integer or Range, required]
     * If the `canary_watch_time` is an integer, the Director sleeps for that many milliseconds, then checks whether the canary instances are healthy.
     * If the `canary_watch_time` is a range (low-high), the Director:
@@ -229,7 +230,7 @@ compilation:
         * Waits until instances are healthy or `high` milliseconds have passed since instances started updating
 * **serial** [Boolean, optional]: If disabled (set to `false`), deployment jobs will be deployed in parallel, otherwise - sequentially. Instances within a deployment job will still follow `canary` and `max_in_flight` configuration. Defaults to `true`.
 
-Example:
+Examples:
 
 ```yaml
 update:
@@ -237,6 +238,15 @@ update:
   max_in_flight: 10
   canary_watch_time: 1000-30000
   update_watch_time: 1000-30000
+```
+
+```yaml
+update:
+  canaries: 10%
+  max_in_flight: 50%
+  canary_watch_time: 1000-30000
+  update_watch_time: 1000-30000
+  initial_deploy_az_update_strategy: serial
 ```
 
 ---

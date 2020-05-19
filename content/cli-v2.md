@@ -936,7 +936,7 @@ See [CPI config](cpi-config.md).
 
 #### Deploy {: #deploy }
 
-- `bosh [GLOBAL-CLI-OPTIONS] deploy [-v ...] [--var-file=VAR=PATH] [-l ...] [--vars-env=PREFIX] [--vars-store=PATH] [-o ...] [--no-redact] [--recreate] [--recreate-persistent-disks] [--fix] [--skip-drain=INSTANCE-GROUP] [--canaries=NUMBER] [--max-in-flight=NUMBER] [--dry-run] PATH`
+- `bosh [GLOBAL-CLI-OPTIONS] deploy [-v ...] [--var-file=VAR=PATH] [-l ...] [--vars-env=PREFIX] [--vars-store=PATH] [-o ...] [--no-redact] [--recreate] [--recreate-persistent-disks] [--fix] [--skip-drain=INSTANCE-GROUP] [--canaries=NUMBER or PERCENTAGE] [--max-in-flight=NUMBER or PERCENTAGE] [--dry-run] PATH`
 
     Create or update specified deployment according to the provided manifest. Operation files and variables can be provided to adjust and fill in manifest before deploy begins.
 
@@ -953,8 +953,8 @@ See [CPI config](cpi-config.md).
     - `--recreate-persistent-disks` Recreate all persistent disks in deployment
     - `--fix` Recreate an instance with an unresponsive agent instead of erroring
     - `--skip-drain=INSTANCE-GROUP` Skip running drain and pre-stop scripts for specific instance groups
-    - `--canaries=NUMBER` Override manifest values for canaries
-    - `--max-in-flight=NUMBER` Override manifest values for max_in_flight
+    - `--canaries=NUMBER or PERCENTAGE` Override manifest values for canaries
+    - `--max-in-flight=NUMBER or PERCENTAGE` Override manifest values for max_in_flight
     - `--dry-run` Renders job templates without altering deployment
     - `PATH` Path to a manifest file
 
@@ -1011,14 +1011,14 @@ See [CPI config](cpi-config.md).
 
 #### Recreate {: #recreate }
 
-- `bosh [GLOBAL-CLI-OPTIONS] recreate [--skip-drain] [--fix] [--canaries=NUMBER] [--max-in-flight=NUMBER] [--dry-run] [--converge] [--no-converge] [INSTANCE-GROUP[/INSTANCE-ID]]`
+- `bosh [GLOBAL-CLI-OPTIONS] recreate [--skip-drain] [--fix] [--canaries=NUMBER or PERCENTAGE] [--max-in-flight=NUMBER or PERCENTAGE] [--dry-run] [--converge] [--no-converge] [INSTANCE-GROUP[/INSTANCE-ID]]`
 
     Recreates VMs for specified instances. Follows typical instance lifecycle.
 
     - `--skip-drain` skip running drain scripts; Also skip pre-stop scripts as of director version v270.0.0
     - `--fix` recover an instance with an unresponsive agent instead of erroring
-    - `--canaries=NUMBER` override manifest values for `canaries`
-    - `--max-in-flight=NUMBER` override manifest values for `max_in_flight`
+    - `--canaries=NUMBER or PERCENTAGE` override manifest values for `canaries`
+    - `--max-in-flight=NUMBER or PERCENTAGE` override manifest values for `max_in_flight`
     - `--dry-run` run through as many operations as possible without altering deployment
     - `--converge` converge the deployment with the last successful deployment state. This flag is optional and is the default behavior. See [Deployment Convergence](deployment-convergence.md) for more details
     - `--no-converge` update only the specified instance with current instance state. See [Deployment Convergence](deployment-convergence.md) for more details
@@ -1036,13 +1036,13 @@ See [CPI config](cpi-config.md).
 
 #### Restart {: #restart }
 
-- `bosh [GLOBAL-CLI-OPTIONS] restart [--skip-drain] [--canaries=NUMBER] [--max-in-flight=NUMBER] [--converge] [--no-converge] [INSTANCE-GROUP[/INSTANCE-ID]]`
+- `bosh [GLOBAL-CLI-OPTIONS] restart [--skip-drain] [--canaries=NUMBER or PERCENTAGE] [--max-in-flight=NUMBER or PERCENTAGE] [--converge] [--no-converge] [INSTANCE-GROUP[/INSTANCE-ID]]`
 
     Restarts jobs (processes) on specified instances. Does not affect VM state.
 
     - `--skip-drain` skip running drain scripts; Also skip pre-stop scripts as of director version v270.0.0
-    - `--canaries=NUMBER` override manifest values for `canaries`
-    - `--max-in-flight=NUMBER` override manifest values for `max_in_flight`
+    - `--canaries=NUMBER or PERCENTAGE` override manifest values for `canaries`
+    - `--max-in-flight=NUMBER or PERCENTAGE` override manifest values for `max_in_flight`
     - `--converge` converge the deployment with the last successful deployment state. This flag is optional and is the default behavior. See [Deployment Convergence](deployment-convergence.md) for more details
     - `--no-converge` update only the specified instance with current instance state. See [Deployment Convergence](deployment-convergence.md) for more details
 
@@ -1051,12 +1051,12 @@ See [CPI config](cpi-config.md).
 
 #### Start {: #start }
 
-- `bosh [GLOBAL-CLI-OPTIONS] start [--canaries=NUMBER] [--max-in-flight=NUMBER] [--converge] [--no-converge] [INSTANCE-GROUP[/INSTANCE-ID]]`
+- `bosh [GLOBAL-CLI-OPTIONS] start [--canaries=NUMBER or PERCENTAGE] [--max-in-flight=NUMBER or PERCENTAGE] [--converge] [--no-converge] [INSTANCE-GROUP[/INSTANCE-ID]]`
 
     Starts jobs (processes) on specified instances. Does not affect VM state.
 
-    - `--canaries=NUMBER` override manifest values for `canaries`
-    - `--max-in-flight=NUMBER` override manifest values for `max_in_flight`
+    - `--canaries=NUMBER or PERCENTAGE` override manifest values for `canaries`
+    - `--max-in-flight=NUMBER or PERCENTAGE` override manifest values for `max_in_flight`
     - `--converge` converge the deployment with the last successful deployment state. This flag is optional and is the default behavior. See [Deployment Convergence](deployment-convergence.md) for more details
     - `--no-converge` update only the specified instance with current instance state. See [Deployment Convergence](deployment-convergence.md) for more details
 
@@ -1065,14 +1065,14 @@ See [CPI config](cpi-config.md).
 
 #### Stop {: #stop }
 
-- `bosh [GLOBAL-CLI-OPTIONS] stop [--skip-drain] [--canaries=NUMBER] [--max-in-flight=NUMBER] [--converge] [--no-converge] [INSTANCE-GROUP[/INSTANCE-ID]]`
+- `bosh [GLOBAL-CLI-OPTIONS] stop [--skip-drain] [--canaries=NUMBER or PERCENTAGE] [--max-in-flight=NUMBER or PERCENTAGE] [--converge] [--no-converge] [INSTANCE-GROUP[/INSTANCE-ID]]`
 
     Stops jobs (processes) on specified instances. Does not affect VM state unless `--hard` flag is specified.
 
     - `--hard` force VM deletion (keeping persistent disk)
     - `--skip-drain` skip running drain scripts; Also skip pre-stop scripts as of director version v270.0.0
-    - `--canaries=NUMBER` override manifest values for `canaries`
-    - `--max-in-flight=NUMBER` override manifest values for `max_in_flight`
+    - `--canaries=NUMBER or PERCENTAGE` override manifest values for `canaries`
+    - `--max-in-flight=NUMBER or PERCENTAGE` override manifest values for `max_in_flight`
     - `--converge` converge the deployment with the last successful deployment state. This flag is optional and is the default behavior. See [Deployment Convergence](deployment-convergence.md) for more details
     - `--no-converge` update only the specified instance with current instance state. See [Deployment Convergence](deployment-convergence.md) for more details
 
