@@ -936,7 +936,7 @@ See [CPI config](cpi-config.md).
 
 #### Deploy {: #deploy }
 
-- `bosh [GLOBAL-CLI-OPTIONS] deploy [-v ...] [--var-file=VAR=PATH] [-l ...] [--vars-env=PREFIX] [--vars-store=PATH] [-o ...] [--no-redact] [--recreate] [--recreate-persistent-disks] [--fix] [--skip-drain=INSTANCE-GROUP] [--canaries=NUMBER or PERCENTAGE] [--max-in-flight=NUMBER or PERCENTAGE] [--dry-run] PATH`
+- `bosh [GLOBAL-CLI-OPTIONS] deploy [-v ...] [--var-file=VAR=PATH] [-l ...] [--vars-env=PREFIX] [--vars-store=PATH] [-o ...] [--no-redact] [--recreate] [--recreate-persistent-disks] [--fix] [--skip-drain=[INSTANCE-GROUP[/INSTANCE-ID]]] [--canaries=NUMBER or PERCENTAGE] [--max-in-flight=NUMBER or PERCENTAGE] [--dry-run] PATH`
 
     Create or update specified deployment according to the provided manifest. Operation files and variables can be provided to adjust and fill in manifest before deploy begins.
 
