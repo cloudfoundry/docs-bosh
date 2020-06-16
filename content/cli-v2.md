@@ -952,7 +952,7 @@ See [CPI config](cpi-config.md).
     - `--recreate` Recreate all VMs in deployment
     - `--recreate-persistent-disks` Recreate all persistent disks in deployment
     - `--fix` Recreate an instance with an unresponsive agent instead of erroring
-    - `--skip-drain=INSTANCE-GROUP` Skip running drain and pre-stop scripts for specific instance groups
+    - `--skip-drain=[INSTANCE-GROUP[/INSTANCE-ID]]` Skip running drain and pre-stop scripts for specific instance groups
     - `--canaries=NUMBER or PERCENTAGE` Override manifest values for canaries
     - `--max-in-flight=NUMBER or PERCENTAGE` Override manifest values for max_in_flight
     - `--dry-run` Renders job templates without altering deployment
