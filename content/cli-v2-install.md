@@ -29,9 +29,9 @@ To install the `bosh` binary directly:
     # Succeeded
     ```
 
-### Using Homebrew on macOS
+### Using Homebrew on macOS or Linux
 
-If you are on macOS with [Homebrew](https://brew.sh/), you can install using the [Cloud Foundry tap](https://github.com/cloudfoundry/homebrew-tap).
+If you are on macOS or Linux with [Homebrew](https://brew.sh/), you can install using the [Cloud Foundry tap](https://github.com/cloudfoundry/homebrew-tap).
 
 1. Use `brew` to install `bosh-cli`:
 
