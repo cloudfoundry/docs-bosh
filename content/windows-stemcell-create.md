@@ -2,10 +2,6 @@
 title: Creating a Windows Stemcell for vSphere Using stembuild
 owner: Windows
 ---
-!!! tip "Beta Feature"
-    We have introduced functionality in **stembuild** to improve the process of creating Windows stemcells
-    for on-premise vSphere set-up. Currently, these instructions only provide the steps to create a
-    Windows Stemcell for vCenter-based environments.
 
 This topic describes how to create a Windows Stemcell for vSphere.
 
