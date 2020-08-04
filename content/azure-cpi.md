@@ -257,7 +257,7 @@ Schema:
 * **enable_telemetry** [Boolean, optional]: A flag to enable telemetry on CPI calls on Azure. Available since v35.2.0. The default value is `true` in v35.2.0, and is `false` in v35.3.0+.
 * **enable\_vm\_boot\_diagnostics** [Boolean, optional]: A flag to enable VM boot diagnostics on Azure. Available since v35.2.0. The default value is `true` in v35.2.0, and is `false` in v35.3.0+.
 
-See [all configuration options](https://bosh.io/jobs/cpi?source=github.com/cloudfoundry/bosh-azure-cpi-release).
+See [all configuration options](https://bosh.io/jobs/azure_cpi?source=github.com/cloudfoundry/bosh-azure-cpi-release).
 
 See [Creating Azure resources](azure-resources.md) page for more details on how to create and configure above resources.
 
