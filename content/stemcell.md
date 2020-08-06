@@ -67,7 +67,7 @@ The schedule for stemcells roughly looks like:
 * New stemcell major lines are cut every 3-4 months. This is to ensure backwards
   compatibility between the bosh-agent and bosh-director, as we add new
   features.
-* New patches are cut every 2 weeks to pick up any low & medium CVEs published
+* New patches are cut every 3 weeks to pick up any low & medium CVEs published
   by https://usn.ubuntu.com
 
 **What are the differences between stemcell lines?**
