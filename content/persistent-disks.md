@@ -53,7 +53,7 @@ instance_groups:
 ```
 
 !!! note
-    If you use persistent disk declaration, you cannot specify the persistent disk type or size that the CPI attaches to your job VMs. Instead, the CPI uses its default disk configuration when deploying the VMs.
+    If you use persistent disk declaration, you cannot specify the persistent disk type that the CPI attaches to your job VMs. Instead, the CPI uses its default disk configuration when deploying the VMs.
 
 ---
 ## Persistent Disk Pool Declaration {: #persistent-disk-pool }
