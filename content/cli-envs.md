@@ -175,3 +175,69 @@ Started deleting deployment
   Deleting stemcell '47017a4e-4a81-41cf-4afc-1121346d46b4'... Finished (00:00:01)
 Finished deleting deployment (00:00:04)
 ```
+
+---
+## `stop-env` command {: #stop-env }
+
+!!! note
+    This command is available with CLI v6.3.2+.
+
+`bosh stop-env` Stops jobs (processes) on the env instance. Does not affect VM state.
+
+Here is an example output:
+
+```shell
+bosh stop-env bosh.yml --state=bosh.json -o ... -v ...
+```
+
+```text
+Deployment manifest: 'bosh.yml'
+Deployment state: 'state.json'
+
+Started validating
+  Validating deployment manifest... Finished (00:00:00)
+Finished validating (00:00:00)
+
+Started stopping deployment
+  Waiting for the agent on VM 'i-0e2a198e560f84f90'... Finished (00:00:00)
+  Running the pre-stop scripts 'unknown/0'... Finished (00:00:00)
+  Draining jobs on instance 'unknown/0'... Finished (00:00:11)
+  Stopping jobs on instance 'unknown/0'... Finished (00:00:00)
+  Running the post-stop scripts 'unknown/0'... Finished (00:00:00)
+Finished stopping deployment (00:00:11)
+
+Succeeded
+```
+
+---
+## `start-env` command {: #start-env }
+
+!!! note
+    This command is available with CLI v6.3.2+.
+
+`bosh start-env` Starts jobs (processes) on the env instance. Does not affect VM state.
+
+Here is an example output:
+
+```shell
+bosh start-env bosh.yml --state=bosh.json -o ... -v ...
+```
+
+```text
+Deployment manifest: 'bosh.yml'
+Deployment state: 'state.json'
+
+Started validating
+  Validating deployment manifest... Finished (00:00:00)
+Finished validating (00:00:00)
+
+Started starting deployment
+  Waiting for the agent on VM 'i-0e2a198e560f84f90'... Finished (00:00:00)
+  Running the pre-start scripts 'unknown/0'... Finished (00:00:01)
+  Starting the agent 'unknown/0'... Finished (00:00:01)
+  Waiting for instance 'unknown/0' to be running... Finished (00:00:51)
+  Running the post-start scripts 'unknown/0'... Finished (00:00:01)
+Finished starting deployment (00:00:55)
+
+Succeeded
+```
