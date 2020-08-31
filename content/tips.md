@@ -159,7 +159,7 @@ It may be necessary to dive into the Director DB. The easiest way to do so is to
 ```shell
 ssh vcap@DIRECTOR-IP
 
-/var/vcap/jobs/director/bin/console
+sudo /var/vcap/jobs/director/bin/console
 ```
 
 ```ruby
