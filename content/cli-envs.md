@@ -180,7 +180,7 @@ Finished deleting deployment (00:00:04)
 ## `stop-env` command {: #stop-env }
 
 !!! note
-    This command is available with CLI v6.3.2+.
+    This command is available with CLI v6.4.0+.
 
 `bosh stop-env` Stops jobs (processes) on the env instance. Does not affect VM state.
 
@@ -213,7 +213,7 @@ Succeeded
 ## `start-env` command {: #start-env }
 
 !!! note
-    This command is available with CLI v6.3.2+.
+    This command is available with CLI v6.4.0+.
 
 `bosh start-env` Starts jobs (processes) on the env instance. Does not affect VM state.
 
