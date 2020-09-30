@@ -5,6 +5,7 @@ This topic describes cloud properties for different resources created by the Goo
 Schema for `cloud_properties` section:
 
 * **zone** [String, required]: [Zone](https://cloud.google.com/compute/docs/regions-zones/regions-zones) to use for creating VMs. Example: `us-central1-f`.
+* **node_group** [String, optional]: Name of the [Sole Tenant Group](https://cloud.google.com/compute/docs/nodes/sole-tenant-nodes) in which VMs will be created.
 
 Example:
 
@@ -78,6 +79,7 @@ Schema for `cloud_properties` section:
 * **zone** (String, optional) - The name of the [Google Compute Engine Zone](https://cloud.google.com/compute/docs/zones) where the instance must be created. Example: `us-west1-a`.
 * **root\_disk\_size\_gb** (Integer, optional) - The size (in Gb) of the instance root disk (default is `10Gb`). Example: `10`.
 * **root\_disk\_type** (String, optional) - The name of the [Google Compute Engine Disk Type](https://cloud.google.com/compute/docs/disks/#overview) the CPI will use when creating the instance root disk. Example: `pd-standard`.
+* **ephemeral\_disk\_type** (String, optional) - The name of the [Google Compute Engine Disk Type](https://cloud.google.com/compute/docs/disks/#overview) the CPI will use when creating the instance root disk. Example: `pd-standard`.
 * **automatic\_restart** (Boolean, optional) - If the instances should be [restarted automatically](https://cloud.google.com/compute/docs/instances/setting-instance-scheduling-options#autorestart) if they are terminated for non-user-initiated reasons (`false` by default). Example: `false`.
 * **on\_host\_maintenance** (String, optional) - [Instance behavior](https://cloud.google.com/compute/docs/instances/setting-instance-scheduling-options#onhostmaintenance) on infrastructure maintenance that may temporarily impact instance performance (supported values are `MIGRATE` (default) or `TERMINATE`). Example: `MIGRATE`.
 * **preemptible** (Boolean, optional) - If the instances should be [preemptible](https://cloud.google.com/preemptible-vms/) (`false` by default). Example: `false`.
