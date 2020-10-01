@@ -7,7 +7,7 @@ BOSH tries to encourage release authors to follow conventions listed below, so i
 
 * `/tmp/`: Global temporary directory is limited to 128MB. A well behaved release job that needs scratch space usually sets up its own temporary directory inside ephemeral data directory (e.g. `/var/vcap/data/redis-server/tmp`).
 
-* `vcap` user: Pre-configured user that comes with the stemcells. Release jobs may run processes under that user. Default password is `c1oudc0w`.
+* `vcap` user: Pre-configured user that comes with the stemcells. Release jobs may run processes under that user. The default password will be random.
 
 * `/etc/logrotate.d/vcap`: Logrotate configuration for `/var/vcap/sys/log/` sub-directories managed by the Agent.
 
