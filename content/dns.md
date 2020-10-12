@@ -326,6 +326,10 @@ To disable the native BOSH functionality, you must disable the [`local_dns.enabl
 **Note:** Because of a known issue in [the `bosh-dnsrelease`](https://github.com/cloudfoundry/bosh-dns-release/issues/34) you have to recreate all VMs afterwards, in order to remove the local DNS server from `/etc/resolv.conf`.
 
 ---
+## DNS Monitoring {: #monitoring }
+DNS release provides monitoring, which can be enabled with [`metrics.enabled` property](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p%3dmetrics.enabled) or with this [addon config](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/dns-addon-enable-local-monitoring.yml). By default the metrics endpoint will be exposed on `http://127.0.0.1:53088/metrics`. The bind address for the metrics server could be change with [`metrics.address` property](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p%3dmetrics.address) and the port with [`metrics.port` property](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p%3dmetrics.port) or with this [addon config](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/dns-addon-enable-external-monitoring.yml).
+
+---
 ## Impact on links {: #links }
 
 Each link includes some networking information about its provider. Addresses returned by a link may be either IP addresses or DNS addresses.
