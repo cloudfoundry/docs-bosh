@@ -949,13 +949,13 @@ See [CPI config](cpi-config.md).
     - `--vars-store=PATH` Load/save variables from/to a YAML file
     - `-o`, `--ops-file=PATH` Load manifest operations from a YAML file
     - `--no-redact` Show non-redacted manifest diff
-    - `--recreate` Recreate all VMs in deployment
-    - `--recreate-persistent-disks` Recreate all persistent disks in deployment
+    - `--recreate` Recreate all VMs in deployment. It will recreate regardless of whether there is a manifest change
+    - `--recreate-persistent-disks` Recreate all persistent disks in deployment. It will recreate regardless of whether there is a manifest change
     - `--fix` Recreate an instance with an unresponsive agent instead of erroring
     - `--skip-drain=[INSTANCE-GROUP[/INSTANCE-ID]]` Skip running drain and pre-stop scripts for specific instance groups
     - `--canaries=NUMBER or PERCENTAGE` Override manifest values for canaries
     - `--max-in-flight=NUMBER or PERCENTAGE` Override manifest values for max_in_flight
-    - `--dry-run` Renders job templates without altering deployment
+    - `--dry-run` Renders job templates without altering a deployment. It will save some state in the director database (like ip reservations) which will be reused on the next deploy
     - `PATH` Path to a manifest file
 
     ```shell
@@ -1032,7 +1032,7 @@ See [CPI config](cpi-config.md).
     bosh -e vbox -d cf recreate diego-cell --canaries=0 --max-in-flight=100%
     ```
     !!! warning
-        In case of a **failed** deployment, running `bosh recreate` without `--no-converge` will converge to the last **successfully deployed state**, not the intended state of the failed deployment. See [Deployment Convergence](deployment-convergence.md).
+        In case of a **failed** deployment, running `bosh recreate` with the default behavior of `--converge` will converge to the last **successfully deployed state**, not the intended state of the failed deployment. See [Deployment Convergence](deployment-convergence.md).
 
 #### Restart {: #restart }
 
