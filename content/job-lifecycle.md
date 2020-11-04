@@ -8,7 +8,8 @@ There are several stages that all jobs (and their associated processes) on each 
 
 1. [pre-start scripts](pre-start.md) run for all jobs on the VM in parallel
 	- (waits for all pre-start scripts to finish)
-	- does not time out
+	- if bpm is used, bpm's pre-start will run first and has a timeout of 30 seconds
+	- a jobs pre-start does not time out
 
 1. `monit start` is called for each process in no particular order
 	- each job can specify zero or more processes
