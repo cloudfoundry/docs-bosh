@@ -228,6 +228,8 @@ update:
         * **job_dir** [Hash, optional]:
             * **tmpfs** [Boolean, optional]: Mount all directories which contain [rendered job templates on tmpfs](creds-tmpfs.md). Default: `false`.
             * **tmpfs_size** [String, optional]: The size of the tmpfs mount. Accepted values are a number of bytes or a number with a suffix e.g. `64m` or `1g`. Default: `100m`.
+        * **run_dir** [Hash, optional]:
+            * **tmpfs_size** [String, optional]: The size of the tmpfs mount `/var/vcap/data/sys/run`. Accepted values are a number of bytes or a number with a suffix e.g. `64m` or `1g` .Default: `16m`.
         * **agent** [Hash, optional]:
             * **settings** [Hash, optional]:
               * **tmpfs** [Boolean, optional]: Mount agent settings on a [tmpfs](creds-tmpfs.md) directory. Default: `false`.
