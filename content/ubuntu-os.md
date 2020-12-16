@@ -19,7 +19,7 @@ This is a work in progress and we have yet to release stemcells.  Bionic is an [
 You can find the official stemcells from [bosh.io/stemcells](https://bosh.io/stemcells#ubuntu-xenial). Xenial is an [Ubuntu LTS Release](https://wiki.ubuntu.com/LTS), with patches being supported by Ubuntu from April 2018 to April 2021.
 
 !!! warning
-    The Xenial (16.04) version is being deprecated. Maintenance updates will end by April 2021. It is possible for people to continue to build patched Xenial stemcells until 2023 by purchasing [ESM support from Ubuntu](https://ubuntu.com/about/release-cycle) and building their own stemcells.
+    The Xenial (16.04) version is being deprecated. Maintenance updates will end by April 2021. It is possible for people to continue to build patched Xenial stemcells until 2024 by purchasing [ESM support from Ubuntu](https://ubuntu.com/about/release-cycle) and building their own stemcells.
 
 ### Ubuntu Trusty (14.04) - Deprecated {: #ubuntu-trusty }
 
