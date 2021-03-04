@@ -154,6 +154,7 @@ Schema for `cloud_properties` section:
 * **storage\_policy** [Dictionary, optional]: Storage Policy which is applied to a VM and its ephemeral disk. Available in v53+
     * **name** [String, optional]: Name of the storage policy to be applied to the VM and its ephemeral disk. Available in v53+
 * **nsxt** [Dictionary, optional]: [VMware NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v45+.
+    * **use_policy_api** [Boolean, optional]: Enabling this feature will use the [NSX-T Policy API](https://blogs.vmware.com/networkvirtualization/2020/06/navigating-nsxt-policy-apis.html/) instead of the Manager API.  It currently only affects the attachment of VMs to NS Groups. This feature is experimental. Default: `false`. Available in v55+.
     * **ns_groups** [Array, optional]: A collection of [NS Groups](http://pubs.vmware.com/nsxt-11/index.jsp?topic=%2Fcom.vmware.nsxt.admin.doc%2FGUID-718E769B-8D89-485B-8DBD-04F1F82CFE14.html) names that the instances should belong to. Available in NSX-T v1.1+.
     * **vif_type** [String, optional]: Supported types: `PARENT`, `null`. Overrides the global `default_vif_type`. Available in NSX-T v2.0+.
     * **lb** [Dictionary, optional]: NSX-T logical Load Balancer. Available in CPI v48+
