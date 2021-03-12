@@ -14,10 +14,11 @@ The `vsphere` CPI can be used with [VMware vSphere](https://www.vmware.com/produ
 
 An environment running one of the following supported releases:
 
-  * [vSphere 5.5](https://docs.vmware.com/en/VMware-vSphere/5.5/rn/vsphere-esx-vcenter-server-55-release-notes.html) (actively tested)
+  * [vSphere 5.5](https://docs.vmware.com/en/VMware-vSphere/5.5/rn/vsphere-esx-vcenter-server-55-release-notes.html)
   * [vSphere 6.0](https://docs.vmware.com/en/VMware-vSphere/6.0/rn/vsphere-esxi-vcenter-server-60-release-notes.html) (actively tested)
   * [vSphere 6.5](https://docs.vmware.com/en/VMware-vSphere/6.5/rn/vsphere-esxi-vcenter-server-65-release-notes.html) (actively tested)
   * [vSphere 6.7](https://docs.vmware.com/en/VMware-vSphere/6.7/rn/vsphere-esxi-vcenter-server-67-release-notes.html) (actively tested)
+  * [vSphere 7.0](https://docs.vmware.com/en/VMware-vSphere/7.0/rn/vsphere-esxi-vcenter-server-70-release-notes.html) (actively tested)
 
 NSX Support:
 
@@ -32,7 +33,7 @@ The following table maps BOSH concepts to their vSphere-native equivalents.
 | ---- | ------- |
 | Availability Zone | [Clusters](https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.monitoring.doc/GUID-A47D16C9-0B07-4DB8-BB79-D67DD97D5194.html?hWord=N4IghgNiBcIMYQK4GcAuBTATskBfIA)/[Resource Pools](https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.monitoring.doc/GUID-74D23242-B353-4267-8CC3-7800DD9BB92A.html) |
 | Virtual Machine | [Virtual Machine](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.vm_admin.doc/GUID-55238059-912E-411F-A0E9-A7A536972A91.html) |
-| Network Subnet | [Networking](https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.networking.doc/GUID-35B40B0B-0C13-43B2-BC85-18C9C91BE2D4.html) |
+| Network Subnet | [Networking](https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.networking.doc/GUID-35B40B0B-0C13-43B2-BC85-18C9C91BE2D4.html) (Port Group) |
 | Persistent Disk | [Virtual Hard Disk](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.vm_admin.doc/GUID-79116E5D-22B3-4E84-86DF-49A8D16E7AF2.html) |
 | Stemcell | [Virtual Machine](https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.vm_admin.doc/GUID-55238059-912E-411F-A0E9-A7A536972A91.html) |
 | Agent Settings | CD-ROM Virtual Device ISO |
