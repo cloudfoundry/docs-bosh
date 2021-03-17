@@ -112,7 +112,7 @@ If your deployment consists of 1000 VMs, and you use the defaults, the Resurrect
 ## Enabling the Resurrector with Resurrection Config {: #enable-with-resurrection-config }
 
 !!! tip "Beta Feature"
-    This `resurrection` config method was first introduced in [v267.2.0](https://github.com/cloudfoundry/bosh/releases/tag/v267.2). We currently do not migrate existing resurrection state to this new configuration method, but are considering it as we improve the UX around this feature. Until we resolve that test with caution. When used together with the `update-resurrection` cli command, be aware of that pausing resurrection with the cli command takes precedence. It's recommended to either use resurrection config or the cli command, but to not mix them.
+    This `resurrection` config method was first introduced in [v267.2.0](https://github.com/cloudfoundry/bosh/releases/tag/v267.2). We currently do not migrate existing resurrection state to this new configuration method, but are considering it as we improve the UX around this feature. Until we resolve that, test with caution. When used together with the `update-resurrection` cli command, be aware of that pausing resurrection with the cli command takes precedence. It's recommended to either use resurrection config or the cli command, but to not mix them.
 
 It is possible to configure resurrection based on deployments and instance group names using a Resurrection Configuration file. These files override default resurrection behavior and instruct the BOSH director to resurrect (or not) based on the deployment and instance group names.
 
@@ -205,19 +205,23 @@ By default, resurrection is turned on and the following examples demonstrate how
 
 ### Disabling resurrection globally
 
-Resurrection can be disabled on all deployments with this config:
+Resurrection can be disabled on all deployments with the [`update-resurrection` CLI command](cli-v2.md#update-resurrection):
+
+```sh
+bosh update-resurrection off
+```
+
+Resurrection can then be re-enabled on all deployments with:
+```sh
+bosh update-resurrection on
+```
+
+Alternatively, resurrection can be disabled on all deployments with this config:
 
 ```yaml
 rules:
 - enabled: false
 ```
-
-One liner for turning resurrection off globally:
-
-```sh
-bosh update-config --type resurrection --name bosh.global.disable <(echo "{\"rules\": [{\"enabled\": false}]}")
-```
-
 
 ---
 ## Disabling the Resurrector {: #disable }
