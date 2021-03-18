@@ -116,7 +116,7 @@ If your deployment consists of 1000 VMs, and you use the defaults, the Resurrect
 
 It is possible to configure resurrection based on deployments and instance group names using a Resurrection Configuration file. These files override default resurrection behavior and instruct the BOSH director to resurrect (or not) based on the deployment and instance group names.
 
-The resurrection state will be updated directly after updating the resurrection config and does not require further actions. For example: 
+The resurrection state will be updated directly after updating the resurrection config and does not require further actions. For example:
 
 1. Upload a resurrection config, which disables resurrection.
 2. Delete a VM of a deployment (VM gets not resurrected).
@@ -222,6 +222,8 @@ Alternatively, resurrection can be disabled on all deployments with this config:
 rules:
 - enabled: false
 ```
+
+Both the CLI command and resurrection config options are meant to temporarily disable resurrection while you diagnose other issues. You should update the deployment manifest to permanently [disable the Resurrector](#disable).
 
 ---
 ## Disabling the Resurrector {: #disable }
