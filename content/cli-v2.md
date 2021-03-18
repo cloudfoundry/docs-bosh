@@ -1506,6 +1506,8 @@ See [CPI config](cpi-config.md).
 
     Enables or disables resurrection globally. This state is not reflected in the `bosh instances` command's `Resurrection` column.
 
+    **Note:** Using `bosh update-resurrection on` will not enable resurrection unless the Resurrector has already been configured for the Director via the `resurrector_enabled` property.
+
     See [Automatic repair with Resurrector](resurrector.md) for details.
 
 #### Cloud-Check {: #cloud-check }

@@ -112,11 +112,11 @@ If your deployment consists of 1000 VMs, and you use the defaults, the Resurrect
 ## Enabling the Resurrector with Resurrection Config {: #enable-with-resurrection-config }
 
 !!! tip "Beta Feature"
-    This `resurrection` config method was first introduced in [v267.2.0](https://github.com/cloudfoundry/bosh/releases/tag/v267.2). We currently do not migrate existing resurrection state to this new configuration method, but are considering it as we improve the UX around this feature. Until we resolve that test with caution. When used together with the `update-resurrection` cli command, be aware of that pausing resurrection with the cli command takes precedence. It's recommended to either use resurrection config or the cli command, but to not mix them.
+    This `resurrection` config method was first introduced in [v267.2.0](https://github.com/cloudfoundry/bosh/releases/tag/v267.2). We currently do not migrate existing resurrection state to this new configuration method, but are considering it as we improve the UX around this feature. Until we resolve that, test with caution. When used together with the `update-resurrection` cli command, be aware of that pausing resurrection with the cli command takes precedence. It's recommended to either use resurrection config or the cli command, but to not mix them.
 
 It is possible to configure resurrection based on deployments and instance group names using a Resurrection Configuration file. These files override default resurrection behavior and instruct the BOSH director to resurrect (or not) based on the deployment and instance group names.
 
-The resurrection state will be updated directly after updating the resurrection config and does not require further actions. For example: 
+The resurrection state will be updated directly after updating the resurrection config and does not require further actions. For example:
 
 1. Upload a resurrection config, which disables resurrection.
 2. Delete a VM of a deployment (VM gets not resurrected).
@@ -205,19 +205,25 @@ By default, resurrection is turned on and the following examples demonstrate how
 
 ### Disabling resurrection globally
 
-Resurrection can be disabled on all deployments with this config:
+Resurrection can be disabled on all deployments with the [`update-resurrection` CLI command](cli-v2.md#update-resurrection):
+
+```sh
+bosh update-resurrection off
+```
+
+Resurrection can then be re-enabled on all deployments with:
+```sh
+bosh update-resurrection on
+```
+
+Alternatively, resurrection can be disabled on all deployments with this config:
 
 ```yaml
 rules:
 - enabled: false
 ```
 
-One liner for turning resurrection off globally:
-
-```sh
-bosh update-config --type resurrection --name bosh.global.disable <(echo "{\"rules\": [{\"enabled\": false}]}")
-```
-
+Both the CLI command and resurrection config options are meant to temporarily disable resurrection while you diagnose other issues. You should update the deployment manifest to permanently [disable the Resurrector](#disable).
 
 ---
 ## Disabling the Resurrector {: #disable }
@@ -239,4 +245,17 @@ To disable the Resurrector:
 ---
 ## Viewing the Resurrector's Activity {: #audit }
 
-Since scan and fix tasks on the Director are regular tasks, you can use `bosh tasks --all -d ''` command to view currently running/queued Resurrector's activity and `bosh tasks --recent --all -d ''` to also view finished tasks.
+The Resurrector creates scan and fix tasks on the Director using the Health Monitor user. Since these are normal tasks, you can use the `tasks` CLI command to view them.
+
+To view currently running  / queued Resurrector activity, run the following and look for results with Description "scan and fix" and User corresponding to the Health Monitor user in your deployment:
+
+```sh
+bosh tasks --all -d ''
+```
+
+Similarly, to view finished Resurrector activity, run the following and look for results with Description "scan and fix" and User corresponding to the Health Monitor user in your deployment:
+
+```sh
+bosh tasks --recent --all -d ''
+```
+
