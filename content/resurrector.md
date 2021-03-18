@@ -245,4 +245,17 @@ To disable the Resurrector:
 ---
 ## Viewing the Resurrector's Activity {: #audit }
 
-Since scan and fix tasks on the Director are regular tasks, you can use `bosh tasks --all -d ''` command to view currently running/queued Resurrector's activity and `bosh tasks --recent --all -d ''` to also view finished tasks.
+The Resurrector creates scan and fix tasks on the Director using the Health Monitor user. Since these are normal tasks, you can use the `tasks` CLI command to view them.
+
+To view currently running  / queued Resurrector activity, run the following and look for results with Description "scan and fix" and User corresponding to the Health Monitor user in your deployment:
+
+```sh
+bosh tasks --all -d ''
+```
+
+Similarly, to view finished Resurrector activity, run the following and look for results with Description "scan and fix" and User corresponding to the Health Monitor user in your deployment:
+
+```sh
+bosh tasks --recent --all -d ''
+```
+
