@@ -12,17 +12,17 @@ See [links](links.md) for more context in how to use links with BOSH.
 
 To provide native DNS support:
 
-- Director keeps track of DNS entries assigned to each instance
-- Agent (on stemcells ubuntu-trusty/3421+, all ubuntu-xenial) updates DNS records metadata on its VM
-- DNS release (more details below) provides resolution of BOSH specific DNS records
+- Director keeps track of DNS entries assigned to each instance (within the `.bosh` default TLD or a custom TLD set in [dns.domain_name](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p%3ddns.domain_name))
+- Agent (on stemcells ubuntu-trusty/3421+, all ubuntu-xenial) updates DNS records metadata on its VM, as well as `/etc/hosts` 
+- DNS release (more details below) provides resolution of BOSH specific DNS records by exposing a simple DNS server 
 
 Given that the Director is the sole orchestrator of the system, it is now responsible for updating DNS records during a deploy. As VMs are created and deleted following DNS related steps happen:
 
 1. Director notices that VM, after it's created or deleted, changed its IP
-1. Director creates a new DNS records dataset and saves it to the blobstore
+1. Director creates a new DNS records dataset and saves it to the blobstore 
 1. Director issues sync_dns Agent call to *all* VMs (in all deployments)
-1. Each Agent downloads new DNS records dataset and updates `/var/vcap/instance/dns/records.json`
-1. DNS release sees that local `/var/vcap/instance/dns/records.json` is updated, hence returns new information in future DNS requests
+1. Each Agent downloads new DNS records dataset and updates `/var/vcap/instance/dns/records.json` 
+1. DNS release sees that local `/var/vcap/instance/dns/records.json` is updated, hence returns new information in future DNS requests served, according to the [supported query syntax](dns.md#constructing-queries)
 
 See [Deploying step-by-step](deploying-step-by-step.md) for full Director deployment flow.
 
@@ -43,7 +43,7 @@ Since BOSH DNS is automatically managed, DNS addresses are not meant to be const
 
 To take advantage of native DNS functionality, it's expected that [DNS release](https://bosh.io/releases/github.com/cloudfoundry/bosh-dns-release?all=1) runs on each VM. We recommend to colocate DNS release by defining it in an [addon](runtime-config.md#addons).
 
-DNS release provides two jobs: `bosh-dns` (for Linux) and `bosh-dns-windows` (for Windows) which start a simple DNS server bound to a [link local address](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p=address).
+DNS release provides two jobs: `bosh-dns` (for Linux) and `bosh-dns-windows` (for Windows) which start a simple DNS server bound (by [default on](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p%3daddress) 169.254.0.2 [local link address](https://en.wikipedia.org/wiki/Link-local_address) and [port](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p%3dport) 53).
 
 ### Recursors {: #recursors }
 
@@ -398,9 +398,16 @@ To ease migration from Consul DNS entries, DNS release provides [aliases feature
 ---
 ## Constructing DNS Queries {: #constructing-queries }
 
-BOSH DNS provides its own structured query language for querying instances
+BOSH DNS provides its own structured query language for querying instances IP addresses
 based on an instance's endemic and organizational relationship; e.g., by an
 instance's healthiness, its availability zone, or group id.
+
+Supported DNS records follow the format `<query>.<intance-group>.<network>.<deployment>.<tld>` with:
+* `<query>`: a query part starting with `q-` followed by a number of parameters detailed below (e.g. health, az or instance/network uid)
+* `<intance-group>`: the name of the instance group to include or `*` to include all instance groups
+* `<network>`: the name of the network to include or `*` to include IP addresses from all networks
+* `<deployment>`: the name of the deployment to include or `*` to include all deployments
+* `<tld>` the top-level-domain configured within [dns.domain_name](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p%3ddns.domain_name) which defaults to `.bosh`
 
 A few example DNS queries:
 
