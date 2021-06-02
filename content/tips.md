@@ -6,6 +6,28 @@ This document lists several common problems. If you are looking for CPI specific
 - [vSphere CPI errors](vsphere-cpi-errors.md)
 
 ---
+## Getting logs from an unresponsive VM {: #unresponsive-vm-logs }
+
+If the BOSH agent on a VM becomes unresponsive, the `bosh logs` command will not work. This can make it difficult to diagnose what is causing the agent to become unresponsive.
+
+To retrieve logs from an unresponsive VM:
+
+1. Launch a new VM within your IaaS. Ensure that you have remote access to the VM, such as through SSH.
+1. Run the `bosh vms` command to find the VM identifier for the unresponsive VM.
+1. Within your IaaS console, locate the unresponsive VM with the corresponding identifier, then:
+    1. Shutdown the unresponsive VM.
+    1. Detach the ephemeral disk from the unresponsive VM.
+    1. Attach the ephemeral disk to the new VM.
+    1. Reboot the new VM.
+1. SSH onto the new VM. Once on the VM:
+    1. Switch to the `root` user.
+    1. Use `fdisk -l` to identify the newly attached ephemeral disk from the unresponsive VM.
+    1. Create a mount directory and use `mount` to mount the unresponsive VM's disk.
+1. You should now have access to the logs from the unresponsive VM. Logs for individual jobs can be located under `<MOUNT-POINT>/var/vcap/sys/log/`, while BOSH agent logs can be located under `<MOUNT-POINT>/var/vcap/bosh/log`.
+1. Once done examining or retrieving the relevant log files, you may delete the VM via the IaaS console. You may also need to delete the disks associated with the VM, depending on your IaaS provider.
+
+For instructions on how to launch a new VM, shutdown or reboot VMs, attach or detach disks, and delete a VM, please refer to the documentation provided by the specific IaaS.
+
 ## Timed out pinging to ... after 600 seconds {: #unreachable-agent }
 
 ```shell
