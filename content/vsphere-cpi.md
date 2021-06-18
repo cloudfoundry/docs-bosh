@@ -96,7 +96,6 @@ Schema for `cloud_properties` section:
     * **name** [String, optional]: Name of the storage policy to be applied to the VM and its ephemeral disk. Available in v53+
 * **nsxt** [Dictionary, optional]: [VMware NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v45+.
     * **use\_policy\_api** [Boolean, optional]: Enabling this feature will use the [NSX-T Policy API](https://blogs.vmware.com/networkvirtualization/2020/06/navigating-nsxt-policy-apis.html/) instead of the Manager API. It affects the attachment of VMs to NS Groups and VM placement in static Load Balancer Pools. This feature is experimental. Default: false. Available in v56+.
-
       In v58+, the VM's NSX-T segment ports are also tagged. The tags are prepended with `bosh/` and include the key/value pairs specified in the tags blocks of the [deployment](manifest-v2/#tags) or [runtime](runtime-config/#tags) configurations as well as BOSH default metadata (`instance_group`, `job`, `index`, etc.)
     * **ns_groups** [Array, optional]: A collection of [NS Groups](http://pubs.vmware.com/nsxt-11/index.jsp?topic=%2Fcom.vmware.nsxt.admin.doc%2FGUID-718E769B-8D89-485B-8DBD-04F1F82CFE14.html) names that the instances should belong to. Available in NSX-T v1.1+.
     * **vif_type** [String, optional]: Supported types: `PARENT`, `null`. Overrides the global `default_vif_type`. Available in NSX-T v2.0+.
@@ -123,7 +122,7 @@ resource_pools:
     - name: my-dc
       clusters:
       - my-vsphere-cluster: {resource_pool: other-vsphere-res-pool}
-    vm_group: cpi-vm-group  
+    vm_group: cpi-vm-group
     nsx: # NSX-V configuration
       security_groups: [public, dmz]
       lbs:
