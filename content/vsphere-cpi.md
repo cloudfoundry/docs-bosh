@@ -95,8 +95,6 @@ Schema for `cloud_properties` section:
 * **storage\_policy** [Dictionary, optional]: Storage Policy which is applied to a VM and its ephemeral disk. Available in v53+
     * **name** [String, optional]: Name of the storage policy to be applied to the VM and its ephemeral disk. Available in v53+
 * **nsxt** [Dictionary, optional]: [VMware NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v45+.
-    * **use\_policy\_api** [Boolean, optional]: Enabling this feature will use the [NSX-T Policy API](https://blogs.vmware.com/networkvirtualization/2020/06/navigating-nsxt-policy-apis.html/) instead of the Manager API. It affects the attachment of VMs to NS Groups and VM placement in static Load Balancer Pools. This feature is experimental. Default: false. Available in v56+.
-      In v58+, the VM's NSX-T segment ports are also tagged. The tags are prepended with `bosh/` and include the key/value pairs specified in the tags blocks of the [deployment](manifest-v2/#tags) or [runtime](runtime-config/#tags) configurations as well as BOSH default metadata (`instance_group`, `job`, `index`, etc.)
     * **ns_groups** [Array, optional]: A collection of [NS Groups](http://pubs.vmware.com/nsxt-11/index.jsp?topic=%2Fcom.vmware.nsxt.admin.doc%2FGUID-718E769B-8D89-485B-8DBD-04F1F82CFE14.html) names that the instances should belong to. Available in NSX-T v1.1+.
     * **vif_type** [String, optional]: Supported types: `PARENT`, `null`. Overrides the global `default_vif_type`. Available in NSX-T v2.0+.
     * **lb** [Dictionary, optional]: NSX-T logical Load Balancer. Available in CPI v48+
@@ -241,7 +239,7 @@ Schema:
 * **vm\_storage\_policy\_name** [Boolean, optional]: Name of the storage Policy which is applied to a VM and its ephemeral disk. Availablein v53+
 * **upgrade\_hw\_version** [Boolean, optional]: Upgrades the virtual hardware version of a virtual machine to the latest supported version on the ESXi host. Default: `false`.
 * **nsxt** [Dictionary, optional]: NSX-T configuration options. Available in v45+.
-    * **use_policy_api** [Boolean, optional]: Enabling this feature will use the [NSX-T Policy API](https://blogs.vmware.com/networkvirtualization/2020/06/navigating-nsxt-policy-apis.html/) instead of the Manager API. It only affects the attachment of VMs to NS Groups and VM placement in static Load Balancer Pools. This feature is experimental. Default: false. Available in v56+.
+    * **use\_policy\_api** [Boolean, optional]: Enabling this feature will use the [NSX-T Policy API](https://blogs.vmware.com/networkvirtualization/2020/06/navigating-nsxt-policy-apis.html/) instead of the Manager API. It affects the attachment of VMs to NS Groups and VM placement in static Load Balancer Pools. This feature is experimental. Default: false. Available in v56+. In v58+, the VM's NSX-T segment ports are also tagged. The tags are prepended with `bosh/` and include the key/value pairs specified in the tags blocks of the [deployment](manifest-v2/#tags) or [runtime](runtime-config/#tags) configurations as well as BOSH default metadata (`instance_group`, `job`, `index`, etc.)
     * **host** [String, required]: The NSX-T server's address. Can be a hostname (e.g. `nsx-server.example.com`) or an IP address.
     * **username** [String, required]: The login username for the NSX-T server.
     * **password** [String, required]: The login password for the NSX-T server.
