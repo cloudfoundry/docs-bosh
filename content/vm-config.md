@@ -9,7 +9,7 @@ BOSH tries to encourage release authors to follow conventions listed below, so i
 
 * `vcap` user: Pre-configured user that comes with the stemcells. Release jobs may run processes under that user. The default password will be random.
 
-* `/etc/logrotate.d/vcap`: Logrotate configuration for `/var/vcap/sys/log/` sub-directories managed by the Agent.
+* `/etc/logrotate.d/vcap`: Logrotate configuration for `/var/vcap/data/sys/log/` sub-directories managed by the Agent.
 
 ---
 ## Release Job and Package Directories {: #jobs-and-packages }
@@ -33,9 +33,9 @@ BOSH tries to encourage release authors to follow conventions listed below, so i
 
 * `/var/vcap/store/`: Directory that is used by the release jobs to keep _persistent_ data. Each release job usually creates a sub-folder with its name for namespacing (e.g. `redis-server` will place data into `/var/vcap/store/redis-server`).
 
-* `/var/vcap/sys/run/`: Directory that is used by the release jobs to keep miscellaneous ephemeral data about  currently running processes, for example, pid and lock files. Each release job usually creates a sub-folder with its name for namespacing (e.g. `redis-server` will place data into `/var/vcap/sys/run/redis-server`).
+* `/var/vcap/data/sys/run/`: Directory that is used by the release jobs to keep miscellaneous ephemeral data about  currently running processes, for example, pid and lock files. Each release job usually creates a sub-folder with its name for namespacing (e.g. `redis-server` will place data into `/var/vcap/data/sys/run/redis-server`).
 
-* `/var/vcap/sys/log/`: Directory that is used by the release jobs to keep logs. Each release job usually creates a sub-folder with its name for namespacing (e.g. `redis-server` will place data into `/var/vcap/sys/log/redis-server`). Files in this directory are log rotated on a specific schedule configure by the Agent.
+* `/var/vcap/data/sys/log/`: Directory that is used by the release jobs to keep logs. Each release job usually creates a sub-folder with its name for namespacing (e.g. `redis-server` will place data into `/var/vcap/data/sys/log/redis-server`). Files in this directory are log rotated on a specific schedule configure by the Agent.
 
 ---
 ## Agent Configuration {: #agent }
