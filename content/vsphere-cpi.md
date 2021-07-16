@@ -225,9 +225,9 @@ Schema:
     * **template_folder** [String, required]: Path to a folder (relative to the datacenter) for storing uploaded stemcells. Folder will be automatically created if not found.
     * **disk_path** [String, required]: Path to a *disk* folder for storing persistent disks. Folder will be automatically created in the datastore if not found.
     * **datastore_pattern** [String, required]: Pattern for selecting datastores for storing ephemeral disks and stemcells.
-    * **datastore\_cluster\_pattern** [String]: Pattern for selecting datastore clusters for storing ephemeral disks. Available in v63+.
+    * **datastore\_cluster\_pattern** [String]: Pattern for selecting datastore clusters for storing ephemeral disks. This feature is experimental. Available in v63+.
     * **persistent\_datastore\_pattern** [String, required if `persistent_datastore_cluster_pattern` is not set]: Pattern for selecting datastores for storing persistent disks.
-    * **persistent\_datastore\_cluster\_pattern** [String, required if `persistent_datastore_pattern` is not set]: Pattern for selecting datastore clusters for storing persistent disks.  Available in v62+.
+    * **persistent\_datastore\_cluster\_pattern** [String, required if `persistent_datastore_pattern` is not set]: Pattern for selecting datastore clusters for storing persistent disks. This feature is experimental. Available in v62+.
     * **clusters** [Array, required]: Array of clusters to use for VM placement.
         * **&lt;cluster name&gt;** [String, required]: Cluster name.
             * **resource_pool** [String, optional]: Specific vSphere resource pool to use within the cluster.
