@@ -100,7 +100,7 @@ Schema for `cloud_properties` section:
     * **lb** [Dictionary, optional]: NSX-T logical Load Balancer. Available in CPI v48+
         * **server_pools** [Array, optional] Server Pool must exist prior to the deployment. For static server pool, VM is directly added to the server pool. If server pool is dynamic, CPI looks up the NSGroup and adds the VM to the NSGroup.
             * **name** [String, required]: Name of the Server Pool
-            * **port** [Integer, required]: The port that the VM's service is listening on (e.g. 80 for HTTP)
+            * **port** [Integer, optional]: The port that the VM's service is listening on (e.g. 80 for HTTP). If port is specified, all connections will be sent to this port on the VM. Only specify a single port (no ranges). If unset, the load balancer will connect the client to the VM using the same port number (e.g. if the client connects to port 443, the load balancer will forward to the VM on port 443).
 
 Example of a VM asked to be placed into a specific vSphere resource pool with NSX-V and NSX-T integration:
 
