@@ -149,7 +149,7 @@ Schema:
 
 * **default_volume_type** [String, optional]: sets volume type for persistent disks unless overridden in resource pool/VM Type. `cinder type-list` will return the available volume types. Example: `SSD`.
 
-Example with Keystone V3:
+Example with Keystone V3 and a single domain:
 
 ```yaml
 auth_url: http://pistoncloud.com:5000/v3
@@ -157,6 +157,19 @@ username: christopher
 api_key: QRoqsenPsNGX6
 project: Bosh
 domain: sample-domain
+region: RegionOne
+default_key_name: bosh
+default_security_groups: [bosh]
+```
+Example with Keystone V3 and different domains for the user and project:
+
+```yaml
+auth_url: http://pistoncloud.com:5000/v3
+username: christopher
+api_key: QRoqsenPsNGX6
+project: Bosh
+user_domain_name: user-domain
+project_domain_name: project-domain
 region: RegionOne
 default_key_name: bosh
 default_security_groups: [bosh]
