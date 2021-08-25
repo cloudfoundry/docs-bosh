@@ -28,7 +28,10 @@ addons:
   jobs:
   - name: strongswan
     release: strongswan
-...
+
+tags:
+  business_unit: marketing
+  email_contact: ops@marketing.co.com
 ```
 
 Once runtime config is updated all deployments will be considered outdated. `bosh deployments` does not currently show that but we have plans to show that information. The Director will apply runtime config changes to each deployment during the next `bosh deploy` for that deployment.
@@ -49,6 +52,10 @@ addons:
     properties:
       strongswan:
         ca_cert: ...
+
+tags:
+  business_unit: marketing
+  email_contact: ops@marketing.co.com
 ```
 
 !!! note
