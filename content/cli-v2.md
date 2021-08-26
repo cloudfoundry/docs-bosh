@@ -881,8 +881,8 @@ See [CPI config](cpi-config.md).
     ```text
     Using environment '192.168.56.6' as client 'admin'
 
-    Name                                Release(s)                Stemcell(s)                                         Team(s)  Cloud Config
-    cf                                  binary-buildpack/1.0.9    bosh-warden-boshlite-ubuntu-xenial-go_agent/621.74  -        latest
+    Name                                Release(s)                Stemcell(s)                                         Team(s)
+    cf                                  binary-buildpack/1.0.9    bosh-warden-boshlite-ubuntu-xenial-go_agent/621.74  -
                                         capi/1.21.0
                                         cf-mysql/34
                                         cf-smoke-tests/11
@@ -896,7 +896,7 @@ See [CPI config](cpi-config.md).
                                         routing/0.145.0
                                         statsd-injector/1.0.20
                                         uaa/25
-    service-instance_0d4140a0-42b7-...  mysql/0.6.0               bosh-warden-boshlite-ubuntu-xenial-go_agent/621.74  -        latest
+    service-instance_0d4140a0-42b7-...  mysql/0.6.0               bosh-warden-boshlite-ubuntu-xenial-go_agent/621.74  -
 
     2 deployments
 
