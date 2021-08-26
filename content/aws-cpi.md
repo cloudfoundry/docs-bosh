@@ -79,9 +79,10 @@ Schema for `cloud_properties` section:
 * **source\_dest\_check** [Boolean, optional]: Specifies whether the instance must be the source or destination of any traffic it sends or receives. If set to `false`, the instance does *not* need to be the source or destination. Used for network address translation (NAT) boxes, frequently to communicate between VPCs. Defaults to `true`. Requires IAM action `ec2:ModifyInstanceAttribute`. Available in v59+.
 * **ephemeral_disk** [Hash, optional]: EBS backed ephemeral disk of custom size. Default disk size is either the size of first instance storage disk, if the instance_type offers it, or 10GB. Before v53: Used EBS only if instance storage is not large enough or not available for selected instance type.
     * **size** [Integer, required]: Specifies the disk size in megabytes.
-    * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `gp2`.
+    * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`, `gp3`. Defaults to `gp3` (since [v88](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v88)).
         * `standard` stands for EBS magnetic drives
         * `gp2` stands for EBS general purpose drives (SSD)
+        * `gp3` stands for EBS next-generation general purpose drives (SSD)
         * `io1` stands for EBS provisioned IOPS drives (SSD)
     * **iops** [Integer, optional]: Specifies the number of I/O operations per second to provision for the drive.
         * Only valid for `io1` type drive.
@@ -91,9 +92,10 @@ Schema for `cloud_properties` section:
     * **use\_instance\_storage** [Boolean, optional] Forces the usage of instance storage as ephemeral disk backing. Will raise an error, if the used `instance_type` does not have instance storage. Cannot be combined with any other option under `ephemeral_disk` or with `raw_instance_storage`. Since v53. Defaults to `false`.
 * **root_disk** [Hash, optional]: EBS backed root disk of custom size.
     * **size** [Integer, required]: Specifies the disk size in megabytes.
-    * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `gp2`.
+    * **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`, `gp3`. Defaults to `gp3` (since [v88](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v88)).
         * `standard` stands for EBS magnetic drives
         * `gp2` stands for EBS general purpose drives (SSD)
+        * `gp3` stands for EBS next-generation general purpose drives (SSD)
     * **iops** [Integer, optional]: Specifies the number of I/O operations per second to provision for the drive.
         * Only valid for `io1` type drive.
         * Required when `io1` type drive is specified.
@@ -117,9 +119,10 @@ resource_pools:
 
 Schema for `cloud_properties` section:
 
-* **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`. Defaults to `gp2`.
+* **type** [String, optional]: Type of the [disk](http://aws.amazon.com/ebs/details/): `standard`, `gp2`, `gp3`. Defaults to `gp3` (since [v88](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v88)).
     * `standard` stands for EBS magnetic drives
     * `gp2` stands for EBS general purpose drives (SSD)
+    * `gp3` stands for EBS next-generation general purpose drives (SSD)
     * `io1` stands for EBS provisioned IOPS drives (SSD)
 * **iops** [Integer, optional]: Specifies the number of I/O operations per second to provision for the drive.
     * Only valid for `io1` type drive.
@@ -136,7 +139,7 @@ disk_pools:
 - name: default
   disk_size: 10_240
   cloud_properties:
-    type: gp2
+    type: gp3
 ```
 
 ---
@@ -197,19 +200,19 @@ vm_types:
 - name: default
   cloud_properties:
     instance_type: t2.micro
-    ephemeral_disk: {size: 3000, type: gp2}
+    ephemeral_disk: {size: 3000, type: gp3}
 - name: large
   cloud_properties:
     instance_type: m3.large
-    ephemeral_disk: {size: 30000, type: gp2}
+    ephemeral_disk: {size: 30000, type: gp3}
 
 disk_types:
 - name: default
   disk_size: 3000
-  cloud_properties: {type: gp2}
+  cloud_properties: {type: gp3}
 - name: large
   disk_size: 50_000
-  cloud_properties: {type: gp2}
+  cloud_properties: {type: gp3}
 
 networks:
 - name: default
