@@ -237,6 +237,13 @@ In pseudocode:
 Example:
 
 ```yaml
+addons:
+- name: my-addon
+  jobs:
+  - name: my-addon-job
+    release: my-addon-release
+    properties:
+      ...
 tags:
   business_unit: marketing
   email_contact: ops@marketing.co.com
