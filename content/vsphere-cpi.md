@@ -221,9 +221,9 @@ Schema:
 
 * **datacenters** [Array, optional]: Array of datacenters to use for VM placement. Must have only one.
     * **name** [String, required]: Datacenter name.
-    * **vm_folder** [String, required]: Path to a folder (relative to the datacenter) for storing created VMs. Folder will be automatically created if not found.
-    * **template_folder** [String, required]: Path to a folder (relative to the datacenter) for storing uploaded stemcells. Folder will be automatically created if not found.
-    * **disk_path** [String, required]: Path to a *disk* folder for storing persistent disks. Folder will be automatically created in the datastore if not found.
+    * **vm_folder** [String, optional]: Path to a folder (relative to the datacenter) for storing created VMs. Folder will be automatically created if not found. Defaults to `BOSH_VMs`.
+    * **template_folder** [String, optional]: Path to a folder (relative to the datacenter) for storing uploaded stemcells. Folder will be automatically created if not found. Defaults to `BOSH_Templates`.
+    * **disk_path** [String, optional]: Path to a *disk* folder for storing persistent disks. Folder will be automatically created in the datastore if not found. Defaults to `BOSH_Disks`.
     * **datastore_pattern** [String, required if `datastore_cluster_pattern` is not set or CPI version <= v63]: Pattern for selecting datastores for storing ephemeral disks and stemcells.
     * **datastore\_cluster\_pattern** [String, required if `datastore_pattern` is not set]: Pattern for selecting datastore clusters for storing ephemeral disks. Clusters whose Storage DRS is turned off will be ignored. This feature is experimental. Available in v63+.
     * **persistent\_datastore\_pattern** [String, required if `persistent_datastore_cluster_pattern` is not set]: Pattern for selecting datastores for storing persistent disks.
