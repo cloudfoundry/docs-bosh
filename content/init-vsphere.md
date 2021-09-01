@@ -36,7 +36,7 @@ This document shows how to set up new [environment](terminology.md#environment) 
 
     Use the vSphere Web Client to find out and/or create any missing resources listed below:
 
-      - Configure `vcenter_ip` (e.g. '192.168.0.10') with the IP of the vCenter.
+      - Configure `vcenter_ip` with the IP or hostname of the vCenter (e.g. '192.168.0.10' or 'vc1.mycompany.com').
       - Configure `vcenter_user` (e.g. 'root') and `vcenter_password` (e.g. 'vmware') with vCenter user name and password.
       BOSH does not require user to be an admin, but it does require the following [privileges](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/blob/master/docs/required_vcenter_privileges.md).
       - Configure `vcenter_dc` (e.g. 'my-dc') with the name of the datacenter the Director will use for VM creation.
