@@ -58,7 +58,7 @@ This problem can occur due to:
 
 It's recommended to start a deploy again and SSH into one of the VMs and look at [the Agent logs](job-logs.md#agent-logs) while the Director waits for VMs to become accessible. See [`director.debug.keep_unreachable_vms` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.debug.keep_unreachable_vms) to let Director know to leave unreachable VMs for easier debugging.
 
-## Timed out sending 'get_task' to instance: 'unknown' ...
+## Timed out sending 'get_task' to instance: 'unknown' ... {: #unknown-vm-name }
 
 ```shell
 $ bosh deploy
