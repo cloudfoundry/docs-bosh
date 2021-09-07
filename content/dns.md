@@ -96,7 +96,7 @@ DNS release allows operators to specify custom names for BOSH generated DNS reco
 
 There are two ways to configure aliases:
 
-0. Installing a `dns/aliases.json` file through your own release job. By default, `bosh-dns` will glob local `/var/vcap/jobs/*/dns/aliases.json` files for aliases.
+0. Installing a `dns/aliases.json` file through your own release job (or through your BOSH manifest using the [bosh-dns-aliases-release](https://github.com/cloudfoundry/bosh-dns-aliases-release)). By default, `bosh-dns` will glob local `/var/vcap/jobs/*/dns/aliases.json` files for aliases.
 0. Statically configuring the [`aliases` property](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p=aliases) of the `bosh-dns` job running the DNS server.
 
 The alias configuration should be a hash, with keys representing the alias and array values representing the target hostnames. Target hostnames will be resolved and merged before sending the results back to the client.
