@@ -8,7 +8,7 @@ There are several stages that all jobs (and their associated processes) on each 
 
 1. [pre-start scripts](pre-start.md) run for all jobs on the VM in parallel
 	- (waits for all pre-start scripts to finish)
-	- if bpm is used, bpm's pre-start will run first and has a timeout of 30 seconds
+	- if [bpm](bpm/bpm.md) is used, bpm's pre-start will run first and has a timeout of 30 seconds
 	- a jobs pre-start does not time out
 
 1. `monit start` is called for each process in no particular order
@@ -30,7 +30,13 @@ There are several stages that all jobs (and their associated processes) on each 
 ## When processes are running {: #running }
 
 1. Monit will automatically restart processes that failed their associated checks
-	- a common pattern used is a PID check
+	- A common pattern used is a PID check: when no process ID can be found in
+	  any `.pid` file, or the process ID is not alive anymore, then the
+	  process is restarted.
+	- A usual pitfall arrise when the process ID is not properly written in
+	  the `.pid` file, in which case Monit looses its handle on the actual
+	  process state and things start diverging. Using [bpm](bpm/bpm.md) is an
+	  effective solution to avoid falling in that trap.
 
 ---
 ## When stop is issued (or before update and subsequent start happens) {: #stop }
@@ -40,7 +46,7 @@ There are several stages that all jobs (and their associated processes) on each 
 1. [pre-stop scripts](pre-stop.md) run for all jobs on the VM in parallel
 	- (waits for all pre-stop scripts to finish)
 	- does not time out
-	- requires minimum BOSH `v269.0.0` and stemcell `v315.x`
+	- requires BOSH v269+ and minimum Xenial stemcell `v315.x`
 
 1. [drain scripts](drain.md) run for all jobs on the VM in parallel
 	- (waits for all drain scripts to finish)
@@ -48,6 +54,10 @@ There are several stages that all jobs (and their associated processes) on each 
 
 1. `monit stop` is called for each process
 	- times out after 5 minutes as of bosh v258+ on 3302+ stemcells
+	- if [bpm](bpm/bpm.md) is used, it will send a SIGTERM, wait for 15
+	  seconds for the process to stop gracefully, and if necessary send a
+	  SIGQUIT, wait for 2 seconds, and finally send a SIGKILL if anything
+	  still lives
 
 1. [post-stop scripts](post-stop.md) run for all jobs on the VM in parallel
 	- (waits for all post-stop scripts to finish)

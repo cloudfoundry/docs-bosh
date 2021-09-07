@@ -12,7 +12,7 @@ Health Monitor includes the following plugins:
 - Event Logger: Logs events to a file
 - Resurrector: Recreates VMs that have stopped heartbeating
 - Emailer: Sends configurable e-mails on events receipt
-- JSON: Sends events over stdin to any executable matching the glob /var/vcap/jobs/*/bin/bosh-monitor/*
+- JSON: Sends events over stdin to any executable matching the glob `/var/vcap/jobs/*/bin/bosh-monitor/*`
 - OpenTSDB: Sends events to [OpenTSDB](http://opentsdb.net/)
 - Graphite: Sends events to [Graphite](https://graphite.readthedocs.org/en/latest/)
 - PagerDuty: Sends events to [PagerDuty.com](http://pagerduty.com) using their API

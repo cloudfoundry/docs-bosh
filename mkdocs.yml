@@ -46,6 +46,7 @@ pages:
     - Credentials on tmpfs: creds-tmpfs.md
     - Locking compiled releases: locking-compiled-releases.md
     - Troubleshooting:
+      - Failing VMs: troubleshooting.md
       - Monitoring: monitoring.md
       - Process Monitoring with Monit: vm-monit.md
       - IaaS Reconciliation: cck.md
