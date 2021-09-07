@@ -31,10 +31,8 @@ See [Deploying step-by-step](deploying-step-by-step.md) for full Director deploy
 
 There are two types of DNS addresses that native DNS supports:
 
-- instance specific queries that resolve to a single instance
-  - provided by `spec.address` or `link("...").instances[...].address` ERB accessors
-- group specific queries that resolve to multiple instances
-  - provided by `link("...").address` ERB accessor
+- instance specific queries that resolve to a single instance: provided by `spec.address` or `link("...").instances[...].address` ERB accessors
+- group specific queries that resolve to multiple instances: provided by `link("...").address` ERB accessor
 
 Since BOSH DNS is automatically managed, DNS addresses are not meant to be constructed manually by operators or scripts. To obtain a DNS address you can use Links API or job template accessors within your jobs.
 
