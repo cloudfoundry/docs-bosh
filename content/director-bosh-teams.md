@@ -21,7 +21,7 @@ bosh.teams.<TEAM-NAME>.<SCOPE>
 To add a BOSH Team scope to an existing client:
 
 ```
-uaac client update <CLIENT-ID> --scope bosh.teams.<TEAM-NAME>.admin
+uaac client update <CLIENT-ID> --authorities bosh.teams.<TEAM-NAME>.admin
 ```
 
 Currently, Team Admin is the only team-level scope.
