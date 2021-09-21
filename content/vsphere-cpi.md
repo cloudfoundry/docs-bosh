@@ -133,6 +133,8 @@ resource_pools:
       name: 'vcpi-os-linux'
     vmx_options:
       sched.mem.maxmemctl: "1330"
+      disk.enableUUID: "1"
+      cpuid.coresPerSocket: "2"
     nsxt: # NSX-T configuration
       ns_groups: [public, dmz]
       vif_type: PARENT
