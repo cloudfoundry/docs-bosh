@@ -72,6 +72,15 @@ For DAV blobstores, please also configure:
 
 * `blobstore.secret`: The secret used to calculate the signed urls' signature
 
+### Removing blobstore credentials for agent
+
+Once you have ensured that all deployments are using supported stemcells, you
+can safely stop provisioning any user credentials for the agents to access
+the blobstore.
+
+See the [bosh-deployment › misc/remove-local-blobstore-agent-credentials.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/remove-local-blobstore-agent-credentials.yml)
+ops file.
+
 ## Notes
 
 Additionally, when updating `blobstore.enable_signed_urls` from true to false,
