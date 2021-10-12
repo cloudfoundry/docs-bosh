@@ -25,7 +25,7 @@ Generation options:
 * **is_ca** [Boolean, required]: Indicates whether this is a CA certificate (root or intermediate). Defaults to `false`.
 * **ca** [String, optional]: Specifies name of a CA certificate to use for making this certificate. Can be specified in conjuction with `is_ca` to produce an intermediate certificate.
 * **extended\_key\_usage** [Array, optional]: List of extended key usage. Possible values: `client_auth` and/or `server_auth`. Default: empty. Example: `[client_auth]`.
-* **duration** [Number, optional]: Duration in days of generated credential value. Default: 365.
+* **duration** [Number, optional]: Duration in days of generated credential value. Default: 365. If a minimum duration is configured in CredHub and is greater than the user provided duration, the certificate will be generated using the minimum duration instead. 
 
 Example:
 
