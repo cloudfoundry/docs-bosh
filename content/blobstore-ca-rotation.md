@@ -1,30 +1,18 @@
-!!! note
-    Applicable for director version 266.2.0+
-
-    Linux stemcells v3586.5+ (agent 2.83.0)
-
-    Windows 2016 stemcell v1709.9+, Windows 2012R2 v1200.20+ (agent 2.110.0)
-
 # Rotating the Blobstore CA
-
-As of director version 266.2.0+, TLS is enabled for the default DAV blobstore.
-
-Due to limitations in stemcell support, the agent does not contact the blobstore over TLS by default. Refer to additional opsfiles in [bosh-deployment](https://github.com/cloudfoundry/bosh-deployment) to enable full end-to-end TLS.
 
 ## Ignored Instances
 
-Please take note of any ignored instances with `bosh instances --details`. These instances will not be considered when redeploying or recreating instances. Ignored instances will only receive the new certificates when recreated.
+Please take note of any ignored instances with `bosh instances --details`. These instances will not be considered when redeploying instances. Ignored instances will only receive the new certificates when redeployed.
 
-## Introducing a New Certificate Authority (CA) 
+## Introducing a New Certificate Authority (CA)
 
-This procedure works by deploying both the old and the new CA on all the VMs in a transitional fashion. The old CA is purged eventually. To achieve this, the procedure requires multiple deploys and recreates of all the deployments.  Note that this method is analogous to the one used for [NATS CA rotation](nats-ca-rotation.md), which could be performed at the same time as this one.
+This procedure works by deploying both the old and the new CA on all the VMs in a transitional fashion. The old CA is purged eventually. To achieve this, the procedure requires multiple deploys of all the deployments.  Note that this method is analogous to the one used for [NATS CA rotation](nats-ca-rotation.md), which could be performed at the same time as this one.
 
 ### Preconditions
 
 * The Director is in a healthy state.
 * All the VMs are in the `running` state in all deployments.
-* These instructions must be adapted if used with bosh-lite ops files, as they overwrite the variables used in this procedure.
-
+* Director versions prior to 271.12 and stemcells prior to Bionic 1.X and Windows 2019.41 need to recreate VMs as part of the redeploy steps.
 
 ### Step 1: Redeploy the director with the new blobstore CA. {: #step-1}
 
@@ -54,7 +42,7 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 - type: replace
   path: /instance_groups/name=bosh/properties/blobstore/tls?/cert/ca
   value: ((blobstore_server_tls_2.ca))((blobstore_server_tls.ca))
- 
+
 - type: replace
   path: /variables/-
   value:
@@ -75,13 +63,9 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
       alternative_names: [((internal_ip))]
 ```
 
-### Step 2: Recreate all the VMs, for each deployment. {: #step-2}
+### Step 2: Redeploy all the VMs, for each deployment. {: #step-2}
 
-The VMs need to be recreated in order to receive the new certificates generated from the new Blobstore CA being rotated in. If the VMs are not recreated, the agents they contain will not be able to communicate with the blobstore since they will not trust the new CA used to sign the blobstore's certificate. 
-
-```shell
-bosh -d deployment-name recreate
-```
+The VMs need to be redeployed in order to receive the new certificates generated from the new Blobstore CA being rotated in. If the VMs are not redeployed, the agents they contain will not be able to communicate with the blobstore since they will not trust the new CA used to sign the blobstore's certificate.
 
 ### Step 3: Redeploy the director to remove the old Blobstore CA. {: #step-3}
 
@@ -134,38 +118,9 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
       alternative_names: [((internal_ip))]
 ```
 
-### Step 4: Recreate all VMs, for each deployment. {: #step-4}
+### Step 4: Redeploy all VMs, for each deployment. {: #step-4}
 
-Recreating all the VMs will remove the old CA from them. The usual way to do this is:
-
-```shell
-bosh -d deployment-name recreate
-```
-
-Other BOSH commands can be used to recreate the VMs, while others will restart the VMs without recreating them. Please take note of the remarks below.
-
-
-#### Commands that will reset the blobstore configuration on the deployed VMs
-  - stop hard and start VMs
-```
-bosh -d deployment-name stop --hard
-bosh -d deployment-name start
-```
-  - recreate VMs
-```
-bosh -d deployment-name recreate
-```
-
-#### Commands that will NOT reset the blobstore configuration on the deployed VM
-  - restart VMs
-```
-bosh -d deployment-name restart
-```
-  - just stop and start VMs
-```
-bosh -d deployment-name stop
-bosh -d deployment-name start
-```
+Redeploying all the VMs will remove the old CA from them.
 
 ### Opsfile Cleanup
 
@@ -212,30 +167,3 @@ mv updated_creds.yml creds.yml
 
 !!! warning
     **Warning:** If you do not perform the clean-up procedure, you must ensure that the ops files (`add-new-blobstore-ca.yml` and `remove-old-blobstore-ca.yml`) are used every time a create-env is executed going forward (which can be unsustainable). Removing the ops files would revert to the old CA, which will prevent blobstore fetching during deployments or other operations.
-
-### Expired
-
-If your blobstore CA has already expired, then any actions that fetch from the blobstore will fail. It is also highly likely that the [NATS CA has expired](nats-ca-rotation#expired) as the duration of both is usually the same. The procedure above ensures connectivity between the director and VMs while rotating, which requires a non-expired CA to perform.
-
-1. Open the file used for the `--vars-store` argument to `bosh create-env` (typically `creds.yml`) and remove all blobstore-related variable **keys** and **values**: `blobstore_ca` and `blobstore_server_tls`, it is not necessary to remove the password values.
-2. Update the director with new certs with `bosh create-env`. The CLI generates new values for the credentials removed in step 1.
-3. Recreate all your deployments so they receive the new certificates with `bosh recreate -d ... --fix`. `--fix` is required to ignore the unresponsive state of the VM.
-
-## Troubleshooting
-
-Any instances that have not been recreated with `bosh recreate` or through a redeploy causing a recreate will fail with errors like the one below. Perform a `bosh recreate --fix` on any instances impacting a redeploy.
-
-```
-Task 135 | 14:43:43 | Updating instance zookeeper: zookeeper/c7f03a6d-fcde-4d85-874f-8cb1503082f6 (0) (canary) (00:00:01)
-                    L Error: Action Failed get_task:
-                    Task 968fad85-0f1a-494b-6040-5cc949555d17 result:
-                    Preparing apply spec: Preparing package openjdk-8:
-                    Fetching package blob: Getting blob from inner blobstore:
-                    Getting blob from inner blobstore: Shelling out to bosh-blobstore-dav cli:
-                    Running command: 'bosh-blobstore-dav -c /var/vcap/bosh/etc/blobstore-dav.json get d1bccd47-95ad-4516-49bc-0cf42a2782c3 /var/vcap/data/tmp/bosh-blobstore-externalBlobstore-Get731225442',
-                    stdout: 'Error running app - Getting dav blob d1bccd47-95ad-4516-49bc-0cf42a2782c3:
-                    Get https://10.0.1.6:25250/d1/d1bccd47-95ad-4516-49bc-0cf42a2782c3:
-                    x509: certificate signed by unknown authority (possibly because of
-                    "crypto/rsa: verification error" while trying to verify
-                    candidate authority certificate "default.blobstore-ca.bosh-internal")', stderr: '': exit status 1
-```

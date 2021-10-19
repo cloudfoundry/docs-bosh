@@ -7,7 +7,8 @@ The procedure below rotates the NATS CA and NATS related certificates across the
 
 * Director is in a healthy state.
 * All VMs are in `running` state in all deployments. See [below](#expired) if your VMs are unresponsive.
-* Take note of any **ignored** VMs. They will be omitted from the VM recreation steps.
+* Take note of any **ignored** VMs. They will be omitted from the VM redeploy steps.
+* Director versions prior to 271.12 and stemcells prior to Bionic 1.X and Windows 2019.41 need to recreate VMs as part of the redeploy steps.
 
 
 ### Step 1: Update the director, health monitor, and NATS server jobs, to introduce the new CA.
@@ -31,7 +32,7 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 !!! warning
     In the below operations file `add-new-ca.yml`, the `nats_server_tls_2` certificate is generated with the `internal_ip` as the only Subject Alternative Name. Please remember to add any other SANs that maybe neccessary to your environment.
 
-`add-new-ca.yml` 
+`add-new-ca.yml`
 
 ```yaml
 ---
@@ -102,15 +103,9 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 
 ```
 
-### Step 2: Recreate all VMs, for each deployment.
+### Step 2: Redeploy all VMs, for each deployment.
 
-Deployed VMs need to be recreated in order to receive new client certificates that are signed by the new CA. Also, they will receive a new list of CAs (old and new CAs certs concatenated) to trust when communicating with the NATS server. This recreation of the VMs is crucial for the NATS CA rotation.
-
-To recreate the deployed VMs, please check the output of `bosh recreate -h` for options.
-
-!!! note
-    You may want to disable health monitor on the Director VM, which will trigger `scan-and-fix` tasks that acquire a lock on the deployment VMs.
-    You can do so by running `monit stop health_monitor` inside the Director VM. You should re-enable health monitor after all deployment VMs have been recreated.
+Deployed VMs need to be redeployed in order to receive new client certificates that are signed by the new CA. Also, they will receive a new list of CAs (old and new CAs certs concatenated) to trust when communicating with the NATS server. This redeployment of the VMs is crucial for the NATS CA rotation.
 
 ### Step 3: Update the director, health monitor, and NATS server jobs, to remove references for the old NATS CA and certificates signed by it.
 
@@ -207,10 +202,9 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 ```
 
 
-### Step 4: Recreate all VMs, for each deployment.
+### Step 4: Redeploy all VMs, for each deployment.
 
-The recreation of all VMs will remove the old NATS CA reference from their agent settings.
-To recreate the deployed VMs, please check the output of `bosh recreate -h` for options.
+Redeploying all VMs will remove the old NATS CA reference from their agent settings.
 
 ### Step 5: Clean-up
 
@@ -271,13 +265,9 @@ mv updated_creds.yml creds.yml
 
 If your deployment VMs are already in the state 'unresponsive agent', then the above procedure will not return the system to a healthy state. To replace a NATS CA that has already expired:
 
-1. Open the file used for the `--vars-store` argument to `bosh create-env` (typically `creds.yml`) and remove all NATS-related variable **keys** and **values**: `nats_ca`, `nats_clients_director_tls`, `nats_clients_health_monitor_tls`, and `nats_server_tls`. 
+1. Open the file used for the `--vars-store` argument to `bosh create-env` (typically `creds.yml`) and remove all NATS-related variable **keys** and **values**: `nats_ca`, `nats_clients_director_tls`, `nats_clients_health_monitor_tls`, and `nats_server_tls`.
 2. Update the director with new certs with `bosh create-env`. The CLI generates new values for the credentials removed in step 1.
 3. Recreate all your deployments so they receive the new certificates with `bosh recreate -d ... --fix`. `--fix` is required to ignore the unresponsive state of the VM.
-
-### Limitations
-
-A dependency within older versions of director and health monitor lacks the ability to verify against multiple CAs. For this reason, we specifically concatenate `old_ca` and `new_ca` in this specific order: `old_ca`+`new_ca`. Only the first certificate is considered for verification. mTLS between the director and NATS server, and the health monitor and the NATS server will fail if the order of the certs is reversed, as the `new_ca` will only be considered for verification against the old certs NATS server presents to its clients.
 
 ### Visualization of the Steps
 
@@ -291,6 +281,6 @@ NATS certificates may be expired if all `bosh deploy` tasks suddenly start faili
 bosh int /path/to/creds.yml --path /nats_server_tls/ca | openssl x509 -noout -dates
 ```
 
-The procedure above will enable you to restore NATS communications. 
+The procedure above will enable you to restore NATS communications.
 
 NATS will not emit specific error messages related to certificate expiration, but requests will time out after 600 seconds.
