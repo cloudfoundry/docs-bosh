@@ -133,11 +133,6 @@ instance_groups:
 !!! note
     If an instance group uses static IP reservation, all instances must be given static IPs.
 
-A common problem that you may run into is configuring multiple deployments to use overlapping IP ranges. The Director does not consider an IP to be "used" even if the Director used that IP in a different deployment. There are two possible solutions for this problem: reconfigure one of the deployments to use a different IP range, or use the same IP range but configure each deployment such that reserved IPs exclude the deployment from each other.
-
-!!! note
-    While the Director usually selects the next available IP address, this behavior is not guaranteed.
-
 ---
 ## Dynamic Networks {: #dynamic }
 
