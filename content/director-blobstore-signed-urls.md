@@ -20,11 +20,13 @@ following properties:
 * `blobstore.enable_signed_urls`: Set this to true to have the director begin
   sending signed urls to the agent.
 
-You must continue configuring `blobstore.*` properties. Enabling signed URLs
-should work alongside blobstore provider specific encryption options such as
-`blobstore.encryption_key` (GCS) and `blobstore.sse_kms_key_id` (AWS).
+You must continue configuring `blobstore.*` properties, except
+`blobstore.agent.user` and `blobstore.agent.password` that are no more
+necessary. Enabling signed URLs should work alongside blobstore provider
+specific encryption options such as `blobstore.encryption_key` (GCS) and
+`blobstore.sse_kms_key_id` (AWS).
 
-An ops-file in bosh-deployment can be used to enable signed urls.
+An ops-file in bosh-deployment can be used to enable signed URLs.
 See the [bosh-deployment › misc/blobstore-signed-urls.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/blobstore-signed-urls.yml)
 ops file.
 This ops-file assumes a DAV blobstore.
