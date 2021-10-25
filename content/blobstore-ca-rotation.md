@@ -12,7 +12,7 @@ This procedure works by deploying both the old and the new CA on all the VMs in 
 
 * The Director is in a healthy state.
 * All the VMs are in the `running` state in all deployments.
-* Director versions prior to 271.12 and stemcells prior to Bionic 1.X and Windows 2019.41 need to recreate VMs as part of the redeploy steps.
+* Director versions prior to 271.12 and stemcells prior to Bionic 1.36 and Windows 2019.41 need to recreate VMs as part of the redeploy steps.
 
 ### Step 1: Redeploy the director with the new blobstore CA. {: #step-1}
 

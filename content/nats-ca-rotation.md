@@ -8,7 +8,7 @@ The procedure below rotates the NATS CA and NATS related certificates across the
 * Director is in a healthy state.
 * All VMs are in `running` state in all deployments. See [below](#expired) if your VMs are unresponsive.
 * Take note of any **ignored** VMs. They will be omitted from the VM redeploy steps.
-* Director versions prior to 271.12 and stemcells prior to Bionic 1.X and Windows 2019.41 need to recreate VMs as part of the redeploy steps.
+* Director versions prior to 271.12 and stemcells prior to Bionic 1.36 and Windows 2019.41 need to recreate VMs as part of the redeploy steps.
 
 
 ### Step 1: Update the director, health monitor, and NATS server jobs, to introduce the new CA.
