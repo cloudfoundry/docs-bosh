@@ -27,7 +27,7 @@ bosh update-config my-type configs.yml
 ```
 
 ```text
-Using environment '192.168.50.6' as client 'admin'
+Using environment '192.168.56.6' as client 'admin'
 
 + configs:
 +   - name: team-a-config
@@ -65,7 +65,7 @@ bosh update-config my-type --name=team-a config-a.yml
 ```
 
 ```text
-Using environment '192.168.50.6' as client 'admin'
+Using environment '192.168.56.6' as client 'admin'
 
 + configs:
 +   - name: team-a-config
@@ -107,7 +107,7 @@ bosh configs my-type
 ```
 
 ```text
-Using environment '192.168.50.6' as client 'admin'
+Using environment '192.168.56.6' as client 'admin'
 
 Type     Name
 my-type  default
@@ -126,7 +126,7 @@ bosh configs --type=my-type --name=team-a
 ```
 
 ```text
-Using environment '192.168.50.6' as client 'admin'
+Using environment '192.168.56.6' as client 'admin'
 
 Type     Name
 my-type  team-a

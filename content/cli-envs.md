@@ -85,7 +85,7 @@ bosh envs
 ```text
 URL            Alias
 10.0.0.6       aws
-192.168.50.6   vbox
+192.168.56.6   vbox
 
 2 environments
 

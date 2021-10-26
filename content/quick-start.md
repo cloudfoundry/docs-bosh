@@ -51,7 +51,7 @@ bosh -e vbox env
 Should result in:
 
 ```text
-Using environment '192.168.50.6' as client 'admin'
+Using environment '192.168.56.6' as client 'admin'
 
 Name      bosh-lite
 UUID      7ce65259-471a-424b-88cb-9d3cee85db2c

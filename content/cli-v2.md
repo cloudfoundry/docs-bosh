@@ -690,7 +690,7 @@ See [Configs](configs.md).
     Should result in:
 
     ```text
-    Using environment '192.168.50.6' as client 'admin'
+    Using environment '192.168.56.6' as client 'admin'
 
     Type     Name
     cloud    default

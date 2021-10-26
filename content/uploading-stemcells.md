@@ -36,7 +36,7 @@ bosh -e vbox stemcells
 Should result in:
 
 ```text
-Using environment '192.168.50.6' as client 'admin'
+Using environment '192.168.56.6' as client 'admin'
 
 Name                                         Version  OS             CPI  CID
 bosh-warden-boshlite-ubuntu-xenial-go_agent  621.74*  ubuntu-xenial  -    e9cac3d6-0261-48a1-67f0-0ee5ba23e23b

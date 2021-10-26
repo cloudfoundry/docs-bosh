@@ -73,7 +73,7 @@ Once a Director task is created, clients can follow its progress by polling [`GE
 #### Example
 
 ```shell
-curl -s -k https://192.168.50.4:25555/info | jq .
+curl -s -k https://192.168.56.4:25555/info | jq .
 ```
 
 ```json
@@ -116,7 +116,7 @@ curl -s -k https://192.168.50.4:25555/info | jq .
 #### Example
 
 ```shell
-curl -s -k https://192.168.50.4:25555/configs?latest=true | jq .
+curl -s -k https://192.168.56.4:25555/configs?latest=true | jq .
 ```
 
 ```json
@@ -158,7 +158,7 @@ The request body consists of a single JSON hash with the following key, value pa
 #### Example
 
 ```shell
-curl -s -k -H 'Content-Type: application/json' -d '{"name": "test", "type": "cloud", "content": "--- {}"}' https://192.168.50.4:25555/configs | jq .
+curl -s -k -H 'Content-Type: application/json' -d '{"name": "test", "type": "cloud", "content": "--- {}"}' https://192.168.56.4:25555/configs | jq .
 ```
 
 ```json
@@ -195,7 +195,7 @@ The request body consists of a single JSON hash with the following key, value pa
 #### Example
 
 ```shell
-curl -s -k -H 'Content-Type: application/json' -d '{"name": "default", "type": "cloud", "content": "--- {}"}' https://192.168.50.4:25555/configs/diff | jq .
+curl -s -k -H 'Content-Type: application/json' -d '{"name": "default", "type": "cloud", "content": "--- {}"}' https://192.168.56.4:25555/configs/diff | jq .
 ```
 
 ```json
@@ -220,7 +220,7 @@ curl -s -k -H 'Content-Type: application/json' -d '{"name": "default", "type": "
 #### Example
 
 ```shell
-curl -s -k -X DELETE https://192.168.50.4:25555/configs?type=cloud&name=test
+curl -s -k -X DELETE https://192.168.56.4:25555/configs?type=cloud&name=test
 ```
 
 ---
@@ -253,7 +253,7 @@ See [Director tasks](director-tasks.md) for related info.
 #### Examples
 
 ```shell
-curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?verbose=2&limit=3' | jq .
+curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks?verbose=2&limit=3' | jq .
 ```
 
 ```json
@@ -289,7 +289,7 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?verbose=2&limit=3' |
 ```
 
 ```shell
-curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?state=queued,processing,cancelling&verbose=2' | jq .
+curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks?state=queued,processing,cancelling&verbose=2' | jq .
 ```
 
 ```json
@@ -307,7 +307,7 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?state=queued,process
 ```
 
 ```shell
-curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?deploymet=cf-warden' | jq .
+curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks?deploymet=cf-warden' | jq .
 ```
 
 ```json
@@ -325,7 +325,7 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?deploymet=cf-warden'
 ```
 
 ```shell
-curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks?context_id=4528' | jq .
+curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks?context_id=4528' | jq .
 ```
 
 ```json
@@ -354,7 +354,7 @@ See additional schema details [above](#list-tasks).
 #### Example
 
 ```shell
-curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1180' | jq .
+curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1180' | jq .
 ```
 
 ```json
@@ -379,7 +379,7 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1180' | jq .
 #### Example
 
 ```shell
-curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1180/output?type=debug'
+curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1180/output?type=debug'
 ```
 
 ```text
@@ -399,7 +399,7 @@ D, [2015-11-09 02:19:36 #32545] [task:1180] DEBUG -- DirectorJobRunner: (0.00031
 #### Example
 
 ```shell
-curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=event'
+curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1181/output?type=event'
 ```
 
 ```json
@@ -437,7 +437,7 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=eve
 #### Example of VM details task
 
 ```shell
-curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=result'
+curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1181/output?type=result'
 ```
 
 ```json
@@ -531,7 +531,7 @@ Empty.
 #### Example
 
 ```shell
-curl -v -s -k https://admin:admin@192.168.50.4:25555/stemcells | jq .
+curl -v -s -k https://admin:admin@192.168.56.4:25555/stemcells | jq .
 ```
 
 ```json
@@ -568,7 +568,7 @@ curl -v -s -k https://admin:admin@192.168.50.4:25555/stemcells | jq .
 #### Example
 
 ```shell
-curl -v -s -k https://admin:admin@192.168.50.4:25555/releases | jq .
+curl -v -s -k https://admin:admin@192.168.56.4:25555/releases | jq .
 ```
 
 ```json
@@ -628,7 +628,7 @@ curl -v -s -k https://admin:admin@192.168.50.4:25555/releases | jq .
 #### Example
 
 ```shell
-curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments | jq .
+curl -v -s -k https://admin:admin@192.168.56.4:25555/deployments | jq .
 ```
 
 ```json
@@ -672,7 +672,7 @@ curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments | jq .
 #### Example
 
 ```shell
-curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments?exclude_configs=true&exclude_releases=true&exclude_stemcells=true | jq .
+curl -v -s -k https://admin:admin@192.168.56.4:25555/deployments?exclude_configs=true&exclude_releases=true&exclude_stemcells=true | jq .
 ```
 
 ```json
@@ -716,7 +716,7 @@ Creating/updating a deployment is performed in a Director task. Response will be
 #### Example
 
 ```shell
-curl -v -s -k https://admin:admin@192.168.50.4:25555/deployments/cf-warden | jq .
+curl -v -s -k https://admin:admin@192.168.56.4:25555/deployments/cf-warden | jq .
 ```
 
 ```json
@@ -768,7 +768,7 @@ Deleting a deployment is performed in a Director task. Response will be a redire
 #### Example
 
 ```shell
-curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/example/instances' | jq .
+curl -v -s -k 'https://admin:admin@192.168.56.4:25555/deployments/example/instances' | jq .
 ```
 
 ```json
@@ -820,21 +820,21 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/example/instan
 #### Example
 
 ```shell
-curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/example/instances?format=full'
+curl -v -s -k 'https://admin:admin@192.168.56.4:25555/deployments/example/instances?format=full'
 ```
 
 ```text
 < HTTP/1.1 302 Moved Temporarily
-< Location: https://192.168.50.4:25555/tasks/1287
+< Location: https://192.168.56.4:25555/tasks/1287
 ...
 ```
 
 ```shell
-curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1287' | jq .
+curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1287' | jq .
 ```
 
 ```shell
-curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1287/output?type=result'
+curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1287/output?type=result'
 ```
 
 ```text
@@ -938,7 +938,7 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1287/output?type=res
 #### Example
 
 ```shell
-curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/cf-warden/vms' | jq .
+curl -v -s -k 'https://admin:admin@192.168.56.4:25555/deployments/cf-warden/vms' | jq .
 ```
 
 ```json
@@ -986,18 +986,18 @@ curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/cf-warden/vms'
 #### Example
 
 ```shell
-curl -v -s -k 'https://admin:admin@192.168.50.4:25555/deployments/cf-warden/vms?format=full'
+curl -v -s -k 'https://admin:admin@192.168.56.4:25555/deployments/cf-warden/vms?format=full'
 < HTTP/1.1 302 Moved Temporarily
-< Location: https://192.168.50.4:25555/tasks/1181
+< Location: https://192.168.56.4:25555/tasks/1181
 ...
 ```
 
 ```shell
-curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181' | jq .
+curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1181' | jq .
 ```
 
 ```shell
-curl -v -s -k 'https://admin:admin@192.168.50.4:25555/tasks/1181/output?type=result'
+curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1181/output?type=result'
 ```
 
 ```json
@@ -1190,7 +1190,7 @@ See [Events](events.md) for info.
 #### Example
 
 ```shell
-curl -v -s -k https://admin:admin@192.168.50.4:25555/events | jq .
+curl -v -s -k https://admin:admin@192.168.56.4:25555/events | jq .
 ```
 
 ```json
@@ -1256,7 +1256,7 @@ See additional schema details [above](#list-events).
 #### Example
 
 ```shell
-curl -v -s -k 'https://admin:admin@192.168.50.4:25555/events/3133' | jq .
+curl -v -s -k 'https://admin:admin@192.168.56.4:25555/events/3133' | jq .
 ```
 
 ```json

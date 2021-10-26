@@ -32,7 +32,7 @@ Follow below steps to get it running on locally on VirtualBox:
     cd ~/deployments/vbox
     ```
 
-    Below command will try automatically create/enable Host-only network 192.168.50.0/24 ([details](https://github.com/cppforlife/bosh-virtualbox-cpi-release/blob/master/docs/networks-host-only.md)) and NAT network 'NatNetwork' with DHCP enabled ([details](https://github.com/cppforlife/bosh-virtualbox-cpi-release/blob/master/docs/networks-nat-network.md)).
+    Below command will try automatically create/enable Host-only network 192.168.56.0/24 ([details](https://github.com/cppforlife/bosh-virtualbox-cpi-release/blob/master/docs/networks-host-only.md)) and NAT network 'NatNetwork' with DHCP enabled ([details](https://github.com/cppforlife/bosh-virtualbox-cpi-release/blob/master/docs/networks-nat-network.md)).
 
     ```shell
     bosh create-env ~/workspace/bosh-deployment/bosh.yml \
@@ -46,9 +46,9 @@ Follow below steps to get it running on locally on VirtualBox:
       -o ~/workspace/bosh-deployment/jumpbox-user.yml \
       --vars-store ./creds.yml \
       -v director_name=bosh-lite \
-      -v internal_ip=192.168.50.6 \
-      -v internal_gw=192.168.50.1 \
-      -v internal_cidr=192.168.50.0/24 \
+      -v internal_ip=192.168.56.6 \
+      -v internal_gw=192.168.56.1 \
+      -v internal_cidr=192.168.56.0/24 \
       -v outbound_network_name=NatNetwork
     ```
 
@@ -57,14 +57,14 @@ Follow below steps to get it running on locally on VirtualBox:
     ```shell
     export BOSH_CLIENT=admin
     export BOSH_CLIENT_SECRET=`bosh int ./creds.yml --path /admin_password`
-    bosh alias-env vbox -e 192.168.50.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
+    bosh alias-env vbox -e 192.168.56.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
     ```
 
 1. Confirm that it works
 
     ```shell
     bosh -e vbox env
-    # Using environment '192.168.50.6' as '?'
+    # Using environment '192.168.56.6' as '?'
     #
     # Name: ...
     # User: admin
@@ -74,10 +74,10 @@ Follow below steps to get it running on locally on VirtualBox:
 1. Optionally, set up a local route for `bosh ssh` commands or accessing VMs directly
 
     ```shell
-    sudo route add -net 10.244.0.0/16     192.168.50.6 # Mac OS X
-    sudo ip route add   10.244.0.0/16 via 192.168.50.6 # Linux (using iproute2 suite)
-    sudo route add -net 10.244.0.0/16 gw  192.168.50.6 # Linux (using DEPRECATED route command)
-    route add           10.244.0.0/16     192.168.50.6 # Windows
+    sudo route add -net 10.244.0.0/16     192.168.56.6 # Mac OS X
+    sudo ip route add   10.244.0.0/16 via 192.168.56.6 # Linux (using iproute2 suite)
+    sudo route add -net 10.244.0.0/16 gw  192.168.56.6 # Linux (using DEPRECATED route command)
+    route add           10.244.0.0/16     192.168.56.6 # Windows
     ```
 
 

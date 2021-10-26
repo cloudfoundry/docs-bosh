@@ -26,9 +26,9 @@ networks:
 - name: private
   type: manual
   subnets:
-  - range:   192.168.50.0/24
-    gateway: 192.168.50.1
-    dns:     [192.168.50.1]
+  - range:   192.168.56.0/24
+    gateway: 192.168.56.1
+    dns:     [192.168.56.1]
     cloud_properties:
       name: vboxnet0
 ```
@@ -77,7 +77,7 @@ Example of a CPI configuration:
 
 ```yaml
 properties:
-  host: 192.168.50.1
+  host: 192.168.56.1
   username: ubuntu
   private_key: |
     -----BEGIN RSA PRIVATE KEY-----
@@ -118,11 +118,11 @@ networks:
 - name: default
   type: manual
   subnets:
-  - range: 192.168.50.0/24
-    gateway: 192.168.50.1
+  - range: 192.168.56.0/24
+    gateway: 192.168.56.1
     azs: [z1, z2]
-    reserved: [192.168.50.6]
-    dns: [192.168.50.1]
+    reserved: [192.168.56.6]
+    dns: [192.168.56.1]
     cloud_properties:
       name: vboxnet0
 

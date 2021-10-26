@@ -57,7 +57,7 @@ bosh -e vbox releases
 ```
 
 ```text
-Using environment '192.168.50.6' as client 'admin'
+Using environment '192.168.56.6' as client 'admin'
 
 Name       Version            Commit Hash
 dns        0+dev.1496791266*  65f3b30+
