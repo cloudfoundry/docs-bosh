@@ -90,6 +90,7 @@ Schema for `cloud_properties` section:
 * **load_balancer** [String, optional]: Name of a [load balancer](https://azure.microsoft.com/en-us/documentation/articles/load-balancer-overview/) the VMs should belong to. You need to create the load balancer manually before configuring it. Notes:
     * [Basic Tier Virtual Machines](https://azure.microsoft.com/en-us/blog/basic-tier-virtual-machines-2/) (Example: `Basic_A1`) doesn't support Azure Load Balancer.
     * If `availability_zone` is specified for the VM, [standard sku load balancer](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-overview) must be used, as `basic sku load balancer` does not work for zone.
+    * In CPI v37.6.0+, you can configure multiple Load Balancers (using a comma-delimited string).
 * **application_gateway** [String, optional]: Name of the [application gateway](https://azure.microsoft.com/en-us/services/application-gateway/) which the VMs should be associated to.
     * This property is supported in CPI v28+.
     * You need to create the application gateway manually before configuring it. Please refer to [the guidance](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/application-gateway).
