@@ -14,18 +14,25 @@ later, and windows 2019.17 and later.
 
 ### Enabling the feature flag
 
-This feature can be enabled by updating the bosh director manifest with the
+This feature can be enabled by updating the Bosh director manifest with the
 following properties:
 
-* `blobstore.enable_signed_urls`: Set this to true to have the director begin
-  sending signed urls to the agent.
+* `blobstore.enable_signed_urls`: set this to `true` to have the director
+  begin sending signed urls to the agent.
 
-You must continue configuring `blobstore.*` properties. Enabling signed URLs
-should work alongside blobstore provider specific encryption options such as
-`blobstore.encryption_key` (GCS) and `blobstore.sse_kms_key_id` (AWS).
+Enabling signed URLs should work alongside blobstore provider specific
+encryption options such as `blobstore.encryption_key` (GCS) and
+`blobstore.sse_kms_key_id` (AWS S3).
 
-An ops-file in bosh-deployment can be used to enable signed urls. See: https://github.com/cloudfoundry/bosh-deployment/blob/master/enable-signed-urls.yml
-This ops-file assumes a DAV blobstore.
+You must continue configuring `blobstore.*` properties. For
+`blobstore.agent.user` and `blobstore.agent.password` you can configure dummy
+values because they are no more used but still required in the configuration
+templates of some CPIs.
+
+An ops-file in bosh-deployment can be used to enable signed URLs and manage
+the unneccesary properites.
+See the [bosh-deployment › misc/blobstore-signed-urls.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/blobstore-signed-urls.yml)
+ops file.
 
 ### Removing blobstore credentials from agent VM
 
