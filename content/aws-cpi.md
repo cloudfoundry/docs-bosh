@@ -99,6 +99,7 @@ Schema for `cloud_properties` section:
     * **iops** [Integer, optional]: Specifies the number of I/O operations per second to provision for the drive.
         * Only valid for `io1` type drive.
         * Required when `io1` type drive is specified.
+* **metadata_options** [Hash, optional]: Metadata configuration options that are set on a VM during creation. These options should be snake-cased properties accepted by the [ModifyInstanceMetadataOptions endpoint](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyInstanceMetadataOptions.html). e.g. `http_put_response_hop_limit`. If `metadata_options` is configured both at the global CPI level and as a VM extension, the VM extension properties take precedence. Available in v91+.
 
 Example of an `m3.medium` instance:
 
@@ -163,6 +164,7 @@ Schema:
         EBS volume encryption does not work for Windows stemcells due to an [AWS limitation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html#copy-ami-across-accounts). Enabling this will not encrypt the root disk of Windows VMs.
 
 * **kms\_key\_arn** [String, optional]: Encrypts the disks using an encryption key stored in the [AWS Key Management Service (KMS)](https://aws.amazon.com/kms/). The format of the ID is `XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX`. Be sure to use the Key ID, not the Alias. If this property is omitted and `encrypted` is `true`, the disks will be encrypted using your account's default `aws/ebs` encryption key. Available in v67+.
+* **metadata_options** [Hash, optional]: Metadata configuration options that are set on a VM during creation. These options should be snake-cased properties accepted by the [ModifyInstanceMetadataOptions endpoint](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyInstanceMetadataOptions.html). e.g. `http_put_response_hop_limit`.  If `metadata_options` is configured both at the global CPI level and as a VM extension, the VM extension properties take precedence. Available in v91+.
 
 See [all configuration options](https://bosh.io/jobs/aws_cpi?source=github.com/cloudfoundry/bosh-aws-cpi-release).
 
