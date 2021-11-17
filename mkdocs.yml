@@ -265,6 +265,7 @@ pages:
     - Usage: azure-cpi.md
     - Common Errors: azure-cpi-errors.md
     - Creating Resources: azure-resources.md
+    - Managed Identity: azure-managed-identity.md
   - OpenStack:
     - Overview: openstack.md
     - Usage: openstack-cpi.md
