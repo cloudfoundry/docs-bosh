@@ -31,8 +31,7 @@ Name      p-bosh
 UUID      b16a53aa-c426-4b5c-b7bd-b7e28eb28df1
 Version   268.5.0 (00000000)
 CPI       vsphere_cpi
-Features  compiled_package_cache: enabled
-          config_server: enabled
+Features  config_server: enabled
           dns: disabled
           network_lifecycle: enabled
           snapshots: disabled

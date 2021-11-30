@@ -191,8 +191,7 @@ See [Environments](cli-envs.md).
     UUID      eeb27cc6-467e-4c1d-a8f9-f1a8de759f52
     Version   260.5.0 (00000000)
     CPI       warden_cpi
-    Features  compiled_package_cache: disabled
-              dns: disabled
+    Features  dns: disabled
               snapshots: disabled
     User      admin
 
