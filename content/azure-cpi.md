@@ -193,13 +193,45 @@ vm_types:
       size: 30_720
 ```
 
-Example of a load balancer:
+Example of a load balancer (simple configuration):
 
 ```yaml
 vm_extensions:
-- name: load-balancer
+- name: load-balancer-example-1
   cloud_properties:
     load_balancer: <load-balancer-name>
+```
+
+Example of a load balancer (complex configuration):
+
+```yaml
+vm_extensions:
+- name: load-balancer-example-2
+  cloud_properties:
+    load_balancer:
+      name: <load-balancer-name>
+      # resource_group_name is optional
+      resource_group_name: <resource-group-name>
+      # backend_pool_name is optional
+      backend_pool_name: <backend-pool-name>
+```
+
+Example of multiple load balancers (4 backend address pools of 3 LBs):
+
+```yaml
+vm_extensions:
+- name: load-balancer-example-3
+  cloud_properties:
+    load_balancer:
+      - name: <load-balancer-1-name>
+      # NOTE: the following LB is in a different Resource Group (than the `resource_group_name` in the global CPI settings)
+      - name: <load-balancer-2-name>
+        resource_group_name: <resource-group-name>
+      # NOTE: the following 2 attach the VMs to 2 separate backend address pools of the same LB
+      - name: <load-balancer-3-name>
+        backend_pool_name: <backend-pool-2-name>
+      - name: <load-balancer-3-name>
+        backend_pool_name: <backend-pool-4-name>
 ```
 
 Example of an availability set:
@@ -211,7 +243,7 @@ vm_extensions:
     availability_set: <availability-set-name>
 ```
 
-The above load-balancer cloud configuration examples are referenced within the deployment manifest as such:
+The above `vm_extensions` cloud configuration examples are referenced within the deployment manifest as such:
 
 ```yaml
 instance_groups:
@@ -224,7 +256,9 @@ instance_groups:
   jobs:
   - name: router
     release: default
-  vm_extensions: [load-balancer]
+  vm_extensions:
+  - load-balancer-example-1
+  - availability-set
 ```
 
 ---
