@@ -234,6 +234,47 @@ vm_extensions:
         backend_pool_name: <backend-pool-4-name>
 ```
 
+Example of an application gateway (simple configuration):
+
+```yaml
+vm_extensions:
+- name: application-gateway-example-1
+  cloud_properties:
+    application_gateway: <application-gateway-name>
+```
+
+Example of an application gateway (complex configuration):
+
+```yaml
+vm_extensions:
+- name: application-gateway-example-2
+  cloud_properties:
+    application_gateway:
+      name: <application-gateway-name>
+      # resource_group_name is optional
+      resource_group_name: <resource-group-name>
+      # backend_pool_name is optional
+      backend_pool_name: <backend-pool-name>
+```
+
+Example of multiple application gateways (4 backend address pools of 3 AGWs):
+
+```yaml
+vm_extensions:
+- name: application-gateway-example-3
+  cloud_properties:
+    application_gateway:
+      - name: <application-gateway-1-name>
+      # NOTE: the following AGW is in a different Resource Group (than the `resource_group_name` in the global CPI settings)
+      - name: <application-gateway-2-name>
+        resource_group_name: <resource-group-name>
+      # NOTE: the following 2 attach the VMs to 2 separate backend address pools of the same AGW
+      - name: <application-gateway-3-name>
+        backend_pool_name: <backend-pool-2-name>
+      - name: <application-gateway-3-name>
+        backend_pool_name: <backend-pool-4-name>
+```
+
 Example of an availability set:
 
 ```yaml
@@ -258,6 +299,7 @@ instance_groups:
     release: default
   vm_extensions:
   - load-balancer-example-1
+  - application-gateway-example-2
   - availability-set
 ```
 
