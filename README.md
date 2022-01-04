@@ -1,5 +1,8 @@
 General documentation for [BOSH](https://bosh.io/). We render these docs with [mkdocs](https://www.mkdocs.org/) using a [slightly-adapted](theme) [material](https://github.com/squidfunk/mkdocs-material) theme, and you can find a rendered version of these docs at [bosh.io/docs](https://bosh.io/docs/).
 
+## Production
+Commits made to the master branch of this repo will trigger a [councourse build](https://ci.bosh-ecosystem.cf-app.com/teams/main/pipelines/bosh-io-web) which will automatically push changes live.
+
 ## Development
 
 For local development:
