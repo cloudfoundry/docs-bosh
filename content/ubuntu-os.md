@@ -4,15 +4,15 @@ The base Ubuntu operating system is built from the [cloudfoundry/bosh-linux-stem
 
 The most recent versions of these distributions are built every few weeks to ensure the latest upstream patches are included. Critical and High CVEs result in new stemcells, regardless of the regular interval. These builds are published on [bosh.io/stemcells](https://bosh.io/stemcells) as new, minor versions.
 
-!!! tip
-    [Ubuntu Xenial](#ubuntu-xenial) is the recommended Linux distribution for deploying with BOSH.
-
-
 ## Distributions
+
+### Ubuntu Jammy (22.04) {: #ubuntu-jammy }
+
+This is a work in progress.  Jammy Jellyfish is an [Ubuntu LTS Release](https://wiki.ubuntu.com/LTS), which is scheduled to be released in April 2022.
 
 ### Ubuntu Bionic (18.04) {: #ubuntu-bionic }
 
-This is a work in progress and we have yet to release stemcells.  Bionic is an [Ubuntu LTS Release](https://wiki.ubuntu.com/LTS), with patches being supported by Ubuntu until April 2023.
+You can find the official stemcells from [bosh.io/stemcells](https://bosh.io/stemcells#ubuntu-bionic)  Bionic is an [Ubuntu LTS Release](https://wiki.ubuntu.com/LTS), with patches being supported by Ubuntu until April 2023.
 
 ### Ubuntu Xenial (16.04) {: #ubuntu-xenial }
 
