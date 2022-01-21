@@ -64,6 +64,7 @@ pages:
     - Working with Blobs: release-blobs.md
     - Testing:
       - Unit Testing Job Templates: job-templates.md
+    - Migrating Packages to Jammy Jellyfish: jammy-migration.md
     - Scheduled Processes: scheduled-procs.md
     - Creating Compiled Releases: compiled-releases.md
     - Using Errands: errands.md
