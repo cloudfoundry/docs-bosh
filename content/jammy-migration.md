@@ -3,7 +3,7 @@ Cloud Foundry's upcoming stemcells will be based on Ubuntu's [Jammy Jellyfish](h
 - GCC 11 — see [below](#gcc-11)
 - OpenSSL 3— see [release notes](https://www.openssl.org/blog/blog/2021/09/07/OpenSSL3.Final/)
 
-Discussion Slack channel is [here](https://app.slack.com/client/https://app.slack.com/client/T02FL4A1X/C02M2R39Y8Z).
+Discussion Slack channel is [here](https://app.slack.com/client/T02FL4A1X/C02M2R39Y8Z).
 
 ### GCC 11
 
