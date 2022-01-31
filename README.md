@@ -27,4 +27,4 @@ docker run --rm -it -p 8000:8000 -v "${PWD}:/docs" \
   squidfunk/mkdocs-material:2.7.2
 ```
 
-You can then make changes in a text editor, and refresh in a local browser at [localhost:8000](http://localhost:8000/).
+You can then make changes in a text editor, and refresh in a local browser at <http://localhost:8000/>.
