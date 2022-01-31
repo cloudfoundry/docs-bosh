@@ -38,8 +38,6 @@ Started installing CPI
   Installing job 'cpi'... Finished (00:00:00)
 Finished installing CPI (00:00:16)
 
-Starting registry... Finished (00:00:00)
-
 Uploading stemcell 'bosh-warden-boshlite-ubuntu-xenial-go_agent/0000'... Finished (00:00:14)
 
 Started deploying
@@ -163,8 +161,6 @@ Started installing CPI
   Installing packages... Finished (00:00:01)
   Installing job 'cpi'... Finished (00:00:00)
 Finished installing CPI (00:00:16)
-
-Starting registry... Finished (00:00:00)
 
 Started deleting deployment
   Waiting for the agent on VM 'eadd5540-2816-41c1-5ca3-672818e4f829'... Finished (00:00:00)
