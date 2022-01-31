@@ -14,7 +14,7 @@ The Director stores VM, persistent disk and other information in a database. An 
       # ...
     ```
 
-1. Configure postgres job, and let the Director and the Registry (if configured) use the database:
+1. Configure postgres job, and let the Director use the database:
 
     ```yaml
     properties:
@@ -29,9 +29,6 @@ The Director stores VM, persistent disk and other information in a database. An 
         db: *database
         # ...
 
-      registry:
-        db: *database
-        # ...
     ```
 
 ---
@@ -51,10 +48,6 @@ The Director is tested to be compatible with MySQL and Postgresql databases.
           password: DB-PASSWORD
           database: bosh
           adapter: postgres
-
-      registry:
-        db: *database
-        # ...
     ```
 
     See [director.db job configuration](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.db) for more details.

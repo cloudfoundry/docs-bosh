@@ -6,18 +6,8 @@ Here is an overview of the interactions between the CPI and the Agent on CloudSt
 * The director-to-agent communication happens through NATS-based messaging.
 * The initial configuration of the agent is done via the metadata server.
 
-!!! note
-    If either of CPI, Director or stemcell does not support [CPI API  version 2](cpi-api-v2.md#reference-table-based-on-each-component-version),
-    the BOSH registry is used to provide the information to configure the VM.
 
-![image](images/cpi-interactions-overview.png)
-
-<!--
-Image source in Saas (no need to own an OmniGraffle license and run MacOS)
-https://www.gliffy.com/go/html5/9205487?toke=&app=1b5094b0-6042-11e2-bcfd-0800200c9a66&dev=false
--->
-
-The following sequence diagram illustrates in more detail the CPI, agent, and registry interactions,
+The following sequence diagram illustrates in more detail the CPI, and agent interactions,
 in the case of the [CloudStack CPI](https://github.com/cloudfoundry-community/bosh-cloudstack-cpi-release):
 
 ![image](images/cpi-sequence-diag.png)
@@ -42,8 +32,6 @@ Render it online http://plantuml.com/plantuml/ or from a private plantuml instan
 	participant vm
 	participant bosh_agent
   end box
-
-
 
   director -> cpi : create_vm;
   activate cpi
@@ -128,7 +116,6 @@ Sample `agent.json` which configures the agent to read from an HTTP metadata ser
         }
       ],
       "UseServerName": true,
-      "UseRegistry": true
     }
   }
 }
@@ -161,7 +148,6 @@ Sample `agent.json` which configures the agent to read from a config drive. See 
       ],
 
       "UseServerName": true,
-      "UseRegistry": true
     }
   }
 }
@@ -264,57 +250,6 @@ Sample settings JSON:
 The `settings.json` format is the same as the settings format initially transferred to the agent.
 
 ---
-### Agent settings sources {: #agent-settings-sources}
-
-Regardless of the source of the agent settings, the JSON document is the same. 
+### Agent settings source {: #agent-settings-source}
 The agent settings as described above are transferred to the agent
-using one of the following ways:
-
-* Metadata server is used if all involved components (director, CPI, agent) support CPI API V2.
-* If one of the components does not yet support CPI API V2, the agent reads its
-  settings from the registry.
-
-!!! tip
-    See [CPI API V2](cpi-api-v2.md) and [CPI V2 Migration Guide](v2-migration-guide.md) for more information on how the CPI, Agent, and Director behave in a registry-less environment.
-
----
-### CPI API V1 {: #cpi-api-v1}
-
-This section describes the agent interactions prior to
-CPI API V2
-
-----
-##### Metadata Server {: #metadata }
-
-The metadata server initially serves the registry URL and DNS server list.
-
-Following is a sample content of the user-data part of the HTTP metadata
-
-```json
-{
-  "server": {"name": "vm-384sd4-r7re9e"},
-  "registry": {"endpoint": "http://192.168.0.255:8080/client/api"},
-  "dns": {"nameserver": ["10.234.50.180"]}
-}
-```
-
-The supported format of the metadata server by the bosh-agent is documented in [UserDataContentsType](https://godoc.org/github.com/cloudfoundry/bosh-agent/infrastructure#UserDataContentsType) and [http\_metadata\_service_test.go](https://github.com/cloudfoundry/bosh-agent/blob/1dca3244702c18bf2c36483c529d4e7b3fb92b2e/infrastructure/http_metadata_service_test.go), along with the expected behavior of the bosh agent when reading this config.
-
-----
-##### Registry {: #registry }
-
-The registry provides bosh-side metadata to the bosh agent.
-
-From the [Warden CPI documentation](https://github.com/cppforlife/bosh-warden-cpi-release/blob/be1869737c0bfba96662dde3499c9181863f91a7/docs/bosh-micro-usage.md):
-
-* The registry is used by the CPI to pass data to the Agent. The registry is started on a server specified by registry properties.
-* If SSH tunnel options are provided, a reverse ssh tunnel is created from the MicroBOSH VM to the registry, making the registry available to the agent on remote machine.
-
-###### Registry HTTP protocol {: #registry-protocol }
-
-The Agent expects to communicate with the bosh registry over a REST API documented in [api\_controller\_spec.rb](https://github.com/cloudfoundry/bosh/blob/2f73281f1a2a155ee807e7c0c9b8187c5a742f78/bosh-registry/spec/unit/bosh/registry/api_controller_spec.rb)
-
-Reference registry client and servers implementations are available in:
-
-* go-lang through [frodenas/bosh-registry](https://github.com/frodenas/bosh-registry)
-* java through [cloudfoundry-community/bosh-cloudstack-cpi-core](https://github.com/cloudfoundry-community/bosh-cloudstack-cpi-core/tree/44d14a5f184d2d5e8f1f2fcd6344e734d3344673/src/main/java/com/orange/oss/cloudfoundry/cscpi/boshregistry)
+using the underlying IaaS Metadata functionality.

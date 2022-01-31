@@ -276,7 +276,6 @@ pages:
     - Using Keystone API v2: openstack-keystonev2.md
     - Using Light Stemcells: openstack-light-stemcells.md
     - Multi-homed VMs: openstack-multiple-networks.md
-    - Extended Registry configuration: openstack-registry.md
     - Self-signed Endpoints: openstack-self-signed-endpoints.md
   - RackHD:
     - Usage: rackhd-cpi.md

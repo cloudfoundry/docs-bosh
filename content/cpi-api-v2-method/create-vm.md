@@ -31,9 +31,9 @@ As of V2 of the CPI API contract, `create_vm` returns an array of the resultant 
 
 ## Agent Settings
 
-For the Agent to successfully start on the created VM, several bootstrapping settings must be exposed which include network configuration, message bus location (NATS/HTTPS), agent id, etc. Each infrastructure might have a different way of providing such settings to the Agent. For example AWS CPI uses instance user metadata and potentially the BOSH Registry. vSphere CPI uses CDROM drive.
+For the Agent to successfully start on the created VM, several bootstrapping settings must be exposed which include network configuration, message bus location (NATS/HTTPS), agent id, etc. Each infrastructure might have a different way of providing such settings to the Agent. For example AWS CPI uses instance user metadata. vSphere CPI uses CDROM drive.
 
-As of CPI V2, the registry may be avoided if the stemcell API version is sufficient. See [CPI API V2](../cpi-api-v2.md) and [CPI V2 Migration Guide](../v2-migration-guide.md) for more information on how the CPI, Agent, and Director behave in a registry-less environment.
+As of CPI V2, the registry may be avoided if the stemcell API version is sufficient. See [CPI API V2](../cpi-api-v2.md) and [CPI V2 Migration Guide](../v2-migration-guide.md) for more information on how the CPI, Agent, and Director behave.
 
 Most CPIs choose to communicate with the default Agent. Hence, the communication settings follow a certain format:
 

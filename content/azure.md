@@ -24,7 +24,7 @@ The following table maps BOSH concepts to their Azure-native equivalents.
 | Persistent Disk | [Disk Storage](https://azure.microsoft.com/en-us/services/storage/disks/) and [Managed Disks](https://azure.microsoft.com/en-us/services/managed-disks/) |
 | Disk Snapshot | [Managed Disk Snapshot](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/managed-disks-overview#managed-disk-snapshots) |
 | Stemcell | Disk Storage Blobs and Managed Disk Blobs |
-| Agent Settings | Config Drive; BOSH Registry |
+| Agent Settings | Config Drive |
 
 
 ## Feature Support

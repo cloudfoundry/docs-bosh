@@ -38,45 +38,11 @@ resource_pools:
 
 ## Methods
 
-- V1 of the CPI API contract must still be implemented. See [CPI API V1](cpi-api-v1.md).
-- To differentiate calls using V2 of the contract, the caller needs to pass in `"api_version": 2` in the header of the request.
-
-### Reference Table (Based on each component version)
-
-For registry-less operation to be possible, the director and CPI must implement v2 of the API contract and the stemcell must contain a version of the agent implementing v2 as well. In the table below, `user-metadata` refers to the agent settings sent with `create_vm`.
-
-| Director | CPI | Stemcell  | Should update registry   | Add *full agent settings** to IaaS `user-metadata`?   |
-|----------|-----|-----------|----------------------|---|
-| 1  | 1  | 1  | Update registry | No |
-| 1  | 1  | 2  | Update registry | No |
-| 1  | 2  | 2  | Update registry | No |
-| **2**  | **2**  | **2**  | **Do not write to registry** | **Yes** |
-| 1  | 2  | 1  | Update registry | No |
-| 2  | 2  | 1  | Update registry | No |
-| 2  | 1  | 1  | Update registry | No |
-| 2  | 1  | 2  | Update registry | No |
-
-\* see below for information on the settings to write to `user-metadata`.
-
 ### Agent/VM Bootstrap Settings
 
-When using the registry, the agent needs a minimal set of settings on bootstrap, including the registry location. When operating in registry-less mode, a more complete set of information is given to the agent via `user-metadata` through `create_vm`. The contents of `user-metadata` are IaaS-specific. For example, AWS uses the `user_data` field during instance creation.
+A complete set of information is given to the agent via `user-metadata` through `create_vm`. The contents of `user-metadata` are IaaS-specific. For example, AWS uses the `user_data` field during instance creation.
 
-**Registry is used, CPI contract V1 and V2 (see above for conditions)**
-```json
-{
-  "dns": {},
-  "networks": {},
-  "registry": {
-    "endpoint": "...",
-    "user": "...",
-    "password": "..."
-  }
-}
-```
-The remainder of the required settings are then fetched from the registry. The CPI has already written disk settings, etc.
-
-**Registry is bypassed, CPI contract V2 only**
+**CPI contract**
 ```json
 {
   "agent_id": "...",
@@ -95,20 +61,3 @@ The remainder of the required settings are then fetched from the registry. The C
 **Note** that the `persistent` disks will not be available when the CPI writes these settings. When the Director instructs the CPI to attach a disk, the `attach_disk` method is expected to return information on the attach point. The Director then informs the Agent about the disk, and the Agent updates its disk settings accordingly.
 
 
-### Implementation
-
-CPI contract version 2 differs from version 1 by the following:
-- CPI [info call](cpi-api-v2-method/info.md) will return `api_version`.
-- CPI accepts `api_version` to determine which version of the API contract to use.
-  - Director will send CPI `api_version` based on the CPI's info response for all CPI calls.
-- Director will send stemcell `api_version` for all CPI calls.
-
-### Changes in the V2 API contract
-
- * [info](cpi-api-v2-method/info.md)
- * VM Management
-    * [create_vm](cpi-api-v2-method/create-vm.md)
-    * [delete_vm](cpi-api-v2-method/delete-vm.md)
- * Disk Management
-    * [attach_disk](cpi-api-v2-method/attach-disk.md)
-    * [detach_disk](cpi-api-v2-method/detach-disk.md)

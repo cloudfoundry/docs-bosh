@@ -4,22 +4,11 @@ If you do have a jumpbox consider using [CLI tunneling functionality](cli-tunnel
 
 When it's not desirable or possible to have a jumpbox, you can use following steps to assign public IP to the Director VM.
 
-For CPIs that do not use registry (Google, vSphere, vCloud):
 
 ```shell
 bosh create-env bosh-deployment/bosh.yml \
     -o ... \
     -o bosh-deployment/external-ip-not-recommended.yml \
-    -v ... \
-    -v external_ip=12.34.56.78
-```
-
-Or for CPIs that do use registry (AWS, Azure, and OpenStack):
-
-```shell
-bosh create-env bosh-deployment/bosh.yml \
-    -o ... \
-    -o bosh-deployment/external-ip-with-registry-not-recommended.yml \
     -v ... \
     -v external_ip=12.34.56.78
 ```

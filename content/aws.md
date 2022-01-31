@@ -8,7 +8,7 @@ The `aws` CPI can be used with [Amazon Web Services](https://aws.amazon.com/).
 
  * Release: [cloudfoundry/bosh-aws-cpi-release](https://github.com/cloudfoundry/bosh-aws-cpi-release)
  * Issues: [GitHub Issues](https://github.com/cloudfoundry/bosh-aws-cpi-release/issues)
- * Slack: [cloudfoundry#bosh](https://cloudfoundry.slack.com/messages/bosh)
+ * Slack: [cloudfoundry#wbosh](https://cloudfoundry.slack.com/messages/bosh)
 
 
 ## Concepts
@@ -24,7 +24,7 @@ The following table maps BOSH concepts to their AWS-native equivalents.
 | Persistent Disk | [EC2 EBS Volume](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html) |
 | Disk Snapshot | [EC2 EBS Snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html) |
 | Stemcell | [EC2 Amazon Machine Image](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) |
-| Agent Settings | EC2 Instance User Metadata; BOSH Registry |
+| Agent Settings | EC2 Instance User Metadata |
 
 
 ## Feature Support

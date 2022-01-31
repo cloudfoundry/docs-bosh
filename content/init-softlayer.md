@@ -1,3 +1,5 @@
+# WARNING: Softlayer does not fully support CPI V2 and still requires the registry. The registry is being removed from the codebase.
+
 This document shows how to create a new [environment](terminology.md#environment) on IBM Cloud Infrastructure (previously called SoftLayer).
 
 ## Step 1: Prepare an IBM Cloud Infrastructure Environment {: #prepare }

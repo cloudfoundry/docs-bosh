@@ -15,6 +15,4 @@ When your OpenStack is using a self-signed certificate, you want to enable the O
             -----END CERTIFICATE-----
     ```
 
-1. Set the `registry.endpoint` configuration to [include basic auth credentials](openstack-registry.md)
-
 1. Deploy the Director

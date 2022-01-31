@@ -169,7 +169,7 @@ region: CustomRegion
 We omit the `private_key` from the configuration file, so we don't have to escape multi-line strings in YAML.
 Loading it directly from a file with `--var-file`, when deploying, will keep it intact.
 
-The `external_ip` is only required for the `external-ip-with-registry-not-recommended.yml` ops file.
+The `external_ip` is only required for the `external-ip-not-recommended.yml` ops file.
 
 !!! warning
     Do not commit `vars.yml` into public version control as it contains credentials. You could separate those into a second YAML file, i.e. `creds.yml`, and load both when deploying.
@@ -229,11 +229,11 @@ bosh create-env bosh-deployment/bosh.yml \
     --vars-store=director-creds.yml \
     --vars-file=vars.yml \
     -o bosh-deployment/openstack/cpi.yml \
-    -o bosh-deployment/external-ip-with-registry-not-recommended.yml \
+    -o bosh-deployment/external-ip-not-recommended.yml \
     --var-file=private_key=bosh.pem
 ```
 
-If running above commands inside of an OpenStack network, i.e. if the `bosh` CLI is installed on a jump host, we can omit the `external-ip-with-registry-not-recommended.yml` ops file and optionally remove `external_ip:` from the `vars.yml`. Then we would have to connect to the internal IP directly. Refer to [Exposing environment on a public IP](init-external-ip.md) for additional information.
+If running above commands inside of an OpenStack network, i.e. if the `bosh` CLI is installed on a jump host, we can omit the `external-ip-not-recommended.yml` ops file and optionally remove `external_ip:` from the `vars.yml`. Then we would have to connect to the internal IP directly. Refer to [Exposing environment on a public IP](init-external-ip.md) for additional information.
 
 !!! warning
     It highly discouraged to expose the BOSH directors management ports in an production environment.
@@ -297,7 +297,7 @@ bosh interpolate bosh-deployment/bosh.yml \
     --vars-store=director-creds.yml \
     --vars-file=vars.yml \
     -o bosh-deployment/openstack/cpi.yml \
-    -o bosh-deployment/external-ip-with-registry-not-recommended.yml \
+    -o bosh-deployment/external-ip-not-recommended.yml \
     -v external_ip=FLOATING-IP \
     --var-file=private_key=bosh.pem | tee bosh.yml
 ```
