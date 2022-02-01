@@ -85,8 +85,13 @@ Schema for `cloud_properties` section:
         * `gp3` stands for EBS next-generation general purpose drives (SSD)
         * `io1` stands for EBS provisioned IOPS drives (SSD)
     * **iops** [Integer, optional]: Specifies the number of I/O operations per second to provision for the drive.
-        * Only valid for `io1` type drive.
+        * Only valid for `io1` and `gp3` type drive.
         * Required when `io1` type drive is specified.
+        * Optional for `gp3`, defaults to AWS default iops count if iops < AWS default (added with [v93](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v93)).
+    * **throughput** [Integer, optional]: Specifies Throughput in MBp/s
+        * Only valid for `gp3` type drive.
+        * Optional, defaults to AWS default throughput if throughput < AWS default
+        * Added with [v93](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v93).
     * **encrypted** [Boolean, optional] Enables encryption for the EBS backed ephemeral disk. An error is raised, if the `instance_type` does not support it. Since v53. Defaults to `false`. Overrides the global `encrypted` property.
     * **kms\_key\_arn** [String, optional] The ARN of an Amazon KMS key to use when encrypting the disk.
     * **use\_instance\_storage** [Boolean, optional] Forces the usage of instance storage as ephemeral disk backing. Will raise an error, if the used `instance_type` does not have instance storage. Cannot be combined with any other option under `ephemeral_disk` or with `raw_instance_storage`. Since v53. Defaults to `false`.
@@ -97,8 +102,13 @@ Schema for `cloud_properties` section:
         * `gp2` stands for EBS general purpose drives (SSD)
         * `gp3` stands for EBS next-generation general purpose drives (SSD)
     * **iops** [Integer, optional]: Specifies the number of I/O operations per second to provision for the drive.
-        * Only valid for `io1` type drive.
-        * Required when `io1` type drive is specified.
+        * Only valid for `io1` and `gp3` type drive.
+        * Required when `io1` type drive is specified.        
+        * Optional for `gp3`, defaults to AWS default iops count if iops < AWS default (added with [v93](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v93)).
+    * **throughput** [Integer, optional]: Specifies Throughput in MBp/s
+        * Only valid for `gp3` type drive.
+        * Optional, defaults to AWS default throughput if throughput < AWS default
+        * Added with [v93](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v93).
 * **metadata_options** [Hash, optional]: Metadata configuration options that are set on a VM during creation. These options should be snake-cased properties accepted by the [ModifyInstanceMetadataOptions endpoint](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyInstanceMetadataOptions.html). e.g. `http_put_response_hop_limit`. If `metadata_options` is configured both at the global CPI level and as a VM extension, the VM extension properties take precedence. Available in v91+.
 
 Example of an `m3.medium` instance:
@@ -128,6 +138,11 @@ Schema for `cloud_properties` section:
 * **iops** [Integer, optional]: Specifies the number of I/O operations per second to provision for the drive.
     * Only valid for `io1` type drive.
     * Required when `io1` type drive is specified.
+    * Optional for `gp3`, defaults to AWS default iops count if iops < AWS default (added with [v93](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v93)).
+* **throughput** [Integer, optional]: Specifies Throughput in MBp/s
+    * Only valid for `gp3` type drive.
+    * Optional, defaults to AWS default throughput if throughput < AWS default
+    * Added with [v93](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v93).
 * **encrypted** [Boolean, optional]: Turns on [EBS volume encryption](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html) for this persistent disk. VM root and ephemeral disk are not encrypted. Defaults to `false`. Overrides the global `encrypted` property.
 * **kms\_key\_arn** [String, optional]: Encrypts the disk using an encryption key stored in the [AWS Key Management Service (KMS)](https://aws.amazon.com/kms/). The format of the ID is `XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX`. Be sure to use the Key ID, not the Alias. If omitted the disk will be encrypted using the global `kms_key_arn` property. If, no global `kms_key_arn` is set will use your account's default `aws/ebs` encryption key.
 
