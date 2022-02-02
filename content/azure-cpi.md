@@ -87,13 +87,37 @@ Schema for `cloud_properties` section:
         * If the Azure temporary disk size for the instance type is larger than `1000*1024` MiB, the default size is `1000*1024` MiB because it is not expected to use such a large ephemeral disk in CF currently.
         * Otherwise, the Azure temporary disk size will be used as the default size. See more information about [Azure temporary disk size](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-sizes/).
 
-* **load_balancer** [String, optional]: Name of a [load balancer](https://azure.microsoft.com/en-us/documentation/articles/load-balancer-overview/) the VMs should belong to. You need to create the load balancer manually before configuring it. Notes:
-    * [Basic Tier Virtual Machines](https://azure.microsoft.com/en-us/blog/basic-tier-virtual-machines-2/) (Example: `Basic_A1`) doesn't support Azure Load Balancer.
-    * If `availability_zone` is specified for the VM, [standard sku load balancer](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-overview) must be used, as `basic sku load balancer` does not work for zone.
-    * In CPI v37.6.0+, you can configure multiple Load Balancers (using a comma-delimited string).
-* **application_gateway** [String, optional]: Name of the [application gateway](https://azure.microsoft.com/en-us/services/application-gateway/) which the VMs should be associated to.
-    * This property is supported in CPI v28+.
-    * You need to create the application gateway manually before configuring it. Please refer to [the guidance](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/application-gateway).
+* **load_balancer** [String, optional]: Name of a [load balancer](https://azure.microsoft.com/en-us/documentation/articles/load-balancer-overview/) the VMs should belong to.
+    * _Notes:_
+        * You need to create the load balancer manually before configuring it.
+        * [Basic Tier Virtual Machines](https://azure.microsoft.com/en-us/blog/basic-tier-virtual-machines-2/) (Example: `Basic_A1`) doesn't support Azure Load Balancer.
+        * If `availability_zone` is specified for the VM, [standard sku load balancer](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-overview) must be used, as `basic sku load balancer` does not work for zone.
+        * In CPI v37.6.0+, you can configure multiple Load Balancers (using a comma-delimited string).
+        * This property is equivalent to the `load_balancer/name` property below.
+* **load_balancer** [Array or Hash, optional]: The [load balancers](https://azure.microsoft.com/en-us/documentation/articles/load-balancer-overview/) the VMs should belong to.
+    * _Notes:_
+        * This property is supported in CPI v35.5.0+. In earlier versions, use the String property above instead.
+        * In CPI [v37.7.0+](https://github.com/cloudfoundry/bosh-azure-cpi-release/releases/tag/v37.7.0), you can configure multiple Load Balancers, using an Array of Hashes with the properties below.
+        * In CPI [v35.5.0+](https://github.com/cloudfoundry/bosh-azure-cpi-release/releases/tag/v35.5.0), you can configure a single Load Balancer, using a single Hash with the properties below.
+        * You need to create the load balancer(s) manually before configuring them.
+        * [Basic Tier Virtual Machines](https://azure.microsoft.com/en-us/blog/basic-tier-virtual-machines-2/) (Example: `Basic_A1`) doesn't support Azure Load Balancer.
+        * If `availability_zone` is specified for the VM, [standard sku load balancer](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-overview) must be used, as `basic sku load balancer` does not work for zone.
+    * **name** [String, required]: The name of the load balancer.
+    * **resource\_group\_name** [String, optional]: The name of the load balancer's resource group. Default value is the `resource_group_name` specified in the global CPI settings.
+    * **backend\_pool\_name** [String, optional]: The name of the load balancer backend address pool which VMs' IPs should be attached to. If not specified, defaults to the load balancer's "first" backend pool (as returned by the Azure API).
+        * This property is supported in CPI [v37.7.0+](https://github.com/cloudfoundry/bosh-azure-cpi-release/releases/tag/v37.7.0).
+* **application_gateway** [String, optional]: Name of the [application gateway](https://azure.microsoft.com/en-us/services/application-gateway/) which the VMs should be attached to.
+    * _Notes:_
+        * This property is supported in CPI v28+.
+        * You need to create the application gateway manually before configuring it. Please refer to [the guidance](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/application-gateway).
+        * This property is equivalent to the `application_gateway/name` property below.
+* **application_gateway** [Array or Hash, optional]: The [application gateways](https://azure.microsoft.com/en-us/services/application-gateway/) the VMs should be attached to.
+    * _Notes:_
+        * This property is supported in CPI [v37.7.0+](https://github.com/cloudfoundry/bosh-azure-cpi-release/releases/tag/v37.7.0). In earlier versions, use the String property above instead.
+        * You need to create the application gateway(s) manually before configuring them. Please refer to [the guidance](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/application-gateway).
+    * **name** [String, required]: The name of the application gateway.
+    * **resource\_group\_name** [String, optional]: The name of the application gateway's resource group. Default value is the `resource_group_name` specified in the global CPI settings.
+    * **backend\_pool\_name** [String, optional]: The name of the application gateway backend address pool which VMs' IPs should be attached to. If not specified, defaults to the application gateway's "first" backend pool (as returned by the Azure API).
 * **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to network interfaces of all VMs who have this VM type/extension. The security group of a network interface can be specified either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default security group (specified by `default_security_group` in the global CPI settings) will be used.
 * **application\_security\_groups** [Array, optional]: The [application security group](https://docs.microsoft.com/en-us/azure/virtual-network/security-overview#application-security-groups) to apply to network interfaces of all VMs who have this VM type/extension. The application security groups of a network interface can be specified either in a VM type/extension (higher priority) or a network configuration (lower priority).
     * This property is supported in v31+.
@@ -169,13 +193,86 @@ vm_types:
       size: 30_720
 ```
 
-Example of a load balancer:
+Example of a load balancer (simple configuration):
 
 ```yaml
 vm_extensions:
-- name: load-balancer
+- name: load-balancer-example-1
   cloud_properties:
     load_balancer: <load-balancer-name>
+```
+
+Example of a load balancer (complex configuration):
+
+```yaml
+vm_extensions:
+- name: load-balancer-example-2
+  cloud_properties:
+    load_balancer:
+      name: <load-balancer-name>
+      # resource_group_name is optional
+      resource_group_name: <resource-group-name>
+      # backend_pool_name is optional
+      backend_pool_name: <backend-pool-name>
+```
+
+Example of multiple load balancers (4 backend address pools of 3 LBs):
+
+```yaml
+vm_extensions:
+- name: load-balancer-example-3
+  cloud_properties:
+    load_balancer:
+      - name: <load-balancer-1-name>
+      # NOTE: the following LB is in a different Resource Group (than the `resource_group_name` in the global CPI settings)
+      - name: <load-balancer-2-name>
+        resource_group_name: <resource-group-name>
+      # NOTE: the following 2 attach the VMs to 2 separate backend address pools of the same LB
+      - name: <load-balancer-3-name>
+        backend_pool_name: <backend-pool-2-name>
+      - name: <load-balancer-3-name>
+        backend_pool_name: <backend-pool-4-name>
+```
+
+Example of an application gateway (simple configuration):
+
+```yaml
+vm_extensions:
+- name: application-gateway-example-1
+  cloud_properties:
+    application_gateway: <application-gateway-name>
+```
+
+Example of an application gateway (complex configuration):
+
+```yaml
+vm_extensions:
+- name: application-gateway-example-2
+  cloud_properties:
+    application_gateway:
+      name: <application-gateway-name>
+      # resource_group_name is optional
+      resource_group_name: <resource-group-name>
+      # backend_pool_name is optional
+      backend_pool_name: <backend-pool-name>
+```
+
+Example of multiple application gateways (4 backend address pools of 3 AGWs):
+
+```yaml
+vm_extensions:
+- name: application-gateway-example-3
+  cloud_properties:
+    application_gateway:
+      - name: <application-gateway-1-name>
+      # NOTE: the following AGW is in a different Resource Group (than the `resource_group_name` in the global CPI settings)
+      - name: <application-gateway-2-name>
+        resource_group_name: <resource-group-name>
+      # NOTE: the following 2 attach the VMs to 2 separate backend address pools of the same AGW
+      - name: <application-gateway-3-name>
+        backend_pool_name: <backend-pool-2-name>
+      - name: <application-gateway-3-name>
+        backend_pool_name: <backend-pool-4-name>
 ```
 
 Example of an availability set:
@@ -187,7 +284,7 @@ vm_extensions:
     availability_set: <availability-set-name>
 ```
 
-The above load-balancer cloud configuration examples are referenced within the deployment manifest as such:
+The above `vm_extensions` cloud configuration examples are referenced within the deployment manifest as such:
 
 ```yaml
 instance_groups:
@@ -200,7 +297,10 @@ instance_groups:
   jobs:
   - name: router
     release: default
-  vm_extensions: [load-balancer]
+  vm_extensions:
+  - load-balancer-example-1
+  - application-gateway-example-2
+  - availability-set
 ```
 
 ---
