@@ -47,7 +47,7 @@ Should result in:
 * **version** [String, required]: Version of the stemcell. Example: `621.74`.
 * **sha1** [String, required]: The SHA1 of the image file included in the stemcell tarball.
 * **bosh_protocol** [String, optional]: Deprecated.
-* **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to import OS image. These properties will be passed in to the [`create_stemcell` CPI call](cpi-api-v1.md#create-stemcell).
+* **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to import OS image. These properties will be passed in to the [`create_stemcell` CPI call](cpi-api-v2.md#create-stemcell).
 * **api_version** [Integer, optional]: Highest supported API version of the Agent in the stemcell. Defaults to `1`.
 * **stemcell_formats** [Array of Strings, optional]: The list of stemcell formats that a [CPI must support](cpi-api-v2-method/info.md#result). The director will attempt to upload the stemcell to all CPIs that support any specified formats.
 
@@ -94,7 +94,7 @@ A "light" stemcell represents a reference to an IaaS resource where the stemcell
 
 In these cases, a light stemcell tarball contains only metadata about the stemcell, but does not contain the actual `image` file with the OS disk image. In addition to the regular stemcell metadata, the `stemcell.MF` file should include a `cloud_properties` section with details about how the CPI may find the already-imported stemcell within the IaaS.
 
-On AWS, for example, stemcells are imported into a specific region as an [EC2 Amazon Machine Image](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) which is referenced by an `ami-*` identifier. If you look at the `stemcell.MF` file of the *light* stemcell tarball, you'll see a list of regions and their corresponding AMI. When a stemcell is uploaded, the [`create_stemcell` call](cpi-api-v1.md#create-stemcell) will return matching AMI ID without doing any IaaS API calls.
+On AWS, for example, stemcells are imported into a specific region as an [EC2 Amazon Machine Image](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) which is referenced by an `ami-*` identifier. If you look at the `stemcell.MF` file of the *light* stemcell tarball, you'll see a list of regions and their corresponding AMI. When a stemcell is uploaded, the [`create_stemcell` call](cpi-api-v2.md#create-stemcell) will return matching AMI ID without doing any IaaS API calls.
 
 ```shell
 tar -Oxzf light-bosh-stemcell-621.74-aws-xen-hvm-ubuntu-xenial-go_agent.tgz stemcell.MF

@@ -11,6 +11,9 @@ Examples of API request and response:
 - [Building a CPI: RPC - Response](https://bosh.io/docs/build-cpi.html#response)
 
 
+If you're looking to get started on building a CPI, this [short guide](build-cpi.md) may be helpful. To learn more about the technical implementation, continue reading or refer to the [RPC Interface](cpi-api-rpc.md) for more details.
+
+
 Libraries:
 
 - Ruby: `bosh-cpi-ruby` gem [v2.5.0](https://github.com/cloudfoundry/bosh-cpi-ruby/releases/tag/v2.5.0)
@@ -18,7 +21,7 @@ Libraries:
 
 #### Migration from V1 of the CPI API contract
 
-Detailed instructions on how to migrate an existing CPI from V1 to V2 of the contract can be found [here](v2-migration-guide.md).
+Detailed instructions on how to migrate an existing CPI from V1 to V2 of the contract can be found [here](cpi-api-v2-migration-guide.md).
 
 ---
 
@@ -38,8 +41,9 @@ resource_pools:
 
 ## Methods
 
-- V1 of the CPI API contract must still be implemented. See [CPI API V1](cpi-api-v1.md).
-- To differentiate calls using V2 of the contract, the caller needs to pass in `"api_version": 2` in the header of the request.
+- To differentiate calls using V2 of the contract, the caller passes `"api_version": 2` in the header of the request.
+- V1 of the CPI API contract is deprecated, and need not be implemented.
+    - Reference [CPI API V1](cpi-api-v1.md).
 
 ### Reference Table (Based on each component version)
 
@@ -94,21 +98,22 @@ The remainder of the required settings are then fetched from the registry. The C
 ```
 **Note** that the `persistent` disks will not be available when the CPI writes these settings. When the Director instructs the CPI to attach a disk, the `attach_disk` method is expected to return information on the attach point. The Director then informs the Agent about the disk, and the Agent updates its disk settings accordingly.
 
-
-### Implementation
+### API contract changes since V1
 
 CPI contract version 2 differs from version 1 by the following:
+
 - CPI [info call](cpi-api-v2-method/info.md) will return `api_version`.
 - CPI accepts `api_version` to determine which version of the API contract to use.
-  - Director will send CPI `api_version` based on the CPI's info response for all CPI calls.
+    - Director will send CPI `api_version` based on the CPI's info response for all CPI calls.
 - Director will send stemcell `api_version` for all CPI calls.
 
-### Changes in the V2 API contract
+#### API method changes
 
- * [info](cpi-api-v2-method/info.md)
- * VM Management
+* General
+    * [info](cpi-api-v2-method/info.md)
+* VM Management
     * [create_vm](cpi-api-v2-method/create-vm.md)
     * [delete_vm](cpi-api-v2-method/delete-vm.md)
- * Disk Management
+* Disk Management
     * [attach_disk](cpi-api-v2-method/attach-disk.md)
     * [detach_disk](cpi-api-v2-method/detach-disk.md)

@@ -47,6 +47,6 @@ Succeeded
 
 ## Implementation
 
-CPI authors looking to provide managed networks functionality should refer to [create_network](./cpi-api-v1-method/create-network.md) and [delete_network](./cpi-api-v1-method/delete-network.md) methods documentation.
+CPI authors looking to provide managed networks functionality should refer to [create_network](cpi-api-v2-method/create-network.md) and [delete_network](cpi-api-v2-method/delete-network.md) methods documentation.
 
 [vSphere CPI](vsphere-cpi.md#networks) currently provides a concrete implementation of managed networks.

@@ -1546,7 +1546,7 @@ See [CPI config](cpi-config.md).
 
 - `bosh [GLOBAL-CLI-OPTIONS] delete-network NAME`
 
-    Deletes a network created during deployment. Check [CPI methods](https://bosh.io/docs/cpi-api-v1-method/create-network/#create_network) for more details
+    Deletes a network created during deployment. Check [CPI methods](https://bosh.io/docs/cpi-api-v2-method/create-network/#create_network) for more details
 
     ```shell
     bosh -e vbox delete-network network-name
