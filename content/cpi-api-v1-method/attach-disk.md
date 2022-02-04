@@ -60,5 +60,5 @@ For the Agent to eventually format, partition and mount attached disk, it needs 
 
 ## Related
 
- * [create_disk](create-disk.md)
+ * [create_disk](../cpi-api-v2-method/create-disk.md)
  * [detach_disk](detach-disk.md)

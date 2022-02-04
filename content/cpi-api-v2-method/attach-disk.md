@@ -77,7 +77,7 @@ For the Agent to eventually format, partition and mount the newly attached disk,
 }
 ```
 
-See [CPI API V2](../cpi-api-v2.md) and [CPI V2 Migration Guide](../v2-migration-guide.md) for more details about `api_version` for stemcell and CPI within the `context` portion of the request.
+See [CPI API V2](../cpi-api-v2.md) and [CPI V2 Migration Guide](../cpi-api-v2-migration-guide.md) for more details about `api_version` for stemcell and CPI within the `context` portion of the request.
 
 
 ### Implementations
@@ -87,5 +87,5 @@ See [CPI API V2](../cpi-api-v2.md) and [CPI V2 Migration Guide](../v2-migration-
 
 ## Related
 
- * [create_disk V1](../cpi-api-v1-method/create-disk.md)
- * [detach_disk V1](../cpi-api-v1-method/detach-disk.md)
+ * [create_disk V1](create-disk.md)
+ * [detach_disk V1](detach-disk.md)

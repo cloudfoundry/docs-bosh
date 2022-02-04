@@ -275,13 +275,12 @@ using one of the following ways:
   settings from the registry.
 
 !!! tip
-    See [CPI API V2](cpi-api-v2.md) and [CPI V2 Migration Guide](v2-migration-guide.md) for more information on how the CPI, Agent, and Director behave in a registry-less environment.
+    See [CPI API V2](cpi-api-v2.md) and [CPI V2 Migration Guide](cpi-api-v2-migration-guide.md) for more information on how the CPI, Agent, and Director behave in a registry-less environment.
 
 ---
 ### CPI API V1 {: #cpi-api-v1}
 
-This section describes the agent interactions prior to
-CPI API V2
+This section describes the agent interactions prior to CPI API V2
 
 ----
 ##### Metadata Server {: #metadata }

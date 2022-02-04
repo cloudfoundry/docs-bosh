@@ -9,7 +9,7 @@ Both `bosh create-env` command and the Director expect to be configured with a C
 
 ## Implementation
 
-When building a CPI release, the primary requirement is that it provides a `bin/cpi` executable which implements a simple RPC API through `STDIN`/`STDOUT`. The [RPC API](cpi-api-v1-rpc.md) page provides an in-depth look at the protocol and required methods.
+When building a CPI release, the primary requirement is that it provides a `bin/cpi` executable which implements a simple RPC API through `STDIN`/`STDOUT`. The [RPC API](cpi-api-rpc.md) page provides an in-depth look at the protocol and required methods.
 
 If you are getting started with a new CPI, you may be interested in using one of the following languages. These releases take advantage of some existing libraries that you may find useful in your own implementation.
 
@@ -64,4 +64,4 @@ When working with the Director you can find similar debug logs via `bosh task X 
 
 ## Migrating from V1 to V2 of the CPI API contract {: #migrating }
 
-The CPI library can be safely upgraded to V2, as all the method calls in V1 are maintained. To take advantage of the new features, please refer to the [V1 to V2 migration guide](v2-migration-guide.md)
+The CPI library can be safely upgraded to V2, as all the method calls in V1 are maintained. To take advantage of the new features, please refer to the [V1 to V2 migration guide](cpi-api-v2-migration-guide.md)

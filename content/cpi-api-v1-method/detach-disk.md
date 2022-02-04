@@ -29,4 +29,4 @@ No return value
 ## Related
 
  * [attach_disk](attach-disk.md)
- * [delete_disk](delete-disk.md)
+ * [delete_disk](../cpi-api-v2-method/delete-disk.md)

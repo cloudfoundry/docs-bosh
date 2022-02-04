@@ -76,7 +76,7 @@ The Director and the Agents communicate through a lightweight publish-subscribe 
 ### Registry {: #registry }
 
 !!! note
-    As of CPI V2, the registry may be avoided if the stemcell API version is sufficient. See [CPI API V2](cpi-api-v2.md) and [CPI V2 Migration Guide](v2-migration-guide.md) for more information on how the CPI, Agent, and Director behave in a registry-less environment.
+    As of CPI V2, the registry may be avoided if the stemcell API version is sufficient. See [CPI API V2](cpi-api-v2.md) and [CPI V2 Migration Guide](cpi-api-v2-migration-guide.md) for more information on how the CPI, Agent, and Director behave in a registry-less environment.
 
 When the Director creates or updates a VM, it stores configuration information for the VM in the Registry so that it can be used during bootstrapping stage of the VM.
 

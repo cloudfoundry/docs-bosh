@@ -41,7 +41,7 @@ No return value
 
 #### Changes for V2 of the API contract
 
-The signature for `delete_vm` is the same as in V1 pf the API contract. For CPIs that previously used the registry to track mount points, V2 does not necessarily use the registry. The registry is used if the stemcell API version is not sufficient. The Agent receives an `unmount_disk` from the Director and deletes the persistent disk settings when not using the registry. See [CPI V2 Migration Guide](../v2-migration-guide.md) for more information.
+The signature for `delete_vm` is the same as in V1 pf the API contract. For CPIs that previously used the registry to track mount points, V2 does not necessarily use the registry. The registry is used if the stemcell API version is not sufficient. The Agent receives an `unmount_disk` from the Director and deletes the persistent disk settings when not using the registry. See [CPI V2 Migration Guide](../cpi-api-v2-migration-guide.md) for more information.
 
 
 ## Related
