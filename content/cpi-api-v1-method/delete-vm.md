@@ -26,4 +26,4 @@ No return value
 
 ## Related
 
- * [create_vm](create-vm.md)
+ * [create_vm](../cpi-api-v2-method/create-vm.md)

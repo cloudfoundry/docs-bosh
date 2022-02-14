@@ -58,11 +58,12 @@ No return value
 
  * [cppforlife/bosh-warden-cpi-release](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/detach_disk.go)
 
- #### Changes for V2 of the API contract
+#### Changes for V2 of the API contract
 
 The signature for `detach_disk` is the same as in V1 of the API contract. For CPIs that previously used the registry to track mount points, V2 does not necessarily use the registry. The registry should be used if the stemcell API version is not sufficient. Without the registry, the Agent receives a message from the Director to remove the persistent disk from its settings. See [CPI V2 Migration Guide](../cpi-api-v2-migration-guide.md) for more information.
 
 ## Related
 
+ * [detach_disk V1](../cpi-api-v1-method/detach-disk.md)
  * [attach_disk](attach-disk.md)
- * [delete_disk V1](delete-disk.md)
+ * [delete_disk](delete-disk.md)

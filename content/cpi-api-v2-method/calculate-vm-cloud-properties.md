@@ -45,4 +45,4 @@ If a parameter is set to a value greater than what is available (e.g. 1024 CPUs)
 
 ## Related
 
- * [`create_vm`](create-vm.md)
+ * [create_vm](create-vm.md)

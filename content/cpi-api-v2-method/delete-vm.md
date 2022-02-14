@@ -46,4 +46,5 @@ The signature for `delete_vm` is the same as in V1 pf the API contract. For CPIs
 
 ## Related
 
+ * [delete_vm V1](../cpi-api-v1-method/delete-vm.md)
  * [create_vm](create-vm.md)

@@ -87,5 +87,6 @@ See [CPI API V2](../cpi-api-v2.md) and [CPI V2 Migration Guide](../cpi-api-v2-mi
 
 ## Related
 
- * [create_disk V1](create-disk.md)
- * [detach_disk V1](detach-disk.md)
+ * [attach_disk V1](../cpi-api-v1-method/attach-disk.md)
+ * [create_disk](create-disk.md)
+ * [detach_disk](detach-disk.md)

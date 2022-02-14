@@ -130,7 +130,7 @@ See [Agent Configuration](../vm-config.md#agent) for an overview of the Agent co
     }
   },
   "api_version": 2
-  }
+}
 ```
 
 ### API response
@@ -165,4 +165,5 @@ Response:
 
 ## Related
 
+ * [create_vm V1](../cpi-api-v1-method/create-vm.md)
  * [delete_vm](delete-vm.md)

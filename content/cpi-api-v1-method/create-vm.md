@@ -123,4 +123,4 @@ See [Agent Configuration](../vm-config.md#agent) for an overview of the Agent co
 
 ## Related
 
- * [delete_vm](delete-vm.md)
+ * [delete_vm](../cpi-api-v2-method/delete-vm.md)
