@@ -156,49 +156,6 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
     certificate: ((nats_clients_health_monitor_tls_2.certificate))
     private_key: ((nats_clients_health_monitor_tls_2.private_key))
 
-- type: replace
-  path: /variables/-
-  value:
-    name: nats_ca_2
-    type: certificate
-    options:
-      is_ca: true
-      common_name: default.nats-ca.bosh-internal
-
-- type: replace
-  path: /variables/-
-  value:
-    name: nats_server_tls_2
-    type: certificate
-    options:
-      ca: nats_ca_2
-      common_name: default.nats.bosh-internal
-      alternative_names: [((internal_ip))]
-      extended_key_usage:
-      - server_auth
-
-- type: replace
-  path: /variables/-
-  value:
-    name: nats_clients_director_tls_2
-    type: certificate
-    options:
-      ca: nats_ca_2
-      common_name: default.director.bosh-internal
-      extended_key_usage:
-      - client_auth
-
-- type: replace
-  path: /variables/-
-  value:
-    name: nats_clients_health_monitor_tls_2
-    type: certificate
-    options:
-      ca: nats_ca_2
-      common_name: default.hm.bosh-internal
-      extended_key_usage:
-      - client_auth
-
 ```
 
 
