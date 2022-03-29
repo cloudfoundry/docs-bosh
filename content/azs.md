@@ -68,9 +68,6 @@ Given above configuration, 5 instances will be spread over "z1" and "z2" AZs, mo
 - existing instances in a removed AZ will be removed and their [persistent disks will be orphaned](persistent-disks.md)
 - if static IPs are specified on one or more networks, AZ selection is focused to satisfy IPs' AZ assignment
 
-!!! note
-    We are planning to eventually introduce `bosh rebalance` command to forcefully rebalance instances with persistent disks.
-
 ---
 ## Listing VMs in AZs {: #listing-vms-in-azs }
 
