@@ -24,7 +24,7 @@ To create a BOSH stemcell for Windows on vSphere, do the following:
 
 * A vSphere environment
 * A Windows Server, version 1709, Windows Server, version 1803 or Windows Server, version 2019 ISO
-* `stembuild` from a release in [stembuild](https://github.com/cloudfoundry-incubator/stembuild/releases) that corresponds to the operating system of your local host and the stemcell version that you want to build
+* `stembuild` from a release in [stembuild](https://github.com/cloudfoundry/stembuild/releases) that corresponds to the operating system of your local host and the stemcell version that you want to build
 * Microsoft [Local Group Policy Object Utility (LGPO)](https://www.microsoft.com/en-us/download/details.aspx?id=55319) downloaded to the same folder as your `stembuild`
 
 ##<a id='create-base-vm'></a>Step 1: Create a Base VM for the BOSH Stemcell
