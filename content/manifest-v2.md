@@ -195,7 +195,7 @@ update:
     * **release** [String, required]: The release where the job exists
     * **consumes** [Hash, optional]: Links consumed by the job. [Read more about link configuration](links.md#deployment)
     * **provides** [Hash, optional]: Links provided by the job. [Read more about link configuration](links.md#deployment)
-    * **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job. Only properties specified here will be provided to the job.
+    * **properties** [Hash, optional]: Specifies job properties. Properties allow BOSH to configure jobs to a specific environment. `properties` defined in a Job block are accessible only to that job. If `properties` are specified, only these will be provided to the job and instance group properties will be ignored.
 * **vm_type** [String, required]: A valid VM type name from the cloud config. Alternatively you can specify `vm_resources` key.
 * **vm_extensions** [Array, optional]: A valid list of VM extension names from the cloud config.
 * **vm_resources** [Hash, optional]: Specifies generic VM resources such as CPU, RAM and disk size that are automatically translated into correct VM cloud properties to determine VM size. VM size is determined on best effort basis as some IaaSes may not support exact size configuration. Available in bosh-release v264+.
