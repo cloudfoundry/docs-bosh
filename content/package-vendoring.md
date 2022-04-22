@@ -19,31 +19,52 @@ Sections below describe steps, advantages and disadvantages for each approach.
 
 CLI v2 introduces new command for release authors to easily vendor final version of a package from another release. BOSH team has also created [`bosh-packages` Github organization](https://github.com/bosh-packages) for tracking official commonly used packages. First additions to that organization are: `golang-release`, `ruby-release`, `java-release` and `nginx-release`. More may be added if deemed to be useful to a number of release authors.
 
-As an example, if release encapsulates a Go application that needs to be compiled with Go compiler (as most Go apps do), release author, instead of figuring out how to make a `golang-1.x` package on their own, can vendor in one from `https://github.com/bosh-packages/golang-release`. `golang-release` currently contains packages for Golang versions 1.8 and 1.9, and is updated as new minor versions come out.
+As an example, if release encapsulates a Go application that needs to be compiled with Go compiler (as most Go apps do), release author, instead of figuring out how to make a `golang-1.x` package on their own, can vendor in one from `https://github.com/bosh-packages/golang-release`.
 
-Such workflow may look like this:
+### Vendoring by example
+Here an example how package vendoring could work from scratch. A local blobstore is used for simplicity.
+I a productive scenario may use blobstores like Amazon S3 as documented [here](release-blobstore.md).
 
 ```shell
+# Create a release skeleton
+bosh init-release --dir ~/workspace/my-app-release
+
 # Clone golang-release to your system
 git clone https://github.com/bosh-packages/golang-release ~/workspace/golang-release
 
 cd ~/workspace/my-app-release
-bosh generate-package my-app
+# Configure local blobstore
+echo "
+blobstore:
+  provider: local
+  options:
+    blobstore_path: /tmp/local-blobstore" >> config/final.yml
 
-# Make sure final blobstore credentials are available
-vim config/private.yml
-
-# Perform vendoring of golang-1.8-linux package
-bosh vendor-package golang-1.8-linux ~/workspace/golang-release
+# Perform vendoring of golang-1.18-linux package
+bosh vendor-package golang-1.18-linux ~/workspace/golang-release
 ```
 
-In the above steps, CLI v2 vendors `golang-1.8-linux` package into your `my-app-release` release, and makes it available just like any other package as a dependency to other packages or jobs:
+After running the `vendor-package` command
+- The local blobstore in `/tmp/local-blobstore` contains the vendored package
+- The uploaded package is referenced in `.final_builds/packages/golang-1.18-linux/index.yml`
+- A new package `golang-1.18-linux` is added. That package references the vendored package in `.final_builds` by the `spec.lock` file.
 
+The `spec.lock` file and the updates to `.final_builds` have to be checked in.
+
+During development be aware of caching:
+- The existence of `.final_builds/packages/golang-1.18-linux/index.yml` prohibits further uploads of the package to the local blobstore.
+- Downloaded releases are cached in `~/.bosh/cache`
+
+### Referencing vendored package
+In the above steps, CLI v2 vendors the `golang-1.18-linux` package into your `my-app-release` release.
+Other packages of `my-app-release` could now reference `golang-1.18-linux` as a dependency just like any other package in the spec file.
+
+Here an example:
 ```yaml
-name: my-app
+name: a-depending-package
 
 dependencies:
-- golang-1.8-linux
+- golang-1.18-linux
 
 files:
 - "**/*.go"
@@ -54,7 +75,7 @@ As a general convention, packages that need non-trivial configuration (via envir
 
 ```shell
 set -e -x
-source /var/vcap/packages/golang-1.8-linux/bosh/compile.env
+source /var/vcap/packages/golang-1.18-linux/bosh/compile.env
 
 mkdir ../src && cp -a * ../src/ && mv ../src ./src
 mkdir $BOSH_INSTALL_TARGET/bin
@@ -62,16 +83,15 @@ mkdir $BOSH_INSTALL_TARGET/bin
 go build -o $BOSH_INSTALL_TARGET/bin/app src/github.com/company/my-app/main/*.go
 ```
 
-In the above BASH script, `source /var/vcap/packages/golang-1.8-linux/bosh/compile.env` makes available several Go specific environment variables (`GOPATH` and `GOROOT`) and adds `go` binary to the `PATH` so that executing `go build` just works.
+In the above BASH script, `source /var/vcap/packages/golang-1.18-linux/bosh/compile.env` makes available several Go specific environment variables (`GOPATH` and `GOROOT`) and adds `go` binary to the `PATH` so that executing `go build` just works.
 
 Packages may also include `bosh/runtime.env` for loading specific functionality at job runtime instead of during package compilation.
 
-Additional notes about `vendor-package` command:
+### Additional notes about `vendor-package` command:
 
 - The command is idempotent, hence could be run in the CI continuously tracking source release and automatically vendoring in updates.
-- The command requires access to final blobstore (specified via `config/private.yml`) as it will download source release package blob and upload it into destination release's blobstore.
+- The command requires [access to the final blobstore](release-blobstore.md) as it will download the source release package blob and upload it into destination release's blobstore.
 - The dependencies of a vendored package are vendored as well.
-- After running the command, the `packages` directory will contain a directory named after the vendored package. That directory will have a `spec.lock` file which references the name and fingerprint of the vendored package. `spec.lock` and updates to the `.final_builds` directory must be saved (checked in).
 
 When to use this approach:
 
