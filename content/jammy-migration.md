@@ -86,6 +86,14 @@ make: *** [Makefile:909: src/ssl_sock.o] Error 1
 
 Bump to HAProxy 2.5.1 to fix.
 
+##### When Using `keytool` with OpenJDK 8/11:
+
+```
+keytool error: java.io.IOException: keystore password was incorrect
+```
+
+Use `openssl pkcs12`'s `-legacy` flag when creating the Java keystore.
+
 ### Addons (Runtime Configurations)
 
 If you restrict your addons to certain stemcells, be sure to include Jammy in your list of stemcells (if you intend your addon to run on Jammy). The following is the updated stemcell list for [cf-deployment](https://github.com/cloudfoundry/cf-deployment)'s manifest:
