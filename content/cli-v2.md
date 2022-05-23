@@ -358,7 +358,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
     - `--final` Make it a final release
     - `--tarball=PATH` specify destination of a release tarball; if not specified, release tarball will not be produced
     - `--force` include uncommitted changes in the release directory; it should only be used when building dev releases
-    - `PATH` where to create the release
+    - `PATH` path to release yml file
 
     While iterating on a release it's common to run `bosh create-release --force && bosh -e my-env upload-release && bosh -e my-env -d my-dep deploy manifest.yml` command sequence.
 
