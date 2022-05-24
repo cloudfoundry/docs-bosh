@@ -8,7 +8,7 @@ The most recent versions of these distributions are built every few weeks to ens
 
 ### Ubuntu Jammy (22.04) {: #ubuntu-jammy }
 
-This is a work in progress.  Jammy Jellyfish is an [Ubuntu LTS Release](https://wiki.ubuntu.com/LTS), which is scheduled to be released in April 2022.
+This is a work in progress.  Jammy Jellyfish is an [Ubuntu LTS Release](https://wiki.ubuntu.com/LTS), released April, 2022.
 
 ### Ubuntu Bionic (18.04) {: #ubuntu-bionic }
 
