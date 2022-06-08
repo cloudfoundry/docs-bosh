@@ -7,38 +7,34 @@ Currently only vSphere and OpenStack CPIs provide a way to do so.
 ---
 ## vSphere Configuration {: #vsphere }
 
-The vSphere [VM-VM Affinity Rules](http://pubs.vmware.com/vsphere-51/index.jsp#com.vmware.vsphere.resmgmt.doc/GUID-94FCC204-115A-4918-9533-BFC588338ECB.html) feature allows you to specify whether VMs should run on the same host or be kept on separate hosts. As of BOSH version 101 (stemcell 2693), you can configure the vSphere CPI to include all VMs of a specified BOSH resource pool within a single DRS rule and separate the VMs among multiple hosts.
+The vSphere [VM-VM Affinity Rules](https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.resmgmt.doc/GUID-94FCC204-115A-4918-9533-BFC588338ECB.html) feature allows you to specify whether VMs should run on the same host or be kept on separate hosts. As of BOSH version 101 (stemcell 2693), you can configure the vSphere CPI to include all VMs of a specified BOSH resource pool within a single DRS rule and separate the VMs among multiple hosts.
 
-The following resource pool and job configuration manifest example instructs BOSH to:
+The following resource pool and instance group configuration manifest example instructs BOSH to:
 
-* Create seven hadoop-datanode VMs in the `my-vsphere-cluster` vSphere cluster.
-* Create a `separate-hadoop-datanodes-rule` DRS rule in the `my-vsphere-cluster` vSphere cluster.
-* Configure the DRS rule with a `type` that separates the associated VMs onto different hosts.
-* Associate the seven VMs with the DRS rule.
+* Create two MySQL VMs in the `cl` vSphere cluster.
+* Create a `keep-mysql-on-different-hosts` DRS rule in the `cl` vSphere cluster.
+* Configure the DRS rule with a `type` that separates the associated VMs onto different hosts (`separate_vms`).
+* Associate the VMs with the DRS rule.
 
 ```yaml
-# Assuming that a Hadoop release is used...
+# Assuming that a MySQL release is used...
 
-resource_pools:
-- name: hadoop-datanodes
+vm_extensions:
+- name: anti-affinity-mysql
   cloud_properties:
     datacenters:
-    - name: my-dc
+    - name: dc
       clusters:
-      - my-vsphere-cluster:
+      - cl:
           drs_rules:
-          - name: separate-hadoop-datanodes-rule
+          - name: keep-mysql-on-different-hosts
             type: separate_vms
 
-jobs:
-- name: hadoop-datanode
-  templates:
-  - {name: hadoop-datanode, release: hadoop}
-  instances: 7
-  resource_pool: hadoop-datanodes
-  persistent_disk: 10_240
-  networks:
-  - name: default
+instance_groups:
+- name: mysql
+  instances: 2
+  vm_extensions:
+  - anti-affinity-mysql
 ```
 
 If the vSphere CPI does not place the VMs on different hosts, check that you have done the following:
@@ -50,14 +46,14 @@ If the vSphere CPI does not place the VMs on different hosts, check that you hav
 
 Notes:
 
-- The vSphere CPI currently only supports one DRS rule per BOSH resource pool.
-- If a BOSH resource pool contains only one VM, the vSphere CPI does not create a DRS rule. After BOSH adds a second VM, the vSphere CPI will create and apply a DRS rule to all VMs in the BOSH resource pool.
-- You can also use YAML Anchors in the config. E.g
+- The vSphere CPI currently only supports one DRS rule per BOSH VM Extension.
+- If a BOSH VM Extension is applied to only one VM, the vSphere CPI does not create a DRS rule. After BOSH adds a second VM, the vSphere CPI will create and apply a DRS rule to all VMs in the BOSH VM Extension.
+- You can also use YAML Anchors in the config. e.g.:
 
 ```yaml
 # Assuming there are 2 clusters which need same DRS rule...
 
-resource_pools:
+vm_extensions:
 - name: hadoop-datanodes
   cloud_properties:
     datacenters:
