@@ -951,6 +951,7 @@ See [CPI config](cpi-config.md).
     - `--recreate` Recreate all VMs in deployment. It will recreate regardless of whether there is a manifest change
     - `--recreate-persistent-disks` Recreate all persistent disks in deployment. It will recreate regardless of whether there is a manifest change
     - `--fix` Recreate an instance with an unresponsive agent instead of erroring
+    - `--fix-releases` Reupload releases in manifest and replace corrupt or missing jobs/packages
     - `--skip-drain=[INSTANCE-GROUP[/INSTANCE-ID]]` Skip running drain and pre-stop scripts for specific instance groups
     - `--canaries=NUMBER or PERCENTAGE` Override manifest values for canaries
     - `--max-in-flight=NUMBER or PERCENTAGE` Override manifest values for max_in_flight
