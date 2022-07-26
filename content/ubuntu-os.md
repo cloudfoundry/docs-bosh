@@ -8,7 +8,7 @@ The most recent versions of these distributions are built every few weeks to ens
 
 ### Ubuntu Jammy (22.04) {: #ubuntu-jammy }
 
-This is a work in progress.  Jammy Jellyfish is an [Ubuntu LTS Release](https://wiki.ubuntu.com/LTS), released April, 2022.
+You can find the official stemcells from [bosh.io/stemcells](https://bosh.io/stemcells#ubuntu-jammy)  Jammy Jellyfish is an [Ubuntu LTS Release](https://wiki.ubuntu.com/LTS), released April, 2022.
 
 ### Ubuntu Bionic (18.04) {: #ubuntu-bionic }
 
