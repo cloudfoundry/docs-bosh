@@ -781,6 +781,8 @@ See [Cloud config](cloud-config.md).
 
     Show current cloud config on the Director.
 
+    - `--name=NAME` Cloud-Config name (default: ''); Available as of director version v273.0.0
+
 #### Update-Cloud-Config {: #update-cloud-config }
 
 - `bosh [GLOBAL-CLI-OPTIONS] update-cloud-config [-v ...] [--var-file=VAR=PATH] [-l ...] [--vars-env=PREFIX] [--vars-store=PATH] [-o ...] PATH` (Alias: `ucc`)
@@ -793,6 +795,7 @@ See [Cloud config](cloud-config.md).
     - `--vars-env=PREFIX` Load variables from environment variables (e.g.: 'MY' to load MY_var=value)
     - `--vars-store=PATH` Load/save variables from/to a YAML file
     - `-o`, `--ops-file=PATH` Load manifest operations from a YAML file
+    - `--name=NAME` Cloud-Config name (default: ''); Available as of director version v273.0.0
     - `PATH` Path to a cloud config file
 
     ```shell
