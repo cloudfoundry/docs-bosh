@@ -463,7 +463,14 @@ For any VM created on this cluster with host group specification , vSphere CPI
 
 When placing a VM, a cluster is chosen (along with a datastore) based on the VM's memory, ephemeral disk, and persistent disk requirements.
 
-VMs are placed on clusters and datastores based on a weighted random algorithm. The weights are calculated by how many times the requested memory, ephemeral and persistent disk could fit on the cluster.
+VMs are placed on clusters and datastores based on a weighted random algorithm. The weights are calculated by how many times the requested memory, ephemeral and persistent disk could fit on the cluster.  
+
+This means the VMs will be placed according to the following rules.
+
+1. Clusters are filtered such that the placement only considers clusters that have the available memory and datastore space to host the VM.
+2. If the VM has an existing persistent disk it will be placed on a cluster that has access to that disk.
+3. If the VM only has ephemeral disks or a new persistent disk then BOSH will place the VM on the cluster with access to the most datastore space.  The datastore selected based on the weighted random algorithm.
+4. If the VM creation fails on the selected cluster then BOSH will attempt to place the VM on the next cluster that meets the resource requirements of the VM.  If the VM cannot be created on any of the clusters then the VM deployment will fail.
 
 During VM placement local datastores and shared datastores are not treated differently. All datastores registered on a cluster are treated the same.
 
