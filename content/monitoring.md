@@ -45,7 +45,7 @@ The Director sends an alert when a deployment starts, successfully completes or 
 ## NATS {: #nats }
 
 NATS monitoring requires BOSH version `268.4+` and can be enabled by setting the director property `enable_metrics_endpoint` to `true` as described [here](https://bosh.io/jobs/nats?source=github.com/cloudfoundry/bosh#p%3dnats.enable_metrics_endpoint).
-The monitoring endpoint is exposed locally on the director VM. More information about it can be found in the [NATS documentation](https://nats.io/documentation/server/gnatsd-monitoring).
+The monitoring endpoint is exposed locally on the director VM. More information about it can be found in the [NATS documentation](https://docs.nats.io/running-a-nats-service/nats_admin/monitoring).
 
 ---
 ## NGINX {: #nginx }
