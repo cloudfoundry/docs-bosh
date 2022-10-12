@@ -72,6 +72,7 @@ Schema for `cloud_properties` section:
 * **ram** [Integer, required]: RAM in megabytes. Example: `1024`.
 * **disk** [Integer, required]: Ephemeral disk size in megabytes. Example: `10240`.
 * **cpu\_hot\_add\_enabled** [Boolean, optional]: Allows operator to add additional CPU resources while the VM is on. Default: `false`. Available in v21+.
+* **memory\_reservation\_locked\_to\_max** [Boolean, optional]: If set true, memory resource reservation for this virtual machine will always be equal to the virtual machine's memory size. Default: `false`. Available in v82+.
 * **memory\_hot\_add\_enabled** [Boolean, optional]: Allows operator to add additional memory resources while the VM is on. Default: `false`. Available in v21+.
 * **upgrade\_hw\_version** [Boolean, optional]: Upgrades the virtual hardware version of a virtual machine to the latest supported version on the ESXi host. Overrides the global upgrade_hw_version. Default: `false`.
 * **nested\_hardware\_virtualization** [Boolean, optional]: Exposes hardware assisted virtualization to the VM. Default: `false`.
