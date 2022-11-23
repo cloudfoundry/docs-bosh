@@ -212,7 +212,7 @@ Since the the above scenario does utilize persistent disks, adding az2 to the li
 
 1. Skip redeploying a vm from az1 to az2 to avoid recreating the persistent disk and potentially incur dataloss.
 
-Bosh opts to keep the persistent disk to avoid dataloss. Bosh is not aware about the capabilities, in terms of distributed state, of the software it deploys. Some software architectures have internal features (e.g. Nats is utilizing RAFT) that allow syncinc state within the cluster nodes. Other architectures rely on features provided by their host or additional software (e.g. distributed filesystems) to achieve a similar outcome.
+Bosh opts to keep the persistent disk to avoid dataloss. Bosh is not aware about the capabilities, in terms of distributed state, of the software it deploys. Some software architectures have internal features (e.g. Nats is utilizing RAFT) that allow syncing state within the cluster nodes. Other architectures rely on features provided by their host or additional software (e.g. distributed filesystems) to achieve a similar outcome.
 
 
 ### Rebalancing VMs with persistent disks
@@ -349,7 +349,7 @@ dummy/93fd5c41-88e2-4b2f-97ae-b064d507f3d5 ... az3
 
 **bosh stop dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104 --hard**
 
-> When using the `--hard` flag bosh will additionally delete the vm after it stopoed the jobs. The bosh task logs will not show `Deleting unneede instances dummy...` because `--hard` will delete the actual vm but not the instance from the deployment state. 
+> When using the `--hard` flag bosh will additionally delete the vm after it stopoed the jobs. The bosh task logs will not show `Deleting unneeded instances dummy...` because `--hard` will delete the actual vm but not the instance from the deployment state.
 
 ```
 Task 70345 | 13:09:03 | Updating instance dummy: dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104 (3)
@@ -375,7 +375,7 @@ dummy/93fd5c41-88e2-4b2f-97ae-b064d507f3d5 ... az3
 
 ##### bosh deploy
 
-> Since we already manually deleted an instance in az1, bosh does not delete the instance that was added last. It realizes it has the required amount of actual vms in the deployment and just deletes the reference to the vm.
+> Since we already manually deleted an instance in az1, bosh does not delete the instance that was added last. It realizes it has the required amount of actual vms in the deployment and just deletes the reference to the instance that was stopped.
 ```
 Using deployment 'dummy'
 
