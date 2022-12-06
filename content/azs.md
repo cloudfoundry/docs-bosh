@@ -100,16 +100,16 @@ VMs total: 4
 
 ---
 
-## Adding and removing AZs do a deployment.
+## Adding and removing AZs to a deployment.
 
 > **_NOTE:_**
->   With some CPIs AZS are referenced in Subnet configs of the cloud-config networks block. This means that moving AZs can have networking implications. E.g. networks can be Zonal ( e.g. AWS Subnets are associated to a Zone) or Regional ( e.g. GCP Subnets are associated with a Region). This is important to keep in mind when planning an AZ migration.
+>   With some CPIs AZS are referenced in the Subnet configuration of the cloud-config networks block. This means that moving AZs can have networking implications. E.g. networks can be Zonal ( e.g. AWS Subnets are associated to a Zone) or Regional ( e.g. GCP Subnets are associated with a Region). This is important to keep in mind when planning an AZ migration.
 
 
 > **_GENERAL LIMITATIONS:_** 
-> - bosh does not migrate persistent disk contents cross AZ. Persistent disks attached to a vm that is moved to another AZ get orphaned and eventually deleted by bosh.
-> - singleton instances will face a downtime while being recreated. If they have persistent disks attached the data on the disk will not be migrated.
-> - moving a vm with a staticly assigned IP addr will fail. Bosh will create the new instance before deleting the old instance. This means that at creation time of the new instance, the static IP is still attached to the old instance.
+> - bosh does not migrate persistent disk contents across AZs. Persistent disks attached to a vm that is moved to another AZ will be orphaned and eventually deleted by bosh.
+> - singleton instances will face downtime while being recreated. If they have persistent disks attached the data on the disk will not be migrated.
+> - moving a vm with a staticly assigned IP address will fail. Bosh will create the new instance before deleting the old instance. This means that at creation time of the new instance, the static IP is still attached to the old instance.
 
 ### Adding new AZs to an existing deployment
 
@@ -167,7 +167,7 @@ Since the the above scenario **_does not_** utilize persistent disks, adding `az
 2. delete a currently serving vm in az1 so `instances will be rebalanced ... to even out distribution`
 
 
-### Scenario: the instance_group does use persistent disks:
+### Scenario: the instance_group uses persistent disks:
 
 ```
 instance_groups:
@@ -256,7 +256,7 @@ dummy/b5b14411-f9ee-4ff8-95c6-b9c24b29b703 ... az1
 
 To work around this there are several approaches that will be discussed below.
 
-#### Automatic but resulting in temporary reduced instance count:
+#### Automatic but resulting in a temporarily reduced instance count:
 
 If your application supports syncing state between existing cluster nodes and it can tolerate the temporary loss of stateful instances (for the time of the migration), the easiest approach is to:
 
@@ -390,7 +390,7 @@ Deleting unneeded instances dummy: dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104 (3
 
 ### Removing an AZ from an existing deployment
 
-When decomissioning an AZ without replacing it with another, the results are quite straight forward. 
+When decomissioning an AZ by removing it from the manifest,
 Bosh will delete all existing VMs in the removed AZ. If the VM had a persistent disk, that disk will be orphaned. New VMs will be rebalanced to still existing AZs.
 
 ##### bosh vms
@@ -429,11 +429,9 @@ bosh disks --orphaned | grep dummy/93fd5c41-88e2-4b2f-97ae-b064d507f3d5
 disk-ce15e36a-1eeb-45da-494a-7282a56f3b32       1.0 GiB dummy   dummy/93fd5c41-88e2-4b2f-97ae-b064d507f3d5      az3     Fri Nov 18 13:55:17 UTC 2022
 ```
 
-### Replacing and AZ in an existing deployment
+### Replacing an AZ in an existing deployment
 
-When replacing an AZ with another, the results are quite straight forward.
-
-Bosh will delete all existing VMs in the removed AZ. If the VM had a persistent disk, that disk will be orphaned. Replacement VMs will be balanced into all AZs.
+When replacing an AZ with another, Bosh will delete all existing VMs in the removed AZ. If the deleted VM had a persistent disk, that disk will be orphaned. Replacement VMs will be balanced into all AZs.
 
 ##### bosh vms
 ```
