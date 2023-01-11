@@ -930,6 +930,12 @@ curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1287/output?type=res
 - **cid** [String]: Cloud ID of the VM.
 - **job** [String]: Name of the job.
 - **index** [Integer]: Numeric job index.
+- **id** [String]: Unique ID of the Instance.
+- **az** [String]: Name of the availability zone.
+- **ips** [Array]: List of IP addresses.
+- **vm_created_at** [String]: Time when the VM was created.
+- **active** [Boolean]: Whether the VM is active.
+- **permanent_nats_credentials** [Boolean]: Whether the VM has permanent NATS credentials.
 
 #### Notes
 
@@ -944,16 +950,32 @@ curl -v -s -k 'https://admin:admin@192.168.56.4:25555/deployments/cf-warden/vms'
 ```json
 [
   {
-    "agent_id": "c5e7c705-459e-41c0-b640-db32d8dc6e71",
-    "cid": "ec974048-3352-4ba4-669d-beab87b16bcb",
+    "agent_id": "14cabf81-250c-492f-9361-6cd75140e474",
+    "cid": "vm-499a56c9-80ad-4ba2-5294-46c2fa0f5f20",
     "job": "doppler_z1",
-    "index": 0
+    "index": 0,
+    "id": "91faf7a2-2f56-457a-871e-4235aef2ae5c",
+    "az": "az1",
+    "ips": [
+      "10.0.100.3"
+    ],
+    "vm_created_at": "2023-01-11T14:11:02Z",
+    "active": true,
+    "permanent_nats_credentials": true
   },
   {
-    "agent_id": "81f7b585-f3d3-4dbc-8d7c-f76dbe861bdc",
-    "cid": "427c1995-2d06-42b2-4218-418150bc31c9",
+    "agent_id": "3ccab591-883e-4c7f-9188-ae6dac02e974",
+    "cid": "vm-2a5084e3-b481-486b-6b9d-3f8661f14ede",
     "job": "api_z1",
-    "index": 0
+    "index": 0,
+    "id": "1cd8e497-e095-45e7-bdaa-30b8468fccff",
+    "az": "az1",
+    "ips": [
+      "10.0.100.2"
+    ],
+    "vm_created_at": "2023-01-11T14:11:02Z",
+    "active": true,
+    "permanent_nats_credentials": false
   }
 ]
 ```
@@ -967,6 +989,11 @@ curl -v -s -k 'https://admin:admin@192.168.56.4:25555/deployments/cf-warden/vms'
 
 - **agent_id** [String]: Unique ID of the Agent associated with the VM.
 - **vm_cid** [String]: Cloud ID of the VM.
+- **active** [Boolean]: Whether the VM is active.
+- **vm_created_at** [String]: Time when the VM was created.
+- **cloud_properties** [Hash]: Cloud properties of the VM.
+- **disk_cid** [String]: Cloud ID of the VM's disk.
+- **disk_cids** [Array]: List of Cloud IDs of the VM's disks.
 - **resource_pool** [String]: Name of the resource pool used for the VM.
 - **disk_cid** [String or null]: Cloud ID of the associated persistent disk if one is attached.
 - **job_name** [String]: Name of the job.
@@ -982,6 +1009,7 @@ curl -v -s -k 'https://admin:admin@192.168.56.4:25555/deployments/cf-warden/vms'
 - **id** [String]: ID of the VM
 - **bootstrap** [Boolean]: bootstrap property of [VM specific configuration](https://bosh.io/docs/jobs.html#properties-spec)
 - **ignore** [Boolean]: Ignore this VM if set to `true`
+- **stemcell** [Hash]: Information of the Stemcell used for the VM.
 
 #### Example
 
@@ -1003,6 +1031,14 @@ curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1181/output?type=res
 ```json
 {
 	"vm_cid": "3938cc70-8f5e-4318-ad05-24d991e0e66e",
+	"active": true,
+	"vm_created_at": "2023-01-11T14:11:02Z",
+	"cloud_properties": {
+		"zone": "us-east1-c",
+		"machine_type": "n1-standard-2",
+		"root_disk_size_gb": 20,
+		"root_disk_type": "pd-ssd"
+	},
 	"disk_cid": null,
 	"ips": ["10.0.1.3"],
 	"dns": [],
@@ -1086,7 +1122,12 @@ curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1181/output?type=res
 	"az": null,
 	"id": "abe6a4e9-cfca-490b-8515-2893f9e54d20",
 	"bootstrap": false,
-	"ignore": false
+	"ignore": false,
+	"stemcell": {
+		"name": "bosh-google-kvm-ubuntu-xenial-go_agent",
+		"version": "621.359",
+		"api_version": 3
+	}
 }
 ```
 
