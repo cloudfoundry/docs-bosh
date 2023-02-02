@@ -335,7 +335,7 @@ See [CLI Variable Interpolation](cli-int.md) for more details about variables.
 Both VMs and disks get tagged by these custom tags.
 
 For VMs, the `director`, `deployment`, `instance_group`, `job`, `id`, `name`,
-`index` and `created_at` default tags enforced by Bosh, that cannot be
+`index` and `created_at` are default tags enforced by Bosh that cannot be
 overridden. See also the [`set_vm_metadata` CPI method](set-vm-metadata.md)
 for more info about those default tags.
 
