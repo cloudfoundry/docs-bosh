@@ -4,8 +4,23 @@ Sets disk's metadata to make it easier for operators to categorize disks when lo
 
 Disk metadata is written when the disk is attached to a VM. Metadata is not removed when disk is detached or VM is deleted.
 
+What is called “_metadata_” here is actually implemented as tags by most CPIs.
+The following default disk tags are forced by Bosh, whatever happens. These
+cannot be overridden.
+
+```json
+{
+  "instance_id":    "c50f32a0-65f4-40a2-9dde-bff12560c14d", // the stable, unique ID of the (VM) instance in its group, to which the disk has been attached
+  "instance_index": "1",                                    // the human-readable identifier of the (VM) instance in its instance group
+  "attached_at":    "YYYY-MM-DDThh:mm:ssZ",                 // the last time at which `set_disk_metadata` method has been called on the disk
+  "instance_group": "traefik",       // the name of the group to which the (VM) instance belongs
+  "deployment":     "traefik",       // the name of deployment to which the 'instance_group' belongs
+  "director":       "director name", // the name of the director that has deployed the deployment, as shown by `bosh env`
+}
+```
+
 !!! note
-    This method is called by BOSH v262+.
+    This `set_disk_metadata` method is called by BOSH v262+.
 
 
 ## Arguments

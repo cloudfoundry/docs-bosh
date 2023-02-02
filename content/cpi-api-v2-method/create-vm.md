@@ -8,6 +8,13 @@ If the VM's creation fails, please make sure to properly delete the associated r
 
 As of V2 of the CPI API contract, `create_vm` returns an array of the resultant instance ID and the networks associated with the VM.
 
+As of V2, created VMs can be tagged at creation time. Please note that the
+`director`, `deployment`, `instance_group`, `job`, `id`, `name`, `index` and
+`created_at` are default tags enforced by Bosh that cannot be overridden. See
+also the [`set_vm_metadata` CPI method](set-vm-metadata.md) for more info
+about default tags.
+
+
 
 ## Arguments
 
