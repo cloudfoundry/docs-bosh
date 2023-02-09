@@ -342,6 +342,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
     Vendors a package from a different release into a release in `dir`. It includes `spec.lock` in the package directory so that CLI will reference specific package by its fingerprint when creating releases.
 
     - `--dir=DIR` Release directory path if not current working directory (default: .)
+    - `--prefix=` Prefix to add to the package name
 
     See [Package vendoring](package-vendoring.md) for details.
 
