@@ -1113,6 +1113,9 @@ See [CPI config](cpi-config.md).
     - `--gw-host=HOST` Host for gateway connection [$BOSH_GW_HOST]
     - `--gw-private-key=KEY` Private key path for gateway connection [$BOSH_GW_PRIVATE_KEY]
     - `--gw-socks5=URL` SOCKS5 URL [$BOSH_ALL_PROXY]
+    - `--director` Target the command at the BOSH director (or other type of VM deployed via create-env)
+    - `--agent-endpoint=URL` Address to connect to the agent's HTTPS endpoint (used with --director) [$BOSH_AGENT_ENDPOINT]
+    - `--agent-certificate=CERTIFICATE_CONTENT` CA certificate to validate the agent's HTTPS endpoint (used with --director) [$BOSH_AGENT_CERTIFICATE]
 
     See [Location and use of logs](job-logs.md) for details.
 
@@ -1262,6 +1265,9 @@ See [CPI config](cpi-config.md).
     - `--gw-host=HOST` Host for gateway connection [$BOSH_GW_HOST]
     - `--gw-private-key=KEY` Private key path for gateway connection [$BOSH_GW_PRIVATE_KEY]
     - `--gw-socks5=URL` SOCKS5 URL [$BOSH_ALL_PROXY]
+    - `--director` Target the command at the BOSH director (or other type of VM deployed via create-env)
+    - `--agent-endpoint=URL` Address to connect to the agent's HTTPS endpoint (used with --director) [$BOSH_AGENT_ENDPOINT]
+    - `--agent-certificate=CERTIFICATE_CONTENT` CA certificate to validate the agent's HTTPS endpoint (used with --director) [$BOSH_AGENT_CERTIFICATE]
 
     ```shell
     # execute command on all instances in a deployment
@@ -1295,6 +1301,9 @@ See [CPI config](cpi-config.md).
     - `--gw-host=HOST` Host for gateway connection [$BOSH_GW_HOST]
     - `--gw-private-key=KEY` Private key path for gateway connection [$BOSH_GW_PRIVATE_KEY]
     - `--gw-socks5=URL` SOCKS5 URL [$BOSH_ALL_PROXY]
+    - `--director` Target the command at the BOSH director (or other type of VM deployed via create-env)
+    - `--agent-endpoint=URL` Address to connect to the agent's HTTPS endpoint (used with --director) [$BOSH_AGENT_ENDPOINT]
+    - `--agent-certificate=CERTIFICATE_CONTENT` CA certificate to validate the agent's HTTPS endpoint (used with --director) [$BOSH_AGENT_CERTIFICATE]
 
     ```shell
     # copy file from this machine to machines a deployment
