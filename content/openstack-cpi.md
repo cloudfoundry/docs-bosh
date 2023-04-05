@@ -130,10 +130,9 @@ Schema for `cloud_properties` section:
 
 Cinder volumes are created in the availability zone of an instance that volume will be attached.
 
-Example of 10GB SSD disk:
+Example of 10GB disk:
 
 ```yaml
-disk_pools:
 - name: default
   disk_size: 10_240
   cloud_properties:

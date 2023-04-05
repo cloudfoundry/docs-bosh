@@ -179,7 +179,6 @@ Schema for `cloud_properties` section:
 Example of 10GB disk:
 
 ```yaml
-disk_pools:
 - name: default
   disk_size: 10_240
 ```
@@ -187,7 +186,6 @@ disk_pools:
 Example of disk with type eagerZeroedThick:
 
 ```yaml
-disk_pools:
 - name: default
   disk_size: 10_240
   cloud_properties:
@@ -197,7 +195,6 @@ disk_pools:
 Example of disk stored in specific datastores:
 
 ```yaml
-disk_pools:
 - name: default
   disk_size: 10_240
   cloud_properties:
@@ -464,7 +461,7 @@ For any VM created on this cluster with host group specification , vSphere CPI
 
 When placing a VM, a cluster is chosen (along with a datastore) based on the VM's memory, ephemeral disk, and persistent disk requirements.
 
-VMs are placed on clusters and datastores based on a weighted random algorithm. The weights are calculated by how many times the requested memory, ephemeral and persistent disk could fit on the cluster.  
+VMs are placed on clusters and datastores based on a weighted random algorithm. The weights are calculated by how many times the requested memory, ephemeral and persistent disk could fit on the cluster.
 
 This means the VMs will be placed according to the following rules.
 

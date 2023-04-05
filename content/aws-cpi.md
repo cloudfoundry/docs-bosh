@@ -103,7 +103,7 @@ Schema for `cloud_properties` section:
         * `gp3` stands for EBS next-generation general purpose drives (SSD)
     * **iops** [Integer, optional]: Specifies the number of I/O operations per second to provision for the drive.
         * Only valid for `io1` and `gp3` type drive.
-        * Required when `io1` type drive is specified.        
+        * Required when `io1` type drive is specified.
         * Optional for `gp3`, defaults to AWS default iops count if iops < AWS default (added with [v93](https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v93)).
     * **throughput** [Integer, optional]: Specifies Throughput in MBp/s
         * Only valid for `gp3` type drive.
@@ -151,7 +151,6 @@ EBS volumes are created in the availability zone of an instance that volume will
 Example of 10GB disk:
 
 ```yaml
-disk_pools:
 - name: default
   disk_size: 10_240
   cloud_properties:
