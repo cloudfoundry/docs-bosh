@@ -70,6 +70,20 @@ blobstore:
 !!! tip
     When you first create a bucket, it might take a little while for Amazon to be able to route requests correctly to the bucket and so downloads may fail with an obscure "Broken Pipe" error. The solution is to wait for some time before trying.
 
+## Assuming an AWS Role {: #assume-role }
+
+You can use AWS's "assume role" functionality when configuring your `private.yml`.
+The following `private.yml` demonstrates the `assume_role_arn` property (requires BOSH CLI 7.2.2+):
+
+```yaml
+---
+blobstore:
+  options:
+    access_key_id: <access_key_id>
+    secret_access_key: <secret_access_key>
+    assume_role_arn: arn:aws:iam::<acct_number>:role/<iam_role>
+```
+
 ## Setting S3 region {: #setting-region }
 
 By default, Amazon S3 buckets resolve to the `us-east-1` (North Virginia) region. If your blobstore bucket resides in a different region, override the region and host settings in `config/final.yml`. For example, a bucket in `eu-west-1` would be as follows:
