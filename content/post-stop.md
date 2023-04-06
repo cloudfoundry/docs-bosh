@@ -8,7 +8,7 @@ Release job can have a post-stop script that will run when the job is restarted 
 ---
 ## Job Configuration {: #job-configuration }
 
-To add a post-deploy script to a release job:
+To add a post-stop script to a release job:
 
 1. Create a script with any name in the templates directory of a release job.
 1. In the `templates` section of the release job spec file, add the script name and the `bin/post-stop` directory as a key value pair.
