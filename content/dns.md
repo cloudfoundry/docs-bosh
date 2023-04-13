@@ -5,7 +5,7 @@ Using DNS within deployments:
 - provides client side load balancing
 - reduces number of configuration changes that need to be propagated when changing cluster layout
 
-See [links](links.md) for more context in how to use links with BOSH.
+See [links](links.md) for more context on how to use links with BOSH.
 
 ---
 ## Architecture {: #arch }
