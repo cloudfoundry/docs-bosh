@@ -13,7 +13,7 @@ See [links](links.md) for more context on how to use links with BOSH.
 To provide native DNS support:
 
 - Director keeps track of DNS entries assigned to each instance (within the `.bosh` default TLD or a custom TLD set in [dns.domain_name](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p%3ddns.domain_name))
-- Agent (on stemcells ubuntu-trusty/3421+, all ubuntu-xenial) updates DNS records metadata on its VM, as well as `/etc/hosts` 
+- Agent updates DNS records metadata on its VM, as well as `/etc/hosts` for Ubuntu and `C:\windows\System32\drivers\etc\hosts` for Windows
 - DNS release (more details below) provides resolution of BOSH specific DNS records by exposing a simple DNS server 
 
 Given that the Director is the sole orchestrator of the system, it is now responsible for updating DNS records during a deploy. As VMs are created and deleted following DNS related steps happen:
