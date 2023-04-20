@@ -2,6 +2,8 @@
 
 Any job that includes `bin/run` script in its spec file's templates section is considered to be an errand. Operator can trigger execution of an errand at any time after the deploy and receive back script's stdout, stderr and exit code upon its completion.
 
+Errand output is limited to one megabyte of data. If the response is larger an error will be returned instead. Release authors should ensure the full error is properly logged to disk and a summary is returned as output.
+
 ---
 ## Release Definition {: #release-definition }
 
