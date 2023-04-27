@@ -36,12 +36,12 @@ Errand's stdout and stderr output will be shown by the CLI when it's smaller tha
 To save output from an errand VM:
 
 1. In the errand run script, redirect the output to a log.
-1. Using the CLI, run `bosh run errand X` with the `--download-logs` option to download the logs.
+1. Using the CLI, run `bosh run-errand X` with the `--download-logs` option to download the logs.
 
     By default, the CLI downloads the logs to your present working directory. Use the `--logs-dir destination_directory` option to change this directory.
 
 ```shell
-bosh run errand smoke-tests --download-logs --logs-dir ~/workspace/smoke-tests-logs
+bosh run-errand smoke-tests --download-logs --logs-dir ~/workspace/smoke-tests-logs
 ```
 
 !!! note
