@@ -1536,12 +1536,12 @@ See [CPI config](cpi-config.md).
 
 #### Cloud-Check {: #cloud-check }
 
-- `bosh [GLOBAL-CLI-OPTIONS] cloud-check [-a] [--resolution=NUMBER] [-r]` (Alias: `cck`)
+- `bosh [GLOBAL-CLI-OPTIONS] cloud-check [-a] [--resolution=RESOLUTION-VALUE] [-r]` (Alias: `cck`)
 
     Checks for resource consistency and allows interactive repair
 
     - `-a`, `--auto` Resolve problems automatically
-    - `--resolution=NUMBER` Apply resolution of given type
+    - `--resolution=RESOLUTION-VALUE` Apply resolution of given type
     - `-r`, `--report` Only generate report; don't attempt to resolve problems
 
     See [Manual repair with Cloud Check](cck.md) for details.
