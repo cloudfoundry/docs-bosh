@@ -73,6 +73,11 @@ BOSH deploys software to the cloud using a deployment manifest, one or more stem
 An encapsulation of software and configuration that BOSH can deploy to the cloud. You can think of a deployment as the state of a collection of VMs: what software is on them, what resources they use, and how these are orchestrated. Even though BOSH creates the deployment using ephemeral resources, the deployment is stable in that BOSH re-creates VMs that fail and otherwise works to keep your software running. BOSH also manages persistent disks so that state (for example, database data files) can survive when VMs are re-created. Combination of a deployment manifest, stemcells, and releases is portable across different clouds with minimal changes to the deployment manifest. See [What is a Deployment?](deployment.md).
 
 ---
+## Deployment manifest (or just manifest) {: #manifest }
+
+A YAML file that identifies one or more releases, stemcells and specifies how to configure them for a given deployment.
+
+---
 ## Director {: #director }
 
 The main BOSH component that coordinates the Agents and responds to user requests and system events. The Director is the orchestrator of deployments.
@@ -134,6 +139,11 @@ Actions taken by the Director (via user or system control) are recorded as event
 Short for Infrastructure as a Service. BOSH enables the Cloud Foundry PaaS and other software deployed with BOSH to support multiple IaaS providers.
 
 ---
+## Ignored Instances {: #ignored-instances }
+
+Ignored Instances are not updated during a deploy. However they are not fully excluded from the deploy process as their state might be needed for providing [link](#links). If an Ignored Instance does not have a VM during a deploy, the VM will be recreated which can lead to template rendering problems due to the way variable sets are chosen.
+
+---
 ## Instance {: #instance }
 
 An instance corresponds to a single VM that performs specific jobs. Each instance is a part of an instance group.
@@ -164,9 +174,9 @@ Stages that all jobs (and their associated processes) go through during a deploy
 A VM that acts as a single access point for the Director and deployed VMs. For resilience, there should be more than one jump box. Allowing access through jump boxes and disabling direct access to the other VMs is a common security measure.
 
 ---
-## Deployment manifest (or just manifest) {: #manifest }
+## Links {: #links }
 
-A YAML file that identifies one or more releases, stemcells and specifies how to configure them for a given deployment.
+Links provide a mechanism for [Jobs](#job) to share deploy time instance data with each other. [See details](links.md).
 
 ---
 ## MicroBOSH {: #microbosh }
