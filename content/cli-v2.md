@@ -1087,7 +1087,7 @@ See [CPI config](cpi-config.md).
 
 - `bosh [GLOBAL-CLI-OPTIONS] ignore INSTANCE-GROUP/INSTANCE-ID`
 
-    Ignores instance from being affected by other commands such as `bosh deploy`.
+    Ignores instance from being affected by other commands such as `bosh deploy`. [See details](terminology.md#ignored-instances).
 
 #### Unignore {: #unignore }
 
