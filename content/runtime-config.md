@@ -238,12 +238,12 @@ Both VMs and disks get tagged by these custom tags.
 
 For VMs, the `director`, `deployment`, `instance_group`, `job`, `id`, `name`,
 `index` and `created_at` are default tags enforced by Bosh that cannot be
-overridden. See also the [`set_vm_metadata` CPI method](set-vm-metadata.md)
+overridden. See also the [`set_vm_metadata` CPI method](cpi-api-v2-method/set-vm-metadata.md)
 for more info about those default tags.
 
 For disks, the `director`, `deployment`, `instance_group`, `instance_id`,
 `instance_index` and `attached_at` are default Bosh tags that cannot be
-overridden. See  the [`set_disk_metadata` CPI method](set-disk-metadata.md)
+overridden. See  the [`set_disk_metadata` CPI method](cpi-api-v2-method/set-disk-metadata.md)
 for more info about those.
 
 Example:
