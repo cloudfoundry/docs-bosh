@@ -141,7 +141,7 @@ Short for Infrastructure as a Service. BOSH enables the Cloud Foundry PaaS and o
 ---
 ## Ignored Instances {: #ignored-instances }
 
-Ignored Instances are not updated during a deploy. However they are not fully excluded from the deploy process as their state might be needed for providing [link](#links). If an Ignored Instance does not have a VM during a deploy, the VM will be recreated which can lead to template rendering problems due to the way variable sets are chosen.
+Ignored Instances are not updated during a deploy. However they are not fully excluded from the deploy process as their state might be needed for providing [links](#links). If an Ignored Instance does not have a VM during a deploy, the VM will be recreated which can lead to template rendering problems due to the way variable sets are chosen.
 
 ---
 ## Instance {: #instance }
