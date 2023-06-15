@@ -213,6 +213,7 @@ update:
 * **migrated_from** [Array, optional]: Specific migration settings for this instance group. Use this to [rename and/or migrate instance groups](migrated-from.md).
 * **lifecycle** [String, optional]: Specifies the kind of workload the instance group represents. Valid values are `service` and `errand`; defaults to `service`. A `service` runs indefinitely and restarts if it fails. An `errand` starts with a manual trigger and does not restart if it fails.
 * **properties** [Hash, optional]: Specifies instance group properties. Deprecated in favor of job level properties and links.
+* **tags** [Hash, optional]: Specifies instance group tags. Specifies key value pairs to be sent to the CPI for VM tagging. Combined with deployment tags during VM creation. Available in bosh-release v277.4.0+.
 * **env** [Hash, optional]: Specifies advanced BOSH Agent configuration for each instance in the group. [Read more about the agent.](agent-cpi-interactions.md#agent-settings-format)
     * **persistent_disk_fs** [String, optional]: Filesystem type to use when formatting persistent disk. Supported values: `ext4`, `xfs`. Default is currently set to `ext4` but may change. [See details](persistent-disk-fs.md)
     * **persistent_disk_mount_options** [Array of strings, optional]: Mount options when mounting persistent disk. Example: `["noatime"]`.
@@ -252,6 +253,8 @@ instance_groups:
   persistent_disk_type: medium
   networks:
   - name: default
+  tags:
+    tag1: value1
 
 - name: redis-slave
   instances: 2
