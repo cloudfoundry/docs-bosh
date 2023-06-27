@@ -211,6 +211,8 @@ Schema:
 * **host** [String, required]: IP address or hostname of vCenter. Example: `172.16.68.3`.
 * **user** [String, required]: Username for the API access. Example: `root`.
 * **password** [String, required]: Password for the API access. Example: `vmware`
+* **connection_options** [Object, optional]: Additional connection options
+    * **ca_cert** [String, optional]: A list of concatenated CA certificates used to verify the TLS connection to the vCenter server. If no value is provided, the CPI will establish a TLS connection but will not verify the certificate presented by the server.
 * **http_logging** [Boolean, optional]: Enables logging all HTTP requests and responses to vSphere API. Default: `false`. Available in v37+.
 * **default\_disk\_type** [String, optional]: Sets the default
   [disk type](https://www.vmware.com/support/developer/converter-sdk/conv51_apireference/vim.VirtualDiskManager.VirtualDiskType.html).
