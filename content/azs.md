@@ -245,6 +245,7 @@ dummy/3697cb63-5329-4b61-8251-6acd73fe5d8b ... az3
 ```
 
 Removing 1 Instance will result in:
+
 ```
 Instance                                   ... AZ  
 dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... az1 
@@ -349,7 +350,7 @@ dummy/93fd5c41-88e2-4b2f-97ae-b064d507f3d5 ... az3
 
 **bosh stop dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104 --hard**
 
-> When using the `--hard` flag bosh will additionally delete the vm after it stopoed the jobs. The bosh task logs will not show `Deleting unneeded instances dummy...` because `--hard` will delete the actual vm but not the instance from the deployment state.
+> When using the `--hard` flag bosh will additionally delete the vm after it stopped the jobs. The bosh task logs will not show `Deleting unneeded instances dummy...` because `--hard` will delete the actual vm but not the instance from the deployment state.
 
 ```
 Task 70345 | 13:09:03 | Updating instance dummy: dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104 (3)
@@ -357,9 +358,10 @@ Task 70345 | 13:09:03 | L executing pre-stop: dummy/7e433b3e-2db8-46bf-883a-1c53
 Task 70345 | 13:09:03 | L executing drain: dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104 (3)
 Task 70345 | 13:09:04 | L stopping jobs: dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104 (3)
 Task 70345 | 13:09:05 | L executing post-stop: dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104 (3) (00:00:54)
-````
+```
 
 > This procedure will leave an orphaned disk:
+
 ```
 bosh disks --orphaned | grep 'dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104'
 disk-147a80e4-72b0-4d77-7325-af28ae469d36       1.0 GiB dummy   dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104      az1     Fri Nov 18 13:12:12 UTC 2022
@@ -376,6 +378,7 @@ dummy/93fd5c41-88e2-4b2f-97ae-b064d507f3d5 ... az3
 ##### bosh deploy
 
 > Since we already manually deleted an instance in az1, bosh does not delete the instance that was added last. It realizes it has the required amount of actual vms in the deployment and just deletes the reference to the instance that was stopped.
+
 ```
 Using deployment 'dummy'
 
