@@ -50,6 +50,7 @@ pages:
       - Monitoring: monitoring.md
       - Process Monitoring with Monit: vm-monit.md
       - IaaS Reconciliation: cck.md
+      - Deployment Recovery: recover.md
     - Migrating:
       - To Availability Zones: migrated-from.md
       - From the Ruby CLI: cli-v2-diff.md
