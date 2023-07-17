@@ -3,7 +3,7 @@
 
 BOSH provides the `create-recovery-plan` and `recover` CLI commands to repair IaaS resources used by a specific deployment. The underlying machinery is very similar to [Cloud Check](cck.md), with several exceptions:
 
-1. There is a 2-step process: `create-recovery-plan` scans the deployment for problems and then prompts the user to generate a recovery plan, which is saved to a file.  The `recover` consumes that file.
+1. There is a 2-step process: `create-recovery-plan` scans the deployment for problems and then prompts the user to generate a recovery plan, which is saved to a file.  The `recover` command consumes that file.
 1. Resolutions to problems are selected by instance group and problem type. The `cloud-check` command asks for a resolution for each particular problem.
 1. When generating a recovery plan, `max_in_flight` can be overriden per instance group.  This can be handy to speed deployment recovery.  The `cloud-check` command uses the `max_in_flight` values in the deployment manfiest.
 
@@ -13,7 +13,7 @@ Otherwise, the types of [problems](cck.md#problems) and the mechanism by which t
 
 ## Creating a recovery plan {: #create-recovery-plan }
 
-To create a recovery plan, invoke the  `bosh create-recovery-plan` like:
+To create a recovery plan, invoke the  `bosh create-recovery-plan` command like:
 
 ```shell
 bosh create-recovery-plan recovery-plan.yml
@@ -145,7 +145,7 @@ Each recovery plan has the following schema:
 
 **instance_groups_plan** [Array, required]: The name of instance groups in the deployment to recover.
 
-* **max_in_flight_override** [Integer or Percentage, required]: The `max_in_flight` value to use for problem resolution in the given instance group.
+* **max_in_flight_override** [Integer or Percentage, optional]: The `max_in_flight` value to use for problem resolution in the given instance group.
 * **planned_resolutions** [Hash, optional]: Specifies which resolution to pick per problem type.  Example: `{missing_vm: recreate_vm_without_wait, unresponsive_agent: reboot}`
 
 Here is an example of a complete recovery plan, generated from the above session:
