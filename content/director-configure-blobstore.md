@@ -140,3 +140,33 @@ to store blobstore contents instead of the bucket default, specify `storage_clas
           json_key: |
             AGENT-SERVICE-ACCOUNT-BLOBSTORE-FILE
     ```
+---
+## Azure Storage Account {: #azure-storage }
+
+The Director and the Agents can use an Azure Storage Account compatible blobstore. Here is how to configure it:
+
+1. Create a *private* Azure Storage Account and a container
+
+1. Ensure that access to the Account is protected, as the Director may store sensitive information.
+
+1. Modify deployment manifest for the Director and specify Azure Storage Account credentials and container name:
+
+    ```yaml
+    properties:
+      blobstore:
+        provider: azure-storage
+        account_key: ACCOUNT-KEY
+        account_name: ACCOUNT-NAME
+        container_name: CONTAINER
+      agent:  
+        env:
+          bosh:
+            blobstores:
+            - options: 
+                account_key: ACCOUNT-KEY
+                account_name: ACCOUNT-NAME
+                container_name: CONTAINER
+              provider: azure-storage
+        
+    ```
+
