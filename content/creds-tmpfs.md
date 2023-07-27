@@ -106,3 +106,16 @@ instance_groups:
         settings:
           tmpfs: true
 ```
+#### Run Dir Configuration
+
+The `run` dir is always kept on an in-memory `tmpfs` with a default size of 16MB. Override the default size of the `tmpfs` mount by setting the following `env` properties in your deployment manifest.
+
+```yaml
+instance_groups:
+- name: zookeeper
+  ...
+  env:
+    bosh:
+      run_dir:
+        tmpfs_size: 128m
+```
