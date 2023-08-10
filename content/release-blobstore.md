@@ -84,7 +84,7 @@ Nothing in `config/private.yml`.
 
 ## Azure Storage Account Configuration {: #azure-storage-config }
 
-Azure Storage Account can be used.
+Azure Storage Account is supported from bosh version `278.0.0`.
 
 **config/final.yml**
 

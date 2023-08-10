@@ -143,6 +143,8 @@ to store blobstore contents instead of the bucket default, specify `storage_clas
 ---
 ## Azure Storage Account {: #azure-storage }
 
+Azure Storage Account is supported from bosh version `278.0.0`.
+
 The Director and the Agents can use an Azure Storage Account compatible blobstore. Here is how to configure it:
 
 1. Create a *private* Azure Storage Account and a container
