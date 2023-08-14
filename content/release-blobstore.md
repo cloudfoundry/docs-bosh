@@ -81,6 +81,31 @@ blobstore:
 Nothing in `config/private.yml`.
 
 ---
+
+## Azure Storage Account Configuration {: #azure-storage-config }
+
+Azure Storage Account is supported from bosh version `278.0.0`.
+
+**config/final.yml**
+
+```yaml
+---
+blobstore:
+  provider: azure-storage
+  options:
+    container_name: <container_name>
+    account_name: <account_name>
+```
+
+**config/private.yml**
+
+```yaml
+---
+blobstore:
+  options:
+    account_key: <account_key>
+```
+---
 ## Migrating blobs {: #migration }
 
 CLI does not currently provide a builtin way to migrate blobs to a different blobstore. Suggested way to migrate blobs is to use third party tool like `s3cmd` to list and copy all blobs from current blobstore to another. Once copying of all blobs is complete, update `config` directory to with new blobstore location.
