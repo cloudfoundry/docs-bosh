@@ -939,7 +939,7 @@ See [CPI config](cpi-config.md).
 
 #### Deploy {: #deploy }
 
-- `bosh [GLOBAL-CLI-OPTIONS] deploy [-v ...] [--var-file=VAR=PATH] [-l ...] [--vars-env=PREFIX] [--vars-store=PATH] [-o ...] [--no-redact] [--recreate] [--recreate-persistent-disks] [--fix] [--skip-drain=[INSTANCE-GROUP[/INSTANCE-ID]]] [--canaries=NUMBER or PERCENTAGE] [--max-in-flight=NUMBER or PERCENTAGE] [--dry-run] PATH`
+- `bosh [GLOBAL-CLI-OPTIONS] deploy [-v ...] [--var-file=VAR=PATH] [-l ...] [--vars-env=PREFIX] [--vars-store=PATH] [-o ...] [--no-redact] [--recreate] [--recreate-persistent-disks] [--fix] [--skip-drain=[INSTANCE-GROUP[/INSTANCE-ID]]] [--canaries=NUMBER or PERCENTAGE] [--max-in-flight=NUMBER or PERCENTAGE] [--dry-run] [--force-latest-variables] PATH`
 
     Create or update specified deployment according to the provided manifest. Operation files and variables can be provided to adjust and fill in manifest before deploy begins.
 
@@ -960,6 +960,7 @@ See [CPI config](cpi-config.md).
     - `--canaries=NUMBER or PERCENTAGE` Override manifest values for canaries
     - `--max-in-flight=NUMBER or PERCENTAGE` Override manifest values for max_in_flight
     - `--dry-run` Renders job templates without altering a deployment. It will save some state in the director database (like ip reservations) which will be reused on the next deploy
+    - `--force-latest-variables` Causes the director to retreive the latest value of all variables from the config server, overriding their update strategies.  Available as of director version v279.0.0
     - `PATH` Path to a manifest file
 
     ```shell
