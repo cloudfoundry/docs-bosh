@@ -1,5 +1,4 @@
-The Agent on each deployment job VM is responsible for managing lifecycle of each enabled release job. It starts, monitors, restarts and stops release jobs' processes. These tasks are done with the help of the  [Monit](https://web.archive.org/web/20110816041503/https://mmonit.com/monit/documentation/monit.html). The Agent communicates with the Monit daemon through Monit HTTP APIs to add, remove, start, stop, monitor and unmonitor release jobs' processes.
-
+The Agent on each deployment job VM is responsible for managing lifecycle of each enabled release job. It starts, monitors, restarts and stops release jobs' processes. These tasks are done with the help of [Monit, version 5.2.5](https://web.archive.org/web/20110816041503/https://mmonit.com/monit/documentation/monit.html). The Agent communicates with the Monit daemon through Monit HTTP APIs to add, remove, start, stop, monitor and unmonitor release jobs' processes.
 ---
 ## Check Status {: #check-status }
 
@@ -110,4 +109,4 @@ Process 'nats'
 
 While debugging why certain process is failing it is usually useful to tell Monit to stop restarting the failing process. You can do so via `monit stop <process-name>` command. To start it back up use `monit start <process-name>` command.
 
-See [Monit manual](https://web.archive.org/web/20110816041503/https://mmonit.com/monit/documentation/monit.html) to learn more about Monit.
+See the [Archived Monit Documentation, for version 5.2.5](https://web.archive.org/web/20110816041503/https://mmonit.com/monit/documentation/monit.html) to learn more about Monit.
