@@ -170,7 +170,7 @@ Sample `agent.json` which configures the agent to read from a config drive. See 
 ---
 ### Agent settings format {: #agent-settings-format}
 
-The current state of the JSON settings format supported by the Agent is documented in [settings_test.go](https://github.com/cloudfoundry/bosh-agent/blob/master/settings/settings_test.go) as well as in [settings_test.go](https://github.com/cloudfoundry/bosh-agent/blob/master/settings/settings.go).
+The current state of the JSON settings format supported by the Agent is documented in [settings_test.go](https://github.com/cloudfoundry/bosh-agent/blob/master/settings/settings_test.go) as well as in [settings.go](https://github.com/cloudfoundry/bosh-agent/blob/master/settings/settings.go).
 
 Some of the properties (for example `blobstore` or `mbus` URLs) can be specified in multiple
 places. In general the properties in the `env` section have precedence over the properties defined on
@@ -190,6 +190,11 @@ Sample settings JSON:
   },
   "env": {
     "bosh": {
+      "agent": {
+        "settings": {
+          "tmpfs": false
+        }
+      },
       "authorized_keys": [
         "--AUTHORIZED KEY--"
       ],
