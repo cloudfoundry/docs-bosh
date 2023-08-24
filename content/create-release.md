@@ -209,7 +209,7 @@ On a deployed release, a BOSH Agent runs on each job VM.
 BOSH communicates with the Agent, which in turn executes commands in the
 control script.
 The Agent does this using open source process monitoring software called
-[Monit](http://mmonit.com/monit/).
+[Monit, version 5.2.5](https://web.archive.org/web/20110816041503/https://mmonit.com/monit/documentation/monit.html).
 
 The `monit` file for the `web_ui` job looks like this:
 

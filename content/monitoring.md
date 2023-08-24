@@ -29,7 +29,7 @@ See [Automatic repair with Resurrector](resurrector.md) for details.
 ---
 ## Processes on VMs {: #process }
 
-Release jobs' process monitoring on each VM is done with the help of the [Monit](http://mmonit.com/monit/). Monit continuously monitors presence of the configured release jobs' processes and restarts processes that are not found. Process restarts, failures, etc. are reported to the Agent which in turn reports them as alerts to the Health Monitor. Each Health Monitor plugin is given an opportunity to act on each alert.
+Release jobs' process monitoring on each VM is done with the help of [Monit, version 5.2.5](https://web.archive.org/web/20110816041503/https://mmonit.com/monit/documentation/monit.html). Monit continuously monitors presence of the configured release jobs' processes and restarts processes that are not found. Process restarts, failures, etc. are reported to the Agent which in turn reports them as alerts to the Health Monitor. Each Health Monitor plugin is given an opportunity to act on each alert.
 
 ---
 ## SSH Events {: #ssh }
