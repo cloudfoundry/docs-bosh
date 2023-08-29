@@ -47,7 +47,7 @@ make[1]: *** [exts.mk:250: ext/openssl/all] Error 2
 make: *** [uncommon.mk:295: build-ext] Error 2
 ```
 
-Bump the dependency to a version of Ruby that includes OpenSSL 3 support: Ruby 3.1. If you're using [BOSH packages](https://github.com/bosh-packages/ruby-release), here's how:
+Bump the dependency to a version of Ruby that includes OpenSSL 3 support: Ruby 3.1. If you're using [BOSH packages](https://github.com/cloudfoundry/bosh-package-ruby-release), here's how:
 
 ```shell
 pushd ~/workspace/ruby-release

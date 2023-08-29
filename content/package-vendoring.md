@@ -17,9 +17,9 @@ Sections below describe steps, advantages and disadvantages for each approach.
 
 ## Using `bosh vendor-package` {: #vendor }
 
-CLI v2 introduces new command for release authors to easily vendor final version of a package from another release. BOSH team has also created [`bosh-packages` Github organization](https://github.com/bosh-packages) for tracking official commonly used packages. First additions to that organization are: `golang-release`, `ruby-release`, `java-release` and `nginx-release`. More may be added if deemed to be useful to a number of release authors.
+CLI v2 introduces new command for release authors to easily vendor final version of a package from another release. BOSH team has also created several package release repositories. Current releases are: [golang-release](https://github.com/cloudfoundry/bosh-package-golang-release), [ruby-release](https://github.com/cloudfoundry/bosh-package-ruby-release), [nginx-release](https://github.com/cloudfoundry/bosh-package-nginx-release), [cf-cli-release](https://github.com/cloudfoundry/bosh-package-cf-cli-release), [java-release](https://github.com/cloudfoundry/bosh-package-java-release), and [python-release](https://github.com/cloudfoundry/bosh-package-python-release). More may be added if deemed to be useful to a number of release authors.
 
-As an example, if release encapsulates a Go application that needs to be compiled with Go compiler (as most Go apps do), release author, instead of figuring out how to make a `golang-1.x` package on their own, can vendor in one from `https://github.com/bosh-packages/golang-release`.
+As an example, if release encapsulates a Go application that needs to be compiled with Go compiler (as most Go apps do), release author, instead of figuring out how to make a `golang-1.x` package on their own, can vendor in one from `https://github.com/cloudfoundry/bosh-package-golang-release`.
 
 ### Vendoring by example
 Here an example how package vendoring could work from scratch. A local blobstore is used for simplicity.
@@ -30,7 +30,7 @@ I a productive scenario may use blobstores like Amazon S3 as documented [here](r
 bosh init-release --dir ~/workspace/my-app-release
 
 # Clone golang-release to your system
-git clone https://github.com/bosh-packages/golang-release ~/workspace/golang-release
+git clone https://github.com/cloudfoundry/bosh-package-golang-release ~/workspace/bosh-package-golang-release
 
 cd ~/workspace/my-app-release
 # Configure local blobstore
@@ -41,7 +41,7 @@ blobstore:
     blobstore_path: /tmp/local-blobstore" >> config/final.yml
 
 # Perform vendoring of golang-1.18-linux package
-bosh vendor-package golang-1.18-linux ~/workspace/golang-release
+bosh vendor-package golang-1.18-linux ~/workspace/bosh-package-golang-release
 ```
 
 After running the `vendor-package` command
