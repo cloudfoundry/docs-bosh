@@ -1106,7 +1106,7 @@ See [CPI config](cpi-config.md).
     - `-f`, `--follow` Follow logs via SSH
     - `--num=NUMBER` Last number of lines
     - `-q`, `--quiet` Suppresses printing of headers when multiple files are being examined
-    - `--job=NAME` Limit to only specific jobs
+    - `--job=NAME` Limit to only specific jobs (can only be used in combination with `--follow`)
     - `--only=FILTERS` Filter logs (comma-separated)
     - `--agent` Include only agent logs
     - `--system` Include only system logs
@@ -1124,7 +1124,7 @@ See [CPI config](cpi-config.md).
 
     ```shell
     bosh -e vbox -d cf logs diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0
-    bosh -e vbox -d cf logs diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 --job=rep --job=silkd
+    bosh -e vbox -d cf logs diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 --follow --job=rep --job=silkd
     bosh -e vbox -d cf logs diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 --only='*/*stderr.log'
     bosh -e vbox -d cf logs diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 --agent --only=current --only=sync-time.out
     bosh -e vbox -d cf logs diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 --system --only=kern.log --only=syslog --only=auth.log
