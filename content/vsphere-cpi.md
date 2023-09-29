@@ -102,6 +102,8 @@ Schema for `cloud_properties` section:
         * **server_pools** [Array, optional] Server Pool must exist prior to the deployment. For static server pool, VM is directly added to the server pool. If server pool is dynamic, CPI looks up the NSGroup and adds the VM to the NSGroup.
             * **name** [String, required]: Name of the Server Pool
             * **port** [Integer, optional]: The port that the VM's service is listening on (e.g. 80 for HTTP). If port is specified, all connections will be sent to this port on the VM. Only specify a single port (no ranges). If unset, the load balancer will connect the client to the VM using the same port number (e.g. if the client connects to port 443, the load balancer will forward to the VM on port 443).
+- **pci_passthroughs** [Array, optional]: Specifies a PCI (Peripheral Component Interconnect) device to attach to VM via vSphere Dynamic DirectPath IO. Requires vSphere 7.0+. Automatically sets the properties  `memory_reservation_locked_to_max` and `upgrade_hw_version` to `true`. Each entry requires the PCI card's `device_id` and `vendor_id`. Available in v97+.
+- **vgpus** [Array, optional]: Specifies an Nvidia GRID vGPU to attach to VM.  Automatically sets the properties  `memory_reservation_locked_to_max` and `upgrade_hw_version` to `true`. Available in v97+.
 
 Example of a VM asked to be placed into a specific vSphere resource pool with NSX-V and NSX-T integration:
 
@@ -145,7 +147,7 @@ resource_pools:
           port: 80
 ```
 
-Example of attach three tags (from two categories) to created VMs:
+Example of attaching three tags (from two categories) to created VMs:
 
 ```yaml
 vm_types:
@@ -162,6 +164,27 @@ vm_types:
     - category: category-name-b
       tag: tag-name-b-2
   name: vm_type_name
+```
+
+Example of attaching a PCI card to a VM:
+
+```yaml
+vm_extensions:
+- name: gpu
+  cloud_properties:
+    pci_passthroughs:
+    - vendor_id: 0x10de # Nvidia
+      device_id: 0x1eb8 # Tesla T4
+```
+
+Example of attaching a Virtual GPU to a VM:
+
+```yaml
+vm_extensions:
+- name: gpu
+  cloud_properties:
+    vgpus:
+    - grid_t4-16q
 ```
 
 ---
