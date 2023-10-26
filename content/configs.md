@@ -20,10 +20,10 @@ One of the use cases for providing such open ended functionality is to provide s
 ---
 ## Updating and retrieving a config {: #update }
 
-To add or update a config on the Director use the [`bosh update-config`](cli-v2.md#update-config) CLI command. If you do not provide a name using the `--name` option, `default` will be used.
+To add or update a config on the Director use the [`bosh update-config`](cli-v2.md#update-config) CLI command.
 
 ```shell
-bosh update-config my-type configs.yml
+bosh update-config --type=my-type --name=my-configs-name configs.yml
 ```
 
 ```text
@@ -43,58 +43,23 @@ Succeeded
 ```
 
 ```shell
-bosh config my-type
+bosh config --type=my-type --name=my-configs-name
 ```
 
 ```text
 Using environment '192.168.56.6' as client 'admin'
 
-configs:
-  - name: team-a-config
-    properties:
-      ...
-  - name: team-b-config
-    properties:
-      ...
-```
-
-Or you could split them into different "branches" using the `--name` option.
-
-```shell
-bosh update-config my-type --name=team-a config-a.yml
-```
-
-```text
-Using environment '192.168.56.6' as client 'admin'
-
-+ configs:
-+   - name: team-a-config
-+     properties:
-+       ...
-
-Continue? [yN]: y
-
-Succeeded
-```
-
-```shell
-bosh config my-type --name=team-a
-```
-
-```text
-Using environment '192.168.56.6' as client 'admin'
-
-configs:
-  - name: team-a-config
-    properties:
-      ...
-
-Succeeded
-```
-
-```shell
-bosh update-config my-type --name=team-b config-b.yml
-bosh config my-type --name=team-b
+ID          1
+Type        my-type
+Name        my-configs-name
+Created At  2023-10-26 16:29:47 UTC
+Content     configs:
+            - name: team-a-config
+              properties:
+              ...
+            - name: team-b-config
+              properties:
+              ...
 ```
 
 ---
@@ -103,18 +68,21 @@ bosh config my-type --name=team-b
 To list all configs use the [`bosh configs`](cli-v2.md#configs) CLI command.
 
 ```shell
-bosh configs my-type
+bosh configs
 ```
 
 ```text
 Using environment '192.168.56.6' as client 'admin'
 
-Type     Name
-my-type  default
-~        team-a
-~        team-b
 
-3 configs
+ID  Type     Name              Team  Created At
+1*  my-type  my-configs-name   -     2023-10-26 16:29:47 UTC
+4*  my-type  my-configs-name-b -     2023-10-26 15:29:47 UTC
+
+(*) Currently active
+Only showing active configs. To see older versions use the --recent=10 option.
+
+2 configs
 
 Succeeded
 ```
@@ -122,23 +90,33 @@ Succeeded
 You can also filter configs by `type` and/or `name`:
 
 ```shell
-bosh configs --type=my-type --name=team-a
+bosh configs --type=my-type --name=my-configs-name-b
 ```
 
 ```text
 Using environment '192.168.56.6' as client 'admin'
 
-Type     Name
-my-type  team-a
+
+ID  Type     Name              Team  Created At
+4*  my-type  my-configs-name-b -     2023-10-26 15:29:47 UTC
+
+(*) Currently active
+Only showing active configs. To see older versions use the --recent=10 option.
 
 1 configs
+
+Succeeded
 ```
 
 ---
 ## Deleting configs {: #list }
 
-To delete configs use the [`bosh delete-config`](cli-v2.md#delete-config) CLI command. If you do not provide a name using the `--name=` option, `default` will be used.
+To delete configs use the [`bosh delete-config`](cli-v2.md#delete-config) CLI command. 
 
 ```shell
-bosh delete-config my-type
+bosh delete-config 1
+```
+or
+```shell
+bosh delete-config --type=my-type --name=my-configs-name
 ```
