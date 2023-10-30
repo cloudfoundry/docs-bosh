@@ -42,7 +42,10 @@ To determine what the problem is with a specific VM, you can ssh into the VM and
 ---
 ## Using Monit on the VM {: #using-monit }
 
-On any BOSH managed VM, you can access Monit status for release jobs' processes via Monit CLI. Before you can run the command you have to switch to become a `root` user (via `sudo su`) since Monit executable is only available to root users.
+On any BOSH-managed VM, you can access Monit status for release jobs'
+processes via Monit CLI. Before you can run the `monit` command you have to
+switch to become a `root` user (via `sudo su` or `sudo -i`) since Monit
+executable is only available to root users.
 
 Each enabled release job has its own directory in `/var/vcap/jobs/` directory. Each release job directory contains a monit file (e.g. `/var/vcap/jobs/redis-server/monit`) with final monit configuration for that release job. This is how you can tell which processes belong to which release job. Most release job only start a single process.
 
