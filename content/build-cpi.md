@@ -2,7 +2,7 @@ This topic describes how to build a CPI.
 
 ## Distribution {: #distribution }
 
-CPIs are distributed as regular releases, typically with a release job called `cpi` and a few packages that provide compilation/runtime environment for that job if necessary (e.g. [bosh-aws-cpi-release](https://github.com/cloudfoundry/bosh-aws-cpi-release) includes Ruby and [bosh-warden-cpi-release](https://github.com/cppforlife/bosh-warden-cpi-release) includes golang). To qualify to be a CPI release, it must include a release job that has `bin/cpi` executable.
+CPIs are distributed as regular releases, typically with a release job called `cpi` and a few packages that provide compilation/runtime environment for that job if necessary (e.g. [bosh-aws-cpi-release](https://github.com/cloudfoundry/bosh-aws-cpi-release) includes Ruby and [bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release) includes golang). To qualify to be a CPI release, it must include a release job that has `bin/cpi` executable.
 
 Both `bosh create-env` command and the Director expect to be configured with a CPI release to function properly. In the case of `bosh create-env` command, specified CPI release is unpacked and installed on the machine running the command. For the Director, CPI release job is colocated on the same VM, so that the director release job can access it.
 
@@ -31,8 +31,8 @@ There are a few CPI releases written in Go, as well:
 
  * [Alibaba Cloud CPI Release](https://github.com/cloudfoundry-incubator/bosh-alicloud-cpi-release)
  * [Google CPI Release](https://github.com/cloudfoundry/bosh-google-cpi-release)
- * [VirtualBox CPI Release](https://github.com/cppforlife/bosh-virtualbox-cpi-release)
- * [Warden CPI Release](https://github.com/cppforlife/bosh-warden-cpi-release)
+ * [VirtualBox CPI Release](https://github.com/cloudfoundry/bosh-virtualbox-cpi-release)
+ * [Warden CPI Release](https://github.com/cloudfoundry/bosh-warden-cpi-release)
 
 
 ## Testing {: #testing }

@@ -17,7 +17,7 @@ If you're looking to get started on building a CPI, this [short guide](build-cpi
 Libraries:
 
 - Ruby: `bosh-cpi-ruby` gem [v2.5.0](https://github.com/cloudfoundry/bosh-cpi-ruby/releases/tag/v2.5.0)
-- GoLang: `bosh-cpi-go` [library](https://github.com/cppforlife/bosh-cpi-go)
+- GoLang: `bosh-cpi-go` [library](https://github.com/cloudfoundry/bosh-cpi-go)
 
 #### Migration from V1 of the CPI API contract
 

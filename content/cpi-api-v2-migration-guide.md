@@ -102,14 +102,14 @@ cloud_properties:
 
 ##### GoLang ![](cpi-api-v2-method/gopher.jpg)
 
-- Update [the CPI GO library](https://github.com/cppforlife/bosh-cpi-go) to the latest version:
+- Update [the CPI GO library](https://github.com/cloudfoundry/bosh-cpi-go) to the latest version:
   ```
   go get -u github.com/cppforlife/bosh-cpi-go
   ```
 - For reference code, see these CPIs using the library:
-    - [Warden CPI](https://github.com/cppforlife/bosh-warden-cpi-release)
-    - [VirtualBox CPI](https://github.com/cppforlife/bosh-virtualbox-cpi-release)
-    - [Docker CPI](https://github.com/cppforlife/bosh-docker-cpi-release)
+    - [Warden CPI](https://github.com/cloudfoundry/bosh-warden-cpi-release)
+    - [VirtualBox CPI](https://github.com/cloudfoundry/bosh-virtualbox-cpi-release)
+    - [Docker CPI](https://github.com/cloudfoundry/bosh-docker-cpi-release)
     - [Kubernetes CPI](https://github.com/bosh-cpis/bosh-kubernetes-cpi-release)
 
 ---

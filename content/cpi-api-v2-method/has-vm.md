@@ -20,7 +20,7 @@ This method is mostly used by the consistency check tool (cloudcheck) to determi
 
 ### Implementations
 
- * [cppforlife/bosh-warden-cpi-release](https://github.com/cppforlife/bosh-warden-cpi-release/blob/master/src/github.com/cppforlife/bosh-warden-cpi/action/has_vm.go)
+ * [cppforlife/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/has_vm.go)
 
 
 ## Related

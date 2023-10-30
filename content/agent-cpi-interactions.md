@@ -309,7 +309,7 @@ The supported format of the metadata server by the bosh-agent is documented in [
 
 The registry provides bosh-side metadata to the bosh agent.
 
-From the [Warden CPI documentation](https://github.com/cppforlife/bosh-warden-cpi-release/blob/be1869737c0bfba96662dde3499c9181863f91a7/docs/bosh-micro-usage.md):
+From the [Warden CPI documentation](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/be1869737c0bfba96662dde3499c9181863f91a7/docs/bosh-micro-usage.md):
 
 * The registry is used by the CPI to pass data to the Agent. The registry is started on a server specified by registry properties.
 * If SSH tunnel options are provided, a reverse ssh tunnel is created from the MicroBOSH VM to the registry, making the registry available to the agent on remote machine.
