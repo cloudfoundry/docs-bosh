@@ -11,9 +11,9 @@ Follow below steps to get it running on locally on VirtualBox:
 
 1. Check that your machine has at least 8GB RAM, and 100GB free disk space. Smaller configurations may work.
 
-1. Install [CLI v2](cli-v2-install.md)
+2. Install [CLI v2](cli-v2-install.md)
 
-1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+3. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
     Known working version:
 
@@ -24,7 +24,7 @@ Follow below steps to get it running on locally on VirtualBox:
 
     Note: If you encounter problems with VirtualBox networking try installing [Oracle VM VirtualBox Extension Pack](https://www.virtualbox.org/wiki/Downloads) as suggested by [Issue 202](https://github.com/cloudfoundry/bosh-lite/issues/202). Alternatively make sure you are on VirtualBox 5.1+ since previous versions had a [network connectivity bug](https://github.com/concourse/concourse-lite/issues/9).
 
-1. Install Director VM
+4. Install Director VM
 
     ```shell
     git clone https://github.com/cloudfoundry/bosh-deployment ~/workspace/bosh-deployment
@@ -32,7 +32,12 @@ Follow below steps to get it running on locally on VirtualBox:
     cd ~/deployments/vbox
     ```
 
-    Below command will try automatically create/enable Host-only network 192.168.56.0/24 ([details](https://github.com/cloudfoundry/bosh-virtualbox-cpi-release/blob/master/docs/networks-host-only.md)) and NAT network 'NatNetwork' with DHCP enabled ([details](https://github.com/cloudfoundry/bosh-virtualbox-cpi-release/blob/master/docs/networks-nat-network.md)).
+    Below command will try automatically create/enable [Host-only network][vbox_host_only]
+    `192.168.56.0/24` and [NAT network][vbox_nat_net] called `NatNetwork` with
+    DHCP enabled.
+
+    [vbox_host_only]: https://github.com/cloudfoundry/bosh-virtualbox-cpi-release/blob/master/docs/networks-host-only.md
+    [vbox_nat_net]: https://github.com/cloudfoundry/bosh-virtualbox-cpi-release/blob/master/docs/networks-nat-network.md
 
     ```shell
     bosh create-env ~/workspace/bosh-deployment/bosh.yml \
@@ -52,7 +57,7 @@ Follow below steps to get it running on locally on VirtualBox:
       -v outbound_network_name=NatNetwork
     ```
 
-1. Alias and log into the Director
+5. Alias and log into the Director
 
     ```shell
     export BOSH_CLIENT=admin
@@ -60,7 +65,7 @@ Follow below steps to get it running on locally on VirtualBox:
     bosh alias-env vbox -e 192.168.56.6 --ca-cert <(bosh int ./creds.yml --path /director_ssl/ca)
     ```
 
-1. Confirm that it works
+6. Confirm that it works
 
     ```shell
     bosh -e vbox env
@@ -71,7 +76,7 @@ Follow below steps to get it running on locally on VirtualBox:
     # Succeeded
     ```
 
-1. Optionally, set up a local route for `bosh ssh` commands or accessing VMs directly
+7. Optionally, set up a local route for `bosh ssh` commands or accessing VMs directly
 
     ```shell
     sudo route add -net 10.244.0.0/16     192.168.56.6 # Mac OS X
@@ -92,7 +97,7 @@ Run through quick steps below or follow [deploy workflow](basic-workflow.md) tha
     bosh -e vbox update-cloud-config ~/workspace/bosh-deployment/warden/cloud-config.yml
     ```
 
-1. Upload stemcell
+2. Upload stemcell
 
     ```shell
     bosh -e vbox upload-stemcell \
@@ -100,13 +105,13 @@ Run through quick steps below or follow [deploy workflow](basic-workflow.md) tha
       --sha1 674cd3c1e64d8c51e62770697a63c07ca04e9bbd
     ```
 
-1. Deploy example deployment
+3. Deploy example deployment
 
     ```shell
     bosh -e vbox -d zookeeper deploy <(wget -O- https://raw.githubusercontent.com/cppforlife/zookeeper-release/master/manifests/zookeeper.yml)
     ```
 
-1. Run Zookeeper smoke tests
+4. Run Zookeeper smoke tests
 
     ```shell
     bosh -e vbox -d zookeeper run-errand smoke-tests

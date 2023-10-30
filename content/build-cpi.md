@@ -2,7 +2,14 @@ This topic describes how to build a CPI.
 
 ## Distribution {: #distribution }
 
-CPIs are distributed as regular releases, typically with a release job called `cpi` and a few packages that provide compilation/runtime environment for that job if necessary (e.g. [bosh-aws-cpi-release](https://github.com/cloudfoundry/bosh-aws-cpi-release) includes Ruby and [bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release) includes golang). To qualify to be a CPI release, it must include a release job that has `bin/cpi` executable.
+CPIs are distributed as regular releases, typically with a release job called
+`cpi` and a few packages that provide compilation/runtime environment for that
+job if necessary (e.g. [bosh-aws-cpi-release][aws_cpi] includes Ruby and
+[bosh-warden-cpi-release][warden_cpi] includes golang). To qualify to be a CPI
+release, it must include a release job that has `bin/cpi` executable.
+
+[aws_cpi]: https://github.com/cloudfoundry/bosh-aws-cpi-release
+[warden_cpi]: https://github.com/cloudfoundry/bosh-warden-cpi-release
 
 Both `bosh create-env` command and the Director expect to be configured with a CPI release to function properly. In the case of `bosh create-env` command, specified CPI release is unpacked and installed on the machine running the command. For the Director, CPI release job is colocated on the same VM, so that the director release job can access it.
 
@@ -48,7 +55,8 @@ There are two test suites each CPI is expected to pass before it's considered to
 The CPI is expected to handle multiple method calls concurrently (and in parallel) with a promise that arguments represent different IaaS resources. For example, multiple `create_vm` CPI method calls may be issued that all use the same stemcell cloud ID; however, `attach_disk` CPI method will never be called with the same VM cloud ID concurrently.
 
 !!! note
-    Since each CPI method call is a separate OS process, simple locking techniques (Ruby's <code>Mutex.new</code> for example) will not work.
+    Since each CPI method call is a separate OS process, simple locking techniques
+    (Ruby's `Mutex.new` for example) will not work.
 
 
 ## Rate Limiting {: #rate-limiting }
