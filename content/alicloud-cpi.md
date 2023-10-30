@@ -66,28 +66,37 @@ Schema for `cloud_properties` section:
 * **key\_pair\_name** [String, optional]: Key pair name. Example: `bosh`.
 * **spot\_price\_limit** [Float, optional]: Bid price in RMB for Alibaba Cloud spot instance. Using this option will slow down VM creation. Example: `0.03`.
 * **spot_strategy** [String, optional]: Sets an expected spot price if you are creating preemptible instances. It takes effect only when parameter InstanceChargeType is PostPaid. Options:
-  * `NoSpot` A normal Pay-As-You-Go instance.
-  * `SpotWithPriceLimit` Sets the price threshold for a preemptible instance.
-  * `SpotAsPriceGo` A price that is based on the highest Pay-As-You-Go instance.
+  - `NoSpot` A normal Pay-As-You-Go instance.
+  - `SpotWithPriceLimit` Sets the price threshold for a preemptible instance.
+  - `SpotAsPriceGo` A price that is based on the highest Pay-As-You-Go instance.
 
   Default value: NoSpot.
-* **slbs** [Array, optional]: Array of Load balancer Ids that should be attached to created VMs. Example: `[lb-abc123456]`. Default is `[]`.
-* **ram\_role\_name** [String, optional]: Instance RAM role name. The name is provided and maintained by RAM and can be queried using [ListRoles](https://www.alibabacloud.com/help/doc-detail/28713.htm).
+  
+* **slbs** [Array, optional]: Array of Load balancer Ids used to add created VMs to default slb server group. Example: `[lb-abc123456]`. Default is `[]`.
+* **slb_weight** [Integer, optional]: The weight value used to add created VMs to default slb server group. Example: `80`. Default is `100`.
+* **slb_server_group** [Array, optional]: Array of SLB virtual server group Ids used to attach created VMs. Example: `[sgp-abc123456]`. Default is `[]`.
+* **slb_server_group_port** [Integer, optional]: The port value used to attach created VMs with SLB virtual server group. It will be ignored when `slb_server_group` is not set. Example: `8080`. Default is `33333`.
+* **slb_server_group_weight** [Integer, optional]: The weight value used to attach created VMs with SLB virtual server group. It will be ignored when `slb_server_group` is not set. Example: `80`. Default is `100`.
+* **nlb_server_group_ids** [Array, optional, Available since v47.0.0]: Array of NLB virtual server group Ids used to attach created VMs. Example: `[rgp-abc123456]`. Default is `[]`.
+* **nlb_server_group_port** [Integer, optional, Available since v47.0.0]: The port value used to attach created VMs with NLB virtual server group. It will be ignored when `nlb_server_group_ids` is not set. Example: `8080`. Default is ``.
+* **nlb_server_group_weight** [Integer, optional, Available since v47.0.0]: The weight value used to attach created VMs with NLB virtual server group. It will be ignored when `nlb_server_group_ids` is not set. Example: `80`. Default is `100`.
+* * **ram\_role\_name** [String, optional]: Instance RAM role name. The name is provided and maintained by RAM and can be queried using [ListRoles](https://www.alibabacloud.com/help/doc-detail/28713.htm).
  For more information, see [CreateRole](https://www.alibabacloud.com/help/doc-detail/28710.htm) and [ListRoles](https://www.alibabacloud.com/help/doc-detail/28713.htm). Example: `director`.
 * **instance_name** [String, optional]: The instance name. It is a string of 2 to 128 English letters and special characters. It must begin with an English or a Chinese character.
 It can contain digits, periods (.), colons (:), underscores (_), and hyphens (-), but cannot begin with http:// or https://.  The default value is the `InstanceId` of the instance.
 * **passowrd** [String, optional]: Password of the ECS instance. It can be [8, 30] characters in length. It must contain uppercase and lowercase letters, digits. The following special characters are allowed: @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? /
 * **charge_type** [String, optional]: Billing methods. Optional values:
-  * `PrePaid` Monthly, or annual subscription. Make sure that your registered credit card is invalid or you have insufficient balance in your PayPal account. Otherwise,  InvalidPayMethod error may occur.
-  * `PostPaid` Pay-As-You-Go.
+  - `PrePaid` Monthly, or annual subscription. Make sure that your registered credit card is invalid or you have insufficient balance in your PayPal account. Otherwise,  InvalidPayMethod error may occur.
+  - `PostPaid` Pay-As-You-Go.
 
   Default value: PostPaid.
+
 * **charge_period** [Integer, optional]: The charge period of `PrePaid` instance. The value depends on `charge_period_unit`.
 * **charge\_period\_unit** [String, optional]: The charge period unit of `PrePaid` instance. Optional values: Week | Month. When PeriodUnit is Week, period can be one of {“1”, “2”, “3”, “4”}.
 When PeriodUnit is Month, period can be one of { “1”, “2”, “3”, “4”, “5”, “6”, “7”, “8”, “9”, “12”, “24”, “36”,”48”,”60”}. Default value: Month.
 * **auto_renew** [Boolean, optioal]: Whether to set AutoRenew. This parameter is valid when InstanceChargeType is PrePaid. Optional values:
-  * `True` Enable automatic renewal.
-  * `False` Disable automatic renewal.
+  - `True` Enable automatic renewal.
+  - `False` Disable automatic renewal.
 
   Default value: false.
 * **auto\_renew\_period** [Integer, optional]: When AutoRenew is set to True, this parameter is required. When PeriodUnit is Week, AutoRenewPeriod can be one of {“1”, “2”, “3”}.
@@ -99,17 +108,17 @@ When PeriodUnit is Month, period can be one of { “1”, “2”, “3”, “4
 * **ephemeral_disk** [Hash, optional]: Elastic block storage data disk of custom size. Default disk size is either the size of first instance storage disk.
     * **size** [Integer, required]: Specifies the disk size in megabytes.
     * **category** [String, optional]: category of the [Elastic block storage](https://www.alibabacloud.com/help/doc-detail/25383.htm): `cloud_efficiency`, `cloud_ssd`. Defaults to `cloud_efficiency`.
-        * `cloud_efficiency` Ultra cloud disk.
-        * `cloud_ssd` Cloud SSD.
+        - `cloud_efficiency` Ultra cloud disk.
+        - `cloud_ssd` Cloud SSD.
     * **encrypted** [Boolean, optional] Enables encryption for the ephemeral disk. Defaults to `false`. Overrides the global `encrypted` property.
     * **delete\_with\_instance** [Boolean, optional] Whether a data disk is released along with the instance or not. Optional values:
-        * `true` The disk is released with the instance.
-        * `false` The disk is not released with the instance.
+        - `true` The disk is released with the instance.
+        - `false` The disk is not released with the instance.
 * **system_disk** [Hash, optional]: Elastic block storage system disk of custom size.
     * **size** [Integer, required]: Specifies the disk size in megabytes.
     * **category** [String, optional]: category of the [Elastic block storage](https://www.alibabacloud.com/help/doc-detail/25383.htm): `cloud_efficiency`, `cloud_ssd`. Defaults to `cloud_efficiency`.
-        * `cloud_efficiency` Ultra cloud disk.
-        * `cloud_ssd` Cloud SSD.
+        - `cloud_efficiency` Ultra cloud disk.
+        - `cloud_ssd` Cloud SSD.
 
 Example of an `ecs.g5.large` instance:
 
@@ -131,12 +140,13 @@ resource_pools:
 Schema for `cloud_properties` section:
 
 * **category** [String, optional]: category of the [Elastic block storage](https://www.alibabacloud.com/help/doc-detail/25383.htm): `cloud_efficiency`, `cloud_ssd`. Defaults to `cloud_efficiency`.
-    * `cloud_efficiency` Ultra cloud disk.
-    * `cloud_ssd` Cloud SSD.
+    - `cloud_efficiency` Ultra cloud disk.
+    - `cloud_ssd` Cloud SSD.
+
 * **encrypted** [Boolean, optional] Enables encryption for the ephemeral disk. Defaults to `false`. Overrides the global `encrypted` property.
 * **delete\_with\_instance** [Boolean, optional] Whether a data disk is released along with the instance or not. Optional values:
-    * `true` The disk is released with the instance.
-    * `false` The disk is not released with the instance.
+    - `true` The disk is released with the instance.
+    - `false` The disk is not released with the instance.
 
 Elastic block storage volumes are created in the availability zone of an instance that volume will be attached.
 
