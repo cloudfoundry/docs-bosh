@@ -334,6 +334,9 @@ variables:
 
 See [CLI Variable Interpolation](cli-int.md) for more details about variables.
 
+See [Variable Types](variable-types.md) for more details about CLI-supported
+generation for variables.
+
 ---
 ## Tags Block {: #tags }
 
