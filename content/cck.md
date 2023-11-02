@@ -405,7 +405,10 @@ Automate recovery using the `--resolution=RESOLUTION-VALUE` cck option, where `R
 
  * `ignore` - skip resolution
  * `recreate_vm` - recreate VM and wait for processes to start
- * `recreate_vm_without_wait` - recreate VM without waiting for processes to start
+ * `recreate_vm_without_wait` - recreate VM without waiting for processes to
+   start (and thus [`post-start` scripts](job-lifecycle.md#start) won't run
+   after processes have restarted, which could have consequences depending on
+   how critical `post-start` scripts are)
  * `reboot_vm` - reboot the VM
  * `delete_vm` - delete the VM
  * `delete_vm_reference` - remove the VM reference that Director has (this could cause IaaS resources to be abandoned)
