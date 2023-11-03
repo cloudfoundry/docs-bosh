@@ -1,14 +1,24 @@
 !!! note
     Requires director v277.4.0 and CLI v7.3.0
 
-BOSH provides the `create-recovery-plan` and `recover` CLI commands to repair IaaS resources used by a specific deployment. The underlying machinery is very similar to [Cloud Check](cck.md), with several exceptions:
+BOSH provides the `create-recovery-plan` and `recover` CLI commands to repair
+IaaS resources used by a specific deployment. The underlying machinery is very
+similar to [Cloud Check](cck.md), with several exceptions:
 
-1. There is a 2-step process: `create-recovery-plan` scans the deployment for problems and then prompts the user to generate a recovery plan, which is saved to a file.  The `recover` command consumes that file.
-1. Resolutions to problems are selected by instance group and problem type. The `cloud-check` command asks for a resolution for each particular problem.
-1. When generating a recovery plan, `max_in_flight` can be overriden per instance group.  This can be handy to speed deployment recovery.  The `cloud-check` command uses the `max_in_flight` values in the deployment manfiest.
+1. There is a 2-step process: `create-recovery-plan` scans the deployment for
+   problems and then prompts the user to generate a recovery plan, which is
+   saved to a file.  The `recover` command consumes that file.
+2. Resolutions to problems are selected by instance group and problem type.
+   The `cloud-check` command asks for a resolution for each particular
+   problem.
+3. When generating a recovery plan, `max_in_flight` can be overriden per
+   instance group.  This can be handy to speed deployment recovery.  The
+   `cloud-check` command uses the `max_in_flight` values in the deployment
+   manfiest.
 
 
-Otherwise, the types of [problems](cck.md#problems) and the mechanism by which they are repaired are the same as in the `cloud-check` command.
+Otherwise, the types of [problems](cck.md#problems) and the mechanism by which
+they are repaired are the same as in the `cloud-check` command.
 
 
 ## Creating a recovery plan {: #create-recovery-plan }
