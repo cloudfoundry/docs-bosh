@@ -536,19 +536,25 @@ See [Uploading Releases](uploading-releases.md).
 
 #### Upload-Release {: #upload-release }
 
-- `bosh [GLOBAL-CLI-OPTIONS] upload-release [--dir=DIR] [--rebase] [--fix] [--name=NAME] [--version=VERSION] [--sha1=DIGEST] [--stemcell=OS/VERSION] [URL]` (Alias: `ur`)
+- `bosh [GLOBAL-CLI-OPTIONS] upload-release [--dir=DIR] [--rebase] [--fix] [--name=NAME] [--version=VERSION] [--sha1=DIGEST] [--stemcell=OS/VERSION] [URL]`
+  (Alias: `ur`)
 
     Uploads release to the Director. Succeeds even if release is already imported.
 
-    Release location may be local file system path, HTTP/HTTPS URL or a git URL
+    Release location may be local file system path, HTTP/HTTPS URL or a Git
+    URL. See [Release URLs](release-urls.md) for more details.
 
-    - `--dir=DIR` Release directory path if not current working directory (default: .)
+    - `--dir=DIR` Release directory path if not current working directory
+      (default: `.`)
     - `--rebase` Rebases this release onto the latest version known by the Director
     - `--fix` Replaces corrupt and missing jobs and packages
-    - `--name=NAME`  Name used in existence check (is not used with local release file)
-    - `--version=VERSION` Version used in existence check (is not used with local release file)
+    - `--name=NAME`  Name used in existence check (is not used with local
+      release file)
+    - `--version=VERSION` Version used in existence check (is not used with
+      local release file)
     - `--sha1=DIGEST` SHA1 of the remote release (is not used with local files)
-    - `--stemcell=OS/VERSION` Stemcell that the release is compiled against (applies to remote releases)
+    - `--stemcell=OS/VERSION` Stemcell that the release is compiled against
+      (applies to remote releases)
     - `URL` Path to a local file or URL
 
     ```shell
