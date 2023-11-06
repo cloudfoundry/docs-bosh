@@ -223,6 +223,17 @@ aliases:
   initial_health_check: asynchronous/synchronous
 ```
 
+!!! Note
+    When using `placeholder_type: uuid` or `placeholder_type: index`, the
+    value for `health_filter` has some importance. Indeed, when the instance
+    behind the alias is unhealthy, the default `health_filter: smart` will
+    resolve the alias to no address at all, or if you prefer, an empty list of
+    IP addresses. Depending on your use-case, you might expect an `index`- or
+    `uuid`-based alias to always return the IP address of the designated
+    instance, and let clients load-balance the traffic to healthy instances
+    with their own mechanisms. With such use-case, that expects one instance
+    to always be resolved, then opt for `health_filter: all`.
+
 ###### Parameters in Detail
 
 **domain** [String] (*required*) 
