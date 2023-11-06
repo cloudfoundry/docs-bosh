@@ -38,13 +38,63 @@ Schema:
 
 * **name** [String, required]: Name of the job.
 * **description** [String, optional]: Describes purpose of the job.
-* **templates** [Hash, optional]: [Template files](#templates) found in the `templates` directory of the job and their final destinations relative to the job directory on the deployed VMs. By convention executable files should be placed into `bin/` directory so that the Agent can mark them as executable, and configuration files should be placed into `config/` directory.
+* **templates** [Hash, optional]: [Template files](#templates) found in the
+  `templates` directory of the job (keys of the Hash) and their final
+  destinations (values of the Hash), relative to the job directory on the
+  deployed VMs.
+    * **&lt;key>** [String, required]: the relative path and filename of the
+      ERB template provided by the job in the release, relative to the
+      `templates` sub-directory. No need for any `.erb` suffix, all templates
+      are treated as ERB templates whatever their name is.
+    * **&lt;value>** [String, required]: the relative path and filename of the
+      rendered file, relative to the job directory (i.e.
+      `/var/vcap/jobs/<job-name>/`) on the managed Bosh instances (a.k.a. the
+      “deployed VMs”). By convention, executable files should be placed into
+      `bin/` directory so that the Agent can mark them as executables, and
+      configuration files should be placed into `config/` directory.
 * **packages** [Array, optional]: Package dependencies required by the job at runtime.
+* **consumes** [Array, optional]: Links that are consumed by the job for
+  rendering ERB templates.
+    * **name** [String, required]: Name of the link to find.
+    * **type** [String, required]: Type of the link to be found. This is an
+      arbitrary naming. Usual and conventional types are `address` when the
+      link goal is to expose a Bosh DNS name atht allows accessing the
+      instances of the group. Usually typed by technology, like `mysql`,
+      `postgres`, `cassandra`, etc. Anything that makes sense is relevant and
+      matters.
+    * **optional** [Boolean, optional]: Whether finding an matching link is
+      optional (when `true`) or mandatory (when `false`. Default is `false`,
+      so optinal links must be explicitly declared as such.
+* **provides** [Array, optional]: Links that are exposed to other jobs for
+  rendering their ERB templates.
+    * **name** [String, required]: Name of the exposed link.
+    * **type** [String, required]: Type of the exposed link.
+    * **properties** [Array, optional]: List of property keys in dot notation
+      (same as **properties.&lt;name>** below)
 * **properties** [Hash, optional]: Configuration options supported by the job.
-    * **\<name\>** [String, required]: Property key in dot notation. Typical properties include account names, passwords, shared secrets, hostnames, IP addresses, port numbers, and descriptions.
-        * **description** [String, required]: Describes purpose of the property.
-        * **example** [Any, optional]: Example value. Default is `nil`.
-        * **default** [Any, optional]: Default value. Default is `nil`.
+    * **&lt;name>** [String, required]: Property key in dot notation. Typical
+      properties include account names, passwords, shared secrets, hostnames,
+      IP addresses, port numbers, and descriptions.
+        * **description** [String, required]: Describes purpose of the
+          property. This is not used by the Director, but is displayed in job
+          configuration details provided by the [release index](/releases).
+        * **type** [String, optional]: The type of the property. This is only
+          a convention for release authors to provide a type when they
+          estimate it useful. Example: `type: certificate`.
+        * **example** [Any, optional]: Example value, to be displayed in the
+          [release index](/releases). Default is `nil`.
+        * **default** [Any, optional]: The default value for the property.
+          Default is `nil`.
+
+!!! Note
+    Within a peoperty definition, `default` is used by the Director, and
+    `description`, `default` and `example` are displayed by the
+    [release index](/releases). In turns, other keys like `type` are used only
+    for convenience, like Concourse does `env` keys in the
+    [“web” job definition][concourse_web_spec]. Indeed, the schema is not
+    formally validated by the Director when registering a release job.
+
+[concourse_web_spec]: https://github.com/concourse/concourse-bosh-release/blob/8d2cfa0/jobs/web/spec#L68-L71
 
 ---
 ## Templates (ERB configuration files) {: #templates }
@@ -180,7 +230,7 @@ information, networking setup, and instance configuration.
 - `spec.networks`: Entire set of network information for the instance. Example:
 
     ```yaml
-    default:
+    <network-name>:
         type: manual
         ip: 10.224.0.129
         netmask: 255.255.240.0
@@ -198,8 +248,11 @@ information, networking setup, and instance configuration.
     `spec.ip` property is provided only for use-cases where a numeric IP
     address (either IPv4 or IPv6) is absolutely required.
 
-!!! warning
-      When **dynamic** networks are being used, `spec.ip` might not be available.
+!!! Warning
+      When **dynamic** networks are being used, `spec.ip` might not be
+      available, then the value `127.0.0.1` is provided instead. This applies
+      to `spec.<network-name>.ip`, `spec.<network-name>.netmask` and
+      `spec.<network-name>.gateway`.
 
 ##### Instance configuration
 
