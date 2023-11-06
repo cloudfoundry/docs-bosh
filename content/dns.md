@@ -143,7 +143,7 @@ By default, a VM is considered healthy if the process manager reports all proces
 
 Jobs which provide services can be configured to be addressable via a static alias. A job that currently provides a link can be aliased directly by updating the manifest to add the alias in the `provides` configuration of the job. Here is an example:
 
-```
+```yaml
 instance_groups:
 - name: instance-group0
   jobs:
@@ -159,7 +159,7 @@ instance_groups:
 
 If the job as defined in the release does not currently provide a link, you can still define an alias to that job but first you must define a custom link provider in order to do so like this:
 
-```
+```yaml
 instance_groups:
 - name: instance-group0
   jobs:
@@ -183,7 +183,8 @@ instance_groups:
 A basic alias is an _unparameterized_ alias on a _constant domain_ with a _constant_ query.  It returns all IPs matching the filter that provide that link.
 
 Example:
-```
+
+```yaml
 aliases:
   - domain: my-service.my-domain
     health_filter: smart/healthy/unhealthy/all
@@ -195,7 +196,8 @@ A wildcard alias is an _unparameterized_ alias on a _wildcard domain_ with a _co
 It returns all IPs matching the filter that provide that link.
 
 Example:
-```
+
+```yaml
 aliases:
 - domain: "*.cloud-controller-ng.service.cf.internal"
   health_filter: smart/healthy/unhealthy/all
@@ -203,13 +205,17 @@ aliases:
 ```
 
 ###### Placeholder alias
-A placeholder alias is a _parameterizable_ alias on a _wildcard domain_ with a _variable_ query.
-It returns IPs matching both the filter that provides that link and the placeholder replacement.
+A placeholder alias is a _parameterizable_ alias on a _wildcard domain_ with a
+_variable_ query. It returns IPs matching both the filter that provides that
+link and the placeholder replacement.
 
-It allows referencing a placeholder (_) specified in the alias. The type of the placeholder can be configured, to allow referencing by instance uuid, index, availability_zone, or network.
+It allows referencing a placeholder (_) specified in the alias. The type of
+the placeholder can be configured, to allow referencing by instance `uuid`,
+`index`, `availability_zone`, or `network`.
 
 Example:
-```
+
+```yaml
 aliases:
 - domain: "_.cloud-controller-ng.service.cf.internal"
   placeholder_type: uuid/index/az/network
@@ -269,8 +275,8 @@ Setting this to `synchronous` will force BOSH to wait for the first health statu
 It is possible for more than one link provider to define domains with the exact same values.  If this happens, the queries will each be run independently and the results will be merged.
 
 For example, with the following deployment manifest:
-deployment.yml:
-```
+
+```yaml
 instance_groups:
 # ...
 - name: proxied
@@ -278,7 +284,7 @@ instance_groups:
   - name: nginx
     provides:
       conn:
-        aliases:        
+        aliases:
         - domain: "api.bosh.internal"
 # ...
 - name: direct
@@ -504,7 +510,7 @@ The recommended way to hook the links providers with the consumers variables is 
 
 In the example below, the variable of type certificate `app_server_cert` is explicitly consuming `alternative_name` from the `my-custom-app-server-address` provider. This will lead to the `app_server_cert` certificate being generated with an additional SAN: the BOSH DNS address of the instance group `server_ig` where the link provider (the job `app_server`) exists. For example: `q-s0.server_ig.default.app-service.bosh`.
 
-```
+```yaml
 name: app-service
 
   ...
@@ -517,7 +523,7 @@ instance_groups:
        app-server-address:
          as: my-custom-app-server-address
      custom_provider_definitions:
-     - name: app-server-address  
+     - name: app-server-address
        type: address
   ...
 
@@ -542,7 +548,7 @@ It is also possible to set the common name to the appropriate BOSH DNS record.
 
 In the example below, the variable of type certificate `app_server_cert` is explicitly consuming `common_name` from the `my-custom-app-server-address` provider. This will set the Common Name of `app_server_cert` generated certificate to be the BOSH DNS address of the instance group `server_ig` where the link provider (the job `app_server`) exists. For example, the common name will be set to `q-s0.server_ig.default.app-service.bosh`.
 
-```
+```yaml
 variables:
   - name: app_server_cert
     type: certificate
@@ -556,7 +562,7 @@ variables:
 
 If the application talks to specific instances or uses different healthiness filtering, it may be useful to request a wildcard DNS name when consuming a link for either SANs or common name:
 
-```
+```yaml
 variables:
   - name: app_server_cert
     type: certificate
@@ -585,7 +591,7 @@ For example, the `app_server_cert` cert below will have "**Application Server**"
  * DNS: `*.serverig.default.app-service.bosh`
  * IP: 172.158.20.255
 
-```
+```yaml
 variables:
   - name: app_server_cert
     type: certificate
@@ -609,128 +615,134 @@ variables:
 BOSH DNS Health Monitor Certificates should be performed in three steps in order to achieve zero downtime.
 
 Given you used bosh-deployment to update your runtime config as in:
-```
+```shell
 bosh update-runtime-config bosh-deployment/runtime-configs/dns.yml --vars-store bosh-dns-certs.yml
 ```
 
 1. Step 1 (Add new CA Certificates to runtime config):
 
-  This will make sure the new certificates (step 2) will be properly validated against new CA Certificate,
-  and old certificates will be validated against the previous one.
+    This will make sure the new certificates (step 2) will be properly
+    validated against new CA Certificate, and old certificates will be
+    validated against the previous one.
 
-  ```
-  cat > rotate-dns-certs-1.yml <<EOF
-  ---
-  - type: replace
-    path: /variables/-
-    value:
-      name: /dns_healthcheck_tls_ca_new
-      type: certificate
-      options:
-        is_ca: true
-        common_name: dns-healthcheck-tls-ca
+    ```shell
+    cat > rotate-dns-certs-1.yml <<EOF
+    ---
+    - type: replace
+      path: /variables/-
+      value:
+        name: /dns_healthcheck_tls_ca_new
+        type: certificate
+        options:
+          is_ca: true
+          common_name: dns-healthcheck-tls-ca
 
-  - type: replace
-    path: /variables/-
-    value:
-      name: /dns_healthcheck_server_tls_new
-      type: certificate
-      options:
-        ca: /dns_healthcheck_tls_ca_new
-        common_name: health.bosh-dns
-        extended_key_usage:
-        - server_auth
+    - type: replace
+      path: /variables/-
+      value:
+        name: /dns_healthcheck_server_tls_new
+        type: certificate
+        options:
+          ca: /dns_healthcheck_tls_ca_new
+          common_name: health.bosh-dns
+          extended_key_usage:
+          - server_auth
 
-  - type: replace
-    path: /variables/-
-    value:
-      name: /dns_healthcheck_client_tls_new
-      type: certificate
-      options:
-        ca: /dns_healthcheck_tls_ca_new
-        common_name: health.bosh-dns
-        extended_key_usage:
-        - client_auth
+    - type: replace
+      path: /variables/-
+      value:
+        name: /dns_healthcheck_client_tls_new
+        type: certificate
+        options:
+          ca: /dns_healthcheck_tls_ca_new
+          common_name: health.bosh-dns
+          extended_key_usage:
+          - client_auth
 
-  - type: replace
-    path: /addons/0/jobs/name=bosh-dns/properties/health/server/tls?
-    value:
-      ca: ((/dns_healthcheck_server_tls.ca))
-      certificate: ((/dns_healthcheck_server_tls.certificate))
-      private_key: ((/dns_healthcheck_server_tls.private_key))
+    - type: replace
+      path: /addons/0/jobs/name=bosh-dns/properties/health/server/tls?
+      value:
+        ca: ((/dns_healthcheck_server_tls.ca))
+        certificate: ((/dns_healthcheck_server_tls.certificate))
+        private_key: ((/dns_healthcheck_server_tls.private_key))
 
-  - type: replace
-    path: /addons/0/jobs/name=bosh-dns/properties/health/client/tls?
-    value:
-      ca: ((/dns_healthcheck_client_tls.ca))
-      certificate: ((/dns_healthcheck_client_tls.certificate))
-      private_key: ((/dns_healthcheck_client_tls.private_key))
+    - type: replace
+      path: /addons/0/jobs/name=bosh-dns/properties/health/client/tls?
+      value:
+        ca: ((/dns_healthcheck_client_tls.ca))
+        certificate: ((/dns_healthcheck_client_tls.certificate))
+        private_key: ((/dns_healthcheck_client_tls.private_key))
 
-  - type: replace
-    path: /addons/0/jobs/name=bosh-dns/properties/health/server/tls/ca
-    value: ((/dns_healthcheck_server_tls.ca))((/dns_healthcheck_server_tls_new.ca))
+    - type: replace
+      path: /addons/0/jobs/name=bosh-dns/properties/health/server/tls/ca
+      value: ((/dns_healthcheck_server_tls.ca))((/dns_healthcheck_server_tls_new.ca))
 
-  - type: replace
-    path: /addons/0/jobs/name=bosh-dns/properties/health/client/tls/ca
-    value: ((/dns_healthcheck_client_tls.ca))((/dns_healthcheck_client_tls_new.ca))
-  EOF
+    - type: replace
+      path: /addons/0/jobs/name=bosh-dns/properties/health/client/tls/ca
+      value: ((/dns_healthcheck_client_tls.ca))((/dns_healthcheck_client_tls_new.ca))
+    EOF
 
-  bosh update-runtime-config bosh-deployment/runtime-configs/dns.yml --vars-store bosh-dns-certs.yml \
-    -o rotate-dns-certs-1.yml
-  ```
-  Redeploy all VMs.
+    bosh update-runtime-config bosh-deployment/runtime-configs/dns.yml --vars-store bosh-dns-certs.yml \
+      -o rotate-dns-certs-1.yml
+    ```
 
-1. Step 2 (Add new Certificates to runtime config):
+    Redeploy all VMs.
 
-  At this step the VMs with new certificates will be able to properly start up since they match the new CA Certificate,
-  as well as the old ones. By the end of this step you will all VMs running with new certificates, however the previous
-  CA Certificates are still configured and should be removed for security reasons.
+2. Step 2 (Add new Certificates to runtime config):
 
-  ```
-  cat > rotate-dns-certs-2.yml <<EOF
-  ---
-  - type: replace
-    path: /addons/0/jobs/name=bosh-dns/properties/health/server/tls/certificate
-    value: ((/dns_healthcheck_server_tls_new.certificate))
+    At this step the VMs with new certificates will be able to properly start
+    up since they match the new CA Certificate, as well as the old ones. By
+    the end of this step you will all VMs running with new certificates,
+    however the previous CA Certificates are still configured and should be
+    removed for security reasons.
 
-  - type: replace
-    path: /addons/0/jobs/name=bosh-dns/properties/health/server/tls/private_key
-    value: ((/dns_healthcheck_server_tls_new.private_key))
+    ```shell
+    cat > rotate-dns-certs-2.yml <<EOF
+    ---
+    - type: replace
+      path: /addons/0/jobs/name=bosh-dns/properties/health/server/tls/certificate
+      value: ((/dns_healthcheck_server_tls_new.certificate))
 
-  - type: replace
-    path: /addons/0/jobs/name=bosh-dns/properties/health/client/tls/certificate
-    value: ((/dns_healthcheck_client_tls_new.certificate))
+    - type: replace
+      path: /addons/0/jobs/name=bosh-dns/properties/health/server/tls/private_key
+      value: ((/dns_healthcheck_server_tls_new.private_key))
 
-  - type: replace
-    path: /addons/0/jobs/name=bosh-dns/properties/health/client/tls/private_key
-    value: ((/dns_healthcheck_client_tls_new.private_key))
-  EOF
+    - type: replace
+      path: /addons/0/jobs/name=bosh-dns/properties/health/client/tls/certificate
+      value: ((/dns_healthcheck_client_tls_new.certificate))
 
-  bosh update-runtime-config bosh-deployment/runtime-configs/dns.yml --vars-store bosh-dns-certs.yml \
-    -o rotate-dns-certs-1.yml -o rotate-dns-certs-2.yml
-  ```
-  Redeploy all VMs.
+    - type: replace
+      path: /addons/0/jobs/name=bosh-dns/properties/health/client/tls/private_key
+      value: ((/dns_healthcheck_client_tls_new.private_key))
+    EOF
 
-1. Step 3 (Remove old Certificates from runtime config):
+    bosh update-runtime-config bosh-deployment/runtime-configs/dns.yml --vars-store bosh-dns-certs.yml \
+      -o rotate-dns-certs-1.yml -o rotate-dns-certs-2.yml
+    ```
 
-  Finally this step should remove the old certificates from all you deployments.
+    Redeploy all VMs.
 
-  ```
-  cat rotate-dns-certs-3.yml <<EOF
-  ---
-  - type: replace
-    path: /addons/0/jobs/name=bosh-dns/properties/health/server/tls/ca
-    value: ((/dns_healthcheck_server_tls_new.ca))
+3. Step 3 (Remove old Certificates from runtime config):
 
-  - type: replace
-    path: /addons/0/jobs/name=bosh-dns/properties/health/client/tls/ca
-    value: ((/dns_healthcheck_client_tls_new.ca))
-  EOF
+    Finally this step should remove the old certificates from all you deployments.
 
-  bosh update-runtime-config bosh-deployment/runtime-configs/dns.yml --vars-store bosh-dns-certs.yml \
-    -o rotate-dns-certs-1.yml -o rotate-dns-certs-2.yml -o rotate-dns-certs-3.yml
-  ```
-  Redeploy all VMs.
+    ```shell
+    cat rotate-dns-certs-3.yml <<EOF
+    ---
+    - type: replace
+      path: /addons/0/jobs/name=bosh-dns/properties/health/server/tls/ca
+      value: ((/dns_healthcheck_server_tls_new.ca))
+
+    - type: replace
+      path: /addons/0/jobs/name=bosh-dns/properties/health/client/tls/ca
+      value: ((/dns_healthcheck_client_tls_new.ca))
+    EOF
+
+    bosh update-runtime-config bosh-deployment/runtime-configs/dns.yml --vars-store bosh-dns-certs.yml \
+      -o rotate-dns-certs-1.yml -o rotate-dns-certs-2.yml -o rotate-dns-certs-3.yml
+    ```
+
+    Redeploy all VMs.
 
 --
 ## Instance `records.json` Data
