@@ -22,7 +22,7 @@ name: http-server
 description: This job runs a simple HTTP server.
 
 templates:
-  ctl.sh: bin/ctl
+  bpm.yml: config/bpm.yml
   config.json: config/config.json
 
 packages:
@@ -99,30 +99,129 @@ Schema:
 ---
 ## Templates (ERB configuration files) {: #templates }
 
-Release author can define zero or more templates for each job, but typically you need at least a template for a control script.
+Release authors can define zero or more templates for each job, but typically
+you need at least a template for the BPM config file, that is expected to
+renderd to the `config/bpm.yml` location.
 
-### Monit {: #monit }
+### Favor Bosh Process Manager (BPM) over Monit {: #monit }
 
-Example `monit` file for configuring single process that can start, monitor and stop a Postgres process:
+Monit is a component of the Bosh architecture that was introduced in the early
+days, and has always been deemed to get rid of soon. But history has shown
+over the years that transitionning away from Monit is complex-engough for
+being hold back since then.
 
+As a consequence, Release authors should avoid at all costs relying on fancy
+Monit features. Instead, they should use a very simple and standard `monit`
+file, and leverage the battle-tested and well-designed
+[Bosh Process Manager (BPM)](bpm/bpm).
+
+Whenever BPM would miss some required features, then contributions should be
+submitted as Pull Requests to [its Git repository][bpm_repo] so that more
+use-case are covered.
+
+[bpm_repo]: https://github.com/cloudfoundry/bpm-release/tree/master/src/bpm
+
+#### BPM Configuration
+
+The release needs to render a `config/bpm.yml` file following the
+configuration schema defined in the BPM documentation. The schema is clean and
+configuring BPM is straightforward. See [BPM Configuration Format](bpm/config)
+for more details.
+
+Here is a simple example `bpm.yml` config, showcased in the
+[Exemplar Bosh Release][exemplar_bpm].
+
+[exemplar_bpm]: https://github.com/cloudfoundry/exemplar-release/blob/latest/jobs/sample-app/templates/bpm.yml
+
+```yaml
+<% require "json" -%>
+processes:
+  - name: sample-app
+    executable: /var/vcap/packages/sample-app/bin/sample-app
+    args: []
+    env:
+      PORT: <%= p('port').to_json %>
+      CF_INSTANCE_INDEX: <%= spec.index.to_json %>
 ```
+
+Release author need a basic understanding of the isolation mechanisms enforced
+by BPM, especially read-only root disk remouting, and declarating read-write
+access to portions only of the mount space.
+
+See the [BPM Runtime Environment](bpm/runtime) for more details on these topics.
+
+#### Standard `monit` shim with BPM
+
+Here is the standard `monit` file that Release authors should use. Only
+replace `<job-name>` by the actual job name.
+
+```monit
+check process <job-name>
+  with pidfile /var/vcap/sys/run/bpm/<job-name>/<job-name>.pid
+  start program "/var/vcap/jobs/bpm/bin/bpm start <job-name>"
+  stop program "/var/vcap/jobs/bpm/bin/bpm stop <job-name>"
+  group vcap
+```
+
+#### Legacy pattern with `*_ctl` script (highly discouraged)
+
+Legacy `monit` files are using a `*_ctl` scripts that conventionally accept
+`start` or `stop` as first argument. We document this here only for release
+author to spot this old pattern and properly
+[transition to the BPM pattern](bpm/transitioning).
+
+```monit
 check process postgres
-  with pidfile /var/vcap/sys/run/postgres/pid
-  start program "/var/vcap/jobs/postgres/bin/ctl start"
-  stop program "/var/vcap/jobs/postgres/bin/ctl stop"
+  with pidfile /var/vcap/sys/run/postgres/postgres.pid
+  start program "/var/vcap/jobs/postgres/bin/postgres_ctl start"
+  stop program "/var/vcap/jobs/postgres/bin/postgres_ctl stop"
 ```
 
-### Control script (`*_ctl` script) {: #ctl }
+This is highly discouraged, because experience has show that the `*_ctl`
+scripts have so many small details to care about, that this pattern leads to
+tremendous boiler-plate, untested and fragile script code in Bosh releases.
+Would release authors not be able to use BPM for some good reason, then
+leveraging the standard `start-stop-daemon` utility is a cleaner and more
+robust pattern.
 
-In a typical setup, control script is called by the Monit when it tries to start, and stop processes.
+For completeness, see the [Exemplar Release][start_stop_daemon_example] with
+detailed examples on the `start-stop-daemon` pattern, though release authors
+are encouraged to use BPM instead.
 
-Monit expects that executing "start program" directive will get a process running and output its PID into "pidfile" location. Once process is started, Monit will monitor that process is running and if it exits, it will try to restart it.
+[start_stop_daemon_example]: https://github.com/cloudfoundry/exemplar-release/blob/latest/jobs/paragon/templates/start
 
-Monit also expects that executing "stop program" directive will stop running process when the Director is restarting or shutting down the VM.
+#### Monit expectations
+
+In a typical setup, BPM is called by Monit when OS processes, whether daemons
+or one-off errand jobs, need to be started or stopped.
+
+Monit expects that executing "bpm start" directive will get a process running
+and output its PID into the file given by the `with pidfile` declaration. Once
+the process is started by BPM, Monit will monitor the daemon process, based on
+the PID that can be found in the `pidfile`, and if the process cease to exist,
+Monit will try to start it again.
+
+Monit also expects that executing `bpm stop` will stop the running process.
+BPM offers the best guarantees for that, and properly adapts to some
+documented defects of Monit in that regards.
+See the [Monit Workarounds](bpm/runtime.md#monit-workarounds) for more details.
 
 ### Hook scripts {: #hooks }
 
-There are several job lifecycle events that a job can react to: pre-start, post-start, post-deploy, and drain. See [Job lifecycle](job-lifecycle.md) for the execution order.
+There are several job lifecycle events that a job can react to: `pre-start`,
+`post-start`, `post-deploy`, `pre-stop`, `post-stop`, and `drain`.
+
+See [Job lifecycle](job-lifecycle.md) for more details on the exact execution
+order of these hook scripts.
+
+The Exemplar Release demonstrate state-of-the-art implementations for
+[`post-start`][post_start_example] or [`drain`][drain_example], including
+helpful boilerplate that provide proper timestamping of logs for hook scripts,
+which has proven very useful when troubleshooting issues while developing Bosh
+Releases.
+
+[post_start_example]: https://github.com/cloudfoundry/exemplar-release/blob/latest/jobs/paragon/templates/post-start
+[drain_example]: https://github.com/cloudfoundry/exemplar-release/blob/latest/jobs/paragon/templates/drain
 
 ### Use of Properties {: #properties }
 
