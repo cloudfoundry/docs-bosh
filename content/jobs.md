@@ -93,20 +93,159 @@ Advanced usage:
 
 #### Using `spec` {: #properties-spec }
 
-Each template can also access the special `spec` object for instance-specific configuration:
+Each template can also access the special `spec` object for instance-specific
+configuration. Remember that job properties are initially defined at the
+_instance group_ level in the deployment manifest.
 
-- `spec.address`: Default network address (IPv4, IPv6 or DNS record) for the instance. Available in bosh-release v255.4+.
-- `spec.az`: Availability zone of the instance.
-- `spec.bootstrap`: True if this instance is the first instance of its group.
-- `spec.deployment`: Name of the BOSH deployment containing this instance.
-- `spec.id`: ID of the instance.
-- `spec.index`: Instance index. Use `spec.bootstrap` to determine the first instead of checking whether the index is 0. Additionally, there is no guarantee that instances will be numbered consecutively, so that there are no gaps between different indices.
-- `spec.name`: Name of the instance.
-- `spec.networks`: Entire set of network information for the instance.
-- `spec.release`: BOSH release for the instance.
-- `spec.ip`: IP address of the instance. In case multiple IP addresses are available, the IP of the [addressable or default network](networks.md#multi-homed) is used. Available in bosh-release v258+.
+Release authors can the `spec` object directly in the ERB templates:
+`<%= spec.ip %>`.
 
-Use the `spec` object directly in your templates: `<%= spec.ip %>`
+The accessible properties fall into three categories: Bosh structure
+information, networking setup, and instance configuration.
+
+##### Structural info
+
+- `spec.deployment`: Name of the BOSH deployment defining the instance group.
+- `spec.name`: Name of the instance group that the instance belongs to.
+- `spec.az`: The availability zone that the instance is placed into.
+- `spec.id`: Unique and immutable UUID of the instance.
+- `spec.index`: Ordinal and numeric “human friendly” instance index. Indexes
+  usually start a `0`, but with no guarantee. Gaps may appear anywhere in the
+  numbering, and the first instance in the group may have a non-zero index.
+- `spec.bootstrap`: Boolean that is `true` if the instance is the first
+  instance of its group.
+
+!!! Note
+    With `spec.index`, Bosh doesn't guarantee that instances will be numbered
+    consecutively. Determining which instance is the first its group is a very
+    common requirement, so that certain things get bootstrapped by one single
+    node of a cluster, like database schema migrations, or admin password
+    enforcement. When facing such requirement, release authors should not
+    assume there is necessarily an instance with index `0`, and use
+    `spec.bootstrap` instead.
+
+##### Networking setup
+
+- `spec.address`: Default network address for the instance. This can be an
+  IPv4, an IPv6 address or a DNS record, depending on the Director's
+  configuration. Available in bosh-release v255.4+.
+- `spec.ip`: IP address of the instance. In case multiple IP addresses are
+  available, the IP of the
+  [addressable or default network](networks.md#multi-homed) is used. Available
+  in bosh-release v258+.
+- `spec.dns_domain_name`: the configured root domain name for the Director,
+  which defaults to `bosh`, meaning that the configured Top-Level Domain (TLD)
+  for Bosh DNS is `.bosh`.
+- `spec.networks`: Entire set of network information for the instance. Example:
+
+    ```yaml
+    default:
+        type: manual
+        ip: 10.224.0.129
+        netmask: 255.255.240.0
+        cloud_properties:
+          name: random
+        default:
+        - dns
+        - gateway
+        gateway: 10.224.0.1
+        dns_record_name: 0.<instance-group>.<network>.<deployment>.bosh
+    ```
+
+!!! Note
+    Release authors are encouraged to favor `spec.address` over `spec.ip`. The
+    `spec.ip` property is provided only for use-cases where a numeric IP
+    address (either IPv4 or IPv6) is absolutely required.
 
 !!! warning
       When **dynamic** networks are being used, `spec.ip` might not be available.
+
+##### Instance configuration
+
+- `spec.persistent_disk`: is `0` if no persistent disk is mounted to the
+  instance. In case the deployment manifest does declare a persistent disk
+  attached to the instances of the group, this `persistent_disk` is given a
+  `0` value when the deployment manifests instructs to remove the instance
+  from the group and delete it (typical for _scaled-in_ operations, as opposed
+  to _scale-out_ where new instances are “horizontally” added to a group).
+- `spec.release.name`: The name of the BOSH Release where the instance job is
+  originally defined.
+- `spec.release.version`: Version of the BOSH release that the instance job
+  relies on.
+
+##### Link properties
+
+Remember that the job targeted through alink can live in a different instance
+group of a different deployment.
+
+- Structural info
+  - `link(name).deployment_name`: Deployment name of the linked job.
+  - `link(name).instance_group`: Instance group name of the linked job.
+  - `link(name).group_name`: A concatenation of the link name and link type,
+    separated by a dash `-`, i.e. `<link-name>-<link-type>`.
+  - `link(name).instances`: An array of details for each instance of the group.
+  - `link(name).instances[].az`: the availability zone hat the instance is
+    placed into
+  - `link(name).instances[].name`: instance group name. Alias for
+    `link().instance_group`.
+  - `link(name).instances[].id`: instance immutable UUID
+  - `link(name).instances[].index`: human-friendly instance ordinal
+  - `link(name).instances[].bootstrap`: whether the instance is the first of
+    its group
+- Networking setup
+  - `link(name).default_network`: default network for the instance group.
+  - `link(name).networks`: list of all networks for the instance group. **TO BE TESTED**
+  - `link(name).address`: an address for the instance group, using the `q-s0`
+    prefix, indicating the `smart` health filter.
+    See [Native DNS Support](dns.md) for more details.
+  - `link(name).domain`: the root top-level domain name suffix. Defaults to `bosh`.
+  - `link(name).use_link_dns_names`: applicable config for the link. **TO BE TESTED**
+  - `link(name).use_short_dns_addresses`: applicable config for the link. **TO BE TESTED**
+  - `link(name).instances[].address`: the instance address, that can be an
+     IPv4, an IPv6 address or a DNS record, depending on the Director's
+     configuration, but is usually a DNS name, ending with the suffix
+     indicated in the `link().domain` property.
+  - `link(name).instances[].addresses`: several addresses including aliases? **TO BE TESTED**
+  - `link(name).instances[].dns_addresses`: same as above, but preferring DNS entry
+- Configuration
+  - `link(name).properties`: The job properties that are exposed by the link.
+
+##### Deprecated properties accessors
+
+- `name`: the instance group name. Alias for `spec.name` (recommended).
+- `index`: the instance index in its group. Alias for `spec.index` (recommended).
+- `properties`: the job properties, as defined in the instance group. Alias
+  for `spec.properties`. Doesn't provide elementary error reporting.
+- `spec.properties`: The properties defined in the deployment manifest for the
+  instance job that the templates belongs to. Accessing properties through
+  this object leads to poor error reporting and is highly discouraged. Bosh
+  Release authors should use the `p()` accessor instead, which implements
+  proper error reporting, and properly prevents misconfiguration.
+
+With Bosh v1, the term “job” was designating an “instance group”. The use of
+`spec.job` in ERB templates could possibly be used by legacy Bosh releases but
+its usage is highly discouraged. It is documented here only to help release
+authors to migrate to the standardized `p()` property accessor.
+
+- `spec.job`: instance group spec. This is an old Bosh v1 naming, when _job_
+  did actually mean _instance group_. `nil` when no job is defined for the
+  instance group.
+- `spec.job.name`: name of the instance group that the template belongs to.
+- `spec.job.template`: name of the first job in the instance group, which is
+  only relevant if it is the “default errand”, a legacy “Bosh v1” concept
+  before it was decided that any job that defines a `bin/run` script can be
+  run as an errand.
+- `spec.job.version`: version of the first job in the instance group, only
+  relevant if it is the “default errand” (legacy concept).
+- `spec.job.templates`: an array of jobs for the instance group
+- `spec.job.templates.*.name`: name of the job
+- `spec.job.templates.*.version`: version as defined in the release jobs manifests
+- `spec.job.templates.*.sha1`: digital fingerprint of the job (nowadays with a
+  `sha256:` prefix for SHA256)
+- `spec.job.templates.*.blobstore_id`: where to find the job tarball in the
+  Director's blobstore.
+- `spec.job.templates.*.logs`: an empty array of logs files, related to the
+  legacy `logs` hash in a release job spec, which is undocumented.
+- `spec.properties_need_filtering`: Whether properties from other instance
+  groups should not be exposed to this job. This is legacy, and should not be
+  here.
