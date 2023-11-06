@@ -82,14 +82,55 @@ Basic ERB syntax includes:
 
 - `<%= "value" %>`: Inserts string "value".
 - `<% expression %>`: Evaluates `expression` but does not insert content into the template. Useful for `if/else/end` statements.
+- `<% expression -%>`: Evaluates `expression`, does not insert any content,
+  and remove the newline `\n` character that might be after the `-%>`.
 
 Templates have access to merged job property values, built by merging default property values and operator specified property values in the deployment manifest. To access properties `p` and `if_p` ERB helpers are available:
 
 - `<%= p("some.property") %>`: Insert the property `some.property` value, else a default value from the job spec file. If `some.property` does not have a default in the spec file, error will be raised to the user specifying that property value is missing.
 Advanced usage:
     - Operator `p` can take optional parameter as a default value, e.g. `<%= p("some.property", some_value) %>`. This value is used as a last resort.
-    - The first parameter can be an array, e.g. `<%= p(["some.property1", "some.property2"], some_value) %>`. Value of the first property which is set will be returned.
-- `<% if_p("some.property") do |prop| %>...<% end %>` - Evaluates the block only if `some.property` property has been provided. The property value is available in the variable `prop`. Multiple properties can be specified: `<% if_p("prop1", "prop2") do |prop1, prop2| %>`.
+    - The first parameter can be an array, e.g.
+      `<%= p(["some.property1", "some.property2"], some_value) %>`. Value of the
+      first property which is set (i.e. non-`null`) will be returned.
+- A part of the template can be evaluated only when some property is provided.
+  `<% if_p("some.property") do |prop| %>...<% end %>` evaluates the block only
+  if `some.property` property has been provided. The property value is
+  available in the variable `prop`.
+    - Multiple properties can be specified:
+      `<% if_p("some.prop1", "other.prop2") do |prop1, prop2| %>...<% end %>`,
+      in which case the block is evaluated only if _all_ the properties are
+      defined.
+
+After the `end` of an `if_p` block, the `.else ... end` and
+`.else_if_p("other.property") ... end` syntaxes are supported.
+
+- `<% if_p("some.property") do |prop| %>...<% end.else %>...<% end %>` -
+  Evaluates first block if `some.property` has been provoded (or has a default
+  in job spec), otherwise evaluates the second block.
+- `<% if_p("some.property") do |prop| %>...<% end.else_if_p("other.property") |prop2| %>...<% end.else %>...<% end %>` -
+  Evaluates first block if `some.property` has been provided (or has a default
+  in job spec), otherwise evaluates the second block if `other.property` has
+  been provided (or has a default in job spec), otherwise evaluates the third
+  block.
+
+The link navigation syntax `link()` also provides similar `.p()` and `.if_p()`
+methods, and `.else_if_p()` or `.else` blocks.
+
+- `<%= link("relation-name").if_p("remote.prop") do |prop| %>...<% end %>` -
+  If `remote.prop` is defined in the job that is resolved through navigating
+  the `relation-name` link, then the block is evaluated with the value in the
+  local variable `prop`.
+- `<%= link("relation-name").if_p("remote.prop") do |prop| %>...<% end.else %>...<% end %>` -
+  Same as above with an `.else ... end` block.
+- `<%= link("relation-name").if_p("remote.prop") do |prop| %>...<% end.else_if_p("other.prop2") |prop2| %>...<% end.else %>...<% end %>` -
+  Same as above with an `.else_if_p` block that evaluates only when
+  `other.prop2` is defined through navigating the `relation-name` link.
+
+See [Links](links.md) and [Links Properties](links-properties.md) for more
+details on navigating links to fetch configuration properties from other jobs,
+possibly declared in different instance groups, and even possibly living in
+different deployments.
 
 #### Using `spec` {: #properties-spec }
 
