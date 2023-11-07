@@ -9,16 +9,21 @@ The procedure below rotates the NATS CA and NATS related certificates across the
 * Director is in a healthy state.
 * All VMs are in `running` state in all deployments. See [below](#expired) if your VMs are unresponsive.
 * Take note of any **ignored** VMs. They will be omitted from the VM redeploy steps.
-* Director versions prior to 271.12 and stemcells prior to Bionic 1.36 and Windows 2019.41 need to recreate VMs as part of the redeploy steps.
+* Former Director versions (prior to 271.12) and stemcells (prior to Bionic
+  1.36 or Windows 2019.41) need to recreate VMs as part of the redeploy steps
+  ([step 2](#step-2) and [step 4](#step-4)).
 
 ### Summary of the involved steps {: #visualization }
 
 ![image](images/nats_rotation.png)
 
+!!! Note
+    In the above schema, the “starting state” is a sort of “step 0” that
+    conforms to [the asumptions above](#preconditions). And the [step 5](#step-5) is absent from the diagram.
 
 ## Execution
 
-### Step 1: Update the director, health monitor, and NATS server jobs, to introduce the new CA
+### Step 1: Update the director, health monitor, and NATS server jobs, to introduce the new CA {: #step-1}
 
 ```shell
 bosh create-env ~/workspace/bosh-deployment/bosh.yml \
@@ -110,11 +115,17 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 
 ```
 
-### Step 2: Redeploy all VMs, for each deployment
+### Step 2: Redeploy all VMs, for each deployment {: #step-2}
 
 Deployed VMs need to be redeployed in order to receive new client certificates that are signed by the new CA. Also, they will receive a new list of CAs (old and new CAs certs concatenated) to trust when communicating with the NATS server. This redeployment of the VMs is crucial for the NATS CA rotation.
 
-### Step 3: Update the director, health monitor, and NATS server jobs, to remove references for the old NATS CA and certificates signed by it
+!!! Note
+    With Director 271.12+ and Agent 2.388.0+ (shipped with stemcells as of
+    Bionic 1.36+ or Windows 2019.41+), the Director can update the VM settings
+    without recreating them… Provided that the NATS CA certificate is not yet
+    expired!
+
+### Step 3: Update the director, health monitor, and NATS server jobs, to remove references for the old NATS CA and certificates signed by it {: #step-3}
 
 ```shell
 bosh create-env ~/workspace/bosh-deployment/bosh.yml \
@@ -166,11 +177,16 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 ```
 
 
-### Step 4: Redeploy all VMs, for each deployment
+### Step 4: Redeploy all VMs, for each deployment {: #step-4}
 
 Redeploying all VMs will remove the old NATS CA reference from their agent settings.
 
-### Step 5: Clean-up
+!!! Note
+    With Director 271.12+ and Agent 2.388.0+ (shipped with stemcells as of
+    Bionic 1.36+ or Windows 2019.41+), the Director can update the VM settings
+    without recreating them.
+
+### Step 5: Clean-up {: #step-5}
 
 Operators are encouraged to clean up the credentials file after applying the aforementioned procedure, in order to prevent the old CA from returning in a subsequent `bosh create-env` in error. The following procedure will update the credentials store to replace the old certificate values with the new values generated.
 
