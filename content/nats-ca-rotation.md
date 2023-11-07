@@ -4,14 +4,14 @@ The procedure below rotates the NATS CA and NATS related certificates across the
 
 ## Before you start
 
-### Preconditions
+### Preconditions {: #preconditions }
 
 * Director is in a healthy state.
 * All VMs are in `running` state in all deployments. See [below](#expired) if your VMs are unresponsive.
 * Take note of any **ignored** VMs. They will be omitted from the VM redeploy steps.
 * Director versions prior to 271.12 and stemcells prior to Bionic 1.36 and Windows 2019.41 need to recreate VMs as part of the redeploy steps.
 
-### Visualization of the Steps
+### Summary of the involved steps {: #visualization }
 
 ![image](images/nats_rotation.png)
 
@@ -227,14 +227,6 @@ mv updated_creds.yml creds.yml
 
 ## When the NATS CA has already expired {: #expired }
 
-### Solution
-
-If your deployment VMs are already in the state 'unresponsive agent', then the above procedure will not return the system to a healthy state. To replace a NATS CA that has already expired:
-
-1. Open the file used for the `--vars-store` argument to `bosh create-env` (typically `creds.yml`) and remove all NATS-related variable **keys** and **values**: `nats_ca`, `nats_clients_director_tls`, `nats_clients_health_monitor_tls`, and `nats_server_tls`.
-2. Update the director with new certs with `bosh create-env`. The CLI generates new values for the credentials removed in step 1.
-3. Recreate all your deployments so they receive the new certificates with `bosh recreate -d ... --fix`. `--fix` is required to ignore the unresponsive state of the VM.
-
 ### Diagnostic
 
 NATS certificates may be expired if all `bosh deploy` tasks suddenly start failing. To confirm that the certificate is expired, you can use the OpenSSL utility:
@@ -243,6 +235,14 @@ NATS certificates may be expired if all `bosh deploy` tasks suddenly start faili
 bosh int /path/to/creds.yml --path /nats_server_tls/ca | openssl x509 -noout -dates
 ```
 
-The procedure above will enable you to restore NATS communications.
+The procedure below will enable you to restore NATS communications.
 
 NATS will not emit specific error messages related to certificate expiration, but requests will time out after 600 seconds.
+
+### Solution
+
+If your deployment VMs are already in the state 'unresponsive agent', then the above procedure will not return the system to a healthy state. To replace a NATS CA that has already expired:
+
+1. Open the file used for the `--vars-store` argument to `bosh create-env` (typically `creds.yml`) and remove all NATS-related variable **keys** and **values**: `nats_ca`, `nats_clients_director_tls`, `nats_clients_health_monitor_tls`, and `nats_server_tls`.
+2. Update the director with new certs with `bosh create-env`. The CLI generates new values for the credentials removed in step 1.
+3. Recreate all your deployments so they receive the new certificates with `bosh recreate -d ... --fix`. `--fix` is required to ignore the unresponsive state of the VM.
