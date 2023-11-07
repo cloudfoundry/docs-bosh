@@ -15,6 +15,9 @@ The procedure below rotates the NATS CA and NATS related certificates across the
 
 ### Summary of the involved steps {: #visualization }
 
+Get accustomed with the operation steps, that are summarized in the following
+schema.
+
 ![image](images/nats_rotation.png)
 
 !!! Note
@@ -24,6 +27,10 @@ The procedure below rotates the NATS CA and NATS related certificates across the
 ## Execution
 
 ### Step 1: Update the director, health monitor, and NATS server jobs, to introduce the new CA {: #step-1}
+
+In the `bosh create-env` invocation for updating the Director, add the
+`add-new-ca.yml` ops-file like in the example below. The content of this file
+is detailed later.
 
 ```shell
 bosh create-env ~/workspace/bosh-deployment/bosh.yml \
@@ -126,6 +133,10 @@ Deployed VMs need to be redeployed in order to receive new client certificates t
     expired!
 
 ### Step 3: Update the director, health monitor, and NATS server jobs, to remove references for the old NATS CA and certificates signed by it {: #step-3}
+
+In the `bosh create-env` invocation, replace the previous ops-file with the
+`remove-old-ca.yml` ops-file like in the example below. The content of this
+file is detailed later.
 
 ```shell
 bosh create-env ~/workspace/bosh-deployment/bosh.yml \
@@ -262,3 +273,13 @@ If your deployment VMs are already in the state 'unresponsive agent', then the a
 1. Open the file used for the `--vars-store` argument to `bosh create-env` (typically `creds.yml`) and remove all NATS-related variable **keys** and **values**: `nats_ca`, `nats_clients_director_tls`, `nats_clients_health_monitor_tls`, and `nats_server_tls`.
 2. Update the director with new certs with `bosh create-env`. The CLI generates new values for the credentials removed in step 1.
 3. Recreate all your deployments so they receive the new certificates with `bosh recreate -d ... --fix`. `--fix` is required to ignore the unresponsive state of the VM.
+
+!!! Notice
+    In a live environment, this procedure may cause some more disruptions
+    compared to usual updates, because the unreachable Agents won't softly
+    stop processes before VM restarts. Instead, the CPI will instruct the IaaS
+    to forcefully stop the VMs. The risk is that stateful services like
+    databases or data stores may miss some writes to their persistent disk,
+    which can possibly end up with data corruption. In order to mitigate that
+    risk, production environments should schedule a maintenance window with
+    the lowest possible write activity on persistent data stores.
