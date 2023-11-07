@@ -49,7 +49,7 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 * Each VM/agent continues to use the old client certificates to communicate with the NATS server.
 
 !!! warning
-    In the below operations file `add-new-ca.yml`, the `nats_server_tls_2` certificate is generated with the `internal_ip` as the only Subject Alternative Name. Please remember to add any other SANs that maybe neccessary to your environment.
+    In the below operations file `add-new-ca.yml`, the `nats_server_tls_2` certificate is generated with the `internal_ip` as the only “Subject Alternative Name”. Please remember to add any other SANs that maybe neccessary to your environment.
 
 `add-new-ca.yml`
 
@@ -78,7 +78,7 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
     private_key: ((nats_clients_health_monitor_tls_2.private_key))
 
 - type: replace
-  path: /variables/-
+  path: /variables/name=nats_ca_2?
   value:
     name: nats_ca_2
     type: certificate
@@ -87,7 +87,7 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
       common_name: default.nats-ca.bosh-internal
 
 - type: replace
-  path: /variables/-
+  path: /variables/name=nats_server_tls_2?
   value:
     name: nats_server_tls_2
     type: certificate
@@ -99,7 +99,7 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
       - server_auth
 
 - type: replace
-  path: /variables/-
+  path: /variables/name=nats_clients_director_tls_2?
   value:
     name: nats_clients_director_tls_2
     type: certificate
@@ -110,7 +110,7 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
       - client_auth
 
 - type: replace
-  path: /variables/-
+  path: /variables/name=nats_clients_health_monitor_tls_2?
   value:
     name: nats_clients_health_monitor_tls_2
     type: certificate
@@ -119,7 +119,6 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
       common_name: default.hm.bosh-internal
       extended_key_usage:
       - client_auth
-
 ```
 
 ### Step 2: Redeploy all VMs, for each deployment {: #step-2}
@@ -184,7 +183,6 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
   value:
     certificate: ((nats_clients_health_monitor_tls_2.certificate))
     private_key: ((nats_clients_health_monitor_tls_2.private_key))
-
 ```
 
 
@@ -201,9 +199,9 @@ Redeploying all VMs will remove the old NATS CA reference from their agent setti
 
 Operators are encouraged to clean up the credentials file after applying the aforementioned procedure, in order to prevent the old CA from returning in a subsequent `bosh create-env` in error. The following procedure will update the credentials store to replace the old certificate values with the new values generated.
 
-```
-# update_nats_var_values.yml
+`update_nats_var_values.yml`
 
+```yaml
 ---
 - type: replace
   path: /nats_ca
@@ -232,13 +230,12 @@ Operators are encouraged to clean up the credentials file after applying the afo
 
 - type: remove
   path: /nats_server_tls_2
-
 ```
 
 Create a backup of the current credentials and apply the opsfile:
 
-```
-cp creds.yml creds.yml.bkp
+```shell
+cp -a creds.yml creds.yml.bkp
 
 bosh interpolate creds.yml \
   -o update_nats_var_values.yml \
@@ -258,7 +255,7 @@ mv updated_creds.yml creds.yml
 
 NATS certificates may be expired if all `bosh deploy` tasks suddenly start failing. To confirm that the certificate is expired, you can use the OpenSSL utility:
 
-```
+```shell
 bosh int /path/to/creds.yml --path /nats_server_tls/ca | openssl x509 -noout -dates
 ```
 
