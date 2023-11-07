@@ -2,6 +2,7 @@
 
 The procedure below rotates the NATS CA and NATS related certificates across the director, health monitor, NATS server, and all the deployed VMs. It can be used whether the certificates are still valid or have already expired. See [Components of Bosh](bosh-components.md) for more information on core components.
 
+## Before you start
 
 ### Preconditions
 
@@ -10,8 +11,14 @@ The procedure below rotates the NATS CA and NATS related certificates across the
 * Take note of any **ignored** VMs. They will be omitted from the VM redeploy steps.
 * Director versions prior to 271.12 and stemcells prior to Bionic 1.36 and Windows 2019.41 need to recreate VMs as part of the redeploy steps.
 
+### Visualization of the Steps
 
-### Step 1: Update the director, health monitor, and NATS server jobs, to introduce the new CA.
+![image](images/nats_rotation.png)
+
+
+## Execution
+
+### Step 1: Update the director, health monitor, and NATS server jobs, to introduce the new CA
 
 ```shell
 bosh create-env ~/workspace/bosh-deployment/bosh.yml \
@@ -103,11 +110,11 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 
 ```
 
-### Step 2: Redeploy all VMs, for each deployment.
+### Step 2: Redeploy all VMs, for each deployment
 
 Deployed VMs need to be redeployed in order to receive new client certificates that are signed by the new CA. Also, they will receive a new list of CAs (old and new CAs certs concatenated) to trust when communicating with the NATS server. This redeployment of the VMs is crucial for the NATS CA rotation.
 
-### Step 3: Update the director, health monitor, and NATS server jobs, to remove references for the old NATS CA and certificates signed by it.
+### Step 3: Update the director, health monitor, and NATS server jobs, to remove references for the old NATS CA and certificates signed by it
 
 ```shell
 bosh create-env ~/workspace/bosh-deployment/bosh.yml \
@@ -159,7 +166,7 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 ```
 
 
-### Step 4: Redeploy all VMs, for each deployment.
+### Step 4: Redeploy all VMs, for each deployment
 
 Redeploying all VMs will remove the old NATS CA reference from their agent settings.
 
@@ -218,7 +225,9 @@ mv updated_creds.yml creds.yml
 !!! warning
     **Warning:** If you do not perform the clean-up procedure, you must ensure that the ops files (`add-new-ca.yml` and `remove-old-ca.yml`) are used every time a create-env is executed going forward (which can be unsustainable). Removing the ops files would revert to the old CA, which can lead to unresponsive agents for existing and newly created VMs.
 
-### Expired
+## When the NATS CA has already expired {: #expired }
+
+### Solution
 
 If your deployment VMs are already in the state 'unresponsive agent', then the above procedure will not return the system to a healthy state. To replace a NATS CA that has already expired:
 
@@ -226,11 +235,7 @@ If your deployment VMs are already in the state 'unresponsive agent', then the a
 2. Update the director with new certs with `bosh create-env`. The CLI generates new values for the credentials removed in step 1.
 3. Recreate all your deployments so they receive the new certificates with `bosh recreate -d ... --fix`. `--fix` is required to ignore the unresponsive state of the VM.
 
-### Visualization of the Steps
-
-![image](images/nats_rotation.png)
-
-## Troubleshooting
+### Diagnostic
 
 NATS certificates may be expired if all `bosh deploy` tasks suddenly start failing. To confirm that the certificate is expired, you can use the OpenSSL utility:
 
