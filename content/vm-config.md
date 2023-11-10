@@ -9,7 +9,22 @@ BOSH tries to encourage release authors to follow conventions listed below, so i
 
 * `vcap` user: Pre-configured user that comes with the stemcells. Release jobs may run processes under that user. The default password will be random.
 
-* `/etc/logrotate.d/vcap`: Logrotate configuration for `/var/vcap/sys/log/` sub-directories managed by the Agent.
+* `/etc/logrotate.d/vcap`: Logrotate configuration for `/var/vcap/sys/log/` sub-directories. See the [“Log rotation” section](job-logs.md#log-rotation) for more details on rotation of log files.
+
+    The contract with release authors, for the log files produced by jobs, is
+    the following:
+
+    1. Log files _SHOULD_ be place inside the `/var/vcap/sys/log/<job-name>/`
+       directory.
+    2. Log files _MAY_ be placed one level deeper in a
+       `/var/vcap/sys/log/<job-name>/<process-name>/` directory, this is
+       supported.
+    3. Log files _MAY_ be placed directly in `/var/vcap/sys/log/` but it's
+       discouraged to do so.
+    4. Log files _MUST NOT_ be placed anywhere else that these locations.
+    5. Filenames for log files _MUST_ end with `.log`.
+    6. Filenames _MAY_ start with a dot (`.`) if release authors are forced to do
+       so, but it's not recommended.
 
 ---
 ## Release Job and Package Directories {: #jobs-and-packages }

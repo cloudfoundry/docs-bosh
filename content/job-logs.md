@@ -83,9 +83,15 @@ If you're a Linux system adminstrator, you already know exactly the sorts of thi
 ---
 ### Log rotation {: #log-rotation }
 
-BOSH log rotates release job logs with the [Logrotate](http://linuxconfig.org/logrotate) log file management utility. Logrotate is configured by the Agent to act on all `.log` files in the `/var/vcap/sys/log/`, `/var/vcap/sys/log/*/`, and `/var/vcap/sys/log/*/*/` directories.
+BOSH rotates release job logs with the [Logrotate][logrotate] log file management utility. Logrotate is configured by the Agent to act on all `.log` files in the `/var/vcap/sys/log/`, `/var/vcap/sys/log/*/`, and `/var/vcap/sys/log/*/*/` directories.
 
-Logs are rotated every 15 minutes (see [agent's `etcLogrotateDTemplate` configuration](https://github.com/cloudfoundry/bosh-agent/blob/master/platform/linux_platform.go#L525) for detailed settings).
+See also the [“Global Configuration” section](vm-config.md#global) for more
+details on the contract for log files.
+
+Logs are rotated every 15 minutes (see [agent's `etcLogrotateDTemplate` configuration][etcLogrotateDTemplate] for detailed settings).
+
+[logrotate]: http://linuxconfig.org/logrotate
+[etcLogrotateDTemplate]: https://github.com/cloudfoundry/bosh-agent/blob/f0b849f/platform/linux_platform.go#L594
 
 ---
 ### Syslog configuration {: #syslog-conf }
