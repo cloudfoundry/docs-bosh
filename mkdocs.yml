@@ -155,7 +155,7 @@ pages:
     - Configuring NTP: ntp-config.md
     - Virtual Machines:
       - Structure of a VM: vm-struct.md
-      - Configuration Locations: vm-config.md
+      - Filesystem Locations: vm-config.md
       - Using Logs: job-logs.md
       - Instance Metadata: instance-metadata.md
   - Development:
