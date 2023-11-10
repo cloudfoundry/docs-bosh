@@ -314,6 +314,13 @@ information, networking setup, and instance configuration.
     assume there is necessarily an instance with index `0`, and use
     `spec.bootstrap` instead.
 
+!!! Caveat
+    From within an ERB template, there is no programatic way to know the name
+    of the job that the template is defined in. Thus release authors are
+    forced to hardcode the job name in ERB templates that need it. Due to this
+    limitation, there is unfortunately no way to write ERB templates that are
+    agnostic of the job name they belong to.
+
 ##### Networking setup
 
 - `spec.address`: Default network address for the instance. This can be an
