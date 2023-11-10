@@ -8,7 +8,8 @@ Access to release blobstore is configured via two files:
 - `config/final.yml` (checked into Git repository): contains blobstore location
 - `config/private.yml` (is NOT checked into Git repository): contains blobstore credentials
 
-CLI supports three different blobstore providers: `s3`, `gcs` , `azure-storage` and `local`.
+CLI supports three different blobstore providers: `s3`, `gcs`, `azure-storage`
+and `local`.
 
 ## S3 Configuration {: #s3-config }
 
