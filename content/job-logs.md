@@ -77,7 +77,7 @@ System logs contain configuration and runtime information from the Linux kernel 
 
 If you're a Linux system adminstrator, you already know exactly the sorts of things that are in here -- BOSH does nothing particularly special with these logs.
 
-!!! note
+!!! Note
     System logs are generally only accessible to the root user.
 
 ---
