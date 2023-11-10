@@ -9,7 +9,17 @@ Use [`spec` variable](jobs.md#properties-spec) in ERB templates to get access to
 
 ## Via filesystem {: #fs }
 
-Accessing information over filesystem might be useful when building core libraries so that explicit configuration is not required. Each VM has a `/var/vcap/instance` directory that contains following files:
+Accessing the Bosh structural information over filesystem might be useful when building core libraries so that explicit configuration is not required.
+
+Each VM has a `/var/vcap/instance` directory that contains following files:
+
+* `deployment`: Name of the deployment that the instance belongs to.
+* `name`: Name of the _instance group_ that the instance belongs to.
+* `az`: Name of the availability zone that the instance is placed in.
+* `index`: Human-friendly ordinal for the instance within its group.
+* `id`: Immutable UUID for the instance.
+
+Example:
 
 ```shell
 ls -la /var/vcap/instance/
@@ -25,7 +35,7 @@ drwxr-xr-x 11 root root 4096 Mar 17 00:16 ..
 -rw-r--r--  1 root root    3 Mar 17 00:07 name
 ```
 
-Example values:
+Example contents:
 
 - AZ: `z1`
 - Deployment: `redis`

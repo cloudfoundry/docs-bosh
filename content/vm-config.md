@@ -76,7 +76,7 @@ It's discouraged to modify or rely on the contents of this directory.
   with NATS client certificates, that are short-lived at bootstrap, and then
   replaced by the definitive client certificates, using `update_settings`.
 
-* `/var/vcap/bosh/spec.json`: Instance settings used by the Agent to configure release jobs and packages for the VM. This file also includes structural info about the instance, like the deployment name (`deplpyment`), the instance group (`name`), the human-friendly instance ordinal (`index`), and the immutable instance UUID (`id`).
+* `/var/vcap/bosh/spec.json`: Instance settings used by the Agent to configure release jobs and packages for the VM. This file also includes structural info about the instance, like the deployment name (`deplpyment`), the instance group (`name`), the human-friendly instance ordinal (`index`), and the immutable instance UUID (`id`). These structural info are also put in the `/var/vcap/instance` directory for easier access, see [Instance Metadata on Filesystem](instance-metadata.md#fs) for more details.
 
 * `/var/vcap/bosh/log/current`: Current Agent log. Agent's logs are logrotated and archives are kept in `/var/vcap/bosh/log/` directory.
 
