@@ -176,6 +176,11 @@ Schema for `cloud_properties` section:
       1. Managed Disks (including OS disk, ephemeral disk, persistent disk and snapshot)
       1. Dynamic Public IP for the VM
       1. Availability Set
+* **storage\_account\_location** [String, optional]: Location of the storage account. This configuration is deprecated in CPI v25+: if you specify a storage account which does not exist, CPI (v25+) will create it automatically in the same location as VMs' VNET.
+
+* **managed_identity** [Hash, optional]: [Azure Managed Identity](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview) to assign to the VM. With a Managed Identity, the VM can access Azure resources (like Storage Accounts and KeyVaults) without needing to store credentials on the VM.
+    * **type** [String, optional]: You can choose between UserAssigned and SystemAssigned. The default value is SystemAssigned.
+    * **user_assigned_identity_name** [String, required]: Specifies the name of the Managed Identity.
 
 * **tags** [Hash, optional]: Custom tags of VMs (Available in v35.4.0+). They are name-value pairs that are used to organize VMs.
 
@@ -283,6 +288,17 @@ vm_extensions:
   cloud_properties:
     availability_set: <availability-set-name>
 ```
+
+Example of a Managed Identity:
+
+```yaml
+vm_extensions:
+- name: <managed-identity-example-1>
+  cloud_properties:
+    type: UserAssigned
+    user_assigned_identity_name: <name of managed identity>
+```
+
 
 The above `vm_extensions` cloud configuration examples are referenced within the deployment manifest as such:
 
