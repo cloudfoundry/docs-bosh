@@ -153,6 +153,7 @@ pages:
     - Deploying Step by Step: deploying-step-by-step.md
     - Agent Interactions: agent-cpi-interactions.md
     - Configuring NTP: ntp-config.md
+    - Disaster Recovery in Case of AZ Outage: disaster-recovery.md
     - Virtual Machines:
       - Structure of a VM: vm-struct.md
       - Configuration Locations: vm-config.md
