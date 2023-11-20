@@ -294,8 +294,9 @@ Example of a Managed Identity:
 vm_extensions:
 - name: <managed-identity-example-1>
   cloud_properties:
-    type: UserAssigned
-    user_assigned_identity_name: <name of managed identity>
+    managed_identity:
+      type: UserAssigned
+      user_assigned_identity_name: <name of managed identity>
 ```
 
 
