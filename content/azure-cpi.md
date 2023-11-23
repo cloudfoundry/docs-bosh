@@ -177,6 +177,10 @@ Schema for `cloud_properties` section:
       1. Dynamic Public IP for the VM
       1. Availability Set
 
+* **managed_identity** [Hash, optional]: [Azure Managed Identity](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview) to assign to the VM. With a Managed Identity, the VM can access Azure resources (like Storage Accounts and KeyVaults) without needing to store credentials on the VM.
+    * **type** [String, optional]: You can choose between UserAssigned and SystemAssigned. The default value is SystemAssigned.
+    * **user_assigned_identity_name** [String, required]: Specifies the name of the Managed Identity.
+
 * **tags** [Hash, optional]: Custom tags of VMs (Available in v35.4.0+). They are name-value pairs that are used to organize VMs.
 
 Example of a `Standard_A2` VM:
@@ -283,6 +287,18 @@ vm_extensions:
   cloud_properties:
     availability_set: <availability-set-name>
 ```
+
+Example of a Managed Identity:
+
+```yaml
+vm_extensions:
+- name: <managed-identity-example-1>
+  cloud_properties:
+    managed_identity:
+      type: UserAssigned
+      user_assigned_identity_name: <name of managed identity>
+```
+
 
 The above `vm_extensions` cloud configuration examples are referenced within the deployment manifest as such:
 
