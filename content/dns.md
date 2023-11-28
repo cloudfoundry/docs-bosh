@@ -353,7 +353,13 @@ As of bosh-release v263 opting into DNS addresses in links must be done explicit
 
 You can control type of addresses returned at three different levels:
 
-- for the entire Director via Director job configuration [`director.local_dns.use_dns_addresses` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.local_dns.use_dns_addresses) that if enabled affects all deployments by default. We are planning to eventually change this configuration to true by default.
+- for the entire Director, via the `director` job configuration [`director.local_dns.use_dns_addresses` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.local_dns.use_dns_addresses) that affects all deployments when enabled. We are planning to eventually change this configuration to `true` by default.
+
+  Please note that although the default for this setting is `false` in the
+  Bosh Release for the Bosh Director, the “bosh-deployment” in turn,
+  [enables it by default](https://github.com/cloudfoundry/bosh-deployment/blob/1128dd7/bosh.yml#L82).
+  So, in fact most Bosh installations already have the `use_dns_addresses`
+  enabled.
 
 - for a specific deployment via [`features.use_dns_addresses` deployment manifest property](manifest-v2.md#features) that if enabled affects links within this deployment
 
