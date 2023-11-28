@@ -360,6 +360,29 @@ information, networking setup, and instance configuration.
       to `spec.<network-name>.ip`, `spec.<network-name>.netmask` and
       `spec.<network-name>.gateway`.
 
+Fetching the name of the network that has the default gateway is particularily
+complex, as the `spec` object is not a Ruby Hash, but an OpenStruct.
+
+As a consequence, one cannot use the `.keys` method for listing the network
+names. But Bosh provides a special helper method `.methods(false)` on the
+OpenStruct that does the trick.
+
+So, one can use the expression `spec.networks.methods(false)` in order to list
+the network names. Based on this, use the following code snippet in your ERB
+templates, whenever you need the name of the “default” network (i.e. the one
+use for the default gateway, at least).
+
+```ruby
+network = spec.networks.methods(false).find { |net_name|
+              # Pick the network that is used for the default gateway
+              default_for = spec.networks[net_name].default
+              !default_for.nil? && default_for.include?("gateway")
+          }
+```
+
+Obtaining the default network is absolutely necessary when building default
+Bosh DNS FQDNs, which include that network name.
+
 ##### Instance configuration
 
 - `spec.persistent_disk`: is `0` if no persistent disk is mounted to the
