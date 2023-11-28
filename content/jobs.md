@@ -251,13 +251,13 @@ Advanced usage:
       in which case the block is evaluated only if _all_ the properties are
       defined.
 
-After the `end` of an `if_p` block, the `.else ... end` and
-`.else_if_p("other.property") ... end` syntaxes are supported.
+After the `end` of an `if_p` block, the `.else do ... end` and
+`.else_if_p("other.property") do ... end` syntaxes are supported.
 
-- `<% if_p("some.property") do |prop| %>...<% end.else %>...<% end %>` -
+- `<% if_p("some.property") do |prop| %>...<% end.else do %>...<% end %>` -
   Evaluates first block if `some.property` has been provoded (or has a default
   in job spec), otherwise evaluates the second block.
-- `<% if_p("some.property") do |prop| %>...<% end.else_if_p("other.property") |prop2| %>...<% end.else %>...<% end %>` -
+- `<% if_p("some.property") do |prop| %>...<% end.else_if_p("other.property") do |prop2| %>...<% end.else do %>...<% end %>` -
   Evaluates first block if `some.property` has been provided (or has a default
   in job spec), otherwise evaluates the second block if `other.property` has
   been provided (or has a default in job spec), otherwise evaluates the third
@@ -270,9 +270,9 @@ methods, and `.else_if_p()` or `.else` blocks.
   If `remote.prop` is defined in the job that is resolved through navigating
   the `relation-name` link, then the block is evaluated with the value in the
   local variable `prop`.
-- `<%= link("relation-name").if_p("remote.prop") do |prop| %>...<% end.else %>...<% end %>` -
-  Same as above with an `.else ... end` block.
-- `<%= link("relation-name").if_p("remote.prop") do |prop| %>...<% end.else_if_p("other.prop2") |prop2| %>...<% end.else %>...<% end %>` -
+- `<%= link("relation-name").if_p("remote.prop") do |prop| %>...<% end.else do %>...<% end %>` -
+  Same as above with an `.else do ... end` block.
+- `<%= link("relation-name").if_p("remote.prop") do |prop| %>...<% end.else_if_p("other.prop2") do |prop2| %>...<% end.else do %>...<% end %>` -
   Same as above with an `.else_if_p` block that evaluates only when
   `other.prop2` is defined through navigating the `relation-name` link.
 
