@@ -58,13 +58,13 @@ Schema:
     * **name** [String, required]: Name of the link to find.
     * **type** [String, required]: Type of the link to be found. This is an
       arbitrary naming. Usual and conventional types are `address` when the
-      link goal is to expose a Bosh DNS name atht allows accessing the
+      link goal is to expose a Bosh DNS name that allows accessing the
       instances of the group. Usually typed by technology, like `mysql`,
       `postgres`, `cassandra`, etc. Anything that makes sense is relevant and
       matters.
     * **optional** [Boolean, optional]: Whether finding an matching link is
       optional (when `true`) or mandatory (when `false`. Default is `false`,
-      so optinal links must be explicitly declared as such.
+      so optional links must be explicitly declared as such.
 * **provides** [Array, optional]: Links that are exposed to other jobs for
   rendering their ERB templates.
     * **name** [String, required]: Name of the exposed link.
@@ -87,7 +87,7 @@ Schema:
           Default is `nil`.
 
 !!! Note
-    Within a peoperty definition, `default` is used by the Director, and
+    Within a property definition, `default` is used by the Director, and
     `description`, `default` and `example` are displayed by the
     [release index](/releases). In turns, other keys like `type` are used only
     for convenience, like Concourse does `env` keys in the
@@ -101,14 +101,14 @@ Schema:
 
 Release authors can define zero or more templates for each job, but typically
 you need at least a template for the BPM config file, that is expected to
-renderd to the `config/bpm.yml` location.
+rendered to the `config/bpm.yml` location.
 
 ### Favor Bosh Process Manager (BPM) over Monit {: #monit }
 
 Monit is a component of the Bosh architecture that was introduced in the early
 days, and has always been deemed to get rid of soon. But history has shown
-over the years that transitionning away from Monit is complex-engough for
-being hold back since then.
+over the years that transitioning away from Monit is complex-enough for being
+hold back since then.
 
 As a consequence, Release authors should avoid at all costs relying on fancy
 Monit features. Instead, they should use a very simple and standard `monit`
