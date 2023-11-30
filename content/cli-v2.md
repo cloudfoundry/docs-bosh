@@ -973,6 +973,9 @@ See [CPI config](cpi-config.md).
     bosh -e vbox -d cf deploy cf.yml -v system_domain=sys.example.com -o large-footprint.yml
     ```
 
+!!! note  
+    As of CLI v7.5.0+ the deploy command supports the usage of global flags which are applied to every deploy command automatically. Please refer to [Deploy config](deploy-config.md) for more information. 
+
 #### Delete-Deployment {: #delete-deployment }
 
 - `bosh [GLOBAL-CLI-OPTIONS] delete-deployment [--force]` (Alias: `deld`)
