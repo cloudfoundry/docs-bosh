@@ -974,7 +974,7 @@ See [CPI config](cpi-config.md).
     ```
 
 !!! note  
-    As of bosh-cli version <to_be_updated> the deploy command supports the usage of global flags which are applied to every deploy command automatically. Please refer to [Deploy config](deploy-config.md) for more information. 
+    As of CLI v7.5.0+ the deploy command supports the usage of global flags which are applied to every deploy command automatically. Please refer to [Deploy config](deploy-config.md) for more information. 
 
 #### Delete-Deployment {: #delete-deployment }
 
