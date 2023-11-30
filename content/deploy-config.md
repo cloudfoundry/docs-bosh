@@ -1,5 +1,5 @@
 !!! note
-    This feature is available with bosh-cli-release <version_to_be_updated>.
+    This feature is available with CLI v7.5.0+.
 
 The Director has a way to specify global flags for all deploy commands. The deploy config is a YAML file that defines global flags that apply to all deployments.
 
