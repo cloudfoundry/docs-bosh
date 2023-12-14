@@ -124,6 +124,7 @@ pages:
     - Using Runtime Config:
       - Overview: runtime-config.md
       - Common Addons: addons-common.md
+    - Using Deploy Config: deploy-config.md
     - Integrating with CredHub:
       - Variable Types: variable-types.md
     - Optional Features:
