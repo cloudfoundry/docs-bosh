@@ -17,27 +17,29 @@ See [this](https://bosh.io/docs/director-configure-blobstore) to start configuri
 
 ## Steps for recovering a bosh director in the event of an AZ outage:
 
+We can assume that we are working with multiple deployments across two availability zones: `zone_1` and `zone_2`, and that our director is currently deployed in `zone_1`. Then, let's also assume that there's a sudden outage in  `zone_1`.
+
 ### 1. Isolating the director
 To isolate the director in `zone_1` from the database to prevent it from modifying the state when the zone is up, it is important that:\
-a. The database passwords via terraform are rotated\
-b. All existing database connections are killed via psql
+a. The database passwords are rotated\
+b. All existing database connections are killed via psql (by executing [pg_terminate_backend](https://www.postgresql.org/docs/current/functions-admin.html) for example)
 ### 2. Deploying another director
 There might be differences in deploying BOSH directors in another AZ based on whether we use the `create-env` approach or the `bosh deploy` approach.
 
-After isolating the director deployed by `create-env` in `zone_1` the process to deploy a second one in `zone_2` can be treated similar to a scratch installation. That means that the zone used in the director's deployment manifest to is changed to `zone_2` and the `bosh-state.json` is dropped before calling [create-env](https://bosh.io/docs/cli-v2/#create-env) and setting up the second director in `zone_2`.
+After isolating the director deployed by `create-env` in `zone_1` the process to deploy a second one in `zone_2` can be treated similar to a scratch installation, implying that the zone used in the director's deployment manifest is changed to `zone_2` and the `bosh-state.json` is dropped before calling [create-env](https://bosh.io/docs/cli-v2/#create-env) and setting up the second director in `zone_2`.
 
-For directors deployed by `bosh deploy`, the deployment manifest should be updated the used zone in the manifest should be set to `zone_2`. Next,the number of [instances](https://bosh.io/docs/manifest-v2/#instance-groups) in the `instance_group` has to be increased to 2 and a second static ip (available in `zone_2`) should be configured.
+For directors deployed by `bosh deploy`, the deployment manifest should be updated to use`zone_2`. Next, the number of [instances](https://bosh.io/docs/manifest-v2/#instance-groups) in the `instance_group` has to be increased to 2 and a second static ip (available in `zone_2`) should be configured (in order to prevent data mismatch in the records of the deployer of this director and therefore to support both directors in the two zones).
 
-However, while redeploying thi director with the updated manifest, the director which this drector is the deployment of would
-first try to delete the old `bosh` in `zone_1`. This will most probably fail in case of a zone outage. This can be prevented by invoking [ignore](https://bosh.io/docs/cli-v2/#ignore) on the deployed `bosh`
-in `zone_1`.
+However, while redeploying the director with the updated manifest, the director which this drector is the deployment of would
+first try to delete the old `bosh` in `zone_1`. This will most probably fail in case of a zone outage. This can be prevented by invoking [ignore](https://bosh.io/docs/cli-v2/#ignore) on the deployed `bosh` in `zone_1`.
+
 ### 3. Disabling resurrection
 After `bosh` is successfully deployed in `zone_2` it will now take care for repairing its deployments. Most of them would
 be in error situation since they would have instances in the failing zone. The director would continuously trigger `scan_and_fix`
 tasks which would then also fail. 
-Therefore, an option would be to deploy the new directors with with disabled resurrection with other monitoring techniques in place.
-After the zone outage is over, the directors in `zone_1` can be dropped and the ones in `zone_2` can be used further.
-Of course with enabled resurrection.
+Therefore, an option would be to deploy the new directors with disabled resurrection.
+After the zone outage is over, the directors in `zone_1` can be dropped and the one in `zone_2` can be used further.
+Of course with enabled resurrection. [Resurrection](https://bosh.io/docs/cli-v2/#update-resurrection) can be enabled/disabled via `bosh update-resurrection on (or off)`.
 
 
 [>Here<](https://www.youtube.com/watch?v=0oMrGu9XuBY&list=PLhuMOCWn4P9jUHBucZBkSjmkwEbvx8vxf&index=12) is a video presentation on the topic from the 2023 CF Day at Heidelberg.
