@@ -1328,16 +1328,16 @@ See [CPI config](cpi-config.md).
 
     ```shell
     # copy file from this machine to machines a deployment
-    bosh -e vbox -d cf scp ~/Downloads/script.sh :/tmp/script.sh
-    bosh -e vbox -d cf scp ~/Downloads/script.sh diego-cell:/tmp/script.sh
-    bosh -e vbox -d cf scp ~/Downloads/script.sh diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0:/tmp/script.sh
-    bosh -e vbox -d cf scp ~/Downloads/script.ps1 windows_diego_cell:c:/temp/script/script.ps1
+    bosh -e vbox -d cf scp ~/Downloads/script.sh :/tmp
+    bosh -e vbox -d cf scp ~/Downloads/script.sh diego-cell:/tmp
+    bosh -e vbox -d cf scp ~/Downloads/script.sh diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0:/tmp
+    bosh -e vbox -d cf scp ~/Downloads/script.ps1 windows_diego_cell:c:/temp/script
 
     # copy file from remote machines in a deployment to this machine
-    bosh -e vbox -d cf scp :/tmp/script.sh ~/Downloads/script.sh
-    bosh -e vbox -d cf scp diego-cell:/tmp/script.sh ~/Downloads/script.sh
-    bosh -e vbox -d cf scp diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0:/tmp/script.sh ~/Downloads/script.sh
-    bosh -e vbox -d cf scp windows_diego_cell:c:/temp/script/script.ps1:~/Downloads/script.ps1
+    bosh -e vbox -d cf scp :/tmp/script.sh ~/Downloads
+    bosh -e vbox -d cf scp diego-cell:/tmp/script.sh ~/Downloads
+    bosh -e vbox -d cf scp diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0:/tmp/script.sh ~/Downloads
+    bosh -e vbox -d cf scp windows_diego_cell:c:/temp/script/script.ps1:~/Downloads
 
     # copy files from each instance into instance specific local directory
     bosh -e vbox -d cf scp diego-cell:/tmp/logs/ /tmp/logs/((instance_id))
