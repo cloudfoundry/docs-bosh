@@ -400,9 +400,9 @@ BOSH DNS provides its own structured query language for querying instances IP ad
 based on an instance's endemic and organizational relationship; e.g., by an
 instance's healthiness, its availability zone, or group id.
 
-Supported DNS records follow the format `<query>.<intance-group>.<network>.<deployment>.<tld>` with:
+Supported DNS records follow the format `<query>.<instance-group>.<network>.<deployment>.<tld>` with:
 * `<query>`: a query part starting with `q-` followed by a number of parameters detailed below (e.g. health, az or instance/network uid)
-* `<intance-group>`: the name of the instance group to include or `*` to include all instance groups
+* `<instance-group>`: the name of the instance group to include or `*` to include all instance groups
 * `<network>`: the name of the network to include or `*` to include IP addresses from all networks
 * `<deployment>`: the name of the deployment to include or `*` to include all deployments
 * `<tld>` the top-level-domain configured within [dns.domain_name](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p%3ddns.domain_name) which defaults to `.bosh`
