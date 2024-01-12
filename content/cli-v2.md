@@ -1342,6 +1342,43 @@ See [CPI config](cpi-config.md).
     # copy files from each instance into instance specific local directory
     bosh -e vbox -d cf scp diego-cell:/tmp/logs/ /tmp/logs/((instance_id))
     ```
+  
+---
+### PCAP {: #pcap-mgmt }
+
+#### PCAP {: #pcap }
+
+- `bosh [GLOBAL-CLI-OPTIONS] pcap -o=OUTPUT [-i=INTERFACE] [-f=FILTER] [-s=SNAPLEN] [--stop-timeout=TIMEOUT] [--gw-disable] [--gw-user=USER] [--gw-host=HOST] [--gw-private-key=KEY] [--gw-socks5=URL] [INSTANCE-GROUP[/INSTANCE-ID]]`
+
+   Allows to perform network capture on one or multiple bosh instances. Capturing network traffic can help to analyse issues like network congestion, high latency, packet loss, or other network-related problems.
+
+  - `-o`, `--output=OUTPUT` File to write pcap to
+  - `-i`, `--interface=INTERFACE` Specifies the network interface to listen on (default: eth0)
+  - `-f`, `--filter=FILTER` Filter to refine traffic capture. Any filter string input should not exceed 5000 characters in length
+  - `-s`, `--snaplen=SNAPLEN` Amount of data to be captured from each packet rather than the default of 65535 bytes
+  - `--stop-timeout=TIMEOUT` Timeout to wait for data to flush before session stop (default: 5s)
+  - `--gw-disable` Disable usage of gateway connection [$BOSH_GW_DISABLE]
+  - `--gw-user=USER` Username for gateway connection [$BOSH_GW_USER]
+  - `--gw-host=HOST` Host for gateway connection [$BOSH_GW_HOST]
+  - `--gw-private-key=KEY` Private key path for gateway connection [$BOSH_GW_PRIVATE_KEY]
+  - `--gw-socks5=URL` SOCKS5 URL [$BOSH_ALL_PROXY]
+
+    ```shell
+    # capture network traffic on all instances in a deployment
+    bosh -e vbox -d cf pcap -o capture.pcap
+
+    # capture network traffic on one instance group
+    bosh -e vbox -d cf pcap router -o capture.pcap
+
+    # capture network traffic on a single instance
+    bosh -e vbox -d cf pcap router/209c42e5-3c1a-432a-8445-ab8d7c9f1111 -o capture.pcap
+
+    # capture network traffic with filter for a specific source host
+    bosh -e vbox -d cf pcap router -f "src host 192.168.1.11" -o capture.pcap
+    
+    # capture network traffic with snap length 64 to save the first 64 bytes of each packet and filter for specific hosts
+    bosh -e vbox -d cf pcap router -f "host 192.168.1.11 or host 192.168.1.15" -s 64 -o capture.pcap
+    ```
 
 ---
 ### Errands {: #errand-mgmt }
