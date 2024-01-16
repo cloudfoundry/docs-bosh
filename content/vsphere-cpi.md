@@ -243,6 +243,7 @@ Schema:
   sets "all space allocated at [VM] creation time and the space is zeroed on demand as the space is used",
   and `thin`, "virtual disk is allocated and zeroed on demand as the space is used."
   Applies to both ephemeral and persistent disks.
+* **ensure_no_ip_conflicts** [Boolean, optional]: When creating a VM, ensure that no other VMs exist in the same port group with the same IP address. The CPI queries the vCenter to detect conflict, does not use `ping`. Default: `true`. Available in v97.0.5+.
 
 * **datacenters** [Array, optional]: Array of datacenters to use for VM placement. Must have only one.
     * **name** [String, required]: Datacenter name.
