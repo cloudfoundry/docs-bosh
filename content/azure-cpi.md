@@ -86,6 +86,10 @@ Schema for `cloud_properties` section:
         * If the Azure temporary disk size for the instance type is less than `30*1024` MiB, the default size is `30*1024` MiB because the space may not be enough.
         * If the Azure temporary disk size for the instance type is larger than `1000*1024` MiB, the default size is `1000*1024` MiB because it is not expected to use such a large ephemeral disk in CF currently.
         * Otherwise, the Azure temporary disk size will be used as the default size. See more information about [Azure temporary disk size](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-sizes/).
+    * **caching** [String, optional]: Type of the disk caching. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `None`.
+    * **type** [String, optional]: Storage account type. Valid only when `use_managed_disks` is `true`. It can be either `Standard_LRS`, `Premium_LRS` or `PremiumV2_LRS`. You can click [**HERE**](http://azure.microsoft.com/en-us/pricing/details/storage/) to learn more about the type of Azure storage account. For `PremiumV2_LRS`, you have to set caching to `None` since `PremiumV2_LRS` does currently not support caching.
+    * **iops** [Integer, optional]: IOPS of the disk. If you need more IOPS than the baseline offers, you can increase the IOPS of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
+    * **mbps** [Integer, optional]: Throughput in MB/s of the disk. If you need more throughput than the baseline offers, you can increase the throughput of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
 
 * **load_balancer** [String, optional]: Name of a [load balancer](https://azure.microsoft.com/en-us/documentation/articles/load-balancer-overview/) the VMs should belong to.
     * _Notes:_
@@ -325,8 +329,10 @@ instance_groups:
 Schema for `cloud_properties` section:
 
 * **caching** [String, optional]: Type of the disk caching. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `None`.
-* **storage\_account\_type** [String, optional]: Storage account type. Valid only when `use_managed_disks` is `true`. It can be either `Standard_LRS` or `Premium_LRS`. You can click [**HERE**](http://azure.microsoft.com/en-us/pricing/details/storage/) to learn more about the type of Azure storage account.
+* **storage\_account\_type** [String, optional]: Storage account type. Valid only when `use_managed_disks` is `true`. It can be either `Standard_LRS`, `Premium_LRS` or `PremiumV2_LRS`. You can click [**HERE**](http://azure.microsoft.com/en-us/pricing/details/storage/) to learn more about the type of Azure storage account. For `PremiumV2_LRS`, you have to set caching to `None` since `PremiumV2_LRS` does currently not support caching.
 * **disk_size** [Integer, required]: Size of the disk in MiB. On Azure the disk size must be greater than 1 * 1024 and less than the max disk size for [unmanaged](https://azure.microsoft.com/en-us/pricing/details/storage/unmanaged-disks/) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. Please always use `N * 1024` as the size because Azure always uses GiB not MiB.
+* **iops** [Integer, optional]: IOPS of the disk. If you need more IOPS than the baseline offers, you can increase the IOPS of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
+* **mbps** [Integer, optional]: Throughput in MB/s of the disk. If you need more throughput than the baseline offers, you can increase the throughput of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
 
 Example of 10GB disk:
 ```yaml
