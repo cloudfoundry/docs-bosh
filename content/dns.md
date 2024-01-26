@@ -323,6 +323,19 @@ To enable caching, use `cache.enabled` property. Canonical DNS runtime config wi
 
 DNS release provides a way to delegate certain domains via [`handlers` property](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p=handlers) to different DNS or HTTP servers. This functionality can be used as an alternative to configuring upstream DNS servers with custom zone configurations.
 
+### Logging tags
+
+Every message found in the logs is tagged and set with a certain severity. Whether it is added to the logs or not depends on the default [`log_level` property](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p=log_level) provided. DNS release provide a way to overwrite the already set logger log_level but only for messages with specific tags using the [`logging.tags` property](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p=logging.tags).
+
+An interesting use case for this is the ForwardHandler log tag, in which it includes recursion messages which are needed to analyse dns traffic. These messages have the severity DEBUG, setting the log_level to DEBUG would overload the logging platform with too many messages. Using this approach will allow you to view all the DEBUG ForwardHandler-tagged messages without overloading the platform with other less interesting debug logs. An example of the configuration is shown in the below example:
+
+```yaml
+log_level: ERROR
+logging:
+- tags:
+  - name: ForwardHandler
+    log_level: DEBUG
+```
 ---
 ## Enabling DNS {: #enable }
 
@@ -332,7 +345,7 @@ Enabling `local_dns.enabled` configuration will make Director broadcast DNS upda
 
 If you were relying on instance index based DNS records, you must enable [`local_dns.include_index` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.local_dns.enabled) in the Director job.
 
-Additionally you should colocate DNS release via an addon in all your deployments. See [bosh-deployment's runtime-configs/dns.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/runtime-configs/dns.yml) as an example.
+Additionally, you should colocate DNS release via an addon in all your deployments. See [bosh-deployment's runtime-configs/dns.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/runtime-configs/dns.yml) as an example.
 
 ---
 ## Disabling DNS {: #disable }
