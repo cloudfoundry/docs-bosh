@@ -104,6 +104,7 @@ Schema for `cloud_properties` section:
             * **port** [Integer, optional]: The port that the VM's service is listening on (e.g. 80 for HTTP). If port is specified, all connections will be sent to this port on the VM. Only specify a single port (no ranges). If unset, the load balancer will connect the client to the VM using the same port number (e.g. if the client connects to port 443, the load balancer will forward to the VM on port 443).
 - **pci_passthroughs** [Array, optional]: Specifies a PCI (Peripheral Component Interconnect) device to attach to VM via vSphere Dynamic DirectPath IO. Requires vSphere 7.0+. Automatically sets the properties  `memory_reservation_locked_to_max` and `upgrade_hw_version` to `true`. Each entry requires the PCI card's `device_id` and `vendor_id`. Available in v97+.
 - **vgpus** [Array, optional]: Specifies an Nvidia GRID vGPU to attach to VM.  Automatically sets the properties  `memory_reservation_locked_to_max` and `upgrade_hw_version` to `true`. Available in v97+.
+- **root_disk_size_gb** [Integer, optional]: Expands the root disk to the size specified (in GiB). Useful when files such as Nvidia CUDA libraries can only be placed on the system disk instead of the ephemeral disk. Note that setting this property uses slightly more datastore space than expected, for non-expanded system disks are vSphere linked clones, which means the datastore footprint is close to zero. Available in v97.0.6+.
 
 Example of a VM asked to be placed into a specific vSphere resource pool with NSX-V and NSX-T integration:
 
@@ -185,6 +186,15 @@ vm_extensions:
   cloud_properties:
     vgpus:
     - grid_t4-16q
+```
+
+Example of expanding the root disk of a VM to 20 GB:
+
+```yaml
+vm_extensions:
+- name: 20G_root
+  cloud_properties:
+    root_disk_size_gb: 20
 ```
 
 ---
