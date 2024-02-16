@@ -1,13 +1,24 @@
-!!! note
+!!! Note
     Updated for bosh-release v183 (1.3010.0).
 
-BOSH provides the Cloud Check CLI command (a.k.a cck) to repair IaaS resources used by a specific deployment. It is not commonly used during normal operations; however, it becomes essential when some IaaS operations fail and the Director cannot resolve problems without a human decision or when the Resurrector is not enabled.
+BOSH provides the `bosh cloud-check` CLI command (a.k.a `bosh cck`) to repair
+IaaS resources used by a specific deployment. It is not commonly used during
+normal operations; however, it becomes essential when some IaaS operations
+fail and the Director cannot resolve problems without a human decision or when
+the Resurrector is not enabled.
 
-The Resurrector will only try to recover any VMs that are missing from the IaaS or that have non-responsive agents. The cck tool is similar to the Resurrector in that it also looks for those two conditions; however, instead of automatically trying to resolve these problems, it provides several options to the operator.
+The Resurrector will only try to recover any VMs that are missing from the
+IaaS or that have non-responsive agents. The `bosh cck` tool is similar to the
+Resurrector in that it also looks for those two conditions; however, instead
+of automatically trying to resolve these problems, it provides several options
+to the operator.
 
-In addition to looking for those two types of problems, cck also checks correct attachment and presence of persistent disks for each deployment job instance.
+In addition to looking for those two types of problems, `bosh cck` also checks
+correct attachment and presence of persistent disks for each deployment job
+instance.
 
-Once the deployment is set via the `bosh deployment` command you can simply run `bosh cck`. Here is an example output when no problems are detected:
+Once the deployment is set via the `bosh deployment` command you can simply
+run `bosh cck`. Here is an example output when no problems are detected:
 
 ```shell
 bosh cck
@@ -45,7 +56,8 @@ No problems found
 
 ### VM is missing {: #missing-vm }
 
-Assuming there was a deployment with a VM, somehow that VM was deleted from the IaaS outside of BOSH, here is what cck would report:
+Assuming there was a deployment with a VM, somehow that VM was deleted from
+the IaaS outside of BOSH, here is what `cloud-check` would report:
 
 ```shell
 bosh cck
@@ -104,22 +116,29 @@ Duration	00:00:00
 Cloudcheck is finished
 ```
 
-cck determined that `i-914c046a` VM was missing. Possible options are:
+`bosh cck` determined that the `i-914c046a` VM was missing. Possible options are:
 
 1. `Skip for now`: the Director will not try to resolve this problem right now
 
-2. `Recreate VM`: the Director will just create new VM, deploy specified releases according to deployed manifest and finally start release jobs
+2. `Recreate VM`: the Director will just create new VM, deploy specified
+   releases according to deployed manifest and finally start release jobs
 
-    Note on current behaviour: cck will not wait for all release job processes to start.
+    Note on current behaviour: `cck` will not wait for all release job
+    processes to start.
 
-3. `Delete VM reference`: the Director will not create new VM in its place. If cck is run again, it will not report that VM is missing since it's not expected to exist. Running `bosh deploy` after cck will backfill missing VMs.
+3. `Delete VM reference`: the Director will not create new VM in its place. If
+   cck is run again, it will not report that VM is missing since it's not
+   expected to exist. Running `bosh deploy` after cck will backfill missing
+   VMs.
 
 In the above example options 3 was picked and VM reference was deleted.
 
 ---
 ### VM is not responsive (unresponsive agent) {: #not-responsive-vm }
 
-Assuming there was a deployment with a VM, somehow Agent is no longer responding to the Director. In this situation `bosh vms` will report VM's agent as `unresponsive agent`:
+Assuming there was a deployment with a VM, somehow Agent is no longer
+responding to the Director. In this situation `bosh vms` will report VM's
+agent as `unresponsive agent`:
 
 ```shell
 bosh -d simple-deployment vms --details
@@ -227,19 +246,25 @@ Duration  00:00:05
 Cloudcheck is finished
 ```
 
-cck determined that `i-914c046a` VM is unresponsive. Possible options are:
+`cck` determined that `i-914c046a` VM is unresponsive. Possible options are:
 
 1. `Skip for now`: the Director will not try to resolve this problem right now
 
 2. `Reboot VM`: the Director will power off and then power on existing VM
 
-    Note on current behaviour: cck will not wait for all release job processes to start.
+    Note on current behaviour: `cck` will not wait for all release job
+    processes to start.
 
-3. `Recreate VM`: the Director will delete existing VM, then create a new VM, deploy specified releases according to deployed manifest and finally start release jobs
+3. `Recreate VM`: the Director will delete existing VM, then create a new VM,
+   deploy specified releases according to deployed manifest and finally start
+   release jobs
 
-    Note on current behaviour: cck will not wait for all release job processes to start.
+    Note on current behaviour: `cck` will not wait for all release job
+    processes to start.
 
-4. `Delete VM reference`: the Director will not create new VM in its place. If cck is run again, it will not report that VM is unresponsive since it does not exist. Running `bosh deploy` after cck will backfill missing VMs.
+4. `Delete VM reference`: the Director will not create new VM in its place. If
+   `cck` is run again, it will not report that VM is unresponsive since it does
+   not exist. Running `bosh deploy` after cck will backfill missing VMs.
 
 In the above example options 4 was picked and VM reference was deleted.
 
@@ -316,13 +341,18 @@ cck determined that `vol-549f071f` persistent disk is not attached to `i-4fcd99b
 
 1. `Skip for now`: the Director will not try to resolve this problem right now
 
-2. `Reattach disk to instance`: the Director will reattach persistent disk to the VM and mount it at its usual location `/var/vcap/store`.
+2. `Reattach disk to instance`: the Director will reattach persistent disk to
+   the VM and mount it at its usual location `/var/vcap/store`.
 
-    Note on current behavior: Release job processes will not be restarted when persistent disk is remounted.
+    Note on current behavior: Release job processes will not be restarted when
+    persistent disk is remounted.
 
-3. `Reattach disk and reboot instance`: the Director will reattach persistent disk to the VM and reboot it so that Agent can safely mount persistent disk before starting any release job processes.
+3. `Reattach disk and reboot instance`: the Director will reattach persistent
+   disk to the VM and reboot it so that Agent can safely mount persistent disk
+   before starting any release job processes.
 
-    Note on current behavior: cck will not wait until VM reboots and restarts all release job processes.
+    Note on current behavior: cck will not wait until VM reboots and restarts
+    all release job processes.
 
 ---
 ### Inactive Disk {: #inactive-disk }
@@ -386,9 +416,11 @@ cck determined that `disk-eaca0b50-daf5-4fba-6dbf-06354e11e0af` persistent disk 
 
 1. `Skip for now`: the Director will not try to resolve this problem right now
 
-2. `Delete disk`: the Director will check if the disk is unmounted, detach from any active VM, and mark it as an orphaned disk
+2. `Delete disk`: the Director will check if the disk is unmounted, detach
+   from any active VM, and mark it as an orphaned disk
 
-3. `Activate disk`: the director will check if the disk is mounted and if the active VM already has a disk before marking the disk as active
+3. `Activate disk`: the director will check if the disk is mounted and if the
+   active VM already has a disk before marking the disk as active
 
 ---
 ### Persistent Disk is missing {: #missing-persistent-disk }
@@ -401,7 +433,8 @@ Note: Not all CPIs implement needed functionality to determine if disk is missin
 
 ## Automate recovery selection {: #automatic-recovery }
 
-Automate recovery using the `--resolution=RESOLUTION-VALUE` cck option, where `RESOLUTION-VALUE` represents one of the following:
+Automate recovery using the `--resolution=RESOLUTION-VALUE` cloud-check (cck)
+option, where `RESOLUTION-VALUE` represents one of the following:
 
  * `ignore` - skip resolution
  * `recreate_vm` - recreate VM and wait for processes to start
@@ -411,12 +444,21 @@ Automate recovery using the `--resolution=RESOLUTION-VALUE` cck option, where `R
    how critical `post-start` scripts are)
  * `reboot_vm` - reboot the VM
  * `delete_vm` - delete the VM
- * `delete_vm_reference` - remove the VM reference that Director has (this could cause IaaS resources to be abandoned)
+ * `delete_vm_reference` - remove the VM reference that Director has (this
+   could cause IaaS resources to be abandoned)
  * `delete_disk` - delete the disk
- * `delete_disk_reference` - remove the disk reference that Director has (this could cause IaaS resources to be abandoned)
+ * `delete_disk_reference` - remove the disk reference that Director has (this
+   could cause IaaS resources to be abandoned)
  * `activate_disk` - mark the disk as active
- * `reattach_disk` - reattach persistent disk to the VM and mount it at its usual location `/var/vcap/store`
- * `reattach_disk_and_reboot`- reattach the persistent disk to the VM and reboot it so that Agent can safely mount persistent disk before starting any release job processes. cck will not wait until VM reboots and restarts all release job processes
+ * `reattach_disk` - reattach persistent disk to the VM and mount it at its
+   usual location `/var/vcap/store`
+ * `reattach_disk_and_reboot`- reattach the persistent disk to the VM and
+   reboot it so that Agent can safely mount persistent disk before starting
+   any release job processes. cck will not wait until VM reboots and restarts
+   all release job processes
 
-!!! warning
-    Consider using `cck` interactively because the selected resolution will be applied to all problems that are found. Specifying `--resolution` can be risky if new, unexpected problems occur while you run the command and selected resolution may no longer be appropriate.
+!!! Warning
+    Consider using `cck` interactively because the selected resolution will be
+    applied to all problems that are found. Specifying `--resolution` can be
+    risky if new, unexpected problems occur while you run the command and
+    selected resolution may no longer be appropriate.
