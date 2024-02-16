@@ -1,20 +1,14 @@
-!!! Note
-    This feature is available with Bosh v241+ (released on
-    [2015-12-23](https://github.com/cloudfoundry/bosh/releases/tag/stable-3163)).
-    Once you opt into using the “_Bosh v2_” Cloud Config, all deployments must
-    be converted to use new format. There is no way back to “_Bosh v1_”
-    deployment manifests after you've opted in to Cloud Config.
+First-class availability zones help expressing how VM instances, gathered into
+instance groups, will span over one or many availability zones.
 
-Previously with “_Bosh v1_” deployment manifests, to spread resources over
-multiple availability zones (AZs), deployment jobs, resource pools, and
-networks had to be duplicated and named differently in the deployment
-manifest. By convention, all of these resources were suffixed with `_z1` or
-`zX` to indicate which AZ they belonged to.
+This feature was introduced with Bosh v241+ (released on
+[2015-12-23](https://github.com/cloudfoundry/bosh/releases/tag/stable-3163))
+and has been a major improvement heping Bosh deployment manifest to be more
+expressive and less verbose.
 
-With first-class AZs support in the Director, “_Bosh v2_” deployment manifests
-no longer need to duplicate and rename resources. This allows the Director to
-eliminate and/or simplify manual configuration for balancing instances (VMs)
-across AZs and IP address management.
+Here we detail simple operations first, and then explain how the Bosh Director
+behaves with more complex operations like adding or removing availability
+zones to a deployment.
 
 ---
 
@@ -296,8 +290,8 @@ prejudiciable data loss, depending on the deployed technology.
 
 !!! Note
     Bosh is not aware about the capabilities, in terms of distributed state,
-    of the software it deploys though. For some distributed software, loosing
-    a persistent disk will produce data loss, but for others not. Indeed some
+    of the software it deploys though. For some distributed software, losing a
+    persistent disk will produce data loss, but for others not. Indeed some
     software architectures have internal features (like Nats that uses RAFT,
     or Galera using replication) that allow syncing state within the cluster
     nodes, and re-create the missing data, while other architectures rely on
@@ -315,7 +309,7 @@ Bosh's logic currently has a limitation in regards to balancing instances
 unnecessary instances. Indeed the selection of the instance to delete is based
 on the instance with greater index, whereas one could expect Bosh to select
 the instance to delete in order to ensure an even distribution of instance
-accross availability zones.
+across availability zones.
 
 Details can be found in this Github issue:
 ”[Unbalanced instance placement results](https://github.com/cloudfoundry/bosh/issues/2198)”.
@@ -669,3 +663,22 @@ dummy/4a1840a7-b239-4635-9d8e-1830567cd040 ... z3
 dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... z2
 dummy/cbb84b42-e6a6-4b4d-b560-e418177d2d6f ... z2
 ```
+
+## Migrating from Bosh v1 to Bosh v2 first-class AZs
+
+Previously with “_Bosh v1_” deployment manifests, to spread resources over
+multiple availability zones (AZs), deployment jobs, resource pools, and
+networks had to be duplicated and named differently in the deployment
+manifest. By convention, all of these resources were suffixed with `_z1` or
+`zX` to indicate which AZ they belonged to.
+
+With first-class AZs support in the Director, “_Bosh v2_” deployment manifests
+no longer need to duplicate and rename resources. This allows the Director to
+eliminate and/or simplify manual configuration for balancing instances (VMs)
+across AZs and IP address management.
+
+!!! Caveat
+    From a “_Bosh v1_” director, once you opt into using the “_Bosh v2_” Cloud
+    Config, all deployments must be converted to use new format. There is no
+    way back to “_Bosh v1_” deployment manifests after you've opted in to
+    Cloud Config.
