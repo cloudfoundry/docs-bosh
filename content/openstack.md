@@ -32,40 +32,41 @@ And the following OpenStack services:
 
 The following table maps BOSH concepts to their OpenStack-native equivalents.
 
-| BOSH | OpenStack |
-| ---- | --------- |
+|       BOSH        | OpenStack |
+| ----------------- | --------- |
 | Availability Zone | [Availability Zone](https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/) |
-| Virtual Machine | [Instance](https://docs.openstack.org/nova/latest/user/launch-instances.html) |
-| Instance Type | [Flavor](https://docs.openstack.org/nova/latest/user/flavors.html) |
-| Network Subnet | [Subnet](https://docs.openstack.org/neutron/latest/admin/intro-os-networking.html) |
-| Virtual IP | [Floating IP](https://docs.openstack.org/nova/latest/user/manage-ip-addresses.html) |
-| Persistent Disk | [Volume](https://docs.openstack.org/cinder/latest/cli/cli-manage-volumes.html) |
-| Disk Snapshot | [Volume Snapshot](https://docs.openstack.org/cinder/latest/cli/cli-manage-volumes.html) |
-| Stemcell | [Virtual Machine Image](https://docs.openstack.org/glance/latest/user/index.html) |
-| Agent Settings | [HTTP Metadata service](https://docs.openstack.org/nova/latest/user/metadata-service.html); [Config Drive](https://docs.openstack.org/nova/latest/user/config-drive.html); BOSH Registry |
+| Virtual Machine   | [Instance](https://docs.openstack.org/nova/latest/user/launch-instances.html) |
+| Instance Type     | [Flavor](https://docs.openstack.org/nova/latest/user/flavors.html) |
+| Network Subnet    | [Subnet](https://docs.openstack.org/neutron/latest/admin/intro-os-networking.html) |
+| Virtual IP        | [Floating IP](https://docs.openstack.org/nova/latest/user/manage-ip-addresses.html) |
+| Persistent Disk   | [Volume](https://docs.openstack.org/cinder/latest/cli/cli-manage-volumes.html) |
+| Disk Snapshot     | [Volume Snapshot](https://docs.openstack.org/cinder/latest/cli/cli-manage-volumes.html) |
+| Stemcell          | [Virtual Machine Image](https://docs.openstack.org/glance/latest/user/index.html) |
+| Agent Settings    | [HTTP Metadata service](https://docs.openstack.org/nova/latest/user/metadata-service.html); [Config Drive](https://docs.openstack.org/nova/latest/user/config-drive.html); BOSH Registry |
 
 
 ## Feature Support
 
-The following sections describe some specific BOSH features supported by the CPI.
-
+The following sections describe some specific BOSH features supported by the
+CPI.
 
 ### Network
 
 The CPI supports multiple NICs being attached to a single VM.
 
-
-| Network Type | Support |
-| ------------ | ------- |
-| Manual | Multiple networks per instance |
-| Dynamic | Single network per instance |
-| VIP | Single network per instance |
-
+| Network Type |            Support             |
+| ------------ | ------------------------------ |
+| Manual       | Multiple networks per instance |
+| Dynamic      | Single network per instance    |
+| VIP          | Single network per instance    |
 
 ### Miscellaneous
 
-| Feature | Support |
-| ------- | ------- |
-| Multi-CPI | Supported, [v31](https://github.com/cloudfoundry/bosh-openstack-cpi-release/releases/tag/v31)+ |
-| Native Disk Resize | Supported, [v33](https://github.com/cloudfoundry/bosh-openstack-cpi-release/releases/tag/v33)+ |
-| Generic VM Resource Configuration | Supported, [v31](https://github.com/cloudfoundry/bosh-openstack-cpi-release/releases/tag/v31)+ |
+|              Feature              |               Support                |
+| --------------------------------- | ------------------------------------ |
+| Multi-CPI                         | Supported, [v31][openstack_cpi_v31]+ |
+| Native Disk Resize                | Supported, [v33][openstack_cpi_v33]+ |
+| Generic VM Resource Configuration | Supported, [v31][openstack_cpi_v31]+ |
+
+[openstack_cpi_v31]: https://github.com/cloudfoundry/bosh-openstack-cpi-release/releases/tag/v31
+[openstack_cpi_v33]: https://github.com/cloudfoundry/bosh-openstack-cpi-release/releases/tag/v33
