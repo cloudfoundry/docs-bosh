@@ -1,37 +1,52 @@
-!!! note
-    This feature is available with bosh-release v241+. Once you opt into using cloud config all deployments must be converted to use new format. There is no way to opt out of the cloud config once you opt in.
+First-class availability zones help expressing how VM instances, gathered into
+instance groups, will span over one or many availability zones.
 
-Previously to spread resources over multiple AZs, deployment jobs, resource pools, and networks had to be duplicated and named differently in the deployment manifest. By convention all of these resources were suffixed with `_z1` or `zX` to indicate which AZ they belonged to.
+This feature was introduced with Bosh v241+ (released on
+[2015-12-23](https://github.com/cloudfoundry/bosh/releases/tag/stable-3163))
+and has been a major improvement heping Bosh deployment manifest to be more
+expressive and less verbose.
 
-With first class AZs support in the Director it's no longer necessary to duplicate and rename resources. This allows the Director to eliminate and/or simplify manual configuration for balancing VMs across AZs and IP address management.
+Here we detail simple operations first, and then explain how the Bosh Director
+behaves with more complex operations like adding or removing availability
+zones to a deployment.
 
 ---
-## Defining AZs {: #config }
 
-To use first class AZs, you have to opt into using [cloud config](cloud-config.md).
+## Defining availability zones {: #config }
+
+To use first-class availability zones (AZs), you have to opt into using
+[Cloud Config](cloud-config.md).
 
 Here is how AZ configuration looks like for two AZs on AWS.
 
 ```yaml
 azs:
-- name: z1
-  cloud_properties:
-    availability_zone: us-east-1b
-- name: z2
-  cloud_properties:
-    availability_zone: us-east-1c
-...
+  - name: z1
+    cloud_properties:
+      availability_zone: us-east-1b
+  - name: z2
+    cloud_properties:
+      availability_zone: us-east-1c
+# ...
 ```
 
-!!! note
-    Note that IaaS specific cloud properties related to AZs should now be *only* placed under `azs`. Make sure to remove them from `resource_pools`/`vm_types` cloud properties.
+!!! Note
+    IaaS-specific cloud properties related to AZs should now be *only* placed
+    under `azs`. Make sure to remove them from `resource_pools`/`vm_types`
+    cloud properties.
 
 AZs schema:
 
-* **azs** [Array, required]: List of AZs.
+* **azs** [Array, required]: List of availability zones.
 
 * **name** [String, required]: Name of an AZ within the Director.
-* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to associated with AZ; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#azs-cloud-properties) below. Example: `availability_zone`. Default is `{}` (empty Hash).
+
+* **cloud_properties** [Hash, optional]: Describes any IaaS-specific
+  properties needed to associated with AZ; for most IaaSes, some data here is
+  actually required.
+  See [CPI Specific `cloud_properties`](#azs-cloud-properties) below.
+  Example: `availability_zone`.
+  Default is `{}` (empty Hash).
 
 ### CPI Specific `cloud_properties` {: #azs-cloud-properties }
 
@@ -45,33 +60,48 @@ AZs schema:
 - [See vCloud CPI AZ cloud properties](vcloud-cpi.md#azs)
 
 ---
+
 ## Assigning AZs to deployment instance groups {: #assigning-azs }
 
-Once AZs are defined, deployment instance_groups can be placed into one or more AZs:
+Once availability zones are defined in the Cloud Config, each instance group
+can be be placed into one or more AZs:
 
 ```yaml
 instance_groups:
-- name: web
-  instances: 5
-  azs: [z1, z2]
-  jobs:
   - name: web
-  networks:
-  - name: private
+    instances: 5
+    azs: [z1, z2]
+    jobs:
+      - name: web
+    networks:
+      - name: private
 ```
 
-Given above configuration, 5 instances will be spread over "z1" and "z2" AZs, most likely creating 3 instances in "z1" and 2 instances in "z2". There are several consideration the Director takes into account while determining how instances should be spread:
+Given above configuration, 5 instances will be spread over `z1` and `z2`
+availability zones, most likely creating 3 instances in `z1` and 2 instances
+in `z2`.
 
-- new instances will be spread as evenly as possible over specified AZs
-- existing instances will be preserved if possible but will be rebalanced if necessary to even out distribution
-- existing instances with persistent disks will not be rebalanced to avoid losing persistent data
-- existing instances in a removed AZ will be removed and their [persistent disks will be orphaned](persistent-disks.md)
-- if static IPs are specified on one or more networks, AZ selection is focused to satisfy IPs' AZ assignment
+The director considers several aspects when determining how instances should
+be spread accoss availability zones:
+
+- New instances will be spread as evenly as possible over the specified
+  availability zones.
+- Existing instances will be preserved if possible, but will be rebalanced if
+  necessary to even out the distribution.
+- Existing instances with persistent disks will not be rebalanced to avoid
+  losing persistent data.
+- Existing instances in a removed availability zone will be removed, and their
+  [persistent disks](persistent-disks.md) will be orphaned.
+- If static IP addresses are specified on one or more networks, then instances
+  placement on availability zones will satisfy the IP addresses assignment on
+  its availability zone.
 
 ---
-## Listing VMs in AZs {: #listing-vms-in-azs }
 
-While deploy is in progress or after it finishes, `bosh instances` and `bosh vms` commands can be used to view instances and their associated AZs.
+## Listing instances (VMs) in availability zones {: #listing-vms-in-azs }
+
+While deploy is in progress or after it finishes, `bosh instances` and
+`bosh vms` commands can be used to view instances and their associated AZs.
 
 ```shell
 bosh deploy
@@ -100,44 +130,64 @@ VMs total: 4
 
 ---
 
-## Adding and removing AZs to a deployment.
+## Adding and removing AZs to a deployment
 
-> **_NOTE:_**
->   With some CPIs AZS are referenced in the Subnet configuration of the cloud-config networks block. This means that moving AZs can have networking implications. E.g. networks can be Zonal ( e.g. AWS Subnets are associated to a Zone) or Regional ( e.g. GCP Subnets are associated with a Region). This is important to keep in mind when planning an AZ migration.
+!!! Note
+    With some CPIs, availability zones (AZs) are tied to subnets, as specified
+    by the `networks` section of the Cloud Config. This means that moving AZs
+    can have networking implications. E.g. networks can be Zonal, like AWS
+    Subnets that are associated to a Zone, or Regional like GCP Subnets that
+    are associated with a Region. This is important to keep in mind when
+    planning an AZ migration.
 
 
-> **_GENERAL LIMITATIONS:_** 
-> - bosh does not migrate persistent disk contents across AZs. Persistent disks attached to a vm that is moved to another AZ will be orphaned and eventually deleted by bosh.
-> - singleton instances will face downtime while being recreated. If they have persistent disks attached the data on the disk will not be migrated.
-> - moving a vm with a staticly assigned IP address will fail. Bosh will create the new instance before deleting the old instance. This means that at creation time of the new instance, the static IP is still attached to the old instance.
+!!! General limitations
+    - Bosh does not migrate persistent disk contents across availability
+      zones. Persistent disks attached to an instance (VM) that is moved to
+      another AZ will be orphaned and eventually deleted by Bosh.
+    - Singleton instances will face downtime while being recreated. If they
+      have persistent disks attached the data on the disk will not be
+      migrated.
+    - Moving an instance (VM) with a statically assigned IP address will fail.
+      Bosh will create the new instance before deleting the old instance. This
+      means that at the creation time of the new instance, the static IP will
+      still be attached to the old instance.
 
 ### Adding new AZs to an existing deployment
 
-#### Scenario: the instance_group does not use persistent disks:
+#### Scenario #1: the instance group does not use any persistent disk
+
+Given such a `dummy` instance group defined in a Bosh deployment manifest:
+
 ```
 instance_groups:
-- name: dummy
-  azs:
-  - az1
-  - az3
-  instances: 3
-…
+  - name: dummy
+    azs:
+      - z1
+      - z3
+    instances: 3
 ```
-##### bosh vms
+
+And Bosh instances (VMs) spread over the above availability zone like this:
+
 ```
-Instance                                   ... AZ  
-dummy/3697cb63-5329-4b61-8251-6acd73fe5d8b ... az3 
-dummy/63d450fc-a071-4e19-b0ba-c8fdb147dcce ... az1 
-dummy/7f30aae8-9f03-4b0b-88a1-2d0ab8a78fba ... az1 
+$ bosh instances
+Instance                                   ... AZ
+dummy/3697cb63-5329-4b61-8251-6acd73fe5d8b ... z3
+dummy/63d450fc-a071-4e19-b0ba-c8fdb147dcce ... z1
+dummy/7f30aae8-9f03-4b0b-88a1-2d0ab8a78fba ... z1
 ```
-##### bosh deploy ...
+
+Then after adding the new `z2` availability zone to the instance group, the
+`bosh deploy` operation will behave as follows:
+
 ```
 Using deployment 'dummy'
 
   instance_groups:
   - name: dummy
     azs:
-+   - az2
++   - z2
 ...
 ...
 Creating missing vms: dummy/e6764262-f032-4238-bfbe-d684934ece26 (3) (00:00:39)
@@ -146,150 +196,223 @@ Deleting unneeded instances dummy: dummy/7f30aae8-9f03-4b0b-88a1-2d0ab8a78fba (1
 Updating instance dummy: dummy/e6764262-f032-4238-bfbe-d684934ece26
 ```
 
-##### Outcome:
+And after this operation is done, the resulting instances (VMs) will be placed
+like this:
+
 ```
-Instance                                   ... AZ  
-dummy/3697cb63-5329-4b61-8251-6acd73fe5d8b ... az3 
-dummy/63d450fc-a071-4e19-b0ba-c8fdb147dcce ... az1 
-dummy/e6764262-f032-4238-bfbe-d684934ece26 ... az2
+$ bosh instances
+Instance                                   ... AZ
+dummy/3697cb63-5329-4b61-8251-6acd73fe5d8b ... z3
+dummy/63d450fc-a071-4e19-b0ba-c8fdb147dcce ... z1
+dummy/e6764262-f032-4238-bfbe-d684934ece26 ... z2
 ```
 
-As stated in: [assigning-azs](https://bosh.io/docs/azs/#assigning-azs) bosh follows certain considerations when spreading VMs across AZs.
-> * existing instances with persistent disks will not be rebalanced to avoid losing persistent data
-> * existing instances will be preserved if possible but will be rebalanced if necessary to even out distribution
-> * new instances will be spread as evenly as possible over specified AZs
-> * existing instances in a removed AZ will be removed and their persistent disks will be orphaned
-> * if static IPs are specified on one or more networks, AZ selection is focused to satisfy IPs' AZ assignment
+As stated in the “[Assigning AZs](#assigning-azs)” section, Bosh follows
+certain considerations when spreading instances (VMs) across AZs:
 
-Since the the above scenario **_does not_** utilize persistent disks, adding `az2` to the list of `azs` will:
+- Existing instances with persistent disks will not be rebalanced to avoid
+  losing persistent data.
+- Existing instances will be preserved if possible but will be rebalanced if
+  necessary to even out distribution.
+- New instances will be spread as evenly as possible over specified
+  availability zones.
+- Existing instances in a removed availability zone will be removed, and their
+  persistent disks will be orphaned.
+- If static IP addresses are specified on one or more networks, then instances
+  placement on availability zones will satisfy the IP addresses assignment on
+  its availability zone.
 
-1. create a new vm in az2 so `new instances will be spread as evenly as possible over specified AZs`
-2. delete a currently serving vm in az1 so `instances will be rebalanced ... to even out distribution`
+Since the the above scenario **_does not_** utilize persistent disks, adding
+`z2` to the `azs` list of availability zones will:
+
+1. Create a new instance (VM) in `z2` so that “_new instances will be spread
+   as evenly as possible over specified AZs_”.
+2. Delete a currently serving instance (VM) in `z1` so that “_instances will
+   be rebalanced ... to even out distribution_”
 
 
-### Scenario: the instance_group uses persistent disks:
+#### Scenario #2: the instance group uses persistent disks
+
+Given such a `dummy` instance group defined in a Bosh deployment manifest:
 
 ```
 instance_groups:
-- name: dummy
-  azs:
-  - az1
-  - az3
-  instances: 3
-  persistent_disk: 1024
-…
+  - name: dummy
+    azs:
+      - z1
+      - z3
+    instances: 3
+    persistent_disk: 1024
+# ...
 ```
-##### bosh vms
+
+And Bosh instances (VMs) spread over the above availability zones like this:
+
 ```
-Instance                                   ... AZ  
-dummy/3697cb63-5329-4b61-8251-6acd73fe5d8b ... az3 
-dummy/63d450fc-a071-4e19-b0ba-c8fdb147dcce ... az1 
-dummy/528993ea-5e8b-4d7f-8844-98234bcb0575 ... az1 
+$ bosh instances
+Instance                                   ... AZ
+dummy/3697cb63-5329-4b61-8251-6acd73fe5d8b ... z3
+dummy/63d450fc-a071-4e19-b0ba-c8fdb147dcce ... z1
+dummy/528993ea-5e8b-4d7f-8844-98234bcb0575 ... z1
 ```
-##### bosh deploy ...
+
+Then after adding the new `z2` availability zone to the instance group, the
+`bosh deploy` operation will behave as follows:
+
 ```
 Using deployment 'dummy'
 
   instance_groups:
   - name: dummy
     azs:
-+   - az2
++   - z2
 ...
 Updating instance dummy: dummy/63d450fc-a071-4e19-b0ba-c8fdb147dcce (0) (canary)
 Updating instance dummy: dummy/528993ea-5e8b-4d7f-8844-98234bcb0575 (1)
 Updating instance dummy: dummy/3697cb63-5329-4b61-8251-6acd73fe5d8b (2)
 ```
 
-##### Outcome:
-```
-Instance                                   ... AZ  
-dummy/3697cb63-5329-4b61-8251-6acd73fe5d8b ... az3 
-dummy/63d450fc-a071-4e19-b0ba-c8fdb147dcce ... az1 
-dummy/528993ea-5e8b-4d7f-8844-98234bcb0575 ... az1 
-```
-
-Since the the above scenario does utilize persistent disks, adding az2 to the list of azs will:
-
-1. Skip redeploying a vm from az1 to az2 to avoid recreating the persistent disk and potentially incur dataloss.
-
-Bosh opts to keep the persistent disk to avoid dataloss. Bosh is not aware about the capabilities, in terms of distributed state, of the software it deploys. Some software architectures have internal features (e.g. Nats is utilizing RAFT) that allow syncing state within the cluster nodes. Other architectures rely on features provided by their host or additional software (e.g. distributed filesystems) to achieve a similar outcome.
-
-
-### Rebalancing VMs with persistent disks
-
-Bosh's logic currently has a limitation in regards to balancing VMs with persistent disks across AZs when deleting unnecessary instances.
-
-Details can be found in this Github issue: 
-> https://github.com/cloudfoundry/bosh/issues/2198
-
-In [assigning-azs](https://bosh.io/docs/azs/#assigning-azs) the documentation outlines the considerations when spreading VMs across AZs when deploying. **_This does not fully apply when deleting instances_**.
-
-##### The limitation can be formalized as:
-
-Starting with 3 instances in 2 AZs
-```
-Instance                                   ... AZ  
-dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... az1 
-dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... az2 
-dummy/b5b14411-f9ee-4ff8-95c6-b9c24b29b703 ... az1 
-```
-
-Adding 1 Instance and 1 AZ will result in
+And after this is done, the resulting instances (VMs) will be placed like
+this:
 
 ```
-Instance                                   ... AZ  
-dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... az1 
-dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... az2 
-dummy/b5b14411-f9ee-4ff8-95c6-b9c24b29b703 ... az1 
-dummy/3697cb63-5329-4b61-8251-6acd73fe5d8b ... az3
+$ bosh instances
+Instance                                   ... AZ
+dummy/3697cb63-5329-4b61-8251-6acd73fe5d8b ... z3
+dummy/63d450fc-a071-4e19-b0ba-c8fdb147dcce ... z1
+dummy/528993ea-5e8b-4d7f-8844-98234bcb0575 ... z1
 ```
 
-Removing 1 Instance will result in:
+Since the the above scenario makes use of persistent disks, adding `z2` to the
+list of availability zones will skip redeploying an instance (VM) from `z1` to
+`z2`, in order to avoid recreating the persistent disk that could produce
+prejudiciable data loss, depending on the deployed technology.
+
+!!! Note
+    Bosh is not aware about the capabilities, in terms of distributed state,
+    of the software it deploys though. For some distributed software, losing a
+    persistent disk will produce data loss, but for others not. Indeed some
+    software architectures have internal features (like Nats that uses RAFT,
+    or Galera using replication) that allow syncing state within the cluster
+    nodes, and re-create the missing data, while other architectures rely on
+    features provided by their host or additional software (e.g. distributed
+    filesystems) to achieve a similar outcome. As Bosh is not aware of the
+    deployed software architecture, it tries to avoid dataloss without
+    preventing it, and still can recreate nodes with new disks when the
+    deployment manifest instructs such changes.
+
+
+### Rebalancing instances with persistent disks
+
+Bosh's logic currently has a limitation in regards to balancing instances
+(VMs) with persistent disks across availability zones, when deleting
+unnecessary instances. Indeed the selection of the instance to delete is based
+on the instance with greater index, whereas one could expect Bosh to select
+the instance to delete in order to ensure an even distribution of instance
+across availability zones.
+
+Details can be found in this Github issue:
+”[Unbalanced instance placement results](https://github.com/cloudfoundry/bosh/issues/2198)”.
+
+In the “[Assigning AZs](#assigning-azs)” section, the documentation outlines
+the considerations when spreading instances (VMs) across availability zones
+when deploying. **_This does not fully apply when deleting instances_**.
+
+#### Example
+
+Starting with three instances spread over two availability zones as follows:
 
 ```
-Instance                                   ... AZ  
-dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... az1 
-dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... az2 
-dummy/b5b14411-f9ee-4ff8-95c6-b9c24b29b703 ... az1 
+$ bosh instances
+Instance                                   ... AZ
+dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... z1
+dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... z2
+dummy/b5b14411-f9ee-4ff8-95c6-b9c24b29b703 ... z1
 ```
 
-**Bosh will remove the latest instance to be added instead of one instance currently deployed into `az1`**
+Adding one instance and one availability zone, will result in such placement
+after `bosh deploy` has successfully finished:
 
-To work around this there are several approaches that will be discussed below.
-
-#### Automatic but resulting in a temporarily reduced instance count:
-
-If your application supports syncing state between existing cluster nodes and it can tolerate the temporary loss of stateful instances (for the time of the migration), the easiest approach is to:
-
-##### Scale In & Add AZ  => Scale Out
-
-##### Initial State:
 ```
-Instance                                   ... AZ  
-dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... az1 
-dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... az2 
-dummy/b5b14411-f9ee-4ff8-95c6-b9c24b29b703 ... az1 
+$ bosh instances
+Instance                                   ... AZ
+dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... z1
+dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... z2
+dummy/b5b14411-f9ee-4ff8-95c6-b9c24b29b703 ... z1
+dummy/3697cb63-5329-4b61-8251-6acd73fe5d8b ... z3
 ```
 
-##### bosh deploy
+Removing one instance will result in such placement:
+
+```
+$ bosh instances
+Instance                                   ... AZ
+dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... z1
+dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... z2
+dummy/b5b14411-f9ee-4ff8-95c6-b9c24b29b703 ... z1
+```
+
+#### Problem statement and solutions
+
+Bosh will remove the instance with greater index, which is the latest that has
+been added, instead of removing one of the instances placed in `z1`.
+
+To work around this, we discuss the two following approaches in the upcoming
+sections:
+
+1. Automatic approach, resulting in a temporarily reduced instance count
+2. Manual approach, but never going below the current number of available instances
+
+
+#### Approach #1: automatic, but resulting in a temporarily reduced instance count
+
+If your distributed software supports syncing state between existing cluster
+nodes and can tolerate temporary loss of some stateful instances (for the time
+of the migration), the easiest approach is to scale-in (removing an instance),
+add an availability zone, then scale out again.
+
+##### Step #1: scale-in and add an AZ
+
+Given a `dummy` instance group resulting in Bosh instances (VMs) spread over
+two availability zones like this:
+
+```
+$ bosh instances
+Instance                                   ... AZ
+dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... z1
+dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... z2
+dummy/b5b14411-f9ee-4ff8-95c6-b9c24b29b703 ... z1
+```
+
+Reducing the instance count by one will result in such diff when converging
+the deployment with `bosh deploy`:
+
 ```
 Using deployment 'dummy'
 
   instance_groups:
   - name: dummy
     azs:
-+   - az3
++   - z3
 -   instances: 3
 +   instances: 2
 ```
-##### Result:
+
+And after the first `bosh deploy` operation has finished, the `dummy` instance
+group will have the exceeding instance placed in `z1` removed, as shown below.
+
 ```
-Instance                                   ... AZ  
-dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... az1 
-dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... az2 
+$ bosh instances
+Instance                                   ... AZ
+dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... z1
+dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... z2
 ```
 
-##### Scale Out:
+##### Step #2: scale-out
+
+Increasing again the instance count by `1` will result in such output when
+running `bosh deploy`:
+
 ```
 Using deployment 'dummy'
 
@@ -302,32 +425,48 @@ Creating missing vms: dummy/8a57bad5-405d-47d9-abb0-65060167821c (2) (00:00:41)
 ...
 ```
 
-##### Result:
-```
-Instance                                   ... AZ  
-dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... az1 
-dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... az2
-dummy/8a57bad5-405d-47d9-abb0-65060167821c ... az3
+And after the second `bosh deploy` operation has finished, the `dummy`
+instance group will look have the removed instance back, and it will be
+properly placed in `z3`, bringing back the expected balance in instance
+placement.
 
 ```
+$ bosh instances
+Instance                                   ... AZ
+dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... z1
+dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... z2
+dummy/8a57bad5-405d-47d9-abb0-65060167821c ... z3
 
-
-#### Manual but never going below the current number of available instances:
-
-##### bosh vms
-```
-Instance                                   ... AZ  
-dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... az1 
-dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... az2 
-dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104 ... az1 
 ```
 
-##### bosh deploy: Add AZ, Scale out
+#### Approach #2: manual, but never going below the current number of available instances
+
+If your disctributed software cannot tolerate one missing node, even
+temporarily, then you may opt for an alternative approach, involving one more
+manual step, but never reducing the overall instance count compared to the
+initial state.
+
+##### Step #1: add an AZ and scale out
+
+Given a `dummy` instance group resulting in Bosh instances (VMs) spread over
+two availability zones like this:
+
+```
+$ bosh instances
+Instance                                   ... AZ
+dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... z1
+dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... z2
+dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104 ... z1
+```
+
+Introducing a new `z3` availability zone and increasing the instance count by
+one at the same time will result in the following `bosh deploy` task log:
+
 ```
   instance_groups:
   - name: dummy
     azs:
-+   - az3
++   - z3
 -   instances: 3
 +   instances: 4
 ...
@@ -337,20 +476,34 @@ Updating instance dummy: dummy/93fd5c41-88e2-4b2f-97ae-b064d507f3d5
 ...
 ```
 
-##### bosh vms
+The resulting instances will be placed as shown below.
+
 ```
-Instance                                   ... AZ  
-dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... az1 
-dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... az2 
-dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104 ... az1 
-dummy/93fd5c41-88e2-4b2f-97ae-b064d507f3d5 ... az3
+$ bosh instances
+Instance                                   ... AZ
+dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... z1
+dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... z2
+dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104 ... z1
+dummy/93fd5c41-88e2-4b2f-97ae-b064d507f3d5 ... z3
 ```
 
-> At this point we need to tell bosh which instances we want to get rid off. Since we have two instances in az1, we choose to delete `dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104`
+##### Step #2: manually delete a VM, and immediately scale in
 
-**bosh stop dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104 --hard**
+At this point, we tell Bosh which instances we want to get rid off. Since we
+have one exceeding instance placed in `z1`, we choose to delete this one, i.e.
+`dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104`:
 
-> When using the `--hard` flag bosh will additionally delete the vm after it stopped the jobs. The bosh task logs will not show `Deleting unneeded instances dummy...` because `--hard` will delete the actual vm but not the instance from the deployment state.
+```shell
+bosh stop dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104 --hard
+```
+
+With the `--hard` flag above, Bosh will not only stop the jobs and all
+possible daemon processes, but also delete the virtual machine (VM) from the
+infrastructure. The task log for `bosh stop` will not state
+`Deleting unneeded instances dummy...`, because `bosh stop --hard` doesn't
+remove the instance from the deployment state. It only deletes the related VM
+on the infrastruture and marks the instance in its internal representation
+with a sticky “stopped” state.
 
 ```
 Task 70345 | 13:09:03 | Updating instance dummy: dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104 (3)
@@ -360,24 +513,33 @@ Task 70345 | 13:09:04 | L stopping jobs: dummy/7e433b3e-2db8-46bf-883a-1c5300dfe
 Task 70345 | 13:09:05 | L executing post-stop: dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104 (3) (00:00:54)
 ```
 
-> This procedure will leave an orphaned disk:
+The scale-in operation will produce an orphaned disk from the deleted stateful
+instance, which can be listed as follows.
 
 ```
-bosh disks --orphaned | grep 'dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104'
-disk-147a80e4-72b0-4d77-7325-af28ae469d36       1.0 GiB dummy   dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104      az1     Fri Nov 18 13:12:12 UTC 2022
+$ bosh disks --orphaned | grep 'dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104'
+disk-147a80e4-72b0-4d77-7325-af28ae469d36       1.0 GiB dummy   dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104      z1     Fri Nov 18 13:12:12 UTC 2022
 ```
 
-##### bosh vms
+And after the `bosh stop` operation has finished, the `dummy` instance group
+will have the exceeding instance placed in `z1` removed, as shown below.
+
 ```
-Instance                                   ... AZ  
-dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... az1 
-dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... az2 
-dummy/93fd5c41-88e2-4b2f-97ae-b064d507f3d5 ... az3 
+$ bosh instances
+Instance                                   ... AZ
+dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... z1
+dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... z2
+dummy/93fd5c41-88e2-4b2f-97ae-b064d507f3d5 ... z3
 ```
 
-##### bosh deploy
+##### Step #3: scale in
 
-> Since we already manually deleted an instance in az1, bosh does not delete the instance that was added last. It realizes it has the required amount of actual vms in the deployment and just deletes the reference to the instance that was stopped.
+When scaling-in, Bosh does not delete the instance that was added last, since
+we've already manually deleted an instance in `z1`. Instead, Bosh realizes it
+has the expected amount of actual virtual machines (VMs) on the
+infrastructure, matching the required instances in the deployment. As a
+consequence, Bosh only deletes the reference to the instance that was just
+stopped.
 
 ```
 Using deployment 'dummy'
@@ -391,27 +553,37 @@ Deleting unneeded instances dummy: dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104 (3
 ...
 ```
 
+
 ### Removing an AZ from an existing deployment
 
-When decomissioning an AZ by removing it from the manifest,
-Bosh will delete all existing VMs in the removed AZ. If the VM had a persistent disk, that disk will be orphaned. New VMs will be rebalanced to still existing AZs.
+When decomissioning an availability zone (AZ) by removing it from the
+deployment manifest, Bosh will delete all existing instances (VMs) in the
+removed AZ. If these instances have persistent disks, these will be orphaned.
+Any new instance created afterwards will be balanced to the remaining AZs.
 
-##### bosh vms
+#### Example
+
+Considering a `dummy` instace group with 3 instances placed in 3 availability
+zones as follows:
+
 ```
-Instance                                   ... AZ  
-dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... az1 
-dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... az2 
-dummy/93fd5c41-88e2-4b2f-97ae-b064d507f3d5 ... az3 
+$ bosh instances
+Instance                                   ... AZ
+dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... z1
+dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... z2
+dummy/93fd5c41-88e2-4b2f-97ae-b064d507f3d5 ... z3
 ```
 
-##### bosh deploy
+When removing one of the AZs and keeping the same instance count, the
+`bosh deploy` operation will show the following output:
+
 ```
 Using deployment 'dummy'
 
   instance_groups:
   - name: dummy
     azs:
--   - az3
+-   - z3
 ...
 Creating missing vms: dummy/c53e18df-1e47-44f9-9e41-3ee999aa4a87 (3) (00:00:41)
 Deleting unneeded instances dummy: dummy/93fd5c41-88e2-4b2f-97ae-b064d507f3d5 (2) (00:00:34)
@@ -419,38 +591,58 @@ Deleting unneeded instances dummy: dummy/93fd5c41-88e2-4b2f-97ae-b064d507f3d5 (2
 
 ```
 
-##### bosh vms
+After the above operation is done, the instances will be placed as follows.
+
 ```
-Instance                                   ... AZ  
-dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... az1 
-dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... az2 
-dummy/c53e18df-1e47-44f9-9e41-3ee999aa4a87 ... az1
+$ bosh instances
+Instance                                   ... AZ
+dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... z1
+dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... z2
+dummy/c53e18df-1e47-44f9-9e41-3ee999aa4a87 ... z1
 ```
+
+And while the new instance in `z1` will get an empty new persistent disk, such
+an orphaned disk will result from the former instance in `z3` being deleted:
 
 ```
 bosh disks --orphaned | grep dummy/93fd5c41-88e2-4b2f-97ae-b064d507f3d5
-disk-ce15e36a-1eeb-45da-494a-7282a56f3b32       1.0 GiB dummy   dummy/93fd5c41-88e2-4b2f-97ae-b064d507f3d5      az3     Fri Nov 18 13:55:17 UTC 2022
+disk-ce15e36a-1eeb-45da-494a-7282a56f3b32       1.0 GiB dummy   dummy/93fd5c41-88e2-4b2f-97ae-b064d507f3d5      z3     Fri Nov 18 13:55:17 UTC 2022
 ```
+
 
 ### Replacing an AZ in an existing deployment
 
-When replacing an AZ with another, Bosh will delete all existing VMs in the removed AZ. If the deleted VM had a persistent disk, that disk will be orphaned. Replacement VMs will be balanced into all AZs.
+When replacing an AZ with another, Bosh will delete all existing instances
+(VMs) in the removed AZ. If the deleted instances have persistent disks, these
+will be orphaned. Replacement instances will be balanced into all AZs.
 
-##### bosh vms
+!!! Warning
+    Removing an availability zone (AZ) will delete all related instances (VMs)
+    _at the same time_. Even if you may have specified `canaries: 1` and
+    `max_in_flight: 1` in some applicable `update` block of your deployment
+    manifest, all instances will be deleted in parallel.
+
+#### Example
+
+Given a `dummy` instance group resulting in Bosh instances (VMs) spread over
+two availability zones like this:
+
 ```
-Instance                                   ... AZ  
-dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... az1 
-dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... az2 
-dummy/c53e18df-1e47-44f9-9e41-3ee999aa4a87 ... az1
+$ bosh instances
+Instance                                   ... AZ
+dummy/6488acf4-ea9d-4aab-aad5-95df06fc43a2 ... z1
+dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... z2
+dummy/c53e18df-1e47-44f9-9e41-3ee999aa4a87 ... z1
 ```
 
-##### bosh deploy
+The `bosh deploy` operation will output such task logs:
+
 ```
   instance_groups:
   - name: dummy
     azs:
-+   - az3
--   - az1
++   - z3
+-   - z1
 ...
 Creating missing vms: dummy/4a1840a7-b239-4635-9d8e-1830567cd040 (2) (00:00:35)
 Creating missing vms: dummy/cbb84b42-e6a6-4b4d-b560-e418177d2d6f (4) (00:00:38)
@@ -463,19 +655,30 @@ Updating instance dummy: dummy/4a1840a7-b239-4635-9d8e-1830567cd040
 
 ```
 
-> NOTE: as visible in the logs above, removing an AZ will delete ALL VMs in that AZ at the same time.  This can potentially circumvent the `update` block from your manifest:
+And the resulting instances will be placed on `z2` and `z3` like this:
+
 ```
-update:
-  canaries: 1
-  canary_watch_time: 5000 - 90000
-  max_in_flight: 1
-  update_watch_time: 5000 - 15000
+Instance                                   ... AZ
+dummy/4a1840a7-b239-4635-9d8e-1830567cd040 ... z3
+dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... z2
+dummy/cbb84b42-e6a6-4b4d-b560-e418177d2d6f ... z2
 ```
 
-##### bosh vms
-```
-Instance                                   ... AZ  
-dummy/4a1840a7-b239-4635-9d8e-1830567cd040 ... az3 
-dummy/6c002f9c-ab11-4468-9bcb-578819cf4b77 ... az2 
-dummy/cbb84b42-e6a6-4b4d-b560-e418177d2d6f ... az2 
-```
+## Migrating from Bosh v1 to Bosh v2 first-class AZs
+
+Previously with “_Bosh v1_” deployment manifests, to spread resources over
+multiple availability zones (AZs), deployment jobs, resource pools, and
+networks had to be duplicated and named differently in the deployment
+manifest. By convention, all of these resources were suffixed with `_z1` or
+`zX` to indicate which AZ they belonged to.
+
+With first-class AZs support in the Director, “_Bosh v2_” deployment manifests
+no longer need to duplicate and rename resources. This allows the Director to
+eliminate and/or simplify manual configuration for balancing instances (VMs)
+across AZs and IP address management.
+
+!!! Caveat
+    From a “_Bosh v1_” director, once you opt into using the “_Bosh v2_” Cloud
+    Config, all deployments must be converted to use new format. There is no
+    way back to “_Bosh v1_” deployment manifests after you've opted in to
+    Cloud Config.
