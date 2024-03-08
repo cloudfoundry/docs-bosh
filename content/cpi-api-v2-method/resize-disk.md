@@ -23,6 +23,7 @@ No return value
 ### Implementations
 
  * [cloudfoundry/bosh-openstack-cpi-release](https://github.com/cloudfoundry/bosh-openstack-cpi-release/blob/88e1c6d402b3c4ce23ad39ebdf5ab5fc93790127/src/bosh_openstack_cpi/lib/cloud/openstack/cloud.rb#L701)
+ * [cloudfoundry/bosh-aws-cpi-release](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/7906dc66c61d4667ad74beeda3e5627f997ad740/src/bosh_aws_cpi/lib/cloud/aws/cloud_core.rb#L165)
 
 
 ## Related
