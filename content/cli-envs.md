@@ -53,7 +53,6 @@ Started deploying
   Compiling package 'libpq/6aa19afb153dc276924693dc724760664ce61593'... Finished (00:00:14)
   Compiling package 'mysql/e5309aed88f5cc662bc77988a31874461f7c4fb8'... Finished (00:00:06)
   Compiling package 'redis/ec27a0b7849863bc160ac54ce667ecacd07fc4cb'... Finished (00:00:24)
-  Compiling package 'powerdns/e41baf8e236b5fed52ba3c33cf646e4b2e0d5a4e'... Finished (00:00:01)
   Compiling package 'genisoimage/008d332ba1471bccf9d9aeb64c258fdd4bf76201'... Finished (00:00:16)
   Compiling package 'director/a59aa6cf382b0c6df4206219f9f661b86dfc6103'... Finished (00:00:37)
   Compiling package 'nats/6a31c7bb0d5ffa2a9f43c7fd7193193438e20e92'... Finished (00:00:09)

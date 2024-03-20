@@ -807,7 +807,6 @@ curl -v -s -k 'https://admin:admin@192.168.56.4:25555/deployments/example/instan
 - **index** [Integer]: Numeric job index.
 - **job_state** [String]: Aggregate state of job. Possible values: `running` and other values that represent unhealthy state.
 - **ips** [Array of strings]: List of IPs.
-- **dns** [Array of strings]: List of DNS records.
 - **vitals** [Hash]: VM vitals.
 - **processes** [Array of hashes]: List of processes running as part of the job.
 - **state** [String]: State of instance
@@ -1000,7 +999,6 @@ curl -v -s -k 'https://admin:admin@192.168.56.4:25555/deployments/cf-warden/vms'
 - **index** [Integer]: Numeric job index.
 - **job_state** [String]: Aggregate state of job. Possible values: `running` and other values that represent unhealthy state.
 - **ips** [Array of strings]: List of IPs.
-- **dns** [Array of strings]: List of DNS records.
 - **vitals** [Hash]: VM vitals.
 - **processes** [Array of hashes]: List of processes running as part of the job.
 - **state** [String]: State of the VM

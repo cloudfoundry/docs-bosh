@@ -995,12 +995,11 @@ See [CPI config](cpi-config.md).
 
 #### Instances {: #instances }
 
-- `bosh [GLOBAL-CLI-OPTIONS] instances [-i] [--dns] [--vitals] [-p] [-f]` (Alias: `is`)
+- `bosh [GLOBAL-CLI-OPTIONS] instances [-i] [--vitals] [-p] [-f]` (Alias: `is`)
 
     Lists all instances managed by the Director or in a single deployment. Show instance names, IPs, and VM and process health.
 
     - `-i`, `--details` Show details including VM CID, persistent disk CID, etc.
-    - `--dns` Show DNS A records
     - `--vitals` Show vitals
     - `-p`, `--ps` Show processes
     - `-f`, `--failing` Only show failing instances
@@ -1191,11 +1190,10 @@ See [CPI config](cpi-config.md).
 
 #### Vms {: #vms }
 
-- `bosh [GLOBAL-CLI-OPTIONS] vms [--dns] [--vitals] [--cloud-properties]`
+- `bosh [GLOBAL-CLI-OPTIONS] vms [--vitals] [--cloud-properties]`
 
     Lists all VMs managed by the Director or VMs in a single deployment. Show instance names, IPs and VM CIDs.
 
-    - `--dns` Show DNS A records
     - `--vitals` Show vitals
     - `--cloud-properties` Show cloud properties
 

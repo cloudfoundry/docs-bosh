@@ -44,11 +44,6 @@ The Health Monitor uses status and lifecycle events received from Agents to moni
 If enabled, the Resurrector plugin automatically recreates VMs identified by the Health Monitor as missing or unresponsive. It uses same Director API that CLI uses.
 
 ---
-## DNS Server {: #dns }
-
-BOSH uses PowerDNS to provide DNS resolution between the VMs in a deployment.
-
----
 ## Components used to store Director's persistent data {: #persistent }
 
 ### Database {: #database }
