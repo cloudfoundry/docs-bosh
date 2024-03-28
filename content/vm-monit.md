@@ -66,7 +66,6 @@ The Monit daemon 5.2.4 uptime: 1d 22h 7m
 Process 'nats'                      running
 Process 'redis'                     running
 Process 'postgres'                  running
-Process 'powerdns'                  running
 Process 'blobstore_nginx'           running
 Process 'director'                  running
 Process 'worker_1'                  running

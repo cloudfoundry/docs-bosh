@@ -168,24 +168,22 @@ Deletes job instances, VMs, disks, snapshots, templates associated with the depl
 ### Job/VM Health {: #health }
 
 ```shell
-bosh instances [--ps] [--details] [--dns] [--vitals]
+bosh instances [--ps] [--details] [--vitals]
 ```
 
 Displays a table that provides an overview of the instances in a current deployment. You can specify the following options:
 
 - **ps**: includes process information
 - **details**: includes VM cloud ID, agent ID
-- **dns**: includes the DNS A record
 - **vitals**: includes load, CPU, memory, swap, system disk, ephemeral disk, and persistent disk usage
 
 ```shell
-bosh vms [DEPLOYMENT_NAME] [--details] [--dns] [--vitals]
+bosh vms [DEPLOYMENT_NAME] [--details] [--vitals]
 ```
 
 Displays a table that provides an overview of the VMs in `DEPLOYMENT_NAME`. You can specify the following options:
 
 - **details**: includes VM cloud ID, agent ID
-- **dns**: includes the DNS A record
 - **vitals**: includes load, CPU, memory, swap, system disk, ephemeral disk, and persistent disk usage
 
 ```shell
