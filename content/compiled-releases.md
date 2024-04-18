@@ -65,18 +65,7 @@ For example UAA release 27 compiled against stemcell version 3233.10 will work o
 The `bosh export-release` command requires a BOSH Director and deployed compiler VMs.
 You can get a BOSH Release tarball with compiled packages by running the `bosh-agent compile` in a container.
 
-Download a recent BOSH Lite Warden Stemcell:
-
-```shell
-curl -L https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-jammy-go_agent | tar -xz -O image > image.tgz
-```
-
-Import the image tarball to Docker:
-
-```shell
-export STEMCELL_IMAGE
-STEMCELL_IMAGE="$(docker import image.tgz)"
-```
+BOSH Stemcells are published as container images to the [Github Container Registry](https://github.com/orgs/cloudfoundry/packages?repo_name=bosh-linux-stemcell-builder).
 
 Create a directory with your release tarball(s):
 
@@ -88,7 +77,7 @@ curl -L "https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=1.2.17" --outpu
 Compile the release(s):
 
 ```shell
-docker run --rm -it -v ./releases:/releases "${STEMCELL_IMAGE}" /var/vcap/bosh/bin/bosh-agent compile --output-directory=/releases '/releases/bpm-1.2.17.tgz'
+docker run --rm -it -v ./releases:/releases GITHUB_CONTAINER_REGISTRY_IMAGE_PATH /var/vcap/bosh/bin/bosh-agent compile --output-directory=/releases '/releases/bpm-1.2.17.tgz'
 ```
 
 Now your directory "./releases" should contain both tarballs with compiled and non-compiled packages. Like this:
