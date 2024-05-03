@@ -118,7 +118,7 @@ See [Agent Configuration](../vm-config.md#agent) for an overview of the Agent co
 
 ### Implementations
 
- * [cppforlife/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/create_vm.go)
+ * [cloudfoundry/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/create_vm.go)
 
 
 ## Related

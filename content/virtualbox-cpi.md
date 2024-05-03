@@ -1,4 +1,4 @@
-This topic describes cloud properties for different resources created by the [VirtualBox CPI](https://bosh.io/releases/github.com/cppforlife/bosh-virtualbox-cpi-release). VirtualBox CPI works with [vSphere ESXI stemcells](https://bosh.io/stemcells/bosh-vsphere-esxi-ubuntu-xenial-go_agent).
+This topic describes cloud properties for different resources created by the [VirtualBox CPI](https://bosh.io/releases/github.com/cloudfoundry/bosh-virtualbox-cpi-release). VirtualBox CPI works with [vSphere ESXI stemcells](https://bosh.io/stemcells/bosh-vsphere-esxi-ubuntu-xenial-go_agent).
 
 ## AZs {: #azs }
 
@@ -97,7 +97,7 @@ properties:
     path: /var/vcap/micro_bosh/data/cache
 ```
 
-See [virtualbox_cpi job](https://bosh.io/jobs/virtualbox_cpi?source=github.com/cppforlife/bosh-virtualbox-cpi-release) for more details.
+See [virtualbox_cpi job](https://bosh.io/jobs/virtualbox_cpi?source=github.com/cloudfoundry/bosh-virtualbox-cpi-release) for more details.
 
 ---
 ## Example Cloud Config {: #cloud-config }
