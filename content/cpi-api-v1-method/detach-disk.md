@@ -23,7 +23,7 @@ No return value
 
 ### Implementations
 
- * [cppforlife/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/detach_disk.go)
+ * [cloudfoundry/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/detach_disk.go)
 
 
 ## Related

@@ -104,7 +104,7 @@ cloud_properties:
 
 - Update [the CPI GO library](https://github.com/cloudfoundry/bosh-cpi-go) to the latest version:
   ```
-  go get -u github.com/cppforlife/bosh-cpi-go
+  go get -u github.com/cloudfoundry/bosh-cpi-go
   ```
 - For reference code, see these CPIs using the library:
     - [Warden CPI](https://github.com/cloudfoundry/bosh-warden-cpi-release)
