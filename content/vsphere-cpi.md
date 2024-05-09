@@ -287,6 +287,7 @@ Schema:
     * **auth_certificate** [String, optional]: Certificate used for certificate-based authentication. Certificate-based authentication takes precedence over username/password if both are specified. Available in v51+.
     * **auth_private_key** [String, optional]: Private key file used for certificate-based authentication. Available in v51+.
     * **remote_auth** [Boolean, optional]: Enables remote authentication for NSX-T via vIDM. Available in v52.1.5+ and v53.0.1+
+    * **allow_overwrite** [Boolean, optional]: When enabled, the CPI sets the `X-Allow-Overwrite` header to 'true' when making NSX-T Management API requests, which allows the Management API to mutate Policy API objects. Default: `true` for backwards compatibility. Available in v91+.
 
 !!! note
     If the NSX-V or NSX-T Manager has a self-signed certificate, the certificate must be set in the `ca_cert` property.
