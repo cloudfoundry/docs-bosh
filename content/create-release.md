@@ -255,6 +255,20 @@ templates:
 
 For each job, update the `spec` file with template names.
 
+### Testing job templates {: #testing-templates}
+
+Job templates are rendered by the BOSH director during a `bosh deploy` operation. The ERB templates
+are rendered in the Ruby runtime of the BOSH director. This means that changes within the BOSH director
+can affect the ability to render the templates.
+
+It's recommended to validate the templates successfully render using the most recent BOSH director. A
+shared Concourse task can be used to perform a dry run deployment of a BOSH release. Documentation for
+the task can be found in the [task yaml](https://github.com/cloudfoundry/bosh/blob/main/ci/tasks/shared/test-release-template-rendering.yml).
+If Concourse is unavailable, it should be possible to adapt the testing process to run within Docker.
+
+The tests use a provided set of BOSH deployment manifests. Your templates may have branching logic within them
+so multiple manifests may be needed to ensure all paths are properly exercised.
+
 ### Commit {: #commit-one }
 
 You have now created one or more job skeletons; this is a good time to commit.
