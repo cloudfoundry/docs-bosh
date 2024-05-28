@@ -1,7 +1,7 @@
 !!! note
     This feature is available with bosh-vsphere-cpi v9+.
 
-This topic describes how to migrate VMs and persistent disks from one datastore to another without downtime.
+This topic describes how to migrate VMs and persistent disks from one datastore to another with controlled downtime (limited to max-in-flight instances concurrently updated).
 
 1. Attach new datastore(s) to the hosts where the VMs are running while keeping the old datastore(s) attached to the same hosts.
 
