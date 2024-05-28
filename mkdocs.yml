@@ -127,6 +127,7 @@ pages:
     - Using Deploy Config: deploy-config.md
     - Integrating with CredHub:
       - Variable Types: variable-types.md
+    - Tasks Cleanup: scheduled-task-cleanup.md
     - Optional Features:
       - Explicit ARP Flushing: flush-arp.md
       - Removing Dev Tools from VMs: remove-dev-tools.md
