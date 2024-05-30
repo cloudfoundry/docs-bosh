@@ -5,7 +5,7 @@ This topic describes how to migrate VMs and persistent disks from one datastore 
 
 1. Attach new datastore(s) to the hosts where the VMs are running while keeping the old datastore(s) attached to the same hosts.
 
-1. Change deployment manifest for the Director to configure vSphere CPI to reference new datastore(s).
+1. Change deployment manifest for the Director to configure vSphere CPI to reference new datastore(s). 
 
     ```json
     properties:
@@ -30,3 +30,5 @@ This topic describes how to migrate VMs and persistent disks from one datastore 
 1. For each one of the deployments managed by the Director (visible via [`bosh deployments`](sysadmin-commands.md#deployment)), run [`bosh deploy --recreate`](sysadmin-commands.md#deployment) so that VMs are recreated and persistent disks are reattached.
 
 1. Verify that the persistent disks and VMs were moved to new datastore(s) and there are no remaining disks in the old datastore(s).
+
+Alternatively, you may modify the `cloud-config`  at the global level, az level, or disk-type level to specify the target datastore (without a director redeploy).
