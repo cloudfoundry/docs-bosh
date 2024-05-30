@@ -169,6 +169,7 @@ pages:
 - Reference:
   - Terminology: terminology.md
   - Deployment Config: manifest-v2.md
+  - Cpi Config: cpi-config.md
   - Director Cloud Config:
     - Usage: cloud-config.md
     - Availability Zones: azs.md
