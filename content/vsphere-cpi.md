@@ -538,9 +538,10 @@ The vSphere CPI only supports a single datacenter and errors if more than one is
 The current code will not work with a datacenter inside a folder.
 
 ### Storage Policy
+
 The order of precedence for policy and datastore specified for selecting ephemeral datastores is (in order they are written from
-top to bottom , first being most preffered.)
- - Storage policy is set in vm-type
- - Datastores in vm-type
- - Storage policy in Global config
- - Datastore pattern in global config
+top to bottom, first being most preferred):
+- Storage policy is set in vm-type
+- Datastores in vm-type
+- Storage policy in Global config
+- Datastore pattern in global config
