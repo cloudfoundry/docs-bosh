@@ -1,4 +1,4 @@
-This topic describes cloud properties for different resources created by the vSphere CPI.
+This topic describes cloud properties supported for different resources created by the vSphere CPI. The cloud properties can be specified at the different levels supported in the [Cloud Config](cloud-config.md). Typically, define defaults at the global level and override them at the [`azs`](cloud-config.md#azs), [`networks`](cloud-config.md#networks), [`vm_types`](cloud-config.md#vm-types) [`vm_extension`](cloud-config.md#vm-extensions) or [`disk_types`](#disk-types) levels. 
 
 ## AZs {: #azs }
 
@@ -167,6 +167,16 @@ vm_types:
   name: vm_type_name
 ```
 
+Example of overriding the default target datastore used by ephemeral storage through a [vm_extension](manifest-v2.md#instance-groups) specified in the deployment manifest:
+
+```yaml
+vm_extensions:
+  - name: ephemeral-to-ds2
+    cloud_properties:
+      datastores:
+        - 'prod-ds-2'
+  ```
+
 Example of attaching a PCI card to a VM:
 
 ```yaml
@@ -225,13 +235,19 @@ Example of disk with type eagerZeroedThick:
     type: eagerZeroedThick
 ```
 
-Example of disk stored in specific datastores:
+Example of persistent disk stored in specific datastores:
 
 ```yaml
 - name: default
   disk_size: 10_240
   cloud_properties:
-    datastores: ['prod-ds-1', 'prod-ds-2', {clusters: [vcpi-sp1: {}  , vcpi-sp2: {}]}]
+    datastores:
+      # datastores to be used as candidates in the vm placement algorithm (see #vm-placement)
+      - 'prod-ds-1'
+      - 'prod-ds-2'
+      - clusters: # storage clusters used if SRDS is turned on
+          - vcpi-sp1: {}
+          - vcpi-sp2: {}
 ```
 
 ---
