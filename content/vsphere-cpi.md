@@ -212,8 +212,8 @@ vm_extensions:
 
 Schema for `cloud_properties` section:
 
-* **type** [String, optional]: Type of the
-  [disk](http://pubs.vmware.com/vi-sdk/visdk250/ReferenceGuide/vim.VirtualDiskManager.VirtualDiskType.html):
+* **type** [String, optional]: 
+  [Virtual disk type](http://pubs.vmware.com/vi-sdk/visdk250/ReferenceGuide/vim.VirtualDiskManager.VirtualDiskType.html) used for persistent disks:
   `thick`, `thin`, `preallocated`, `eagerZeroedThick`. Defaults to
   `preallocated`. Available in v12. Overrides the global `default_disk_type`.
 
