@@ -59,7 +59,7 @@ At this point you should know enough to configure NTP on your VMs. The rest of t
 ## It is also possible to configure the agent env on an instance-group basis
 
 If you wanted to configure the NTP servers specifically for one
-instance group in a deployment you can do so using `agent.env.bosh.ntp`
+instance group in a deployment you can do so using `env.bosh.ntp`
 property on that instance group in its deployment manifest.
 
 ## Configuring NTP via CPI job properties is DEPRECATED
