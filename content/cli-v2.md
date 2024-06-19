@@ -1732,7 +1732,7 @@ See [CPI config](cpi-config.md).
 
 - `bosh [GLOBAL-CLI-OPTIONS] curl [--method=HTTP-METHOD] [--header=HTTP-HEADER] [--body=PATH-TO-FILE-WITH-HTTP-REQUEST-BODY] [--show-headers] PATH`
 
-    Make an HTTP request to the BOSH Director. **Recommended to be used for debugging purposes only**.
+    Make an HTTP request to the [BOSH Director REST API](director-api-v1.md). **Recommended to be used for debugging purposes only**.
 
     - `--method` `(-X)` specify the HTTP method. Allowed values: `GET`, `POST`, `PUT`, and `DELETE`. Defaults to `GET`
     - `--header` `(-H)` add an HTTP header to the request in `'name: value'` format. Can be specified multiple times for multiple headers.

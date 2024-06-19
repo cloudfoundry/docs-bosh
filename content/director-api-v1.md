@@ -10,9 +10,11 @@ This document lists common API endpoints provided by the Director.
 
 All API access should be done over verified HTTPS.
 
-The Director can be configured in two authentication modes: [basic auth](director-users.md#preconfigured) and [UAA](director-users-uaa.md). [Info endpoint](#info) does not require any authentication and can be used to determine which authentication mechanism to use. All other endpoints require authentication.
+The Director can be configured in two authentication modes: [basic auth](director-users.md#preconfigured) and [UAA](director-users-uaa.md). The [Info endpoint](#info) does not require any authentication and can be used to determine which authentication mechanism to use. All other endpoints require authentication.
 
 `401 Unauthorized` will be returned for requests that contain an invalid basic auth credentials or an invalid/expired UAA access token.
+
+The [`bosh curl`](cli-v2.md#curl) command makes authenticated http requests to the api. 
 
 ### HTTP verbs {: #http-verbs }
 
@@ -74,6 +76,7 @@ Once a Director task is created, clients can follow its progress by polling [`GE
 
 ```shell
 curl -s -k https://192.168.56.4:25555/info | jq .
+bosh curl /info | jq .
 ```
 
 ```json
@@ -117,6 +120,7 @@ curl -s -k https://192.168.56.4:25555/info | jq .
 
 ```shell
 curl -s -k https://192.168.56.4:25555/configs?latest=true | jq .
+bosh curl /configs?latest=true | jq .
 ```
 
 ```json
@@ -254,6 +258,7 @@ See [Director tasks](director-tasks.md) for related info.
 
 ```shell
 curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks?verbose=2&limit=3' | jq .
+bosh curl '/tasks?verbose=2&limit=3' | jq .
 ```
 
 ```json
@@ -290,6 +295,7 @@ curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks?verbose=2&limit=3' |
 
 ```shell
 curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks?state=queued,processing,cancelling&verbose=2' | jq .
+bosh curl '/tasks?state=queued,processing,cancelling&verbose=2' | jq .
 ```
 
 ```json
@@ -326,6 +332,7 @@ curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks?deploymet=cf-warden'
 
 ```shell
 curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks?context_id=4528' | jq .
+bosh curl '/tasks?context_id=4528' | jq .
 ```
 
 ```json
@@ -355,6 +362,7 @@ See additional schema details [above](#list-tasks).
 
 ```shell
 curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1180' | jq .
+bosh curl '/tasks/1180' | jq .
 ```
 
 ```json
@@ -380,6 +388,7 @@ curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1180' | jq .
 
 ```shell
 curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1180/output?type=debug'
+bosh curl '/tasks/1180/output?type=debug'
 ```
 
 ```text
@@ -400,6 +409,7 @@ D, [2015-11-09 02:19:36 #32545] [task:1180] DEBUG -- DirectorJobRunner: (0.00031
 
 ```shell
 curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1181/output?type=event'
+bosh curl '/tasks/1181/output?type=event'
 ```
 
 ```json
@@ -438,6 +448,7 @@ curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1181/output?type=eve
 
 ```shell
 curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1181/output?type=result'
+bosh curl '/tasks/1181/output?type=event'
 ```
 
 ```json
@@ -532,6 +543,7 @@ Empty.
 
 ```shell
 curl -v -s -k https://admin:admin@192.168.56.4:25555/stemcells | jq .
+bosh curl '/stemcells' | jq .
 ```
 
 ```json
@@ -569,6 +581,7 @@ curl -v -s -k https://admin:admin@192.168.56.4:25555/stemcells | jq .
 
 ```shell
 curl -v -s -k https://admin:admin@192.168.56.4:25555/releases | jq .
+bosh curl '/releases' | jq .
 ```
 
 ```json
@@ -629,6 +642,7 @@ curl -v -s -k https://admin:admin@192.168.56.4:25555/releases | jq .
 
 ```shell
 curl -v -s -k https://admin:admin@192.168.56.4:25555/deployments | jq .
+bosh curl '/deployments' | jq .
 ```
 
 ```json
@@ -673,6 +687,7 @@ curl -v -s -k https://admin:admin@192.168.56.4:25555/deployments | jq .
 
 ```shell
 curl -v -s -k https://admin:admin@192.168.56.4:25555/deployments?exclude_configs=true&exclude_releases=true&exclude_stemcells=true | jq .
+bosh curl '/deployments?exclude_configs=true&exclude_releases=true&exclude_stemcells=true' | jq .
 ```
 
 ```json
@@ -717,6 +732,7 @@ Creating/updating a deployment is performed in a Director task. Response will be
 
 ```shell
 curl -v -s -k https://admin:admin@192.168.56.4:25555/deployments/cf-warden | jq .
+bosh curl '/deployments/cf-warden' | jq .
 ```
 
 ```json
@@ -769,6 +785,7 @@ Deleting a deployment is performed in a Director task. Response will be a redire
 
 ```shell
 curl -v -s -k 'https://admin:admin@192.168.56.4:25555/deployments/example/instances' | jq .
+bosh curl '/deployments/example/instances' | jq . 
 ```
 
 ```json
@@ -820,6 +837,7 @@ curl -v -s -k 'https://admin:admin@192.168.56.4:25555/deployments/example/instan
 
 ```shell
 curl -v -s -k 'https://admin:admin@192.168.56.4:25555/deployments/example/instances?format=full'
+bosh curl 'deployments/example/instances?format=full'
 ```
 
 ```text
@@ -944,6 +962,7 @@ curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1287/output?type=res
 
 ```shell
 curl -v -s -k 'https://admin:admin@192.168.56.4:25555/deployments/cf-warden/vms' | jq .
+bosh curl '/deployments/cf-warden/vms' | jq .
 ```
 
 ```json
@@ -1230,6 +1249,7 @@ See [Events](events.md) for info.
 
 ```shell
 curl -v -s -k https://admin:admin@192.168.56.4:25555/events | jq .
+bosh curl /events | jq .
 ```
 
 ```json
@@ -1296,6 +1316,7 @@ See additional schema details [above](#list-events).
 
 ```shell
 curl -v -s -k 'https://admin:admin@192.168.56.4:25555/events/3133' | jq .
+bosh curl /events/3133 | jq .
 ```
 
 ```json
