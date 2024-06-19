@@ -6,6 +6,16 @@ This document lists common API endpoints provided by the Director.
 ---
 ## Overview {: #overview }
 
+### Discovery through bosh cli {: #cli-debug }
+
+In addition to this reference documentation, endpoints used by the bosh CLI can be discovered by turning on the [debugging traces](cli-global-flags.md#logging). This enables discovering endpoints associated with the operator facing use-cases, along with sample response payloads.
+
+```shell
+BOSH_LOG_LEVEL=debug bosh cpi-config |& grep 'request to endpoint'
+[httpClient] 2024/06/19 16:35:13 DEBUG - Sending GET request to endpoint 'https://192.168.116.158:25555/info'
+[httpClient] 2024/06/19 16:35:13 DEBUG - Sending GET request to endpoint 'https://192.168.116.158:25555/cpi_configs?limit=1'
+```
+
 ### Security {: #auth }
 
 All API access should be done over verified HTTPS.
