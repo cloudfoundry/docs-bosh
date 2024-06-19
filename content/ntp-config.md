@@ -62,6 +62,11 @@ If you wanted to configure the NTP servers specifically for one
 instance group in a deployment you can do so using `env.bosh.ntp`
 property on that instance group in its deployment manifest.
 
+In order to completely disable NTP client configuration on one instance group, 
+specify an empty list `env.bosh.ntp=[]` on the instance group, and also configure
+an empty the default ntp list in the [bosh director default configuration of the cpi-release](https://github.com/cloudfoundry/bosh-deployment/blob/master/vsphere/cpi.yml), such
+as [vsphere-cpi](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/blob/34e66c47002c42e37970a02256f13be07a5d138f/jobs/vsphere_cpi/spec#L97-L101)
+
 ## Configuring NTP via CPI job properties is DEPRECATED
 
 If you configure NTP on an instance group that has CPI jobs, some CPIs will pick
