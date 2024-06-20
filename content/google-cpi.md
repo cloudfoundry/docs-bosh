@@ -74,6 +74,7 @@ networks:
 Schema for `cloud_properties` section:
 
 * **machine\_type** (String, required) - The name of the [Google Compute Engine Machine Type](https://cloud.google.com/compute/docs/machine-types) the CPI will use when creating the instance (required if not using `cpu` and `ram`). Example: `n1-standard-1`.
+* **machine\_series** (String, optional) - The name of the [Google Compute Engine Machine Series](https://cloud.google.com/compute/docs/machine-resource) the CPI will use when creating the instance with `cpu` and `ram` (`n1` by default). Example: `n2`.
 * **cpu** (Integer, required) - Number of vCPUs ([Google Compute Engine Custom Machine Types](https://cloud.google.com/custom-machine-types/)) the CPI will use when creating the instance (required if not using `machine_type`). Example: `2`.
 * **ram** (Integer, required) - Amount of memory ([Google Compute Engine Custom Machine Types](https://cloud.google.com/custom-machine-types/)) the CPI will use when creating the instance (required if not using `machine_type`). Example: `2048`.
 * **zone** (String, optional) - The name of the [Google Compute Engine Zone](https://cloud.google.com/compute/docs/zones) where the instance must be created. Example: `us-west1-a`.
