@@ -16,6 +16,12 @@ BOSH_LOG_LEVEL=debug bosh cpi-config |& grep 'request to endpoint'
 [httpClient] 2024/06/19 16:35:13 DEBUG - Sending GET request to endpoint 'https://192.168.116.158:25555/cpi_configs?limit=1'
 ```
 
+### Discovery through source code  {: #source-code }
+
+As a complement to this reference documentation, reading the bosh director source code can be useful to discover the latest endpoints and their supported options:
+* [controllers specs/unit tests](https://github.com/cloudfoundry/bosh/blob/main/src/bosh-director/spec/unit/api/controllers)
+* [controllers](https://github.com/cloudfoundry/bosh/tree/main/src/bosh-director/lib/bosh/director/api/controllers)
+
 ### Security {: #auth }
 
 All API access should be done over verified HTTPS.
