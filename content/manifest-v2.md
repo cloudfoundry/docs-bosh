@@ -234,6 +234,7 @@ update:
         * **agent** [Hash, optional]:
             * **settings** [Hash, optional]:
               * **tmpfs** [Boolean, optional]: Mount agent settings on a [tmpfs](creds-tmpfs.md) directory. Default: `false`.
+        * **ntp** [Array, optional]: list of [ntp servers to synchronize to](ntp-config.md). Default: director-configured ntp servers. 
 
 Example:
 
