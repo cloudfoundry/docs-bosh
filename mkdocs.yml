@@ -133,7 +133,7 @@ pages:
       - Removing Dev Tools from VMs: remove-dev-tools.md
       - Installing Certificates on VMs: trusted-certs.md
     - Troubleshooting: tips.md
-  - Using the CLI:
+  - Using the CLI: &clireference
     - Commands: cli-v2.md
     - Global Flags: cli-global-flags.md
     - Environments: cli-envs.md
@@ -237,6 +237,7 @@ pages:
     - Ubuntu: ubuntu-os.md
     - Windows Server: windows-os.md
     - CentOS: centos-os.md
+  - CLI reference: *clireference
   - Legacy Documentation:
     # docs we should keep linkable
     - Basic Workflow: basic-workflow.md
