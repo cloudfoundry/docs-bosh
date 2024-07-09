@@ -109,7 +109,7 @@ releases:
     version: 97.18
 ```
 
-Example with a local file:
+Example with a local release directory:
 
 ```yaml
 releases:
