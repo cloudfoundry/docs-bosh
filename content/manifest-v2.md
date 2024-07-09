@@ -109,6 +109,15 @@ releases:
     version: 97.18
 ```
 
+Example with a local file:
+
+```yaml
+releases:
+- name: diego
+  url: file:///home/pivotal/workspace/diego-release
+  version: create
+```
+
 ---
 ## Stemcells Block {: #stemcells }
 
