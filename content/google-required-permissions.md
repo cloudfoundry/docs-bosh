@@ -35,6 +35,7 @@ This section will guide you through how to configure the Google Cloud CPI and Di
     - compute.disks.createSnapshot
     - compute.snapshots.create
     - compute.disks.create
+    - compute.disks.resize
     - compute.images.useReadOnly
 
     # global operations
@@ -67,6 +68,7 @@ This section will guide you through how to configure the Google Cloud CPI and Di
     - compute.instances.deleteAccessConfig
     - compute.instances.addAccessConfig
     - compute.addresses.use
+    - compute.addresses.useInternal
 
     # machine type
     - compute.machineTypes.get
@@ -111,7 +113,18 @@ This section will guide you through how to configure the Google Cloud CPI and Di
 
    ![image](images/gcp-service-account.png)
 
+### Additional feature-specific permissions
 
+In addition to the above permissions, you will need to add the following permissions when using configuring certain properties in the Google CPI.
+
+When using the `service_account` or `service_scopes` properties, you will need to add:
+
+  - `compute.instances.setServiceAccount` permission
+  - `iam.serviceAccountUser` role
+
+When using the `accelerators` property, you will need to add:
+
+  - `compute.acceleratorTypes.get`
 
 ## Minimum permissions for GCS blobstore {: #director-with-gcs-blobstore }
 
