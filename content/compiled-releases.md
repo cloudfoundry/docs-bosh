@@ -85,4 +85,4 @@ Now your directory "./releases" should contain both tarballs with compiled and n
 - releases/bpm-1.2.17-ubuntu-jammy-1.406.tgz
 - releases/bpm-release-1.2.17.tgz
 
-A shared Concourse Task is maintained in the [bosh-deployment](https://github.com/cloudfoundry/bosh-deployment/blob/master/ci/tasks/shared/bosh-agent-compile.yml) repo that can be used for compiling releases on Concourse workers
+A shared Concourse Task is maintained in the [bosh-deployment](https://github.com/cloudfoundry/bosh-deployment/blob/master/ci/tasks/shared/bosh-agent-compile.yml) repo that can be used for compiling releases on Concourse workers.
