@@ -140,6 +140,7 @@ to store blobstore contents instead of the bucket default, specify `storage_clas
           json_key: |
             AGENT-SERVICE-ACCOUNT-BLOBSTORE-FILE
     ```
+   
 ---
 ## Azure Storage Account {: #azure-storage }
 
