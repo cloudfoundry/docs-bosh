@@ -339,9 +339,20 @@ logging:
 ---
 ## Enabling DNS {: #enable }
 
-To enable native BOSH functionality, you must first enable [`local_dns.enabled` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.local_dns.enabled) in the Director job. See [bosh-deployment's bosh.yml](https://github.com/cloudfoundry/bosh-deployment/blob/90bac489919fd4512bc9bb4d24070d71b07cd586/bosh.yml#L92-L93) as an example.
+The native BOSH functionality is enabled with the
+[`local_dns.enabled` property][local_dns_prop_docs] of the Director job, which
+is the default in the standard [bosh-deployment][local_dns_bosh_depl].
 
-Enabling `local_dns.enabled` configuration will make Director broadcast DNS updates to all VMs. Only VMs based on 3421+ Linux stemcells will accept DNS broadcast message.
+[local_dns_prop_docs]: https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.local_dns.enabled
+[local_dns_bosh_depl]: https://github.com/cloudfoundry/bosh-deployment/blob/cba9b95/bosh.yml#L80-L81
+
+With `local_dns.enabled` set to `true`, the Director broadcasts DNS updates to
+all VM instances. Accepting such DNS broadcast messages was implemented in
+Bosh Agents shipped with Ubuntu Trusty [v3421+][stemcell_v3421] or later
+stemcells.
+
+[stemcell_v3421]: https://github.com/cloudfoundry/bosh-linux-stemcell-builder/releases/tag/v3421
+
 
 If you were relying on instance index based DNS records, you must enable [`local_dns.include_index` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.local_dns.enabled) in the Director job.
 
