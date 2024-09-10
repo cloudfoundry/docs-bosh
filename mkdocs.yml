@@ -202,6 +202,7 @@ pages:
         - info: cpi-api-v2-method/info.md
         - reboot_vm: cpi-api-v2-method/reboot-vm.md
         - resize_disk: cpi-api-v2-method/resize-disk.md
+        - update_disk: cpi-api-v2-method/update-disk.md
         - set_disk_metadata: cpi-api-v2-method/set-disk-metadata.md
         - set_vm_metadata: cpi-api-v2-method/set-vm-metadata.md
         - snapshot_disk: cpi-api-v2-method/snapshot-disk.md

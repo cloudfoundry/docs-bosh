@@ -75,6 +75,7 @@ using the new key and migrate data onto the new disk.
 | --------------------------------- | ------------------------------ |
 | Multi-CPI                         | Supported, [v61][aws_cpi_v61]+ |
 | Native Disk Resize                | Supported, [v89][aws_cpi_v89]+ |
+| Native Disk Update                | Not Supported                  |
 | Generic VM Resource Configuration | Supported, [v56][aws_cpi_v56]+ |
 
 [aws_cpi_v61]: https://github.com/cloudfoundry/bosh-aws-cpi-release/releases/tag/v61

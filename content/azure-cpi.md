@@ -326,20 +326,27 @@ instance_groups:
 ---
 ## Disk Types {: #disk-pools }
 
+* **name** [String, required]: Name of the disk type.
+* **disk_size** [Integer, required]: Size of the disk in MiB. On Azure the disk size must be greater than 1 * 1024 and less than the max disk size for [unmanaged](https://azure.microsoft.com/en-us/pricing/details/storage/unmanaged-disks/) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. Please always use `N * 1024` as the size because Azure always uses GiB not MiB.
+
 Schema for `cloud_properties` section:
 
 * **caching** [String, optional]: Type of the disk caching. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `None`.
 * **storage\_account\_type** [String, optional]: Storage account type. Valid only when `use_managed_disks` is `true`. It can be either `Standard_LRS`, `Premium_LRS` or `PremiumV2_LRS`. You can click [**HERE**](http://azure.microsoft.com/en-us/pricing/details/storage/) to learn more about the type of Azure storage account. For `PremiumV2_LRS`, you have to set caching to `None` since `PremiumV2_LRS` does currently not support caching.
-* **disk_size** [Integer, required]: Size of the disk in MiB. On Azure the disk size must be greater than 1 * 1024 and less than the max disk size for [unmanaged](https://azure.microsoft.com/en-us/pricing/details/storage/unmanaged-disks/) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. Please always use `N * 1024` as the size because Azure always uses GiB not MiB.
 * **iops** [Integer, optional]: IOPS of the disk. If you need more IOPS than the baseline offers, you can increase the IOPS of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
 * **mbps** [Integer, optional]: Throughput in MB/s of the disk. If you need more throughput than the baseline offers, you can increase the throughput of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
 
-Example of 10GB disk:
+Example of a 10GB Standard LRS disk:
+
 ```yaml
 disk_types:
 - name: default
   disk_size: 10_240
+  cloud_properties:
+    storage_account_type: Standard_LRS
 ```
+
+To modify the `cloud_properties` such as `storage_account_type`, `iops`, and `mbps` of a disk without the necessity to create a new one and transfer the data, you can utilize the [Native Disk Update Feature](./cpi-api-v2-method/update-disk.md).
 
 ---
 ## Global Configuration {: #global }
