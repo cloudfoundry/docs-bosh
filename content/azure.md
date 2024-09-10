@@ -87,7 +87,8 @@ transparently handles re-encryption of data.
 |              Feature              |             Support              |
 | --------------------------------- | -------------------------------- |
 | Multi-CPI                         | Not Supported                    |
-| Native Disk Resize                | Not Supported                    |
+| Native Disk Resize                | Supported, [v39][azure_cpi_v39]+ |
 | Generic VM Resource Configuration | Supported, [v33][azure_cpi_v33]+ |
 
 [azure_cpi_v33]: https://github.com/cloudfoundry/bosh-azure-cpi-release/releases/tag/v33
+[azure_cpi_v39]: https://github.com/cloudfoundry/bosh-azure-cpi-release/releases/tag/v39.0.0
