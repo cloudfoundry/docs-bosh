@@ -83,5 +83,6 @@ vCenter, no additional configuration is required for the CPI.
 | ------------------ | ---------------------------------- |
 | Multi-CPI          | Supported, [v34][vsphere_cpi_v34]+ |
 | Native Disk Resize | Not Supported                      |
+| Native Disk Update | Not Supported                      |
 
 [vsphere_cpi_v34]: https://github.com/cloudfoundry/bosh-vsphere-cpi-release/releases/tag/v34

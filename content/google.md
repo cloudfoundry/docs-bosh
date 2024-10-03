@@ -48,6 +48,7 @@ The CPI does not support multiple NICs being attached to a VM.
 | --------------------------------- | ------------------------------------- |
 | Multi-CPI                         | Not Supported                         |
 | Native Disk Resize                | Not Supported                         |
+| Native Disk Update                | Not Supported                         |
 | Generic VM Resource Configuration | Supported, [v27.0.0][google_cpi_v27]+ |
 
 [google_cpi_v27]: https://github.com/cloudfoundry/bosh-google-cpi-release/releases/tag/v27.0.0

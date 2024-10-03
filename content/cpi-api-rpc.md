@@ -111,6 +111,7 @@ An example error response to [`create_vm`](cpi-api-v2-method/create-vm.md) might
     * [create_disk](cpi-api-v2-method/create-disk.md)
     * [delete_disk](cpi-api-v2-method/delete-disk.md)
     * [resize_disk](cpi-api-v2-method/resize-disk.md)
+    * [update_disk](cpi-api-v2-method/update-disk.md)
     * [has_disk](cpi-api-v2-method/has-disk.md)
     * [attach_disk](cpi-api-v2-method/attach-disk.md)
     * [detach_disk](cpi-api-v2-method/detach-disk.md)
