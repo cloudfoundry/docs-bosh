@@ -332,7 +332,7 @@ An interesting use case for this is the ForwardHandler log tag, in which it incl
 ```yaml
 log_level: ERROR
 logging:
-- tags:
+  tags:
   - name: ForwardHandler
     log_level: DEBUG
 ```
