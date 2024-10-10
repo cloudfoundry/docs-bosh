@@ -152,7 +152,7 @@ The Director and the Agents can use an Azure Storage Account compatible blobstor
 
 1. Ensure that access to the Account is protected, as the Director may store sensitive information.
 
-1. Modify deployment manifest for the Director and specify Azure Storage Account credentials and container name:
+1. Modify deployment manifest for the Director and specify Azure Storage Account credentials and container name. The Azure Cloud Name is optional and can be set to target a non-public Azure cloud:
 
     ```yaml
     properties:
@@ -161,6 +161,7 @@ The Director and the Agents can use an Azure Storage Account compatible blobstor
         account_key: ACCOUNT-KEY
         account_name: ACCOUNT-NAME
         container_name: CONTAINER
+        azure_cloud_name: AZURE-CLOUD-NAME # Optional, default is AzureCloud
       agent:  
         env:
           bosh:
