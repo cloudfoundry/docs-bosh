@@ -17,7 +17,7 @@ Since CPI is just an executable, following takes place for each CPI method call 
 For reference, there are two primary implementations of the "caller" which invoke the CPI...
 
  * BOSH Director - invokes the CPI through typical `deploy`/stemcell commands, internally using its [`external_cpi.rb`](https://github.com/cloudfoundry/bosh/blob/master/src/bosh-director/lib/cloud/external_cpi.rb) wrapper.
- * `bosh` CLI - invokes the CPI through `create-env`/`delete-env` commands, internally using its [`cpi_cmd_runner.go`](https://github.com/cloudfoundry/bosh-cli/blob/master/cloud/cpi_cmd_runner.go).
+ * `bosh` CLI - invokes the CPI through `create-env`/`delete-env` commands, internally using its [`cpi_cmd_runner.go`](https://github.com/cloudfoundry/bosh-cli/blob/main/cloud/cpi_cmd_runner.go).
 
 
 ## API
