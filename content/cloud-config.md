@@ -107,7 +107,6 @@ compilation:
 - [See AWS CPI example](aws-cpi.md#cloud-config)
 - [See Azure CPI example](azure-cpi.md#cloud-config)
 - [See OpenStack CPI example](openstack-cpi.md#cloud-config)
-- [See SoftLayer CPI example](softlayer-cpi.md#cloud-config)
 - [See Google Cloud Platform CPI example](google-cpi.md#cloud-config)
 - [See vSphere CPI example](vsphere-cpi.md#cloud-config)
 
@@ -138,10 +137,8 @@ azs:
 - [See AWS CPI AZ cloud properties](aws-cpi.md#azs)
 - [See Azure CPI AZ cloud properties](azure-cpi.md#azs)
 - [See OpenStack CPI AZ cloud properties](openstack-cpi.md#azs)
-- [See SoftLayer CPI AZ cloud properties](softlayer-cpi.md#azs)
 - [See Google Cloud Platform CPI AZ cloud properties](google-cpi.md#azs)
 - [See vSphere CPI AZ cloud properties](vsphere-cpi.md#azs)
-- [See vCloud CPI AZ cloud properties](vcloud-cpi.md#azs)
 
 ---
 ## Networks Block {: #networks }
@@ -155,10 +152,8 @@ See [networks](networks.md) for more details.
 - [See AWS CPI network cloud properties](aws-cpi.md#networks)
 - [See Azure CPI network cloud properties](azure-cpi.md#networks)
 - [See OpenStack CPI network cloud properties](openstack-cpi.md#networks)
-- [See SoftLayer CPI network cloud properties](softlayer-cpi.md#networks)
 - [See Google Cloud Plaform CPI network cloud properties](google-cpi.md#networks)
 - [See vSphere CPI network cloud properties](vsphere-cpi.md#networks)
-- [See vCloud CPI network cloud properties](vcloud-cpi.md#networks)
 
 ---
 ## VM Types Block {: #vm-types }
@@ -182,10 +177,8 @@ vm_types:
 - [See AWS CPI VM types cloud properties](aws-cpi.md#resource-pools)
 - [See Azure CPI VM types cloud properties](azure-cpi.md#resource-pools)
 - [See OpenStack CPI VM types cloud properties](openstack-cpi.md#resource-pools)
-- [See SoftLayer CPI VM types cloud properties](softlayer-cpi.md#resource-pools)
 - [See Google Cloud Platform CPI VM types cloud properties](google-cpi.md#resource-pools)
 - [See vSphere CPI VM types cloud properties](vsphere-cpi.md#resource-pools)
-- [See vCloud CPI VM types cloud properties](vcloud-cpi.md#resource-pools)
 
 ---
 ## VM Extensions Block {: #vm-extensions }
@@ -233,10 +226,8 @@ disk_types:
 - [See AWS CPI disk type cloud properties](aws-cpi.md#disk-pools)
 - [See Azure CPI disk type cloud properties](azure-cpi.md#disk-pools)
 - [See OpenStack CPI disk type cloud properties](openstack-cpi.md#disk-pools)
-- [See SoftLayer CPI disk type cloud properties](softlayer-cpi.md#disk-pools)
 - [See Google Cloud Platform CPI disk type cloud properties](google-cpi.md#disk-pools)
 - [See vSphere CPI disk type cloud properties](vsphere-cpi.md#disk-pools)
-- [See vCloud CPI disk type cloud properties](vcloud-cpi.md#disk-pools)
 
 ---
 ## Compilation Block {: #compilation }

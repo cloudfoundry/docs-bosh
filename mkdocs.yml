@@ -21,9 +21,7 @@ pages:
   - Google Cloud Platform: init-google.md
   - Microsoft Azure: init-azure.md
   - OpenStack: init-openstack.md
-  - SoftLayer: init-softlayer.md
   - VirtualBox: bosh-lite.md
-  - VMware vCloud: init-vcloud.md
   - VMware vSphere: init-vsphere.md
 - Guides:
   - Deploying Software:
