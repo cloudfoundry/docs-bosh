@@ -95,10 +95,8 @@ See [networks](networks.md) for more details.
 - [See AWS CPI network cloud properties](aws-cpi.md#networks)
 - [See Azure CPI network cloud properties](azure-cpi.md#networks)
 - [See OpenStack CPI network cloud properties](openstack-cpi.md#networks)
-- [See SoftLayer CPI network cloud properties](softlayer-cpi.md#networks)
 - [See Google Cloud Platform CPI network cloud properties](google-cpi.md#networks)
 - [See vSphere CPI network cloud properties](vsphere-cpi.md#networks)
-- [See vCloud CPI network cloud properties](vcloud-cpi.md#networks)
 
 ---
 ## Resource Pools Block {: #resource-pools }
@@ -154,10 +152,8 @@ resource_pools:
 - [See AWS CPI resource pool cloud properties](aws-cpi.md#resource-pools)
 - [See Azure CPI resource pool cloud properties](azure-cpi.md#resource-pools)
 - [See OpenStack CPI resource pool cloud properties](openstack-cpi.md#resource-pools)
-- [See SoftLayer CPI resource pool cloud properties](softlayer-cpi.md#resource-pools)
 - [See Google Cloud Platform CPI resource pool cloud properties](google-cpi.md#vm-types)
 - [See vSphere CPI resource pool cloud properties](vsphere-cpi.md#resource-pools)
-- [See vCloud CPI resource pool cloud properties](vcloud-cpi.md#resource-pools)
 
 ---
 ## Disk Pools Block {: #disk-pools }
@@ -183,10 +179,8 @@ disk_pools:
 - [See AWS CPI disk pool cloud properties](aws-cpi.md#disk-pools)
 - [See Azure CPI disk pool cloud properties](azure-cpi.md#disk-pools)
 - [See OpenStack CPI disk pool cloud properties](openstack-cpi.md#disk-pools)
-- [See SoftLayer CPI disk pool cloud properties](softlayer-cpi.md#disk-pools)
 - [See Google Cloud Platform CPI disk pool cloud properties](google-cpi.md#disk-types)
 - [See vSphere CPI disk pool cloud properties](vsphere-cpi.md#disk-pools)
-- [See vCloud CPI disk pool cloud properties](vcloud-cpi.md#disk-pools)
 
 ---
 ## Compilation Block {: #compilation }

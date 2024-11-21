@@ -7,6 +7,4 @@ Choose your next step where to install the Director:
 - [On Azure](init-azure.md)
 - [On Google](init-google.md)
 - [On OpenStack](init-openstack.md)
-- [On SoftLayer](init-softlayer.md)
-- [On vCloud](init-vcloud.md)
 - [On vSphere](init-vsphere.md)

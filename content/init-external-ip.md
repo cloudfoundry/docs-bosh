@@ -4,7 +4,7 @@ If you do have a jumpbox consider using [CLI tunneling functionality](cli-tunnel
 
 When it's not desirable or possible to have a jumpbox, you can use following steps to assign public IP to the Director VM.
 
-For CPIs that do not use registry (Google, vSphere, vCloud):
+For CPIs that do not use registry (Google, vSphere):
 
 ```shell
 bosh create-env bosh-deployment/bosh.yml \

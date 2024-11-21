@@ -373,7 +373,6 @@ The Director does not enforce how many networks can be assigned to each instance
 | Azure     | Multiple per instance group                                     | Multiple per instance group | Single, corresponds to a reserved IP |
 | OpenStack | [Multiple per instance group](openstack-multiple-networks.md)   | Single per instance group   | Single, corresponds to a floating IP |
 | vSphere   | Multiple per instance group                                     | Not supported               | Not supported                        |
-| vCloud    | Multiple per instance group                                     | Not supported               | Not supported                        |
 
 ---
 ## CPI Specific `cloud_properties` {: #cloud-properties }
@@ -381,7 +380,5 @@ The Director does not enforce how many networks can be assigned to each instance
 - [See AWS CPI network cloud properties](aws-cpi.md#networks)
 - [See Azure CPI network cloud properties](azure-cpi.md#networks)
 - [See OpenStack CPI network cloud properties](openstack-cpi.md#networks)
-- [See SoftLayer CPI network cloud properties](softlayer-cpi.md#networks)
 - [See Google Cloud Platform CPI network cloud properties](google-cpi.md#networks)
 - [See vSphere CPI network cloud properties](vsphere-cpi.md#networks)
-- [See vCloud CPI network cloud properties](vcloud-cpi.md#networks)

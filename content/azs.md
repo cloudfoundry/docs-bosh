@@ -54,10 +54,8 @@ AZs schema:
 - [See AWS CPI AZ cloud properties](aws-cpi.md#azs)
 - [See Azure CPI AZ cloud properties](azure-cpi.md#azs)
 - [See OpenStack CPI AZ cloud properties](openstack-cpi.md#azs)
-- [See SoftLayer CPI AZ cloud properties](softlayer-cpi.md#azs)
 - [See Google Cloud Platform CPI AZ cloud properties](google-cpi.md#azs)
 - [See vSphere CPI AZ cloud properties](vsphere-cpi.md#azs)
-- [See vCloud CPI AZ cloud properties](vcloud-cpi.md#azs)
 
 ---
 
