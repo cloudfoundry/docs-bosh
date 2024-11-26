@@ -228,7 +228,7 @@ update:
     * **persistent_disk_mount_options** [Array of strings, optional]: Mount options when mounting persistent disk. Example: `["noatime"]`.
     * **bosh** [Hash, optional]:
         * **password** [String, optional]: Crypted password for `vcap/root` user (will be placed into /etc/shadow on Linux).
-        * **authorized_keys** [String, optional]: Public key for the `vcap` user, will be placed in `.ssh/authorized_keys`. This value can be used to enable SSH access onto VMs in this instance group.
+        * **authorized_keys** [Array, optional]: Public keys for the `vcap` user, will be placed in `.ssh/authorized_keys`. This value can be used to enable SSH access onto VMs in this instance group.
         * **keep\_root\_password** [Boolean, optional]: Keep password for `root` and only change password for `vcap`. Default: `false`.
         * **remove\_dev\_tools** [Boolean, optional]: Remove [compilers and dev tools](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/stemcell_builder/stages/dev_tools_config/assets/generate_dev_tools_file_list.sh) on non-compilation VMs. Default: `false`.
         * **remove\_static\_libraries** [Boolean, optional]: Remove [static libraries](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/stemcell_builder/stages/static_libraries_config/assets/static_libraries_list.txt) on non-compilation VMs. Default: `false`.
