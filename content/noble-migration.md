@@ -44,7 +44,7 @@ we added the following configuration.
 
 ### BPM
 
-use BPM version v1.4.0 or higher [bpm-releases](https://github.com/cloudfoundry/bpm-release/releases)
+Use BPM version v1.4.0 or higher [bpm-releases](https://github.com/cloudfoundry/bpm-release/releases)
 
 ### EFI Bootloader
 
