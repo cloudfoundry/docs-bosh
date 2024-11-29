@@ -71,7 +71,7 @@ and for `m5.large`
 ```
 
 This will mean when you use the `m4.large` it will boot in legacy bootloader and for `m5.large` you will boot with the efi bootloader.
-you can easily check with which bootloader you started by checking if the following file exists `ls /sys/firmware/efi` if this file exists your in EFI mode and if not your using the legacy bootloader.
+You can easily check with which bootloader you started by checking if the following file exists `ls /sys/firmware/efi` if this file exists you are in EFI mode and if not you are using the legacy bootloader.
 
 
 ### Addons (Runtime Configurations)
