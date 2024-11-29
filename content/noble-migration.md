@@ -12,7 +12,7 @@ Discussion Slack channel is [here](https://cloudfoundry.slack.com/archives/C06HT
 In Noble we switched from resolved to systemd-resolve, with this change and to be backwards compatible with our bosh-dns release some configuration are necessary in the runtime config for DNS.
 if you are uing the latest bosh-deployment or bosh bootloader. than you can ignore this.
 
-with the following PR in bosh-deployment repo [#467](https://github.com/cloudfoundry/bosh-deployment/pull/467)
+With the following PR in bosh-deployment repo [#467](https://github.com/cloudfoundry/bosh-deployment/pull/467)
 we added the following configuration.
 
 ```yaml
