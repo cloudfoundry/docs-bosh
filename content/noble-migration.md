@@ -50,7 +50,7 @@ use BPM version v1.4.0 or higher [bpm-releases](https://github.com/cloudfoundry/
 
 The Noble stemcells will use by default the EFI bootloader with a fallback to the legacy bootloader.
 What this will mean in a real life example for AWS.
-the vm type `m4.large` (which is deprecated) only supports legacy bootloader
+The vm type `m4.large` (which is deprecated) only supports legacy bootloader
 you can see what the vm type support with the following command `aws ec2 describe-instance-types --region us-east-1 --instance-types m4.large --query "InstanceTypes[*].SupportedBootModes"`
 this will result in
 ```json
