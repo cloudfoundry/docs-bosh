@@ -1346,7 +1346,7 @@ See [CPI config](cpi-config.md).
 
 #### PCAP {: #pcap }
 
-- `bosh [GLOBAL-CLI-OPTIONS] pcap -o=OUTPUT [-i=INTERFACE] [-f=FILTER] [-s=SNAPLEN] [--stop-timeout=TIMEOUT] [--gw-disable] [--gw-user=USER] [--gw-host=HOST] [--gw-private-key=KEY] [--gw-socks5=URL] [INSTANCE-GROUP[/INSTANCE-ID]]`
+- `bosh [GLOBAL-CLI-OPTIONS] pcap -o=OUTPUT [-i=INTERFACE] [-f=FILTER] [-s=SNAPLEN] [--stop-timeout=TIMEOUT] [--gw-disable] [--gw-user=USER] [--gw-host=HOST] [--gw-private-key=KEY] [--gw-socks5=URL] [INSTANCE-GROUP[/INSTANCE-ID]...]`
 
    Allows to perform network capture on one or multiple bosh instances. Capturing network traffic can help to analyse issues like network congestion, high latency, packet loss, or other network-related problems.
 
@@ -1364,12 +1364,18 @@ See [CPI config](cpi-config.md).
     ```shell
     # capture network traffic on all instances in a deployment
     bosh -e vbox -d cf pcap -o capture.pcap
+    
+    # don't ask for user confirmation and establish 100 connections in parallel (default: 5)
+    bosh -e vbox -d cf pcap -o capture.pcap --non-interactive --parallel 100
 
     # capture network traffic on one instance group
     bosh -e vbox -d cf pcap router -o capture.pcap
 
     # capture network traffic on a single instance
     bosh -e vbox -d cf pcap router/209c42e5-3c1a-432a-8445-ab8d7c9f1111 -o capture.pcap
+    
+    # capture network traffic on multiple capture groups or instances in a deployment
+    bosh -e vbox -d cf pcap nats router/0 -o capture.pcap
 
     # capture network traffic with filter for a specific source host
     bosh -e vbox -d cf pcap router -f "src host 192.168.1.11" -o capture.pcap
