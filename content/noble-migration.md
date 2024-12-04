@@ -1,5 +1,3 @@
-## Migrating to Noble Numbat
-
 Cloud Foundry's upcoming stemcells will be based on Ubuntu's [Noble Numbat](https://wiki.ubuntu.com/Releases) release, which may cause compilation and deployment errors in packages built for earlier stemcells. This document provides guidance on how to address the most common errors that BOSH release authors may encounter. There are a few broad categories to address:
 
 - BOSH DNS — see [below](#bosh-dns)
