@@ -52,6 +52,7 @@ pages:
     - Migrating:
       - To Availability Zones: migrated-from.md
       - From the Ruby CLI: cli-v2-diff.md
+      - Migrating to Noble Numbat: noble-migration.md
   - Packaging Software:
     - Core Concepts:
       - Creating a Release: create-release.md
