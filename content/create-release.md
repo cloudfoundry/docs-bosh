@@ -263,7 +263,7 @@ can affect the ability to render the templates.
 
 It's recommended to validate the templates successfully render using the most recent BOSH director. A
 shared Concourse task can be used to perform a dry run deployment of a BOSH release. Documentation for
-the task can be found in the [task yaml](https://github.com/cloudfoundry/bosh/blob/main/ci/tasks/shared/test-release-template-rendering.yml).
+the task can be found in the [task yaml](https://github.com/cloudfoundry/bosh/blob/main/ci/shared/tasks/test-release-template-rendering.yml).
 If Concourse is unavailable, it should be possible to adapt the testing process to run within Docker.
 
 The tests use a provided set of BOSH deployment manifests. Your templates may have branching logic within them
