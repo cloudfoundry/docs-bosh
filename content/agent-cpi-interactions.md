@@ -98,15 +98,15 @@ This section details the configuration and protocols supported by the Agent.
 
 The loading agent.json file is described into [config_test.go](https://github.com/cloudfoundry/bosh-agent/blob/master/app/config_test.go)
 
-The Platform part of the file is documented into [LinuxOptions](https://godoc.org/github.com/cloudfoundry/bosh-agent/platform#LinuxOptions)
+The Platform part of the file is documented into [LinuxOptions](https://pkg.go.dev/github.com/cloudfoundry/bosh-agent/v2/platform#LinuxOptions)
 
-The Infrastructure part of the file is documented into [Options](https://godoc.org/github.com/cloudfoundry/bosh-agent/infrastructure#Options) and in particular:
+The Infrastructure part of the file is documented into [Options](https://pkg.go.dev/github.com/cloudfoundry/bosh-agent/v2/infrastructure#Options) and in particular:
 
- * the sources of configuration with [SettingsOptions](https://godoc.org/github.com/cloudfoundry/bosh-agent/infrastructure#SettingsOptions):
+ * the sources of configuration with [SettingsOptions](https://pkg.go.dev/github.com/cloudfoundry/bosh-agent/v2/infrastructure#SettingsOptions):
 
-    * [CDROM](https://godoc.org/github.com/cloudfoundry/bosh-agent/infrastructure#CDROMSourceOptions)
-    * [ConfigDrive](https://godoc.org/github.com/cloudfoundry/bosh-agent/infrastructure#ConfigDriveSourceOptions)
-    * [HTTP](https://godoc.org/github.com/cloudfoundry/bosh-agent/infrastructure#HTTPSourceOptions)
+    * [CDROM](https://pkg.go.dev/github.com/cloudfoundry/bosh-agent/v2/infrastructure#CDROMSourceOptions)
+    * [ConfigDrive](https://pkg.go.dev/github.com/cloudfoundry/bosh-agent/v2/infrastructure#ConfigDriveSourceOptions)
+    * [HTTP](https://pkg.go.dev/github.com/cloudfoundry/bosh-agent/v2/infrastructure#HTTPSourceOptions)
 
 Sample `agent.json` which configures the agent to read from an HTTP metadata service at a custom URL:
 
@@ -302,7 +302,7 @@ Following is a sample content of the user-data part of the HTTP metadata
 }
 ```
 
-The supported format of the metadata server by the bosh-agent is documented in [UserDataContentsType](https://godoc.org/github.com/cloudfoundry/bosh-agent/infrastructure#UserDataContentsType) and [http\_metadata\_service_test.go](https://github.com/cloudfoundry/bosh-agent/blob/1dca3244702c18bf2c36483c529d4e7b3fb92b2e/infrastructure/http_metadata_service_test.go), along with the expected behavior of the bosh agent when reading this config.
+The supported format of the metadata server by the bosh-agent is documented in [UserDataContentsType](https://pkg.go.dev/github.com/cloudfoundry/bosh-agent/v2/infrastructure#UserDataContentsType) and [http\_metadata\_service_test.go](https://github.com/cloudfoundry/bosh-agent/blob/1dca3244702c18bf2c36483c529d4e7b3fb92b2e/infrastructure/http_metadata_service_test.go), along with the expected behavior of the bosh agent when reading this config.
 
 ----
 ##### Registry {: #registry }
