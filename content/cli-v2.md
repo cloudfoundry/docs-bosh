@@ -967,7 +967,7 @@ See [CPI config](cpi-config.md).
     - `--max-in-flight=NUMBER or PERCENTAGE` Override manifest values for max_in_flight
     - `--dry-run` Renders job templates without altering a deployment. It will save some state in the director database (like ip reservations) which will be reused on the next deploy
     - `--force-latest-variables` Causes the director to retreive the latest value of all variables from the config server, overriding their update strategies.  Available as of director version v279.0.0
-    - `--skip-upload-releases` Prevents uploads of releases. Available as of bosh cli version 7.9.0.
+    - `--skip-upload-releases` Prevents upload of releases. Available as of bosh cli version 7.9.0.
     - `PATH` Path to a manifest file
 
     ```shell
