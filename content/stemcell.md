@@ -64,11 +64,9 @@ The schedule for stemcells roughly looks like:
 * New LTS distributions from Canonical are consumed around every 2-3 years. This
   is usually an overhaul on how the bosh-agent interacts with the base operating
   system.
-* New stemcell major lines are cut every 3-4 months. This is to ensure backwards
-  compatibility between the bosh-agent and bosh-director, as we add new
-  features.
 * New patches are cut every 3 weeks to pick up any low & medium CVEs published
-  by https://usn.ubuntu.com
+  by https://usn.ubuntu.com. A patch will also be cut within a week of a high or
+  critical CVE being fixed.
 
 **What are the differences between stemcell lines?**
 
