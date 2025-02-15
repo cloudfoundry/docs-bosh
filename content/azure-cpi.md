@@ -79,6 +79,7 @@ Schema for `cloud_properties` section:
     * **size** [Integer, optional]: Specifies the disk size in MiB.
         * The size must be greater than 3 * 1024 and less than the max disk size for [unmanaged](https://azure.microsoft.com/en-us/pricing/details/storage/unmanaged-disks/) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. Please always use `N * 1024` as the size because Azure always uses GiB but not MiB.
         * It has a default value `30 * 1024` only when ephemeral_disk.use\_root\_disk is set to true.
+    * **disk_encryption_set_name** [String, optional]: The Azure Disk Encryption Set name to use when creating the root disk. This is used to encrypt the disk with customer provided keys rather than the default Azure provided encryption keys. Available since v52.0.0.
 * **caching** [String, optional]: Type of the disk caching of the VMs' OS disks. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `ReadWrite`.
 * **ephemeral_disk** [Hash, optional]: Ephemeral disk to apply for all VMs that are in this VM type/extension. By default a data disk with the default size as below will be created as the ephemeral disk.
     * **use\_root\_disk** [Boolean, optional]: Enable to use OS disk to store the ephemeral data. The default value is false. When it is true, ephemeral_disk.size will not be used.
@@ -90,6 +91,7 @@ Schema for `cloud_properties` section:
     * **type** [String, optional]: Storage account type. Valid only when `use_managed_disks` is `true`. It can be either `Standard_LRS`, `Premium_LRS` or `PremiumV2_LRS`. You can click [**HERE**](http://azure.microsoft.com/en-us/pricing/details/storage/) to learn more about the type of Azure storage account. For `PremiumV2_LRS`, you have to set caching to `None` since `PremiumV2_LRS` does currently not support caching.
     * **iops** [Integer, optional]: IOPS of the disk. If you need more IOPS than the baseline offers, you can increase the IOPS of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
     * **mbps** [Integer, optional]: Throughput in MB/s of the disk. If you need more throughput than the baseline offers, you can increase the throughput of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
+    * **disk_encryption_set_name** [String, optional]: The Azure Disk Encryption Set name to use when creating the ephemeral disk. This is used to encrypt the disk with customer provided keys rather than the default Azure provided encryption keys. Available since v52.0.0.
 
 * **load_balancer** [String, optional]: Name of a [load balancer](https://azure.microsoft.com/en-us/documentation/articles/load-balancer-overview/) the VMs should belong to.
     * _Notes:_
@@ -335,6 +337,7 @@ Schema for `cloud_properties` section:
 * **storage\_account\_type** [String, optional]: Storage account type. Valid only when `use_managed_disks` is `true`. It can be either `Standard_LRS`, `Premium_LRS` or `PremiumV2_LRS`. You can click [**HERE**](http://azure.microsoft.com/en-us/pricing/details/storage/) to learn more about the type of Azure storage account. For `PremiumV2_LRS`, you have to set caching to `None` since `PremiumV2_LRS` does currently not support caching.
 * **iops** [Integer, optional]: IOPS of the disk. If you need more IOPS than the baseline offers, you can increase the IOPS of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
 * **mbps** [Integer, optional]: Throughput in MB/s of the disk. If you need more throughput than the baseline offers, you can increase the throughput of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
+* **disk_encryption_set_name** [String, optional]: The Azure Disk Encryption Set name to use when creating the persistent disk. This is used to encrypt the disk with customer provided keys rather than the default Azure provided encryption keys. Available since v52.0.0.
 
 Example of a 10GB Standard LRS disk:
 
