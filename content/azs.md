@@ -139,7 +139,8 @@ VMs total: 4
     planning an AZ migration.
 
 
-!!! General limitations
+!!! danger "General limitations"
+
     - Bosh does not migrate persistent disk contents across availability
       zones. Persistent disks attached to an instance (VM) that is moved to
       another AZ will be orphaned and eventually deleted by Bosh.
