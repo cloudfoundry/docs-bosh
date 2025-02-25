@@ -54,14 +54,16 @@ The CPI supports multiple NICs being attached to a single VM.
 #### Managed Disks
 
 When using Managed Disks, encryption is automatically used by all disks and
-cannot be disabled. All aspects of the encryption are internally managed by
-Azure.
+cannot be disabled. By default, all aspects of the encryption are internally
+managed by Azure. Starting with Azure CPI v52.0.0, it is possible to configure
+customer-managed keys for root, ephemeral, and persistent disks using
+[Disk Encryption Sets](azure_disk_encryption).
 
 |    Disk Type    |    Encryption     | Customer-managed Keys |
 | --------------- | ----------------- | --------------------- |
-| Root Disk       | Required, default | Not Supported         |
-| Ephemeral Disk  | Required, default | Not Supported         |
-| Persistent Disk | Required, default | Not Supported         |
+| Root Disk       | Required, default | Supported (v52.0.0+)  |
+| Ephemeral Disk  | Required, default | Supported (v52.0.0+)  |
+| Persistent Disk | Required, default | Supported (v52.0.0+)  |
 
 #### Storage Accounts
 
