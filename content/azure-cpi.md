@@ -387,6 +387,8 @@ Schema:
 * **keep\_failed\_vms** [Boolean, optional]: A flag to keep the failed VM. If it's set to `true` and CPI fails to **provision** the VM, CPI will keep the VM for troubleshooting. The default value is `false`. Available in v32+. Please note that the option is different from **keep\_unreachable\_vms** of the [director configuration](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh). The latter is to keep the VM whose BOSH agent is unresponsive.
 * **enable_telemetry** [Boolean, optional]: A flag to enable telemetry on CPI calls on Azure. Available since v35.2.0. The default value is `true` in v35.2.0, and is `false` in v35.3.0+.
 * **enable\_vm\_boot\_diagnostics** [Boolean, optional]: A flag to enable VM boot diagnostics on Azure. Available since v35.2.0. The default value is `true` in v35.2.0, and is `false` in v35.3.0+.
+* **compute_gallery_name** [String, optional]: The name of the Azure Compute Gallery to use for managing stemcell images. When provided, the [Compute Gallery feature](./azure-compute-gallery.md) is automatically enabled. Available since v53.0.0+.
+* **compute_gallery_replicas** [Integer, optional]: The number of replicas to use for the Compute Gallery Images. Defaults to `3`. Available since v53.0.0+.
 
 See [all configuration options](https://bosh.io/jobs/azure_cpi?source=github.com/cloudfoundry/bosh-azure-cpi-release).
 
