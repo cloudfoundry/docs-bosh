@@ -1,6 +1,6 @@
-## Unit Testing with `bosh-template` gem {: #unit-testing }
+## Unit Testing with `bosh-template` executable {: #unit-testing }
 
-`bosh-template` Ruby gem could be used for unit testing your job templates. Unit testing of job templates becomes even more important once they contain more complex ERB logic that may perform validation or data transformation.
+`bosh-template` executable in the `bosh-director` gem could be used for unit testing your job templates. Unit testing of job templates becomes even more important once they contain more complex ERB logic that may perform validation or data transformation.
 
 See example of unit tests in a production release: [https://github.com/cloudfoundry/bosh-dns-aliases-release/blob/master/spec/bosh-dns-aliases_spec.rb](https://github.com/cloudfoundry/bosh-dns-aliases-release/blob/master/spec/bosh-dns-aliases_spec.rb).
 
@@ -26,7 +26,6 @@ To start unit testing `web-server` job, add `Gemfile` to the root of your releas
 source 'https://rubygems.org'
 
 group :development, :test do
-  gem 'bosh-template'
   gem 'rspec'
   gem 'rspec-its'
 end
@@ -98,7 +97,7 @@ Should output:
 
 ### Instance configuration
 
-`bosh-template` gem provides default values for `spec.*` ERB accessors:
+`bosh-template` executable from the `bosh-director` gem provides default values for `spec.*` ERB accessors:
 
 ```ruby
 config = JSON.parse(template.render({...}))
