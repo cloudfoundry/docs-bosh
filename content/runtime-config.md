@@ -246,6 +246,8 @@ For disks, the `director`, `deployment`, `instance_group`, `instance_id`,
 overridden. See  the [`set_disk_metadata` CPI method](cpi-api-v2-method/set-disk-metadata.md)
 for more info about those.
 
+For stemcells, those uploaded after setting the tags, will receive the new tags.
+
 Example:
 
 ```yaml

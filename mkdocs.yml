@@ -180,6 +180,10 @@ pages:
   - Director Runtime Config: runtime-config.md
   - Generic Configs: configs.md
   - Cloud Provider Interface:
+    - Version 3:
+      - Overview: cpi-api-v3.md
+      - Methods:
+        - create_stemcell: cpi-api-v3-method/create-stemcell.md
     - Version 2:
       - Overview: cpi-api-v2.md
       - Methods:
