@@ -411,3 +411,31 @@ Should result in:
   }
 ]
 ```
+
+---
+### Compute Gallery {: #compute-gallery }
+
+!!! note
+    You can skip this section if you are not planning to use the compute gallery feature.
+
+Create a compute gallery to store VM images:
+
+```shell
+az sig create --resource-group bosh-res-group --gallery-name boshgallery --location "Central US"
+```
+
+Should result in:
+
+```json
+{
+  "id": "/subscriptions/my-subscription-id/resourceGroups/bosh-res-group/providers/Microsoft.Compute/galleries/boshgallery",
+  "identifier": {
+    "uniqueName": "cbba8e52-d657-499e-a8ac-eafbc751129b-BOSHGALLERY"
+  },
+  "location": "centralus",
+  "name": "boshgallery",
+  "provisioningState": "Succeeded",
+  "resourceGroup": "bosh-res-group",
+  "type": "Microsoft.Compute/galleries"
+}
+```
