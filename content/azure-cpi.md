@@ -357,7 +357,7 @@ To modify the `cloud_properties` such as `storage_account_type`, `iops`, and `mb
 Schema:
 
 * **environment** [String, required]: Azure environment name. Possible values are: `AzureCloud`, `AzureChinaCloud`, `AzureUSGovernment` (available in v19+), `AzureGermanCloud` (available in v22+) or `AzureStack`.
-* **location** [String, optional]: Azure region name. Only required when [`vm_resources`](https://bosh.io/docs/manifest-v2.html#instance-groups) is specified in the deployment manifest. Available in v33+.
+* **location** [String, optional]: Azure region name. Only required when `compute_gallery_name` is set, or when [`vm_resources`](https://bosh.io/docs/manifest-v2.html#instance-groups) is specified in the deployment manifest. Available in v33+.
 * **subscription_id** [String, required]: Subscription ID.
 * **tenant_id** [String, required]: Tenant ID of the service principal.
 * **client_id** [String, required]: Client ID of the service principal.

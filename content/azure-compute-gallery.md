@@ -24,10 +24,12 @@ When specifying `compute_gallery_name` in the [CPI global configuration](./azure
 
 ```yaml
 azure:
+  location: eastus
   compute_gallery_name: myboshgallery
   compute_gallery_replicas: 1  # optional, default is 3
 ```
 
+- `location`: The location where Azure Compute Gallery images should be initially created during the upload of stemcells.
 - `compute_gallery_name`: The name of the Azure Compute Gallery, provisioned in the [previous step](#configuring-bosh-azure-cpi-to-use-azure-compute-gallery).
 - `compute_gallery_replicas`: The number of replicas used for Azure Compute Gallery Images. Azure recommends a minimum of 3 replicas for production images and to keep one replica for every 20 VMs that are concurrently created.
 
