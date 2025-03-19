@@ -10,7 +10,7 @@ Using Azure Compute Gallery Images in BOSH offers several benefits:
 
 Before you begin, ensure you have:
 
-- BOSH Director deployed with Azure CPI `v53.0.0+`.
+- BOSH Director deployed with Azure CPI `v52.0.1+`.
 - Azure Subscription with permissions to create and manage Azure Compute Galleries.
 - Azure Service Principal (configured in the [CPI global configuration](./azure-cpi.md#global)) with permissions to contribute to the Azure Compute Gallery, such as the [Compute Gallery Artifacts Publisher](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/compute#compute-gallery-artifacts-publisher) role.
 
