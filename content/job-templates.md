@@ -26,6 +26,7 @@ To start unit testing `web-server` job, add `Gemfile` to the root of your releas
 source 'https://rubygems.org'
 
 group :development, :test do
+  gem 'bosh-template'
   gem 'rspec'
   gem 'rspec-its'
 end
