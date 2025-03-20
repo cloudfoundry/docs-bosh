@@ -271,6 +271,7 @@ pages:
     - Overview: azure.md
     - Usage: azure-cpi.md
     - Common Errors: azure-cpi-errors.md
+    - Compute Gallery: azure-compute-gallery.md
     - Creating Resources: azure-resources.md
     - Managed Identity: azure-managed-identity.md
   - OpenStack:

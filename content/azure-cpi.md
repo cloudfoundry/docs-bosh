@@ -357,7 +357,7 @@ To modify the `cloud_properties` such as `storage_account_type`, `iops`, and `mb
 Schema:
 
 * **environment** [String, required]: Azure environment name. Possible values are: `AzureCloud`, `AzureChinaCloud`, `AzureUSGovernment` (available in v19+), `AzureGermanCloud` (available in v22+) or `AzureStack`.
-* **location** [String, optional]: Azure region name. Only required when [`vm_resources`](https://bosh.io/docs/manifest-v2.html#instance-groups) is specified in the deployment manifest. Available in v33+.
+* **location** [String, optional]: Azure region name. Only required when `compute_gallery_name` is set, or when [`vm_resources`](https://bosh.io/docs/manifest-v2.html#instance-groups) is specified in the deployment manifest. Available in v33+.
 * **subscription_id** [String, required]: Subscription ID.
 * **tenant_id** [String, required]: Tenant ID of the service principal.
 * **client_id** [String, required]: Client ID of the service principal.
@@ -387,6 +387,8 @@ Schema:
 * **keep\_failed\_vms** [Boolean, optional]: A flag to keep the failed VM. If it's set to `true` and CPI fails to **provision** the VM, CPI will keep the VM for troubleshooting. The default value is `false`. Available in v32+. Please note that the option is different from **keep\_unreachable\_vms** of the [director configuration](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh). The latter is to keep the VM whose BOSH agent is unresponsive.
 * **enable_telemetry** [Boolean, optional]: A flag to enable telemetry on CPI calls on Azure. Available since v35.2.0. The default value is `true` in v35.2.0, and is `false` in v35.3.0+.
 * **enable\_vm\_boot\_diagnostics** [Boolean, optional]: A flag to enable VM boot diagnostics on Azure. Available since v35.2.0. The default value is `true` in v35.2.0, and is `false` in v35.3.0+.
+* **compute_gallery_name** [String, optional]: The name of the Azure Compute Gallery to use for managing stemcell images. When provided, the [Compute Gallery feature](./azure-compute-gallery.md) is automatically enabled. Available since v52.0.1+.
+* **compute_gallery_replicas** [Integer, optional]: The number of replicas to use for the Compute Gallery Images. Defaults to `3`. Available since v52.0.1+.
 
 See [all configuration options](https://bosh.io/jobs/azure_cpi?source=github.com/cloudfoundry/bosh-azure-cpi-release).
 
