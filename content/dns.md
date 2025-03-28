@@ -45,6 +45,10 @@ DNS release provides two jobs: `bosh-dns` (for Linux) and `bosh-dns-windows` (fo
 
 ### Recursors {: #recursors }
 
+DNS resolution is designed to be handled by a single server. When a process on the VM has a DNS query it needs resolved, it will send that query to a single server. Because of this, it's not possible for the BOSH DNS server to only respond to queries it knows how to answer. We must place BOSH DNS as the primary server, and then if there are other recursors to handle non-BOSH queries, BOSH DNS must proxy the requests to them.
+
+On Ubuntu stemcells prior to Noble, BOSH DNS is designed to be the primary DNS server on the VM. Starting with Ubuntu Noble stemcells, `systemd-resolved` is installed on the VM and used as the primary DNS server. With `systemd-resolved`, BOSH DNS is only sent queries for the top level domains it is configured to serve. On Noble and later stemcells, BOSH DNS release should be configured with [disable_recursors](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p%3ddisable_recursors) as `true` because `systemd-resolved` is responsible for proxying queries to the recursors. When `disable_recursors` is enabled, BOSH DNS will not forward queries on to other servers and none of the following behavior applies.
+
 Here is how DNS release chooses recursors before starting its operation:
 
 1. by default will pick up recursors specified in `/etc/resolv.conf` (denoted by `nameserver` keyword)
