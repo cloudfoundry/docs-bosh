@@ -89,4 +89,4 @@ https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/bosh-ste
 
 * [CI Source Repo](https://github.com/cloudfoundry/bosh-stemcells-ci)
 * [Stemcell Builder](https://github.com/cloudfoundry/bosh-linux-stemcell-builder)
-* [Stemcell Hardening](https://docs.pivotal.io/pivotalcf/security/pcf-infrastructure/stemcell-hardening.html)
+* [Stemcell Hardening](https://techdocs.broadcom.com/us/en/vmware-tanzu/platform/tanzu-operations-manager/3-0/tanzu-ops-manager/security-pcf-infrastructure-stemcell-index.html)
