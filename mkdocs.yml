@@ -240,7 +240,6 @@ pages:
   - Operating Systems:
     - Ubuntu: ubuntu-os.md
     - Windows Server: windows-os.md
-    - CentOS: centos-os.md
   - CLI reference: *clireference
   - Legacy Documentation:
     # docs we should keep linkable
