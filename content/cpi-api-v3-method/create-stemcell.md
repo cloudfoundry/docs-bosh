@@ -9,7 +9,7 @@ See [Stemcell Building](../build-stemcell.md) for more details.
 
  * `image_path` [String]: Path to the stemcell image extracted from the stemcell tarball on a local filesystem.
  * `cloud_properties` [Hash]: Cloud properties hash extracted from the stemcell tarball.
- * `env` [Hash]: A random hash with a "tags" key which itself is a hash of key/value pairs.
+ * `env` [Hash]: A random hash with a "tags" key which itself is a hash of key/value pairs. This is used in version 282.0.0 of the director.
 
 
 ## Result
