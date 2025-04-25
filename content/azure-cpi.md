@@ -188,6 +188,7 @@ Schema for `cloud_properties` section:
     * **user_assigned_identity_name** [String, required]: Specifies the name of the Managed Identity.
 
 * **tags** [Hash, optional]: Custom tags of VMs (Available in v35.4.0+). They are name-value pairs that are used to organize VMs.
+* **capacity_reservation_group** [String, optional]: The name of the [capacity reservation](https://learn.microsoft.com/en-us/azure/virtual-machines/capacity-reservation-overview) group to use for the VM. Available since v53.0.0+. The value must be a valid capacity reservation group name in the same resource group as the VM.
 
 Example of a `Standard_A2` VM:
 
