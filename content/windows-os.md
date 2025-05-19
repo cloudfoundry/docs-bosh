@@ -1,10 +1,8 @@
 # Stemcell OS: Microsoft Windows Server
 
 The Microsoft Windows images are built from the
-[cloudfoundry/stembuild](https://github.com/cloudfoundry/stembuild)
-repository. Previously, they were built from
 [cloudfoundry/bosh-windows-stemcell-builder](https://github.com/cloudfoundry/bosh-windows-stemcell-builder)
-(deprecated).
+repository.
 
 ## Distributions
 
