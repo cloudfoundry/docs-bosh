@@ -13,7 +13,7 @@ See [Stemcell Building](../build-stemcell.md) for more details.
 
 ## Result
 
- * `stemcell_cid` [String]: Cloud ID of the created stemcell (e.g. stemcells in AWS CPI are made into AMIs so cid .would be `ami-83fdflf`)
+ * `stemcell_cid` [String]: Cloud ID of the created stemcell (e.g. stemcells in AWS CPI are made into AMIs so cid would be `ami-83fdflf`)
 
 
 ## Example

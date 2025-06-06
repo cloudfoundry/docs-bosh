@@ -22,7 +22,7 @@ schema.
 
 !!! Note
     In the above schema, the “starting state” is a sort of “step 0” that
-    conforms to [the asumptions above](#preconditions). And the [step 5](#step-5) is absent from the diagram.
+    conforms to [the assumptions above](#preconditions). And the [step 5](#step-5) is absent from the diagram.
 
 ## Execution
 
@@ -49,7 +49,7 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 * Each VM/agent continues to use the old client certificates to communicate with the NATS server.
 
 !!! warning
-    In the below operations file `add-new-ca.yml`, the `nats_server_tls_2` certificate is generated with the `internal_ip` as the only “Subject Alternative Name”. Please remember to add any other SANs that maybe neccessary to your environment.
+    In the below operations file `add-new-ca.yml`, the `nats_server_tls_2` certificate is generated with the `internal_ip` as the only “Subject Alternative Name”. Please remember to add any other SANs that maybe necessary to your environment.
 
 `add-new-ca.yml`
 

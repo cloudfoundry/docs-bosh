@@ -47,7 +47,7 @@ Two arguments enable the encryption of the root filesystem:
 
 We modify the cloud-properties of an AWS stemcell to encrypt the root filesystem of instances deployed with our repacked stemcell. The cloud-properties must be specified as valid JSON. This only works with heavy stemcells:
 
-We take this opportunity to rename our stemcell so that we don't accidently confuse the unencrypted stemcells with the encrypted stemcells.
+We take this opportunity to rename our stemcell so that we don't accidentally confuse the unencrypted stemcells with the encrypted stemcells.
 
 ```shell
 bosh repack-stemcell --name=acme-ubuntu-encrypted --cloud-properties='{"encrypted": true, "kms_key_arn": "arn:aws:kms:us-east-1:088444384256:key/4ffbe966-d138-4f4d-a077-4c234d05b3b1"}' bosh-stemcell-621.74-aws-xen-hvm-ubuntu-xenial-go_agent.tgz acme-encrypted-stemcell.tgz

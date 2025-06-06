@@ -19,7 +19,7 @@ properties:
 ---
 ## Emailer {: #emailer }
 
-Plugin that sends configurable e-mails on events reciept.
+Plugin that sends configurable e-mails on events received.
 
 ```yaml
 properties:
