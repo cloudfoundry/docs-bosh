@@ -44,7 +44,7 @@
     - Depending on which stemcell `api_version` the CPI receives in `context`
       - When the stemcell `api_version` is **>= 2**
         - The CPI does not try to update the registry with `disk_hints`.
-      - When sthe temcell `api_version` is **< 2**
+      - When the stemcell `api_version` is **< 2**
         - The CPI [updates the registry](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/1d7c31ec1ea0bb65a287adfc1898810a615218b8/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb#L76-L80) with `disk_hints`, which is the same behaviour as in V1.
 
 

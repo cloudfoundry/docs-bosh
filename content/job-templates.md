@@ -71,7 +71,7 @@ describe 'web-server job' do
 end
 ```
 
-Above set of tests provides enough gurantee that our ERB template is validating and passing down correct configuration to the web server binary.
+Above set of tests provides enough guarantee that our ERB template is validating and passing down correct configuration to the web server binary.
 
 At this point release directory will look something like this:
 
@@ -115,7 +115,7 @@ expect(config['network_ip']).to eq('192.168.0.0')
 expect(config['job_name']).to eq('me')
 ```
 
-These values could be overriden to test particular behaviour:
+These values could be overridden to test particular behaviour:
 
 ```ruby
 spec = Bosh::Template::Test::InstanceSpec.new(address: 'cloudfoundry.org', bootstrap: true)

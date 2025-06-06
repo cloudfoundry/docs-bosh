@@ -65,7 +65,7 @@ The `monit` file includes zero or more processes to run. Each process specifies 
 ---
 ### `start.ps1` {: #start-ps1 }
 
-The `start.ps1` script executed by the [service-wrapper](https://github.com/kohsuke/winsw) loops indefintely while printing out a message:
+The `start.ps1` script executed by the [service-wrapper](https://github.com/kohsuke/winsw) loops indefinitely while printing out a message:
 
 ```powershell
 while ($true)
@@ -87,7 +87,7 @@ bosh upload-release
 bosh -d sample-windows-deployment deploy manifest.yml
 ```
 
-For information about deployment basics, see the [Deploy Workflow](basic-workflow.md) documenation.
+For information about deployment basics, see the [Deploy Workflow](basic-workflow.md) documentation.
 
 Here is a sample manifest. For information on manifest basics, see the [Deployment Manifest](deployment-manifest.md) documentation.
 

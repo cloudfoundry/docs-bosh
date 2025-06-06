@@ -102,7 +102,7 @@ It can have the following values (note: "job" here actually means "instance"):
 * `job_changed` indicating that the instance will be restarted
 * `job_shutdown` indicating that the instance will be stopped and subsequently the VM will terminated
 
-The second arguemnt passed to the drain script indicates whether the job hash has changed.
+The second argument passed to the drain script indicates whether the job hash has changed.
 It can have the following values:
 * `hash_changed` indicating that the job's packages or rendered templates have changed.
 * `hash_unchanged` indicating that the job's packages and rendered templates have not changed.

@@ -15,7 +15,7 @@ There are three built-in types: `cloud`, `runtime` and `cpi`. You can interact w
 
 In addition to the Director types an operator can set config of any other type using the [`update-config`](cli-v2.md#update-config) CLI command. The config file can be any file containing valid YAML. Root of the file must be a hash.
 
-One of the use cases for providing such open ended functionality is to provide shared configuration API for supporting BOSH services instead of reimplementing something similar in each service. An upcoming example that will use this feature will be introduction of the `ressurection` config type that will allow operators to define custom resurrection rules, later read and interpreted by the Health Monitor.
+One of the use cases for providing such open ended functionality is to provide shared configuration API for supporting BOSH services instead of reimplementing something similar in each service. An upcoming example that will use this feature will be introduction of the `resurrection` config type that will allow operators to define custom resurrection rules, later read and interpreted by the Health Monitor.
 
 ---
 ## Updating and retrieving a config {: #update }

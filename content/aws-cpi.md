@@ -165,7 +165,7 @@ The CPI can only talk to a single AWS region.
 Schema:
 
 * **credentials_source** [String, optional]: Selects credentials source between credentials provided in this configuration, or from an [IAM instance profile](aws-iam-instance-profiles.md). Default: `static`.
-* **access\_key\_id** [String, optional]: Accesss Key ID. Example: `AKI...`.
+* **access\_key\_id** [String, optional]: Access Key ID. Example: `AKI...`.
 * **secret\_access\_key** [String, optional]: Secret Access Key. Example: `0kwh...`.
 * **default\_key\_name** [String, required]: Name of the [Key Pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) that will be applied to all created VMs. Example: `bosh`
 * **default\_security\_groups** [Array, required]: See description under [networks](#networks).

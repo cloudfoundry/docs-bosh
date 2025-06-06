@@ -486,7 +486,7 @@ Query parameters are:
   * The following options are available:
     * `y0` - _Default_ - do not attempt to get healthiness on the first query
     * `y1` - Perform a synchronous health check the first time the record is
-      resolved. This is useful for applications that are not designed to continuosly
+      resolved. This is useful for applications that are not designed to continuously
       re-resolve and therefore need to receive a healthy instance on the first
       record resolution.
 * `g*` = group (internal)

@@ -21,7 +21,7 @@ For example `redis-server` release job will create two log files:
 
 To download logs from all release jobs on a specific VM, run `bosh logs <job_name> <index>`.
 
-See additonal information about following job lifecycle events' logs:
+See additional information about following job lifecycle events' logs:
 
 - [pre-start script logs](pre-start.md#logs)
 - [drain script logs](drain.md#logs)
@@ -75,7 +75,7 @@ sudo tail -f -n 200 /var/vcap/bosh/log/current
 
 System logs contain configuration and runtime information from the Linux kernel and other process running on a VM that are not directly managed by the BOSH Agent. These logs are stored in `/var/log` and are occasionally of interest when debugging OS-level problems, or when determining whether or not a VM is undersized for its workload. `auditd` and `sar` logs are also stored here.
 
-If you're a Linux system adminstrator, you already know exactly the sorts of things that are in here -- BOSH does nothing particularly special with these logs.
+If you're a Linux system administrator, you already know exactly the sorts of things that are in here -- BOSH does nothing particularly special with these logs.
 
 !!! Note
     System logs are generally only accessible to the root user.

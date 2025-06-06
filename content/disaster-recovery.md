@@ -8,7 +8,7 @@ However, it is possible that we externalize the state to the best possible exten
 ## Prerequisites:
 
 ### 1. Using domain names
-When an AZ outage happens, and we switch to a new director, it is important that BOSH's deployments are still able to reach the new director in the other AZ. The first step to make this posible is to use domain names for the director instead of IPs. This, however, does come with a challenge of updating the the certificates used by BOSH with alternative names (IPs being used to connect to the director and new hostname configured) for hostname validation.
+When an AZ outage happens, and we switch to a new director, it is important that BOSH's deployments are still able to reach the new director in the other AZ. The first step to make this possible is to use domain names for the director instead of IPs. This, however, does come with a challenge of updating the the certificates used by BOSH with alternative names (IPs being used to connect to the director and new hostname configured) for hostname validation.
 ### 2. Externalizing the database
 BOSH should still be aware of its deployments, their instances, blob references etc. in the event of its redeployment to another AZ. This could be made possible by using an external database instead of the default colocated configuration. This can be done by consuming highly available RDS services by IaaS providers, and then configuring the director database properties and the UAA database properties to consume these external database instances. See [director db configuration](https://bosh.io/docs/director-configure-db) and [uaa configuration](https://bosh.io/docs/director-users-uaa) for further help in this regard.
 ### 3. Externalizing the blobstore
@@ -30,7 +30,7 @@ After isolating the director deployed by `create-env` in `zone_1` the process to
 
 For directors deployed by `bosh deploy`, the deployment manifest should be updated to use`zone_2`. Next, the number of [instances](https://bosh.io/docs/manifest-v2/#instance-groups) in the `instance_group` has to be increased to 2 and a second static ip (available in `zone_2`) should be configured (in order to prevent data mismatch in the records of the deployer of this director and therefore to support both directors in the two zones).
 
-However, while redeploying the director with the updated manifest, the director which this drector is the deployment of would
+However, while redeploying the director with the updated manifest, the director which this director is the deployment of would
 first try to delete the old `bosh` in `zone_1`. This will most probably fail in case of a zone outage. This can be prevented by invoking [ignore](https://bosh.io/docs/cli-v2/#ignore) on the deployed `bosh` in `zone_1`.
 
 ### 3. Disabling resurrection

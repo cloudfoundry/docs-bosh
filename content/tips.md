@@ -245,7 +245,7 @@ Command 'deploy' failed:
                 Agent responded with error: Action Failed get_task: Task 7e4d289d-b97c-4464-40d4-ecc90cc2a94b result: Persistent disk with volume id '14128b61-e046-48ae-b48a-fc0324716b83' could not be found
 ```
 
-The SSH tunnel between your machine and the VM in the cloud can be terminated prematurly, see [corresponding bug](https://github.com/cloudfoundry/bosh-cli/issues/110). Update CLI v2 to version >= v2.0.2 to fix this.
+The SSH tunnel between your machine and the VM in the cloud can be terminated prematurely, see [corresponding bug](https://github.com/cloudfoundry/bosh-cli/issues/110). Update CLI v2 to version >= v2.0.2 to fix this.
 
 ---
 ## Errors creating or fetching credhub variables {: #variables-permission}

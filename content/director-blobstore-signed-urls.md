@@ -30,7 +30,7 @@ values because they are no more used but still required in the configuration
 templates of some CPIs.
 
 An ops-file in bosh-deployment can be used to enable signed URLs and manage
-the unneccesary properites.
+the unnecessary properties.
 See the [bosh-deployment › misc/blobstore-signed-urls.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/blobstore-signed-urls.yml)
 ops file.
 

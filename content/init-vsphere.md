@@ -45,7 +45,7 @@ This document shows how to set up new [environment](terminology.md#environment) 
       - Configure `vcenter_disks` (e.g. 'my-bosh-disks') with the name of the VMs folder. Disk folder will be automatically created in the chosen datastore.
       - Configure `vcenter_cluster` (e.g. 'cluster1') with the name of the vSphere cluster. Create cluster under the chosen datacenter in the Clusters tab.
       - Configure `network_name` (e.g. 'VM Network') with the name of the vSphere network. Create network under the chosen datacenter in the Networks tab. Above example uses `10.0.0.0/24` network and Director VM will be placed at `10.0.0.6`.
-      - [Optional] Configure `vcenter_rp` (eg. 'my-bosh-rp') with the name of the vSphere resource pool. Create resource pool under the choosen datacenter in the Clusters tab.
+      - [Optional] Configure `vcenter_rp` (eg. 'my-bosh-rp') with the name of the vSphere resource pool. Create resource pool under the chosen datacenter in the Clusters tab.
 
     See [vSphere CPI errors](vsphere-cpi-errors.md) for list of common errors and resolutions.
 

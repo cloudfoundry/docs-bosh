@@ -11,7 +11,7 @@ similar to [Cloud Check](cck.md), with several exceptions:
 2. Resolutions to problems are selected by instance group and problem type.
    The `cloud-check` command asks for a resolution for each particular
    problem.
-3. When generating a recovery plan, `max_in_flight` can be overriden per
+3. When generating a recovery plan, `max_in_flight` can be overridden per
    instance group.  This can be handy to speed deployment recovery.  The
    `cloud-check` command uses the `max_in_flight` values in the deployment
    manfiest.

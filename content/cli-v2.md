@@ -966,7 +966,7 @@ See [CPI config](cpi-config.md).
     - `--canaries=NUMBER or PERCENTAGE` Override manifest values for canaries
     - `--max-in-flight=NUMBER or PERCENTAGE` Override manifest values for max_in_flight
     - `--dry-run` Renders job templates without altering a deployment. It will save some state in the director database (like ip reservations) which will be reused on the next deploy
-    - `--force-latest-variables` Causes the director to retreive the latest value of all variables from the config server, overriding their update strategies.  Available as of director version v279.0.0
+    - `--force-latest-variables` Causes the director to retrieve the latest value of all variables from the config server, overriding their update strategies.  Available as of director version v279.0.0
     - `--skip-upload-releases` Prevents upload of releases. Available as of bosh cli version 7.9.0.
     - `PATH` Path to a manifest file
 
@@ -1017,7 +1017,7 @@ See [CPI config](cpi-config.md).
 
 - `bosh [GLOBAL-CLI-OPTIONS] manifest` (Alias: `man`)
 
-    Prints deployment manifest to `stdout`. In case a deployment failed, it will print the manifest of the last succesful deploy.
+    Prints deployment manifest to `stdout`. In case a deployment failed, it will print the manifest of the last successful deploy.
 
     ```shell
     bosh -e vbox -d cf man > /tmp/manifest.yml
