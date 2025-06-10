@@ -42,7 +42,7 @@ Above declaration is equivalent to running
 ---
 ## Git over HTTP/HTTPs URLs {: #git-http }
 
-Recontruct Release tarball from remote Git repository.
+Reconstruct Release tarball from remote Git repository.
 
 ```yaml
 releases:

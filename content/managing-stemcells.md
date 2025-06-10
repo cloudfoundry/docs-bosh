@@ -3,7 +3,7 @@
 ---
 ## Stemcell versioning {: #versioning }
 
-Each stemcell is uniquely identified by its name and version. Currently stemcell versions are in MAJOR.MINOR format. Major version is incremented when new features are added to stemcells (or any components that stemcells typically include such as BOSH Agent). Minor versions are incremented if certain security fixes and/or features are backported on top of existing stemcell line. We recommend to continiously bump to the latest major stemcell version to receive latest updates.
+Each stemcell is uniquely identified by its name and version. Currently stemcell versions are in MAJOR.MINOR format. Major version is incremented when new features are added to stemcells (or any components that stemcells typically include such as BOSH Agent). Minor versions are incremented if certain security fixes and/or features are backported on top of existing stemcell line. We recommend to continuously bump to the latest major stemcell version to receive latest updates.
 
 ---
 ## Overview {: #overview }

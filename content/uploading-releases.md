@@ -15,7 +15,7 @@ provides a good list of available releases and their tarballs.
 Here are a few popular releases:
 
 - [concourse](https://bosh.io/releases/github.com/concourse/concourse-bosh-release)
-  provides a Continious Integration system called “Concourse CI”, see
+  provides a Continuous Integration system called “Concourse CI”, see
   [concourse-ci.org](https://concourse-ci.org/)
 - [cf-rabbitmq-release](https://bosh.io/releases/github.com/pivotal-cf/cf-rabbitmq-release)
   provides RabbitMQ
@@ -25,7 +25,7 @@ Here are a few popular releases:
     was popular when it used to provide all software components for Cloud
     Foundry. Then
     [cf-deployment]](https://github.com/cloudfoundry/cf-deployment) emerged
-    with modularized souces of software components, now provided by 30+ Bosh
+    with modularized sources of software components, now provided by 30+ Bosh
     releases.)
 
 ---

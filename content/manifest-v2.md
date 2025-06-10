@@ -320,7 +320,7 @@ addons:
 * **update** [Hash, optional]: Available in bosh-release 279+.
     * **strategy** [String, optional]: Controls when BOSH retrieves the latest version for the variable from the config server during a deploy. Currently supported strategies are `on-deploy`, and `on-stemcell-change`. Defaults to `on-deploy`.
         * `on-deploy`: BOSH will look up the latest variable value on each deploy.
-        * `on-stemcell-change`: BOSH will only look up the latest variable value when a deploy is occuring that updates all stemcells for the deployment. If one or more stemcells are not being updated, then BOSH will continue to use the previously deployed value for the variable.
+        * `on-stemcell-change`: BOSH will only look up the latest variable value when a deploy is occurring that updates all stemcells for the deployment. If one or more stemcells are not being updated, then BOSH will continue to use the previously deployed value for the variable.
 * **options** [Hash, optional]: Specifies generation options used for generating variable value if variable is not found. Example: `{is_ca: true, common_name: some-ca}`
 
 Example:
