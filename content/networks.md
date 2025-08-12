@@ -73,7 +73,7 @@ See how to define each network type below.
 
 Manual networking allows you to specify one or more subnets and let the Director choose available IPs from one of the subnet ranges. A subnet definition specifies the CIDR range and, optionally, the gateway and DNS servers. In addition, certain IPs can be blacklisted (the Director will not use these IPs) via the `reserved` property.
 
-Each manual network attached to an instance is typically represented as its own NIC in the IaaS layer.
+Each manual network attached to an instance is typically represented as its own NIC in the IaaS layer. This behavior can be changed by configuring nic groups as explained in the networks section of the instance groups manifest definition [here](manifest-v2.md#instance-groups-block--instance-groups-).
 
 Schema for manual network definition:
 
@@ -85,6 +85,7 @@ Schema for manual network definition:
     * **dns** [Array, optional]: DNS IP addresses for this subnet
     * **reserved** [Array, optional]: Array of reserved IPs and/or IP ranges. BOSH does not assign IPs from this range to any VM
     * **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to instances requesting static IPs. Only IPs specified here can be used for static IP reservations.
+    * **prefix** [String, optional]: Size of the prefix bosh will assign to vms. Networks that have this property set cannot be used by BOSH itself, therefore if this is set a secondary network needs to be attached. Supported from director version <director_version> and stemcell <stemcell_version>. Find more information [here](#prefix-delegation)
     * **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `z1`. Available in v241+.
     * **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`. Available in v241+.
     * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
@@ -132,6 +133,71 @@ instance_groups:
 
 !!! note
     If an instance group uses static IP reservation, all instances must be given static IPs.
+
+
+### Prefix Delegation {: #prefix-delegation }
+
+From director release <director_version> and stemcell <stemcell_version> bosh supports prefix delegation. The concepts of static ip addresses (refer below for further clarifications regarding static ip addresses) and reserved addresses stay the same as explained above.
+The prefix property will tell the bosh director to not assign single ip addresses for this network, but to assign prefix delegations with a given size.
+
+Example cloud config:
+
+```yaml
+networks:
+- name: my-network-with-prefix
+  type: manual
+
+  subnets:
+  - range:    10.10.0.0/24
+    gateway:  10.10.0.1
+    dns:      [10.10.0.2]
+    prefix:   28
+
+    cloud_properties: {subnet: subnet-9be6c3f7}
+
+```
+
+In this example the bosh director will divide the /24 subnet range into /28 subnets to be assigned to vms. Therefore, the bosh director will calculate the next available base address of the prefix within the subnet range. The first three base addresses for our example would be:
+
+* 10.10.0.0/28
+* 10.10.0.16/28
+* 10.10.0.32/28
+
+The ip and prefix information will get send to the cpi via the `create_vm` RPC Interface.
+
+Clarifications for static ips:
+
+* if single static ips are defined in the cloud config the director verifies whether these static ips are base addresses of the specified prefix. If not, there will be an error.
+* if a range of static ips addresses is defined the director will only consider the base addresses of the specified prefix as static ips.
+
+Considering the following instance group configuration:
+
+```yaml
+instance_groups:
+- name: my-instance-group-with-static-ip
+  instances: 2
+  ...
+  networks:
+  - name: my-network
+    default: 
+    - dns
+    - gateway
+  - name: my-network-with-prefix
+```
+
+The director will send two ip addresses to the cpi:
+
+* the next available single address from the `my-network` network configuration
+* the next available prefix delegation from the `my-network-with-prefix` network configuration. 
+
+Limitations:
+
+* Networks with a prefix defined can only be attached as a secondary network
+* Dynamic and VIP networks are not supported as of now
+* Managed networks are not supported as of now
+* Single Static IPs must be a base address of the prefix
+
+Find supported cpis [here](#cpi-limitations--cpi-limitations-).
 
 ---
 ## Dynamic Networks {: #dynamic }
@@ -367,12 +433,17 @@ In the above example, VM allocated to `my-multi-homed-instance-group` instance g
 
 The Director does not enforce how many networks can be assigned to each instance; however, each CPI might impose custom requirements either due to the IaaS limitations or simply because support was not yet implemented.
 
-|           | manual network                                                  | dynamic network             | vip network                          |
-|-----------|-----------------------------------------------------------------|-----------------------------|--------------------------------------|
-| AWS       | Single per instance group                                       | Single per instance group   | Single, corresponds to an elastic IP |
-| Azure     | Multiple per instance group                                     | Multiple per instance group | Single, corresponds to a reserved IP |
-| OpenStack | [Multiple per instance group](openstack-multiple-networks.md)   | Single per instance group   | Single, corresponds to a floating IP |
-| vSphere   | Multiple per instance group                                     | Not supported               | Not supported                        |
+|           | manual network                                                  | dynamic network             | vip network                          | nic grouping supported for network type | prefix delegation supported for network type |
+|-----------|-----------------------------------------------------------------|-----------------------------|--------------------------------------|-----------------------------------------|----------------------------------------------|
+| AWS       | Single per instance group (multiple from <aws_cpi_version>)     | Single per instance group   | Single, corresponds to an elastic IP |manual<sup>1</sup>                       | manual<sup>2</sup>                           |
+| Azure     | Multiple per instance group                                     | Multiple per instance group | Single, corresponds to a reserved IP |                                         |                                              |
+| OpenStack | [Multiple per instance group](openstack-multiple-networks.md)   | Single per instance group   | Single, corresponds to a floating IP |                                         |                                              |
+| vSphere   | Multiple per instance group                                     | Not supported               | Not supported                        |                                         |                                              |
+
+
+1 = max number of ip addresses assigned to one nic: one ipv4 address, one ipv6 address, one ipv4 prefix delegation and one ipv6 prefix delegation
+
+2 = find currently supported prefix sizes [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html)
 
 ---
 ## CPI Specific `cloud_properties` {: #cloud-properties }
