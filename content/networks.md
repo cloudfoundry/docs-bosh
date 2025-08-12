@@ -73,7 +73,7 @@ See how to define each network type below.
 
 Manual networking allows you to specify one or more subnets and let the Director choose available IPs from one of the subnet ranges. A subnet definition specifies the CIDR range and, optionally, the gateway and DNS servers. In addition, certain IPs can be blacklisted (the Director will not use these IPs) via the `reserved` property.
 
-Each manual network attached to an instance is typically represented as its own NIC in the IaaS layer. This behavior can be changed by configuring nic groups as explained in the networks section of the instance groups manifest definition [here](manifest-v2.md#instance-groups-block--instance-groups-).
+Each manual network attached to an instance is typically represented as its own NIC in the IaaS layer. This behavior can be changed by configuring NIC groups, as explained in the networks section of the instance groups manifest definition [here](manifest-v2.md#instance-groups-block--instance-groups-).
 
 Schema for manual network definition:
 
@@ -85,7 +85,7 @@ Schema for manual network definition:
     * **dns** [Array, optional]: DNS IP addresses for this subnet
     * **reserved** [Array, optional]: Array of reserved IPs and/or IP ranges. BOSH does not assign IPs from this range to any VM
     * **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to instances requesting static IPs. Only IPs specified here can be used for static IP reservations.
-    * **prefix** [String, optional]: Size of the prefix bosh will assign to vms. Networks that have this property set cannot be used by BOSH itself, therefore if this is set a secondary network needs to be attached. Supported from director version <director_version> and stemcell <stemcell_version>. Find more information [here](#prefix-delegation)
+    * **prefix** [String, optional]: Size of the prefix BOSH will assign to VMs. Networks that have this property set cannot be used by BOSH itself; therefore, if this is set, a secondary network needs to be attached. Supported from director version `<director_version>` and stemcell `<stemcell_version>`. Find more information in the [Prefix Delegation](#prefix-delegation) section.
     * **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `z1`. Available in v241+.
     * **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`. Available in v241+.
     * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
@@ -137,10 +137,10 @@ instance_groups:
 
 ### Prefix Delegation {: #prefix-delegation }
 
-From director release <director_version> and stemcell <stemcell_version> bosh supports prefix delegation. The concepts of static ip addresses (refer below for further clarifications regarding static ip addresses) and reserved addresses stay the same as explained above.
-The prefix property will tell the bosh director to not assign single ip addresses for this network, but to assign prefix delegations with a given size.
+Starting with Director release `<director_version>` and stemcell `<stemcell_version>`, BOSH supports prefix delegation. The concepts of static IP addresses and reserved addresses remain as described above.
+When the `prefix` property is set, the Director assigns prefix delegations of the specified size to VMs, rather than individual IP addresses.
 
-Example cloud config:
+**Example cloud config:**
 
 ```yaml
 networks:
@@ -154,23 +154,22 @@ networks:
     prefix:   28
 
     cloud_properties: {subnet: subnet-9be6c3f7}
-
 ```
 
-In this example the bosh director will divide the /24 subnet range into /28 subnets to be assigned to vms. Therefore, the bosh director will calculate the next available base address of the prefix within the subnet range. The first three base addresses for our example would be:
+In this example, the Director divides the `/24` subnet into `/28` subnets to assign to VMs. The next available base address of the prefix within the subnet range is calculated for each assignment. For example, the first three base addresses would be:
 
-* 10.10.0.0/28
-* 10.10.0.16/28
-* 10.10.0.32/28
+* `10.10.0.0/28`
+* `10.10.0.16/28`
+* `10.10.0.32/28`
 
-The ip and prefix information will get send to the cpi via the `create_vm` RPC Interface.
+The IP and prefix information will get send to the CPI via the `create_vm` RPC interface.
 
-Clarifications for static ips:
+#### Static IP Clarifications
 
-* if single static ips are defined in the cloud config the director verifies whether these static ips are base addresses of the specified prefix. If not, there will be an error.
-* if a range of static ips addresses is defined the director will only consider the base addresses of the specified prefix as static ips.
+* If single static IPs are defined in the cloud config, the Director verifies that these IPs are base addresses of the specified prefix. If not, an error is raised.
+* If a range of static IP addresses is defined, only the base addresses of the specified prefix are considered as static IPs.
 
-Considering the following instance group configuration:
+**Considering the following instance group configuration:**
 
 ```yaml
 instance_groups:
@@ -185,19 +184,19 @@ instance_groups:
   - name: my-network-with-prefix
 ```
 
-The director will send two ip addresses to the cpi:
+The Director will send two IP addresses to the CPI:
 
-* the next available single address from the `my-network` network configuration
-* the next available prefix delegation from the `my-network-with-prefix` network configuration. 
+* The next available single address from the `my-network` network configuration.
+* The next available prefix delegation from the `my-network-with-prefix` network configuration.
 
-Limitations:
+#### Limitations
 
-* Networks with a prefix defined can only be attached as a secondary network
-* Dynamic and VIP networks are not supported as of now
-* Managed networks are not supported as of now
-* Single Static IPs must be a base address of the prefix
+* Networks with a `prefix` defined can only be attached as a secondary network.
+* Dynamic and VIP networks are not supported.
+* Managed networks are not supported.
+* Single static IPs must be a base address of the prefix.
 
-Find supported cpis [here](#cpi-limitations--cpi-limitations-).
+See supported CPIs in the [CPI Limitations](#cpi-limitations--cpi-limitations-) section.
 
 ---
 ## Dynamic Networks {: #dynamic }
