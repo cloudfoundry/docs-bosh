@@ -434,15 +434,16 @@ The Director does not enforce how many networks can be assigned to each instance
 
 |           | manual network                                                  | dynamic network             | vip network                          | nic grouping supported for network type | prefix delegation supported for network type |
 |-----------|-----------------------------------------------------------------|-----------------------------|--------------------------------------|-----------------------------------------|----------------------------------------------|
-| AWS       | Single per instance group (multiple from <aws_cpi_version>)     | Single per instance group   | Single, corresponds to an elastic IP |manual<sup>1</sup>                       | manual<sup>2</sup>                           |
+| AWS       | Multiple per instance group<sup>1</sup> (from <aws_cpi_version>)| Single per instance group   | Single, corresponds to an elastic IP |manual<sup>2</sup>                       | manual<sup>3</sup>                           |
 | Azure     | Multiple per instance group                                     | Multiple per instance group | Single, corresponds to a reserved IP |                                         |                                              |
 | OpenStack | [Multiple per instance group](openstack-multiple-networks.md)   | Single per instance group   | Single, corresponds to a floating IP |                                         |                                              |
 | vSphere   | Multiple per instance group                                     | Not supported               | Not supported                        |                                         |                                              |
 
+1 = The maximum number of network interfaces attached to a vm is [limited per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AvailableIpPerENI.html). If you want to attach more ip addresses to your vms check out the nic_group configuration [here](manifest-v2.md#instance-groups-block--instance-groups-).
 
-1 = max number of ip addresses assigned to one nic: one ipv4 address, one ipv6 address, one ipv4 prefix delegation and one ipv6 prefix delegation
+2 = The maximum number of ip addresses assigned to one nic (limited by the aws cpi as of now): one ipv4 address, one ipv6 address, one ipv4 prefix delegation and one ipv6 prefix delegation
 
-2 = find currently supported prefix sizes [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html)
+3 = find currently supported prefix sizes [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html)
 
 ---
 ## CPI Specific `cloud_properties` {: #cloud-properties }
