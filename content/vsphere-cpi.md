@@ -270,7 +270,7 @@ Schema:
   Can be either `thin` or `preallocated`, defaults to `preallocated`. `preallocated`
   sets "all space allocated at [VM] creation time and the space is zeroed on demand as the space is used",
   and `thin`, "virtual disk is allocated and zeroed on demand as the space is used."
-  Applies to both ephemeral and persistent disks.
+  Applies to both root and ephemeral. May also apply to persistent disks unless overriden in [disk pool](#disk-types--disk-pools-).
 * **ensure_no_ip_conflicts** [Boolean, optional]: When creating a VM, ensure that no other VMs exist in the same port group with the same IP address. The CPI queries the vCenter to detect conflict, does not use `ping`. Default: `true`. Available in v97.0.5+.
 
 * **datacenters** [Array, optional]: Array of datacenters to use for VM placement. Must have only one.
