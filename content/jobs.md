@@ -257,6 +257,8 @@ After the `end` of an `if_p` block, the `.else do ... end` and
 - `<% if_p("some.property") do |prop| %>...<% end.else do %>...<% end %>` -
   Evaluates first block if `some.property` has been provided (or has a default
   in job spec), otherwise evaluates the second block.
+  **NOTE:** using `if_p("boolean.property")` will evaluate the first block even if the _value_
+  of the boolean property is `false`.  Only the presence of the property is used for evaluation.
 - `<% if_p("some.property") do |prop| %>...<% end.else_if_p("other.property") do |prop2| %>...<% end.else do %>...<% end %>` -
   Evaluates first block if `some.property` has been provided (or has a default
   in job spec), otherwise evaluates the second block if `other.property` has
