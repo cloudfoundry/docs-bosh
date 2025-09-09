@@ -439,11 +439,11 @@ The Director does not enforce how many networks can be assigned to each instance
 | OpenStack | [Multiple per instance group](openstack-multiple-networks.md)   | Single per instance group   | Single, corresponds to a floating IP |                                         |                                              |
 | vSphere   | Multiple per instance group                                     | Not supported               | Not supported                        |                                         |                                              |
 
-1 = The maximum number of network interfaces attached to a vm is [limited per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AvailableIpPerENI.html). If you want to attach more ip addresses to your vms check out the nic_group configuration [here](manifest-v2.md#instance-groups-block--instance-groups-).
+1 = The maximum number of network interfaces attached to a VM is [limited per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AvailableIpPerENI.html). If you want to attach more IP addresses to your VMs check out the nic_group configuration [here](manifest-v2.md#instance-groups-block--instance-groups-).
 
-2 = The maximum number of ip addresses assigned to one nic (limited by the aws cpi as of now): one ipv4 address, one ipv6 address, one ipv4 prefix delegation and one ipv6 prefix delegation
+2 = The maximum number of IP addresses assigned to one NIC (limited by the AWS CPI as of now): one IPv4 address, one IPv6 address, one IPv4 prefix delegation and one IPv6 prefix delegation
 
-3 = find currently supported prefix sizes [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html)
+3 = Find the currently supported prefix sizes [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html)
 
 ---
 ## CPI Specific `cloud_properties` {: #cloud-properties }
