@@ -195,6 +195,11 @@ The Director will send two IP addresses to the CPI:
 * Dynamic and VIP networks are not supported.
 * Managed networks are not supported.
 * Single static IPs must be a base address of the prefix.
+* Currently, static IP ranges or CIDRs defined on a network where BOSH will assign the next available IP address
+  are currently extended into an array. Large ranges or CIDRs may lead to performance degradation of
+  the Director. This is particularly relevant for IPv6 addressing, where CIDR ranges easily contain 
+  hundreds of millions of addresses. Size `/112` static ranges for networks without prefix delegation 
+  seem manageable, at ca. 65k addresses, but at the moment it is recommended to stay below such sizes.
 
 See supported CPIs in the [CPI Limitations](#cpi-limitations--cpi-limitations-) section.
 
