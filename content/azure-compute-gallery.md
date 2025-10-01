@@ -1,4 +1,4 @@
-[Azure Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery) allows you to manage, share, and distribute VM images across multiple regions and subscriptions within Azure. The Azure Compute Gallery can be used in the context of BOSH to store [BOSH stemcell](./stemcell.md) VHDs as Compute Gallery images. When deploying VMs with Compute Gallery enabled, BOSH automatically selects the appropriate image based on the stemcell configuration in the deployment manifest.
+[Azure Compute Gallery][azure-compute-gallery] allows you to manage, share, and distribute VM images across multiple regions and subscriptions within Azure. The Azure Compute Gallery can be used in the context of BOSH to store [BOSH stemcell](./stemcell.md) VHDs as Compute Gallery images. When deploying VMs with Compute Gallery enabled, BOSH automatically selects the appropriate image based on the stemcell configuration in the deployment manifest.
 
 Using Azure Compute Gallery Images in BOSH offers several benefits:
 
@@ -12,7 +12,18 @@ Before you begin, ensure you have:
 
 - BOSH Director deployed with Azure CPI `v52.0.1+`.
 - Azure Subscription with permissions to create and manage Azure Compute Galleries.
-- Azure Service Principal (configured in the [CPI global configuration](./azure-cpi.md#global)) with permissions to contribute to the Azure Compute Gallery, such as the [Compute Gallery Artifacts Publisher](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/compute#compute-gallery-artifacts-publisher) role.
+- Azure Service Principal (configured in the [CPI global configuration](./azure-cpi.md#global)) with the following minimal roles assigned:
+
+| **Role (Type)** | **Scope Assignment** | **Key Permissions** | **Required Actions** |
+|-----------------|----------------------|---------------------|----------------------|
+| [**Compute Gallery Artifacts Publisher**][compute-gallery-artifacts-publisher] (Built-in) | **Azure Compute Gallery** (the specific gallery resource, or its resource group) | *Gallery management:* Allows creating image definitions and image versions in that gallery. | `Microsoft.Compute/galleries/*` |
+| [**Storage Account Contributor**][storage-contributor] (Built-in) | **Storage Account/Container** (the storage resource containing the VHD) | *Blob access:* Grants access to [list and read VHD file contents][storage]. | `Microsoft.Storage/storageAccounts/listKeys/action` |
+
+!!! warning
+    Each role should be assigned **only at the needed scope** (the specific gallery and storage resource).
+
+!!! note
+    The built-in **Contributor** role already covers all necessary permissions for creating Azure Compute Gallery image definitions and versions from a VHD in Storage. As a Contributor (assigned at the appropriate scope), the service principal can perform all required Compute Gallery actions and has full Storage account management access (including retrieving storage keys).
 
 ## Creating an Azure Compute Gallery
 
@@ -36,7 +47,7 @@ azure:
 Re-deploy the BOSH Director to apply the changes.
 
 !!! tip
-    Read the [Best practices for Azure Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery#best-practices) for more information on how to set up and manage your galleries.
+    Read the [Best practices for Azure Compute Gallery][gallery-best-practices] for more information on how to set up and manage your galleries.
 
 ## Uploading a Stemcell to Azure Compute Gallery
 
@@ -61,3 +72,9 @@ If you encounter issues:
 - Verify your Azure Compute Gallery is deployed successfully and the reference in the CPI config is correct.
 - Check permissions and roles assigned to your Azure service principal.
 - Review BOSH CPI logs for detailed error messages.
+
+[azure-compute-gallery]: https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery
+[gallery-best-practices]: https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery#best-practices
+[compute-gallery-artifacts-publisher]: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/compute#compute-gallery-artifacts-publisher
+[storage-contributor]: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/storage#storage-blob-data-contributor
+[storage]: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/storage
