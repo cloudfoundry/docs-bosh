@@ -1,6 +1,6 @@
 (See [Variable Interpolation](cli-int.md) for introduction.)
 
-Currently CLI supports `password`, `certificate`, `rsa`, and `ssh` types whose
+Currently CLI supports `password`, `certificate`, `rsa`, `user` and `ssh` types whose
 supported generation options are detailed below. The Director (connected to a
 config server, typically CredHub) may support additional types known by the
 config server.
