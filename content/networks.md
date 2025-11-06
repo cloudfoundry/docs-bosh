@@ -85,7 +85,7 @@ Schema for manual network definition:
     * **dns** [Array, optional]: DNS IP addresses for this subnet
     * **reserved** [Array, optional]: Array of reserved IPs and/or IP ranges. BOSH does not assign IPs from this range to any VM
     * **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to instances requesting static IPs. Only IPs specified here can be used for static IP reservations.
-    * **prefix** [String, optional]: Size of the prefix BOSH will assign to VMs. Networks that have this property set cannot be used by BOSH itself; therefore, if this is set, a secondary network needs to be attached. Supported from director version `<director_version>` and stemcell `<stemcell_version>`. Find more information in the [Prefix Delegation](#prefix-delegation) section.
+    * **prefix** [String, optional]: Size of the prefix BOSH will assign to VMs. Networks that have this property set cannot be used by BOSH itself; therefore, if this is set, a secondary network needs to be attached. Supported from director version `v282.1.0` and stemcell `Ubuntu Jammy v1.943`. Find more information in the [Prefix Delegation](#prefix-delegation) section.
     * **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `z1`. Available in v241+.
     * **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`. Available in v241+.
     * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
@@ -137,7 +137,7 @@ instance_groups:
 
 ### Prefix Delegation {: #prefix-delegation }
 
-Starting with Director release `<director_version>` and stemcell `<stemcell_version>`, BOSH supports prefix delegation. The concepts of static IP addresses and reserved addresses remain as described above.
+Starting with Director release `v282.1.0` and stemcell `Ubuntu Jammy v1.943`, BOSH supports prefix delegation. The concepts of static IP addresses and reserved addresses remain as described above.
 When the `prefix` property is set, the Director assigns prefix delegations of the specified size to VMs, rather than individual IP addresses.
 
 **Example cloud config:**
@@ -439,7 +439,7 @@ The Director does not enforce how many networks can be assigned to each instance
 
 |           | manual network                                                  | dynamic network             | vip network                          | nic grouping supported for network type | prefix delegation supported for network type |
 |-----------|-----------------------------------------------------------------|-----------------------------|--------------------------------------|-----------------------------------------|----------------------------------------------|
-| AWS       | Multiple per instance group<sup>1</sup> (from <aws_cpi_version>)| Single per instance group   | Single, corresponds to an elastic IP |manual<sup>2</sup>                       | manual<sup>3</sup>                           |
+| AWS       | Multiple per instance group<sup>1</sup> (from v107.0.0)         | Single per instance group   | Single, corresponds to an elastic IP |manual<sup>2</sup>                       | manual<sup>3</sup>                           |
 | Azure     | Multiple per instance group                                     | Multiple per instance group | Single, corresponds to a reserved IP |                                         |                                              |
 | OpenStack | [Multiple per instance group](openstack-multiple-networks.md)   | Single per instance group   | Single, corresponds to a floating IP |                                         |                                              |
 | vSphere   | Multiple per instance group                                     | Not supported               | Not supported                        |                                         |                                              |
