@@ -138,7 +138,7 @@ instance_groups:
 ### Prefix Delegation {: #prefix-delegation }
 
 Starting with Director release `v282.1.0` and stemcell `Ubuntu Jammy v1.943`, BOSH supports prefix delegation. The concepts of static IP addresses and reserved addresses remain as described above.
-When the `prefix` property is set, the Director assigns prefix delegations of the specified size to VMs, rather than individual IP addresses.
+When the `prefix` property is set, the Director assigns prefix delegations of the specified size to VMs, rather than individual IP addresses. As of now bosh cannot use these networks for its own communication.
 
 **Example cloud config:**
 
@@ -156,13 +156,13 @@ networks:
     cloud_properties: {subnet: subnet-9be6c3f7}
 ```
 
-In this example, the Director divides the `/24` subnet into `/28` subnets to assign to VMs. The next available base address of the prefix within the subnet range is calculated for each assignment. For example, the first three base addresses would be:
+In this example, the Director divides the `/24` subnet into `/28` subnets to assign to VMs (as soon as the network is referenced by a deployment manifest). The next available base address of the prefix within the subnet range is calculated for each assignment. For example, the first three base addresses would be:
 
-* `10.10.0.0/28`
-* `10.10.0.16/28`
+* `10.10.0.0/28` <-- bosh will not assign this one, because the range contains reserved ip addresses (gateway etc.)
+* `10.10.0.16/28` <-- first prefix that will be assigned to a vm
 * `10.10.0.32/28`
 
-The IP and prefix information will get send to the CPI via the `create_vm` RPC interface.
+The IP and prefix information will get send to the CPI via the `create_vm` RPC interface in the networks section.
 
 #### Static IP Clarifications
 
@@ -191,17 +191,17 @@ The Director will send two IP addresses to the CPI:
 
 #### Limitations
 
-* Networks with a `prefix` defined can only be attached as a secondary network.
+* Networks with a `prefix` defined can only be attached as a secondary network. To group networks to be attached to the same network interface refer to the nic_group configuration in the networks section [here](manifest-v2.md#instance-groups)
 * Dynamic and VIP networks are not supported.
 * Managed networks are not supported.
 * Single static IPs must be a base address of the prefix.
-* Currently, static IP ranges or CIDRs defined on a network where BOSH will assign the next available IP address
+* For ipv6 use cases: Currently, static IP ranges or CIDRs defined on a network where BOSH will assign the next available IP address
   are currently extended into an array. Large ranges or CIDRs may lead to performance degradation of
   the Director. This is particularly relevant for IPv6 addressing, where CIDR ranges easily contain 
   hundreds of millions of addresses. Size `/112` static ranges for networks without prefix delegation 
   seem manageable, at ca. 65k addresses, but at the moment it is recommended to stay below such sizes.
 
-See supported CPIs in the [CPI Limitations](#cpi-limitations--cpi-limitations-) section.
+See supported CPIs in the [CPI Limitations](#cpi-limitations) section.
 
 ---
 ## Dynamic Networks {: #dynamic }
@@ -444,7 +444,7 @@ The Director does not enforce how many networks can be assigned to each instance
 | OpenStack | [Multiple per instance group](openstack-multiple-networks.md)   | Single per instance group   | Single, corresponds to a floating IP |                                         |                                              |
 | vSphere   | Multiple per instance group                                     | Not supported               | Not supported                        |                                         |                                              |
 
-1 = The maximum number of network interfaces attached to a VM is [limited per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AvailableIpPerENI.html). If you want to attach more IP addresses to your VMs check out the nic_group configuration [here](manifest-v2.md#instance-groups-block--instance-groups-).
+1 = The maximum number of network interfaces attached to a VM is [limited per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AvailableIpPerENI.html). If you want to attach more IP addresses to your VMs check out the nic_group configuration in the networks section [here](manifest-v2.md#instance-groups).
 
 2 = The maximum number of IP addresses assigned to one NIC (limited by the AWS CPI as of now): one IPv4 address, one IPv6 address, one IPv4 prefix delegation and one IPv6 prefix delegation
 
