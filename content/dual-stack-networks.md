@@ -6,7 +6,7 @@ Dual stack networking enables BOSH deployments to operate with both IPv4 and IPv
     BOSH dual stack support requires BOSH Director `v282.1.0+` and Ubuntu Jammy stemcell `v1.943+`.
 
 ---
-
+   
 ## How It Works
 
 BOSH enables dual stack networking through network interface grouping. When you define two separate networks (one IPv4, one IPv6) that:
@@ -28,11 +28,9 @@ BOSH binds both networks to a single network interface (NIC), assigning both IPv
 
 ## Infrastructure Support
 
-TODO ---------------------------
-
-| IaaS Provider | CPI Version        | Status    |
-| ------------- | ------------------ | --------- |
-| AWS           | bosh-aws-cpi vXXX+ | Supported |
+| IaaS Provider | CPI Version            | Status    |
+| ------------- | ---------------------- | --------- |
+| AWS           | bosh-aws-cpi v107.0.0+ | Supported |
 
 ---
 
