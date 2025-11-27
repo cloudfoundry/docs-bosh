@@ -21,6 +21,9 @@ When the BOSH Director creates a VM with multiple networks sharing a `nic_group`
 3. The BOSH Agent configures the operating system to recognize all networks on the same interface
 4. Traffic routing is handled by the VM's network stack based on destination addresses and routing tables
 
+!!! note "Availability Zones and nic_group"
+    When a VM is deployed to a specific availability zone (AZ), BOSH only uses the subnet configuration for that AZ from each network definition. Even if your cloud config defines multiple subnets across different AZs for the same network, the `nic_group` will only bind networks from the single AZ where the VM is placed. This means a subnet cannot span multiple AZs, and `nic_group` always operates within a single AZ context.
+
 ## Basic Configuration
 
 In your deployment manifest, assign the same `nic_group` value to networks that should share a NIC. You can use any string or number as an identifier:
