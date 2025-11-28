@@ -19,7 +19,10 @@ This approach is particularly valuable for container platforms, where a single V
 
 ### How Prefix Delegation Works
 
-When you configure prefix delegation, the BOSH Director automatically subdivides your network range into smaller prefixes and assigns one to each VM. Each VM then has exclusive control over its delegated prefix to allocate individual addresses internally.
+!!! Important
+    BOSH cannot use prefix delegation networks for its own communication. Therefore, VMs using prefix delegation must also have a primary network (IPv4 or IPv6) for BOSH management traffic.
+
+When you configure prefix delegation, the BOSH Director automatically subdivides your network range into smaller prefixes and assigns one to each VM. The delegated prefix becomes available to release jobs running on that VM through the job specification object, allowing them to allocate individual addresses from the prefix internally.
 
 #### Example: IPv4
 
@@ -82,7 +85,7 @@ AWS VPC: 2001:db8::/56
 
 ### Network Interface Groups
 
-Since prefix delegation networks can only be attached as secondary networks, VMs need both a primary network (for BOSH management) and a prefix delegation network (for container addressing). The `nic_group` feature allows multiple networks to be bound to the same physical or virtual network interface card (NIC).
+The `nic_group` feature allows multiple networks to be bound to the same physical or virtual network interface card (NIC).
 
 More details on `nic_group` can be found in the [Network Interface Groups](network-interface-groups.md) documentation.
 
@@ -108,7 +111,7 @@ networks:
     range: 2001:db8:2000::/64
     gateway: 2001:db8:2000::1
     reserved:
-    - 2001:db8:2000:: - 2001:db8:2000::3
+    - '2001:db8:2000:: - 2001:db8:2000::3'
     cloud_properties:
       subnet: subnet-abc123
       security_groups: [sg-xyz789]
@@ -120,7 +123,7 @@ networks:
     prefix: 80                        # Delegate /80 to each VM
     gateway: 2001:db8:1000::1
     reserved:
-    - 2001:db8:1000:: - 2001:db8:1000::3
+    - '2001:db8:1000:: - 2001:db8:1000::3'
     cloud_properties:
       subnet: subnet-abc123
       security_groups: [sg-xyz789]
@@ -153,13 +156,15 @@ networks:
     reserved:
     - 10.0.1.0 - 10.0.1.3
     cloud_properties:
-      subnet: subnet-def456
+      subnet: subnet-abc123
       security_groups: [sg-xyz789]
 ```
 
 ### Deployment Manifest
 
-Since prefix delegation networks cannot be used by BOSH for its own communication, you must attach a secondary network (IPv4 or IPv6) for BOSH management. Use the `nic_group` parameter to bind both networks to the same network interface.
+In your deployment manifest, reference both networks as usual. BOSH uses the network marked with `default: [dns, gateway]`(see [Multi-homed VMs](networks.md#multi-homed)) for management communication. The prefix delegation network provides the delegated prefix for container workloads.
+
+While it's recommended to use `nic_group` to bind both networks to the same NIC for efficiency, it's optional. Without `nic_group`, each network will be attached to a separate NIC.
 
 **IPv6 Example:**
 
@@ -169,8 +174,6 @@ instance_groups:
   instances: 10
   networks:
   - name: default          # Primary network for BOSH management
-    static_ips:
-    - 2001:db8:2000::10
     default: [dns, gateway]
     nic_group: 1
   - name: diego-cells-prefix        # Prefix delegation network
@@ -185,8 +188,6 @@ instance_groups:
   instances: 10
   networks:
   - name: default                   # Primary network for BOSH management
-    static_ips:
-    - 10.0.0.10                     # From primary network static range
     default: [dns, gateway]
     nic_group: 1
   - name: diego-cells-prefix        # Prefix delegation network
@@ -236,6 +237,12 @@ diego-cell/2                10.0.0.12
 ---
 
 ## Limitations and Considerations
+
+- **Management Network Required**: BOSH cannot use prefix delegation networks for its own communication, so VMs must have a separate primary network for BOSH management traffic.
+
+- **Dual Stack Support**: Prefix delegation can be used in dual stack scenarios when subnets are configured correctly. For example, a VM can have a single IPv4 address, a single IPv6 address, and an IPv6 prefix delegation network.
+
+- **IaaS-Specific Limitations**: Different cloud providers may have specific constraints on prefix sizes and delegation capabilities.
 
 ---
 

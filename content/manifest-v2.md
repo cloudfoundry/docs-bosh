@@ -218,7 +218,7 @@ update:
     * **name** [String, required]: A valid network name from the cloud config.
     * **static_ips** [Array, optional]: Array of IP addresses reserved for the instances on the network.
     * **default** [Array, optional]: Specifies which network components (DNS, Gateway) BOSH populates by default from this network. This property is required if more than one network is specified.
-    * **nic_group** [Integer, optional]: Defines a nic_group. Networks having the same nic_group will be assigned to the same network interface card (if possible). Find supported CPIs [here](networks.md#cpi-limitations).
+    * **nic_group** [Integer or String, optional]: Defines a nic_group. Networks having the same nic_group will be assigned to the same network interface card (if possible). Find supported CPIs [here](networks.md#cpi-limitations).
 * **update** [Hash, optional]: Specific update settings for this instance group. Use this to override [global job update settings](#update) on a per-instance-group basis.
 * **migrated_from** [Array, optional]: Specific migration settings for this instance group. Use this to [rename and/or migrate instance groups](migrated-from.md).
 * **lifecycle** [String, optional]: Specifies the kind of workload the instance group represents. Valid values are `service` and `errand`; defaults to `service`. A `service` runs indefinitely and restarts if it fails. An `errand` starts with a manual trigger and does not restart if it fails.

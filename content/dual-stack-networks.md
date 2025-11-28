@@ -19,8 +19,11 @@ The cloud config defines how BOSH allocates network resources. For dual stack, c
 
 **Configuration Points:**
 
-- **Network Type**: Use `type: manual` for static IP assignment
-- **Same Subnet**: Both IPv4 and IPv6 networks should reference the same IaaS subnet ID in `cloud_properties`
+- **Network Type**: Use `type: manual`
+    - Static - Specify static IPs in the deployment manifest
+    - Dynamic - Let the BOSH Director assign IPs
+- **Subnet**:
+    - Both IPv4 and IPv6 networks should reference the same IaaS subnet ID in `cloud_properties` if you are using `nic_group` to bind them to the same interface
 - **Reserved Ranges**: Reserve gateway and infrastructure addresses to prevent conflicts
 
 !!! tip
@@ -37,7 +40,7 @@ networks:
   - az: z1
     range: 10.0.1.0/24
     reserved:
-    - 10.0.1.1 - 10.0.1.10
+    - 10.0.1.1 - 10.0.1.3
     gateway: 10.0.1.1
     dns:
     - 10.0.0.2
@@ -81,26 +84,18 @@ The deployment manifest specifies which networks each instance group uses. For d
 
 ```yaml
 # deployment.yml
----
-name: dual-stack-deployment
-
-instance_groups:
-- name: web-servers
-  instances: 1
-  azs: [z1]
-  networks:
-  - name: default
-    default: [dns, gateway]
-    static_ips:
-    - 10.0.1.15
-    nic_group: 1                # Bind to same interface
-  - name: default-ipv6
-    static_ips:
-    - 2001:db8:1000::15
-    nic_group: 1                # Bind to same interface
-  jobs:
-  - name: web-server
-    release: my-release
+...
+networks:
+- name: default
+  default: [dns, gateway]
+  static_ips:
+  - 10.0.1.15
+  nic_group: 1                # Bind to same interface
+- name: default-ipv6
+  static_ips:
+  - 2001:db8:1000::15
+  nic_group: 1                # Bind to same interface
+...
 ```
 
 Deploy:

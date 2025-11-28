@@ -14,15 +14,20 @@ The `nic_group` feature allows multiple BOSH networks to be bound to the same ph
 
 ## How It Works
 
-When the BOSH Director creates a VM with multiple networks sharing a `nic_group`:
+When the BOSH Director creates a VM with multiple networks:
 
-1. The Director sends network configuration for all networks in the group to the CPI via the `create_vm` RPC call
-2. The CPI configures a single network interface with multiple IP addresses and/or prefixes
-3. The BOSH Agent configures the operating system to recognize all networks on the same interface
-4. Traffic routing is handled by the VM's network stack based on destination addresses and routing tables
+1. The Director sends network configuration for all networks to the CPI via the `create_vm` RPC call
+2. The CPI groups networks with the same `nic_group` value and attaches them to a single network interface. Each interface can support up to:
+    - 1 IPv4 single address
+    - 1 IPv6 single address
+    - 1 IPv4 prefix
+    - 1 IPv6 prefix
+3. Networks without a `nic_group` or with different values are attached to separate network interfaces (subject to VM type limitations)
+4. The BOSH Agent configures the operating system to recognize all networks
+5. Traffic routing is handled by the VM's network stack based on destination addresses and routing tables
 
-!!! note "Availability Zones and nic_group"
-    When a VM is deployed to a specific availability zone (AZ), BOSH only uses the subnet configuration for that AZ from each network definition. Even if your cloud config defines multiple subnets across different AZs for the same network, the `nic_group` will only bind networks from the single AZ where the VM is placed. This means a subnet cannot span multiple AZs, and `nic_group` always operates within a single AZ context.
+!!! note "Network Interface Groups and Subnets"
+    Network interface groups are unique within the assigned subnet. When BOSH deploys a VM to a specific availability zone, it uses only the subnet configuration for that AZ from each network definition in the group.
 
 ## Basic Configuration
 
