@@ -175,6 +175,47 @@ Should result in an array listing the current BOSH deployments, e.g.:
 !!! note
     It's not recommended to modify the Director database via this or other manual methods. Please let us know via GitHub issue if you need a certain feature in the BOSH CLI to do some operation.
 
+### Non-interactive console usage
+
+It may be useful to save output of the console in a file to inspect large models. Use stdin to invoke the console as follows
+
+```shell
+echo 'Bosh::Director::Models::Deployment.all' | /var/vcap/jobs/director/bin/console | tail -n +8 > /tmp/all-deployments.txt
+```
+
+### Sample console statements
+
+Bosh uses the [Sequel database toolkit](https://sequel.jeremyevans.net/) to interact with its database. See associated [cheat sheet](https://sequel.jeremyevans.net/rdoc/files/doc/cheat_sheet_rdoc.html) and some sample statements below:
+
+Inspecting a deployment by name (equivalent of `select * from deployment where name = "test"`)
+```ruby
+Bosh::Director::Models::Deployment.where(name: "test").all
+```
+
+
+Listing persistent disks by Iaas id
+```ruby
+Bosh::Director::Models::PersistentDisk.map(:disk_cid)
+```
+
+```text
+=> ["disk-39346983-594c-4682-8183-f3280bc634f5",                                                                                                 
+ "disk-8c0cee29-be48-4982-8c07-84c4d30e30a2",                                                                                                 
+ "disk-9980e0bb-ce9b-4af6-97bd-d262835bfbf8", ...]
+```
+
+Querying for disks using the default cpi
+
+```ruby
+Bosh::Director::Models::PersistentDisk.where(cpi: "").map(:disk_cid)
+```
+
+Querying disks NOT using default cpi
+
+```ruby
+Bosh::Director::Models::PersistentDisk.where(Sequel.~(cpi: "")).map(:disk_cid)  
+```
+
 ---
 ## Task X cancelled {: #canceled-task }
 
@@ -245,7 +286,7 @@ Command 'deploy' failed:
                 Agent responded with error: Action Failed get_task: Task 7e4d289d-b97c-4464-40d4-ecc90cc2a94b result: Persistent disk with volume id '14128b61-e046-48ae-b48a-fc0324716b83' could not be found
 ```
 
-The SSH tunnel between your machine and the VM in the cloud can be terminated prematurly, see [corresponding bug](https://github.com/cloudfoundry/bosh-cli/issues/110). Update CLI v2 to version >= v2.0.2 to fix this.
+The SSH tunnel between your machine and the VM in the cloud can be terminated prematurely, see [corresponding bug](https://github.com/cloudfoundry/bosh-cli/issues/110). Update CLI v2 to version >= v2.0.2 to fix this.
 
 ---
 ## Errors creating or fetching credhub variables {: #variables-permission}

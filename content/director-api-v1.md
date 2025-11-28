@@ -22,7 +22,7 @@ As a complement to this reference documentation, reading the bosh director sourc
 * [controllers specs/unit tests](https://github.com/cloudfoundry/bosh/blob/main/src/bosh-director/spec/unit/api/controllers)
 * [controllers](https://github.com/cloudfoundry/bosh/tree/main/src/bosh-director/lib/bosh/director/api/controllers)
 
-Below is a sample rendering of the deployment controller specs in intellij IDE with ruby support enabld: 
+Below is a sample rendering of the deployment controller specs in intellij IDE with ruby support enabled: 
 ![Sample director api specs.png](images/director-controller-unit-test-specs.png)
 
 ### Security {: #auth }
@@ -653,7 +653,7 @@ bosh curl '/releases' | jq .
 - **releases** [Array]: List of releases used by the deployment.
 	  - **name** [String]: Name of the release.
 	  - **version** [String]: Version of the release.
-- **stemcells** [Array]: List of stemcells used by the deploymemt.
+- **stemcells** [Array]: List of stemcells used by the deployment.
 	  - **name** [String]: Name of the stemcell.
 	  - **version** [String]: Version of the stemcell.
 

@@ -69,7 +69,7 @@ This configuration is similar to the previous one except that it's used when the
       "Statement": [{
         "Effect":"Allow",
         "Action":"iam:PassRole",
-        "Resource":"arn:aws:iam::<accound_id>:role/deployed-vm"
+        "Resource":"arn:aws:iam::<account_id>:role/deployed-vm"
       },{
         "Effect": "Allow",
         "Action": [ "s3:*" ],

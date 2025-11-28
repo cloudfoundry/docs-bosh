@@ -152,7 +152,7 @@ See [networks](networks.md) for more details.
 - [See AWS CPI network cloud properties](aws-cpi.md#networks)
 - [See Azure CPI network cloud properties](azure-cpi.md#networks)
 - [See OpenStack CPI network cloud properties](openstack-cpi.md#networks)
-- [See Google Cloud Plaform CPI network cloud properties](google-cpi.md#networks)
+- [See Google Cloud Platform CPI network cloud properties](google-cpi.md#networks)
 - [See vSphere CPI network cloud properties](vsphere-cpi.md#networks)
 
 ---

@@ -270,7 +270,7 @@ Schema:
   Can be either `thin` or `preallocated`, defaults to `preallocated`. `preallocated`
   sets "all space allocated at [VM] creation time and the space is zeroed on demand as the space is used",
   and `thin`, "virtual disk is allocated and zeroed on demand as the space is used."
-  Applies to both ephemeral and persistent disks.
+  Applies to both root and ephemeral. May also apply to persistent disks unless overriden in [disk pool](#disk-types--disk-pools-).
 * **ensure_no_ip_conflicts** [Boolean, optional]: When creating a VM, ensure that no other VMs exist in the same port group with the same IP address. The CPI queries the vCenter to detect conflict, does not use `ping`. Default: `true`. Available in v97.0.5+.
 
 * **datacenters** [Array, optional]: Array of datacenters to use for VM placement. Must have only one.
@@ -292,7 +292,7 @@ Schema:
     * **password** [String, required]: The login password for the NSX server.
     * **ca_cert** [String, optional]: A CA certificate that can authenticate the NSX server certificate. **Required** if the NSX Manager has a self-signed SSL certificate. Must be in PEM format.
 * **enable\_auto\_anti\_affinity\_drs\_rules** [Boolean, optional]: Creates DRS rule to place VMs on separate hosts. DRS Automation Level must be set to "Fully Automated"; does not work when DRS is set to "Partially Automated" or "Manual". May cause VMs to fail to power on if there are more VMs than hosts after initial deployment. Default: `false`. Available in v33+.
-* **vm\_storage\_policy\_name** [Boolean, optional]: Name of the storage Policy which is applied to a VM and its ephemeral disk. Availablein v53+
+* **vm\_storage\_policy\_name** [Boolean, optional]: Name of the storage Policy which is applied to a VM and its ephemeral disk. Available v53+
 * **upgrade\_hw\_version** [Boolean, optional]: Upgrades the virtual hardware version of a virtual machine to the latest supported version on the ESXi host. Default: `false`.
 * **nsxt** [Dictionary, optional]: NSX-T configuration options. Available in v45+.
     * **use\_policy\_api** [Boolean, optional]: Enabling this feature will use the [NSX-T Policy API](https://blogs.vmware.com/networkvirtualization/2020/06/navigating-nsxt-policy-apis.html/) instead of the Manager API. It affects the attachment of VMs to NS Groups and VM placement in static Load Balancer Pools. This feature requires NSX-T Data Center v3.0 or later. Default: false. Available in v56+. In v58+, the VM's NSX-T segment ports are also tagged. The tags are prepended with `bosh/` and include the key/value pairs specified in the tags blocks of the [deployment](manifest-v2/#tags) or [runtime](runtime-config/#tags) configurations as well as BOSH default metadata (`instance_group`, `job`, `index`, etc.)
@@ -447,9 +447,9 @@ with your vSphere resource pool(s).
 
 * Setting `enable_auto_anti_affinity_drs_rules` to true may cause `bosh deploy` to fail after the initial deployment if there are more VMs than hosts. A workaround is to set `enable_auto_anti_affinity_drs_rules` to false to perform subsequent deployments.
 
-* Support for specifying Datastore Clusters for ephemeral and persistent disks is available with vSphere CPI version v47 and above. For additional detais see [Release Notes for v47](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/releases/tag/v47)
+* Support for specifying Datastore Clusters for ephemeral and persistent disks is available with vSphere CPI version v47 and above. For additional details see [Release Notes for v47](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/releases/tag/v47)
 
-* Support for specifying Datastore Clusters nested under folders is available with vSphere CPI version v94 and above. For additional detais see [Release Notes for v94](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/releases/tag/v94)
+* Support for specifying Datastore Clusters nested under folders is available with vSphere CPI version v94 and above. For additional details see [Release Notes for v94](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/releases/tag/v94)
 
 ### VMs {: #vms }
 

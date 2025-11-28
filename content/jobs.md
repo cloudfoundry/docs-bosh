@@ -145,7 +145,7 @@ processes:
 ```
 
 Release author need a basic understanding of the isolation mechanisms enforced
-by BPM, especially read-only root disk remouting, and declarating read-write
+by BPM, especially read-only root disk remounting, and declaring read-write
 access to portions only of the mount space.
 
 See the [BPM Runtime Environment](bpm/runtime) for more details on these topics.
@@ -255,8 +255,10 @@ After the `end` of an `if_p` block, the `.else do ... end` and
 `.else_if_p("other.property") do ... end` syntaxes are supported.
 
 - `<% if_p("some.property") do |prop| %>...<% end.else do %>...<% end %>` -
-  Evaluates first block if `some.property` has been provoded (or has a default
+  Evaluates first block if `some.property` has been provided (or has a default
   in job spec), otherwise evaluates the second block.
+  **NOTE:** using `if_p("boolean.property")` will evaluate the first block even if the _value_
+  of the boolean property is `false`.  Only the presence of the property is used for evaluation.
 - `<% if_p("some.property") do |prop| %>...<% end.else_if_p("other.property") do |prop2| %>...<% end.else do %>...<% end %>` -
   Evaluates first block if `some.property` has been provided (or has a default
   in job spec), otherwise evaluates the second block if `other.property` has
@@ -315,7 +317,7 @@ information, networking setup, and instance configuration.
     `spec.bootstrap` instead.
 
 !!! Caveat
-    From within an ERB template, there is no programatic way to know the name
+    From within an ERB template, there is no programmatic way to know the name
     of the job that the template is defined in. Thus release authors are
     forced to hardcode the job name in ERB templates that need it. Due to this
     limitation, there is unfortunately no way to write ERB templates that are
@@ -360,7 +362,7 @@ information, networking setup, and instance configuration.
       to `spec.<network-name>.ip`, `spec.<network-name>.netmask` and
       `spec.<network-name>.gateway`.
 
-Fetching the name of the network that has the default gateway is particularily
+Fetching the name of the network that has the default gateway is particularly
 complex, as the `spec` object is not a Ruby Hash, but an OpenStruct.
 
 As a consequence, one cannot use the `.keys` method for listing the network
