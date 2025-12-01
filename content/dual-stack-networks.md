@@ -19,9 +19,13 @@ The cloud config defines how BOSH allocates network resources. For dual stack, c
 
 **Configuration Points:**
 
-- **Network Type**: Use `type: manual`
+- **Type**: Use `type: manual`
     - Static - Specify static IPs in the deployment manifest
     - Dynamic - Let the BOSH Director assign IPs
+
+!!! Note
+    For more information about the `static` and `dynamic` behavior (in the context of manual networks), see [Manual Networks](networks.md#manual).
+
 - **Subnet**:
     - Both IPv4 and IPv6 networks should reference the same IaaS subnet ID in `cloud_properties` if you are using `nic_group` to bind them to the same interface
 - **Reserved Ranges**: Reserve gateway and infrastructure addresses to prevent conflicts
@@ -42,8 +46,6 @@ networks:
     reserved:
     - 10.0.1.1 - 10.0.1.3
     gateway: 10.0.1.1
-    dns:
-    - 10.0.0.2
     cloud_properties:
       subnet: subnet-12345abc
       security_groups: [sg-abcd1234]
@@ -56,8 +58,6 @@ networks:
     reserved:
     - 2001:db8:1000::1 - 2001:db8:1000::3
     gateway: 2001:db8:1000::1
-    dns:
-    - fd00:ec2::253
     cloud_properties:
       subnet: subnet-12345abc             # Same subnet supports both protocols
       security_groups: [sg-abcd1234]
@@ -79,7 +79,6 @@ The deployment manifest specifies which networks each instance group uses. For d
 **Key Configuration:**
 
 - **default property**: Use `default: [dns, gateway]` on the network that should provide routing (see [Multi-homed VMs](networks.md#multi-homed))
-- **Static IPs**: Specify addresses from the `static` ranges defined in cloud config
 - **nic_group (optional)**: Assign the same `nic_group` value to bind networks to the same interface
 
 ```yaml
@@ -88,12 +87,8 @@ The deployment manifest specifies which networks each instance group uses. For d
 networks:
 - name: default
   default: [dns, gateway]
-  static_ips:
-  - 10.0.1.15
   nic_group: 1                # Bind to same interface
 - name: default-ipv6
-  static_ips:
-  - 2001:db8:1000::15
   nic_group: 1                # Bind to same interface
 ...
 ```

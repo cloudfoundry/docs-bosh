@@ -139,8 +139,6 @@ networks:
   - az: z1
     range: 10.0.0.0/24               # Primary network subnet
     gateway: 10.0.0.1
-    static:
-    - 10.0.0.10 - 10.0.0.20
     reserved:
     - 10.0.0.1 - 10.0.0.3
     cloud_properties:
