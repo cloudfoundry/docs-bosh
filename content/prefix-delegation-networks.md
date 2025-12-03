@@ -55,7 +55,7 @@ Network: 2001:db8::/64 (2^64 addresses)
 Each `/80` prefix provides 2^48 addresses—more than enough for any container workload.
 
 !!! warning "AWS IPv6 Prefix Limitation"
-    AWS limits IPv6 prefix delegation to `/80` prefixes.
+    AWS only allows IPv6 prefix delegation of `/80` prefixes.
 
 #### Full Address Flow Example
 
