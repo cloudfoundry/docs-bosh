@@ -160,7 +160,7 @@ networks:
 
 ### Deployment Manifest
 
-In your deployment manifest, reference both networks as usual. BOSH uses the network marked with `default: [dns, gateway]`(see [Multi-homed VMs](networks.md#multi-homed)) for management communication. The prefix delegation network provides the delegated prefix for container workloads.
+In your deployment manifest, reference both networks as usual. BOSH uses the network marked with `default: [dns, gateway]` (see [Multi-homed VMs](networks.md#multi-homed)) for management communication. The prefix delegation network provides the delegated prefix for container workloads.
 
 While it's recommended to use `nic_group` to bind both networks to the same NIC for efficiency, it's optional. Without `nic_group`, each network will be attached to a separate NIC.
 
