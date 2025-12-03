@@ -112,9 +112,8 @@ blobstore:
 
 !!! note "Version Requirements"
     The `no_compression` flag requires BOSH Director version `282.1.3` or newer and the following stemcell versions:
-    - Ubuntu Noble (24.04): vXXX or newer
-    - Ubuntu Jammy (22.04): vXXX or newer
-    - Ubuntu Bionic (18.04): vXXX or newer
+    - Ubuntu Noble (24.04): v1.165 or newer
+    - Ubuntu Jammy (22.04): v1.990 or newer
 
 You can control whether the outer release tarball is compressed by setting the `no_compression` flag in `config/final.yml`.
 
