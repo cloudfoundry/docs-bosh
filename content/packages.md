@@ -21,6 +21,12 @@ sections when you run the `bosh generate-package PACKAGE_NAME` command:
  * `dependencies`: **(Optional)** Defines a list of other packages that this package depends on.
  * `files`: Defines a list of files that this package contains. You can define this list explicitly or through pattern-matching.  
  * `excluded_files`: **(Optional)** Defines a list of files to be excluded from the package. You can define this list explicitly or through pattern-matching.
+ * `no_compression`: **(Optional)** Defines whether compression is disabled for the individual package tarball. Defaults to `false` (compression enabled) if not specified.
+
+!!! note "Version Requirements"
+    The `no_compression` flag requires BOSH Director version `282.1.3` or newer and the following stemcell versions:
+    - Ubuntu Noble (24.04): v1.165 or newer
+    - Ubuntu Jammy (22.04): v1.990 or newer
 
 To edit a package spec file:
 
@@ -58,7 +64,11 @@ files:
 
 excluded_files:
 - ruby_1.9.3/security/secrets.yml
+
+no_compression: true
 ```
+
+When `no_compression` is set to `true`, the individual package tarball will not be compressed. By default, if `no_compression` is not specified or set to `false`, packages are compressed.
 
 
 ## Create a Packaging Script {: #create-a-packaging-script }
