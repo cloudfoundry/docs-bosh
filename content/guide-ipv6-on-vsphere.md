@@ -5,24 +5,25 @@ In this guide we explore how to configure BOSH in an IPv6-enabled environment.
 
 Two possible deployment options:
 
-- hybrid IPv6 configuration: Director is on IPv4 and deployed VMs use IPv4 and IPv6 addresses
+- **Dual stack configuration**: Director and VMs use both IPv4 and IPv6 addresses - see [Dual Stack Networks](dual-stack-networks.md) for detailed configuration
 
-- pure IPv6 configuration: both Director and deployed VMs use IPv6 addresses exclusively (currently being worked on)
+- **Pure IPv6 configuration**: both Director and deployed VMs use IPv6 addresses exclusively
 
 ---
-## Hybrid IPv6 configuration {: #hybrid }
 
-In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director with an IPv4 address and then deploy VMs with IPv4 and IPv6 addresses.
+## Dual Stack Configuration {: #dual-stack }
 
-### Prerequisites
+In this example, we deploy a BOSH Director with an IPv4 address and then deploy VMs with both IPv4 and IPv6 addresses on vSphere. For general dual stack concepts, see [Dual Stack Networks](dual-stack-networks.md).
+
+### Dual Stack Prerequisites
 
 - All IPv6 address *must* be specified in expanded format, leading zeroes, no double-colons. This applies to all variables, deployment manifests, cloud config, etc.
 
-- Use Simple DNS's [generator](http://simpledns.com/private-ipv6) to obtain a _private_ IPv6 address range.
+- Use Simple DNS's [generator](http://simpledns.com/private-ipv6) to obtain a *private* IPv6 address range.
 
-### Steps
+### Dual Stack Steps
 
-1. To deploy the Director use `bosh create-env` command with additional IPv6-specific ops files. See [Creating environment on vSphere](init-vsphere.md) for more details on initializing Director on vSphere.
+1. To deploy the Director use `bosh create-env` command with standard vSphere configuration. See [Creating environment on vSphere](init-vsphere.md) for more details on initializing Director on vSphere.
 
     ```shell
     # Create directory to keep state
@@ -79,15 +80,14 @@ In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director 
     Succeeded
     ```
 
-### Deploy example Zookeeper deployment {: #pure-deploy }
+### Deploy example Zookeeper deployment
 
 Follow steps below or the [deploy workflow](basic-workflow.md) that goes through the same steps but with more explanation.
 
-1. Update configs
+1. Update configs with dual stack networks
 
     ```yaml
     # ipv6-net.yml
-
     networks:
     - name: ipv6
       type: manual
@@ -109,7 +109,7 @@ Follow steps below or the [deploy workflow](basic-workflow.md) that goes through
         -v vcenter_cluster=cl \
         -v internal_cidr=10.0.9.0/24 \
         -v internal_gw=10.0.9.1 \
-        -v network_name="VM Network" \
+        -v network_name="VM Network"
 
     bosh -e ipv6 update-config --type cloud --name ipv6 ipv6-net.yml
 
@@ -162,6 +162,7 @@ Follow steps below or the [deploy workflow](basic-workflow.md) that goes through
     ```
 
 ---
+
 ## Pure IPv6 Configuration {: #pure }
 
 !!! note
@@ -169,7 +170,7 @@ Follow steps below or the [deploy workflow](basic-workflow.md) that goes through
 
 In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director with an IPv6 address and then deploy VMs with IPv6 addresses.
 
-### Prerequisites
+### Pure IPv6 Prerequisites
 
 - vCenter Server is accessible via IPv6 address
 
@@ -181,9 +182,9 @@ In this example, we use the BOSH CLI and `bosh-deployment` to deploy a Director 
 
 - The `internal_gw` (gateway) must be in the same IPv6 subnet as the Director. If the gateway is a [link-local](https://en.wikipedia.org/wiki/IPv6_address#Local_addresses) (it starts with `fe80:`) you can strip the [modified EUI-64](https://en.wikipedia.org/wiki/IPv6_address#Modified_EUI-64) so that gateway IP is within your chosen subnet. For example, if the default IPv6 gateway is `fe80::20d:b9ff:fe48:9249`, the gateway IP in the BOSH manifest would be `fddf:9b0b:7aac:ac45:20d:b9ff:fe48:9249`.
 
-- Use Simple DNS's [generator](http://simpledns.com/private-ipv6) to obtain a _private_ IPv6 address range.
+- Use Simple DNS's [generator](http://simpledns.com/private-ipv6) to obtain a *private* IPv6 address range.
 
-### Steps
+### Pure IPv6 Steps
 
 1. To deploy the Director use `bosh create-env` command with additional IPv6-specific ops files. See [Creating environment on vSphere](init-vsphere.md) for more details on initializing Director on vSphere.
 
