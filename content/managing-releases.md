@@ -103,7 +103,7 @@ For debugging command also shows blobstore information (ID and SHA1) for each jo
 ---
 ## Fixing corrupted releases (experimental) {: #fix }
 
-Assuming that somehow the Director blobstore loses referenced asset (job, source or compiled package), it's possible to fix the corrupted asset. [`bosh upload-release` commmand](cli-v2.md#upload-release) provides a `--fix` flag which allows to reupload same release contents into the Director.
+Assuming that somehow the Director blobstore loses referenced asset (job, source or compiled package), it's possible to fix the corrupted asset. [`bosh upload-release` command](cli-v2.md#upload-release) provides a `--fix` flag which allows to reupload same release contents into the Director.
 
 ---
 ## Cleaning up uploaded releases {: #clean-up }

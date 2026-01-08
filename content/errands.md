@@ -88,7 +88,7 @@ Alternatively, it might make sense to colocate an errand job with other jobs in 
 ---
 ## Execution {: #execution }
 
-Unlike regular jobs which run continiously and get automatically restarted on failure, errand jobs are executed upon operator's request some time after a deploy and if fail do not get restarted. There is no timeout on how long an errand can execute.
+Unlike regular jobs which run continuously and get automatically restarted on failure, errand jobs are executed upon operator's request some time after a deploy and if fail do not get restarted. There is no timeout on how long an errand can execute.
 
 Note that currently Director will acquire deployment lock for chosen deployment which will prevent execution of other commands that also require deployment lock (for example `bosh deploy` or another errand execution). This behaviour will be made more granular over time allowing more commands to run in parallel against a single deployment.
 

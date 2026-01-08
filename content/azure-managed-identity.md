@@ -2,7 +2,7 @@ You can configure BOSH to use [Azure Managed Identities](https://docs.microsoft.
 Azure Managed Identities are similar to [AWS instance profiles](aws-iam-instance-profiles.md).  
 You first have to create an Azure Managed Identity, and give the proper roles/permissions required by BOSH (i.e. create/delete VM, create/delete/attach disks).  
 
-Next is updating your bosh manifest and add the propery _default_managed_identity_ and also no longer using the client_id, client_secret and tenant_id, like in this example:
+Next is updating your bosh manifest and add the property _default_managed_identity_ and also no longer using the client_id, client_secret and tenant_id, like in this example:
 
 ```yaml
       azure:

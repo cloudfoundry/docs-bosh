@@ -145,6 +145,9 @@ pages:
       - Using CPI Config: cpi-config.md
       - Using AWS: guide-multi-cpi-aws.md
     - Using IPv6 on vSphere: guide-ipv6-on-vsphere.md
+    - Dual-stack: dual-stack-networks.md
+    - Prefix Delegation: prefix-delegation-networks.md
+    - Network Interface Groups: network-interface-groups.md
   - Advanced Bootstrapping:
     - Using a Public IP: init-external-ip.md
     - Enabling SSH Access: jumpbox.md

@@ -46,7 +46,7 @@ For example, `bosh delete deployment` in v1 corresponds to `bosh delete-deployme
 - All commands support friendlier non-TTY output, forceful TTY output and `--json` formatting
 - All command names now use dashes instead of spaces
 - All commands expect 'piece1/piece2' formatting for instances, releases, and stemcells
-- `^+C` doesnt ask for task cancellation and just exits CLI command (task continue to run)
+- `^+C` doesn't ask for task cancellation and just exits CLI command (task continue to run)
 - Sorts all tables in a more consistent manner
 - Stores configuration file in `~/.bosh/config` instead of `~/.bosh_config`
 - Most of the output formatting have changed

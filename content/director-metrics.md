@@ -36,7 +36,7 @@ This can be configured via:
 The metrics server serves two endpoints, `/metrics` and `/api_metrics`. Currently it exposes the following metrics:
 
 * `bosh_resurrection_enabled`: Status of resurrection. 0 for disabled, 1 for enabled.
-* `bosh_tasks_total`: Number of BOSH tasks, labeled with their current state.
+* `bosh_tasks_total`: Number of BOSH active tasks, labeled with their current state (either 'processing' or 'queued') and type.
 * `bosh_networks_dynamic_ips_total`: Size of network pool for all dynamically allocated IP addresses.
 * `bosh_networks_dynamic_free_ips_total`: Number of free dynamic IP addresses left per network.
 * `bosh_unresponsive_agents`: Number of unresponsive agents per deployment

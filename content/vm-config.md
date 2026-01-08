@@ -44,7 +44,7 @@ BOSH tries to encourage release authors to follow the conventions listed below, 
 
     - `/var/vcap/jobs/<job-name>/bin/`: Conventional location where Bosh renders the templates for wrapper scripts and [hook scripts](job-lifecycle.md).
 
-    - `/var/vcap/jobs/<job-name>/config/`: Conventional location for the job configuration files, like BPM config (in `/var/vcap/jobs/redis-server/config/bpm.yml`, responsible for starting exacutables). and other rendered config files (e.g. `/var/vcap/jobs/redis-server/config/redis.conf`).
+    - `/var/vcap/jobs/<job-name>/config/`: Conventional location for the job configuration files, like BPM config (in `/var/vcap/jobs/redis-server/config/bpm.yml`, responsible for starting executables). and other rendered config files (e.g. `/var/vcap/jobs/redis-server/config/redis.conf`).
 
     - `/var/vcap/jobs/<job-name>/monit`: The rendered monit file for that release job. (All such files are then gathered by the Bosh Agent in `/var/vcap/monit/job`, where the actual monit configuration relies, see below.)
 
@@ -76,7 +76,7 @@ It's discouraged to modify or rely on the contents of this directory.
   with NATS client certificates, that are short-lived at bootstrap, and then
   replaced by the definitive client certificates, using `update_settings`.
 
-* `/var/vcap/bosh/spec.json`: Instance settings used by the Agent to configure release jobs and packages for the VM. This file also includes structural info about the instance, like the deployment name (`deplpyment`), the instance group (`name`), the human-friendly instance ordinal (`index`), and the immutable instance UUID (`id`). These structural info are also put in the `/var/vcap/instance` directory for easier access, see [Instance Metadata on Filesystem](instance-metadata.md#fs) for more details.
+* `/var/vcap/bosh/spec.json`: Instance settings used by the Agent to configure release jobs and packages for the VM. This file also includes structural info about the instance, like the deployment name (`deployment`), the instance group (`name`), the human-friendly instance ordinal (`index`), and the immutable instance UUID (`id`). These structural info are also put in the `/var/vcap/instance` directory for easier access, see [Instance Metadata on Filesystem](instance-metadata.md#fs) for more details.
 
 * `/var/vcap/bosh/log/current`: Current Agent log. Agent's logs are logrotated and archives are kept in `/var/vcap/bosh/log/` directory.
 

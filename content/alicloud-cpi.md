@@ -94,7 +94,7 @@ It can contain digits, periods (.), colons (:), underscores (_), and hyphens (-)
 * **charge_period** [Integer, optional]: The charge period of `PrePaid` instance. The value depends on `charge_period_unit`.
 * **charge\_period\_unit** [String, optional]: The charge period unit of `PrePaid` instance. Optional values: Week | Month. When PeriodUnit is Week, period can be one of {“1”, “2”, “3”, “4”}.
 When PeriodUnit is Month, period can be one of { “1”, “2”, “3”, “4”, “5”, “6”, “7”, “8”, “9”, “12”, “24”, “36”,”48”,”60”}. Default value: Month.
-* **auto_renew** [Boolean, optioal]: Whether to set AutoRenew. This parameter is valid when InstanceChargeType is PrePaid. Optional values:
+* **auto_renew** [Boolean, optional]: Whether to set AutoRenew. This parameter is valid when InstanceChargeType is PrePaid. Optional values:
   - `True` Enable automatic renewal.
   - `False` Disable automatic renewal.
 
@@ -103,7 +103,7 @@ When PeriodUnit is Month, period can be one of { “1”, “2”, “3”, “4
  When PeriodUnit is Month, AutoRenewPeriod can be one of {“1”, “2”, “3”, “6”, “12”}.
 
 * **region** [String, optional]: Alibaba Cloud region id. Example: `us-east-1`. Available in v19+. Defaults to region specified by `region` in global CPI settings.
-* **stemcell_id** [String, optioal]: The specified stemcell id used to launch instance. It can be used to cross-region deployment. Available in v19+.
+* **stemcell_id** [String, optional]: The specified stemcell id used to launch instance. It can be used to cross-region deployment. Available in v19+.
 
 * **ephemeral_disk** [Hash, optional]: Elastic block storage data disk of custom size. Default disk size is either the size of first instance storage disk.
     * **size** [Integer, required]: Specifies the disk size in megabytes.
@@ -167,9 +167,9 @@ The CPI can only talk to a single Alibaba Cloud region.
 
 Schema:
 
-* **access\_key\_id** [String, optional]: Accesss Key ID. Example: `AKI...`.
+* **access\_key\_id** [String, optional]: Access Key ID. Example: `AKI...`.
 * **access\_key\_secret** [String, optional]: Access Key Secret. Example: `0kwh...`.
-* **security_token** [String, optional]: Alicloud [Security Token Service](https://www.alibabacloud.com/help/doc-detail/66222.html). Example: `0nwicsere...`.
+* **security_token** [String, optional]: AliCloud [Security Token Service](https://www.alibabacloud.com/help/doc-detail/66222.html). Example: `0nwicsere...`.
 * **region** [String, required]: Alibaba Cloud region name. Example: `us-east-1`
 * **availability_zone** [String, required]: Availability zone to use for creating instances. Example: `us-east-1a`.
 * **encrypted** [Boolean, optional]: Turns on [ECS disk encryption](https://www.alibabacloud.com/help/doc-detail/59643.htm) for all VM's data disks. Defaults to `false`.

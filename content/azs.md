@@ -3,7 +3,7 @@ instance groups, will span over one or many availability zones.
 
 This feature was introduced with Bosh v241+ (released on
 [2015-12-23](https://github.com/cloudfoundry/bosh/releases/tag/stable-3163))
-and has been a major improvement heping Bosh deployment manifest to be more
+and has been a major improvement helping Bosh deployment manifest to be more
 expressive and less verbose.
 
 Here we detail simple operations first, and then explain how the Bosh Director
@@ -80,7 +80,7 @@ availability zones, most likely creating 3 instances in `z1` and 2 instances
 in `z2`.
 
 The director considers several aspects when determining how instances should
-be spread accoss availability zones:
+be spread across availability zones:
 
 - New instances will be spread as evenly as possible over the specified
   availability zones.
@@ -440,7 +440,7 @@ dummy/8a57bad5-405d-47d9-abb0-65060167821c ... z3
 
 #### Approach #2: manual, but never going below the current number of available instances
 
-If your disctributed software cannot tolerate one missing node, even
+If your distributed software cannot tolerate one missing node, even
 temporarily, then you may opt for an alternative approach, involving one more
 manual step, but never reducing the overall instance count compared to the
 initial state.
@@ -501,7 +501,7 @@ possible daemon processes, but also delete the virtual machine (VM) from the
 infrastructure. The task log for `bosh stop` will not state
 `Deleting unneeded instances dummy...`, because `bosh stop --hard` doesn't
 remove the instance from the deployment state. It only deletes the related VM
-on the infrastruture and marks the instance in its internal representation
+on the infrastructure and marks the instance in its internal representation
 with a sticky “stopped” state.
 
 ```
@@ -555,14 +555,14 @@ Deleting unneeded instances dummy: dummy/7e433b3e-2db8-46bf-883a-1c5300dfe104 (3
 
 ### Removing an AZ from an existing deployment
 
-When decomissioning an availability zone (AZ) by removing it from the
+When decommissioning an availability zone (AZ) by removing it from the
 deployment manifest, Bosh will delete all existing instances (VMs) in the
 removed AZ. If these instances have persistent disks, these will be orphaned.
 Any new instance created afterwards will be balanced to the remaining AZs.
 
 #### Example
 
-Considering a `dummy` instace group with 3 instances placed in 3 availability
+Considering a `dummy` instance group with 3 instances placed in 3 availability
 zones as follows:
 
 ```
