@@ -31,16 +31,16 @@ When the BOSH Director creates a VM with multiple networks:
 
 ## Basic Configuration
 
-In your deployment manifest, assign the same `nic_group` value to networks that should share a NIC. You can use any string or number as an identifier:
+In your deployment manifest, assign the same `nic_group` value to networks that should share a NIC.
 
 ```yaml
 instance_groups:
 - name: instance-group-name
   networks:
   - name: default
-    nic_group: primary
+    nic_group: 1
   - name: secondary-network
-    nic_group: primary
+    nic_group: 1
 ```
 
 ## Verification
