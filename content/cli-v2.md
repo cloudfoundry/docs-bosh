@@ -945,7 +945,7 @@ See [CPI config](cpi-config.md).
 
 #### Deploy {: #deploy }
 
-- `bosh [GLOBAL-CLI-OPTIONS] deploy [-v ...] [--var-file=VAR=PATH] [-l ...] [--vars-env=PREFIX] [--vars-store=PATH] [-o ...] [--no-redact] [--recreate] [--recreate-persistent-disks] [--fix] [--skip-drain=[INSTANCE-GROUP[/INSTANCE-ID]]] [--canaries=NUMBER or PERCENTAGE] [--max-in-flight=NUMBER or PERCENTAGE] [--dry-run] [--force-latest-variables] [--skip-upload-releases] PATH`
+- `bosh [GLOBAL-CLI-OPTIONS] deploy [-v ...] [--var-file=VAR=PATH] [-l ...] [--vars-env=PREFIX] [--vars-store=PATH] [-o ...] [--no-redact] [--recreate] [--recreate-persistent-disks] [--recreate-vms-created-before=TIMESTAMP] [--fix] [--skip-drain=[INSTANCE-GROUP[/INSTANCE-ID]]] [--canaries=NUMBER or PERCENTAGE] [--max-in-flight=NUMBER or PERCENTAGE] [--dry-run] [--force-latest-variables] [--skip-upload-releases] PATH`
 
     Create or update specified deployment according to the provided manifest. Operation files and variables can be provided to adjust and fill in manifest before deploy begins.
 
@@ -960,6 +960,7 @@ See [CPI config](cpi-config.md).
     - `--no-redact` Show non-redacted manifest diff
     - `--recreate` Recreate all VMs in deployment. It will recreate regardless of whether there is a manifest change
     - `--recreate-persistent-disks` Recreate all persistent disks in deployment. It will recreate regardless of whether there is a manifest change
+    - `--recreate-vms-created-before=TIMESTAMP` Only recreate VMs created before the given RFC 3339 timestamp (e.g., `2026-01-15T10:30:00Z`). Automatically implies `--recreate`
     - `--fix` Recreate an instance with an unresponsive agent instead of erroring
     - `--fix-releases` Reupload releases in manifest and replace corrupt or missing jobs/packages
     - `--skip-drain=[INSTANCE-GROUP[/INSTANCE-ID]]` Skip running drain and pre-stop scripts for specific instance groups
@@ -1025,12 +1026,13 @@ See [CPI config](cpi-config.md).
 
 #### Recreate {: #recreate }
 
-- `bosh [GLOBAL-CLI-OPTIONS] recreate [--skip-drain] [--fix] [--canaries=NUMBER or PERCENTAGE] [--max-in-flight=NUMBER or PERCENTAGE] [--dry-run] [--converge] [--no-converge] [INSTANCE-GROUP[/INSTANCE-ID]]`
+- `bosh [GLOBAL-CLI-OPTIONS] recreate [--skip-drain] [--fix] [--vms-created-before=TIMESTAMP] [--canaries=NUMBER or PERCENTAGE] [--max-in-flight=NUMBER or PERCENTAGE] [--dry-run] [--converge] [--no-converge] [INSTANCE-GROUP[/INSTANCE-ID]]`
 
     Recreates VMs for specified instances. Follows typical instance lifecycle.
 
     - `--skip-drain` skip running drain scripts; Also skip pre-stop scripts as of director version v270.0.0
     - `--fix` recover an instance with an unresponsive agent instead of erroring
+    - `--vms-created-before=TIMESTAMP` only recreate VMs created before the given RFC 3339 timestamp (e.g., `2026-01-15T10:30:00Z`)
     - `--canaries=NUMBER or PERCENTAGE` override manifest values for `canaries`
     - `--max-in-flight=NUMBER or PERCENTAGE` override manifest values for `max_in_flight`
     - `--dry-run` run through as many operations as possible without altering deployment
