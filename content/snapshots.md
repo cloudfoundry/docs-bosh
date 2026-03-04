@@ -17,7 +17,7 @@ Since the IaaS might or might not provide snapshotting functionality, disk snaps
 
 To enable disk snapshots in the Director:
 
-1. Add an `enable_snapshots` [key](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh&version=270.10.0#p%3ddirector.enable_snapshots) with it's value set to `true` to the `director` block of your Director deployment manifest.
+1. Add an `enable_snapshots` [key](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh&version=270.10.0#p%3ddirector.enable_snapshots) with its value set to `true` to the `director` block of your Director deployment manifest.
 
     ```yaml
     properties:

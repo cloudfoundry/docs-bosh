@@ -47,7 +47,7 @@ processes via Monit CLI. Before you can run the `monit` command you have to
 switch to become a `root` user (via `sudo su` or `sudo -i`) since Monit
 executable is only available to root users.
 
-Each enabled release job has its own directory in `/var/vcap/jobs/` directory. Each release job directory contains a monit file (e.g. `/var/vcap/jobs/redis-server/monit`) with final monit configuration for that release job. This is how you can tell which processes belong to which release job. Most release job only start a single process.
+Each enabled release job has its own directory in `/var/vcap/jobs/` directory. Each release job directory contains a monit file (e.g. `/var/vcap/jobs/redis-server/monit`) with final monit configuration for that release job. This is how you can tell which processes belong to which release job. Most release jobs only start a single process.
 
 !!! note
     Monit configuration file in release job directory is just a copy of the actual Monit configuration. Changing it will not affect running Monit configuration.
