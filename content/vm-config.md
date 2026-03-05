@@ -57,7 +57,7 @@ BOSH tries to encourage release authors to follow the conventions listed below, 
 
 * `/var/vcap/sys/run/`: Directory that is used by the release jobs to keep miscellaneous ephemeral data about  currently running processes, for example, pid and lock files. Each release job usually creates a sub-folder with its name for namespacing (e.g. `redis-server` will place data into `/var/vcap/sys/run/redis-server`).
 
-* `/var/vcap/sys/log/`: Directory that is used by the release jobs to keep logs. Each release job usually creates a sub-folder with its name for namespacing (e.g. `redis-server` will place data into `/var/vcap/sys/log/redis-server`). Files in this directory are log rotated on a specific schedule configure by the Agent.
+* `/var/vcap/sys/log/`: Directory that is used by the release jobs to keep logs. Each release job usually creates a sub-folder with its name for namespacing (e.g. `redis-server` will place data into `/var/vcap/sys/log/redis-server`). Files in this directory are log rotated on a specific schedule configured by the Agent.
 
 ---
 ## Agent Configuration {: #agent }

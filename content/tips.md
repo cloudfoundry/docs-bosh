@@ -52,7 +52,7 @@ For a more detailed error report, run: bosh task 45 --debug
 
 This problem can occur due to:
 
-- blocked network connectivity between the Agent on a new VM and NATS (typically the Director VM). For stemcells released after April 2022 additional restrictions can block connectivity to NATS. Specifically, traffic to the NATS endpoint is restricted to membership in a specific **cgroup**, this membership is based on the process id. To add you ssh sessions pid to the cgroup, follow these steps:
+- blocked network connectivity between the Agent on a new VM and NATS (typically the Director VM). For stemcells released after April 2022 additional restrictions can block connectivity to NATS. Specifically, traffic to the NATS endpoint is restricted to membership in a specific **cgroup**, this membership is based on the process id. To add your SSH session's pid to the cgroup, follow these steps:
     ```shell
     # To add your SSH Session to the NATS Access CGROUP you can execute the below steps.
     # This will work EXCLUSIVELY for the SSH Session that executes the command and does
@@ -68,7 +68,6 @@ This problem can occur due to:
     # Connection to 10.0.0.6 4222 port [tcp/*] succeeded!
     # INFO {....}
     ```
-- blocked network connectivity between the Agent on a new VM and NATS (typically the Director VM).
 - bootstrapping problem on the VM and/or wrong configuration of the Agent
 - blocked or slow boot times of the VM
 

@@ -4,8 +4,8 @@
 This topic describes how to recreate VMs in the event of an ESXi host failure.
 The BOSH Resurrector is unable to recreate a VM on a failed ESXi host without
 manual intervention.
-It can not recreate a VM until the VM has
-been successfully deleted, and it can not delete the VM because
+It cannot recreate a VM until the VM has
+been successfully deleted, and it cannot delete the VM because
 the ESXi host is unavailable.
 The following steps will allow the Resurrector to recreate these VMs on a healthy host.
 

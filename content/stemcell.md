@@ -81,7 +81,7 @@ stemcell?**
 The code lives on GitHub at
 https://github.com/cloudfoundry/bosh-linux-stemcell-builder. Building a stemcell
 occurs in stages. Each stage is represented as a BASH script and can be found in
-`stemcell_builder/stages/<stage_name>/apply.sh`.Each IaaS has its own list of
+`stemcell_builder/stages/<stage_name>/apply.sh`. Each IaaS has its own list of
 stages defined here:
 https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/bosh-stemcell/lib/bosh/stemcell/stage_collection.rb.
 

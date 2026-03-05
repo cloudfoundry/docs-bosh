@@ -47,7 +47,7 @@ If there are VMs deployed by the director which access the director HTTP API (e.
 CA must be provided to the VMs before re-deploying the director. This is necessary for the VMs to communicate with the director HTTP API
 after the director gets re-deployed with the new default CA and
 before the VMs get re-deployed with the new default CA.
-* `credhub_ca` including its singed certificate `credhub_tls`:
+* `credhub_ca` including its signed certificate `credhub_tls`:
 If there are VMs deployed by the director which access the CredHub API, the concatenated old and new CredHub
 CA must be provided to the VMs before re-deploying the director. This is necessary for the VMs to communicate with the CredHub API
 after the director gets re-deployed with the new CredHub CA and
