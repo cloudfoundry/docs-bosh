@@ -6,6 +6,7 @@ The `nic_group` feature allows multiple BOSH networks to be bound to the same ph
 
 - **Dual Stack Networking**: Binding IPv4 and IPv6 networks to the same interface (see [Dual Stack Networks](dual-stack-networks.md))
 - **Prefix Delegation**: Attaching a prefix delegation network alongside a primary management network (see [Prefix Delegation](prefix-delegation-networks.md))
+- **Elastic IP on a Specific NIC**: Directing a VIP network (e.g. an AWS Elastic IP) to the correct network interface when an instance has multiple NICs (see [VIP Networks in Multi-NIC Configurations](networks.md#vip))
 
 ## Infrastructure
 
