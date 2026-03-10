@@ -488,7 +488,7 @@ The Director does not enforce how many networks can be assigned to each instance
 
 |           | manual network                                                  | dynamic network             | vip network                          | nic grouping supported for network type | prefix delegation supported for network type |
 |-----------|-----------------------------------------------------------------|-----------------------------|--------------------------------------|-----------------------------------------|----------------------------------------------|
-| AWS       | Multiple per instance group<sup>1</sup> (from v107.0.0)         | Single per instance group   | Single, corresponds to an elastic IP |manual<sup>2</sup>, vip<sup>4</sup>      | manual<sup>3</sup>                           |
+| AWS       | Multiple per instance group<sup>1</sup> (from v107.0.0)         | Single per instance group   | Single, corresponds to an elastic IP |manual<sup>2</sup>, vip                  | manual<sup>3</sup>                           |
 | Azure     | Multiple per instance group                                     | Multiple per instance group | Single, corresponds to a reserved IP |                                         |                                              |
 | OpenStack | [Multiple per instance group](openstack-multiple-networks.md)   | Single per instance group   | Single, corresponds to a floating IP |                                         |                                              |
 | vSphere   | Multiple per instance group                                     | Not supported               | Not supported                        |                                         |                                              |
@@ -498,8 +498,6 @@ The Director does not enforce how many networks can be assigned to each instance
 2 = The maximum number of IP addresses assigned to one NIC (limited by the AWS CPI as of now): one IPv4 address, one IPv6 address, one IPv4 prefix delegation and one IPv6 prefix delegation
 
 3 = Find the currently supported prefix sizes [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html)
-
-4 = When `nic_group` is set on a VIP network, the AWS CPI maps the value to the corresponding NIC's device index to associate the Elastic IP with the correct network interface. Requires BOSH Director `vTBD+` and AWS CPI `vTBD+`.
 
 ---
 
