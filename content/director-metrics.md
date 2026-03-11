@@ -20,7 +20,7 @@ By default the metrics server will listen on port 9091, but this can be configur
 ## Metrics File Cleanup
 
 !!! note
-    This feature is available with BOSH release vXXX+.
+    This feature is available with BOSH release v282.1.3+.
 
 The metrics server stores metric data in binary files in `/var/vcap/store/director/metrics`. To prevent unbounded disk usage and problems with stale metrics causing large scrape responses, the director automatically cleans up metric files older than a configurable retention period via a scheduled job that runs periodically.
 
