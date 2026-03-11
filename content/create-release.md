@@ -665,7 +665,11 @@ blobstore:
   provider: local
   options:
     blobstore_path: /tmp/ardo-blobs
+no_compression: false
 ```
+
+!!! note "Compression Configuration"
+    The `no_compression` flag (optional) controls whether the outer release tarball is compressed. When set to `true`, compression is disabled. Defaults to `false` (compression enabled) if not specified. See [Release Compression Configuration](release-blobstore.md#no-compression) for more details.
 
 Example `private.yml`:
 

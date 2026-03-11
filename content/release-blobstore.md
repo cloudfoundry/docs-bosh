@@ -108,6 +108,34 @@ blobstore:
 ```
 
 ---
+## Release Compression Configuration {: #no-compression }
+
+!!! note "Version Requirements"
+    The `no_compression` flag requires BOSH Director version `282.1.3` or newer and the following stemcell versions:
+    - Ubuntu Noble (24.04): v1.165 or newer
+    - Ubuntu Jammy (22.04): v1.990 or newer
+
+You can control whether the outer release tarball is compressed by setting the `no_compression` flag in `config/final.yml`.
+
+**config/final.yml**
+
+```yaml
+---
+name: my-release
+blobstore:
+  provider: s3
+  options:
+    bucket_name: <bucket_name>
+no_compression: true
+```
+
+* **no_compression** [Boolean, optional]: When set to `true`, disables compression for the outer release tarball. Defaults to `false` (compression enabled) if not specified.
+
+!!! note
+    The `bosh export-release` command does not currently respect the `no_compression` flag due to technical limitations. When using `bosh export-release`, the outer tarball will always be compressed regardless of the `no_compression` setting in `final.yml`.
+
+---
+
 ## Migrating blobs {: #migration }
 
 CLI does not currently provide a builtin way to migrate blobs to a different blobstore. Suggested way to migrate blobs is to use third party tool like `s3cmd` to list and copy all blobs from current blobstore to another. Once copying of all blobs is complete, update `config` directory to with new blobstore location.
