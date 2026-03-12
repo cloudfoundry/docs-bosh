@@ -17,6 +17,7 @@ Each type of network supports one or both IP reservation types:
 | Automatic IP assignment | Supported, default | Supported       | Supported   |
 
 ---
+
 ## General Structure {: #general }
 
 Networking configuration is usually done in three steps:
@@ -69,6 +70,7 @@ instance_groups:
 See how to define each network type below.
 
 ---
+
 ## Manual Networks {: #manual }
 
 Manual networking allows you to specify one or more subnets and let the Director choose available IPs from one of the subnet ranges. A subnet definition specifies the CIDR range and, optionally, the gateway and DNS servers. In addition, certain IPs can be blacklisted (the Director will not use these IPs) via the `reserved` property.
@@ -133,7 +135,6 @@ instance_groups:
 
 !!! note
     If an instance group uses static IP reservation, all instances must be given static IPs.
-
 
 ### Prefix Delegation {: #prefix-delegation }
 
@@ -251,6 +252,7 @@ networks:
 ```
 
 ---
+
 ## Virtual IP (VIP) Networks {: #vip }
 
 Virtual IP networking enables the association of an IP address that is not backed by any particular NIC. This flexibility enables users to remap a virtual IP to a different instance in cases of a failure. For IaaS specific implementation details, see the respective cloud provider docs.
@@ -381,8 +383,54 @@ instance_groups:
   - name: my-vip-network
 ```
 
+### VIP Networks in Multi-NIC Configurations
+
+!!! note
+    Available as of BOSH Director version v282.1.3 and AWS CPI version TBD.
+
+When deploying instances with multiple NICs, you can specify `nic_group` on a VIP network entry in the deployment manifest to control which network interface receives the virtual IP (e.g. an Elastic IP on AWS).
+
+The `nic_group` value on the VIP network should match the `nic_group` assigned to the manual network that represents the target interface. The CPI uses this to associate the virtual IP with the correct NIC.
+
+!!! note
+    This requires CPI support. See [CPI Limitations](#cpi-limitations) for availability.
+
+Example deployment manifest:
+
+```yaml
+# cloud-config.yml
+---
+networks:
+- name: primary-network
+  type: manual
+  subnets: [...]
+
+- name: secondary-network
+  type: manual
+  subnets: [...]
+
+- name: my-vip-network
+  type: vip
+
+# deployment.yml
+---
+instance_groups:
+- name: my-instance-group
+  ...
+  networks:
+  - name: primary-network
+    nic_group: nic0        # First NIC
+  - name: secondary-network
+    nic_group: nic1        # Second NIC
+  - name: my-vip-network
+    static_ips: [54.47.189.8]
+    nic_group: nic1        # Associate the Elastic IP with the second NIC
+```
+
+When `nic_group` is not specified on a VIP network, the CPI defaults to associating the virtual IP with the primary NIC (device_index 0). If `nic_group` is set on the VIP network but does not match any manual or dynamic network's `nic_group`, the CPI also falls back to device_index 0.
 
 ---
+
 ## Multi-homed VMs {: #multi-homed }
 
 An instance group can be configured to have multiple IP addresses (multiple NICs) by being on multiple networks. Given that there are multiple network settings available for an instance group, the Agent needs to decide which network's DNS settings to use and which network's gateway should be the default gateway on the VM. Agent performs such selection based on the network's `default` property specified in the instance group.
@@ -433,13 +481,14 @@ In the above example, VM allocated to `my-multi-homed-instance-group` instance g
     See [rakutentech/bosh-routing-release](https://github.com/rakutentech/bosh-routing-release) if you are looking for even more specific routing configuration.
 
 ---
+
 ## CPI Limitations {: #cpi-limitations }
 
 The Director does not enforce how many networks can be assigned to each instance; however, each CPI might impose custom requirements either due to the IaaS limitations or simply because support was not yet implemented.
 
 |           | manual network                                                  | dynamic network             | vip network                          | nic grouping supported for network type | prefix delegation supported for network type |
 |-----------|-----------------------------------------------------------------|-----------------------------|--------------------------------------|-----------------------------------------|----------------------------------------------|
-| AWS       | Multiple per instance group<sup>1</sup> (from v107.0.0)         | Single per instance group   | Single, corresponds to an elastic IP |manual<sup>2</sup>                       | manual<sup>3</sup>                           |
+| AWS       | Multiple per instance group<sup>1</sup> (from v107.0.0)         | Single per instance group   | Single, corresponds to an elastic IP |manual<sup>2</sup>, vip                  | manual<sup>3</sup>                           |
 | Azure     | Multiple per instance group                                     | Multiple per instance group | Single, corresponds to a reserved IP |                                         |                                              |
 | OpenStack | [Multiple per instance group](openstack-multiple-networks.md)   | Single per instance group   | Single, corresponds to a floating IP |                                         |                                              |
 | vSphere   | Multiple per instance group                                     | Not supported               | Not supported                        |                                         |                                              |
@@ -451,6 +500,7 @@ The Director does not enforce how many networks can be assigned to each instance
 3 = Find the currently supported prefix sizes [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html)
 
 ---
+
 ## CPI Specific `cloud_properties` {: #cloud-properties }
 
 - [See AWS CPI network cloud properties](aws-cpi.md#networks)
