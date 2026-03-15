@@ -106,6 +106,7 @@ Schema for `cloud_properties` section:
     * **tag_nsx_vm_objects** [Boolean, optional]: When enabled, tag NSX VM objects with the same set of tags as vsphere VM objects. Available in CPI v97.0.14+.
 - **pci_passthroughs** [Array, optional]: Specifies a PCI (Peripheral Component Interconnect) device to attach to VM via vSphere Dynamic DirectPath IO. Requires vSphere 7.0+. Automatically sets the properties  `memory_reservation_locked_to_max` and `upgrade_hw_version` to `true`. Each entry requires the PCI card's `device_id` and `vendor_id`. Available in v97+.
 - **vgpus** [Array, optional]: Specifies an Nvidia GRID vGPU to attach to VM.  Automatically sets the properties  `memory_reservation_locked_to_max` and `upgrade_hw_version` to `true`. Available in v97+.
+- **device_groups** [Array, optional]: Specifies Device Groups to attach to the VM. Requires vSphere 8.0+. Supports groups of Nvidia vGPU devices. Device groups must be configured in vSphere. Available in vTBC+.
 - **root_disk_size_gb** [Integer, optional]: Expands the root disk to the size specified (in GiB). Useful when files such as Nvidia CUDA libraries can only be placed on the system disk instead of the ephemeral disk. Note that setting this property uses slightly more datastore space than expected, for non-expanded system disks are vSphere linked clones, which means the datastore footprint is close to zero. Available in v97.0.6+.
 
 Example of a VM asked to be placed into a specific vSphere resource pool with NSX-V and NSX-T integration:
