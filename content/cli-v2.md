@@ -1417,7 +1417,7 @@ See [CPI config](cpi-config.md).
 
 #### Run-Errand {: #run-errand }
 
-- `bosh [GLOBAL-CLI-OPTIONS] run-errand [--instance=INSTANCE-GROUP[/INSTANCE-ID]] [--keep-alive] [--when-changed] [--download-logs] [--logs-dir=DIR] NAME`
+- `bosh [GLOBAL-CLI-OPTIONS] run-errand [--instance=INSTANCE-GROUP[/INSTANCE-ID]] [--keep-alive] [--when-changed] [--download-logs] [--logs-dir=DIR] [--with-heartbeat[=INTERVAL]] NAME`
 
     Runs errand job by name.
 
@@ -1426,6 +1426,7 @@ See [CPI config](cpi-config.md).
     - `--when-changed` Run errand only if errand configuration has changed or if the previous run was unsuccessful
     - `--download-logs` Download logs
     - `--logs-dir=DIR` Destination directory for logs (default: .)
+    - `--with-heartbeat[=INTERVAL]` Print periodic heartbeat status lines while the task is running (default interval: 30s).
 
     See [Errands](errands.md) for details.
 
@@ -1433,6 +1434,12 @@ See [CPI config](cpi-config.md).
     bosh -e vbox -d cf run-errand smoke-tests
     bosh -e vbox -d cf run-errand smoke-tests --keep-alive
     bosh -e vbox -d cf run-errand smoke-tests --when-changed
+
+    # print heartbeat every 30s (default) to prevent CI/CD inactivity timeouts
+    bosh -e vbox -d cf run-errand smoke-tests --with-heartbeat
+
+    # print heartbeat every 10s
+    bosh -e vbox -d cf run-errand smoke-tests --with-heartbeat=10
 
     # execute errand on all instances that have colocated status errand
     bosh -e vbox -d zookeeper run-errand status
