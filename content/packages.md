@@ -24,7 +24,7 @@ sections when you run the `bosh generate-package PACKAGE_NAME` command:
  * `no_compression`: **(Optional)** Defines whether compression is disabled for the individual package tarball. Defaults to `false` (compression enabled) if not specified.
 
 !!! note "Version Requirements"
-    The `no_compression` flag requires BOSH Director version `282.1.3` or newer and the following stemcell versions:
+    The `no_compression` flag requires BOSH Director version `282.1.5` or newer and the following stemcell versions:
     - Ubuntu Noble (24.04): v1.165 or newer
     - Ubuntu Jammy (22.04): v1.990 or newer
 
