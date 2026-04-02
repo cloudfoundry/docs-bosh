@@ -386,7 +386,7 @@ instance_groups:
 ### VIP Networks in Multi-NIC Configurations
 
 !!! note
-    Available as of BOSH Director version v282.1.3 and AWS CPI version TBD.
+    Available as of BOSH Director version v282.1.3 and AWS CPI version v107.0.2.
 
 When deploying instances with multiple NICs, you can specify `nic_group` on a VIP network entry in the deployment manifest to control which network interface receives the virtual IP (e.g. an Elastic IP on AWS).
 
