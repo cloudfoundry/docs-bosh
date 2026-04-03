@@ -383,7 +383,7 @@ instance_groups:
   - name: my-vip-network
 ```
 
-### VIP Networks in Multi-NIC Configurations
+### VIP Networks in Multi-NIC Configurations {: `#vip-networks-in-multi-nic-configurations` }
 
 !!! note
     Available as of BOSH Director version v282.1.3 and AWS CPI version v107.0.2.
