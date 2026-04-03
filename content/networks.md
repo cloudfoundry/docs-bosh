@@ -423,7 +423,7 @@ instance_groups:
     nic_group: nic1        # Associate the Elastic IP with the second NIC
 ```
 
-When `nic_group` is not specified on a VIP network, the CPI defaults to associating the virtual IP with the primary NIC (device_index 0). If `nic_group` is set on the VIP network but does not match any manual or dynamic network's `nic_group`, the CPI also falls back to device_index 0.
+When `nic_group` is not specified on a VIP network, the CPI defaults to associating the virtual IP with the primary NIC (`device_index 0`). If `nic_group` is set on the VIP network but does not match any manual or dynamic network's `nic_group`, the CPI also falls back to device_index 0.
 
 ---
 
@@ -489,7 +489,7 @@ The Director does not enforce how many networks can be assigned to each instance
 | **OpenStack** | [Multiple](openstack-multiple-networks.md) | Single                                  | Single (Floating IP) |
 | **vSphere**   | Multiple                                   | -                                       | -                    |
 
-1: The maximum number of network interfaces attached to a VM is [limited per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AvailableIpPerENI.html). If you want to attach more IP addresses to your VMs check out the nic_group configuration in the networks section [here](manifest-v2.md#instance-groups).
+1: The maximum number of network interfaces attached to a VM is [limited per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AvailableIpPerENI.html). If you want to attach more IP addresses to your VMs check out the `nic_group` configuration in the networks section under [Instance Groups Block](manifest-v2.md#instance-groups).
 
 ### Advanced Network Features {: #advanced-network-features }
 
