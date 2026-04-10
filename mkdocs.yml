@@ -181,6 +181,7 @@ pages:
     - Director HTTP API: director-api-v1.md
     - Links API: links-api.md
   - Director Runtime Config: runtime-config.md
+  - Director Deploy Config: deploy-config.md
   - Generic Configs: configs.md
   - Cloud Provider Interface:
     - Version 3:

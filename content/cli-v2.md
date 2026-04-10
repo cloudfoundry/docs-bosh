@@ -702,9 +702,10 @@ See [Configs](configs.md).
     cloud    default
     ~        custom-vm-types
     cpi      default
+    deploy   default
     runtime  default
 
-    3 configs
+    5 configs
 
     Succeeded
     ```
@@ -730,7 +731,7 @@ See [Configs](configs.md).
 
     Update config on the Director.
 
-    - `--type=TYPE` Config type, e.g. 'cloud', 'runtime', or 'cpi'
+    - `--type=TYPE` Config type, e.g. 'cloud', 'runtime', 'cpi', or 'deploy'
     - `--name=NAME` Config name
     - `--expected-latest-id=ID` Expected ID of latest config
     - `-v`, `--var=VAR=VALUE` Set variable
@@ -871,6 +872,19 @@ See [CPI config](cpi-config.md).
     ```shell
     bosh -e my-env update-cpi-config cpis.yml
     ```
+
+---
+
+### Deploy config {: #deploy-config-mgmt }
+
+See [Deploy config](deploy-config.md).
+
+Use the generic [`update-config`](cli-v2.md#update-config) and [`config`](cli-v2.md#config) commands with `--type=deploy` to manage deploy configs:
+
+```shell
+bosh -e my-env update-config deploy.yml --type=deploy
+bosh -e my-env config --type=deploy --name=default
+```
 
 ---
 ### Deployments {: #deployment-mgmt }
