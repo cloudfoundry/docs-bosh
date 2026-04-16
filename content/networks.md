@@ -11,20 +11,21 @@ Each type of network supports one or both IP reservation types:
 * **static**: IP is explicitly requested by the user in the deployment manifest
 * **automatic**: IP is selected automatically based on the network type
 
-|                         | manual network     | dynamic network | vip network |
-|-------------------------|--------------------|-----------------|-------------|
+|                         | Manual network     | Dynamic network | VIP network |
+| ----------------------- | ------------------ | --------------- | ----------- |
 | Static IP assignment    | Supported          | Not supported   | Supported   |
 | Automatic IP assignment | Supported, default | Supported       | Supported   |
 
 ---
+
 ## General Structure {: #general }
 
 Networking configuration is usually done in three steps:
 
 - Configuring the IaaS: Outside of BOSH's responsibility
-  - Example on AWS: User creates a VPC and subnets with routing tables.
+    - Example on AWS: User creates a VPC and subnets with routing tables.
 - Adding networks section to the deployment manifest to define networks used in this deployment
-  - Example: User adds a manual network with a subnet and adds AWS subnet ID into the subnet's cloud properties.
+    - Example: User adds a manual network with a subnet and adds AWS subnet ID into the subnet's cloud properties.
 - Adding network associations for one or more networks to each instance group
 
 All deployment manifests have a similar structure in terms of network definitions and associations:
@@ -69,6 +70,7 @@ instance_groups:
 See how to define each network type below.
 
 ---
+
 ## Manual Networks {: #manual }
 
 Manual networking allows you to specify one or more subnets and let the Director choose available IPs from one of the subnet ranges. A subnet definition specifies the CIDR range and, optionally, the gateway and DNS servers. In addition, certain IPs can be blacklisted (the Director will not use these IPs) via the `reserved` property.
@@ -134,11 +136,10 @@ instance_groups:
 !!! note
     If an instance group uses static IP reservation, all instances must be given static IPs.
 
-
 ### Prefix Delegation {: #prefix-delegation }
 
 Starting with Director release `v282.1.0` and stemcell `Ubuntu Jammy v1.943`, BOSH supports prefix delegation. The concepts of static IP addresses and reserved addresses remain as described above.
-When the `prefix` property is set, the Director assigns prefix delegations of the specified size to VMs, rather than individual IP addresses. As of now bosh cannot use these networks for its own communication.
+When the `prefix` property is set, the Director assigns prefix delegations of the specified size to VMs, rather than individual IP addresses. As of now BOSH cannot use these networks for its own communication.
 
 **Example cloud config:**
 
@@ -195,15 +196,12 @@ The Director will send two IP addresses to the CPI:
 * Dynamic and VIP networks are not supported.
 * Managed networks are not supported.
 * Single static IPs must be a base address of the prefix.
-* For ipv6 use cases: Currently, static IP ranges or CIDRs defined on a network where BOSH will assign the next available IP address
-  are currently extended into an array. Large ranges or CIDRs may lead to performance degradation of
-  the Director. This is particularly relevant for IPv6 addressing, where CIDR ranges easily contain 
-  hundreds of millions of addresses. Size `/112` static ranges for networks without prefix delegation 
-  seem manageable, at ca. 65k addresses, but at the moment it is recommended to stay below such sizes.
+* For IPv6 use cases: Currently, static IP ranges or CIDRs defined on a network where BOSH will assign the next available IP address are extended into an array. Large ranges or CIDRs may lead to performance degradation of the Director. This is particularly relevant for IPv6 addressing, where CIDR ranges easily contain hundreds of millions of addresses. Size `/112` static ranges for networks without prefix delegation seem manageable, at ca. 65k addresses, but at the moment it is recommended to stay below such sizes.
 
 See supported CPIs in the [CPI Limitations](#cpi-limitations) section.
 
 ---
+
 ## Dynamic Networks {: #dynamic }
 
 Dynamic networking defers IP selection to the IaaS. For example, AWS assigns a private IP to each instance in the VPC by default. By associating an instance group to a dynamic network, BOSH will pick up AWS-assigned private IP addresses.
@@ -251,6 +249,7 @@ networks:
 ```
 
 ---
+
 ## Virtual IP (VIP) Networks {: #vip }
 
 Virtual IP networking enables the association of an IP address that is not backed by any particular NIC. This flexibility enables users to remap a virtual IP to a different instance in cases of a failure. For IaaS specific implementation details, see the respective cloud provider docs.
@@ -283,7 +282,6 @@ instance_groups:
   - name: my-vip-network
     static_ips: [54.47.189.8]
 ```
-
 
 ### Automatic IP Assignment
 
@@ -381,8 +379,54 @@ instance_groups:
   - name: my-vip-network
 ```
 
+### VIP Networks in Multi-NIC Configurations {: #vip-networks-in-multi-nic-configurations }
+
+!!! note
+    Available as of BOSH Director version v282.1.3 and AWS CPI version v107.0.2.
+
+When deploying instances with multiple NICs, you can specify `nic_group` on a VIP network entry in the deployment manifest to control which network interface receives the virtual IP (e.g. an Elastic IP on AWS).
+
+The `nic_group` value on the VIP network should match the `nic_group` assigned to the manual network that represents the target interface. The CPI uses this to associate the virtual IP with the correct NIC.
+
+!!! note
+    This requires CPI support. See [CPI Limitations](#cpi-limitations) for availability.
+
+Example deployment manifest:
+
+```yaml
+# cloud-config.yml
+---
+networks:
+- name: primary-network
+  type: manual
+  subnets: [...]
+
+- name: secondary-network
+  type: manual
+  subnets: [...]
+
+- name: my-vip-network
+  type: vip
+
+# deployment.yml
+---
+instance_groups:
+- name: my-instance-group
+  ...
+  networks:
+  - name: primary-network
+    nic_group: nic0        # First NIC
+  - name: secondary-network
+    nic_group: nic1        # Second NIC
+  - name: my-vip-network
+    static_ips: [54.47.189.8]
+    nic_group: nic1        # Associate the Elastic IP with the second NIC
+```
+
+When `nic_group` is not specified on a VIP network, the CPI defaults to associating the virtual IP with the primary NIC (`device_index 0`). If `nic_group` is set on the VIP network but does not match any manual or dynamic network's `nic_group`, the CPI also falls back to device_index 0.
 
 ---
+
 ## Multi-homed VMs {: #multi-homed }
 
 An instance group can be configured to have multiple IP addresses (multiple NICs) by being on multiple networks. Given that there are multiple network settings available for an instance group, the Agent needs to decide which network's DNS settings to use and which network's gateway should be the default gateway on the VM. Agent performs such selection based on the network's `default` property specified in the instance group.
@@ -433,24 +477,47 @@ In the above example, VM allocated to `my-multi-homed-instance-group` instance g
     See [rakutentech/bosh-routing-release](https://github.com/rakutentech/bosh-routing-release) if you are looking for even more specific routing configuration.
 
 ---
+
 ## CPI Limitations {: #cpi-limitations }
 
 The Director does not enforce how many networks can be assigned to each instance; however, each CPI might impose custom requirements either due to the IaaS limitations or simply because support was not yet implemented.
 
-|           | manual network                                                  | dynamic network             | vip network                          | nic grouping supported for network type | prefix delegation supported for network type |
-|-----------|-----------------------------------------------------------------|-----------------------------|--------------------------------------|-----------------------------------------|----------------------------------------------|
-| AWS       | Multiple per instance group<sup>1</sup> (from v107.0.0)         | Single per instance group   | Single, corresponds to an elastic IP |manual<sup>2</sup>                       | manual<sup>3</sup>                           |
-| Azure     | Multiple per instance group                                     | Multiple per instance group | Single, corresponds to a reserved IP |                                         |                                              |
-| OpenStack | [Multiple per instance group](openstack-multiple-networks.md)   | Single per instance group   | Single, corresponds to a floating IP |                                         |                                              |
-| vSphere   | Multiple per instance group                                     | Not supported               | Not supported                        |                                         |                                              |
+|               | Manual network<br>(per instance group)     | Dynamic network<br>(per instance group) | VIP network          |
+| ------------- | ------------------------------------------ | --------------------------------------- | -------------------- |
+| **AWS**       | Multiple<sup>1</sup> (from v107.0.0)       | Single                                  | Single (Elastic IP)  |
+| **Azure**     | Multiple                                   | Multiple                                | Single (Reserved IP) |
+| **OpenStack** | [Multiple](openstack-multiple-networks.md) | Single                                  | Single (Floating IP) |
+| **vSphere**   | Multiple                                   | -                                       | -                    |
 
-1 = The maximum number of network interfaces attached to a VM is [limited per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AvailableIpPerENI.html). If you want to attach more IP addresses to your VMs check out the nic_group configuration in the networks section [here](manifest-v2.md#instance-groups).
+1: The maximum number of network interfaces attached to a VM is [limited per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AvailableIpPerENI.html). If you want to attach more IP addresses to your VMs check out the `nic_group` configuration in the networks section under [Instance Groups Block](manifest-v2.md#instance-groups).
 
-2 = The maximum number of IP addresses assigned to one NIC (limited by the AWS CPI as of now): one IPv4 address, one IPv6 address, one IPv4 prefix delegation and one IPv6 prefix delegation
+### Advanced Network Features {: #advanced-network-features }
 
-3 = Find the currently supported prefix sizes [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html)
+|               | Network type | NIC grouping                          | Prefix delegation     |
+| ------------- | ------------ | ------------------------------------- | --------------------- |
+| **AWS**       | Manual       | Supported<sup>1</sup>                 | Supported<sup>2</sup> |
+|               | VIP          | Supported<sup>1</sup> (from v107.0.2) | —                     |
+|               |              |                                       |                       |
+| **Azure**     | Manual       | —                                     | —                     |
+|               | VIP          | —                                     | —                     |
+|               |              |                                       |                       |
+| **OpenStack** | Manual       | —                                     | —                     |
+|               | VIP          | —                                     | —                     |
+|               |              |                                       |                       |
+| **vSphere**   | Manual       | —                                     | —                     |
+|               | VIP          | —                                     | —                     |
+
+1: The maximum number of IP addresses assigned to one NIC (limited by the AWS CPI as of now):
+
+* one IPv4 address
+* one IPv6 address
+* one IPv4 prefix delegation
+* one IPv6 prefix delegation
+
+2: Find the currently supported prefix sizes in [Prefix delegation for AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html).
 
 ---
+
 ## CPI Specific `cloud_properties` {: #cloud-properties }
 
 - [See AWS CPI network cloud properties](aws-cpi.md#networks)
