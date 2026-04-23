@@ -272,6 +272,7 @@ Schema:
   sets "all space allocated at [VM] creation time and the space is zeroed on demand as the space is used",
   and `thin`, "virtual disk is allocated and zeroed on demand as the space is used."
   Applies to both root and ephemeral. May also apply to persistent disks unless overridden in [disk pool](#disk-types--disk-pools-).
+* **default\_scsi\_controller\_type** [String, optional]: SCSI controller type for VMs. Can be `paravirtual` (supports up to 63 disks), `lsi_logic` (preserves stemcell controller, may reduce write latency), or `lsi_logic_sas`. Default: `paravirtual`. Available in v98.0.5+.
 * **ensure_no_ip_conflicts** [Boolean, optional]: When creating a VM, ensure that no other VMs exist in the same port group with the same IP address. The CPI queries the vCenter to detect conflict, does not use `ping`. Default: `true`. Available in v97.0.5+.
 
 * **datacenters** [Array, optional]: Array of datacenters to use for VM placement. Must have only one.
@@ -373,6 +374,68 @@ nsx:
   password: vmware
 ```
 
+Example that sets the SCSI controller type to LSI Logic:
+
+```yaml
+host: 172.16.68.3
+user: root
+password: vmware
+default_disk_type: preallocated
+default_scsi_controller_type: lsi_logic
+enable_human_readable_name: true
+datacenters:
+- name: BOSH_DC
+  vm_folder: prod-vms
+  template_folder: prod-templates
+  disk_path: prod-disks
+  datastore_pattern: '\Aprod-ds\z'
+  persistent_datastore_pattern: '\Aprod-ds\z'
+  clusters:
+  - BOSH_CL: {resource_pool: BOSH_RP}
+```
+
+For `bosh create-env` deployments, note that the CPI configuration exists in two places: the `cloud_provider` section (used when creating the director VM itself) and the instance group properties (used for VMs deployed by the director). The `default_scsi_controller_type` property must be set in both locations for it to take effect across all VMs. This can be done directly in the manifest or via an ops-file, for example:
+
+```yaml
+# ops-file example
+- type: replace
+  path: /instance_groups/name=bosh/properties/vcenter/default_scsi_controller_type?
+  value: lsi_logic
+
+- type: replace
+  path: /cloud_provider/properties/vcenter/default_scsi_controller_type?
+  value: lsi_logic
+```
+
+Example of the `cloud_provider` section in a `bosh create-env` manifest with `default_scsi_controller_type` set:
+
+```yaml
+cloud_provider:
+  cert: ((mbus_bootstrap_ssl))
+  mbus: https://mbus:((mbus_bootstrap_password))@0.0.0.0:6868
+  properties:
+    agent:
+      mbus: https://mbus:((mbus_bootstrap_password))@0.0.0.0:6868
+    vcenter:
+      address: 172.16.68.3
+      user: root
+      password: vmware
+      default_disk_type: preallocated
+      default_scsi_controller_type: lsi_logic
+      datacenters:
+      - name: BOSH_DC
+        clusters:
+        - BOSH_CL: {resource_pool: BOSH_RP}
+        datastore_pattern: '\Aprod-ds\z'
+        persistent_datastore_pattern: '\Aprod-ds\z'
+        disk_path: prod-disks
+        template_folder: prod-templates
+        vm_folder: prod-vms
+  template:
+    name: vsphere_cpi
+    release: bosh-vsphere-cpi
+```
+
 ---
 ## Example Cloud Config {: #cloud-config }
 
@@ -451,6 +514,8 @@ with your vSphere resource pool(s).
 * Support for specifying Datastore Clusters for ephemeral and persistent disks is available with vSphere CPI version v47 and above. For additional details see [Release Notes for v47](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/releases/tag/v47)
 
 * Support for specifying Datastore Clusters nested under folders is available with vSphere CPI version v94 and above. For additional details see [Release Notes for v94](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/releases/tag/v94)
+
+* Starting with v98, the vSphere CPI sets the SCSI controller on cloned VMs to ParaVirtual by default, which supports up to 63 disks and improves performance in many environments. In some storage configurations, however, this may increase disk write latency. Since [PR #459](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/pull/459), operators can set `default_scsi_controller_type` to `lsi_logic` or `lsi_logic_sas` in the [global CPI configuration](#global) to use a different controller type. For `bosh create-env` deployments, the property must be set in both the instance group properties and the `cloud_provider` properties.
 
 ### VMs {: #vms }
 
