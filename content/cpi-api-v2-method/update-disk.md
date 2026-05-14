@@ -33,7 +33,7 @@ If the CPI does not support `update_disk`, the Director falls back to the standa
 
 ## Result
 
- * `new_disk_cid` [String or nil]: If the disk was replaced (e.g., via snapshot and recreate due to an incompatible type change), returns the new disk's Cloud ID. The Director persists this new CID and uses it for subsequent operations. Returns `nil` if the disk was updated in-place (e.g., a size-only change).
+ * `new_disk_cid` [String or nil]: If the disk was replaced (e.g., via snapshot and recreate due to an incompatible type change), returns the new disk's Cloud ID. The Director persists this new CID and uses it for subsequent operations. If the disk was updated in-place, the CPI may return `nil` or the original disk CID - in both cases, the Director continues using the existing CID.
 
 ## Examples
 
