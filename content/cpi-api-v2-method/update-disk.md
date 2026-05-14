@@ -23,7 +23,7 @@ When `enable_cpi_update_disk` is enabled and a VM is being recreated (e.g., due 
 3. Delete old VM, create new VM
 4. Attach the (possibly new) disk to the new VM
 
-If the CPI does not support `update_disk`, the Director falls back to the standard copy-based disk update path transparently.
+If the CPI does not support `update_disk`, the Director falls back to the standard copy-based disk migration path transparently.
 
 ## Arguments
 
