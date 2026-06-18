@@ -179,6 +179,7 @@ Schema:
 
 * **kms\_key\_arn** [String, optional]: Encrypts the disks using an encryption key stored in the [AWS Key Management Service (KMS)](https://aws.amazon.com/kms/). The format of the ID is `XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX`. Be sure to use the Key ID, not the Alias. If this property is omitted and `encrypted` is `true`, the disks will be encrypted using your account's default `aws/ebs` encryption key. Available in v67+.
 * **metadata_options** [Hash, optional]: Metadata configuration options that are set on a VM during creation. These options should be snake-cased properties accepted by the [ModifyInstanceMetadataOptions endpoint](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyInstanceMetadataOptions.html). e.g. `http_put_response_hop_limit`.  If `metadata_options` is configured both at the global CPI level and as a VM extension, the VM extension properties take precedence. Available in v91+.
+* **enable\_describe\_instance\_types** [Boolean, optional]: When `true` (default), the CPI calls the `ec2:DescribeInstanceTypes` API to accurately detect NVMe characteristics for EBS volume paths and raw instance storage device naming. Set to `false` to use a built-in static list of known instance families instead, which requires no `ec2:DescribeInstanceTypes` IAM permission but may not cover instance families released after this CPI version. Defaults to `true`.
 
 See [all configuration options](https://bosh.io/jobs/aws_cpi?source=github.com/cloudfoundry/bosh-aws-cpi-release).
 
