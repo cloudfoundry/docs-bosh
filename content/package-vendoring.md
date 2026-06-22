@@ -95,8 +95,11 @@ Packages may also include `bosh/runtime.env` for loading specific functionality 
 
 When to use this approach:
 
-- package is readily available from `bosh-packages` Github organization
-- package is an internal implementation detail of your release that cannot or should not be swappable by an operator
+- package is [readily
+  available](https://github.com/orgs/cloudfoundry/repositories?q=in%3Aname+bosh-package-)
+  from the `cloudfoundry` Github organization.
+- package is an internal implementation detail of your release that cannot or
+  should not be swappable by an operator
 
 When to be cautious with this approach:
 
