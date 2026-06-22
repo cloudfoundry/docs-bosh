@@ -41,6 +41,9 @@ Post-start script is called every time after job is started (ctl script is calle
 
 Post-start scripts in a single deployment job (typically is composed of multiple release jobs) are executed in parallel.
 
+!!! note
+    Post-start scripts run at a lower CPU scheduling priority than the BOSH agent to keep the agent responsive. See [Job Lifecycle](job-lifecycle.md) for details.
+
 ---
 ## Logs {: #logs }
 

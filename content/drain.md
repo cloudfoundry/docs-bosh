@@ -29,6 +29,9 @@ templates:
 
 Drain script is usually just a regular shell script. Since drain script is executed in a similar way as other release job scripts (start, stop, pre-start scripts) you can use job's package dependencies.
 
+!!! note
+    Drain scripts run at a lower CPU scheduling priority than the BOSH agent to keep the agent responsive. See [Job Lifecycle](job-lifecycle.md) for details.
+
 Drain script should be idempotent. It may be called multiple times before or after process is stopped.
 
 You must ensure that your drain script exits in one of following ways:
