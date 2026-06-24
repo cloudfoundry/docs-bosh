@@ -1,14 +1,15 @@
+# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
 site_name: Cloud Foundry BOSH
 site_url: "https://bosh.io/docs/"
 
-repo_name: 'cloudfoundry/docs-bosh'
-repo_url: 'https://github.com/cloudfoundry/docs-bosh'
-edit_uri: edit/master/content/
+repo_name: cloudfoundry/bosh
+repo_url: https://github.com/cloudfoundry/bosh
+edit_uri: https://github.com/cloudfoundry/docs-bosh/edit/master/content/
 
 # non-default since our repo itself is called "docs"
 docs_dir: content
 
-pages:
+nav:
 - About:
   - Welcome: index.md
   - Project Goals: problems.md
@@ -258,7 +259,6 @@ pages:
     - What is a Stemcell?: stemcell.md
     - Recent Changes: recent.md
     - Deploying BOSH with create-env: init.md
-
   - "--- Cloud Providers": divider.md
   - Alibaba Cloud:
     - Usage: alicloud-cpi.md
@@ -309,18 +309,43 @@ pages:
     - Using Human-readable VM names: vsphere-human-readable-names.md
   - Warden:
     - Usage: warden-cpi.md
-# this hack avoids divider.md showing up in navigation and site search
-- "--- ": divider.md
 
 theme:
   name: material
   custom_dir: theme
   favicon: assets/images/favicon.2776d0bae488.png
-  feature:
-    tabs: true
+  features:
+    - content.action.edit
+    - content.code.copy
+    - navigation.tabs
+    - navigation.footer
   palette:
-    primary: blue
-    accent: indigo
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+      primary: blue
+      accent: indigo
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+      primary: blue
+      accent: indigo
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+      primary: blue
+      accent: indigo
+
   logo: assets/images/logo.d93e7da69dbf.png
 
 extra_css:
@@ -328,38 +353,39 @@ extra_css:
 
 markdown_extensions:
 - markdown.extensions.admonition
-- markdown.extensions.codehilite
 - markdown.extensions.def_list
 - markdown.extensions.attr_list
 - markdown.extensions.footnotes
-- markdown.extensions.meta
-- markdown.extensions.toc(permalink=true)
+- markdown.extensions.toc:
+    permalink: true
 - pymdownx.arithmatex
-- pymdownx.betterem(smart_enable=all)
+- pymdownx.betterem:
+    smart_enable: all
 - pymdownx.caret
 - pymdownx.critic
 - pymdownx.emoji:
     emoji_generator: !!python/name:pymdownx.emoji.to_svg
+- pymdownx.highlight
 - pymdownx.inlinehilite
 - pymdownx.magiclink
 - pymdownx.mark
 - pymdownx.smartsymbols
 - pymdownx.snippets
 - pymdownx.superfences
-- pymdownx.tasklist(custom_checkbox=true)
+- pymdownx.tasklist:
+    custom_checkbox: true
 - pymdownx.tilde
 
 extra:
-  social:
-  - type: 'github'
-    link: 'https://github.com/cloudfoundry/bosh'
-  - type: 'slack'
-    link: 'https://cloudfoundry.slack.com/messages/C02HPPYQ2/'
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY  # avoid forks accidentally using us
 
-google_analytics:
-# avoid forks accidentally using us
-- !!python/object/apply:os.getenv ["GOOGLE_ANALYTICS_KEY"]
-- auto
+  social:
+  - icon: fontawesome/brands/github
+    link: 'https://github.com/cloudfoundry/bosh'
+  - icon: fontawesome/brands/slack
+    link: 'https://cloudfoundry.slack.com/messages/C02HPPYQ2/'
 
 # since we publish via bosh.io, avoid unintentionally using gh-pages
 remote_branch: docroot
