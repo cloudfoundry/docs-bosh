@@ -49,6 +49,9 @@ Post-deploy script is called every time after job is started (ctl script is call
 
 Post-deploy scripts in a deployment are executed in parallel.
 
+!!! note
+    Post-deploy scripts run at a lower CPU scheduling priority than the BOSH agent to keep the agent responsive. See [Job Lifecycle](job-lifecycle.md) for details.
+
 ---
 ## Logs {: #logs }
 

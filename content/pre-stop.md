@@ -31,6 +31,9 @@ A pre-stop script is usually just a regular shell script. Since the pre-start sc
 
 The pre-stop script also uses an exit code to indicate its success (exit code 0) or failure (any other exit code). A pre-stop script should be idempotent.
 
+!!! note
+    Pre-stop scripts run at a lower CPU scheduling priority than the BOSH agent to keep the agent responsive. See [Job Lifecycle](job-lifecycle.md) for details.
+
 ---
 ## Environment Variables {: #environment-variables }
 

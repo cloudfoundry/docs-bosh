@@ -28,3 +28,6 @@ templates:
 Post-stop script is usually just a regular shell script. Since post-start script is executed in a similar way as other release job scripts (start, stop, drain scripts) you can use job's package dependencies.
 
 Post-stop script should be idempotent. It may be called multiple times after a process is stopped.
+
+!!! note
+    Post-stop scripts run at a lower CPU scheduling priority than the BOSH agent to keep the agent responsive. See [Job Lifecycle](job-lifecycle.md) for details.

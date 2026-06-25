@@ -26,6 +26,9 @@ There are several stages that all jobs (and their associated processes) on each 
 !!! note
     Scripts should not rely on the order they are run. Agent may decide to run them serially or in parallel.
 
+!!! note
+    All lifecycle scripts (pre-start, post-start, post-deploy, pre-stop, drain, post-stop) are spawned at a lower CPU scheduling priority than the BOSH agent itself. This prevents CPU-intensive scripts from starving the agent's event loop, which would otherwise cause the Director to report an agent-unreachable error even though the script is making progress.
+
 ---
 ## When processes are running {: #running }
 
