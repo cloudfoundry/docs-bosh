@@ -50,3 +50,7 @@
   font-style: italic;
   position: absolute;
 }
+
+.md-copyright__highlight {
+    color: inherit;
+}

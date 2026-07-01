@@ -309,7 +309,9 @@ nav:
     - Using Human-readable VM names: vsphere-human-readable-names.md
   - Warden:
     - Usage: warden-cpi.md
-
+- Stemcells: '/stemcells/'
+- Releases: '/releases/'
+      
 theme:
   name: material
   custom_dir: theme
@@ -387,5 +389,14 @@ extra:
   - icon: fontawesome/brands/slack
     link: 'https://cloudfoundry.slack.com/messages/C02HPPYQ2/'
 
+  generator: false
+
+copyright: >
+  powered by
+  <a href="https://github.com/bosh-io/web" target="_blank" rel="noopener">bosh-io/web</a>,
+  <a href="https://github.com/mkdocs/mkdocs" target="_blank" rel="noopener">mkdocs</a>
+  and
+  <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">material</a>
+  
 # since we publish via bosh.io, avoid unintentionally using gh-pages
 remote_branch: docroot
