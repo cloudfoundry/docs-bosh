@@ -41,7 +41,7 @@ The metrics server serves two endpoints, `/metrics` and `/api_metrics`. Currentl
 * `bosh_networks_dynamic_free_ips_total`: Number of free dynamic IP addresses left per network.
 * `bosh_unresponsive_agents`: Number of unresponsive agents per deployment.
 * `bosh_unhealthy_agents`: Number of unhealthy agents per deployment. An agent is considered unhealthy when it is running but has no active processes.
-* `bosh_total_available_agents`: Total number of agents per deployment regardless of state, including agents not associated with any deployment.
+* `bosh_total_available_agents`: Total number of agents per deployment regardless of state, including agents reported under the `unmanaged` label for rogue agents.
 * `bosh_failing_instances`: Number of failing instances per deployment.
 * `bosh_stopped_instances`: Number of stopped instances per deployment.
 * `bosh_unknown_instances`: Number of instances with an unknown state per deployment.
