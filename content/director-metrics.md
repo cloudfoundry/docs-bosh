@@ -40,11 +40,11 @@ The metrics server serves two endpoints, `/metrics` and `/api_metrics`. Currentl
 * `bosh_networks_dynamic_ips_total`: Size of network pool for all dynamically allocated IP addresses.
 * `bosh_networks_dynamic_free_ips_total`: Number of free dynamic IP addresses left per network.
 * `bosh_unresponsive_agents`: Number of unresponsive agents per deployment.
-* `bosh_unhealthy_agents`: Number of unhealthy agents per deployment. An agent is considered unhealthy when its `job_state` is `running` but it has zero running processes (`number_of_processes == 0`).
-* `bosh_total_available_agents`: Total number of available agents per deployment (all agents, regardless of state). Also includes an `unmanaged` label for agents not associated with any deployment.
-* `bosh_failing_instances`: Number of instances with `job_state == "failing"` per deployment.
-* `bosh_stopped_instances`: Number of instances with `job_state == "stopped"` per deployment.
-* `bosh_unknown_instances`: Number of instances with an unknown (nil) `job_state` per deployment.
+* `bosh_unhealthy_agents`: Number of unhealthy agents per deployment. An agent is considered unhealthy when it is running but has no active processes.
+* `bosh_total_available_agents`: Total number of agents per deployment regardless of state, including agents not associated with any deployment.
+* `bosh_failing_instances`: Number of failing instances per deployment.
+* `bosh_stopped_instances`: Number of stopped instances per deployment.
+* `bosh_unknown_instances`: Number of instances with an unknown state per deployment.
 * Generic API metrics for the director's endpoints including number of requests and response time.
 
 ## BOSH Director VM Metrics
