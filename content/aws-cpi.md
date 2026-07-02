@@ -64,8 +64,12 @@ Schema for `cloud_properties` section:
 * **availability_zone** [String, required]: Availability zone to use for creating instances. Example: `us-east-1a`.
 * **security_groups** [Array, optional]: See description under [networks](#networks). Available in v46+.
 * **key_name** [String, optional]: Key pair name. Defaults to key pair name specified by `default_key_name` in global CPI settings. Example: `bosh`.
-* **spot\_bid\_price** [Float, optional]: Bid price in dollars for [AWS spot instance](http://aws.amazon.com/ec2/purchasing-options/spot-instances/). Using this option will slow down VM creation. Example: `0.03`.
-* **spot\_ondemand\_fallback** [Boolean, optional]: Set to `true` to use an on demand instance if a spot instance is not available during VM creation. Defaults to `false`. Available in v36.
+* **spot\_bid\_price** [Float, optional]: Maximum bid price in dollars per hour for an [AWS spot instance](http://aws.amazon.com/ec2/purchasing-options/spot-instances/). When set, the CPI provisions a spot instance via `ec2:RunInstances` with `InstanceMarketOptions`; the call succeeds immediately with an instance ID or fails immediately if capacity is unavailable (no asynchronous polling). Example: `0.03`. Available in v36+. Updated to use `RunInstances` + `InstanceMarketOptions` in v107.3.0 (previously used the legacy `RequestSpotInstances` API).
+
+    !!! note
+        As of v107.3.0, spot instances no longer require the `ec2:RequestSpotInstances`, `ec2:DescribeSpotInstanceRequests`, or `ec2:CancelSpotInstanceRequests` IAM permissions. Only `ec2:RunInstances` is needed, which is already required for on-demand VMs.
+
+* **spot\_ondemand\_fallback** [Boolean, optional]: Set to `true` to use an on demand instance if a spot instance is not available during VM creation. Defaults to `false`. Available in v36+.
 * **elbs** [Array, optional]: Array of [Elastic (Classic) Load Balancer (ELB)](https://aws.amazon.com/documentation/elastic-load-balancing/) names that should be attached to created VMs. Example: `[prod-elb]`. Default is `[]`.
 * **lb\_target\_groups** [Array, optional]: Array of Load Balancer Target Groups to which created VMs should be attached. Target Groups can be used to link [Application Load Balancers (ALB)](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) and [Network Load Balancers (NLB)](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html) to instances. Example: `[prod-group1, prod-group2]`. Default is `[]`. Available in v63 or newer.
 * **iam\_instance\_profile** [String, optional]: Name of an [IAM instance profile](aws-iam-instance-profiles.md). Example: `director`.
