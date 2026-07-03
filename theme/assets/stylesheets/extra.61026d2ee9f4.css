@@ -59,7 +59,7 @@
 
 @media screen and (max-width: 76.2344em) {
   .md-nav--lifted > .md-nav__list {
-    &:has(> .md-nav__item--sidebar-sticky-bottom) { padding-bottom: 1.2rem; }
+    &:has(> .md-nav__item--bosh-sidebar-sticky-bottom) { padding-bottom: 1.2rem; }
     > .md-nav__item--bosh-sidebar-sticky-bottom {
         position: absolute;
         bottom: 0;
@@ -78,6 +78,7 @@
          > .md-ellipsis { cursor: default; }
          > .md-nav__icon { display: none; }
        }
+     }
      > .md-nav__item--bosh-persistent + .md-nav__item { margin-top: 1.2rem; }
   }
 }
