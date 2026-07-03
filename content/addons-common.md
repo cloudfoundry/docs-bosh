@@ -1,3 +1,5 @@
+# Common Addons
+
 (See [runtime config](runtime-config.md#addons) for an introduction to addons.)
 
 ## Syslog forwarding {: #syslog }
@@ -30,6 +32,7 @@ addons:
 See [syslog_forwarder job](https://bosh.io/jobs/syslog_forwarder?source=github.com/cloudfoundry/syslog-release).
 
 ---
+
 ## Custom SSH login banner {: #login-banner }
 
 !!! note
@@ -59,6 +62,7 @@ addons:
 See [login_banner job](https://bosh.io/jobs/login_banner?source=github.com/cloudfoundry/os-conf-release).
 
 ---
+
 ## Custom SSH users {: #misc-users }
 
 !!! warning

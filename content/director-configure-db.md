@@ -1,3 +1,5 @@
+# Director Database Configuration
+
 The Director stores VM, persistent disk and other information in a database. An internal database might be sufficient for your deployment; however, a highly-available external database can improve performance, scalability and protect against data loss.
 
 ## Included Postgres (default) {: #included }
@@ -35,6 +37,7 @@ The Director stores VM, persistent disk and other information in a database. An 
     ```
 
 ---
+
 ## External {: #external }
 
 The Director is tested to be compatible with MySQL and Postgresql databases.

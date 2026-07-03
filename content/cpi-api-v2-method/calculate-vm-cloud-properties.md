@@ -15,22 +15,18 @@ The `cloud_properties` returned are IaaS-specific. For example, when querying th
 
 If a parameter is set to a value greater than what is available (e.g. 1024 CPUs), an error is raised.
 
-
 ## Arguments
 
- * `desired_instance_size` [Hash]: Parameters of the desired size of the VM consisting of the following keys:
-    * `cpu` [Integer]: Number of virtual cores desired
-    * `ram` [Integer]: Amount of RAM, in MiB (i.e. `4096` for 4 GiB)
-    * `ephemeral_disk_size` [Integer]: Size of ephemeral disk, in MB
-
+- `desired_instance_size` [Hash]: Parameters of the desired size of the VM consisting of the following keys:
+    - `cpu` [Integer]: Number of virtual cores desired
+    - `ram` [Integer]: Amount of RAM, in MiB (i.e. `4096` for 4 GiB)
+    - `ephemeral_disk_size` [Integer]: Size of ephemeral disk, in MB
 
 ## Result
 
- * `cloud_properties` [Hash]: an IaaS-specific set of cloud properties that define the size of the VM.
-
+- `cloud_properties` [Hash]: an IaaS-specific set of cloud properties that define the size of the VM.
 
 ## Examples
-
 
 ### API Request
 
@@ -42,7 +38,6 @@ If a parameter is set to a value greater than what is available (e.g. 1024 CPUs)
 }
 ```
 
-
 ## Related
 
- * [create_vm](create-vm.md)
+- [create_vm](create-vm.md)

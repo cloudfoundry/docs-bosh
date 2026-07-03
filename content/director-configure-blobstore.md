@@ -1,8 +1,8 @@
+# Director Blobstore Configuration
+
 The Director stores uploaded releases, configuration files, logs and other data
 in a blobstore. A default DAV blobstore is sufficient for most BOSH
 environments; however, a highly-available external blobstore may be desired.
-
-
 
 ## Included DAV (default) {: #included }
 
@@ -42,6 +42,7 @@ By default the Director is configured to use included DAV blobstore job (see [In
 Above configuration is used by the Director and the Agents.
 
 ---
+
 ## S3 {: #default }
 
 The Director and the Agents can use an S3 compatible blobstore. Here is how to configure it:
@@ -74,6 +75,7 @@ The Director and the Agents can use an S3 compatible blobstore. Here is how to c
     ```
 
 ---
+
 ## Google Cloud Storage (GCS) {: #gcs }
 
 !!! note
@@ -140,8 +142,9 @@ to store blobstore contents instead of the bucket default, specify `storage_clas
           json_key: |
             AGENT-SERVICE-ACCOUNT-BLOBSTORE-FILE
     ```
-   
+
 ---
+
 ## Azure Storage Account {: #azure-storage }
 
 Azure Storage Account is supported from bosh version `278.0.0` and stemcell version `1.199`.

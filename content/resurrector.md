@@ -1,3 +1,5 @@
+# Auto-healing Capabilities - Resurrector
+
 The Resurrector is a plugin to the [Health Monitor](bosh-components.md#health-monitor). It's responsible for automatically recreating VMs that become inaccessible.
 
 The Resurrector continuously cross-references VMs expected to be running against the VMs that are sending heartbeats. When resurrector does not receive heartbeats for a VM for a certain period of time, it will kick off a task on the Director (scan and fix task) to try to "resurrect" that VM. The Director may do one of two things:
@@ -13,6 +15,7 @@ Resurrection can be turned off per specific deployment job instance or for all V
     The Health Monitor deploys with the Resurrector plugin disabled by default. To use it, you must enable the Resurrector plugin in your BOSH deployment manifest.
 
 ---
+
 ## Enabling and Configuring the Resurrector {: #enable }
 
 To enable the Resurrector:
@@ -26,9 +29,9 @@ To enable the Resurrector:
     ```
 
 1. Optionally change configuration values:
-    * **minimum\_down\_jobs** [Integer, optional]: If the total number of instances that are down in a deployment (within time interval T) is below this number, the Resurrector will _always_ request to fix instances. This decision takes precedence to the `percent_threshold` check when the # of down instances ≤ `minimum_down_jobs`. Default is 5.
-    * **percent_threshold** [Float, optional]: If the percentage of instances that are down in a deployment (within time interval T) is greater than the threshold percentage, the Resurrector will _not_ request to fix any instance. Going over this threshold is called "meltdown". Default is 0.2 (20%).
-    * **time_threshold** [Integer, optional]: Time interval (in seconds) used in the above calculations. Default is 600.
+    - **minimum\_down\_jobs** [Integer, optional]: If the total number of instances that are down in a deployment (within time interval T) is below this number, the Resurrector will _always_ request to fix instances. This decision takes precedence to the `percent_threshold` check when the # of down instances ≤ `minimum_down_jobs`. Default is 5.
+    - **percent_threshold** [Float, optional]: If the percentage of instances that are down in a deployment (within time interval T) is greater than the threshold percentage, the Resurrector will _not_ request to fix any instance. Going over this threshold is called "meltdown". Default is 0.2 (20%).
+    - **time_threshold** [Integer, optional]: Time interval (in seconds) used in the above calculations. Default is 600.
 
     ```yaml
     properties:
@@ -42,59 +45,58 @@ To enable the Resurrector:
 
 1. Depending on how you configured [Director user management](director-users.md), credentials are specified in the `user` and `password` properties or using a custom `client` to authenticate with the UAA.
 
-    ### Option a) Using UAA User Management {: #uaa-client }
+### Option a) Using UAA User Management {: #uaa-client }
 
-    Define an additional client in the `uaa.clients` section of your manifest:
+Define an additional client in the `uaa.clients` section of your manifest:
 
-    ```yaml
-    properties:
-      uaa:
-        clients:
-          hm:
-            override: true
-            authorized-grant-types: client_credentials
-            scope: ""
-            authorities: bosh.admin
-            secret: "hm-password"
-    ```
-
-    Configure the Health Monitor to use the client with the defined secret to authenticate with the Director:
-
-    ```yaml
-    properties:
+```yaml
+properties:
+  uaa:
+    clients:
       hm:
-        director_account:
-          client_id: hm
-          client_secret: "hm-password"
-    ```
+        override: true
+        authorized-grant-types: client_credentials
+        scope: ""
+        authorities: bosh.admin
+        secret: "hm-password"
+```
 
-    ### Option b) Using Preconfigured Users {: #preconfigured-users }
+Configure the Health Monitor to use the client with the defined secret to authenticate with the Director:
 
-    Create new Director user so that the Resurrector plugin can communicate with the Director and query/submit information about deployments.
+```yaml
+properties:
+  hm:
+    director_account:
+      client_id: hm
+      client_secret: "hm-password"
+```
 
-    ```yaml
-    properties:
-      director:
-        user_management:
-          provider: local
-          local:
-            users:
-            - {name: admin, password: admin-password}
-            - {name: hm, password: hm-password}
-    ```
+### Option b) Using Preconfigured Users {: #preconfigured-users }
 
-    Configure the Health Monitor to use the HM user and password to authenticate with the Director:
+Create new Director user so that the Resurrector plugin can communicate with the Director and query/submit information about deployments.
 
-    ```yaml
-    properties:
-      hm:
-        director_account:
-          user: hm
-          password: hm-password
-    ```
+```yaml
+properties:
+  director:
+    user_management:
+      provider: local
+      local:
+        users:
+        - {name: admin, password: admin-password}
+        - {name: hm, password: hm-password}
+```
+
+Configure the Health Monitor to use the HM user and password to authenticate with the Director:
+
+```yaml
+properties:
+  hm:
+    director_account:
+      user: hm
+      password: hm-password
+```
 
 1. Deploy.
-
 
 ### Customizing for Your Deployment {: #customize }
 
@@ -109,6 +111,7 @@ If your deployment consists of only five VMs, you may not want the Resurrector t
 If your deployment consists of 1000 VMs, and you use the defaults, the Resurrector notifies the Director to recreate at least five VMs and up to 200 VMs. Depending on your deployment, you may consider even 100 down instances a catastrophic failure. In this scenario, set `percent_threshold` to 5% so that the Director resurrects 50 instances or fewer.
 
 ---
+
 ## Enabling the Resurrector with Resurrection Config {: #enable-with-resurrection-config }
 
 !!! tip "Beta Feature"
@@ -122,7 +125,6 @@ The resurrection state will be updated directly after updating the resurrection 
 2. Delete a VM of a deployment (VM gets not resurrected).
 3. Upload a resurrection config, which enables resurrection.
 4. Missing VM will be resurrected.
-
 
 ### Structure of resurrection config
 
@@ -149,18 +151,16 @@ rules:
 
 - `rules` - a list of resurrection rules. When resurrection rules are interpreted for a given instance, all resurrection rules from all resurrection configs are considered for matching. If no rule matches, resurrection config considers resurrection as `enabled`.
 - `enabled` - a boolean which enables (`true`) or disables (`false`) resurrection.
-- `exclude` *(Optional)* - a resurrection rule which will result in the resurrection configuration being overridden wherever the specified constraints do not match.
-- `include` *(Optional)* - a resurrection rule which will result in the resurrection configuration being overridden wherever the specified constraints match.
-- `deployments` *(Optional)* - a list of deployments which can be used as a filter for the include/exclude directives.
-- `instance_groups` *(Optional)* - a list of instance groups which can be used as a filter for the include/exclude directives.
-
+- `exclude` _(Optional)_ - a resurrection rule which will result in the resurrection configuration being overridden wherever the specified constraints do not match.
+- `include` _(Optional)_ - a resurrection rule which will result in the resurrection configuration being overridden wherever the specified constraints match.
+- `deployments` _(Optional)_ - a list of deployments which can be used as a filter for the include/exclude directives.
+- `instance_groups` _(Optional)_ - a list of instance groups which can be used as a filter for the include/exclude directives.
 
 ### General
 
-* When specifying both properties, `instance_groups` and `deployments`, the rule is only applied for the instance groups of the specified deployments.
-* When only `instance_groups` is specified, the rule will be applied to all matching instance groups across **all** deployments.
-* Multiple rules are evaluated by the `&` operator. This means, if one rule with `enabled: false` matches for a given instance resurrection for this instance is disabled.
-
+- When specifying both properties, `instance_groups` and `deployments`, the rule is only applied for the instance groups of the specified deployments.
+- When only `instance_groups` is specified, the rule will be applied to all matching instance groups across **all** deployments.
+- Multiple rules are evaluated by the `&` operator. This means, if one rule with `enabled: false` matches for a given instance resurrection for this instance is disabled.
 
 ### Examples
 
@@ -168,40 +168,41 @@ By default, resurrection is turned on and the following examples demonstrate how
 
 1. Disable resurrection for a deployment `dep1` by creating a `resurrection.yml`:
 
-	```yaml
-	rules:
-	- enabled: false
-	  include:
-	    deployments:
-	    - dep1
-	```
-	Running `bosh update-config --type resurrection --name disable-dep1 resurrection.yml` disables resurrection for all deployments in the include block, i.e. `dep1`. For all other deployments, resurrection is still enabled.
+    ```yaml
+    rules:
+    - enabled: false
+      include:
+      deployments:
+      - dep1
+    ```
+
+    Running `bosh update-config --type resurrection --name disable-dep1 resurrection.yml` disables resurrection for all deployments in the include block, i.e. `dep1`. For all other deployments, resurrection is still enabled.
 
 2. Disable resurrection for an instance group `instance-group-1` of a deployment `dep1` by creating a `resurrection.yml`:
 
-	```yaml
-	rules:
-	- enabled: false
-	  include:
-	  	 deployments:
-	  	 - dep1
-	    instance_groups:
-	    - instance-group-1
-	```
+    ```yaml
+    rules:
+    - enabled: false
+    include:
+      deployments:
+      - dep1
+      instance_groups:
+      - instance-group-1
+    ```
 
-	Running `bosh update-config --type resurrection --name disable-dep1-instance-group-1 resurrection.yml` disables resurrection for all instance groups of all the specified deployments, i.e. `instance-group-1` of deployment `dep1`. For all other instance groups and deployments, resurrection is still enabled.
+    Running `bosh update-config --type resurrection --name disable-dep1-instance-group-1 resurrection.yml` disables resurrection for all instance groups of all the specified deployments, i.e. `instance-group-1` of deployment `dep1`. For all other instance groups and deployments, resurrection is still enabled.
 
 3. Disable resurrection for all deployments except for deployment `dep1` by creating a `resurrection.yml`:
 
-	```yaml
-	rules:
-	- enabled: false
-	  exclude:
-	    deployments:
-	    - dep1
-	```
-	Running `bosh update-config --type resurrection --name disable-all-but-dep1 resurrection.yml` disables resurrection for all deployments except deployment `dep-1`.
+    ```yaml
+    rules:
+    - enabled: false
+    exclude:
+      deployments:
+      - dep1
+    ```
 
+    Running `bosh update-config --type resurrection --name disable-all-but-dep1 resurrection.yml` disables resurrection for all deployments except deployment `dep-1`.
 
 ### Disabling resurrection globally
 
@@ -212,6 +213,7 @@ bosh update-resurrection off
 ```
 
 Resurrection can then be re-enabled on all deployments with:
+
 ```sh
 bosh update-resurrection on
 ```
@@ -226,6 +228,7 @@ rules:
 Both the CLI command and resurrection config options are meant to temporarily disable resurrection while you diagnose other issues. You should update the deployment manifest to permanently [disable the Resurrector](#disable).
 
 ---
+
 ## Disabling the Resurrector {: #disable }
 
 To disable the Resurrector:
@@ -243,6 +246,7 @@ To disable the Resurrector:
 1. Optionally remove Director user created for the Health Monitor.
 
 ---
+
 ## Viewing the Resurrector's Activity {: #audit }
 
 The Resurrector creates scan and fix tasks on the Director using the Health Monitor user. Since these are normal tasks, you can use the `tasks` CLI command to view them.
@@ -258,4 +262,3 @@ Similarly, to view finished Resurrector activity, run the following and look for
 ```sh
 bosh tasks --recent --all -d ''
 ```
-

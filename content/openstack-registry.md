@@ -1,3 +1,5 @@
+# OpenStack Extended Registry Configuration
+
 !!! note
     We are actively pursuing to remove the Registry to simplify BOSH architecture.
 

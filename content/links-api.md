@@ -8,12 +8,14 @@
 See [Links](links.md) for an introduction on links, link providers, and link consumers. This API is hosted on the director.
 
 ## Providers
+
 ### `GET /link_providers`: List Providers
 
 Obtain an array of providers created in a deployment.
 
 #### Request Query Params
-* **deployment**: [String] Deployment name.
+
+- **deployment**: [String] Deployment name.
 
 ```shell
 bosh curl /link_providers?deployment=zookeeper
@@ -67,7 +69,8 @@ Should result in:
 Obtain an array of consumers created for a deployment.
 
 #### Request Query Params
-* **deployment**: [String] Deployment name.
+
+- **deployment**: [String] Deployment name.
 
 ```shell
 bosh curl /link_consumers?deployment=zookeeper
@@ -122,7 +125,8 @@ Should result in:
 Obtain an array of links created for a deployment.
 
 #### Request Query Params
-* **deployment**: [String] Deployment name.
+
+- **deployment**: [String] Deployment name.
 
 ```shell
 bosh curl /links?deployment=zookeeper
@@ -157,15 +161,17 @@ Create an external link with a user-defined consumer. Uses an existing provider.
     The UAA client creating the link must have a **full admin** or **team admin** scope. See [Director Users and Permissions](https://bosh.io/docs/director-users-uaa-perms/) for details.
 
 #### Request Headers
-* `Content-Type: application/json`
+
+- `Content-Type: application/json`
 
 #### Request Schema
-* **link_provider_id**: [String] The id corresponding to the existing link provider.
-* **link_consumer**:
-    * **owner_object**:
-        * **name**: [String] The name for the new consumer.
-        * **type**: [String] Type is always "external".
-* **network**: [String] Name of a network used by the provider (optional). See [custom network linking](links.md#custom-network).
+
+- **link_provider_id**: [String] The id corresponding to the existing link provider.
+- **link_consumer**:
+    - **owner_object**:
+        - **name**: [String] The name for the new consumer.
+        - **type**: [String] Type is always "external".
+- **network**: [String] Name of a network used by the provider (optional). See [custom network linking](links.md#custom-network).
 
 ```shell
 bosh curl -X POST -H 'Content-Type: application/json' --body <(echo '{
@@ -180,10 +186,11 @@ bosh curl -X POST -H 'Content-Type: application/json' --body <(echo '{
 ```
 
 #### Response Schema
-* **created_at**: [Date] Timestamp.
-* **link_provider_id**: [String] ID of the provider used.
-* **link_consumer_id**: [String] ID of the new consumer created for this link.
-* **name**: [String] The name of the link, set from the provider.
+
+- **created_at**: [Date] Timestamp.
+- **link_provider_id**: [String] ID of the provider used.
+- **link_consumer_id**: [String] ID of the new consumer created for this link.
+- **name**: [String] The name of the link, set from the provider.
 
 ```json
 {
@@ -204,16 +211,17 @@ Delete links created with this API.
 
 #### Request
 
-* **link-id**: [String] ID of link to delete.
+- **link-id**: [String] ID of link to delete.
 
 ```shell
 bosh curl -X DELETE /links/3
 ```
 
 #### Response
-* **HTTP 204**: Deleted successfully.
-* **HTTP 404**: Link not found.
-* **HTTP 400**: Bad request. Only links with type `external` can be deleted.
+
+- **HTTP 204**: Deleted successfully.
+- **HTTP 404**: Link not found.
+- **HTTP 400**: Bad request. Only links with type `external` can be deleted.
 
 ## Link Address
 
@@ -222,16 +230,18 @@ bosh curl -X DELETE /links/3
 Obtain the DNS address for a singular link. This is equivalent to using `link("my-link").address` in jobs templates.
 
 #### Request Params
-* **link_id**: [String] The link ID.
-* **azs[]**: [String] Name of the AZ to filter by (optional). This parameter should be provided multiple times when specifying multiple availability zones; see example below.
-* **status**: [String] Filter by health status. One of: healthy, unhealthy, all, default (optional).
+
+- **link_id**: [String] The link ID.
+- **azs[]**: [String] Name of the AZ to filter by (optional). This parameter should be provided multiple times when specifying multiple availability zones; see example below.
+- **status**: [String] Filter by health status. One of: healthy, unhealthy, all, default (optional).
 
 ```shell
 bosh curl '/link_address?link_id=3&azs[]=z1'
 ```
 
 #### Response Body
-* **address**: [String] DNS address for the link.
+
+- **address**: [String] DNS address for the link.
 
 ```json
 {
@@ -240,6 +250,7 @@ bosh curl '/link_address?link_id=3&azs[]=z1'
 ```
 
 #### Specifying Multiple AZs in the Same Request
+
 The `azs[]` parameter should be provided multiple times when specifying multiple AZs in the query request. For example, to filter by availability zones **z1**, **z2**, and **z3**, the request will look like:
 
 ```shell

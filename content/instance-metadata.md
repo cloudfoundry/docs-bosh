@@ -1,3 +1,5 @@
+# Instance Metadata
+
 !!! note
     This feature is available with bosh-release v255.4+ and on 3213+ stemcell series.
 
@@ -13,11 +15,11 @@ Accessing the Bosh structural information over filesystem might be useful when b
 
 Each VM has a `/var/vcap/instance` directory that contains following files:
 
-* `deployment`: Name of the deployment that the instance belongs to.
-* `name`: Name of the _instance group_ that the instance belongs to.
-* `az`: Name of the availability zone that the instance is placed in.
-* `index`: Human-friendly ordinal for the instance within its group.
-* `id`: Immutable UUID for the instance.
+- `deployment`: Name of the deployment that the instance belongs to.
+- `name`: Name of the _instance group_ that the instance belongs to.
+- `az`: Name of the availability zone that the instance is placed in.
+- `index`: Human-friendly ordinal for the instance within its group.
+- `id`: Immutable UUID for the instance.
 
 Example:
 

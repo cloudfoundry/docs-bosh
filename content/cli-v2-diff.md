@@ -1,3 +1,5 @@
+# From the Ruby CLI
+
 !!! note
     Applies to CLI v2 v2.0.13+.
 
@@ -5,7 +7,7 @@
 
 The BOSH CLI v2 differs from v1 in two main ways: it is stateless, and it hyphenates single commands.
 
-<strong>Statelessness</strong>
+### Statelessness
 
 The BOSH CLI v2 does not store values for a current environment or configuration.
 In v1, you set the environment by passing a Director endpoint to `bosh target` and set the deployment by passing a manifest
@@ -14,30 +16,30 @@ file to `bosh deployment`. Then you could run `bosh deploy` with no arguments.
 In contrast, the BOSH CLI v2 is stateless. To specify a Director instance and deployment manifest to run a command over,
 you do one of the following:
 
-* Pass the BOSH environment in with the `-e` flag and the deployment in with the `-d` flag, or
-* Set the command shell environment variable `BOSH_ENVIRONMENT` to your Director endpoint or alias and set `BOSH_DEPLOYMENT` to your deployment name. You can also use `bosh alias-env` to create an alias for your BOSH environment configuration, to avoid having to reference the Director endpoint and credential information for every command.
+- Pass the BOSH environment in with the `-e` flag and the deployment in with the `-d` flag, or
+- Set the command shell environment variable `BOSH_ENVIRONMENT` to your Director endpoint or alias and set `BOSH_DEPLOYMENT` to your deployment name. You can also use `bosh alias-env` to create an alias for your BOSH environment configuration, to avoid having to reference the Director endpoint and credential information for every command.
 
-<strong>Hyphenation</strong>
+### Hyphenation
 
 The BOSH v2 CLI also hyphenates single commands that v1 represented as space-separated word pairs.
 For example, `bosh delete deployment` in v1 corresponds to `bosh delete-deployment` in v2.
 
-| Before                      | After
-|-----------------------------|-----------------------------
-| bosh-init deploy <manifest> | bosh create-env <manifest>
-| bosh-init delete <manifest> | bosh delete-env <manifest>
-| bosh target <ip>            | bosh alias-env my-env -e <ip>
-| bosh status                 | bosh env
-| bosh -t my-env ...          | bosh -e my-env ...
-| bosh -d manifest-path ...   | bosh -d deployment-name ... [3]
-| bosh deployment <manifest>  | n/a
-| bosh deploy                 | bosh deploy <manifest>
-| bosh delete deployment      | bosh delete-deployment
-| bosh tasks --no-filter      | bosh tasks
-| bosh tasks recent 1000      | bosh tasks -r=1000
-| bosh download manifest dep  | bosh manifest
-| bosh vms my-dep             | bosh instances
-| bosh vms my-dep             | bosh -d my-dep vms
+| Before                      | After                           |
+|-----------------------------|---------------------------------|
+| bosh-init deploy <manifest> | bosh create-env <manifest>      |
+| bosh-init delete <manifest> | bosh delete-env <manifest>      |
+| bosh target <ip>            | bosh alias-env my-env -e <ip>   |
+| bosh status                 | bosh env                        |
+| bosh -t my-env ...          | bosh -e my-env ...              |
+| bosh -d manifest-path ...   | bosh -d deployment-name ... [3] |
+| bosh deployment <manifest>  | n/a                             |
+| bosh deploy                 | bosh deploy <manifest>          |
+| bosh delete deployment      | bosh delete-deployment          |
+| bosh tasks --no-filter      | bosh tasks                      |
+| bosh tasks recent 1000      | bosh tasks -r=1000              |
+| bosh download manifest dep  | bosh manifest                   |
+| bosh vms my-dep             | bosh instances                  |
+| bosh vms my-dep             | bosh -d my-dep vms              |
 
 - Most commands require (`--environment`) `-e` and `--deployment` (`-d`) flags
 - `--deployment` (`-d`) flag accepts a deployment name instead of a manifest
@@ -52,6 +54,7 @@ For example, `bosh delete deployment` in v1 corresponds to `bosh delete-deployme
 - Most of the output formatting have changed
 
 ---
+
 ## Notable differences per command {: #cmd }
 
 - `bosh alias-env` and all commands

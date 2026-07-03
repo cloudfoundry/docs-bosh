@@ -1,3 +1,5 @@
+# Init Azure Environment
+
 This document shows how to initialize new [environment](terminology.md#environment) on Microsoft Azure.
 
 ## Step 1: Prepare an Azure Environment {: #prepare }
@@ -11,6 +13,7 @@ We strongly recommend you to use Azure template [bosh-setup](https://github.com/
 To prepare your Azure environment find out and/or create any missing resources in Azure. If you are not familiar with Azure take a look at [Creating Azure resources](azure-resources.md) page for more details on how to create and configure necessary resources:
 
 ---
+
 ## Step 2: Deploy {: #deploy }
 
 1. Install [CLI v2](cli-v2.md).

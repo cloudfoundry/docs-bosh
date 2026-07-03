@@ -1,3 +1,5 @@
+# Update Lifecycle
+
 There are several stages that all jobs (and their associated processes) on each VM go through during a deployment process.
 
 ## When start is issued {: #start }
@@ -30,18 +32,15 @@ There are several stages that all jobs (and their associated processes) on each 
     All lifecycle scripts (pre-start, post-start, post-deploy, pre-stop, drain, post-stop) are spawned at a lower CPU scheduling priority than the BOSH agent itself. This prevents CPU-intensive scripts from starving the agent's event loop, which would otherwise cause the Director to report an agent-unreachable error even though the script is making progress.
 
 ---
+
 ## When processes are running {: #running }
 
 1. Monit will automatically restart processes that failed their associated checks
-	- A common pattern used is a PID check: when no process ID can be found in
-	  any `.pid` file, or the process ID is not alive anymore, then the
-	  process is restarted.
-	- A usual pitfall arrise when the process ID is not properly written in
-	  the `.pid` file, in which case Monit looses its handle on the actual
-	  process state and things start diverging. Using [bpm](bpm/bpm.md) is an
-	  effective solution to avoid falling in that trap.
+	- A common pattern used is a PID check: when no process ID can be found in any `.pid` file, or the process ID is not alive anymore, then the process is restarted.
+	- A usual pitfall arrise when the process ID is not properly written in the `.pid` file, in which case Monit looses its handle on the actual process state and things start diverging. Using [bpm](bpm/bpm.md) is an effective solution to avoid falling in that trap.
 
 ---
+
 ## When stop is issued (or before update and subsequent start happens) {: #stop }
 
 1. `monit unmonitor` is called for each process

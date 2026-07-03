@@ -1,3 +1,5 @@
+# Release Blobstore
+
 !!! note
     Examples require CLI v2.
 
@@ -15,7 +17,7 @@ and `local`.
 
 S3 provider is used for most production releases. It's can be used with any S3-compatible blobstore (in compatibility mode) like Google Cloud Storage and Swift.
 
-**config/final.yml**
+### config/final.yml
 
 ```yaml
 ---
@@ -25,7 +27,7 @@ blobstore:
     bucket_name: <bucket_name>
 ```
 
-**config/private.yml**
+### config/private.yml
 
 ```yaml
 ---
@@ -41,7 +43,7 @@ See [Configuring S3 release blobstore](s3-release-blobstore.md) for details and 
 
 Google Cloud Storage can be used without S3 compatibility mode.
 
-**config/final.yml**
+### config/final.yml
 
 ```yaml
 ---
@@ -51,7 +53,7 @@ blobstore:
     bucket_name: <bucket_name>
 ```
 
-**config/private.yml**
+### config/private.yml
 
 By default, your [Application Default Credentials](https://cloud.google.com/docs/authentication/production#providing_credentials_to_your_application) will be used. Alternatively, create a `config/private.yml` file to use a separate JSON key. When using a separate JSON key, ensure that the service account has the privilege "Storage Legacy Bucket Owner" for the GCS bucket:
 
@@ -65,11 +67,12 @@ blobstore:
 ```
 
 ---
+
 ## Local Configuration {: #local-config }
 
 Local provider is useful for testing.
 
-**config/final.yml**
+### config/final.yml
 
 ```yaml
 ---
@@ -87,7 +90,7 @@ Nothing in `config/private.yml`.
 
 Azure Storage Account is supported from bosh version `278.0.0`.
 
-**config/final.yml**
+### config/final.yml
 
 ```yaml
 ---
@@ -98,7 +101,7 @@ blobstore:
     account_name: <account_name>
 ```
 
-**config/private.yml**
+### config/private.yml
 
 ```yaml
 ---
@@ -108,6 +111,7 @@ blobstore:
 ```
 
 ---
+
 ## Release Compression Configuration {: #no-compression }
 
 !!! note "Version Requirements"
@@ -117,7 +121,7 @@ blobstore:
 
 You can control whether the outer release tarball is compressed by setting the `no_compression` flag in `config/final.yml`.
 
-**config/final.yml**
+### config/final.yml
 
 ```yaml
 ---
@@ -129,7 +133,7 @@ blobstore:
 no_compression: true
 ```
 
-* **no_compression** [Boolean, optional]: When set to `true`, disables compression for the outer release tarball. Defaults to `false` (compression enabled) if not specified.
+- **no_compression** [Boolean, optional]: When set to `true`, disables compression for the outer release tarball. Defaults to `false` (compression enabled) if not specified.
 
 !!! note
     The `bosh export-release` command does not currently respect the `no_compression` flag due to technical limitations. When using `bosh export-release`, the outer tarball will always be compressed regardless of the `no_compression` setting in `final.yml`.

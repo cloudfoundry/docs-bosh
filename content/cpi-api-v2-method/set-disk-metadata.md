@@ -22,20 +22,16 @@ cannot be overridden.
 !!! note
     This `set_disk_metadata` method is called by BOSH v262+.
 
-
 ## Arguments
 
- * `disk_cid` [String]: Cloud ID of the disk to modify; returned from `create_disk`.
- * `metadata` [Hash]: Collection of key-value pairs. CPI should not rely on presence of specific keys.
-
+- `disk_cid` [String]: Cloud ID of the disk to modify; returned from `create_disk`.
+- `metadata` [Hash]: Collection of key-value pairs. CPI should not rely on presence of specific keys.
 
 ## Result
 
 No return value
 
-
 ## Examples
-
 
 ### API Request
 
@@ -54,12 +50,10 @@ No return value
 ]
 ```
 
-
 ### Implementations
 
- * [cloudfoundry/bosh-openstack-cpi-release](https://github.com/cloudfoundry/bosh-openstack-cpi-release/blob/0c8ee8951cab41d0ddc86591719d55d8a783ac98/src/bosh_openstack_cpi/lib/cloud/openstack/cloud.rb#L629)
-
+- [cloudfoundry/bosh-openstack-cpi-release](https://github.com/cloudfoundry/bosh-openstack-cpi-release/blob/0c8ee8951cab41d0ddc86591719d55d8a783ac98/src/bosh_openstack_cpi/lib/cloud/openstack/cloud.rb#L629)
 
 ## Related
 
- * [create_disk](create-disk.md)
+- [create_disk](create-disk.md)

@@ -1,3 +1,5 @@
+# Commands
+
 !!! note
     Applies to CLI v3.0.1+.
 
@@ -5,6 +7,7 @@ Installation of the BOSH CLI is required as a prerequisite, see [Installing the 
 Release notes can be found [on Github](https://github.com/cloudfoundry/bosh-cli/releases).
 
 ---
+
 ## Global BOSH CLI Application options
 
 These options are available to every command execution:
@@ -143,6 +146,7 @@ See [Environments](cli-envs.md).
     ```
 
 ---
+
 ### Session {: #session-mgmt }
 
 #### Log-In {: #log-in }
@@ -169,9 +173,11 @@ See [Environments](cli-envs.md).
     Logs out currently logged in user.
 
 ---
+
 ### Director Environment {: #director-env}
 
 #### Environment {: #environment }
+
 - `bosh [GLOBAL-CLI-OPTIONS] environment [--details]` (Alias: `env`)
 
     Shows Director information in the deployment environment.
@@ -207,9 +213,11 @@ See [Environments](cli-envs.md).
 
     Succeeded
     ```
+
     The `Days left` column is has a visual shortcut that lists certificates with less than 30 full days of validity in _red_, and all others in _green_.
 
 ---
+
 ### Stemcells {: #stemcell-mgmt }
 
 See [Uploading Stemcells](uploading-stemcells.md).
@@ -254,7 +262,6 @@ See [Uploading Stemcells](uploading-stemcells.md).
     - `--version=VERSION` Version used in existence check (is not used with local stemcell file)
     - `--sha1=DIGEST` SHA1 of the remote stemcell (is not used with local files)
     - `URL` Path to a local file or URL
-
 
     ```shell
     bosh -e my-env us ~/Downloads/bosh-stemcell-621.74-warden-boshlite-ubuntu-xenial-go_agent.tgz
@@ -303,6 +310,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
     ```
 
 ---
+
 ### Release creation {: #release-creation }
 
 #### Init-Release {: #init-release }
@@ -408,6 +416,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
     - `--dir=DIR` Release directory path if not current working directory (default: .)
 
 ---
+
 ### Release blobs {: #blob-mgmt }
 
 See [Release Blobs](release-blobs.md) for a detailed workflow.
@@ -490,6 +499,7 @@ See [Release Blobs](release-blobs.md) for a detailed workflow.
     ```
 
 ---
+
 ### Releases {: #release-mgmt }
 
 See [Uploading Releases](uploading-releases.md).
@@ -675,6 +685,7 @@ See [Uploading Releases](uploading-releases.md).
     ```
 
 ---
+
 ### Configs {: #configs-mgmt }
 
 See [Configs](configs.md).
@@ -779,6 +790,7 @@ See [Configs](configs.md).
     ```
 
 ---
+
 ### Cloud config {: #cloud-config-mgmt }
 
 See [Cloud config](cloud-config.md).
@@ -811,6 +823,7 @@ See [Cloud config](cloud-config.md).
     ```
 
 ---
+
 ### Runtime config {: #runtime-config-mgmt }
 
 See [Runtime config](runtime-config.md).
@@ -844,6 +857,7 @@ See [Runtime config](runtime-config.md).
     ```
 
 ---
+
 ### CPI config {: #cpi-config-mgmt }
 
 See [CPI config](cpi-config.md).
@@ -887,6 +901,7 @@ bosh -e my-env config --type=deploy --name=default
 ```
 
 ---
+
 ### Deployments {: #deployment-mgmt }
 
 #### Deployments {: #deployments }
@@ -990,7 +1005,7 @@ bosh -e my-env config --type=deploy --name=default
     ```
 
 !!! note  
-    As of CLI v7.5.0+ the deploy command supports the usage of global flags which are applied to every deploy command automatically. Please refer to [Deploy config](deploy-config.md) for more information. 
+    As of CLI v7.5.0+ the deploy command supports the usage of global flags which are applied to every deploy command automatically. Please refer to [Deploy config](deploy-config.md) for more information.
 
 #### Delete-Deployment {: #delete-deployment }
 
@@ -1061,6 +1076,7 @@ bosh -e my-env config --type=deploy --name=default
     bosh -e vbox -d cf recreate diego-cell/209c42e5-3c1a-432a-8445-ab8d7c9f69b0 --skip-drain
     bosh -e vbox -d cf recreate diego-cell --canaries=0 --max-in-flight=100%
     ```
+
     !!! warning
         In case of a **failed** deployment, running `bosh recreate` with the default behavior of `--converge` will converge to the last **successfully deployed state**, not the intended state of the failed deployment. See [Deployment Convergence](deployment-convergence.md).
 
@@ -1203,6 +1219,7 @@ bosh -e my-env config --type=deploy --name=default
     List variables referenced by the deployment.
 
 ---
+
 ### VMs {: #vm-mgmt }
 
 #### Vms {: #vms }
@@ -1241,6 +1258,7 @@ bosh -e my-env config --type=deploy --name=default
     ```
 
 ---
+
 ### Disks {: #disk-mgmt }
 
 #### Disks {: #disks }
@@ -1283,8 +1301,8 @@ bosh -e my-env config --type=deploy --name=default
     bosh -e vbox -d cf delete-disk vol-shw8f293f2f2
     ```
 
-
 ---
+
 ### SSH {: #ssh-mgmt }
 
 #### SSH {: #ssh }
@@ -1359,6 +1377,7 @@ bosh -e my-env config --type=deploy --name=default
     ```
   
 ---
+
 ### PCAP {: #pcap-mgmt }
 
 #### PCAP {: #pcap }
@@ -1402,6 +1421,7 @@ bosh -e my-env config --type=deploy --name=default
     ```
 
 ---
+
 ### Errands {: #errand-mgmt }
 
 #### Errands {: #errands }
@@ -1475,6 +1495,7 @@ bosh -e my-env config --type=deploy --name=default
     ```
 
 ---
+
 ### Tasks {: #task-mgmt }
 
 #### Tasks {: #tasks }
@@ -1483,7 +1504,7 @@ bosh -e my-env config --type=deploy --name=default
 
     Lists active and previously ran tasks.
 
-    - `-r`,` --recent=NUMBER` Show 30 recent tasks. Use '=' to specify the number of tasks to show
+    - `-r`,`--recent=NUMBER` Show 30 recent tasks. Use '=' to specify the number of tasks to show
     - `-a`, `--all` Include all task types (ssh, logs, vms, etc)
 
     ```shell
@@ -1566,6 +1587,7 @@ bosh -e my-env config --type=deploy --name=default
     ```
 
 ---
+
 ### Snapshots {: #snapshot-mgmt }
 
 #### Snapshots {: #snapshots }
@@ -1597,6 +1619,7 @@ bosh -e my-env config --type=deploy --name=default
     Deletes snapshots for an entire deployment.
 
 ---
+
 ### Deployment recovery {: #deployment-recovery }
 
 #### Update-Resurrection {: #update-resurrection }
@@ -1648,6 +1671,7 @@ bosh -e my-env config --type=deploy --name=default
     Lists current locks.
 
 ---
+
 ### Network {: #network}
 
 #### Networks {: #networks }
@@ -1673,6 +1697,7 @@ bosh -e my-env config --type=deploy --name=default
     ```
 
 ---
+
 ### Misc {: #misc }
 
 #### Clean-Up {: #clean-up }
@@ -1688,7 +1713,6 @@ bosh -e my-env config --type=deploy --name=default
     Orphan disks get deleted after a few days by default. See [Orphan Disks](persistent-disks.md#orphaned-disks) for more details.
 
     **Note:** From BOSH v270.5.0, releases specified in runtime configs are considered 'in use' and won't be deleted by running `bosh clean-up [--all]`.
-
 
 #### Help {: #help }
 
@@ -1769,7 +1793,6 @@ bosh -e my-env config --type=deploy --name=default
     - `--body` path to the file containing the HTTP request's body (for `POST` and `PUT`)
     - `--show-headers` `(-i)` show HTTP headers in the response
     - `PATH` URL path which can include query string
-
 
 ```shell
 bosh curl /deployments

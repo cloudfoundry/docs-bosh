@@ -1,3 +1,5 @@
+# Uploading Stemcells
+
 !!! note
     Document uses CLI v2.
 
@@ -10,6 +12,7 @@ As described earlier, each deployment can reference one or more stemcells. For a
 The [stemcells section of bosh.io](http://bosh.io/stemcells) lists official stemcells.
 
 ---
+
 ## Uploading to the Director {: #upload }
 
 CLI provides [`bosh upload-stemcell` command](cli-v2.md#upload-stemcell).
@@ -35,7 +38,7 @@ bosh -e vbox stemcells
 
 Should result in:
 
-```text
+```shell
 Using environment '192.168.56.6' as client 'admin'
 
 Name                                         Version  OS             CPI  CID
@@ -49,6 +52,7 @@ Succeeded
 ```
 
 ---
+
 ## Deployment Manifest Usage {: #using }
 
 To use uploaded stemcell in your deployment, add stemcells:

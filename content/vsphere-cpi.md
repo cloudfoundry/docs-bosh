@@ -1,20 +1,22 @@
-This topic describes cloud properties supported for different resources created by the vSphere CPI. The cloud properties can be specified at the different levels supported in the [Cloud Config](cloud-config.md). Typically, define defaults at the global level and override them at the [`azs`](cloud-config.md#azs), [`networks`](cloud-config.md#networks), [`vm_types`](cloud-config.md#vm-types) [`vm_extension`](cloud-config.md#vm-extensions) or [`disk_types`](#disk-types) levels. 
+# VMware vSphere
+
+This topic describes cloud properties supported for different resources created by the vSphere CPI. The cloud properties can be specified at the different levels supported in the [Cloud Config](cloud-config.md). Typically, define defaults at the global level and override them at the [`azs`](cloud-config.md#azs), [`networks`](cloud-config.md#networks), [`vm_types`](cloud-config.md#vm-types) [`vm_extension`](cloud-config.md#vm-extensions) or [`disk_types`](#disk-types) levels.
 
 ## AZs {: #azs }
 
 Schema for `cloud_properties` section:
 
-* **datacenters** [Array, optional]: Array of datacenters to use for VM placement. Must have only one and it must match datacenter configured in global CPI options.
-    * **name** [String, required]: Datacenter name.
-    * **clusters** [Array, required]: Array of clusters to use for VM placement.
-        * **&lt;cluster name&gt;** [String, required]: Cluster name.
-            * **resource_pool** [String, optional]: Name of vSphere Resource Pool to use for VM placement.
-            * **host_group** [Dictionary, optional]: Properties of the Host Group to use for VM placement. Available in v52+. (Backwards compatible with old format of specifying Host Group with just a name string of the host group )
-                * **name** [String, required]: Name of the host group in vSphere
-                * **drs_rule** [String, optional]: One of the values from MUST or SHOULD. Is case insensitive. Defaults to SHOULD if not specified or in case of a spelling mistake.
-            * **drs_rules** [Array, optional]: Array of DRS rules applied to [constrain VM placement](vm-anti-affinity.md#vsphere). Must have only one.
-                * **name** [String, required]: Name of a DRS rule that the Director will create.
-                * **type** [String, required]: Type of a DRS rule. Currently only `separate_vms` is supported.
+- **datacenters** [Array, optional]: Array of datacenters to use for VM placement. Must have only one and it must match datacenter configured in global CPI options.
+    - **name** [String, required]: Datacenter name.
+    - **clusters** [Array, required]: Array of clusters to use for VM placement.
+        - **&lt;cluster name&gt;** [String, required]: Cluster name.
+            - **resource_pool** [String, optional]: Name of vSphere Resource Pool to use for VM placement.
+            - **host_group** [Dictionary, optional]: Properties of the Host Group to use for VM placement. Available in v52+. (Backwards compatible with old format of specifying Host Group with just a name string of the host group )
+                - **name** [String, required]: Name of the host group in vSphere
+                - **drs_rule** [String, optional]: One of the values from MUST or SHOULD. Is case insensitive. Defaults to SHOULD if not specified or in case of a spelling mistake.
+            - **drs_rules** [Array, optional]: Array of DRS rules applied to [constrain VM placement](vm-anti-affinity.md#vsphere). Must have only one.
+                - **name** [String, required]: Name of a DRS rule that the Director will create.
+                - **type** [String, required]: Type of a DRS rule. Currently only `separate_vms` is supported.
 
 Example:
 
@@ -41,12 +43,12 @@ azs:
 ```
 
 ---
+
 ## Networks {: #networks }
 
 Schema for `cloud_properties` section used by manual network subnet:
 
-* **name** [String, required]: Name of the vSphere network. Example: `VM Network`.
-
+- **name** [String, required]: Name of the vSphere network. Example: `VM Network`.
 
 Example of manual network:
 
@@ -64,46 +66,47 @@ networks:
 vSphere CPI does not support dynamic and vip networks.
 
 ---
+
 ## VM Types / VM Extensions {: #resource-pools }
 
 Schema for `cloud_properties` section:
 
-* **cpu** [Integer, required]: Number of CPUs. Example: `1`.
-* **ram** [Integer, required]: RAM in megabytes. Example: `1024`.
-* **disk** [Integer, required]: Ephemeral disk size in megabytes. Example: `10240`.
-* **cpu\_hot\_add\_enabled** [Boolean, optional]: Allows operator to add additional CPU resources while the VM is on. Default: `false`. Available in v21+.
-* **cpu\_reserve\_full\_mhz** [Boolean, optional]: If set true, CPU resource reservation for this virtual machine will always be equal to the max MHz of the ESXi host times the number of CPUs requested for the VM. Default: `false`. Available in v97.0.15+.
-* **memory\_reservation\_locked\_to\_max** [Boolean, optional]: If set true, memory resource reservation for this virtual machine will always be equal to the virtual machine's memory size. Default: `false`. Available in v82+.
-* **memory\_hot\_add\_enabled** [Boolean, optional]: Allows operator to add additional memory resources while the VM is on. Default: `false`. Available in v21+.
-* **upgrade\_hw\_version** [Boolean, optional]: Upgrades the virtual hardware version of a virtual machine to the latest supported version on the ESXi host. Overrides the global upgrade_hw_version. Default: `false`.
-* **nested\_hardware\_virtualization** [Boolean, optional]: Exposes hardware assisted virtualization to the VM. Default: `false`.
-* **enable\_human\_readable\_name** [Boolean, optional]: Use a name generated by instance group name and deployment name for the VM. Default: `false`. Available in v53+.
-* **datastores** [Array, optional]: Allows operator to specify a list of ephemeral datastores, datastore clusters for the VM. Datastore names are exact datastore names and not regex patterns. At least one of these datastores must be accessible from clusters provided in `resource_pools.cloud_properties`/`azs.cloud_properties` or in the global CPI configuration. Available in v23+. Datastore Clusters can be specified as a hash in format of `{clusters: [ datastoreCluster1: {}, datastoreCluster2: {}]}`. Clusters whose Storage DRS is turned off will be ignored.
-* **datacenters** [Array, optional]: Used to override the VM placement specified under `azs.cloud_properties`. The format is the same as under [`AZs`](#azs).
-* **tags** [Array, optional]: A list of category and tag name-value pairs used to attach to created VMs. Available in v53+. Available on vCenter 6.5+. The tags to be attached must be exist on vCenter host. For each tag to be attached, both category and tag names should be specified. **Note:** This `tags` property is unrelated to the top-level `tags` block in [runtime](runtime-config/#tags) and [deployment](manifest-v2/#tags) configs.
-* **vm_group** [String, optional]: Name of VM Group this VM should be part of.
-* **disable\_drs** [Boolean, Optional]: Disables DRS on this VM type. In short, VM created with this vm_type will *NOT* be v-motioned by DRS. Available in v53+
-* **nsx** [Dictionary, optional]: [VMware NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v30+ and NSX v6.1+.
-    * **security_groups** [Array, optional]: A collection of [security group](https://pubs.vmware.com/NSX-6/index.jsp#com.vmware.nsx.admin.doc/GUID-16B3134E-DDF1-445A-8646-BB0E98C3C9B5.html) names that the instances should belong to. The CPI will create the security groups if they do not exist.
+- **cpu** [Integer, required]: Number of CPUs. Example: `1`.
+- **ram** [Integer, required]: RAM in megabytes. Example: `1024`.
+- **disk** [Integer, required]: Ephemeral disk size in megabytes. Example: `10240`.
+- **cpu\_hot\_add\_enabled** [Boolean, optional]: Allows operator to add additional CPU resources while the VM is on. Default: `false`. Available in v21+.
+- **cpu\_reserve\_full\_mhz** [Boolean, optional]: If set true, CPU resource reservation for this virtual machine will always be equal to the max MHz of the ESXi host times the number of CPUs requested for the VM. Default: `false`. Available in v97.0.15+.
+- **memory\_reservation\_locked\_to\_max** [Boolean, optional]: If set true, memory resource reservation for this virtual machine will always be equal to the virtual machine's memory size. Default: `false`. Available in v82+.
+- **memory\_hot\_add\_enabled** [Boolean, optional]: Allows operator to add additional memory resources while the VM is on. Default: `false`. Available in v21+.
+- **upgrade\_hw\_version** [Boolean, optional]: Upgrades the virtual hardware version of a virtual machine to the latest supported version on the ESXi host. Overrides the global upgrade_hw_version. Default: `false`.
+- **nested\_hardware\_virtualization** [Boolean, optional]: Exposes hardware assisted virtualization to the VM. Default: `false`.
+- **enable\_human\_readable\_name** [Boolean, optional]: Use a name generated by instance group name and deployment name for the VM. Default: `false`. Available in v53+.
+- **datastores** [Array, optional]: Allows operator to specify a list of ephemeral datastores, datastore clusters for the VM. Datastore names are exact datastore names and not regex patterns. At least one of these datastores must be accessible from clusters provided in `resource_pools.cloud_properties`/`azs.cloud_properties` or in the global CPI configuration. Available in v23+. Datastore Clusters can be specified as a hash in format of `{clusters: [ datastoreCluster1: {}, datastoreCluster2: {}]}`. Clusters whose Storage DRS is turned off will be ignored.
+- **datacenters** [Array, optional]: Used to override the VM placement specified under `azs.cloud_properties`. The format is the same as under [`AZs`](#azs).
+- **tags** [Array, optional]: A list of category and tag name-value pairs used to attach to created VMs. Available in v53+. Available on vCenter 6.5+. The tags to be attached must be exist on vCenter host. For each tag to be attached, both category and tag names should be specified. **Note:** This `tags` property is unrelated to the top-level `tags` block in [runtime](runtime-config/#tags) and [deployment](manifest-v2/#tags) configs.
+- **vm_group** [String, optional]: Name of VM Group this VM should be part of.
+- **disable\_drs** [Boolean, Optional]: Disables DRS on this VM type. In short, VM created with this vm_type will *NOT* be v-motioned by DRS. Available in v53+
+- **nsx** [Dictionary, optional]: [VMware NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v30+ and NSX v6.1+.
+    - **security_groups** [Array, optional]: A collection of [security group](https://pubs.vmware.com/NSX-6/index.jsp#com.vmware.nsx.admin.doc/GUID-16B3134E-DDF1-445A-8646-BB0E98C3C9B5.html) names that the instances should belong to. The CPI will create the security groups if they do not exist.
     BOSH will also automatically create security groups based on metadata such as deployment name and instance group name. The full list of groups can be seen under [create_vm's environment groups](cpi-api-v2.md#create-vm).
     **The security groups, if specified under NSX load balancers need not be specified(duplicated) again here. Although CPI makes best effort to de-duplicate them, it is advised not to specify them again.**
-    * **lbs** [Array, optional]: A collection of [NSX Edge Load Balancers](https://pubs.vmware.com/NSX-6/index.jsp?topic=%2Fcom.vmware.nsx.admin.doc%2FGUID-152982CF-108F-47A6-B86A-0F0F6A56D628.html) (LBs) to which instances should be attached. The LB and [Server Pool](https://pubs.vmware.com/NSX-6/index.jsp?topic=%2Fcom.vmware.nsx.admin.doc%2FGUID-D5A3BDBA-57A6-43F4-AE5E-3A387FE69EDC.html) must exist prior to the deployment.
-        * **edge_name** [String, required]: Name of the NSX Edge.
-        * **pool_name** [String, required]: Name of the Edge's Server Pool.
-        * **security_group** [String, required]: Name of the Pool's target Security Group. The CPI will add the VM to the specified security group (creating the security group if needed), then add the security group to the specified Server Pool.
-        * **port** [Integer, required]: The port that the VM's service is listening on (e.g. 80 for HTTP).
-        * **monitor_port** [Integer, optional]: The healthcheck port that the VM is listening on. Defaults to the value of `port`.
-* **vmx_options** [Dictionary, optional]: Allows operator to specify [VM advanced configuration options](https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.resmgmt.doc/GUID-F8C7EF4D-D023-4F54-A2AB-8CF840C10939.html). All values are subject to YAML's type interpretation, and given that for certain configuration options vSphere will accept only a specific value type please take note of the difference between values with similar appearances such as: `true` vs `"true"` and `"1234"` vs `1234`. Refer to the vSphere documentation for more information about what configuration options are accepted. Available in v42+.
-* **storage\_policy** [Dictionary, optional]: Storage Policy which is applied to a VM and its ephemeral disk. Available in v53+
-    * **name** [String, optional]: Name of the storage policy to be applied to the VM and its ephemeral disk. Available in v53+
-* **nsxt** [Dictionary, optional]: [VMware NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v45+.
-    * **ns_groups** [Array, optional]: A collection of [NS Groups](http://pubs.vmware.com/nsxt-11/index.jsp?topic=%2Fcom.vmware.nsxt.admin.doc%2FGUID-718E769B-8D89-485B-8DBD-04F1F82CFE14.html) names that the instances should belong to. Available in NSX-T v1.1+.
-    * **vif_type** [String, optional]: Supported types: `PARENT`, `null`. Overrides the global `default_vif_type`. Available in NSX-T v2.0+.
-    * **lb** [Dictionary, optional]: NSX-T logical Load Balancer. Available in CPI v48+
-        * **server_pools** [Array, optional] Server Pool must exist prior to the deployment. For static server pool, VM is directly added to the server pool. If server pool is dynamic, CPI looks up the NSGroup and adds the VM to the NSGroup.
-            * **name** [String, required]: Name of the Server Pool
-            * **port** [Integer, optional]: The port that the VM's service is listening on (e.g. 80 for HTTP). If port is specified, all connections will be sent to this port on the VM. Only specify a single port (no ranges). If unset, the load balancer will connect the client to the VM using the same port number (e.g. if the client connects to port 443, the load balancer will forward to the VM on port 443).
-    * **tag_nsx_vm_objects** [Boolean, optional]: When enabled, tag NSX VM objects with the same set of tags as vsphere VM objects. Available in CPI v97.0.14+.
+    - **lbs** [Array, optional]: A collection of [NSX Edge Load Balancers](https://pubs.vmware.com/NSX-6/index.jsp?topic=%2Fcom.vmware.nsx.admin.doc%2FGUID-152982CF-108F-47A6-B86A-0F0F6A56D628.html) (LBs) to which instances should be attached. The LB and [Server Pool](https://pubs.vmware.com/NSX-6/index.jsp?topic=%2Fcom.vmware.nsx.admin.doc%2FGUID-D5A3BDBA-57A6-43F4-AE5E-3A387FE69EDC.html) must exist prior to the deployment.
+        - **edge_name** [String, required]: Name of the NSX Edge.
+        - **pool_name** [String, required]: Name of the Edge's Server Pool.
+        - **security_group** [String, required]: Name of the Pool's target Security Group. The CPI will add the VM to the specified security group (creating the security group if needed), then add the security group to the specified Server Pool.
+        - **port** [Integer, required]: The port that the VM's service is listening on (e.g. 80 for HTTP).
+        - **monitor_port** [Integer, optional]: The healthcheck port that the VM is listening on. Defaults to the value of `port`.
+- **vmx_options** [Dictionary, optional]: Allows operator to specify [VM advanced configuration options](https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.resmgmt.doc/GUID-F8C7EF4D-D023-4F54-A2AB-8CF840C10939.html). All values are subject to YAML's type interpretation, and given that for certain configuration options vSphere will accept only a specific value type please take note of the difference between values with similar appearances such as: `true` vs `"true"` and `"1234"` vs `1234`. Refer to the vSphere documentation for more information about what configuration options are accepted. Available in v42+.
+- **storage\_policy** [Dictionary, optional]: Storage Policy which is applied to a VM and its ephemeral disk. Available in v53+
+    - **name** [String, optional]: Name of the storage policy to be applied to the VM and its ephemeral disk. Available in v53+
+- **nsxt** [Dictionary, optional]: [VMware NSX](http://www.vmware.com/products/nsx.html) additions section. Available in CPI v45+.
+    - **ns_groups** [Array, optional]: A collection of [NS Groups](http://pubs.vmware.com/nsxt-11/index.jsp?topic=%2Fcom.vmware.nsxt.admin.doc%2FGUID-718E769B-8D89-485B-8DBD-04F1F82CFE14.html) names that the instances should belong to. Available in NSX-T v1.1+.
+    - **vif_type** [String, optional]: Supported types: `PARENT`, `null`. Overrides the global `default_vif_type`. Available in NSX-T v2.0+.
+    - **lb** [Dictionary, optional]: NSX-T logical Load Balancer. Available in CPI v48+
+        - **server_pools** [Array, optional] Server Pool must exist prior to the deployment. For static server pool, VM is directly added to the server pool. If server pool is dynamic, CPI looks up the NSGroup and adds the VM to the NSGroup.
+            - **name** [String, required]: Name of the Server Pool
+            - **port** [Integer, optional]: The port that the VM's service is listening on (e.g. 80 for HTTP). If port is specified, all connections will be sent to this port on the VM. Only specify a single port (no ranges). If unset, the load balancer will connect the client to the VM using the same port number (e.g. if the client connects to port 443, the load balancer will forward to the VM on port 443).
+    - **tag_nsx_vm_objects** [Boolean, optional]: When enabled, tag NSX VM objects with the same set of tags as vsphere VM objects. Available in CPI v97.0.14+.
 - **pci_passthroughs** [Array, optional]: Specifies a PCI (Peripheral Component Interconnect) device to attach to VM via vSphere Dynamic DirectPath IO. Requires vSphere 7.0+. Automatically sets the properties  `memory_reservation_locked_to_max` and `upgrade_hw_version` to `true`. Each entry requires the PCI card's `device_id` and `vendor_id`. Available in v97+.
 - **vgpus** [Array, optional]: Specifies an Nvidia GRID vGPU to attach to VM.  Automatically sets the properties  `memory_reservation_locked_to_max` and `upgrade_hw_version` to `true`. Available in v97+.
 - **device_groups** [Array, optional]: Specifies Device Groups to attach to the VM. Requires vSphere 8.0+. Supports groups of Nvidia vGPU devices. Device groups must be configured in vSphere. Available in v98.0.2+.
@@ -211,16 +214,17 @@ vm_extensions:
 ```
 
 ---
+
 ## Disk Types {: #disk-pools }
 
 Schema for `cloud_properties` section:
 
-* **type** [String, optional]: 
+- **type** [String, optional]:
   [Virtual disk type](http://pubs.vmware.com/vi-sdk/visdk250/ReferenceGuide/vim.VirtualDiskManager.VirtualDiskType.html) used for persistent disks:
   `thick`, `thin`, `preallocated`, `eagerZeroedThick`. Defaults to
   `preallocated`. Available in v12. Overrides the global `default_disk_type`.
 
-* **datastores** [Array, optional]: List of datastore names, datastore clusters for storing persistent disks. Overrides the global `persistent_datastore_pattern`. These names are exact datastore names and not regex patterns. Available in v29+. Datastore Clusters can be specified as a hash in format of `{clusters: [ datastoreCluster1: {}, datastoreCluster2: {}]}`. Clusters whose Storage DRS is turned off will be ignored.
+- **datastores** [Array, optional]: List of datastore names, datastore clusters for storing persistent disks. Overrides the global `persistent_datastore_pattern`. These names are exact datastore names and not regex patterns. Available in v29+. Datastore Clusters can be specified as a hash in format of `{clusters: [ datastoreCluster1: {}, datastoreCluster2: {}]}`. Clusters whose Storage DRS is turned off will be ignored.
 
 Example of 10GB disk:
 
@@ -254,60 +258,61 @@ Example of persistent disk stored in specific datastores:
 ```
 
 ---
+
 ## Global Configuration {: #global }
 
 The CPI can only talk to a single vCenter installation and manage VMs within a single vSphere datacenter.
 
 Schema:
 
-* **host** [String, required]: IP address or hostname of vCenter. Example: `172.16.68.3`.
-* **user** [String, required]: Username for the API access. Example: `root`.
-* **password** [String, required]: Password for the API access. Example: `vmware`
-* **connection_options** [Object, optional]: Additional connection options
-    * **ca_cert** [String, optional]: A list of concatenated CA certificates used to verify the TLS connection to the vCenter server. If no value is provided, the CPI will establish a TLS connection but will not verify the certificate presented by the server.
-* **http_logging** [Boolean, optional]: Enables logging all HTTP requests and responses to vSphere API. Default: `false`. Available in v37+.
-* **default\_disk\_type** [String, optional]: Sets the default
+- **host** [String, required]: IP address or hostname of vCenter. Example: `172.16.68.3`.
+- **user** [String, required]: Username for the API access. Example: `root`.
+- **password** [String, required]: Password for the API access. Example: `vmware`
+- **connection_options** [Object, optional]: Additional connection options
+    - **ca_cert** [String, optional]: A list of concatenated CA certificates used to verify the TLS connection to the vCenter server. If no value is provided, the CPI will establish a TLS connection but will not verify the certificate presented by the server.
+- **http_logging** [Boolean, optional]: Enables logging all HTTP requests and responses to vSphere API. Default: `false`. Available in v37+.
+- **default\_disk\_type** [String, optional]: Sets the default
   [disk type](https://www.vmware.com/support/developer/converter-sdk/conv51_apireference/vim.VirtualDiskManager.VirtualDiskType.html).
   Can be either `thin` or `preallocated`, defaults to `preallocated`. `preallocated`
   sets "all space allocated at [VM] creation time and the space is zeroed on demand as the space is used",
   and `thin`, "virtual disk is allocated and zeroed on demand as the space is used."
   Applies to both root and ephemeral. May also apply to persistent disks unless overridden in [disk pool](#disk-types--disk-pools-).
-* **default\_scsi\_controller\_type** [String, optional]: SCSI controller type for VMs. Can be `paravirtual` (supports up to 63 disks), `lsi_logic` (preserves stemcell controller, may reduce write latency), or `lsi_logic_sas`. Default: `paravirtual`. Available in v98.0.5+.
-* **ensure_no_ip_conflicts** [Boolean, optional]: When creating a VM, ensure that no other VMs exist in the same port group with the same IP address. The CPI queries the vCenter to detect conflict, does not use `ping`. Default: `true`. Available in v97.0.5+.
+- **default\_scsi\_controller\_type** [String, optional]: SCSI controller type for VMs. Can be `paravirtual` (supports up to 63 disks), `lsi_logic` (preserves stemcell controller, may reduce write latency), or `lsi_logic_sas`. Default: `paravirtual`. Available in v98.0.5+.
+- **ensure_no_ip_conflicts** [Boolean, optional]: When creating a VM, ensure that no other VMs exist in the same port group with the same IP address. The CPI queries the vCenter to detect conflict, does not use `ping`. Default: `true`. Available in v97.0.5+.
 
-* **datacenters** [Array, optional]: Array of datacenters to use for VM placement. Must have only one.
-    * **name** [String, required]: Datacenter name.
-    * **vm_folder** [String, optional]: Path to a folder (relative to the datacenter) for storing created VMs. Folder will be automatically created if not found. Defaults to `BOSH_VMs`.
-    * **template_folder** [String, optional]: Path to a folder (relative to the datacenter) for storing uploaded stemcells. Folder will be automatically created if not found. Defaults to `BOSH_Templates`.
-    * **disk_path** [String, optional]: Path to a *disk* folder for storing persistent disks. Folder will be automatically created in the datastore if not found. Defaults to `BOSH_Disks`.
-    * **datastore_pattern** [String, required if `datastore_cluster_pattern` is not set or CPI version <= v63]: Pattern for selecting datastores for storing ephemeral disks and stemcells.
-    * **datastore\_cluster\_pattern** [String, required if `datastore_pattern` is not set]: Pattern for selecting datastore clusters for storing ephemeral disks. Clusters whose Storage DRS is turned off will be ignored. As of v94, datastore clusters in folders can be referenced using the full path with slashes as the delimiter.
-    * **persistent\_datastore\_pattern** [String, required if `persistent_datastore_cluster_pattern` is not set]: Pattern for selecting datastores for storing persistent disks.
-    * **persistent\_datastore\_cluster\_pattern** [String, required if `persistent_datastore_pattern` is not set]: Pattern for selecting datastore clusters for storing persistent disks. Clusters whose Storage DRS is turned off will be ignored. As of v94, datastore clusters in folders can be referenced using the full path with slashes as the delimiter.
-    * **clusters** [Array, required]: Array of clusters to use for VM placement.
-        * **&lt;cluster name&gt;** [String, required]: Cluster name.
-            * **resource_pool** [String, optional]: Specific vSphere resource pool to use within the cluster.
-            * **host_group** [String, optional]: Specific Host Group to use for VM placement. Available in v52+.
-* **nsx** [Dictionary, optional]: NSX-V configuration options.  This is required if the other NSX features are used below (e.g. 'security_groups' for `resource_pools`).
-    * **address** [String, required]: The NSX server's address. Can be a hostname (e.g. `nsx-server.example.com`) or an IP address.
-    * **user** [String, required]: The login username for the NSX server.
-    * **password** [String, required]: The login password for the NSX server.
-    * **ca_cert** [String, optional]: A CA certificate that can authenticate the NSX server certificate. **Required** if the NSX Manager has a self-signed SSL certificate. Must be in PEM format.
-* **enable\_auto\_anti\_affinity\_drs\_rules** [Boolean, optional]: Creates DRS rule to place VMs on separate hosts. DRS Automation Level must be set to "Fully Automated"; does not work when DRS is set to "Partially Automated" or "Manual". May cause VMs to fail to power on if there are more VMs than hosts after initial deployment. Default: `false`. Available in v33+.
-* **vm\_storage\_policy\_name** [Boolean, optional]: Name of the storage Policy which is applied to a VM and its ephemeral disk. Available v53+
-* **upgrade\_hw\_version** [Boolean, optional]: Upgrades the virtual hardware version of a virtual machine to the latest supported version on the ESXi host. Default: `false`.
-* **nsxt** [Dictionary, optional]: NSX-T configuration options. Available in v45+.
-    * **use\_policy\_api** [Boolean, optional]: Enabling this feature will use the [NSX-T Policy API](https://blogs.vmware.com/networkvirtualization/2020/06/navigating-nsxt-policy-apis.html/) instead of the Manager API. It affects the attachment of VMs to NS Groups and VM placement in static Load Balancer Pools. This feature requires NSX-T Data Center v3.0 or later. Default: false. Available in v56+. In v58+, the VM's NSX-T segment ports are also tagged. The tags are prepended with `bosh/` and include the key/value pairs specified in the tags blocks of the [deployment](manifest-v2/#tags) or [runtime](runtime-config/#tags) configurations as well as BOSH default metadata (`instance_group`, `job`, `index`, etc.)
+- **datacenters** [Array, optional]: Array of datacenters to use for VM placement. Must have only one.
+    - **name** [String, required]: Datacenter name.
+    - **vm_folder** [String, optional]: Path to a folder (relative to the datacenter) for storing created VMs. Folder will be automatically created if not found. Defaults to `BOSH_VMs`.
+    - **template_folder** [String, optional]: Path to a folder (relative to the datacenter) for storing uploaded stemcells. Folder will be automatically created if not found. Defaults to `BOSH_Templates`.
+    - **disk_path** [String, optional]: Path to a *disk* folder for storing persistent disks. Folder will be automatically created in the datastore if not found. Defaults to `BOSH_Disks`.
+    - **datastore_pattern** [String, required if `datastore_cluster_pattern` is not set or CPI version <= v63]: Pattern for selecting datastores for storing ephemeral disks and stemcells.
+    - **datastore\_cluster\_pattern** [String, required if `datastore_pattern` is not set]: Pattern for selecting datastore clusters for storing ephemeral disks. Clusters whose Storage DRS is turned off will be ignored. As of v94, datastore clusters in folders can be referenced using the full path with slashes as the delimiter.
+    - **persistent\_datastore\_pattern** [String, required if `persistent_datastore_cluster_pattern` is not set]: Pattern for selecting datastores for storing persistent disks.
+    - **persistent\_datastore\_cluster\_pattern** [String, required if `persistent_datastore_pattern` is not set]: Pattern for selecting datastore clusters for storing persistent disks. Clusters whose Storage DRS is turned off will be ignored. As of v94, datastore clusters in folders can be referenced using the full path with slashes as the delimiter.
+    - **clusters** [Array, required]: Array of clusters to use for VM placement.
+        - **&lt;cluster name&gt;** [String, required]: Cluster name.
+            - **resource_pool** [String, optional]: Specific vSphere resource pool to use within the cluster.
+            - **host_group** [String, optional]: Specific Host Group to use for VM placement. Available in v52+.
+- **nsx** [Dictionary, optional]: NSX-V configuration options.  This is required if the other NSX features are used below (e.g. 'security_groups' for `resource_pools`).
+    - **address** [String, required]: The NSX server's address. Can be a hostname (e.g. `nsx-server.example.com`) or an IP address.
+    - **user** [String, required]: The login username for the NSX server.
+    - **password** [String, required]: The login password for the NSX server.
+    - **ca_cert** [String, optional]: A CA certificate that can authenticate the NSX server certificate. **Required** if the NSX Manager has a self-signed SSL certificate. Must be in PEM format.
+- **enable\_auto\_anti\_affinity\_drs\_rules** [Boolean, optional]: Creates DRS rule to place VMs on separate hosts. DRS Automation Level must be set to "Fully Automated"; does not work when DRS is set to "Partially Automated" or "Manual". May cause VMs to fail to power on if there are more VMs than hosts after initial deployment. Default: `false`. Available in v33+.
+- **vm\_storage\_policy\_name** [Boolean, optional]: Name of the storage Policy which is applied to a VM and its ephemeral disk. Available v53+
+- **upgrade\_hw\_version** [Boolean, optional]: Upgrades the virtual hardware version of a virtual machine to the latest supported version on the ESXi host. Default: `false`.
+- **nsxt** [Dictionary, optional]: NSX-T configuration options. Available in v45+.
+    - **use\_policy\_api** [Boolean, optional]: Enabling this feature will use the [NSX-T Policy API](https://blogs.vmware.com/networkvirtualization/2020/06/navigating-nsxt-policy-apis.html/) instead of the Manager API. It affects the attachment of VMs to NS Groups and VM placement in static Load Balancer Pools. This feature requires NSX-T Data Center v3.0 or later. Default: false. Available in v56+. In v58+, the VM's NSX-T segment ports are also tagged. The tags are prepended with `bosh/` and include the key/value pairs specified in the tags blocks of the [deployment](manifest-v2/#tags) or [runtime](runtime-config/#tags) configurations as well as BOSH default metadata (`instance_group`, `job`, `index`, etc.)
     * **policy\_api\_migration\_mode** [Boolean, optional] This option requires `use_policy_api` to be set to `true`. When enabled, the CPI attempts to associate VMs in both the Policy API and the Manager API. The VM is associated with groups and server pools in the Policy API, and with NSGroups and server pools in the Manager API. It will return an error if the Manager API objects do not exist, but not if the Policy API objects do not exist. This option is only intended to be used in conjunction with scripts to help migrate NSX-T entities from the Manager API to the Policy API. Default: `false`. Available in v74+.
-    * **host** [String, required]: The NSX-T server's address. Can be a hostname (e.g. `nsx-server.example.com`) or an IP address.
-    * **username** [String, required]: The login username for the NSX-T server.
-    * **password** [String, required]: The login password for the NSX-T server.
-    * **ca_cert** [String, optional]: A CA certificate that can authenticate the NSX-T server certificate. **Required** if the NSX-T Manager has a self-signed SSL certificate. Must be in PEM format.
-    * **default_vif_type** [String, optional]: Supported Types: `PARENT`. Default VIF type attached to logical port. Available in NSX-T v2.0+.
-    * **auth_certificate** [String, optional]: Certificate used for certificate-based authentication. Certificate-based authentication takes precedence over username/password if both are specified. Available in v51+.
-    * **auth_private_key** [String, optional]: Private key file used for certificate-based authentication. Available in v51+.
-    * **remote_auth** [Boolean, optional]: Enables remote authentication for NSX-T via vIDM. Available in v52.1.5+ and v53.0.1+
-    * **allow_overwrite** [Boolean, optional]: When enabled, the CPI sets the `X-Allow-Overwrite` header to 'true' when making NSX-T Management API requests, which allows the Management API to mutate Policy API objects. Default: `true` for backwards compatibility. Available in v91+.
+    - **host** [String, required]: The NSX-T server's address. Can be a hostname (e.g. `nsx-server.example.com`) or an IP address.
+    - **username** [String, required]: The login username for the NSX-T server.
+    - **password** [String, required]: The login password for the NSX-T server.
+    - **ca_cert** [String, optional]: A CA certificate that can authenticate the NSX-T server certificate. **Required** if the NSX-T Manager has a self-signed SSL certificate. Must be in PEM format.
+    - **default_vif_type** [String, optional]: Supported Types: `PARENT`. Default VIF type attached to logical port. Available in NSX-T v2.0+.
+    - **auth_certificate** [String, optional]: Certificate used for certificate-based authentication. Certificate-based authentication takes precedence over username/password if both are specified. Available in v51+.
+    - **auth_private_key** [String, optional]: Private key file used for certificate-based authentication. Available in v51+.
+    - **remote_auth** [Boolean, optional]: Enables remote authentication for NSX-T via vIDM. Available in v52.1.5+ and v53.0.1+
+    - **allow_overwrite** [Boolean, optional]: When enabled, the CPI sets the `X-Allow-Overwrite` header to 'true' when making NSX-T Management API requests, which allows the Management API to mutate Policy API objects. Default: `true` for backwards compatibility. Available in v91+.
 
 !!! note
     If the NSX-V or NSX-T Manager has a self-signed certificate, the certificate must be set in the `ca_cert` property.
@@ -437,6 +442,7 @@ cloud_provider:
 ```
 
 ---
+
 ## Example Cloud Config {: #cloud-config }
 
 ```yaml
@@ -494,28 +500,29 @@ compilation:
 ```
 
 ---
+
 ## Notes {: #notes }
 
-* Assigned VM names (e.g. `vm-8dg349-s7cn74-...`) should not be manually changed since the CPI uses them to find created VMs. You can use [`bosh vms --details`](sysadmin-commands.md#health) to find which VM is assigned which job. VMs are also tagged with their assigned job, index and deployment.
+- Assigned VM names (e.g. `vm-8dg349-s7cn74-...`) should not be manually changed since the CPI uses them to find created VMs. You can use [`bosh vms --details`](sysadmin-commands.md#health) to find which VM is assigned which job. VMs are also tagged with their assigned job, index and deployment.
 
-* Storage DRS and vMotion can be used with vSphere CPI version v18 and above. For additional details see [Storage DRS and vMotion Support](vsphere-vmotion-support.md).
+- Storage DRS and vMotion can be used with vSphere CPI version v18 and above. For additional details see [Storage DRS and vMotion Support](vsphere-vmotion-support.md).
 
-* `allow_mixed_datastores` configuration has been deprecated in favor of setting same datastore pattern for `datastore_pattern` and `persistent_datastore_pattern` keys.
+- `allow_mixed_datastores` configuration has been deprecated in favor of setting same datastore pattern for `datastore_pattern` and `persistent_datastore_pattern` keys.
 
-* The vSphere CPI requires access to port 80/443 for all the ESXi hosts in your
+- The vSphere CPI requires access to port 80/443 for all the ESXi hosts in your
 vSphere resource pool(s).  In order to upload stemcells to vSphere, the
 vSphere CPI makes use of an API call that returns a URL that the CPI should
 make a `POST` request to in order to upload the stemcell. This URL could have
 a hostname that resolves to any one of the ESXi hosts that are associated
 with your vSphere resource pool(s).
 
-* Setting `enable_auto_anti_affinity_drs_rules` to true may cause `bosh deploy` to fail after the initial deployment if there are more VMs than hosts. A workaround is to set `enable_auto_anti_affinity_drs_rules` to false to perform subsequent deployments.
+- Setting `enable_auto_anti_affinity_drs_rules` to true may cause `bosh deploy` to fail after the initial deployment if there are more VMs than hosts. A workaround is to set `enable_auto_anti_affinity_drs_rules` to false to perform subsequent deployments.
 
-* Support for specifying Datastore Clusters for ephemeral and persistent disks is available with vSphere CPI version v47 and above. For additional details see [Release Notes for v47](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/releases/tag/v47)
+- Support for specifying Datastore Clusters for ephemeral and persistent disks is available with vSphere CPI version v47 and above. For additional details see [Release Notes for v47](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/releases/tag/v47)
 
-* Support for specifying Datastore Clusters nested under folders is available with vSphere CPI version v94 and above. For additional details see [Release Notes for v94](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/releases/tag/v94)
+- Support for specifying Datastore Clusters nested under folders is available with vSphere CPI version v94 and above. For additional details see [Release Notes for v94](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/releases/tag/v94)
 
-* Starting with v98, the vSphere CPI sets the SCSI controller on cloned VMs to ParaVirtual by default, which supports up to 63 disks and improves performance in many environments. In some storage configurations, however, this may increase disk write latency. Since [PR #459](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/pull/459), operators can set `default_scsi_controller_type` to `lsi_logic` or `lsi_logic_sas` in the [global CPI configuration](#global) to use a different controller type. For `bosh create-env` deployments, the property must be set in both the instance group properties and the `cloud_provider` properties.
+- Starting with v98, the vSphere CPI sets the SCSI controller on cloned VMs to ParaVirtual by default, which supports up to 63 disks and improves performance in many environments. In some storage configurations, however, this may increase disk write latency. Since [PR #459](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/pull/459), operators can set `default_scsi_controller_type` to `lsi_logic` or `lsi_logic_sas` in the [global CPI configuration](#global) to use a different controller type. For `bosh create-env` deployments, the property must be set in both the instance group properties and the `cloud_provider` properties.
 
 ### VMs {: #vms }
 
@@ -609,6 +616,7 @@ The current code will not work with a datacenter inside a folder.
 
 The order of precedence for policy and datastore specified for selecting ephemeral datastores is (in order they are written from
 top to bottom, first being most preferred):
+
 - Storage policy is set in vm-type
 - Datastores in vm-type
 - Storage policy in Global config

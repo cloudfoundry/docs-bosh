@@ -1,3 +1,5 @@
+# Google - Required Permissions
+
 This topic describes how to configure BOSH with the minimum set of permissions on Google Cloud Engine.
 
 ## Google CPI and Director {: #bosh-director }
@@ -119,12 +121,12 @@ In addition to the above permissions, you will need to add the following permiss
 
 When using the `service_account` or `service_scopes` properties, you will need to add:
 
-  - `compute.instances.setServiceAccount` permission
-  - `iam.serviceAccountUser` role
+- `compute.instances.setServiceAccount` permission
+- `iam.serviceAccountUser` role
 
 When using the `accelerators` property, you will need to add:
 
-  - `compute.acceleratorTypes.get`
+- `compute.acceleratorTypes.get`
 
 ## Minimum permissions for GCS blobstore {: #director-with-gcs-blobstore }
 
@@ -167,7 +169,7 @@ This configuration is similar to the previous one except that it's used when the
     !!! note
         The agent does not need to delete files from the blobstore
 
-4. Configure roles.
+3. Configure roles.
 
     ```shell
     gcloud beta iam roles --project <project-id> create blobstore.director \
@@ -177,9 +179,9 @@ This configuration is similar to the previous one except that it's used when the
       --file <( bosh int -v project_id=<project-id> agent-blobstore-role.yml )
     ```
 
-5. On Google Cloud navigate go to `IAM & admin` > `Service accounts` and click on `CREATE SERVICE ACCOUNT`.
+4. On Google Cloud navigate go to `IAM & admin` > `Service accounts` and click on `CREATE SERVICE ACCOUNT`.
    Give your service account a name, check `Furnish a new private key` and select the aforementioned roles.
 
    ![image](images/gcp-service-account.png)
 
-6. Configure [GCS Blobstore](director-configure-blobstore.md#gcs)
+5. Configure [GCS Blobstore](director-configure-blobstore.md#gcs)

@@ -1,3 +1,5 @@
+# Taking Snapshots
+
 !!! note
     This feature is experimental.
 
@@ -38,19 +40,19 @@ Once you enable snapshots in your deployment, you can use following CLI commands
 bosh snapshots
 ```
 
-Displays the job, Content ID (CID), and created date of all snapshots. Run <code>bosh snapshots</code> to display a list of CIDs if you need to find specific snapshots to recover.
+Displays the job, Content ID (CID), and created date of all snapshots. Run `bosh snapshots` to display a list of CIDs if you need to find specific snapshots to recover.
 
 ```shell
 bosh take snapshot [JOB] [INDEX]
 ```
 
-Takes a snapshot of the job VM that you specify. If you do not specify a <code>JOB</code>, takes a snapshot of every VM in the current deployment.
+Takes a snapshot of the job VM that you specify. If you do not specify a `JOB`, takes a snapshot of every VM in the current deployment.
 
 ```shell
 bosh delete snapshot SNAPSHOT-CID
 ```
 
-Deletes the snapshot that SNAPSHOT-CID specifies.
+Deletes the snapshot that `SNAPSHOT-CID` specifies.
 
 ```shell
 bosh delete snapshots
@@ -75,7 +77,7 @@ To schedule snapshots for all VMs in all deployments:
 
 1. Add a [cron-formatted](https://github.com/jmettraux/rufus-scheduler/blob/two/README.rdoc#a-note-about-cron-jobs) schedule as a value for the `snapshot_schedule` key.
 
-  	```yaml
+    ``yaml
     properties:
       director:
         enable_snapshots: true

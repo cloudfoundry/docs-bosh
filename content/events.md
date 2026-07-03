@@ -1,3 +1,5 @@
+# Auditing Events
+
 !!! note
     This feature is available in bosh-release v256+.
 
@@ -18,7 +20,7 @@ Run [`bosh events` command](sysadmin-commands.md#events) to view 200 recent even
 bosh events
 ```
 
-```text
+```shell
 +--------------+------------------------------+-------+-------------+-------------+------------------------------------------------+------+-----------+------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------+
 | ID           | Time                         | User  | Action      | Object type | Object ID                                      | Task | Dep       | Inst                                           | Context                                                                                                                                            |
 +--------------+------------------------------+-------+-------------+-------------+------------------------------------------------+------+-----------+------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -74,6 +76,7 @@ bosh events --instance zookeeper/ca5f695a-eb81-49fd-a577-33825cb1b5fc
 ```
 
 ---
+
 ## Ending vs. Single Actions {: #ending-vs-single }
 
 Each event represents an action. Some actions take time to perform (e.g. delete a VM), and other actions are just one-off events (e.g. set up SSH access). Actions that take time are represented by two events (starting and ending one) instead of just one. In the example below **delete VM** action is recorded as starting in event #5096 and finishing in event #5199.
@@ -84,6 +87,7 @@ Each event represents an action. Some actions take time to perform (e.g. delete 
 ```
 
 ---
+
 ## Enabling Event Collection {: #enable }
 
 To enable this feature:

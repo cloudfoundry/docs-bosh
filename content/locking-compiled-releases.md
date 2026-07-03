@@ -1,6 +1,9 @@
+# Locking Compiled Releases
+
 !!! note
         Available as of BOSH Director version [v268.7.0](https://github.com/cloudfoundry/bosh/releases/tag/v268.7.0)
-# Motivation
+
+## Motivation
 
 When deploying instance groups that use compiled releases,
 if the release is not compiled against the exact stemcell used by the instance group,
@@ -28,7 +31,7 @@ Bosh will use the new release compiled against the newer stemcell.
 To lock a compiled release and reduce unexpected VM updates,
 use `exported_from` in the [releases](deployment-manifest.md#releases) block of your manifest.
 
-# Usage
+## Usage
 
 To specify which compiled release to use in a deployment, add `exported_from` to the release:
 
@@ -53,7 +56,7 @@ To create a compiled release, follow the instructions on the [compiled releases 
 `exported_from` is an array to support future use cases, such as matching multiple stemcells.
 Currently, only the first entry in `exported_from` is used.
 
-# Caveats
+## Caveats
 
 - The `exported_from` field is designed for compiled releases.
 If using a source release with `exported_from`,

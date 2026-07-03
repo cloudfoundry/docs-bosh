@@ -1,3 +1,5 @@
+# Azure Compute Gallery
+
 [Azure Compute Gallery][azure-compute-gallery] allows you to manage, share, and distribute VM images across multiple regions and subscriptions within Azure. The Azure Compute Gallery can be used in the context of BOSH to store [BOSH stemcell](./stemcell.md) VHDs as Compute Gallery images. When deploying VMs with Compute Gallery enabled, BOSH automatically selects the appropriate image based on the stemcell configuration in the deployment manifest.
 
 Using Azure Compute Gallery Images in BOSH offers several benefits:
@@ -14,10 +16,10 @@ Before you begin, ensure you have:
 - Azure Subscription with permissions to create and manage Azure Compute Galleries.
 - Azure Service Principal (configured in the [CPI global configuration](./azure-cpi.md#global)) with the following minimal roles assigned:
 
-| **Role (Type)** | **Scope Assignment** | **Key Permissions** | **Required Actions** |
-|-----------------|----------------------|---------------------|----------------------|
-| [**Compute Gallery Artifacts Publisher**][compute-gallery-artifacts-publisher] (Built-in) | **Azure Compute Gallery** (the specific gallery resource, or its resource group) | *Gallery management:* Allows creating image definitions and image versions in that gallery. | `Microsoft.Compute/galleries/*` |
-| [**Storage Account Contributor**][storage-contributor] (Built-in) | **Storage Account/Container** (the storage resource containing the VHD) | *Blob access:* Grants access to [list and read VHD file contents][storage]. | `Microsoft.Storage/storageAccounts/listKeys/action` |
+| **Role (Type)**                                                                           | **Scope Assignment**                                                             | **Key Permissions**                                                                         | **Required Actions**                                |
+|-------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|-----------------------------------------------------|
+| [**Compute Gallery Artifacts Publisher**][compute-gallery-artifacts-publisher] (Built-in) | **Azure Compute Gallery** (the specific gallery resource, or its resource group) | *Gallery management:* Allows creating image definitions and image versions in that gallery. | `Microsoft.Compute/galleries/*`                     |
+| [**Storage Account Contributor**][storage-contributor] (Built-in)                         | **Storage Account/Container** (the storage resource containing the VHD)          | *Blob access:* Grants access to [list and read VHD file contents][storage].                 | `Microsoft.Storage/storageAccounts/listKeys/action` |
 
 !!! warning
     Each role should be assigned **only at the needed scope** (the specific gallery and storage resource).

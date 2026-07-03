@@ -1,9 +1,12 @@
+# Windows
+
 BOSH can deploy jobs on Windows VMs. There is open source tooling and documentation available to build [AWS](https://github.com/cloudfoundry-incubator/aws-light-stemcell-builder), [Azure](https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/blob/master/azure-light-stemcell.md),
 [vSphere](https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/blob/master/create-manual-vsphere-stemcells.md) and [Openstack](https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/blob/master/create-manual-openstack-stemcells.md) stemcells for Windows.
 
 In general Windows BOSH Releases work in the same way as a standard BOSH release. The main difference is that the [monit file](create-release.md#monit) for Linux Releases is structured differently on Windows. Below are specific concerns for jobs on Windows.
 
 ---
+
 ## Releases {: #releases }
 
 The structure of a BOSH release for Windows is identical to [Linux BOSH Releases](create-release.md).  This means the structure of a Windows BOSH release will be:
@@ -15,6 +18,7 @@ The structure of a BOSH release for Windows is identical to [Linux BOSH Releases
 - additional hook scripts
 
 ---
+
 ## Jobs {: #jobs }
 
 The structure of a BOSH job for Windows is similar to the [Standard Linux BOSH Job Lifecycle](job-lifecycle.md), only with processes monitored by [Windows Service Wrapper](https://github.com/kohsuke/winsw) instead of monit.
@@ -41,6 +45,7 @@ The above monit file will execute the file `C:\var\vcap\jobs\say-hello\bin\start
 Also, note that Pre-Start, Post-Start, Drain, and Post-Deploy scripts (described in the [job lifecycle](job-lifecycle.md)) must be powershell scripts and end with the `.ps1` extension, i.e., `pre-start.ps1`, `post-start.ps1`, `drain.ps1`, and `post-deploy.ps1`.
 
 ---
+
 ### Stop Scripts in Jobs {: #stop-scripts }
 
 Release job can have a stop script that will run when the job is restarted or stopped. This script allows the job to clean up and get into a state where it can be safely stopped.
@@ -50,7 +55,6 @@ The stop script replaces the standard mechanism for shutting down a BOSH job. If
 To use a stop script, a change to the job's `monit` and `spec` file must be made. The actual script source is placed in the jobs template directory. eg: `jobs/job_name/templates`
 
 Stdout and Stderr are currently not preserved. It is recommended to use the Windows EventLog.
-
 
 ### Monit
 
@@ -77,13 +81,15 @@ For instance, to use separate scripts for start and stop:
 
 The `spec` file change is similar to linux. Here is an example:
 
-```
+```yaml
 ---
 name: simple-stop-example
 templates:
   stop.ps1: bin/stop.ps1
 ```
+
 ---
+
 ## Sample BOSH Windows Release
 
 Please see [the next page](windows-sample-release.md) for a sample BOSH Windows release.

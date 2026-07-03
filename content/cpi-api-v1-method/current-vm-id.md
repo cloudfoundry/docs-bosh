@@ -5,12 +5,10 @@ Determines cloud ID of the VM executing the CPI code. Currently used in combinat
 !!! note
     Do not implement; this method will be deprecated and removed.
 
-
 ## Arguments
 
 No arguments
 
-
 ## Returned
 
- * `vm_cid` [String]: Cloud ID of the VM.
+- `vm_cid` [String]: Cloud ID of the VM.

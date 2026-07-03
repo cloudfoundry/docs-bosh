@@ -1,13 +1,12 @@
+# Design
+
 BOSH is an open framework for managing the full development and deployment life cycle of large-scale distributed software applications.
 
 BOSH:
 
-* Leverages IaaS APIs to create VMs from base images packaged with
-  operator-defined network, storage, and software configurations
-* Monitors and manages VM and process health, detecting and restarting processes
-  or VMs when they become unhealthy
-* Updates all VMs reliably and idempotently, whether the update is to the OS, a
-  package, or any other component
+- Leverages IaaS APIs to create VMs from base images packaged with operator-defined network, storage, and software configurations
+- Monitors and manages VM and process health, detecting and restarting processes or VMs when they become unhealthy
+- Updates all VMs reliably and idempotently, whether the update is to the OS, a package, or any other component
 
 ## BOSH Deployments are Predictable {: #predictable }
 

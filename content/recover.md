@@ -1,3 +1,5 @@
+# Deployment Recovery
+
 !!! note
     Requires director v277.4.0 and CLI v7.3.0
 
@@ -16,10 +18,8 @@ similar to [Cloud Check](cck.md), with several exceptions:
    `cloud-check` command uses the `max_in_flight` values in the deployment
    manfiest.
 
-
 Otherwise, the types of [problems](cck.md#problems) and the mechanism by which
 they are repaired are the same as in the `cloud-check` command.
-
 
 ## Creating a recovery plan {: #create-recovery-plan }
 
@@ -29,7 +29,7 @@ To create a recovery plan, invoke the  `bosh create-recovery-plan` command like:
 bosh create-recovery-plan recovery-plan.yml
 ```
 
-```text
+```shell
 Task 223
 
 Task 223 | 17:17:43 | Scanning 9 VMs: Checking VM states (00:00:31)
@@ -155,8 +155,8 @@ Each recovery plan has the following schema:
 
 **instance_groups_plan** [Array, required]: The name of instance groups in the deployment to recover.
 
-* **max_in_flight_override** [Integer or Percentage, optional]: The `max_in_flight` value to use for problem resolution in the given instance group.
-* **planned_resolutions** [Hash, optional]: Specifies which resolution to pick per problem type.  Example: `{missing_vm: recreate_vm_without_wait, unresponsive_agent: reboot}`
+- **max_in_flight_override** [Integer or Percentage, optional]: The `max_in_flight` value to use for problem resolution in the given instance group.
+- **planned_resolutions** [Hash, optional]: Specifies which resolution to pick per problem type.  Example: `{missing_vm: recreate_vm_without_wait, unresponsive_agent: reboot}`
 
 Here is an example of a complete recovery plan, generated from the above session:
 
@@ -186,7 +186,7 @@ Using the recovery plan above, invoking `bosh recover` looks like:
 bosh recover recovery-plan.yml
 ```
 
-```text
+```shell
 Task 225
 
 Task 225 | 17:35:49 | Scanning 9 VMs: Checking VM states (00:00:31)

@@ -1,3 +1,5 @@
+# Links
+
 !!! note
     This feature is available with bosh-release v255.5+.
 
@@ -6,6 +8,7 @@ Previously, if network communication was required between jobs, release authors 
 Links provide a solution to the above problem by making the Director responsible for the IP management. Release authors get a consistent way of retrieving networking (and topology) configuration, and operators have a way to consistently connect components.
 
 ---
+
 ## Overview {: #overview }
 
 First, we provide an overview of the capabilities and logistics of links through a simple example. Here, we have two jobs: an application job and a database job. The database provides its connection information through a link, which the application consumes.
@@ -98,6 +101,7 @@ instance_groups:
 ```
 
 ---
+
 ## Release Definitions {: #definition }
 
 Instead of defining properties for every instance group, a job can declare links. (The job either 'consumes' a link provided by another job, or it can 'provide' itself so that any jobs, [including itself](#self) can 'consume' it).
@@ -108,7 +112,8 @@ For example, here is how a `web` job which receives HTTP traffic and talks to at
 
 Note that when the `web` job is 'consuming' db links, the name of the link does not have to match the name of the provided db link (i.e. postgres has a link called `conn` while the `web` job consumes `primary_db` and/or `secondary_db`). The mapping between the provided link named `conn` and the consumed link named `primary_db` is done in the [deployment manifest file](#deployment).
 
-#### `web` Release Spec {: #web-release-spec}
+### `web` Release Spec {: #web-release-spec}
+
 ```yaml
 name: web
 
@@ -132,7 +137,8 @@ Note that the `secondary_db` link has been marked as optional, to indicate that 
 
 Here is an example Postgres job that provides a `conn` link of type `db`.
 
-#### `postgres` Release Spec {: #postgres-release-spec}
+### `postgres` Release Spec {: #postgres-release-spec}
+
 ```yaml
 name: postgres
 
@@ -145,7 +151,7 @@ provides:
 properties: {...}
 ```
 
-### Template Accessors {: #templates }
+## Template Accessors {: #templates }
 
 Once a release is configured to consume links, the `link` template accessor allows access to link information such as instance names, AZs, IDs, network addresses, etc.
 
@@ -188,25 +194,26 @@ JSON.dump(result)
 
 Available `link` object methods:
 
-* **address** [String]: Returns single DNS address representing link provider. Using single address is typically a more common way to reference a link provider instead of accessing individual instance addresses (for example, when connecting to a database). Example: `link("...").address`.
-  * **azs** [Array of strings, optional]: Argument to filter instance addresses by AZ. Logical OR will be used between AZs when multiple AZs are specified. Example: `link("...").address(azs: [spec.az])`. Default: all instances are returned without AZ filtering.
-* **p** [Anything]: Returns property value specified in a link. Works in the same way as regular `p` accessor.
-* **instances** [Array of instances]: Returns list of instances included by this provider. Could be an empty array. See methods available on each instance below.
+- **address** [String]: Returns single DNS address representing link provider. Using single address is typically a more common way to reference a link provider instead of accessing individual instance addresses (for example, when connecting to a database). Example: `link("...").address`.
+- **azs** [Array of strings, optional]: Argument to filter instance addresses by AZ. Logical OR will be used between AZs when multiple AZs are specified. Example: `link("...").address(azs: [spec.az])`. Default: all instances are returned without AZ filtering.
+- **p** [Anything]: Returns property value specified in a link. Works in the same way as regular `p` accessor.
+- **instances** [Array of instances]: Returns list of instances included by this provider. Could be an empty array. See methods available on each instance below.
 
 Available `instance` object methods:
 
-* **name** [String, non-empty]: Instance name as configured in the deployment manifest.
-* **id** [String, non-empty]: Unique ID.
-* **index** [Integer, non-empty]: Unique numeric index. May have gaps.
-* **az** [String or null, non-empty]: AZ associated with the instance.
-* **address** [String, non-empty]: IPv4, IPv6 or DNS address. See [Native DNS Support](dns.md#links) for more details.
-* **bootstrap** [Boolean]: Whether or not this instance is a bootstrap instance.
+- **name** [String, non-empty]: Instance name as configured in the deployment manifest.
+- **id** [String, non-empty]: Unique ID.
+- **index** [Integer, non-empty]: Unique numeric index. May have gaps.
+- **az** [String or null, non-empty]: AZ associated with the instance.
+- **address** [String, non-empty]: IPv4, IPv6 or DNS address. See [Native DNS Support](dns.md#links) for more details.
+- **bootstrap** [Boolean]: Whether or not this instance is a bootstrap instance.
 
-### Properties {: #properties }
+## Properties {: #properties }
 
 See [link properties](links-properties.md) for including additional link information.
 
 ---
+
 ## Deployment Configuration {: #deployment }
 
 Given the `web` and `postgres` job examples above, one can configure a deployment that connects a web app to the database. The following example demonstrates linking defined explicitly in the manifest by saying which jobs provide and consume a link `db_conn`.
@@ -238,6 +245,7 @@ Implicit linking is not supported between deployments.
 Providers that are specified as `nil` will not match any consumer.
 
 Deployment Manifest:
+
 ```yaml
 instance_groups:
 - name: app_ig
@@ -278,22 +286,22 @@ Common use cases:
 
 There are two use cases that require the use of *explicit* linking.
 
-* To distinguish between multiple providers of the same `type` in a deployment.
-* To consume a link provided by a different deployment.
-
+- To distinguish between multiple providers of the same `type` in a deployment.
+- To consume a link provided by a different deployment.
 
 #### Consumers
 
 Explicitly defined consumers can have the following optional properties:
 
-* **from** [String]: Overrides the name of the provider to consume. This should match the name defined in the provider's release spec or the name defined by provider's `as` property in the manifest.
-* **deployment** [String]: The name of the deployment to consume from. If the deployment provided does not exist, the consumer will fail with an error. The default value for this property is the name of the current deployment, which means that consumers are expected to be in the same deployment as the provider.
-* **network** [String]: Network to be used by the consumer. This must match the name of one of the networks defined by the provider. The default value is the provider's default network. See [custom network linking](#custom-network).
-* **ip_addresses** [Boolean]: Instructs the director to use ip addresses instead of DNS names. This property is ignored in the case of dynamic networks, which always use DNS addresses. Defaults to *false*. See [dns](dns.md#links) for more details.
+- **from** [String]: Overrides the name of the provider to consume. This should match the name defined in the provider's release spec or the name defined by provider's `as` property in the manifest.
+- **deployment** [String]: The name of the deployment to consume from. If the deployment provided does not exist, the consumer will fail with an error. The default value for this property is the name of the current deployment, which means that consumers are expected to be in the same deployment as the provider.
+- **network** [String]: Network to be used by the consumer. This must match the name of one of the networks defined by the provider. The default value is the provider's default network. See [custom network linking](#custom-network).
+- **ip_addresses** [Boolean]: Instructs the director to use ip addresses instead of DNS names. This property is ignored in the case of dynamic networks, which always use DNS addresses. Defaults to *false*. See [dns](dns.md#links) for more details.
 
 Optional consumers may be specified as `nil` in the deployment manifest to block consumption of any providers.
 
 Deployment Manifest:
+
 ```yaml
 instance_groups:
 - name: web_ig
@@ -307,7 +315,8 @@ instance_groups:
 
 Explicitly specified providers in the deployment manifest can have the following optional properties:
 
-* **as** [String]: Overrides the name of the provider defined in the release spec. Example:
+- **as** [String]: Overrides the name of the provider defined in the release spec. Example:
+
 ```yaml
 instance_groups:
 - name: my_instance_group
@@ -316,7 +325,8 @@ instance_groups:
     provides:
       conn: {as: new_name}
 ```
-* **shared** [Boolean]: *Default is false* Sets whether this provider is consumable from another deployment. See [cross deployment links](#cross-deployment).
+
+- **shared** [Boolean]: *Default is false* Sets whether this provider is consumable from another deployment. See [cross deployment links](#cross-deployment).
 
 This applies whether the consumer is explicit or implicit.
 
@@ -325,6 +335,7 @@ This applies whether the consumer is explicit or implicit.
 Providers that are specified as `nil` in the deployment manifest cannot be consumed. 
 
 Deployment Manifest:
+
 ```yaml
 instance_group:
 - name: db_ig
@@ -335,7 +346,6 @@ instance_group:
 ```
 
 A common use case for this is when a provider is optional and the current deployment will possibly use an alternative provider.
-
 
 ### Self linking {: #self }
 
@@ -490,37 +500,39 @@ instance_groups:
       - port
       - url
 ```
-___
+
+---
 
 ## Avoiding Link Conflicts
 
 When writing a manifest that contains multiple jobs that provide a link, deployment will sometimes fail because of conflicts stemming from the links' names and types. Here are two typical errors:
 
-```
+```shell
 Failed to resolve link 'login' with alias 'provider_login' and type 'usernamepassword' from job 'consumer_job' in instance group 'consumer_ig'. Details below:
   - No link providers found
 ```
 
-```
+```shell
 - Failed to resolve link 'provider' with alias 'alias1' and type 'provider' from job 'consumer' in instance group 'first_consumer'. Multiple link providers found:
   - Link provider 'provider' with alias 'alias1' from job 'provider' in instance group 'first_provider' in deployment 'simple'
   - Link provider 'provider' with alias 'alias1' from job 'provider' in instance group 'second_provider' in deployment 'simple'
 ```
 
-How to prevent such errors depends on how the links are consumed. 
+How to prevent such errors depends on how the links are consumed.
 
 ### No Consumers
+
 As long as they are not consumed, multiple providers in a deployment manifest will never generate errors during deployment even if the names or types of the individual job providers are the same as each other.
 
-| Provider Name | Provider Type | Allowed | Example (below)
-|---------------|---------------|---------|--------------
-| Same          | Same          | True    | `database` of type `db` in both `db_ig` and `backup_db_ig`
-| Same          | Different     | True    | `peers` of type `db_peers` in `db_ig` and `peers` of type `legacy_db_peers` in `backup_db_ig`
-| Different     | Same          | True    | `peers` in `db_ig` and `backup_peers` both of type `db` in `backup_db_ig`
-| Different     | Different     | True    | `database` of type `db` and `backup_peers` of type `db_peers`
-
+| Provider Name | Provider Type | Allowed | Example (below)                                                                               |
+|---------------|---------------|---------|-----------------------------------------------------------------------------------------------|
+| Same          | Same          | True    | `database` of type `db` in both `db_ig` and `backup_db_ig`                                    |
+| Same          | Different     | True    | `peers` of type `db_peers` in `db_ig` and `peers` of type `legacy_db_peers` in `backup_db_ig` |
+| Different     | Same          | True    | `peers` in `db_ig` and `backup_peers` both of type `db` in `backup_db_ig`                     |
+| Different     | Different     | True    | `database` of type `db` and `backup_peers` of type `db_peers`                                 |
 
 Example manifest for table above.
+
 ```yaml
 instance_groups:
   - name: db_ig
@@ -577,22 +589,21 @@ instance_groups:
 
 There are two possible ways to fix this:
 
-* Add the `provides` section of the providing job in the release manifest to rename the link using the `as` property.
-* Introduce a second release to provide a backup job with a different link name or type.
+- Add the `provides` section of the providing job in the release manifest to rename the link using the `as` property.
+- Introduce a second release to provide a backup job with a different link name or type.
 
-___
+---
 
 ## Links FAQ
 
-Q: What characters are valid for link names?<br/>
+Q: What characters are valid for link names?
 A: All Unicode characters can be used in names. However a name cannot begin with a colon (`:`).
 
-Q: When are cross-deployment links resolved?<br/>
+Q: When are cross-deployment links resolved?
 A: They are only resolved during a deployment of the consumer. The provider is ready for consumption after a successful deploy of the provider deployment.
 
-Q: If a cross-deployment provider is deleted what happens to the consumer?<br/>
+Q: If a cross-deployment provider is deleted what happens to the consumer?
 A: Consumers will continue to have access to the link until the consumer deployment is redeployed. Consumer VMs can be recreated without losing the links' values. On redeployment, links will no longer resolve if the provider is no longer available.
 
-Q: Are releases the only entities that can provide and consume links?<br/>
+Q: Are releases the only entities that can provide and consume links?
 A: No, there are other entities that can provide links, such as [manual links](links-manual.md), and [external links](links-api.md). There are also [custom link providers](links.md#custom-provider-definitions) which variables can use to [consume some DNS values](dns.md#dns-variables-integration).
-

@@ -1,3 +1,5 @@
+# Using the CPI Config
+
 !!! note
     This feature is available with bosh-release v261+.
 
@@ -6,6 +8,7 @@ In most cases having single Director use a single CPI and hence a single IaaS se
 The CPI config is a YAML file that defines multiple CPIs and properties necessary for each CPI to communicate with an appropriate IaaS section. Once CPIs are specified, operator can associate particular AZ in their cloud config to a particular CPI.
 
 ---
+
 ## Updating and retrieving CPI config {: #update }
 
 To update CPI config on the Director use [`bosh update-cpi-config`](cli-v2.md#update-cpi-config) CLI command.
@@ -18,7 +21,7 @@ bosh update-cpi-config cpis.yml
 bosh cpi-config
 ```
 
-```text
+```yaml
 Using environment '192.168.56.6' as client 'admin'
 
 cpis:
@@ -35,13 +38,14 @@ cpis:
 Once CPI config is updated AZs in the cloud config can reference specific CPI to be used during a deploy. Unlike runtime and cloud configs, CPI config is not tracked directly by the deployments and can be updated separately (useful for updating CPI credentials without forcing redeploy of all the deployments).
 
 ---
+
 ## CPIs Block {: #cpis }
 
 **cpis** [Array, required]: Specifies the CPIs.
 
-* **name** [String, required]: Unique name for a CPI. Example: `openstack-1a`.
-* **type** [String, required]: CPI type. Director will add `_cpi` suffix to the end of the type when calling the CPI binary. Example: `openstack`, `google`.
-* **properties** [Hash, required]: Set of properties to provide to the CPI for each call so that CPI can authenticate and provision resources in an IaaS.
+- **name** [String, required]: Unique name for a CPI. Example: `openstack-1a`.
+- **type** [String, required]: CPI type. Director will add `_cpi` suffix to the end of the type when calling the CPI binary. Example: `openstack`, `google`.
+- **properties** [Hash, required]: Set of properties to provide to the CPI for each call so that CPI can authenticate and provision resources in an IaaS.
 
 !!! note
     Properties will vary depending on the CPI you're trying to use. See the "Global Configuration" section of your CPI for more details (e.g. [AWS](aws-cpi.md#global), [vSphere](vsphere-cpi.md#global)).
@@ -88,6 +92,7 @@ cpis:
 For vSphere, if your datacenter and cluster names have spaces in them, there is no need to put quotes around them when updating your cpi-config.
 
 ---
+
 ## Example {: #example }
 
 Example of a CPI config referencing two separate OpenStack installations:
@@ -172,7 +177,9 @@ azs:
 ```
 
 ---
+
 ## CPI Specific Stemcells {: #stemcells }
+
 Stemcells need to be assigned to a specific CPI and it occurs on upload. If you've already uploaded an appropriate stemcell you'll need to re-upload with `--fix`
 
 ```shell

@@ -1,3 +1,5 @@
+# Creating Packages
+
 A package is a component of a BOSH release that contains a packaging `spec` file and a packaging script.
 Each package also references source code or pre-compiled software that you store in the `src` directory of a BOSH [release  
 directory](create-release.md).
@@ -17,11 +19,11 @@ a BOSH Release topic.
 You specify package contents in the package `spec` file. BOSH automatically creates this file as a template with the following
 sections when you run the `bosh generate-package PACKAGE_NAME` command:
 
- * `name`: Defines the package name.
- * `dependencies`: **(Optional)** Defines a list of other packages that this package depends on.
- * `files`: Defines a list of files that this package contains. You can define this list explicitly or through pattern-matching.  
- * `excluded_files`: **(Optional)** Defines a list of files to be excluded from the package. You can define this list explicitly or through pattern-matching.
- * `no_compression`: **(Optional)** Defines whether compression is disabled for the individual package tarball. Defaults to `false` (compression enabled) if not specified.
+- `name`: Defines the package name.
+- `dependencies`: **(Optional)** Defines a list of other packages that this package depends on.
+- `files`: Defines a list of files that this package contains. You can define this list explicitly or through pattern-matching.  
+- `excluded_files`: **(Optional)** Defines a list of files to be excluded from the package. You can define this list explicitly or through pattern-matching.
+- `no_compression`: **(Optional)** Defines whether compression is disabled for the individual package tarball. Defaults to `false` (compression enabled) if not specified.
 
 !!! note "Version Requirements"
     The `no_compression` flag requires BOSH Director version `282.1.5` or newer and the following stemcell versions:
@@ -32,7 +34,7 @@ To edit a package spec file:
 
 1. Identify all compile-time dependencies.
     A compile-time dependency occurs when a package depends on another package.
-	For more information, refer to the [Make  Dependency Graphs](create-release.md#graph) section of the Creating a BOSH
+    For more information, refer to the [Make  Dependency Graphs](create-release.md#graph) section of the Creating a BOSH
 Release topic.
 1. Run `bosh generate-package PACKAGE_NAME` for each compile-time dependency.
 1. Copy all files that the package requires to the `src` directory of the BOSH release directory.
@@ -41,8 +43,8 @@ Release topic.
 pre-compiled binary.
 
 1. Edit each package spec file as follows:
-    * Add the names of the files for that package.
-    * Add the names of any compile-time dependencies to each package spec file. Use `[]` to indicate an empty array if a package
+    - Add the names of the files for that package.
+    - Add the names of any compile-time dependencies to each package spec file. Use `[]` to indicate an empty array if a package
 has no compile-time dependencies.
 
     The example shows a Ruby spec file with dependencies and file names.
@@ -69,7 +71,6 @@ no_compression: true
 ```
 
 When `no_compression` is set to `true`, the individual package tarball will not be compressed. By default, if `no_compression` is not specified or set to `false`, packages are compressed.
-
 
 ## Create a Packaging Script {: #create-a-packaging-script }
 

@@ -1,3 +1,5 @@
+# Deploying
+
 Once the deployment manifest is complete and the referenced stemcells and releases are uploaded to the Director, we are ready to proceed with the deployment. The CLI has a single command to create and update a deployment: [`bosh deploy` command](cli-v2.md#deploy). From the Director perspective the same steps are taken to create or update a deployment.
 
 To create a Zookeeper deployment from `zookeeper.yml` deployment manifest run the deploy command:
@@ -8,7 +10,7 @@ bosh -e vbox -d zookeeper deploy zookeeper.yml
 
 Should result in:
 
-```text
+```shell
 Using environment '192.168.56.6' as '?'
 
 Task 1133
@@ -39,7 +41,7 @@ bosh -e vbox -d zookeeper instances
 
 Should result in:
 
-```text
+```shell
 Using environment '192.168.56.6' as '?'
 
 Deployment 'zookeeper'

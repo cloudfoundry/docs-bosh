@@ -6,24 +6,20 @@ This method will be called while the VM still has persistent disks attached. It'
 
 To avoid losing track of VMs, make sure to raise an error if VM deletion is not absolutely certain.
 
-
 ## Arguments
 
 - **vm_cid** [String]: Cloud ID of the VM to delete; returned from `create_vm`.
-
 
 ## Result
 
 No return value
 
-
 ## Examples
 
 ### Implementations
 
- * [bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/delete_vm.go)
-
+- [bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/delete_vm.go)
 
 ## Related
 
- * [create_vm](../cpi-api-v2-method/create-vm.md)
+- [create_vm](../cpi-api-v2-method/create-vm.md)

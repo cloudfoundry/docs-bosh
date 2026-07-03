@@ -1,3 +1,5 @@
+# Working with Blobs
+
 !!! note
     Examples use CLI v2.
 
@@ -52,6 +54,7 @@ bosh add-blob ~/Downloads/cockroach-latest.linux-amd64.tgz cockroach-latest.linu
 - updates `config/blobs.yml` to start tracking blobs
 
 ---
+
 ## Listing blobs {: #listing-blobs }
 
 To list currently tracked blobs use `bosh blobs` command:
@@ -73,6 +76,7 @@ Succeeded
 Blobs that have not been uploaded to release blobstore will be marked as `local` until they are uploaded.
 
 ---
+
 ## Uploading blobs {: #saving-blobs }
 
 Blobs should be saved into release blobstore before cutting a new final release so that others can rebuild a release at a future time.
@@ -85,6 +89,7 @@ Blobs should be saved into release blobstore before cutting a new final release 
 `config/blobs.yml` should be checked into a Git repository.
 
 ---
+
 ## Removing blobs {: #removing-blobs }
 
 Once a blob is no longer needed by a package it can be stopped being tracked.

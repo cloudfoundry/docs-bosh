@@ -4,17 +4,14 @@ The recommended implementation is to raise `Bosh::Clouds::NotSupported` error. T
 
 After the Director received NotSupported error, it will delete the VM (via `delete_vm`) and create a new VM with desired network configuration (via `create_vm`).
 
-
 ## Arguments
 
- * `vm_cid` [String]: Cloud ID of the VM to modify; returned from `create_vm`.
- * `networks` [Hash]: Network hashes that specify networks VM must be configured.
-
+- `vm_cid` [String]: Cloud ID of the VM to modify; returned from `create_vm`.
+- `networks` [Hash]: Network hashes that specify networks VM must be configured.
 
 ## Result
 
 No return value
-
 
 ## Examples
 

@@ -15,7 +15,6 @@ The new strategy is called `create-swap-delete`. This strategy shifts IaaS-relat
 
 You can see that `create-swap-delete` introduces new functionality for deferring VM deletions as well. Old VMs will be "orphaned" (similar to disks) and scheduled for clean up. Typically cleanup starts within 5 minutes.
 
-
 ## Usage
 
 To change this behavior in your deployment, add `vm_strategy` to your deployment's [`update` section](manifest-v2.md#update). For example...
@@ -28,14 +27,13 @@ To change this behavior in your deployment, add `vm_strategy` to your deployment
 !!! tip
     The `update` section can be overridden at the instance group level. This allows you to opt-in or opt-out specific instance groups which need different strategies.
 
-
 ## Use Cases
 
- * Reduce Deployment Time - when you use the `create-swap-delete` strategy BOSH creates VMs in parallel at the start of the deploy, which will reduce the time taken for VMs to be created or recreated.
- * H/A Replacement - you may want to use `create-swap-delete` with a non-H/A deployment due to the reduced update time and downtime (~20s), instead of running a full H/A deployment with either strategy.
-    * Persistent Disks - if you are using a persistent disk and considering using `create-swap-delete` with a non-H/A deployment, the downtime will also depend on the time taken for the IaaS to detach and attach the persistent disks. IaaSes take different periods of time for this operation, and duration can vary even within the same IaaS.
+* Reduce Deployment Time - when you use the `create-swap-delete` strategy BOSH creates VMs in parallel at the start of the deploy, which will reduce the time taken for VMs to be created or recreated.
+* H/A Replacement - you may want to use `create-swap-delete` with a non-H/A deployment due to the reduced update time and downtime (~20s), instead of running a full H/A deployment with either strategy.
+  * Persistent Disks - if you are using a persistent disk and considering using `create-swap-delete` with a non-H/A deployment, the downtime will also depend on the time taken for the IaaS to detach and attach the persistent disks. IaaSes take different periods of time for this operation, and duration can vary even within the same IaaS.
 
 ## Caveats
 
- * The `create-swap-delete` strategy will not be used for instances in instance groups that are using static IPs due to the exclusivity of the IPs in IaaSes.
- * When using `create-swap-delete`, your IaaS resource usage will inherently surge during the deploy while BOSH creates additional VMs in preparation for update. You may need to review any resource limits which are in effect for your IaaS and account.
+* The `create-swap-delete` strategy will not be used for instances in instance groups that are using static IPs due to the exclusivity of the IPs in IaaSes.
+* When using `create-swap-delete`, your IaaS resource usage will inherently surge during the deploy while BOSH creates additional VMs in preparation for update. You may need to review any resource limits which are in effect for your IaaS and account.

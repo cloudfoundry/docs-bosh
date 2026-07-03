@@ -1,3 +1,5 @@
+# Deploying Step by Step
+
 The Director will do the following steps when `bosh deploy` (or its related commands such as start, stop and recreate) command runs:
 
 1. Check if there is a deployment with the name specified by the deployment manifest
@@ -91,6 +93,7 @@ The Director will do the following steps when `bosh deploy` (or its related comm
         - issue get_state Agent call until job state is running or times out
 
 ---
+
 ## Update and propagate DNS records {: #dns }
 
 1. Create a new DNS records dataset and saves it to the blobstore

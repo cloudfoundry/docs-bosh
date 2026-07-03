@@ -5,5 +5,4 @@
 
 See [Migration guide](cpi-api-v2-migration-guide.md).
 
-Methods in the Version 1 section of this reference include only those methods which 
-differ from, or are not included in, Version 2.  
+Methods in the Version 1 section of this reference include only those methods which differ from, or are not included in, Version 2.

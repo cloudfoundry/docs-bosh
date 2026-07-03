@@ -1,3 +1,5 @@
+# Usage
+
 !!! warning
     If you are using Director version between v241 and v256, once you opt into using cloud config all deployments must be converted to use new format. If you want to deploy both v1 and v2 manifests, update to Director v257+.
 
@@ -6,6 +8,7 @@ Previously each deployment manifest specified IaaS and IaaS agnostic configurati
 The cloud config is a YAML file that defines IaaS specific configuration used by the Director and all deployments. It allows us to separate IaaS specific configuration into its own file and keep deployment manifests IaaS agnostic.
 
 ---
+
 ## Updating and retrieving cloud config {: #update }
 
 To update cloud config on the Director use [`bosh update-cloud-config` command](cli-v2.md#update-cloud-config).
@@ -50,6 +53,7 @@ Succeeded
 ```
 
 ---
+
 ## Example {: #example }
 
 ```yaml
@@ -111,12 +115,13 @@ compilation:
 - [See vSphere CPI example](vsphere-cpi.md#cloud-config)
 
 ---
+
 ## AZs Block {: #azs }
 
 **azs** [Array, required]: Specifies the AZs available to deployments. At least one should be specified.
 
-* **name** [String, required]: Name of an AZ within the Director.
-* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to associated with AZ; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#azs-cloud-properties) below. Example: `availability_zone`. Default is `{}` (empty Hash).
+- **name** [String, required]: Name of an AZ within the Director.
+- **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to associated with AZ; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#azs-cloud-properties) below. Example: `availability_zone`. Default is `{}` (empty Hash).
 
 See [first class AZs](azs.md) for more details.
 
@@ -141,6 +146,7 @@ azs:
 - [See vSphere CPI AZ cloud properties](vsphere-cpi.md#azs)
 
 ---
+
 ## Networks Block {: #networks }
 
 **networks** [Array, required]: Each sub-block listed in the Networks block specifies a network configuration that jobs can reference. There are three different network types: `manual`, `dynamic`, and `vip`. At least one should be specified.
@@ -156,12 +162,13 @@ See [networks](networks.md) for more details.
 - [See vSphere CPI network cloud properties](vsphere-cpi.md#networks)
 
 ---
+
 ## VM Types Block {: #vm-types }
 
 **vm_types** [Array, required]: Specifies the [VM types](terminology.md#vm-type) available to deployments. At least one should be specified.
 
-* **name** [String, required]: A unique name used to identify and reference the VM type
-* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create VMs; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#vm-types-cloud-properties) below. Example: `instance_type: m3.medium`. Default is `{}` (empty Hash).
+- **name** [String, required]: A unique name used to identify and reference the VM type
+- **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create VMs; for most IaaSes, some data here is actually required. See [CPI Specific `cloud_properties`](#vm-types-cloud-properties) below. Example: `instance_type: m3.medium`. Default is `{}` (empty Hash).
 
 Example:
 
@@ -181,6 +188,7 @@ vm_types:
 - [See vSphere CPI VM types cloud properties](vsphere-cpi.md#resource-pools)
 
 ---
+
 ## VM Extensions Block {: #vm-extensions }
 
 !!! note
@@ -188,8 +196,8 @@ vm_types:
 
 **vm_extensions** [Array, optional]: Specifies the [VM extensions](terminology.md#vm-extension) available to deployments.
 
-* **name** [String, required]: A unique name used to identify and reference the VM extension
-* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to configure VMs. Example: `elbs: [...]`. Default is `{}` (empty Hash).
+- **name** [String, required]: A unique name used to identify and reference the VM extension
+- **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to configure VMs. Example: `elbs: [...]`. Default is `{}` (empty Hash).
 
 Example:
 
@@ -203,13 +211,14 @@ vm_extensions:
 Any IaaS specific configuration could be placed into a VM extension's `cloud_properties`.
 
 ---
+
 ## Disk Types Block {: #disk-types }
 
 **disk_types** [Array, required]: Specifies the [disk types](terminology.md#disk-types) available to deployments. At least one should be specified.
 
-* **name** [String, required]: A unique name used to identify and reference the disk type
-* **disk_size** [Integer, required]: Specifies the disk size. `disk_size` must be a positive integer. BOSH creates a [persistent disk](persistent-disks.md) of that size in megabytes and attaches it to each job instance VM.
-* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create disks. Examples: `type`, `iops`. Default is `{}` (empty Hash).
+- **name** [String, required]: A unique name used to identify and reference the disk type
+- **disk_size** [Integer, required]: Specifies the disk size. `disk_size` must be a positive integer. BOSH creates a [persistent disk](persistent-disks.md) of that size in megabytes and attaches it to each job instance VM.
+- **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create disks. Examples: `type`, `iops`. Default is `{}` (empty Hash).
 
 Example:
 
@@ -230,22 +239,23 @@ disk_types:
 - [See vSphere CPI disk type cloud properties](vsphere-cpi.md#disk-pools)
 
 ---
+
 ## Compilation Block {: #compilation }
 
 The Director creates compilation VMs for release compilation. The Director will compile each release on every necessary stemcell used in a deployment. A compilation definition allows to specify VM characteristics.
 
 **compilation** [Hash, required]: Properties of compilation VMs.
 
-* **workers** [Integer, required]: The maximum number of compilation VMs.
-* **az** [String, required]: Name of the AZ defined in AZs section to use for creating compilation VMs.
-* **vm_type** [String, optional]: Name of the VM type defined in VM types section to use for creating compilation VMs. Alternatively, you can specify the `vm_resources`, or `cloud_properties` key.
-* **orphan_workers** [Boolean, optional]: When enabled, BOSH will orphan compilation VMs after they finishing compiling packages for the VMs to be deleted asynchronously (instead of blocking the deployment). Default `false`. Available in bosh-release v267+.
-* **vm_resources** [Hash, optional]: Specifies generic VM resources such as CPU, RAM and disk size that are automatically translated into correct VM cloud properties to determine VM size. VM size is determined on best effort basis as some IaaSes may not support exact size configuration. Currently some CPIs (Google and Azure) do not support this functionality. Available in bosh-release v264+.
-* **vm_extensions** [Array, optional]: Names of the VM extensions defined in the VM extensions section to use for creating compilation VMs.
-* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create VMs. Most IaaSes require this. Examples: `instance_type`, `availability_zone`. Default is `{}` (empty Hash).
-* **network** [String, required]: References a valid network name defined in the Networks block. BOSH assigns network properties to compilation VMs according to the type and properties of the specified network.
-* **reuse\_compilation\_vms** [Boolean, optional]: If `false`, BOSH creates a new compilation VM for each new package compilation and destroys the VM when compilation is complete. If `true`, compilation VMs are re-used when compiling packages. Defaults to `false`.
-* **env** [Hash, optional]: Same as [`env` for instance groups](manifest-v2.md#instance-groups).
+- **workers** [Integer, required]: The maximum number of compilation VMs.
+- **az** [String, required]: Name of the AZ defined in AZs section to use for creating compilation VMs.
+- **vm_type** [String, optional]: Name of the VM type defined in VM types section to use for creating compilation VMs. Alternatively, you can specify the `vm_resources`, or `cloud_properties` key.
+- **orphan_workers** [Boolean, optional]: When enabled, BOSH will orphan compilation VMs after they finishing compiling packages for the VMs to be deleted asynchronously (instead of blocking the deployment). Default `false`. Available in bosh-release v267+.
+- **vm_resources** [Hash, optional]: Specifies generic VM resources such as CPU, RAM and disk size that are automatically translated into correct VM cloud properties to determine VM size. VM size is determined on best effort basis as some IaaSes may not support exact size configuration. Currently some CPIs (Google and Azure) do not support this functionality. Available in bosh-release v264+.
+- **vm_extensions** [Array, optional]: Names of the VM extensions defined in the VM extensions section to use for creating compilation VMs.
+- **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create VMs. Most IaaSes require this. Examples: `instance_type`, `availability_zone`. Default is `{}` (empty Hash).
+- **network** [String, required]: References a valid network name defined in the Networks block. BOSH assigns network properties to compilation VMs according to the type and properties of the specified network.
+- **reuse\_compilation\_vms** [Boolean, optional]: If `false`, BOSH creates a new compilation VM for each new package compilation and destroys the VM when compilation is complete. If `true`, compilation VMs are re-used when compiling packages. Defaults to `false`.
+- **env** [Hash, optional]: Same as [`env` for instance groups](manifest-v2.md#instance-groups).
 
 Example:
 

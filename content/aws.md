@@ -1,37 +1,30 @@
----
-title: Amazon Web Services
----
-
 # Amazon Web Services
 
 The `aws` CPI can be used with [Amazon Web Services](https://aws.amazon.com/).
 
- * Release: [cloudfoundry/bosh-aws-cpi-release](https://github.com/cloudfoundry/bosh-aws-cpi-release)
- * Issues: [GitHub Issues](https://github.com/cloudfoundry/bosh-aws-cpi-release/issues)
- * Slack: [cloudfoundry#bosh](https://cloudfoundry.slack.com/messages/bosh)
-
+- Release: [cloudfoundry/bosh-aws-cpi-release](https://github.com/cloudfoundry/bosh-aws-cpi-release)
+- Issues: [GitHub Issues](https://github.com/cloudfoundry/bosh-aws-cpi-release/issues)
+- Slack: [cloudfoundry#bosh](https://cloudfoundry.slack.com/messages/bosh)
 
 ## Concepts
 
 The following table maps BOSH concepts to their AWS-native equivalents.
 
-|       BOSH        | Amazon Web Services |
-| ----------------- | ------------------- |
+|       BOSH        | Amazon Web Services                                                                                                   |
+| ----------------- | -------------------                                                                                                   |
 | Availability Zone | [Availability Zone](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) |
-| Virtual Machine   | [EC2 Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html) |
-| Network Subnet    | [VPC Subnet](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html) |
-| Virtual IP        | [EC2 Elastic IP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) |
-| Persistent Disk   | [EC2 EBS Volume](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html) |
-| Disk Snapshot     | [EC2 EBS Snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html) |
-| Stemcell          | [EC2 Amazon Machine Image](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) |
-| Agent Settings    | EC2 Instance User Metadata; BOSH Registry |
-
+| Virtual Machine   | [EC2 Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html)                                    |
+| Network Subnet    | [VPC Subnet](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html)                                 |
+| Virtual IP        | [EC2 Elastic IP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html)                   |
+| Persistent Disk   | [EC2 EBS Volume](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html)                                 |
+| Disk Snapshot     | [EC2 EBS Snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html)                             |
+| Stemcell          | [EC2 Amazon Machine Image](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html)                             |
+| Agent Settings    | EC2 Instance User Metadata; BOSH Registry                                                                             |
 
 ## Feature Support
 
 The following sections describe some specific BOSH features supported by the
 CPI.
-
 
 ### Network
 
@@ -42,7 +35,6 @@ The CPI does not support multiple NICs being attached to a VM.
 | Manual       | Single network per instance |
 | Dynamic      | Single network per instance |
 | VIP          | Single network per instance |
-
 
 ### Encryption
 

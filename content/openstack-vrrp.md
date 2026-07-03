@@ -1,3 +1,5 @@
+# OpenStack - Using VRRP
+
 !!! note
     This feature is available with bosh-openstack-cpi v37+.
 
@@ -7,30 +9,36 @@ In order for this to work, your OpenStack network needs to support VRRP and mult
 
 As the OpenStack CPI takes care of creating neutron ports attached to bosh vms for you, you cannot set this property yourself. Instead, you tell the OpenStack CPI to set `allowed_address_pairs` automatically the ports by using a `vm_extension`:
 
-* create a neutron port with the VRRP IP you want to expose to your clients. We will not attach this port to any VM, it's rather a way to "reserve" the IP address that will later be allowed on the bosh VM ports. Following is a sample terraform script for automating such port creation: 
-```
- resource "openstack_networking_port_v2" "vrrp_port" { 
-   name       = "my_cluster_virtual_ip_port" 
-   network_id = openstack_networking_network_v2.my_net.id 
-   fixed_ip { 
+- create a neutron port with the VRRP IP you want to expose to your clients. We will not attach this port to any VM, it's rather a way to "reserve" the IP address that will later be allowed on the bosh VM ports. Following is a sample terraform script for automating such port creation:
+
+```terraform
+ resource "openstack_networking_port_v2" "vrrp_port" {
+   name       = "my_cluster_virtual_ip_port"
+   network_id = openstack_networking_network_v2.my_net.id
+   fixed_ip {
      subnet_id = openstack_networking_subnet_v2.my_subnet.id
-     ip_address = "x.x.x.x" #The VRRP IP 
-   } 
-   admin_state_up = "true" 
+     ip_address = "x.x.x.x" #The VRRP IP
+   }
+   admin_state_up = "true"
 ```
-* create a `vm_extension` in your `cloud-config`:
-```
+
+- create a `vm_extension` in your `cloud-config`:
+
+```yaml
 vm_extensions:
   - name: vrrp-ip
     cloud_properties:
       allowed_address_pairs: <VRRP IP>
 ```
-* Use the `vm_extension` in your deployment manifest like this, to select the instance groups on which it will apply. To ensure consistency and fail fast, the OpenStack CPI will check the presence of the OpenStack port matching the VRRP IP. Also, all vms in this instance group will have their ports configured with the `allowed_address_pairs` property set to the VRRP IP and their mac address,  asking OpenStack to allow the VM to send/receive traffic on this IP address.
-```
+
+- Use the `vm_extension` in your deployment manifest like this, to select the instance groups on which it will apply. To ensure consistency and fail fast, the OpenStack CPI will check the presence of the OpenStack port matching the VRRP IP. Also, all vms in this instance group will have their ports configured with the `allowed_address_pairs` property set to the VRRP IP and their mac address,  asking OpenStack to allow the VM to send/receive traffic on this IP address.
+
+```yaml
 instance_groups:
   - name: my-instance-group
     vm_extensions: [vrrp-ip]
 ```
-* Co-locate the `keepalived` job of the `haproxy-boshrelease` and configure the VRRP IP as [`keepalived.ip`](https://bosh.io/jobs/keepalived?source=github.com/cloudfoundry-community/haproxy-boshrelease#p%3dkeepalived.vip)
+
+- Co-locate the `keepalived` job of the `haproxy-boshrelease` and configure the VRRP IP as [`keepalived.ip`](https://bosh.io/jobs/keepalived?source=github.com/cloudfoundry-community/haproxy-boshrelease#p%3dkeepalived.vip)
 
 When your master vm goes down, the VRRP IP will be attached to your slave vm and all clients don't need to be updated, they keep communicating to the VRRP IP.

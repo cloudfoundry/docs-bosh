@@ -1,3 +1,5 @@
+# Creating Ops Files
+
 It's usually necessary to apply an opinionated set of structural changes to a YAML document (manifest, cloud config, etc.) before submitting it to the CLI commands (`bosh create-env`, `bosh deploy`, etc.) for processing. Such changes could be an addition or removal of certain job properties, instance groups, changes to property values.
 
 !!! tip
@@ -10,6 +12,7 @@ A single operation represents a single change. An operations file is a YAML docu
 Several CLI commands such as `create-env`, `deploy` and `interpolate` allow to provide operations files via `--ops-file` flag to be applied before processing the document.
 
 ---
+
 ## Example {: #example }
 
 Following is an operations file (`replace-name.yml`) with a single operation that replaces value of top level key `name` with a string `other-cf`:
@@ -40,6 +43,7 @@ bosh interpolate base.yml --ops-file replace-name.yml
 ```
 
 ---
+
 ## Path syntax {: #path }
 
 Each operation acts on a location within a YAML document. Path represents a location. It's important to note that path (location) does not represent what operation will be performed, just like lat & long do not represent what happens at a physical location.
@@ -58,8 +62,8 @@ All paths follow these rules:
 - Paths always start at the root of the document with a `/`
 
 - String components typically refer to hash keys (ex: `/key1`)
-    - Strings ending with `?` refer to hash keys that may or may not exist
-        - "optionality" carries over to the items to the right
+  - Strings ending with `?` refer to hash keys that may or may not exist
+    - "optionality" carries over to the items to the right
 
 - Integer components refer to array indices (ex: `/0`, `/-1`)
 
@@ -68,14 +72,15 @@ All paths follow these rules:
 - Array insertion could be affected via `:before` and `:after` (as of CLI v2.0.40+)
 
 - `-` component refers to an imaginary index after last array index (ex: `/-`)
-    - If there is an array of length 3 (`[0,1,2]`), then `-` would refer to 4th non-existent position
+  - If there is an array of length 3 (`[0,1,2]`), then `-` would refer to 4th non-existent position
 
 - `key=val` component matches hashes within an array (ex: `/key=val`)
-    - Values ending with `?` refer to array items that may or may not exist
+  - Values ending with `?` refer to array items that may or may not exist
 
 Path components without "optional" (`?`) annotation imply that referenced location must exist within a document. Operation will fail to be performed if that location is not found. "Optional" annotation can be used to signify indifference to the presense of referenced location, making it possible for operation either to ignore it (while removal) or create it lazily (while replacement). If a component in a path is annotated as optional, components following it will be considered optional implicitly.
 
 ---
+
 ## Operations {: #ops }
 
 There are currently two types of operations: replace and remove.
@@ -101,6 +106,7 @@ items:
 ```
 
 ---
+
 ### Hash
 
 Set `key` to `10`...
@@ -336,16 +342,15 @@ items:
 - name: item8
 ```
 
-
 ## Escaping
 
 The following characters can be escaped with special sequences...
 
 | Desired | Escaped |
 | ------- | ------- |
-| `~` | `~0` |
-| `/` | `~1` |
-| `:` | `~7` |
+| `~`     | `~0`    |
+| `/`     | `~1`    |
+| `:`     | `~7`    |
 
 For example, to remove a variable with a `name` of `/root_certificate`, you might do...
 

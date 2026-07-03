@@ -27,13 +27,13 @@ If the CPI does not support `update_disk`, the Director falls back to the standa
 
 ## Arguments
 
- * `disk_cid` [String]: Cloud ID of the disk to update; returned from `create_disk`.
- * `new_size` [Integer]: New disk size in MiB.
- * `cloud_properties` [Hash]: New cloud properties for the disk. The properties are specific to the IaaS and are opaque to the Director. The Director does not validate the properties and passes them to the CPI as-is.
+- `disk_cid` [String]: Cloud ID of the disk to update; returned from `create_disk`.
+- `new_size` [Integer]: New disk size in MiB.
+- `cloud_properties` [Hash]: New cloud properties for the disk. The properties are specific to the IaaS and are opaque to the Director. The Director does not validate the properties and passes them to the CPI as-is.
 
 ## Result
 
- * `new_disk_cid` [String or nil]: If the disk was replaced (e.g., via snapshot and recreate due to an incompatible type change), returns the new disk's Cloud ID. The Director persists this new CID and uses it for subsequent operations. If the disk was updated in-place, the CPI may return `nil` or the original disk CID - in both cases, the Director continues using the existing CID.
+- `new_disk_cid` [String or nil]: If the disk was replaced (e.g., via snapshot and recreate due to an incompatible type change), returns the new disk's Cloud ID. The Director persists this new CID and uses it for subsequent operations. If the disk was updated in-place, the CPI may return `nil` or the original disk CID - in both cases, the Director continues using the existing CID.
 
 ## Examples
 
@@ -61,10 +61,10 @@ null
 
 ### Implementations
 
- * [cloudfoundry/bosh-azure-cpi-release](https://github.com/cloudfoundry/bosh-azure-cpi-release/blob/fc16e6f65b0533f83052812dc0d6c1edefc9ac28/src/bosh_azure_cpi/lib/cloud/azure/cloud.rb#L482)
- * [cloudfoundry/bosh-google-cpi-release](https://github.com/cloudfoundry/bosh-google-cpi-release/blob/master/src/bosh-google-cpi/action/update_disk.go)
+- [cloudfoundry/bosh-azure-cpi-release](https://github.com/cloudfoundry/bosh-azure-cpi-release/blob/fc16e6f65b0533f83052812dc0d6c1edefc9ac28/src/bosh_azure_cpi/lib/cloud/azure/cloud.rb#L482)
+- [cloudfoundry/bosh-google-cpi-release](https://github.com/cloudfoundry/bosh-google-cpi-release/blob/master/src/bosh-google-cpi/action/update_disk.go)
 
 ## Related
 
- * [resize_disk](resize-disk.md)
- * [create_disk](create-disk.md)
+- [resize_disk](resize-disk.md)
+- [create_disk](create-disk.md)

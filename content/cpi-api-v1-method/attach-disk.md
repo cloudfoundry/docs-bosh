@@ -6,17 +6,14 @@ Typically each VM will have one disk attached at a time to store persistent data
 
 Agent settings should have been updated with necessary information about given disk.
 
-
 ## Arguments
 
- * `vm_cid` [String]: Cloud ID of the VM.
- * `disk_cid` [String]: Cloud ID of the disk.
-
+- `vm_cid` [String]: Cloud ID of the VM.
+- `disk_cid` [String]: Cloud ID of the disk.
 
 ## Result
 
 No return value
-
 
 ## Agent settings
 
@@ -24,41 +21,31 @@ For the Agent to eventually format, partition and mount attached disk, it needs 
 
 ```json
 {
-	"agent_id": "4149ba0f-38d9-4485-476f-1581be36f290",
-
-	"vm": { "name": "i-347844" },
-
-	"networks": { ... },
-
-	"disks": {
-		"system": "/dev/sda",
-		"ephemeral": "/dev/sdb",
-		"persistent": {
-			"vol-3475945": { "volume_id": "3" },
-			"vol-7447851": { "path": "/dev/sdd" },
-		}
-	},
-
-	"mbus": "https://mbus:mbus-password@0.0.0.0:6868",
-
-	"ntp": [ ... ],
-
-	"blobstore": { ... },
-
-	"env": {},
+ "agent_id": "4149ba0f-38d9-4485-476f-1581be36f290",
+ "vm": { "name": "i-347844" },
+ "networks": { ... },
+ "disks": {
+  "system": "/dev/sda",
+  "ephemeral": "/dev/sdb",
+  "persistent": {
+   "vol-3475945": { "volume_id": "3" },
+   "vol-7447851": { "path": "/dev/sdd" },
+  }
+ },
+ "mbus": "https://mbus:mbus-password@0.0.0.0:6868",
+ "ntp": [ ... ],
+ "blobstore": { ... },
+ "env": {},
 }
 ```
 
-
 ## Examples
-
 
 ### Implementations
 
- * [cloudfoundry/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/attach_disk.go)
-
+- [cloudfoundry/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/attach_disk.go)
 
 ## Related
 
- * [create_disk](../cpi-api-v2-method/create-disk.md)
- * [detach_disk](../cpi-api-v2-method/detach-disk.md)
+- [create_disk](../cpi-api-v2-method/create-disk.md)
+- [detach_disk](../cpi-api-v2-method/detach-disk.md)

@@ -1,3 +1,5 @@
+# Release URLs
+
 This topic describes allowed types of URLs for downloading releases (typically
 found in deployment manifests).
 
@@ -21,6 +23,7 @@ Above declaration is equivalent to running
 `bosh upload-release syslog-11.tgz --sha1 332ac15609b220a3fdf5efad0e0aa069d8235788`.
 
 ---
+
 ## HTTP/HTTPs URLs {: #http }
 
 Upload Release tarball from remote location.
@@ -40,6 +43,7 @@ Above declaration is equivalent to running
 `bosh upload-release https://bosh.io/d/github.com/cloudfoundry/syslog-release?v=11 --sha1 332ac15609b220a3fdf5efad0e0aa069d8235788`.
 
 ---
+
 ## Git over HTTP/HTTPs URLs {: #git-http }
 
 Reconstruct Release tarball from remote Git repository.

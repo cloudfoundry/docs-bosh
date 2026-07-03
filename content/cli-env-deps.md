@@ -1,3 +1,5 @@
+# CLI env Dependencies
+
 !!! note
     Applies to CLI v2.
 
@@ -22,11 +24,13 @@ The `bosh create-env` (and `bosh delete-env`) command has dependencies.
     **Mac OS X**
 
     Install Apple Command Line Tools:
+
     ```shell
     xcode-select --install
     ```
 
     Use [Homebrew](http://brew.sh) to install OpenSSL:
+
     ```shell
     brew install openssl
     ```

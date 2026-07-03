@@ -1,6 +1,9 @@
+# Monitoring
+
 BOSH monitors deployed VMs and release jobs' processes on those VMs via the Health Monitor and the help of the Agent, and Monit.
 
 ---
+
 ## VMs {: #vm }
 
 [The Health Monitor](bosh-components.md#health-monitor) continuously checks presence of the deployed VMs. The Agent on each VM produces a heartbeat every minute and sends it to the Health Monitor over [NATS](bosh-components.md#nats).
@@ -27,27 +30,32 @@ Resurrector plugin continuously cross-references VMs expected to be running agai
 See [Automatic repair with Resurrector](resurrector.md) for details.
 
 ---
+
 ## Processes on VMs {: #process }
 
 Release jobs' process monitoring on each VM is done with the help of [Monit, version 5.2.5](https://web.archive.org/web/20110816041503/https://mmonit.com/monit/documentation/monit.html). Monit continuously monitors presence of the configured release jobs' processes and restarts processes that are not found. Process restarts, failures, etc. are reported to the Agent which in turn reports them as alerts to the Health Monitor. Each Health Monitor plugin is given an opportunity to act on each alert.
 
 ---
+
 ## SSH Events {: #ssh }
 
 The Agent on each VM sends an alert when someone/something tries to log into the system via SSH. Successful and failed attempts are recorded.
 
 ---
+
 ## Deploy Events {: #deploy }
 
 The Director sends an alert when a deployment starts, successfully completes or errors.
 
 ---
+
 ## NATS {: #nats }
 
-NATS monitoring requires BOSH version `268.4+` and can be enabled by setting the director property `enable_metrics_endpoint` to `true` as described [here](https://bosh.io/jobs/nats?source=github.com/cloudfoundry/bosh#p%3dnats.enable_metrics_endpoint).
+NATS monitoring requires BOSH version `268.4+` and can be enabled by setting the director property `enable_metrics_endpoint` to `true` as described in the [NATS job documentation](https://bosh.io/jobs/nats?source=github.com/cloudfoundry/bosh#p%3dnats.enable_metrics_endpoint).
 The monitoring endpoint is exposed locally on the director VM. More information about it can be found in the [NATS documentation](https://docs.nats.io/running-a-nats-service/nats_admin/monitoring).
 
 ---
+
 ## NGINX {: #nginx }
 
 Nginx monitoring requires BOSH version `268.3+` and can be enabled by setting `enable_metrics_endpoint` to `true`.

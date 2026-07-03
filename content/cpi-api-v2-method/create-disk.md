@@ -2,21 +2,17 @@
 
 Creates disk with specific size. Disk does not belong to any given VM.
 
-
 ## Arguments
 
- * `size` [Integer]: Size of the disk in MiB.
- * `cloud_properties` [Hash]: Cloud properties hash specified in the deployment manifest under the disk pool.
- * `vm_cid` [String]: Cloud ID of the VM created disk will most _likely_ be attached; it could be used to .optimize disk placement so that disk is located near the VM.
-
+- `size` [Integer]: Size of the disk in MiB.
+- `cloud_properties` [Hash]: Cloud properties hash specified in the deployment manifest under the disk pool.
+- `vm_cid` [String]: Cloud ID of the VM created disk will most _likely_ be attached; it could be used to .optimize disk placement so that disk is located near the VM.
 
 ## Returned
 
- * `disk_cid` [String]: Cloud ID of the created disk.
-
+- `disk_cid` [String]: Cloud ID of the created disk.
 
 ## Examples
-
 
 ### API Request
 
@@ -33,10 +29,9 @@ Creates disk with specific size. Disk does not belong to any given VM.
 
 ### Implementations
 
- * [cloudfoundry/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/create_disk.go)
-
+- [cloudfoundry/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/create_disk.go)
 
 ## Related
 
- * [attach_disk](attach-disk.md)
- * [delete_disk](delete-disk.md)
+- [attach_disk](attach-disk.md)
+- [delete_disk](delete-disk.md)

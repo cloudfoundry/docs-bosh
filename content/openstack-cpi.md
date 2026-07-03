@@ -1,10 +1,12 @@
+# OpenStack CPI Usage
+
 This topic describes cloud properties for different resources created by the OpenStack CPI.
 
 ## AZs {: #azs }
 
 Schema for `cloud_properties` section:
 
-* **availability_zone** [String, required]: Availability zone to use for creating instances. Example: `east`.
+- **availability_zone** [String, required]: Availability zone to use for creating instances. Example: `east`.
 
 Example:
 
@@ -16,12 +18,13 @@ azs:
 ```
 
 ---
+
 ## Networks {: #networks }
 
 Schema for `cloud_properties` section used by dynamic network or manual network subnet:
 
-* **net_id** [String, required]: Network ID containing the subnet in which the instance will be created. Example: `net-b98ab66e-6fae-4c6a-81af-566e630d21d1`.
-* **security_groups** [Array, optional]: Array of security group names or UUIDs to apply for all VMs that are placed on this network. Defaults to security groups specified by `default_security_groups` in the global CPI settings unless security groups are specified on a resource pool/vm type for a VM. If security groups are specified on a resource pool and a network, the resource pool security groups takes precedence since CPI v34+. In older CPI versions prior v34, security groups can either be specified for a network or a resource pool. Security group UUIDs can be used since CPI v39+.
+- **net_id** [String, required]: Network ID containing the subnet in which the instance will be created. Example: `net-b98ab66e-6fae-4c6a-81af-566e630d21d1`.
+- **security_groups** [Array, optional]: Array of security group names or UUIDs to apply for all VMs that are placed on this network. Defaults to security groups specified by `default_security_groups` in the global CPI settings unless security groups are specified on a resource pool/vm type for a VM. If security groups are specified on a resource pool and a network, the resource pool security groups takes precedence since CPI v34+. In older CPI versions prior v34, security groups can either be specified for a network or a resource pool. Security group UUIDs can be used since CPI v39+.
 
 Example of manual network:
 
@@ -56,22 +59,23 @@ networks:
 ```
 
 ---
+
 ## VM Types / VM Extensions {: #resource-pools }
 
 Schema for `cloud_properties` section:
 
-* **instance_type** [String, required]: Type of the instance. Example: `m1.small`.
-* **availability_zone** [String, required]: Availability zone to use for creating instances. Example: `east`.
-* **security_groups** [Array, optional]: Array of security group names or UUIDs to apply for all VMs that are placed on this network. Defaults to security groups specified by `default_security_groups` in the global CPI settings unless security groups are specified on one of the VM networks. If security groups are specified on a resource pool and a network, the resource pool security groups takes precedence since CPI v34+. In older CPI versions prior v34, security groups can either be specified for a network or a resource pool. Security group UUIDs can be used since CPI v39+.
-* **key_name** [String, optional]: Key pair name. Defaults to key pair name specified by `default_key_name` in the global CPI settings. Example: `bosh`.
-* **scheduler_hints** [Hash, optional]: Data passed to the OpenStack Filter scheduler to influence its decision where new VMs can be placed. See [VM Anti-Affinity](vm-anti-affinity.md#openstack) for a detailed example. Example: `{ group: af09abf2-2283... }`
-* **root_disk** [Hash, optional]: Custom root disk properties. Requires `boot_from_volume: true` either [globally](https://bosh.io/jobs/openstack_cpi?source=github.com/cloudfoundry/bosh-openstack-cpi-release#p=openstack.boot_from_volume) or locally in this VM Type to enable cinder-backed boot volumes. Available in v25+.
-    * **size** [Integer, required]: Specifies the disk size in gigabytes.
-* **loadbalancer_pools** [Array, optional]:  Array of Hashes defining LBaaSv2 pools to attach this instance to. Requires neutron LBaaSv2 extension and OpenStack Mitaka or newer. Available in v32+.
-    * **name** [String, required]: The name of the LBaaSv2 loadbalancer pool
-    * **port** [Integer, required]: The port exposed on the instance
-* **boot\_from\_volume** [Boolean, optional]: Override global [`boot_from_volume`](https://bosh.io/jobs/openstack_cpi?source=github.com/cloudfoundry/bosh-openstack-cpi-release#p=openstack.boot_from_volume) to enable cinder-backed boot volumes for this VM Type. Available in v34+.
-* **allowed_address_pairs** [String, optional]: A single VRRP IP address that associated VMs will be allowed to use in addition to their primary IP address. See [Using VRRP](openstack-vrrp.md) for more details. Available in v37+.
+- **instance_type** [String, required]: Type of the instance. Example: `m1.small`.
+- **availability_zone** [String, required]: Availability zone to use for creating instances. Example: `east`.
+- **security_groups** [Array, optional]: Array of security group names or UUIDs to apply for all VMs that are placed on this network. Defaults to security groups specified by `default_security_groups` in the global CPI settings unless security groups are specified on one of the VM networks. If security groups are specified on a resource pool and a network, the resource pool security groups takes precedence since CPI v34+. In older CPI versions prior v34, security groups can either be specified for a network or a resource pool. Security group UUIDs can be used since CPI v39+.
+- **key_name** [String, optional]: Key pair name. Defaults to key pair name specified by `default_key_name` in the global CPI settings. Example: `bosh`.
+- **scheduler_hints** [Hash, optional]: Data passed to the OpenStack Filter scheduler to influence its decision where new VMs can be placed. See [VM Anti-Affinity](vm-anti-affinity.md#openstack) for a detailed example. Example: `{ group: af09abf2-2283... }`
+- **root_disk** [Hash, optional]: Custom root disk properties. Requires `boot_from_volume: true` either [globally](https://bosh.io/jobs/openstack_cpi?source=github.com/cloudfoundry/bosh-openstack-cpi-release#p=openstack.boot_from_volume) or locally in this VM Type to enable cinder-backed boot volumes. Available in v25+.
+    - **size** [Integer, required]: Specifies the disk size in gigabytes.
+- **loadbalancer_pools** [Array, optional]:  Array of Hashes defining LBaaSv2 pools to attach this instance to. Requires neutron LBaaSv2 extension and OpenStack Mitaka or newer. Available in v32+.
+    - **name** [String, required]: The name of the LBaaSv2 loadbalancer pool
+    - **port** [Integer, required]: The port exposed on the instance
+- **boot\_from\_volume** [Boolean, optional]: Override global [`boot_from_volume`](https://bosh.io/jobs/openstack_cpi?source=github.com/cloudfoundry/bosh-openstack-cpi-release#p=openstack.boot_from_volume) to enable cinder-backed boot volumes for this VM Type. Available in v34+.
+- **allowed_address_pairs** [String, optional]: A single VRRP IP address that associated VMs will be allowed to use in addition to their primary IP address. See [Using VRRP](openstack-vrrp.md) for more details. Available in v37+.
 
 Example of an `m1.small` instance:
 
@@ -122,11 +126,12 @@ resource_pools:
 ```
 
 ---
+
 ## Disk Types {: #disk-pools }
 
 Schema for `cloud_properties` section:
 
-* **type** [String, optional]: Volume type as configured in your OpenStack installation. Example: `SSD`
+- **type** [String, optional]: Volume type as configured in your OpenStack installation. Example: `SSD`
 
 Cinder volumes are created in the availability zone of an instance that volume will be attached.
 
@@ -140,13 +145,14 @@ Example of 10GB disk:
 ```
 
 ---
+
 ## Global Configuration {: #global }
 
 See [CPI job configuration](https://bosh.io/jobs/openstack_cpi?source=github.com/cloudfoundry/bosh-openstack-cpi-release) for details.
 
 Schema:
 
-* **default_volume_type** [String, optional]: sets volume type for persistent disks unless overridden in resource pool/VM Type. `cinder type-list` will return the available volume types. Example: `SSD`.
+- **default_volume_type** [String, optional]: sets volume type for persistent disks unless overridden in resource pool/VM Type. `cinder type-list` will return the available volume types. Example: `SSD`.
 
 Example with Keystone V3 and a single domain:
 
@@ -160,6 +166,7 @@ region: RegionOne
 default_key_name: bosh
 default_security_groups: [bosh]
 ```
+
 Example with Keystone V3 and different domains for the user and project:
 
 ```yaml
@@ -188,6 +195,7 @@ default_volume_type: ceph
 ```
 
 ---
+
 ## Example Cloud Config {: #cloud-config }
 
 ```yaml

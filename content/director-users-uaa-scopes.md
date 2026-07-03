@@ -1,3 +1,5 @@
+# Managing Permissions with UAA Scopes
+
 If UAA is used for identity management, UAA will automatically verify
 a user's permissions when they log into the BOSH Director.
 
@@ -10,6 +12,7 @@ as described in the access token. You can read more about UAA Access Tokens
     If you use the same private key to sign keys on different UAAs, users might obtain a token from one UAA and use it on the Director configured with a different UAA. It is therefore highly recommended to restrict scopes to individual Directors and not re-use a private key used for authenticating into UAA.
 
 ---
+
 ## Logging into the Director as a User {: #user-login }
 
 Depending on how the UAA is configured different prompts may be shown.
@@ -21,6 +24,7 @@ bosh login
 ```
 
 ---
+
 ## Logging into the Director as a UAA client {: #client-login }
 
 Non-interactive login, e.g. for scripts during a CI build is supported by the UAA by using a different UAA client allowing `client_credentials` grant type.
@@ -34,6 +38,7 @@ bosh status
 See [the resurrector UAA client configuration](resurrector.md#uaa-client) for an example to set up an additional client.
 
 ---
+
 ## Adding and Removing Users {: #uaac }
 
 The `uaa_admin` user, or another user with `clients.admin` or
@@ -84,6 +89,7 @@ uaac member delete bosh.read some-new-user
     Changing group membership will take effect when a new access token is created for that user. New access are granted when their existing access token expires or when user logs out and logs in again. It is recommended to set access token validity to a short interval such as one minute.
 
 ---
+
 ## Top-level Scopes {: #top-level-scopes }
 
 UAA scopes can be assigned to groups, individual users, or clients.
@@ -103,6 +109,7 @@ uaac client get <CLIENT ID>
 ```
 
 ---
+
 ### Full Admin {: #full-admin }
 
 Scopes:
@@ -114,6 +121,7 @@ Scopes:
 Can use all commands on all deployments.
 
 ---
+
 ### Full Read-only {: #full-read }
 
 Scopes:
@@ -133,6 +141,7 @@ Can access in read-only capacity:
 - `bosh tasks`: list of all tasks summaries which includes task descriptions without access to debug logs
 
 ---
+
 ### Stemcell uploader {: #stemcell-uploader }
 
 !!! note
@@ -145,6 +154,7 @@ Scopes:
 Note that CLI will try to list stemcells before uploading given stemcell, hence `bosh upload stemcell` CLI command requires users/clients to have `bosh.read` scope as well.
 
 ---
+
 ### Release uploader {: #release-uploader }
 
 !!! note
@@ -157,6 +167,7 @@ Scopes:
 Note that CLI will try to list releases before uploading given release, hence `bosh upload release` CLI command requires users/clients to have `bosh.read` scope as well.
 
 ---
+
 ### Anonymous {: #anon }
 
 Users with no UAA scopes are considered anonymous.
@@ -166,9 +177,10 @@ Can access:
 - `bosh status`: show general information about targeted Director (authentication is not required)
 
 ---
+
 ### Errors {: #errors }
 
-```
+```text
 HTTP 401: Not authorized: '/deployments' requires one of the scopes: bosh.admin, bosh.UUID.admin, bosh.read, bosh.UUID.read
 ```
 

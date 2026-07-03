@@ -1,3 +1,5 @@
+# Using BOSH Teams
+
 BOSH Teams map to UAA scopes that restrict the set of deployments that a
 user can manage. A user's or client's membership in a BOSH team is
 determined by the scopes assigned to their UAA client.
@@ -14,13 +16,13 @@ Scopes can be added to existing clients in order to associate the
 clients with BOSH Teams. You must be logged into UAA as [a privileged
 user to grant and revoke scopes](director-users-uaa-scopes.md#user-login). All BOSH Team scopes follow the format:
 
-```
+```text
 bosh.teams.<TEAM-NAME>.<SCOPE>
 ```
 
 To add a BOSH Team scope to an existing client:
 
-```
+```shell
 uaac client update <CLIENT-ID> --authorities bosh.teams.<TEAM-NAME>.admin
 ```
 

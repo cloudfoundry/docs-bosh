@@ -1,9 +1,12 @@
+# Configuring Director
+
 !!! note
     This feature is available with bosh-release v209+ (1.3088.0) colocated with uaa v1+.
 
 In this configuration the Director is configured to delegate user management to the [UAA](https://github.com/cloudfoundry/uaa) server. The UAA server can be configured to manage its own list of users or work with an LDAP server, or a SAML provider. Regardless how the UAA server is configured the BOSH CLI will ask appropriate credentials and forward them to the UAA to request a token.
 
 ---
+
 ## Deploy the Director with UAA {: #configure }
 
 1. Change deployment manifest for the Director and add UAA release:

@@ -1,3 +1,5 @@
+# Pre-start
+
 (See [Job Lifecycle](job-lifecycle.md) for an explanation of when pre-start scripts run.)
 
 !!! note
@@ -9,6 +11,7 @@
 Release job can have a pre-start script that will run before the job is started. This script allows the job to prepare machine and/or persistent data before starting its operation. For example, when writing a release for Cassandra, each node will need to migrate format of SSTables. That procedure may be lengthy and should happen before the node can successfully start.
 
 ---
+
 ## Job Configuration {: #job-configuration }
 
 To add a pre-start script to a release job:
@@ -26,6 +29,7 @@ templates:
 ```
 
 ---
+
 ## Script Implementation {: #script-implementation }
 
 Pre-start script is usually just a regular shell script. ERB tags may be used for templating. Since pre-start script is executed in a similar way as other release job scripts (start, stop, drain scripts) you can use job's package dependencies.
@@ -48,6 +52,7 @@ Pre-start scripts in a single deployment job (typically is composed of multiple 
     Pre-start scripts run at a lower CPU scheduling priority than the BOSH agent to keep the agent responsive. See [Job Lifecycle](job-lifecycle.md) for details.
 
 ---
+
 ## Logs {: #logs }
 
 You can find logs for each release job's pre-start script in the following locations:

@@ -1,3 +1,5 @@
+# Init OpenStack Environment
+
 This document shows how to initialize new [environment](terminology.md#environment) on OpenStack.
 
 ## Step 1: Prepare an OpenStack environment {: #prepare-openstack }
@@ -7,20 +9,20 @@ This document shows how to initialize new [environment](terminology.md#environme
 1. An OpenStack environment running one of the supported releases. See [bosh-openstack-cpi](https://github.com/cloudfoundry/bosh-openstack-cpi-release#supported-openstack-versions) for information on the CPI's support policy.
 
 1. The following OpenStack services:
-    * [Identity](https://www.openstack.org/software/releases/ocata/components/keystone):
+    - [Identity](https://www.openstack.org/software/releases/ocata/components/keystone):
         BOSH authenticates credentials and retrieves the endpoint URLs for other OpenStack services.
-    * [Compute](https://www.openstack.org/software/releases/ocata/components/nova):
+    - [Compute](https://www.openstack.org/software/releases/ocata/components/nova):
         BOSH boots new VMs, assigns floating IPs to VMs, and creates and attaches volumes to VMs.
-    * [Image](https://www.openstack.org/software/releases/ocata/components/glance):
+    - [Image](https://www.openstack.org/software/releases/ocata/components/glance):
         BOSH stores stemcells using the Image service.
-    * **(Optional)** [OpenStack Networking](https://www.openstack.org/software/releases/ocata/components/neutron):
+    - **(Optional)** [OpenStack Networking](https://www.openstack.org/software/releases/ocata/components/neutron):
         Provides network scaling and automated management functions that are useful when deploying complex distributed systems. **Note:** OpenStack networking is used as default as of v28 of the OpenStack CPI. To disable the use of the OpenStack Networking project, see [Customize the Deployment](#customize-deployment).
 
 1. Access to an existing OpenStack project.
 
 1. The following OpenStack networks:
-    * An external network with a subnet, that can assign a floating IP.
-    * A private network with a subnet. The subnet must have an IP address allocation pool. Will be created by Terraform automatically.
+    - An external network with a subnet, that can assign a floating IP.
+    - A private network with a subnet. The subnet must have an IP address allocation pool. Will be created by Terraform automatically.
 
 1. OpenStack flavor `m1.xlarge`
     The flavor is hard coded in `bosh-deployment/openstack/cpi.yml`.
@@ -43,11 +45,12 @@ Applying the Terraform plan to the environment will output the variables necessa
 
 Instead of using Terraform, you can do the following things manually as described below:
 
-* Create a [Keypair](#keypair).
-* Create and configure [Security Groups](#security-groups).
-* Allocate a [floating IP address](#floating-ip).
+- Create a [Keypair](#keypair).
+- Create and configure [Security Groups](#security-groups).
+- Allocate a [floating IP address](#floating-ip).
 
 ---
+
 ##### Create a Keypair {: #keypair }
 
 1. Select **Access & Security** from the left navigation panel.
@@ -67,6 +70,7 @@ Instead of using Terraform, you can do the following things manually as describe
     ![image](images/micro-openstack/save-keypair.png)
 
 ---
+
 ##### Create and Configure BOSH Security Group {: #security-groups }
 
 You must create and configure a security group to restrict incoming network traffic to the BOSH VMs.
@@ -96,27 +100,17 @@ You must create and configure a security group to restrict incoming network traf
     !!! warning
         It highly discouraged to run any production environment with `0.0.0.0/0` source or to make any BOSH management ports publicly accessible.
 
-    <table border="1" class="nice" >
-      <tr>
-        <th>Direction</th>
-        <th>Ether Type</th>
-        <th>IP Protocol</th>
-        <th>Port Range</th>
-        <th>Remote</th>
-        <th>Purpose</th>
-      </tr>
-
-      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>22</td><td>0.0.0.0/0 (CIDR)</td><td>SSH access from CLI</td></tr>
-      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>6868</td><td>0.0.0.0/0 (CIDR)</td><td>BOSH Agent access from CLI</td></tr>
-      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>25555</td><td>0.0.0.0/0 (CIDR)</td><td>BOSH Director access from CLI</td></tr>
-
-      <tr><td>Egress</td><td>IPv4</td><td>Any</td><td>-</td><td>0.0.0.0/0 (CIDR)</td></tr>
-      <tr><td>Egress</td><td>IPv6</td><td>Any</td><td>-</td><td>::/0 (CIDR)</td></tr>
-
-      <tr><td>Ingress</td><td>IPv4</td><td>TCP</td><td>1-65535</td><td>bosh</td><td>Management and data access</td></tr>
-    </table>
+    | Direction | Ether Type | IP Protocol | Port Range | Remote           | Purpose                       |
+    |-----------|------------|-------------|------------|------------------|-------------------------------|
+    | Ingress   | IPv4       | TCP         | 22         | 0.0.0.0/0 (CIDR) | SSH access from CLI           |
+    | Ingress   | IPv4       | TCP         | 6868       | 0.0.0.0/0 (CIDR) | BOSH Agent access from CLI    |
+    | Ingress   | IPv4       | TCP         | 25555      | 0.0.0.0/0 (CIDR) | BOSH Director access from CLI |
+    | Egress    | IPv4       | Any         | -          | 0.0.0.0/0 (CIDR) |                               |
+    | Egress    | IPv6       | Any         | -          | ::/0 (CIDR)      |                               |
+    | Ingress   | IPv4       | TCP         | 1-65535    | bosh             | Management and data access    |
 
 ---
+
 ##### Allocate a Floating IP Address {: #floating-ip }
 
 1. Select **Access & Security** from the left navigation panel.
@@ -138,6 +132,7 @@ You must create and configure a security group to restrict incoming network traf
     ![image](images/micro-openstack/floating-ip.png)
 
 ---
+
 ## Step 2: Deploy {: #deploy }
 
 ### Prerequisites
@@ -181,7 +176,7 @@ If you used Terraform as described in [prerequisites](#prerequisites) you can us
 The variable names from the Terraform output match those in the `vars.yml`.
 Here is an example of the Terraform output section:
 
-```
+```terraform
 default_key_name = bosh-1
 default_security_groups = [bosh]
 external_ip = 192.168.1.19
@@ -245,16 +240,16 @@ See [OpenStack CPI errors](openstack-cpi-errors.md) for list of common errors an
 
 #### Customize the Deployment {: #customize-deployment }
 
-* using internal DNS, i.e. if it is required to resolve the OpenStack API endpoint: [bosh-deployment/misc/dns.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/dns.yml)
-* using `boot-from-volume` to have nova create the boot volume as a cinder device (necessary for live-migration of VMs): [bosh-deployment/openstack/boot-from-volume.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/boot-from-volume.yml)
-* using a custom CA for your OpenStack endpoints: [bosh-deployment/openstack/custom-ca.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/custom-ca.yml)
-* putting additional trusted certificates into the cert-store of deployed VMs: [bosh-deployment/openstack/trusted-certs.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/trusted-certs.yml)
-* using a custom ntp server for deployed VMs: [bosh-deployment/misc/ntp.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/ntp.yml)
-* using keystone v2 instead of keystone v3: [bosh-deployment/openstack/keystone-v2.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/keystone-v2.yml)
-* enable soft anti affinity for each instance group: [bosh-deployment/openstack/auto-anti-affinity.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/auto-anti-affinity.yml)
-* disable human readable VM names and use UUIDs instead: [bosh-deployment/openstack/disable-readable-vm-names.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/disable-readable-vm-names.yml)
-* using nova networking instead of neutron networking: [bosh-deployment/openstack/nova-networking.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/nova-networking.yml)
-* enable native CPI disk resizing: [bosh-deployment/misc/cpi-resize-disk.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/cpi-resize-disk.yml)
+- using internal DNS, i.e. if it is required to resolve the OpenStack API endpoint: [bosh-deployment/misc/dns.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/dns.yml)
+- using `boot-from-volume` to have nova create the boot volume as a cinder device (necessary for live-migration of VMs): [bosh-deployment/openstack/boot-from-volume.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/boot-from-volume.yml)
+- using a custom CA for your OpenStack endpoints: [bosh-deployment/openstack/custom-ca.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/custom-ca.yml)
+- putting additional trusted certificates into the cert-store of deployed VMs: [bosh-deployment/openstack/trusted-certs.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/trusted-certs.yml)
+- using a custom ntp server for deployed VMs: [bosh-deployment/misc/ntp.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/ntp.yml)
+- using keystone v2 instead of keystone v3: [bosh-deployment/openstack/keystone-v2.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/keystone-v2.yml)
+- enable soft anti affinity for each instance group: [bosh-deployment/openstack/auto-anti-affinity.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/auto-anti-affinity.yml)
+- disable human readable VM names and use UUIDs instead: [bosh-deployment/openstack/disable-readable-vm-names.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/disable-readable-vm-names.yml)
+- using nova networking instead of neutron networking: [bosh-deployment/openstack/nova-networking.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/nova-networking.yml)
+- enable native CPI disk resizing: [bosh-deployment/misc/cpi-resize-disk.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/cpi-resize-disk.yml)
 
 ### Connect to the Director
 

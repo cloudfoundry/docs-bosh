@@ -1,3 +1,5 @@
+# Multi-CPI on AWS
+
 !!! note
     BOSH supports Multi-CPI since version v261+.
 
@@ -6,6 +8,7 @@ In this guide we explore how to configure BOSH to deploy VMs from a single deplo
 For simplicity reasons we're going to allow all internal traffic between two VPCs, however this can be configured as desired by the operator.
 
 ---
+
 ## Set up the IaaS {: #setup-iaas }
 
 Let's start by initializing main AZ (`z1`) to US East (N. Virginia) by following steps 1 and 2 from [Creating environment on AWS](init-aws.md). This will give you a working BOSH Director in a single region. You can perform a deployment to test Director is working fine.
@@ -13,17 +16,17 @@ Let's start by initializing main AZ (`z1`) to US East (N. Virginia) by following
 To add a second AZ (`z2`) to US West (N. California) you need to perform step 1 from [Creating environment on AWS](init-aws.md) in another AWS account.
 
 ---
+
 ## Connecting VPCs {: #connecting-vpcs }
 
 The VMs in one AZ need to be able to talk to VMs in the other AZ. We're going to describe two ways AZs can be connected. You have two options:
 
 - if VPCs are in the same AWS region you can simply use [VPC Peering](guide-multi-cpi-aws.md#vpc-peering) as shown below
-
 - if VPCs are in different regions you will need to connect them through a [OpenVPN](guide-multi-cpi-aws.md#openvpn) as shown below
-
 - if VPCs are spread out across multiple regions, you can mix and match two approaches above
 
 ---
+
 ### VPC Peering (only works for VPCs in the same region) {: #vpc-peering }
 
 To connect VPCs in the same region you have to create a VPC Peering Connection between each region. In our case, we have two VPCs so only one connection is required.
@@ -50,13 +53,14 @@ To connect VPCs in the same region you have to create a VPC Peering Connection b
     If you want IPv6 traffic to be routed you also need to add the corresponding IPv6 CIDR blocks.
 
 ---
+
 ### OpenVPN using IPSec {: #openvpn }
 
 Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/openvpn-bosh-release) to connect both OpenVPN Server and client in each region like shown below:
 
 ![image](images/multi-cpi/aws-iaas-topology.png)
 
-0. Setup local Multi-CPI directories:
+1. Setup local Multi-CPI directories:
 
     ```shell
     mkdir -p ~/workspace/multi-cpi-vpn
@@ -68,9 +72,9 @@ Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/op
     cd multi-cpi-vpn
     ```
 
-0. Allocate Elastic IPs for each VPN Server in their respective regions.
+1. Allocate Elastic IPs for each VPN Server in their respective regions.
 
-0. Create following files `~/workspace/multi-cpi-vpn/creds-az1.yml` and `~/workspace/multi-cpi-vpn/creds-az2.yml` with the following properties. You should have all this information from the above [Set up the IaaS](guide-multi-cpi-aws.md#setup-iaas) step.
+1. Create following files `~/workspace/multi-cpi-vpn/creds-az1.yml` and `~/workspace/multi-cpi-vpn/creds-az2.yml` with the following properties. You should have all this information from the above [Set up the IaaS](guide-multi-cpi-aws.md#setup-iaas) step.
 
     ```yaml
     access_key_id: <aws-access-key-id>
@@ -85,7 +89,7 @@ Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/op
     route_table_id: <aws-route-table-id> # e.g. rtb-4127673b
     ```
 
-0. Generate certificates for each server and client.
+1. Generate certificates for each server and client.
 
     ```shell
     bosh int ~/workspace/bosh-multi-cpi-kb/templates/vpn-ca.yml \
@@ -97,7 +101,7 @@ Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/op
       --vars-store=~/workspace/multi-cpi-vpn/certs-vpn-az2.yml
     ```
 
-0. Deploy OpenVPN Servers in each AZ.
+1. Deploy OpenVPN Servers in each AZ.
 
     ```shell
     # Create VPN server in z1
@@ -148,6 +152,7 @@ Here we are going to use the [OpenVPN BOSH Release](https://github.com/dpb587/op
     ```
 
 ---
+
 ## Configure CPI and Cloud configs {: #configuring-configs }
 
 Now that the IaaS is configured, update your Director's [CPI config](cpi-config.md):
@@ -229,6 +234,7 @@ bosh update-cloud-config cloud.yml
 ```
 
 ---
+
 ## Deploy example Zookeeper deployment {: #deploying }
 
 ...

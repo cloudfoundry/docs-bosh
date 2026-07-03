@@ -1,3 +1,5 @@
+# Init Alibaba Cloud (AliCloud) Environment
+
 This document shows how to set up new [environment](terminology.md#environment) on Alibaba Cloud (AliCloud)
 
 ## Step 1: Prepare an Alibaba Cloud Account {: #prepare-alicloud }
@@ -6,18 +8,20 @@ If you do not have an Alibaba Cloud account, [create one](https://account.alibab
 
 To configure your Alibaba Cloud account:
 
-* [Obtain Alibaba Cloud credentials](#credentials)
-* [Create a Virtual Private Cloud (VPC)](#create-vpc)
-* [Create an Elastic IP](#create-eip)
-* [Create a Key Pair](#create-key-pair)
-* [Create and Configure Security Group](#create-security)
+- [Obtain Alibaba Cloud credentials](#credentials)
+- [Create a Virtual Private Cloud (VPC)](#create-vpc)
+- [Create an Elastic IP](#create-eip)
+- [Create a Key Pair](#create-key-pair)
+- [Create and Configure Security Group](#create-security)
 
 ---
+
 ### Obtain Alibaba Cloud Credentials {: #credentials }
 
 Your Alibaba Cloud credentials consist of an Access Key ID and a Secret Access Key. Follow [Creating RAM Users](https://www.alibabacloud.com/help/doc-detail/28647.htm) to create a new RAM user.
 
 ---
+
 ### Create a Virtual Private Cloud (VPC) {: #create-vpc }
 
 1. Log on to the [VPC console](https://vpcnext.console.aliyun.com).
@@ -29,6 +33,7 @@ Your Alibaba Cloud credentials consist of an Access Key ID and a Secret Access K
 See [Create a VPC](https://www.alibabacloud.com/help/doc-detail/65430.htm).
 
 ---
+
 ### Create an Elastic IP {: #create-eip }
 
 1. On the VPC Dashboard, click **Elastic IPs** and click **Create EIP**.
@@ -37,8 +42,8 @@ See [Create a VPC](https://www.alibabacloud.com/help/doc-detail/65430.htm).
 
 See [Create an EIP](https://www.alibabacloud.com/help/doc-detail/65203.htm).
 
-
 ---
+
 ### Create a Key Pair {: #create-key-pair }
 
 1. Log on to the [ECS console](https://ecs.console.aliyun.com).
@@ -54,20 +59,20 @@ See [Create an EIP](https://www.alibabacloud.com/help/doc-detail/65203.htm).
 See [Create an SSH key pair](https://www.alibabacloud.com/help/doc-detail/51793.htm)
 
 ---
+
 ### Create and Configure Security Group {: #create-security }
 
 Log on to the  ECS console.
 In the left-side navigation pane, select Networks & Security > > Security group.
-
 
 1. On the ECS Dashboard, select **Networks & Security** and then select **Security group**.
 
 1. Select a region and then click **Create Security Group**.
 
 1. Complete the Create Security Group form with the following information:
-    * **Security group name**: bosh
-    * **Description**: BOSH deployed VMs
-    * **VPC**: Select the "bosh" VPC that you created in [Create a Virtual Private Cloud](#create-vpc).
+    - **Security group name**: bosh
+    - **Description**: BOSH deployed VMs
+    - **VPC**: Select the "bosh" VPC that you created in [Create a Virtual Private Cloud](#create-vpc).
 
 1. Select the created security group with group name "bosh", in the Actions column click Configure Rules.
 
@@ -76,29 +81,22 @@ In the left-side navigation pane, select Networks & Security > > Security group.
 1. Fill out the Edit inbound rules form and click **Save**.
 
     !!! note
-        It highly discouraged to run any production environment with <code>0.0.0.0/0</code> source or to make any BOSH management ports publicly accessible.
+        It highly discouraged to run any production environment with `0.0.0.0/0` source or to make any BOSH management ports publicly accessible.
 
-    <table border="1" class="nice">
-      <tr>
-        <th>Type</th>
-        <th>Port Range</th>
-        <th>Source</th>
-        <th>Purpose</th>
-      </tr>
-
-      <tr><td>Custom TCP Rule</td><td>22</td><td>(My IP)</td><td>SSH access from CLI</td></tr>
-      <tr><td>Custom TCP Rule</td><td>6868</td><td>(My IP)</td><td>BOSH Agent access from CLI</td></tr>
-      <tr><td>Custom TCP Rule</td><td>25555</td><td>(My IP)</td><td>BOSH Director access from CLI</td></tr>
-
-      <tr><td>All TCP</td><td>0 - 65535</td><td>ID of this security group</td><td>Management and data access</td></tr>
-      <tr><td>All UDP</td><td>0 - 65535</td><td>ID of this security group</td><td>Management and data access</td></tr>
-    </table>
+    | Type            | Port Range | Source                    | Purpose                       |
+    |-----------------|------------|---------------------------|-------------------------------|
+    | Custom TCP Rule | 22         | (My IP)                   | SSH access from CLI           |
+    | Custom TCP Rule | 6868       | (My IP)                   | BOSH Agent access from CLI    |
+    | Custom TCP Rule | 25555      | (My IP)                   | BOSH Director access from CLI |
+    | All TCP         | 0 - 65535  | ID of this security group | Management and data access    |
+    | All UDP         | 0 - 65535  | ID of this security group | Management and data access    |
 
 See [Creating a Security Group](https://www.alibabacloud.com/help/doc-detail/25468.htm)
 
 See [Add security group rules](https://www.alibabacloud.com/help/doc-detail/25471.htm)
 
 ---
+
 ## Step 2: Deploy {: #deploy }
 
 1. Install [CLI v2](cli-v2.md).

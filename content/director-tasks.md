@@ -1,3 +1,5 @@
+# Reviewing Tasks
+
 An operator uses the CLI to interact with the Director. Certain CLI commands result in complex and potentially long running operations against the IaaS, blobstore, or other resources. Such commands are associated with a Director task and continue running on the Director even if the CLI disconnects from the Director.
 
 To find out if a CLI command has an associated Director task, look for "Director task [NUM]" in its output:
@@ -8,7 +10,7 @@ bosh -d zookeeper deploy zookeeper.yml
 
 Should result in:
 
-```text
+```shell
 Using deployment 'zookeeper'
 
 Task 766 # <---
@@ -16,6 +18,7 @@ Task 766 # <---
 ```
 
 ---
+
 ## Currently active tasks {: #active }
 
 At any time the Director might be performing multiple tasks at once. Active tasks can be in two states: `queued` or `processing`.
@@ -28,15 +31,10 @@ bosh tasks
 
 Should result in:
 
-```
-+-----+------------+-------------------------+-------+-------------------------------+--------+
 | #   | State      | Timestamp               | User  | Description                   | Result |
-+-----+------------+-------------------------+-------+-------------------------------+--------+
+|-----|------------|-------------------------|-------|-------------------------------|--------|
 | 766 | processing | 2015-01-27 21:39:30 UTC | admin | create deployment             |        |
 | 765 | queued     | 2015-01-27 21:35:02 UTC | admin | scheduled SnapshotDeployments |        |
-+-----+------------+-------------------------+-------+-------------------------------+--------+
-```
-
 
 ### Joining tasks {: #join-active }
 
@@ -48,7 +46,7 @@ bosh task 766
 
 Should result in:
 
-```text
+```shell
 Director task 766
 ...snip...
 ```
@@ -65,7 +63,7 @@ bosh task 766 --debug
 
 Should result in:
 
-```text
+```shell
 Director task 766
 
 I, [2015-01-27T21:33:19.469158 #1769] [0x3fab30147330]  INFO -- TaskHelper: Director Version: 1.2811.0
@@ -85,6 +83,7 @@ bosh cancel-task 766
 ```
 
 ---
+
 ## Finished tasks {: #finished }
 
 The Director keeps a record of tasks that have finished. Finished tasks can be in two states: `done` or `error`.
@@ -97,7 +96,7 @@ bosh tasks --recent
 
 Should result in:
 
-```
+```text
 +-----+-------+-------------------------+--------+--------------------------+-----------------------------------------------------------+
 | #   | State | Timestamp               | User   | Description              | Result                                                    |
 +-----+-------+-------------------------+--------+--------------------------+-----------------------------------------------------------+
@@ -115,7 +114,7 @@ Showing 30 recent tasks
 You can also run `bosh tasks --recent=NUM` to retrieve more tasks.
 
 !!! note
-    <code>--all</code> flag shows all tasks. Without that flag, the Director returns a subset of finished tasks that it deems important.
+    `--all` flag shows all tasks. Without that flag, the Director returns a subset of finished tasks that it deems important.
 
 ### Joining finished tasks {: #join-finished }
 

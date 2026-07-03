@@ -1,3 +1,5 @@
+# Release Jobs
+
 Each release job represents a specific chunk of work that the release performs. For example a DHCP release may have a "dhcp-server" job, and a Postgres release may have "postgres" and "periodic-backup" jobs. A release can define one or more jobs.
 
 A job typically includes:
@@ -11,6 +13,7 @@ A job typically includes:
 Jobs are typically OS specific (Windows vs Linux); however, structure of a job remains same.
 
 ---
+
 ## Spec file (metadata) {: #spec }
 
 Spec file defines job metadata. It will be interpreted by the Director when the release is uploaded and when it's deployed.
@@ -36,54 +39,61 @@ properties:
 
 Schema:
 
-* **name** [String, required]: Name of the job.
-* **description** [String, optional]: Describes purpose of the job.
-* **templates** [Hash, optional]: [Template files](#templates) found in the
+- **name** [String, required]: Name of the job.
+- **description** [String, optional]: Describes purpose of the job.
+- **templates** [Hash, optional]: [Template files](#templates) found in the
   `templates` directory of the job (keys of the Hash) and their final
   destinations (values of the Hash), relative to the job directory on the
   deployed VMs.
-    * **&lt;key>** [String, required]: the relative path and filename of the
+
+    - **&lt;key>** [String, required]: the relative path and filename of the
       ERB template provided by the job in the release, relative to the
       `templates` sub-directory. No need for any `.erb` suffix, all templates
       are treated as ERB templates whatever their name is.
-    * **&lt;value>** [String, required]: the relative path and filename of the
+    - **&lt;value>** [String, required]: the relative path and filename of the
       rendered file, relative to the job directory (i.e.
       `/var/vcap/jobs/<job-name>/`) on the managed Bosh instances (a.k.a. the
       “deployed VMs”). By convention, executable files should be placed into
       `bin/` directory so that the Agent can mark them as executables, and
       configuration files should be placed into `config/` directory.
-* **packages** [Array, optional]: Package dependencies required by the job at runtime.
-* **consumes** [Array, optional]: Links that are consumed by the job for
+
+- **packages** [Array, optional]: Package dependencies required by the job at runtime.
+- **consumes** [Array, optional]: Links that are consumed by the job for
   rendering ERB templates.
-    * **name** [String, required]: Name of the link to find.
-    * **type** [String, required]: Type of the link to be found. This is an
+
+    - **name** [String, required]: Name of the link to find.
+    - **type** [String, required]: Type of the link to be found. This is an
       arbitrary naming. Usual and conventional types are `address` when the
       link goal is to expose a Bosh DNS name that allows accessing the
       instances of the group. Usually typed by technology, like `mysql`,
       `postgres`, `cassandra`, etc. Anything that makes sense is relevant and
       matters.
-    * **optional** [Boolean, optional]: Whether finding an matching link is
+    - **optional** [Boolean, optional]: Whether finding an matching link is
       optional (when `true`) or mandatory (when `false`. Default is `false`,
       so optional links must be explicitly declared as such.
-* **provides** [Array, optional]: Links that are exposed to other jobs for
+
+- **provides** [Array, optional]: Links that are exposed to other jobs for
   rendering their ERB templates.
-    * **name** [String, required]: Name of the exposed link.
-    * **type** [String, required]: Type of the exposed link.
-    * **properties** [Array, optional]: List of property keys in dot notation
+    - **name** [String, required]: Name of the exposed link.
+    - **type** [String, required]: Type of the exposed link.
+    - **properties** [Array, optional]: List of property keys in dot notation
       (same as **properties.&lt;name>** below)
-* **properties** [Hash, optional]: Configuration options supported by the job.
-    * **&lt;name>** [String, required]: Property key in dot notation. Typical
+
+- **properties** [Hash, optional]: Configuration options supported by the job.
+
+    - **&lt;name>** [String, required]: Property key in dot notation. Typical
       properties include account names, passwords, shared secrets, hostnames,
       IP addresses, port numbers, and descriptions.
-        * **description** [String, required]: Describes purpose of the
+
+        - **description** [String, required]: Describes purpose of the
           property. This is not used by the Director, but is displayed in job
           configuration details provided by the [release index](/releases).
-        * **type** [String, optional]: The type of the property. This is only
+        - **type** [String, optional]: The type of the property. This is only
           a convention for release authors to provide a type when they
           estimate it useful. Example: `type: certificate`.
-        * **example** [Any, optional]: Example value, to be displayed in the
+        - **example** [Any, optional]: Example value, to be displayed in the
           [release index](/releases). Default is `nil`.
-        * **default** [Any, optional]: The default value for the property.
+        - **default** [Any, optional]: The default value for the property.
           Default is `nil`.
 
 !!! Note
@@ -97,6 +107,7 @@ Schema:
 [concourse_web_spec]: https://github.com/concourse/concourse-bosh-release/blob/8d2cfa0/jobs/web/spec#L68-L71
 
 ---
+
 ## Templates (ERB configuration files) {: #templates }
 
 Release authors can define zero or more templates for each job, but typically
@@ -404,36 +415,36 @@ Remember that the job targeted through alink can live in a different instance
 group of a different deployment.
 
 - Structural info
-  - `link(name).deployment_name`: Deployment name of the linked job.
-  - `link(name).instance_group`: Instance group name of the linked job.
-  - `link(name).group_name`: A concatenation of the link name and link type,
+    - `link(name).deployment_name`: Deployment name of the linked job.
+    - `link(name).instance_group`: Instance group name of the linked job.
+    - `link(name).group_name`: A concatenation of the link name and link type,
     separated by a dash `-`, i.e. `<link-name>-<link-type>`.
-  - `link(name).instances`: An array of details for each instance of the group.
-  - `link(name).instances[].az`: the availability zone hat the instance is
+    - `link(name).instances`: An array of details for each instance of the group.
+    - `link(name).instances[].az`: the availability zone hat the instance is
     placed into
-  - `link(name).instances[].name`: instance group name. Alias for
+    - `link(name).instances[].name`: instance group name. Alias for
     `link().instance_group`.
-  - `link(name).instances[].id`: instance immutable UUID
-  - `link(name).instances[].index`: human-friendly instance ordinal
-  - `link(name).instances[].bootstrap`: whether the instance is the first of
+    - `link(name).instances[].id`: instance immutable UUID
+    - `link(name).instances[].index`: human-friendly instance ordinal
+    - `link(name).instances[].bootstrap`: whether the instance is the first of
     its group
 - Networking setup
-  - `link(name).default_network`: default network for the instance group.
-  - `link(name).networks`: list of all networks for the instance group. **TO BE TESTED**
-  - `link(name).address`: an address for the instance group, using the `q-s0`
+    - `link(name).default_network`: default network for the instance group.
+    - `link(name).networks`: list of all networks for the instance group. **TO BE TESTED**
+    - `link(name).address`: an address for the instance group, using the `q-s0`
     prefix, indicating the `smart` health filter.
     See [Native DNS Support](dns.md) for more details.
-  - `link(name).domain`: the root top-level domain name suffix. Defaults to `bosh`.
-  - `link(name).use_link_dns_names`: applicable config for the link. **TO BE TESTED**
-  - `link(name).use_short_dns_addresses`: applicable config for the link. **TO BE TESTED**
-  - `link(name).instances[].address`: the instance address, that can be an
+    - `link(name).domain`: the root top-level domain name suffix. Defaults to `bosh`.
+    - `link(name).use_link_dns_names`: applicable config for the link. **TO BE TESTED**
+    - `link(name).use_short_dns_addresses`: applicable config for the link. **TO BE TESTED**
+    - `link(name).instances[].address`: the instance address, that can be an
      IPv4, an IPv6 address or a DNS record, depending on the Director's
      configuration, but is usually a DNS name, ending with the suffix
      indicated in the `link().domain` property.
-  - `link(name).instances[].addresses`: several addresses including aliases? **TO BE TESTED**
-  - `link(name).instances[].dns_addresses`: same as above, but preferring DNS entry
+    - `link(name).instances[].addresses`: several addresses including aliases? **TO BE TESTED**
+    - `link(name).instances[].dns_addresses`: same as above, but preferring DNS entry
 - Configuration
-  - `link(name).properties`: The job properties that are exposed by the link.
+    - `link(name).properties`: The job properties that are exposed by the link.
 
 ##### Deprecated properties accessors
 

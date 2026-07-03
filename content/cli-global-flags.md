@@ -1,3 +1,5 @@
+# Global Flags
+
 !!! note
     Applies to CLI v2.
 
@@ -7,6 +9,7 @@
 - `bosh <command> -h` shows command specific options
 
 ---
+
 ## Version flag {: #version }
 
 - `-v` flag shows CLI version.
@@ -15,6 +18,7 @@
     To see Director version use `bosh env` command.
 
 ---
+
 ## Environment flags {: #env }
 
 - `--environment` (`-e`) flag allows to specify Director VM address or environment alias (`BOSH_ENVIRONMENT` environment variable)
@@ -25,6 +29,7 @@ CLI does not provide a way to skip SSL certificate validation to encourage secur
 See [CLI environments](cli-envs.md) for details.
 
 ---
+
 ## Authentication flags {: #auth }
 
 - `--client` flag allows to specify basic auth username or UAA client ID (`BOSH_CLIENT` environment variable)
@@ -33,6 +38,7 @@ See [CLI environments](cli-envs.md) for details.
 CLI does not provide a way to specify UAA user login information since all non-interactive use (in scripts) should use UAA clients. `bosh log-in` command allows to log in interactively as a UAA user.
 
 ---
+
 ## Output flags {: #output }
 
 - `-n` flag affirms any confirmation that typically requires user input (`BOSH_NON_INTERACTIVE=true` environment variable)
@@ -43,6 +49,7 @@ CLI does not provide a way to specify UAA user login information since all non-i
 CLI makes a distinction between decorative text (table headings) and primary content (such as tables). To make it eas easy to parse command output via other tools (such as grep) when decorative text is automatically hidden when command output is redirected.
 
 ---
+
 ## Deployment flag {: #deployment }
 
 - `--deployment` (`-d`) flag allows to specify deployment for a command (`BOSH_DEPLOYMENT` environment variable)
@@ -50,22 +57,25 @@ CLI makes a distinction between decorative text (table headings) and primary con
 Several commands that can operate in a Director and a deployment context (such as `bosh tasks` command) account for presence of this flag and filter their output based on a deployment.
 
 ---
+
 ## SOCKS5 Tunneling {: #tunnel }
 
 See [tunneling](cli-tunnel.md) for details.
 
 ---
+
 ## HTTP proxy {: #http-proxy }
 
 Some commands such as `create-env` may require usage of an http proxy to access internet or the iaas. Define `HTTP_PROXY`, `HTTPS_PROXY` and `NO_PROXY` environment variables according to [go-lang support](https://golang.org/pkg/net/http/#ProxyFromEnvironment) documented in detail in [x/net/http/httpproxy#Config](https://pkg.go.dev/golang.org/x/net/http/httpproxy#Config)
 
-```
+```shell
 export HTTP_PROXY=http://myproxy.com:3128
 export HTTPS_PROXY=http://myproxy.com:3128
 export NO_PROXY="asinglehost.mydomain.com,mywholedomain.org,.onlymysubdomains.org,192.168.10.11,172.17.11.0/24"
 ```
 
 ---
+
 ## Logging {: #logging }
 
 Along with the UI output (stdout) and UI errors (stderr), CLI can output more verbose logs.

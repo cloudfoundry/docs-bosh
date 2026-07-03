@@ -1,3 +1,5 @@
+# Migrating to Noble Numbat
+
 Cloud Foundry's upcoming stemcells will be based on Ubuntu's [Noble Numbat](https://wiki.ubuntu.com/Releases) release, which may cause compilation and deployment errors in packages built for earlier stemcells. This document provides guidance on how to address the most common errors that BOSH release authors may encounter. There are a few broad categories to address:
 
 - BOSH DNS — see [below](#bosh-dns)
@@ -7,7 +9,7 @@ Cloud Foundry's upcoming stemcells will be based on Ubuntu's [Noble Numbat](http
 
 Discussion Slack channel is [here](https://cloudfoundry.slack.com/archives/C06HTDT78N9).
 
-### BOSH DNS
+## BOSH DNS
 
 In Noble we switched from resolved to systemd-resolve, with this change and to be backwards compatible with our bosh-dns release some configuration are necessary in the runtime config for DNS.
 If you are using the latest bosh-deployment or bosh bootloader, then you can ignore this.
@@ -42,17 +44,18 @@ we added the following configuration.
   name: bosh-dns-systemd
 ```
 
-### BPM
+## BPM
 
 Use BPM version v1.4.0 or higher [bpm-releases](https://github.com/cloudfoundry/bpm-release/releases)
 
-### EFI Bootloader
+## EFI Bootloader
 
 The Noble stemcells will use by default the EFI bootloader with a fallback to the legacy bootloader.
 What this will mean in a real life example for AWS.
 The vm type `m4.large` (which is deprecated) only supports legacy bootloader
 you can see what the vm type support with the following command `aws ec2 describe-instance-types --region us-east-1 --instance-types m4.large --query "InstanceTypes[*].SupportedBootModes"`
 this will result in
+
 ```json
 [
     [
@@ -60,7 +63,9 @@ this will result in
     ]
 ]
 ```
+
 and for `m5.large`
+
 ```json
 [
     [
@@ -73,8 +78,7 @@ and for `m5.large`
 This will mean when you use the `m4.large` it will boot in legacy bootloader and for `m5.large` you will boot with the efi bootloader.
 You can easily check with which bootloader you started by checking if the following file exists `ls /sys/firmware/efi` if this file exists you are in EFI mode and if not you are using the legacy bootloader.
 
-
-### Addons (Runtime Configurations)
+## Addons (Runtime Configurations)
 
 If you restrict your addons to certain stemcells, be sure to include Noble in your list of stemcells (if you intend your addon to run on Noble). The following is the updated stemcell list for [cf-deployment](https://github.com/cloudfoundry/cf-deployment)'s manifest:
 

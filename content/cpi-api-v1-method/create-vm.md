@@ -6,24 +6,21 @@ Waiting for the VM to finish booting is not required because the Director waits 
 
 Make sure to properly delete created resources if VM cannot be successfully created.
 
-
 ## Arguments
 
-* `agent_id` [String]: ID selected by the Director for the VM's agent.
-* `stemcell_cid` [String]: Cloud ID of the stemcell to use as a base image for new VM.
-* `cloud_properties` [Hash]: Cloud properties hash specified in the deployment manifest under VM's resource pool.
-* `networks` [Hash]: Networks hash that specifies which VM networks must be configured.
-* `disk_cids` [Array of strings] Array of disk cloud IDs for each disk that created VM will most _likely_ be attached; they could be used to optimize VM placement so that disks are located nearby.
-* `environment` [Hash]: Resource pool's env hash specified in deployment manifest. Additionally, the director will append the following guaranteed values:
-    * `bosh` [Hash]: A collection of properties used by the BOSH Agent, and optionally the CPI.
-        * `group` [String]: A description of the requested VM in the format `<director-name>-<deployment-name>-<job-name>`.
-        * `groups` [Array]: A collection of descriptions for the requested VM, combining `director-name`, `deployment-name` and `job-name` in a range of strings separated by a `-`.
-
+- `agent_id` [String]: ID selected by the Director for the VM's agent.
+- `stemcell_cid` [String]: Cloud ID of the stemcell to use as a base image for new VM.
+- `cloud_properties` [Hash]: Cloud properties hash specified in the deployment manifest under VM's resource pool.
+- `networks` [Hash]: Networks hash that specifies which VM networks must be configured.
+- `disk_cids` [Array of strings] Array of disk cloud IDs for each disk that created VM will most _likely_ be attached; they could be used to optimize VM placement so that disks are located nearby.
+- `environment` [Hash]: Resource pool's env hash specified in deployment manifest. Additionally, the director will append the following guaranteed values:
+    - `bosh` [Hash]: A collection of properties used by the BOSH Agent, and optionally the CPI.
+    - `group` [String]: A description of the requested VM in the format `<director-name>-<deployment-name>-<job-name>`.
+    - `groups` [Array]: A collection of descriptions for the requested VM, combining `director-name`, `deployment-name` and `job-name` in a range of strings separated by a `-`.
 
 ## Result
 
- * `vm_cid` [String]: Cloud ID of the created VM.
-
+- `vm_cid` [String]: Cloud ID of the created VM.
 
 ## Agent Settings
 
@@ -72,9 +69,7 @@ For the Agent to successfully start on the created VM, several bootstrapping set
 
 See [Agent Configuration](../vm-config.md#agent) for an overview of the Agent configuration file locations.
 
-
 ## Examples
-
 
 ### API Request
 
@@ -115,12 +110,10 @@ See [Agent Configuration](../vm-config.md#agent) for an overview of the Agent co
 ]
 ```
 
-
 ### Implementations
 
- * [cloudfoundry/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/create_vm.go)
-
+- [cloudfoundry/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/create_vm.go)
 
 ## Related
 
- * [delete_vm](../cpi-api-v2-method/delete-vm.md)
+- [delete_vm](../cpi-api-v2-method/delete-vm.md)
