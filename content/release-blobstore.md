@@ -1,7 +1,9 @@
 # Release Blobstore
 
 !!! note
-    Examples require CLI v2.
+    This describes configuring a blobstore for publishing BOSH Releases with
+    **BOSH CLI v2+**, which is separate from [configuring the blobstore of a
+    BOSH Director](director-configure-blobstore).
 
 A release blobstore contains [release blob](release-blobs.md) and created final releases.
 
@@ -10,8 +12,15 @@ Access to release blobstore is configured via two files:
 - `config/final.yml` (checked into Git repository): contains blobstore location
 - `config/private.yml` (is NOT checked into Git repository): contains blobstore credentials
 
-CLI supports three different blobstore providers: `s3`, `gcs`, `azure-storage`
-and `local`.
+CLI supports three different blobstore providers: `s3`, `gcs`, and `local`.
+
+!!! warning "Managing split-configuration between `private.yml` and `final.yml`"
+    In CLI v2, the value of `/blobstore/<provider>/` in `private.yml` [is
+    shallow-merged with, and takes precedence over,](https://github.com/cloudfoundry/bosh-cli/blob/27b76482223696f45c8269d233a3cdd42cdb77a3/releasedir/fs_config.go#L114-L120) the value of `/blobstore/options/`
+    in `final.yml`. The CLI does not distinguish which file a blobstore
+    option should be placed in. Hence, it is possible to create and publish a
+    valid `final.yml` with secrets.
+
 
 ## S3 Configuration {: #s3-config }
 
@@ -85,33 +94,6 @@ blobstore:
 Nothing in `config/private.yml`.
 
 ---
-
-## Azure Storage Account Configuration {: #azure-storage-config }
-
-Azure Storage Account is supported from bosh version `278.0.0`.
-
-### config/final.yml
-
-```yaml
----
-blobstore:
-  provider: azure-storage
-  options:
-    container_name: <container_name>
-    account_name: <account_name>
-```
-
-### config/private.yml
-
-```yaml
----
-blobstore:
-  options:
-    account_key: <account_key>
-```
-
----
-
 ## Release Compression Configuration {: #no-compression }
 
 !!! note "Version Requirements"

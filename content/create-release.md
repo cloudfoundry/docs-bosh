@@ -682,7 +682,6 @@ Example `private.yml`:
 
 ```yaml
 ---
-blobstore_secret: 'does-not-matter'
 blobstore:
   local:
     blobstore_path: /tmp/ardo-blobs
@@ -693,8 +692,12 @@ If you have a `private.yml` file:
 - **Required**: Include the `blobstore_path` in the `private.yml` file.
 - **Optional**: Include the `blobstore_path` in the `final.yml` file. Doing so allows you to `gitignore` the `private.yml` file but still allow the release to be downloaded and used on other systems.
 
-!!! note
-    The `blobstore_secret` is required for the `local` type blobstore. This is true even though the `blobstore_secret` line is deprecated and its content does not matter. There is never a `blobstore_secret` line for blobstores of types other than `local`.
+!!! warning "Managing split-configuration between `private.yml` and `final.yml`"
+    In CLI v2, the value of `/blobstore/<provider>/` in `private.yml` [is
+    shallow-merged with, and takes precedence over,](https://github.com/cloudfoundry/bosh-cli/blob/27b76482223696f45c8269d233a3cdd42cdb77a3/releasedir/fs_config.go#L114-L120) the value of `/blobstore/options/`
+    in `final.yml`. The CLI does not distinguish which file a blobstore
+    option should be placed in. Hence, it is possible to create and publish a
+    valid `final.yml` with secrets.
 
 ### Inform BOSH where blobs are {: #inform }
 
