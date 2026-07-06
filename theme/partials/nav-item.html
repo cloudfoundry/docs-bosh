@@ -190,15 +190,15 @@
     {% if nav_item.title[0:4] == "--- " %}
       {% if level == 2 and parent.active %}
         {% set class = class ~ " md-nav__item--section" %}
-        {% set is_section = True %}
+        {% set is_section = true %}
       {% endif %}
     {% endif %}
-    {% if is_section == True %}
+    {% if is_section == true %}
       <li class="{{ class }}">
-      <label class="md-nav__link" for="" tabindex>
+      <span class="md-nav__link">
         {{ render_content(nav_item) }}
         <span class="md-nav__icon md-icon"></span>
-      </label>
+      </span>
       </li>
     {% else %}
       <li class="{{ class }}">
