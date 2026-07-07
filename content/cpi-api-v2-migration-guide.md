@@ -26,9 +26,9 @@
     - No changes in the API contract.
     - Depending on which stemcell `api_version` the CPI receives in `context`
         - When the stemcell `api_version` is **>= 2**
-        - The new CPI does not attempt to delete `instance_id` from the registry, as the `instance_id` will not exist in registry to begin with.
+            - The new CPI does not attempt to delete `instance_id` from the registry, as the `instance_id` will not exist in registry to begin with.
         - When the stemcell `api_version` is **< 2**
-        - The CPI calls [Delete entry](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/f27c51db1930d1d4c12cbbf074962380377e9e74/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb#L110) with `instance_id`, which is the same behaviour as in V1.
+            - The CPI calls [Delete entry](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/f27c51db1930d1d4c12cbbf074962380377e9e74/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb#L110) with `instance_id`, which is the same behaviour as in V1.
 
 - `attach_disk`:
     - Returns `disk_hints`, which will be used by director to perform additional tasks
