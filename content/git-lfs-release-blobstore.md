@@ -9,7 +9,7 @@ Git LFS (Large File Storage) allows you to manage release blobs alongside your r
 
 ## Prerequisites
 
-- **Git LFS client**: Install [Git LFS](https://git-lfs.com/) on your machine. Most Git hosting providers (GitHub, GitLab, Gitea, etc.) provide LFS support.
+- **Git LFS client**: Install [Git LFS](https://git-lfs.com/) on your machine. Follow the [official installation instructions](https://git-lfs.com/).
 - **Git server with LFS support**: Ensure your Git hosting provider supports Git LFS (GitHub, GitLab, Gitea, Bitbucket, etc.).
 - **Understanding of LFS storage**: Be aware that your Git hosting provider may have storage and bandwidth quotas for LFS objects. Review their pricing and limits.
 
@@ -44,12 +44,12 @@ Git LFS (Large File Storage) allows you to manage release blobs alongside your r
 
 ### 1. Initialize Git LFS in Your Release Repository
 
+Follow the [Git LFS getting started guide](https://git-lfs.com/) to initialize Git LFS in your release repository:
+
 ```shell
 cd my-release
 git lfs install
 ```
-
-This creates a `.gitattributes` file if it doesn't exist.
 
 ### 2. Configure `.gitattributes`
 
@@ -169,14 +169,14 @@ No special credentials or access to a separate blobstore are required.
 
 ### Cloning a Release with Git LFS
 
-When cloning a repository with Git LFS blobs:
+When cloning a repository with Git LFS blobs, Git LFS automatically downloads all blob objects. For detailed information on cloning and pulling with Git LFS, see the [Git LFS documentation](https://git-lfs.com/).
 
 ```shell
 git clone https://github.com/your-org/my-release.git
 cd my-release
 ```
 
-Git LFS automatically downloads all blob objects referenced in `blobs/` and `final_blobs/` directories. If LFS objects fail to download, you can manually pull them:
+If LFS objects fail to download, you can manually pull them:
 
 ```shell
 git lfs pull
@@ -186,21 +186,17 @@ git lfs pull
 
 If you're migrating an existing release from S3 to Git LFS:
 
-1. Set up Git LFS as described above (`.gitattributes` and `config/final.yml`).
-2. Download blobs from your current S3 blobstore using a tool like `aws s3 sync`.
+1. Set up Git LFS in your repository as described in the Setup section above.
+2. Download blobs from your current S3 blobstore.
 3. Use `bosh add-blob` to add each blob to your release.
-4. Commit the blobs and updated `config/blobs.yml` to Git.
+4. Commit the blobs and updated `config/blobs.yml` to Git (Git LFS automatically tracks them via `.gitattributes`).
 5. Update `config/final.yml` to point to `final_blobs` with the local provider.
+
+Refer to the [Git LFS documentation](https://git-lfs.com/) for details on working with large files and repositories.
 
 ## Troubleshooting
 
-### Git LFS Objects Not Downloading
-
-If cloning or pulling the repository doesn't download LFS objects:
-
-```shell
-git lfs pull
-```
+For Git LFS-specific troubleshooting (installation, authentication, object downloading), refer to the [Git LFS documentation](https://git-lfs.com/).
 
 ### Large Repository Size
 
@@ -215,6 +211,13 @@ If you hit Git hosting provider LFS quota limits:
 - Review and optimize blob sizes
 - Consider moving large static assets to S3 and having Git LFS track only references
 - Upgrade to a higher storage tier on your Git hosting provider
+
+### BOSH-Specific Issues
+
+If `bosh add-blob` doesn't work as expected with Git LFS, ensure:
+- `.gitattributes` is properly configured with the patterns shown in the Setup section
+- You are committing the blobs to Git (Git LFS tracks them automatically via `.gitattributes`)
+- Your `.gitignore` allows `final_blobs/` directory to be committed
 
 ## When to Use Git LFS
 
