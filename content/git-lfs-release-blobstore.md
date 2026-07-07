@@ -136,7 +136,7 @@ This generates the final release tarball and places it in the `final_blobs/` dir
 2. Commit to Git:
 
 ```shell
-git add config/blobs.yml config/index.yml
+git add config/blobs.yml config/index.yml final_blobs/
 git commit -m "Finalize release v1.0.0"
 git tag v1.0.0
 ```
