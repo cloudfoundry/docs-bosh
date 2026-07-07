@@ -51,14 +51,16 @@ cd my-release
 git lfs install
 ```
 
-### 2. Configure `.gitattributes`
+### 2. Track Blob Directories with Git LFS
 
-Add the following lines to your `.gitattributes` file to track blobs with Git LFS:
+Use `git lfs track` to configure `.gitattributes` for your blob directories:
 
+```shell
+git lfs track "blobs/**"
+git lfs track "final_blobs/**"
 ```
-blobs/** filter=lfs diff=lfs merge=lfs -text
-final_blobs/** filter=lfs diff=lfs merge=lfs -text
-```
+
+This creates/updates your `.gitattributes` file with the appropriate Git LFS filter configuration.
 
 Commit the `.gitattributes` file:
 
