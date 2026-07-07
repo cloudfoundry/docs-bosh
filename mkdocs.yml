@@ -61,6 +61,7 @@ pages:
     - Configuring the Blobstore:
       - Release Blobstore: release-blobstore.md
       - Using S3 & IAM Policies: s3-release-blobstore.md
+      - Using Git LFS: git-lfs-release-blobstore.md
     - Working with Blobs: release-blobs.md
     - Testing:
       - Unit Testing Job Templates: job-templates.md

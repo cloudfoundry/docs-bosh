@@ -91,6 +91,32 @@ blobstore:
 Nothing in `config/private.yml`.
 
 ---
+## Git LFS Configuration {: #git-lfs-config }
+
+Git LFS can be used as a release blobstore by configuring the local provider with blobs managed through Git LFS.
+
+**config/final.yml**
+
+```yaml
+---
+blobstore:
+  provider: local
+  options:
+    blobstore_path: final_blobs
+```
+
+**.gitattributes**
+
+```
+blobs/** filter=lfs diff=lfs merge=lfs -text
+final_blobs/** filter=lfs diff=lfs merge=lfs -text
+```
+
+Nothing in `config/private.yml` - credentials are managed through Git.
+
+See [Using Git LFS as Release Blobstore](git-lfs-release-blobstore.md) for detailed setup instructions and workflow guidance.
+
+---
 ## Release Compression Configuration {: #no-compression }
 
 !!! note "Version Requirements"
