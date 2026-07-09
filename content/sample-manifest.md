@@ -1,3 +1,5 @@
+# Sample Manifest
+
 The following is a sample BOSH deployment manifest. See [Understanding the BOSH Deployment Manifest](deployment-manifest.md) for an explanation of the manifest contents.
 
 ```yaml

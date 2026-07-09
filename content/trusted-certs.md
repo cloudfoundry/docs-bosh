@@ -1,9 +1,12 @@
+# Installing Certificates on VMs
+
 !!! note
     This feature is available with bosh-release v176+ (1.2992.0) and stemcells v2992+.
 
 This document describes how to configure the Director to add a set of trusted certificates to all VMs managed by that Director. Configured trusted certificates are added to the default certificate store on each VM and will be automatically seen by the majority of software (e.g. curl).
 
 ---
+
 ## Configuring Trusted Certificates {: #configure }
 
 To configure the Director with trusted certificates:

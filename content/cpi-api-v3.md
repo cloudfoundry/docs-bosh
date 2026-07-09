@@ -10,9 +10,7 @@ Examples of API request and response:
 - [Building a CPI: RPC - Request](https://bosh.io/docs/build-cpi.html#request)
 - [Building a CPI: RPC - Response](https://bosh.io/docs/build-cpi.html#response)
 
-
 If you're looking to get started on building a CPI, this [short guide](build-cpi.md) may be helpful. To learn more about the technical implementation, continue reading or refer to the [RPC Interface](cpi-api-rpc.md) for more details.
-
 
 Libraries:
 
@@ -30,5 +28,5 @@ Libraries:
 
 This list of methods to expect an additional parameter:
 
-* Stemcell Management
-    * [create_stemcell](cpi-api-v3-method/create-stemcell.md)
+- Stemcell Management
+   - [create_stemcell](cpi-api-v3-method/create-stemcell.md)

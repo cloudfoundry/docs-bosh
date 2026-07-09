@@ -1,3 +1,5 @@
+# IaaS Reconciliation
+
 !!! Note
     Updated for bosh-release v183 (1.3010.0).
 
@@ -52,6 +54,7 @@ No problems found
 ```
 
 ---
+
 ## Problems {: #problems }
 
 ### VM is missing {: #missing-vm }
@@ -134,6 +137,7 @@ Cloudcheck is finished
 In the above example options 3 was picked and VM reference was deleted.
 
 ---
+
 ### VM is not responsive (unresponsive agent) {: #not-responsive-vm }
 
 Assuming there was a deployment with a VM, somehow Agent is no longer
@@ -355,6 +359,7 @@ cck determined that `vol-549f071f` persistent disk is not attached to `i-4fcd99b
     all release job processes.
 
 ---
+
 ### Inactive Disk {: #inactive-disk }
 
 Assuming there are are disks that are marked as inactive,
@@ -423,6 +428,7 @@ cck determined that `disk-eaca0b50-daf5-4fba-6dbf-06354e11e0af` persistent disk 
    active VM already has a disk before marking the disk as active
 
 ---
+
 ### Persistent Disk is missing {: #missing-persistent-disk }
 
 Assuming there was a deployment with a VM, somehow persistent disk got deleted.
@@ -436,26 +442,18 @@ Note: Not all CPIs implement needed functionality to determine if disk is missin
 Automate recovery using the `--resolution=RESOLUTION-VALUE` cloud-check (cck)
 option, where `RESOLUTION-VALUE` represents one of the following:
 
- * `ignore` - skip resolution
- * `recreate_vm` - recreate VM and wait for processes to start
- * `recreate_vm_without_wait` - recreate VM without waiting for processes to
-   start (and thus [`post-start` scripts](job-lifecycle.md#start) won't run
-   after processes have restarted, which could have consequences depending on
-   how critical `post-start` scripts are)
- * `reboot_vm` - reboot the VM
- * `delete_vm` - delete the VM
- * `delete_vm_reference` - remove the VM reference that Director has (this
+- `ignore` - skip resolution
+- `recreate_vm` - recreate VM and wait for processes to start
+- `recreate_vm_without_wait` - recreate VM without waiting for processes to start (and thus [`post-start` scripts](job-lifecycle.md#start) won't run after processes have restarted, which could have consequences depending on how critical `post-start` scripts are)
+- `reboot_vm` - reboot the VM
+- `delete_vm` - delete the VM
+- `delete_vm_reference` - remove the VM reference that Director has (this
    could cause IaaS resources to be abandoned)
- * `delete_disk` - delete the disk
- * `delete_disk_reference` - remove the disk reference that Director has (this
-   could cause IaaS resources to be abandoned)
- * `activate_disk` - mark the disk as active
- * `reattach_disk` - reattach persistent disk to the VM and mount it at its
-   usual location `/var/vcap/store`
- * `reattach_disk_and_reboot`- reattach the persistent disk to the VM and
-   reboot it so that Agent can safely mount persistent disk before starting
-   any release job processes. cck will not wait until VM reboots and restarts
-   all release job processes
+- `delete_disk` - delete the disk
+- `delete_disk_reference` - remove the disk reference that Director has (this could cause IaaS resources to be abandoned)
+- `activate_disk` - mark the disk as active
+- `reattach_disk` - reattach persistent disk to the VM and mount it at its usual location `/var/vcap/store`
+- `reattach_disk_and_reboot`- reattach the persistent disk to the VM and reboot it so that Agent can safely mount persistent disk before starting any release job processes. cck will not wait until VM reboots and restarts all release job processes
 
 !!! Warning
     Consider using `cck` interactively because the selected resolution will be

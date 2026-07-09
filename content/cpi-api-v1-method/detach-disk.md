@@ -6,27 +6,22 @@ If the persistent disk is attached to a VM that will be deleted, it's more likel
 
 Agent settings should have been updated to remove information about given disk.
 
-
 ## Arguments
 
- * `vm_cid` [String]: Cloud ID of the VM.
- * `disk_cid` [String]: Cloud ID of the disk.
-
+- `vm_cid` [String]: Cloud ID of the VM.
+- `disk_cid` [String]: Cloud ID of the disk.
 
 ## Result
 
 No return value
 
-
 ## Examples
-
 
 ### Implementations
 
- * [cloudfoundry/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/detach_disk.go)
-
+- [cloudfoundry/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/detach_disk.go)
 
 ## Related
 
- * [attach_disk](../cpi-api-v2-method/attach-disk.md)
- * [delete_disk](../cpi-api-v2-method/delete-disk.md)
+- [attach_disk](../cpi-api-v2-method/attach-disk.md)
+- [delete_disk](../cpi-api-v2-method/delete-disk.md)

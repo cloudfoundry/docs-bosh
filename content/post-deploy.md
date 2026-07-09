@@ -1,3 +1,5 @@
+# Post-deploy
+
 (See [Job Lifecycle](job-lifecycle.md) for an explanation of when post-deploy scripts run.)
 
 !!! note
@@ -9,6 +11,7 @@
 Release job can have a post-deploy script that will run after all jobs in the deployments successfully started (and ran post-start scripts). This script allows the job to execute any additional commands against a whole deployment before considering deploy finished.
 
 ---
+
 ## Director Configuration {: #director-configuration }
 
 !!! note
@@ -17,6 +20,7 @@ Release job can have a post-deploy script that will run after all jobs in the de
 For Directors older than 280.0.23, the `director.enable_post_deploy` property was configurable and if not set, defaulted to true. Prior to 268.7.0, the property defaulted to false.
 
 ---
+
 ## Job Configuration {: #job-configuration }
 
 To add a post-deploy script to a release job:
@@ -34,6 +38,7 @@ templates:
 ```
 
 ---
+
 ## Script Implementation {: #script-implementation }
 
 Post-deploy script is usually just a regular shell script. Since post-deploy script is executed in a similar way as other release job scripts (start, stop, drain scripts) you can use job's package dependencies.
@@ -53,6 +58,7 @@ Post-deploy scripts in a deployment are executed in parallel.
     Post-deploy scripts run at a lower CPU scheduling priority than the BOSH agent to keep the agent responsive. See [Job Lifecycle](job-lifecycle.md) for details.
 
 ---
+
 ## Logs {: #logs }
 
 You can find logs for each release job's post-deploy script in the following locations:

@@ -1,3 +1,5 @@
+# Tunneling
+
 !!! note
     Applies to CLI v2.
 
@@ -10,7 +12,7 @@ Common use cases for tunnelling through a jumpbox VM include:
 
 The tunnel can be created by the CLI or established separately.
 
-### Tunnel created by CLI
+## Tunnel created by CLI
 
 ```shell
 # provide CLI with SSH credentials to create a tunnel via the environment variable
@@ -20,7 +22,7 @@ bosh create-env bosh-deployment/bosh.yml ...
 bosh alias-env aws -e director-ip --ca-cert ...
 ```
 
-### Tunnel established separately
+## Tunnel established separately
 
 ```shell
 # establish a tunnel and make it available on a local port

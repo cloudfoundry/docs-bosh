@@ -1,3 +1,5 @@
+# Running Errands
+
 (See [Jobs](jobs.md) for an introduction to jobs.)
 
 Any job that includes `bin/run` script in its spec file's templates section is considered to be an errand. Operator can trigger execution of an errand at any time after the deploy and receive back script's stdout, stderr and exit code upon its completion.
@@ -5,6 +7,7 @@ Any job that includes `bin/run` script in its spec file's templates section is c
 Errand output is limited to one megabyte of data. If the response is larger an error will be returned instead. Release authors should ensure the full error is properly logged to disk and a summary is returned as output.
 
 ---
+
 ## Release Definition {: #release-definition }
 
 Example of an errand job `smoke-tests` from Zookeeper release. `bin/run` script is specified in its templates section:
@@ -39,6 +42,7 @@ export ZOOKEEPER_SERVERS=<%= conn.instances.map { |i| "#{i.address}:#{conn.p('cl
 ```
 
 ---
+
 ## Include in a Deployment {: #include-in-deployment }
 
 There are two ways to add an errand to a deployment:
@@ -86,6 +90,7 @@ Alternatively, it might make sense to colocate an errand job with other jobs in 
 ```
 
 ---
+
 ## Execution {: #execution }
 
 Unlike regular jobs which run continuously and get automatically restarted on failure, errand jobs are executed upon operator's request some time after a deploy and if fail do not get restarted. There is no timeout on how long an errand can execute.
@@ -100,7 +105,7 @@ bosh -e vbox -d zookeeper errands
 
 Should result in:
 
-```text
+```shell
 Using environment '192.168.56.6' as client 'admin'
 
 Using deployment 'zookeeper'
@@ -122,7 +127,7 @@ bosh -e vbox -d zookeeper run-errand status
 
 Should result in:
 
-```text
+```shell
 Using environment '192.168.56.6' as client 'admin'
 
 Using deployment 'zookeeper'
@@ -193,7 +198,7 @@ Succeeded
 
 If an errand job is colocated on multiple instances (over one or more instance groups), by default `bosh run-errand` command will execute them all in parallel. You can limit number of instances used for execution via `--instance` flag:
 
-```
+```shell
 bosh -e vbox -d zookeeper run-errand status --instance zookeeper/3e977542-d53e-4630-bc40-72011f853cb5
 ```
 

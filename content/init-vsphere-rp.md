@@ -1,3 +1,5 @@
+# Bootstrapping with Resource Pools
+
 If the BOSH director is required to be deployed within a vSphere Resource Pool, utilize the following additional CLI arguments when creating the BOSH env:
 
 ```shell

@@ -1,9 +1,12 @@
+# CLI v1 Commands
+
 !!! note
     See [CLI v2](cli-v2.md) for an updated CLI.
 
 This document lists the all CLI commands you use to perform system administration tasks.
 
 ---
+
 ## For Cluster Operators {: #cluster-operators }
 
 Use these commands against the Director to manage deployments and associated assets.
@@ -29,6 +32,7 @@ bosh status [--uuid]
 Displays the configuration file and deployment manifest in use, and information about the BOSH Director such as name, URL, version, current username, UUID, and CPI.
 
 ---
+
 ### Users {: #user }
 
 Use these commands to create and delete users on the Director.
@@ -46,6 +50,7 @@ bosh delete user [USERNAME]
 Deletes a specific user from the BOSH Director. Prompts you for a `USERNAME` if you omit this information.
 
 ---
+
 ### Releases {: #dir-release }
 
 ```shell
@@ -80,6 +85,7 @@ bosh export release NAME/VERSION OS/VERSION
 Exports given release as a tarball, including compiled packages for stemcell that matches OS and version.
 
 ---
+
 ### Stemcells {: #dir-stemcells }
 
 ```shell
@@ -102,6 +108,7 @@ bosh delete stemcell NAME VERSION [--force]
 Deletes a stemcell and all associated compiled packages. Fails if any deployment references this stemcell.
 
 ---
+
 ### Cloud config {: #cloud-config }
 
 ```shell
@@ -117,6 +124,7 @@ bosh update cloud-config FILE_PATH
 Updates currently saved cloud config in the Director. See [cloud config description](cloud-config.md).
 
 ---
+
 ### Runtime config {: #runtime-config }
 
 ```shell
@@ -132,6 +140,7 @@ bosh update runtime-config FILE_PATH
 Updates currently saved runtime config in the Director. See [runtime config description](runtime-config.md).
 
 ---
+
 ### Deployment {: #deployment }
 
 ```shell
@@ -165,6 +174,7 @@ bosh delete deployment DEPLOYMENT_NAME [--force]
 Deletes job instances, VMs, disks, snapshots, templates associated with the deployment `DEPLOYMENT_NAME`.
 
 ---
+
 ### Job/VM Health {: #health }
 
 ```shell
@@ -221,6 +231,7 @@ bosh cck [DEPLOYMENT_NAME] [--auto] [--report]
 Scans for differences between the VM state database that the Director maintains and the actual state of the VMs. For each difference the scan detects, `bosh cck` offers possible repair options.
 
 ---
+
 ### Errands {: #errand }
 
 ```shell
@@ -236,6 +247,7 @@ bosh run errand ERRAND_NAME [--download-logs] [--logs-dir DESTINATION_DIRECTORY]
 Instructs the BOSH Director to run the named errand on a job instance on a VM.
 
 ---
+
 ### SSH {: #ssh }
 
 ```shell
@@ -251,6 +263,7 @@ bosh ssh JOB [INDEX] [COMMANDS]
 When you provide arguments without an option flag, the Director executes the arguments as commands on the job VM. For example, `bosh ssh redis 0 "ls -R"` runs the `ls -R` command on the redis/0 job VM.
 
 ---
+
 ### Director Tasks {: #tasks }
 
 ```shell
@@ -272,6 +285,7 @@ bosh task [TASK_ID] [--event] [--cpi] [--debug] [--result] [--raw]
 Displays the status of a task that you specify and tracks its output. You can track only one of the following log types at a time: event, CPI, debug, or result. Defaults to event.
 
 ---
+
 ### Logs {: #logs }
 
 ```shell
@@ -281,6 +295,7 @@ bosh logs JOB [INDEX] [--agent] [--job] [--only filter1,filter2,...] [--dir DEST
 Fetches a job or agent log from a VM. Supports custom filtering only for job logs.
 
 ---
+
 ### Events {: #events }
 
 ```shell
@@ -290,6 +305,7 @@ bosh events [--before-id ID] [--deployment NAME] [--task ID] [--instance NAME/ID
 Displays table that lists events based on filters specified. See [events details](events.md).
 
 ---
+
 ### Disks {: #disks }
 
 ```shell
@@ -305,6 +321,7 @@ bosh attach disk DISK_ID INSTANCE_NAME/ID
 Attaches persistent disk to given instance. Instance must be in the stopped state.
 
 ---
+
 ### Snapshots {: #snapshots }
 
 ```shell
@@ -332,6 +349,7 @@ bosh delete snapshot SNAPSHOT_CID
 Deletes a snapshot.
 
 ---
+
 ## For Release Maintainers {: #release-maintainers }
 
 Use these commands against the Director to create and update releases.

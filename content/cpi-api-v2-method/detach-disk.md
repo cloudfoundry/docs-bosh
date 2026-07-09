@@ -6,22 +6,18 @@ If the persistent disk is attached to a VM that will be deleted, it is more like
 
 Agent settings must have been updated to remove information about the given disk.
 
-
 ## Arguments
 
- * `vm_cid` [String]: Cloud ID of the VM.
- * `disk_cid` [String]: Cloud ID of the disk.
-
+- `vm_cid` [String]: Cloud ID of the VM.
+- `disk_cid` [String]: Cloud ID of the disk.
 
 ## Result
 
 No return value
 
-
 ## Examples
 
 ### API request
-
 
 ```json
 {
@@ -31,7 +27,7 @@ No return value
     "vol-044c8ae985721d217"
   ],
   "context": {
-	 "director_uuid": "<director-uuid>",
+  "director_uuid": "<director-uuid>",
     "request_id": "<cpi-request-id>",
     "vm": {
       "stemcell": {
@@ -53,10 +49,9 @@ No return value
 }
 ```
 
-
 ### Implementations
 
- * [cloudfoundry/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/detach_disk.go)
+- [cloudfoundry/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/detach_disk.go)
 
 #### Changes for V2 of the API contract
 
@@ -64,6 +59,6 @@ The signature for `detach_disk` is the same as in V1 of the API contract. For CP
 
 ## Related
 
- * [detach_disk V1](../cpi-api-v1-method/detach-disk.md)
- * [attach_disk](attach-disk.md)
- * [delete_disk](delete-disk.md)
+- [detach_disk V1](../cpi-api-v1-method/detach-disk.md)
+- [attach_disk](attach-disk.md)
+- [delete_disk](delete-disk.md)

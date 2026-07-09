@@ -1,8 +1,11 @@
+# Sample Windows Release
+
 This is a sample BOSH release than can be deployed using a Windows stemcell. It has a single job called `say-hello` that repeatedly prints out a message.
 
 After creating a deployment with this release and the `say-hello` job you can access the job's standard out with the `bosh log` command (see documentation on [logs](job-logs.md) for more information).
 
 ---
+
 ## Release Structure {: #release-structure }
 
 ```shell
@@ -26,6 +29,7 @@ packages/
 ```
 
 ---
+
 ### `spec` {: #say-hello-spec }
 
 The `spec` file specifies the job name and description. It also contains the templates to render, which may depend on zero or more packages. See the documentation on [job spec files](jobs.md#spec) for more information.
@@ -43,6 +47,7 @@ packages: []
 ```
 
 ---
+
 ### `monit` {: #say-hello-monit }
 
 The `monit` file includes zero or more processes to run. Each process specifies an executable as well as any arguments and environment variables. See the documentation on [monit files](jobs.md#monit) for more information. Note, however, that Windows monit files are JSON config files for [Windows service wrapper](https://github.com/kohsuke/winsw), not config files for the monit Unix utility.
@@ -63,6 +68,7 @@ The `monit` file includes zero or more processes to run. Each process specifies 
 ```
 
 ---
+
 ### `start.ps1` {: #start-ps1 }
 
 The `start.ps1` script executed by the [service-wrapper](https://github.com/kohsuke/winsw) loops indefinitely while printing out a message:
@@ -76,6 +82,7 @@ while ($true)
 ```
 
 ---
+
 ## Creating and Deploying the Sample Release {: #deploying }
 
 If you have the Director with a Windows stemcell uploaded, you can create the above described release with an empty `blobs.yml` and `final.yml`, then try deploying it:

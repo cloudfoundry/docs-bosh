@@ -1,3 +1,5 @@
+# What is a Stemcell?
+
 A stemcell is a versioned Operating System image wrapped with IaaS specific
 packaging.
 
@@ -47,8 +49,8 @@ their respective versions.
 We have a versioning system that resembles semver. Using an example stemcell
 version, `621.45`:
 
-* `621` is the major version number.
-* `45` is the patch version number.
+- `621` is the major version number.
+- `45` is the patch version number.
 
 The minor version is absent.
 
@@ -61,11 +63,11 @@ version.
 
 The schedule for stemcells roughly looks like:
 
-* New LTS distributions from Canonical are consumed around every 2-3 years. This
+- New LTS distributions from Canonical are consumed around every 2-3 years. This
   is usually an overhaul on how the bosh-agent interacts with the base operating
   system.
-* New patches are cut every 3 weeks to pick up any low & medium CVEs published
-  by https://usn.ubuntu.com. A patch will also be cut within a week of a high or
+- New patches are cut every 3 weeks to pick up any low & medium CVEs published
+  by [Ubuntu Security Notices](https://usn.ubuntu.com). A patch will also be cut within a week of a high or
   critical CVE being fixed.
 
 **What are the differences between stemcell lines?**
@@ -78,15 +80,14 @@ stemcell, which has compatibility considerations with the BOSH director.
 **How is a stemcell is built and how one would go about building their own
 stemcell?**
 
-The code lives on GitHub at
-https://github.com/cloudfoundry/bosh-linux-stemcell-builder. Building a stemcell
+The code lives on GitHub at [bosh-linux-stemcell-builder](https://github.com/cloudfoundry/bosh-linux-stemcell-builder). Building a stemcell
 occurs in stages. Each stage is represented as a BASH script and can be found in
 `stemcell_builder/stages/<stage_name>/apply.sh`. Each IaaS has its own list of
 stages defined here:
-https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/bosh-stemcell/lib/bosh/stemcell/stage_collection.rb.
+[stage_collection.rb](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/bosh-stemcell/lib/bosh/stemcell/stage_collection.rb).
 
 ### Links
 
-* [CI Source Repo](https://github.com/cloudfoundry/bosh-stemcells-ci)
-* [Stemcell Builder](https://github.com/cloudfoundry/bosh-linux-stemcell-builder)
-* [Stemcell Hardening](https://techdocs.broadcom.com/us/en/vmware-tanzu/platform/tanzu-operations-manager/3-0/tanzu-ops-manager/security-pcf-infrastructure-stemcell-index.html)
+- [CI Source Repo](https://github.com/cloudfoundry/bosh-stemcells-ci)
+- [Stemcell Builder](https://github.com/cloudfoundry/bosh-linux-stemcell-builder)
+- [Stemcell Hardening](https://techdocs.broadcom.com/us/en/vmware-tanzu/platform/tanzu-operations-manager/3-0/tanzu-ops-manager/security-pcf-infrastructure-stemcell-index.html)

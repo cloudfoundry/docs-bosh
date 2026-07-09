@@ -1,3 +1,5 @@
+# Generic Configs
+
 !!! note
     Generic `configs` functionality is available with bosh-release v264+.
 
@@ -9,10 +11,11 @@ Additionally, in some cases it may be useful to split cloud config and/or other 
 
 ## Director Types {: #director-types }
 
--There are four built-in types: `cloud`, `runtime`, `cpi` and `deploy`. You can interact with the Director config types just as you have been doing so far via the [`update-cloud-config`](cli-v2.md#cloud-config-mgmt), [`update-runtime-config`](cli-v2.md#runtime-config-mgmt) and [`update-cpi-config`](cli-v2.md#cpi-config-mgmt) CLI commands respectively. The `deploy` type can be managed using the generic [`update-config`](cli-v2.md#update-config) command with `--type=deploy` (see [Deploy config](deploy-config.md)). By using these commands you will only be able to interact with the `default` named config of the given type. This will be good enough in most cases but like in our example before if you need to create separate configs with different names, you need to use the [`update-config`](cli-v2.md#update-config) command. Keep in mind that if you use the [config commands](cli-v2.md#configs-mgmt) to interact with the built-in types, you still need to comply with the structure of the YAML file for each type.
+- There are four built-in types: `cloud`, `runtime`, `cpi` and `deploy`. You can interact with the Director config types just as you have been doing so far via the [`update-cloud-config`](cli-v2.md#cloud-config-mgmt), [`update-runtime-config`](cli-v2.md#runtime-config-mgmt) and [`update-cpi-config`](cli-v2.md#cpi-config-mgmt) CLI commands respectively. The `deploy` type can be managed using the generic [`update-config`](cli-v2.md#update-config) command with `--type=deploy` (see [Deploy config](deploy-config.md)). By using these commands you will only be able to interact with the `default` named config of the given type. This will be good enough in most cases but like in our example before if you need to create separate configs with different names, you need to use the [`update-config`](cli-v2.md#update-config) command. Keep in mind that if you use the [config commands](cli-v2.md#configs-mgmt) to interact with the built-in types, you still need to comply with the structure of the YAML file for each type.
 +There are four built-in types: `cloud`, `runtime`, `cpi`, and `deploy`. You can interact with these via [`update-cloud-config`](cli-v2.md#cloud-config-mgmt), [`update-runtime-config`](cli-v2.md#runtime-config-mgmt), and [`update-cpi-config`](cli-v2.md#cpi-config-mgmt). The `deploy` type is managed via the generic [`update-config`](cli-v2.md#update-config) command with `--type=deploy` (see [Deploy config](deploy-config.md)). If you need consistent handling of named configs across types, use [`update-config`](cli-v2.md#update-config) with `--type` and `--name`. Keep in mind that when using [config commands](cli-v2.md#configs-mgmt) with built-in types, the YAML structure must match each type’s schema.
 
 ---
+
 ## User defined Types {: #user-defined-types }
 
 In addition to the Director types an operator can set config of any other type using the [`update-config`](cli-v2.md#update-config) CLI command. The config file can be any file containing valid YAML. Root of the file must be a hash.
@@ -20,6 +23,7 @@ In addition to the Director types an operator can set config of any other type u
 One of the use cases for providing such open ended functionality is to provide shared configuration API for supporting BOSH services instead of reimplementing something similar in each service. An upcoming example that will use this feature will be introduction of the `resurrection` config type that will allow operators to define custom resurrection rules, later read and interpreted by the Health Monitor.
 
 ---
+
 ## Updating and retrieving a config {: #update }
 
 To add or update a config on the Director use the [`bosh update-config`](cli-v2.md#update-config) CLI command.
@@ -65,6 +69,7 @@ Content     configs:
 ```
 
 ---
+
 ## Listing configs {: #list }
 
 To list all configs use the [`bosh configs`](cli-v2.md#configs) CLI command.
@@ -111,14 +116,17 @@ Succeeded
 ```
 
 ---
+
 ## Deleting configs {: #list }
 
-To delete configs use the [`bosh delete-config`](cli-v2.md#delete-config) CLI command. 
+To delete configs use the [`bosh delete-config`](cli-v2.md#delete-config) CLI command.
 
 ```shell
 bosh delete-config 1
 ```
+
 or
+
 ```shell
 bosh delete-config --type=my-type --name=my-configs-name
 ```

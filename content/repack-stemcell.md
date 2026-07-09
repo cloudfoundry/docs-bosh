@@ -1,3 +1,5 @@
+# Repacking Stemcells
+
 !!! note
     Applies to CLI v2.0.12+.
 
@@ -11,6 +13,7 @@ The [CLI v2](cli-v2.md) includes a command to repack stemcells; this enables lim
 - cloud properties
 
 ---
+
 ## Syntax {: #syntax }
 
 ```shell
@@ -42,8 +45,8 @@ The `repack-stemcell` command can be used to enable the encryption of the root f
 
 Two arguments enable the encryption of the root filesystem:
 
-* **encrypted** [Boolean, optional]: Must be set to `true` if encryption of the root filesystem
-* **kms\_key\_arn** [String, optional]: Created in the [Encryption Keys](https://console.aws.amazon.com/iam/home#encryptionKeys) section of the Identity and Access Management (IAM) console. If not specified _and_ `encrypted` is true, the root filesystem will be encrypted with the default key.
+- **encrypted** [Boolean, optional]: Must be set to `true` if encryption of the root filesystem
+- **kms\_key\_arn** [String, optional]: Created in the [Encryption Keys](https://console.aws.amazon.com/iam/home#encryptionKeys) section of the Identity and Access Management (IAM) console. If not specified _and_ `encrypted` is true, the root filesystem will be encrypted with the default key.
 
 We modify the cloud-properties of an AWS stemcell to encrypt the root filesystem of instances deployed with our repacked stemcell. The cloud-properties must be specified as valid JSON. This only works with heavy stemcells:
 
@@ -70,7 +73,7 @@ curl -L https://bosh.io/d/stemcells/bosh-google-kvm-ubuntu-xenial-go_agent | tar
 
 Should  result in:
 
-```text
+```shell
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100   137  100   137    0     0    268      0 --:--:-- --:--:-- --:--:--   268

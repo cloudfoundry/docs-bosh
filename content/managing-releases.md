@@ -1,6 +1,9 @@
+# Managing Releases
+
 (See [What is a Release?](release.md) and [Uploading releases](uploading-releases.md) for an introduction.)
 
 ---
+
 ## Jobs and Packages {: #jobs-and-packages }
 
 Each job and package is uniquely identified by its name and fingerprint. A fingerprint is calculated based on the contents of all associated files, their permissions. A release captures set of job and package versions that depend on each other and gives it a name and a version. The CLI also records additional metadata when creating releases such as Git SHA.
@@ -55,6 +58,7 @@ Job and package names and fingerprints are used throughout the system to identif
 - to determine if instances need to be updated during a [deployment procedure](deploying-step-by-step.md)
 
 ---
+
 ## Version uniqueness {: #uniqueness }
 
 There exists an implicit trust between a release author and an operator that different release (a different set of jobs and packages) will not be published under the same version. The Director will reject new set of jobs and packages during the upload if it does not match with already uploaded contents.
@@ -62,6 +66,7 @@ There exists an implicit trust between a release author and an operator that dif
 Sometimes however two different releases (e.g. 1.0.1 and 1.0.3) may end up with exactly same set of jobs and packages. In fact running [`bosh create-release` command](cli-v2.md#create-release) a few times in a row will produce new releases with only version being different (e.g. 1.0.1+dev.0 and 1.0.1+dev.1). Operators should be aware that even if the deployment procedure shows release version changing there is a chance that no instances will be updated. This initially may be a surprising behaviour; however, given that the Director correctly determines that there are no changes to apply to the instances, there is really nothing to do. After the deploy is finished, [`bosh deployments` command](cli-v2.md#deployments) will of course state that new release is used.
 
 ---
+
 ## Inspecting uploaded releases {: #inspect }
 
 Once release is uploaded to the Director, it can be inspected via [`bosh inspect-release` command](cli-v2.md#inspect-release). It will show names and fingerprints of jobs and packages. It will also show job details such as consumed and provided links.
@@ -70,7 +75,7 @@ Once release is uploaded to the Director, it can be inspected via [`bosh inspect
 bosh -e vbox inspect-release zookeeper/0.0.5
 ```
 
-```text
+```shell
 Using environment '192.168.56.6' as '?'
 
 Job                                                   Blobstore ID                          Digest                                    Links Consumed           Links Provided
@@ -101,11 +106,13 @@ Succeeded
 For debugging command also shows blobstore information (ID and SHA1) for each job and package. The Director uses blobstore references when deploying jobs and compiling packages.
 
 ---
+
 ## Fixing corrupted releases (experimental) {: #fix }
 
 Assuming that somehow the Director blobstore loses referenced asset (job, source or compiled package), it's possible to fix the corrupted asset. [`bosh upload-release` command](cli-v2.md#upload-release) provides a `--fix` flag which allows to reupload same release contents into the Director.
 
 ---
+
 ## Cleaning up uploaded releases {: #clean-up }
 
 Over time the Director accumulates releases, hence it uses more blobstore space.

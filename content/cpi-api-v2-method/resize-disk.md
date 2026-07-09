@@ -6,27 +6,23 @@ Depending on the capabilities of the underlying infrastructure, this method may 
 
 If `Bosh::Clouds::NotSupported` is raised, the Director falls back to creating a new disk and copying data.
 
-
 ## Arguments
 
- * `disk_cid` [String]: Cloud ID of the disk to resize; returned from `create_disk`.
- * `new_size` [Integer]: New disk size in MiB.
-
+- `disk_cid` [String]: Cloud ID of the disk to resize; returned from `create_disk`.
+- `new_size` [Integer]: New disk size in MiB.
 
 ## Result
 
 No return value
 
-
 ## Examples
 
 ### Implementations
 
- * [cloudfoundry/bosh-openstack-cpi-release](https://github.com/cloudfoundry/bosh-openstack-cpi-release/blob/88e1c6d402b3c4ce23ad39ebdf5ab5fc93790127/src/bosh_openstack_cpi/lib/cloud/openstack/cloud.rb#L701)
- * [cloudfoundry/bosh-aws-cpi-release](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/7906dc66c61d4667ad74beeda3e5627f997ad740/src/bosh_aws_cpi/lib/cloud/aws/cloud_core.rb#L165)
- * [cloudfoundry/bosh-google-cpi-release](https://github.com/cloudfoundry/bosh-google-cpi-release/blob/f2d17fe164daa690acb37d5758b689a8cbc32852/src/bosh-google-cpi/action/concrete_factory.go#L180)
-
+- [cloudfoundry/bosh-openstack-cpi-release](https://github.com/cloudfoundry/bosh-openstack-cpi-release/blob/88e1c6d402b3c4ce23ad39ebdf5ab5fc93790127/src/bosh_openstack_cpi/lib/cloud/openstack/cloud.rb#L701)
+- [cloudfoundry/bosh-aws-cpi-release](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/7906dc66c61d4667ad74beeda3e5627f997ad740/src/bosh_aws_cpi/lib/cloud/aws/cloud_core.rb#L165)
+- [cloudfoundry/bosh-google-cpi-release](https://github.com/cloudfoundry/bosh-google-cpi-release/blob/f2d17fe164daa690acb37d5758b689a8cbc32852/src/bosh-google-cpi/action/concrete_factory.go#L180)
 
 ## Related
 
- * [create_disk](create-disk.md)
+- [create_disk](create-disk.md)

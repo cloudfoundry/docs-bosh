@@ -32,17 +32,14 @@ the VM:
 
 ## Arguments
 
- * `vm_cid` [String]: Cloud ID of the VM to modify; returned from `create_vm`.
- * `metadata` [Hash]: Collection of key-value pairs, including the top-level `tags` in the deployment manifest. CPI should not rely on presence of specific keys.
-
+- `vm_cid` [String]: Cloud ID of the VM to modify; returned from `create_vm`.
+- `metadata` [Hash]: Collection of key-value pairs, including the top-level `tags` in the deployment manifest. CPI should not rely on presence of specific keys.
 
 ## Result
 
 No return value
 
-
 ## Examples
-
 
 ### API Request
 
@@ -61,12 +58,10 @@ No return value
 ]
 ```
 
-
 ### Implementations
 
- * [cloudfoundry/bosh-vsphere-cpi-release](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/blob/dfe878579cbab768af07a12bb5543cd016cbb762/src/vsphere_cpi/lib/cloud/vsphere/cloud.rb#L433)
-
+- [cloudfoundry/bosh-vsphere-cpi-release](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/blob/dfe878579cbab768af07a12bb5543cd016cbb762/src/vsphere_cpi/lib/cloud/vsphere/cloud.rb#L433)
 
 ## Related
 
- * [create_vm](create-vm.md)
+- [create_vm](create-vm.md)

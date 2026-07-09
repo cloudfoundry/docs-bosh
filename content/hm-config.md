@@ -1,11 +1,15 @@
+# Using the Health Monitor
+
 Sections below only show minimum configuration options to enable plugins. Add them to the deployment manifest for the Health Monitor. See [health_monitor release job properties](http://bosh.io/jobs/health_monitor?source=github.com/cloudfoundry/bosh) for more details.
 
 ---
+
 ## Event Logger {: #logger }
 
 Enabled by default. No way to turn it off.
 
 ---
+
 ## Resurrector {: #resurrector }
 
 Restarts VMs that have stopped heartbeating. See [Automatic repair with Resurrector](resurrector.md) for more details.
@@ -17,6 +21,7 @@ properties:
 ```
 
 ---
+
 ## Emailer {: #emailer }
 
 Plugin that sends configurable e-mails on events received.
@@ -38,6 +43,7 @@ properties:
 ```
 
 ---
+
 ## JSON {: #json }
 
 Enabled by default.
@@ -45,6 +51,7 @@ Enabled by default.
 Plugin that sends alerts and heartbeats as json to programs installed on the director over stdin. The plugin will start and manage a process for each executable matching the glob `/var/vcap/jobs/*/bin/bosh-monitor/*`.
 
 ---
+
 ## OpenTSDB {: #tsdb }
 
 Plugin that forwards alerts and heartbeats to [OpenTSDB](http://opentsdb.net/).
@@ -59,6 +66,7 @@ properties:
 ```
 
 ---
+
 ## Graphite {: #graphite }
 
 Plugin that forwards heartbeats to [Graphite](https://graphite.readthedocs.org/en/latest/).
@@ -73,6 +81,7 @@ properties:
 ```
 
 ---
+
 ## PagerDuty {: #pagerduty }
 
 Plugin that sends various events to [PagerDuty.com](http://pagerduty.com) using their API.
@@ -87,6 +96,7 @@ properties:
 ```
 
 ---
+
 ## DataDog {: #datadog }
 
 Plugin that sends various events to [DataDog.com](http://datadoghq.com) using their API.

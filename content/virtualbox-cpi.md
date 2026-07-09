@@ -1,3 +1,5 @@
+# VirtualBox CPI Cloud Properties
+
 This topic describes cloud properties for different resources created by the [VirtualBox CPI](https://bosh.io/releases/github.com/cloudfoundry/bosh-virtualbox-cpi-release). VirtualBox CPI works with [vSphere ESXI stemcells](https://bosh.io/stemcells/bosh-vsphere-esxi-ubuntu-xenial-go_agent).
 
 ## AZs {: #azs }
@@ -12,12 +14,13 @@ azs:
 ```
 
 ---
+
 ## Networks {: #networks }
 
 Schema for `cloud_properties` section used by network subnet:
 
-* **name** [String, required]: Name of the network. Example: `vboxnet0`. Default: `vboxnet0`.
-* **type** [String, optional]: Type of the network. See [`VBoxManage modifyvm` networking settings](https://www.virtualbox.org/manual/ch08.html#idp46691722135120) for valid values. Example: `hostonly`. Default: `hostonly`.
+- **name** [String, required]: Name of the network. Example: `vboxnet0`. Default: `vboxnet0`.
+- **type** [String, optional]: Type of the network. See [`VBoxManage modifyvm` networking settings](https://www.virtualbox.org/manual/ch08.html#idp46691722135120) for valid values. Example: `hostonly`. Default: `hostonly`.
 
 Example of manual network:
 
@@ -34,14 +37,15 @@ networks:
 ```
 
 ---
+
 ## VM Types / VM Extensions {: #vm-types }
 
 Schema for `cloud_properties` section:
 
-* **cpus** [Integer, optional]: Number of CPUs. Example: `1`. Default: `1`.
-* **memory** [Integer, optional]: RAM in megabytes. Example: `1024`. Default: `512`.
-* **ephemeral_disk** [Integer, optional]: Ephemeral disk size in megabytes. Example: `10240`. Default: `5000`.
-* **paravirtprovider** [String, optional]: Paravirtual provider type. See [`VBoxManage modifyvm` general settings](https://www.virtualbox.org/manual/ch08.html#idp46691713664256) for valid values. Default: `minimal`.
+- **cpus** [Integer, optional]: Number of CPUs. Example: `1`. Default: `1`.
+- **memory** [Integer, optional]: RAM in megabytes. Example: `1024`. Default: `512`.
+- **ephemeral_disk** [Integer, optional]: Ephemeral disk size in megabytes. Example: `10240`. Default: `5000`.
+- **paravirtprovider** [String, optional]: Paravirtual provider type. See [`VBoxManage modifyvm` general settings](https://www.virtualbox.org/manual/ch08.html#idp46691713664256) for valid values. Default: `minimal`.
 
 Example of a VM type:
 
@@ -56,6 +60,7 @@ vm_types:
 ```
 
 ---
+
 ## Disk Types {: #disk-types }
 
 Currently the CPI does not support any cloud properties for disks.
@@ -69,6 +74,7 @@ disk_types:
 ```
 
 ---
+
 ## Global Configuration {: #global }
 
 The CPI uses individual VirtualBox VMs and disks. Since the CPI can only talk to a single VirtualBox server it can only manage resources on a single machine.
@@ -100,6 +106,7 @@ properties:
 See [virtualbox_cpi job](https://bosh.io/jobs/virtualbox_cpi?source=github.com/cloudfoundry/bosh-virtualbox-cpi-release) for more details.
 
 ---
+
 ## Example Cloud Config {: #cloud-config }
 
 ```yaml

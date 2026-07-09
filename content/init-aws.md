@@ -1,3 +1,5 @@
+# Init AWS Environment
+
 This document shows how to set up new [environment](terminology.md#environment) on Amazon Web Services (AWS).
 
 ## Step 1: Prepare an AWS Account {: #prepare-aws }
@@ -6,18 +8,20 @@ If you do not have an AWS account, [create one](http://goo.gl/MaAybK).
 
 To configure your AWS account:
 
-* [Obtain AWS credentials](#credentials)
-* [Create a Virtual Private Cloud (VPC)](#create-vpc)
-* [Create an Elastic IP](#create-eip)
-* [Create a Key Pair](#create-key-pair)
-* [Create and Configure Security Group](#create-security)
+- [Obtain AWS credentials](#credentials)
+- [Create a Virtual Private Cloud (VPC)](#create-vpc)
+- [Create an Elastic IP](#create-eip)
+- [Create a Key Pair](#create-key-pair)
+- [Create and Configure Security Group](#create-security)
 
 ---
+
 ### Obtain AWS Credentials {: #credentials }
 
 Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow [Creating IAM Users](aws-iam-users.md#create) to create a new IAM user.
 
 ---
+
 ### Create a Virtual Private Cloud (VPC) {: #create-vpc }
 
 1. In the upper-right corner of the AWS Console, select a Region.
@@ -35,13 +39,13 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
 1. Select **VPC with a Single Public Subnet** and click **Select**.
 
 1. Complete the VPC form with the following information:
-    * **IP CIDR block**: 10.0.0.0/16
-    * **VPC name**: bosh
-    * **Public subnet**: 10.0.0.0/24
-    * **Availability Zone**: us-east-1a
-    * **Subnet name**: public
-    * **Enable DNS hostnames**: Yes
-    * **Hardware tenancy**: Default
+    - **IP CIDR block**: 10.0.0.0/16
+    - **VPC name**: bosh
+    - **Public subnet**: 10.0.0.0/24
+    - **Availability Zone**: us-east-1a
+    - **Subnet name**: public
+    - **Enable DNS hostnames**: Yes
+    - **Hardware tenancy**: Default
 
     ![image](images/deploy-microbosh-to-aws/create-vpc.png)
 
@@ -52,6 +56,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
     ![image](images/deploy-microbosh-to-aws/list-subnets.png)
 
 ---
+
 ### Create an Elastic IP {: #create-eip }
 
 1. On the VPC Dashboard, click **Elastic IPs** and click **Allocate New Address**.
@@ -65,6 +70,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
     ![image](images/deploy-microbosh-to-aws/list-elastic-ips.png)
 
 ---
+
 ### Create a Key Pair {: #create-key-pair }
 
 1. In the AWS Console, select **EC2** to get to the EC2 Dashboard.
@@ -80,6 +86,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
 1. Save private key to `~/Downloads/bosh.pem`.
 
 ---
+
 ### Create and Configure Security Group {: #create-security }
 
 1. On the EC2 Dashboard, click **Security Groups** and then click **Create Security Group**.
@@ -87,9 +94,9 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
     ![image](images/deploy-microbosh-to-aws/list-security-groups.png)
 
 1. Complete the Create Security Group form with the following information:
-    * **Security group name**: bosh
-    * **Description**: BOSH deployed VMs
-    * **VPC**: Select the "bosh" VPC that you created in [Create a Virtual Private Cloud](#create-vpc).
+    - **Security group name**: bosh
+    - **Description**: BOSH deployed VMs
+    - **VPC**: Select the "bosh" VPC that you created in [Create a Virtual Private Cloud](#create-vpc).
 
 1. Click **Create**
 
@@ -102,23 +109,15 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
 1. Fill out the Edit inbound rules form and click **Save**.
 
     !!! note
-        It highly discouraged to run any production environment with <code>0.0.0.0/0</code> source or to make any BOSH management ports publicly accessible.
+        It highly discouraged to run any production environment with `0.0.0.0/0` source or to make any BOSH management ports publicly accessible.
 
-    <table border="1" class="nice">
-      <tr>
-        <th>Type</th>
-        <th>Port Range</th>
-        <th>Source</th>
-        <th>Purpose</th>
-      </tr>
-
-      <tr><td>Custom TCP Rule</td><td>22</td><td>(My IP)</td><td>SSH access from CLI</td></tr>
-      <tr><td>Custom TCP Rule</td><td>6868</td><td>(My IP)</td><td>BOSH Agent access from CLI</td></tr>
-      <tr><td>Custom TCP Rule</td><td>25555</td><td>(My IP)</td><td>BOSH Director access from CLI</td></tr>
-
-      <tr><td>All TCP</td><td>0 - 65535</td><td>ID of this security group</td><td>Management and data access</td></tr>
-      <tr><td>All UDP</td><td>0 - 65535</td><td>ID of this security group</td><td>Management and data access</td></tr>
-    </table>
+    | Type            | Port Range | Source                    | Purpose                       |
+    |-----------------|------------|---------------------------|-------------------------------|
+    | Custom TCP Rule | 22         | (My IP)                   | SSH access from CLI           |
+    | Custom TCP Rule | 6868       | (My IP)                   | BOSH Agent access from CLI    |
+    | Custom TCP Rule | 25555      | (My IP)                   | BOSH Director access from CLI |
+    | All TCP         | 0 - 65535  | ID of this security group | Management and data access    |
+    | All UDP         | 0 - 65535  | ID of this security group | Management and data access    |
 
     !!! note
         To enter your security group as a *Source*, select *Custom IP*, and enter "bosh". Note: The AWS Console should autocomplete the security group ID (e.g. "sg-12ab34cd").
@@ -126,6 +125,7 @@ Your AWS credentials consist of an Access Key ID and a Secret Access Key. Follow
     ![image](images/deploy-microbosh-to-aws/edit-security-group-rules.png)
 
 ---
+
 ## Step 2: Deploy {: #deploy }
 
 1. Install [CLI v2](cli-v2.md).

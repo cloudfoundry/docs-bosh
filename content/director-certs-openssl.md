@@ -1,3 +1,5 @@
+# Director SSL Certificate Configuration with OpenSSL
+
 Depending on you configuration, there are up to three endpoints to be secured using SSL certificates: The Director, the UAA, and the SAML Service Provider on the UAA.
 
 !!! note
@@ -65,6 +67,7 @@ ls -la .
 ```
 
 ---
+
 ## Configure the Director to use certificates {: #configure }
 
 Update the Director deployment manifest:
@@ -113,6 +116,7 @@ If you are using the UAA for user management, additionally put certificates in t
     - Associated certificate for the UAA (e.g. content of `certs/uaa-sp.crt`)
 
 ---
+
 ## Target the Director {: #target }
 
 After you deployed your Director with the above changes, you need to specify `--ca-cert` when targeting the Director:

@@ -1,3 +1,5 @@
+# Troubleshooting
+
 This document lists several common problems. If you are looking for CPI specific errors see:
 
 - [AWS CPI errors](aws-cpi-errors.md)
@@ -6,6 +8,7 @@ This document lists several common problems. If you are looking for CPI specific
 - [vSphere CPI errors](vsphere-cpi-errors.md)
 
 ---
+
 ## Getting logs from an unresponsive VM {: #unresponsive-vm-logs }
 
 If the BOSH agent on a VM becomes unresponsive, the `bosh logs` command will not work. This can make it difficult to diagnose what is causing the agent to become unresponsive.
@@ -34,8 +37,7 @@ For instructions on how to launch a new VM, shutdown or reboot VMs, attach or de
 bosh deploy
 ```
 
-```text
-
+```shell
   Failed creating bound missing vms > cloud_controller_worker/0: Timed out pinging to 013ce5c9-e7fc-4f1d-ac24 after 600 seconds (00:16:03)
   Failed creating bound missing vms > uaa/0: Timed out pinging to b029652d-14c3-4d68-98c7 after 600 seconds (00:16:12)
   Failed creating bound missing vms > uaa/0: Timed out pinging to 1f56ddd1-7f2d-4afc-ae43 after 600 seconds (00:16:23)
@@ -53,6 +55,7 @@ For a more detailed error report, run: bosh task 45 --debug
 This problem can occur due to:
 
 - blocked network connectivity between the Agent on a new VM and NATS (typically the Director VM). For stemcells released after April 2022 additional restrictions can block connectivity to NATS. Specifically, traffic to the NATS endpoint is restricted to membership in a specific **cgroup**, this membership is based on the process id. To add your SSH session's pid to the cgroup, follow these steps:
+
     ```shell
     # To add your SSH Session to the NATS Access CGROUP you can execute the below steps.
     # This will work EXCLUSIVELY for the SSH Session that executes the command and does
@@ -68,6 +71,7 @@ This problem can occur due to:
     # Connection to 10.0.0.6 4222 port [tcp/*] succeeded!
     # INFO {....}
     ```
+
 - bootstrapping problem on the VM and/or wrong configuration of the Agent
 - blocked or slow boot times of the VM
 
@@ -89,14 +93,14 @@ In case when the VM spec has not been applied, the instance name is not availabl
 The steps for remediation are similar to the [Timed out pinging to ... after 600 seconds](#unreachable-agent) case, where operators should try to SSH into VMs as the problem is occurring so they can look at the Agent logs.
 
 ---
+
 ## ...is not running after update {: #failed-job }
 
 ```shell
 bosh deploy
 ```
 
-```text
-
+```shell
   Started updating job access_z1 > access_z1/0 (canary)
      Done updating job route_emitter_z1 > route_emitter_z1/0 (canary) (00:00:13)
      Done updating job cc_bridge_z1 > cc_bridge_z1/0 (canary) (00:00:20)
@@ -115,6 +119,7 @@ This problem occurs when one of the release jobs on a VM did not successfully st
 This problem may also arise when deployment manifest specifies too small of a [canary/update watch time](deployment-manifest.md#update) which may not be large enough for a process to successfully start.
 
 ---
+
 ## umount: /var/vcap/store: device is busy {: #unmount-persistent-disk }
 
 ```text
@@ -127,13 +132,14 @@ L Error: Action Failed get_task: Task 5be893c6-7a2c-4f3f-420b-433fd23528a1 resul
 This process occurs when one of the processes (from one of the installed jobs) did not fully shutdown and continues to retain a reference to the persistent disk. Agent tries to unmount persistent disk and unmount command fails. You can use `bosh ssh` command to get inside the VM and diagnose which process is holding onto the persistent disk via `lsof | grep /var/vcap/store` (ran as root).
 
 ---
+
 ## Running command: bosh-blobstore-dav -c ... 500 Internal Server Error {: #blobstore-out-of-space }
 
 ```shell
 bosh deploy
 ```
 
-```text
+```shell
 ...
 
 Failed compiling packages > dea_next/3e95ef8425be45468e044c05cc9aa65494281ab5: Action Failed get_task: Task bd35f7c1-2144-4045-763e-40beeafc9fa3 result: Compiling package dea_next: Uploading compiled package: Creating blob in inner blobstore: Making put command: Shelling out to bosh-blobstore-dav cli: Running command: 'bosh-blobstore-dav -c /var/vcap/bosh/etc/blobstore-dav.json put /var/vcap/data/tmp/bosh-platform-disk-TarballCompressor-CompressFilesInDir949066221 cd91a1c5-a034-4c69-4608-6b18cc3fcb2b', stdout: 'Error running app - Putting dav blob cd91a1c5-a034-4c69-4608-6b18cc3fcb2b: Wrong response code: 500; body: <html>
@@ -151,6 +157,7 @@ This problem can occur if the Director is configured to use built-in blobstore a
 If `bosh clean-up` command fails with 500 Internal Server Error, consider removing `/var/vcap/store/director/tasks` to free up a little bit of persistent disk space before running `bosh clean-up` command again. (Deleting that directory will delete Director task debug logs.)
 
 ---
+
 ## Debugging Director database {: #director-db }
 
 It may be necessary to dive into the Director DB. The easiest way to do so is to SSH into the Director VM and use `console`. For example:
@@ -187,17 +194,18 @@ echo 'Bosh::Director::Models::Deployment.all' | /var/vcap/jobs/director/bin/cons
 Bosh uses the [Sequel database toolkit](https://sequel.jeremyevans.net/) to interact with its database. See associated [cheat sheet](https://sequel.jeremyevans.net/rdoc/files/doc/cheat_sheet_rdoc.html) and some sample statements below:
 
 Inspecting a deployment by name (equivalent of `select * from deployment where name = "test"`)
+
 ```ruby
 Bosh::Director::Models::Deployment.where(name: "test").all
 ```
 
-
 Listing persistent disks by Iaas id
+
 ```ruby
 Bosh::Director::Models::PersistentDisk.map(:disk_cid)
 ```
 
-```text
+```shell
 => ["disk-39346983-594c-4682-8183-f3280bc634f5",                                                                                                 
  "disk-8c0cee29-be48-4982-8c07-84c4d30e30a2",                                                                                                 
  "disk-9980e0bb-ce9b-4af6-97bd-d262835bfbf8", ...]
@@ -216,13 +224,14 @@ Bosh::Director::Models::PersistentDisk.where(Sequel.~(cpi: "")).map(:disk_cid)
 ```
 
 ---
+
 ## Task X cancelled {: #canceled-task }
 
 ```shell
 bosh deploy
 ```
 
-```text
+```shell
 ...
 
   Started preparing package compilation > Finding packages to compile. Done (00:00:01)
@@ -236,13 +245,14 @@ Task 106 cancelled
 This problem typically occurs if the Director's system time is out of sync, or if the Director machine is underpowered.
 
 ---
+
 ## Upload release fails {: #upload-release-entity-too-large }
 
 ```shell
 bosh upload release blah.tgz
 ```
 
-```text
+```shell
 ...
   Started creating new packages > blah_package/f9098f452f46fb072a6000b772166f349ffe27da. Failed: Could not create object, 413/<html>
 <head><title>413 Request Entity Too Large</title></head>
@@ -266,13 +276,14 @@ Error 100: Could not create object, 413/<html>
 This failure occurs due to nginx configuration problems with the director and the nginx blobstore. This can be remedied by configuring the `max_upload_size` property on the director and blobstore jobs.
 
 ---
-## Persistent Disk with id <UUID> not found {: #persistent-disk-not-found }
+
+## Persistent Disk with id `<UUID>` not found {: #persistent-disk-not-found }
 
 ```shell
 bosh create-env
 ```
 
-```text
+```shell
 (...)
 Command 'deploy' failed:
   Deploying:
@@ -288,6 +299,7 @@ Command 'deploy' failed:
 The SSH tunnel between your machine and the VM in the cloud can be terminated prematurely, see [corresponding bug](https://github.com/cloudfoundry/bosh-cli/issues/110). Update CLI v2 to version >= v2.0.2 to fix this.
 
 ---
+
 ## Errors creating or fetching credhub variables {: #variables-permission}
 
 Upgrading to Credhub 2.0.0 introduces a breaking change with permissions. Users no longer have automatic implicit read/write access for new paths. Any new credentials the director may generate as part of a deployment will not be created, and any variables the user did not previously have access to will be inaccessible.

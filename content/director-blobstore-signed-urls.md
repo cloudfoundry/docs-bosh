@@ -1,3 +1,5 @@
+# Bosh Director Blobstore Signed URLs
+
 !!! note "Version compatibility"
     This `blobstore.enable_signed_urls` config property was first introduced in bosh v270.8, the ubuntu-xenial 621.x stemcell, and the windows 2019.17 stemcell.
 
@@ -17,7 +19,7 @@ later, and windows 2019.17 and later.
 This feature can be enabled by updating the Bosh director manifest with the
 following properties:
 
-* `blobstore.enable_signed_urls`: set this to `true` to have the director
+- `blobstore.enable_signed_urls`: set this to `true` to have the director
   begin sending signed urls to the agent.
 
 Enabling signed URLs should work alongside blobstore provider specific
@@ -43,41 +45,38 @@ credentials.
 
 As an operator, you can remove credentials from deployment VMs by making the following changes:
 
-* If all deployments are using supported stemcells, override
-  the `blobstores` to an empty array in the director manifest.
+- If all deployments are using supported stemcells, override the `blobstores` to an empty array in the director manifest.
 
-  ```
-  instance_groups:
-  - name: bosh
-    ...
-    properties:
-      agent:
+    ```yaml
+    instance_groups:
+    - name: bosh
+      ...
+      properties:
+        agent:
+          env:
+            bosh:
+              blobstores: []
+    ```
+
+- For deployments on supported stemcells, override individual deployment manifests with the following property:
+
+    ```yaml
+    instance_groups:
+    - name: zookeeper
+      ...
+      properties:
         env:
           bosh:
             blobstores: []
-  ```
+    ```
 
-* For deployments on supported stemcells, override individual deployment manifests with the following
-  property:
+- For deployments on unsupported stemcells, please do not make any blobstore modifications as blobstore config may be coming from `blobstores` or your CPI.
 
-  ```
-  instance_groups:
-  - name: zookeeper
-    ...
-    properties:
-      env:
-        bosh:
-          blobstores: []
-  ```
-
-* For deployments on unsupported stemcells, please do not make any blobstore
-  modifications as blobstore config may be coming from `blobstores` or your CPI.
-
-**DAV ONLY**
+### DAV ONLY
 
 For DAV blobstores, please also configure:
 
-* `blobstore.secret`: The secret used to calculate the signed urls' signature
+- `blobstore.secret`: The secret used to calculate the signed urls' signature
 
 ## Notes
 
@@ -87,4 +86,3 @@ update the property to false, you **must** also recreate all VMs managed by bosh
 in order to propagate blobstore credentials to the VMs. If you do not recreate 
 the VMs, none of the agents will have blobstore credentials to correctly
 process requests.
-

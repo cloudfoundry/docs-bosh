@@ -1,3 +1,5 @@
+# Using S3 & IAM Policies
+
 !!! note
     Examples require CLI v2.
 
@@ -52,7 +54,7 @@ blobstore:
 ```
 
 !!! note
-    The <code>.gitignore</code> file in the BOSH release should include <code>config/private.yml</code>. This file should <strong>not</strong> be committed to the release repo. It is only meant for the release maintainers. <code>config/final.yml</code>, on the other hand, should not be in the <code>.gitignore</code> file, and should be committed to the repository, as it is for users consuming and deploying the release.
+    The `.gitignore` file in the BOSH release should include `config/private.yml`. This file should **not** be committed to the release repo. It is only meant for the release maintainers. `config/final.yml`, on the other hand, should not be in the `.gitignore` file, and should be committed to the repository, as it is for users consuming and deploying the release.
 
 - Attach a _user_ policy that would limit the user to permissions to read/write to the bucket that was just created:
 

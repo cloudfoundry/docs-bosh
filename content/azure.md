@@ -1,30 +1,25 @@
----
-title: Microsoft Azure
----
-
 # Microsoft Azure
 
 The `azure` CPI can be used with [Microsoft Azure](https://azure.microsoft.com/).
 
- * Release: [cloudfoundry/bosh-azure-cpi-release](https://github.com/cloudfoundry/bosh-azure-cpi-release)
- * Issues: [GitHub Issues](https://github.com/cloudfoundry/bosh-azure-cpi-release/issues)
- * Slack: [cloudfoundry#bosh-azure-cpi](https://cloudfoundry.slack.com/messages/bosh-azure-cpi)
-
+- Release: [cloudfoundry/bosh-azure-cpi-release](https://github.com/cloudfoundry/bosh-azure-cpi-release)
+- Issues: [GitHub Issues](https://github.com/cloudfoundry/bosh-azure-cpi-release/issues)
+- Slack: [cloudfoundry#bosh-azure-cpi](https://cloudfoundry.slack.com/messages/bosh-azure-cpi)
 
 ## Concepts
 
 The following table maps BOSH concepts to their Azure-native equivalents.
 
-|       BOSH        |                  Microsoft Azure                   |
-| ----------------- | -------------------------------------------------- |
-| Availability Zone | [Availability Zone][azure_docs_azs]                |
-| Virtual Machine   | [Virtual Machine][azure_docs_vm_sizes]             |
-| Network Subnet    | [Virtual Network Subnet][azure_docs_vnets]         |
-| Virtual IP        | [Public IP][azure_docs_pub_ips]                    |
+|       BOSH        |                  Microsoft Azure                                               |
+| ----------------- | ------------------------------------------------------------------------------ |
+| Availability Zone | [Availability Zone][azure_docs_azs]                                            |
+| Virtual Machine   | [Virtual Machine][azure_docs_vm_sizes]                                         |
+| Network Subnet    | [Virtual Network Subnet][azure_docs_vnets]                                     |
+| Virtual IP        | [Public IP][azure_docs_pub_ips]                                                |
 | Persistent Disk   | [Disk Storage][azure_docs_disks] and [Managed Disks][azure_docs_managed_disks] |
-| Disk Snapshot     | [Managed Disk Snapshot][azure_docs_disk_snapshots] |
-| Stemcell          | Disk Storage Blobs and Managed Disk Blobs          |
-| Agent Settings    | Config Drive; BOSH Registry                        |
+| Disk Snapshot     | [Managed Disk Snapshot][azure_docs_disk_snapshots]                             |
+| Stemcell          | Disk Storage Blobs and Managed Disk Blobs                                      |
+| Agent Settings    | Config Drive; BOSH Registry                                                    |
 
 [azure_docs_azs]: https://docs.microsoft.com/en-us/azure/availability-zones/az-overview
 [azure_docs_vm_sizes]: https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes

@@ -1,9 +1,12 @@
+# Director HTTP API
+
 !!! note
     Before using the Director API directly, we strongly encourage to consider using the CLI for automation such as performing a scheduled deploy from a CI. We hope that you will open a [GitHub issue](https://github.com/cloudfoundry/bosh/issues) to share your use cases so that we can suggest or possibly make additions to the CLI.
 
 This document lists common API endpoints provided by the Director.
 
 ---
+
 ## Overview {: #overview }
 
 ### Discovery through bosh cli {: #cli-debug }
@@ -19,10 +22,11 @@ BOSH_LOG_LEVEL=debug bosh cpi-config |& grep 'request to endpoint'
 ### Discovery through source code  {: #source-code }
 
 As a complement to this reference documentation, reading the bosh director source code can be useful to discover the latest endpoints and their supported options:
-* [controllers specs/unit tests](https://github.com/cloudfoundry/bosh/blob/main/src/bosh-director/spec/unit/api/controllers)
-* [controllers](https://github.com/cloudfoundry/bosh/tree/main/src/bosh-director/lib/bosh/director/api/controllers)
 
-Below is a sample rendering of the deployment controller specs in intellij IDE with ruby support enabled: 
+- [controllers specs/unit tests](https://github.com/cloudfoundry/bosh/blob/main/src/bosh-director/spec/unit/api/controllers)
+- [controllers](https://github.com/cloudfoundry/bosh/tree/main/src/bosh-director/lib/bosh/director/api/controllers)
+
+Below is a sample rendering of the deployment controller specs in intellij IDE with ruby support enabled:
 ![Sample director api specs.png](images/director-controller-unit-test-specs.png)
 
 ### Security {: #auth }
@@ -39,11 +43,11 @@ The [`bosh curl`](cli-v2.md#curl) command makes authenticated http requests to t
 
 Standard HTTP verb semantics are followed:
 
-| Verb | Description |
--------|-------------|
-| GET  | Used for retrieving resources. |
+| Verb     | Description                           |
+|----------|---------------------------------------|
+| GET      | Used for retrieving resources.        |
 | POST/PUT | Used for creating/updating resources. |
-| DELETE | Used for deleting resources. |
+| DELETE   | Used for deleting resources.          |
 
 ### HTTP redirects {: #http-verbs }
 
@@ -64,6 +68,7 @@ Certain requests result in complex and potentially long running operations again
 Once a Director task is created, clients can follow its progress by polling [`GET /tasks/{id}`](#get-task) to find out its state. While waiting for the task to finish, different types of logs ([event](#get-task-event), [result](#get-task-result), [debug](#get-task-debug) information, etc.) can be followed to gain insight into what the task is doing.
 
 ---
+
 ## General {: #general }
 
 ### `GET /info`: Info {: #info }
@@ -154,6 +159,7 @@ bosh curl /configs?latest=true | jq .
 ```
 
 ---
+
 ### `POST /configs`: Create config. {: #create-config }
 
 #### Request headers
@@ -194,6 +200,7 @@ curl -s -k -H 'Content-Type: application/json' -d '{"name": "test", "type": "clo
 ```
 
 ---
+
 ### `POST /configs/diff`: Diff config. {: #diff-config }
 
 #### Request headers
@@ -233,6 +240,7 @@ curl -s -k -H 'Content-Type: application/json' -d '{"name": "default", "type": "
 ```
 
 ---
+
 ### `DELETE /configs`: Marks configs as deleted. {: #delete-config }
 
 #### Request Query
@@ -247,6 +255,7 @@ curl -s -k -X DELETE https://192.168.56.4:25555/configs?type=cloud&name=test
 ```
 
 ---
+
 ## Tasks {: #tasks }
 
 See [Director tasks](director-tasks.md) for related info.
@@ -369,6 +378,7 @@ bosh curl '/tasks?context_id=4528' | jq .
 ```
 
 ---
+
 ### `GET /tasks/{id}`: Retrieve single task {: #get-task }
 
 #### Response body schema
@@ -397,6 +407,7 @@ bosh curl '/tasks/1180' | jq .
 ```
 
 ---
+
 ### `GET /tasks/{id}/output?type=debug`: Retrieve task's debug log {: #get-task-debug }
 
 #### Response body schema
@@ -418,6 +429,7 @@ D, [2015-11-09 02:19:36 #32545] [task:1180] DEBUG -- DirectorJobRunner: (0.00031
 ```
 
 ---
+
 ### `GET /tasks/{id}/output?type=event`: Retrieve task's event log {: #get-task-event }
 
 #### Response body schema
@@ -457,6 +469,7 @@ bosh curl '/tasks/1181/output?type=event'
 ```
 
 ---
+
 ### `GET /tasks/{id}/output?type=result`: Retrieve task's result {: #get-task-result }
 
 #### Response body schema
@@ -472,56 +485,61 @@ bosh curl '/tasks/1181/output?type=event'
 
 ```json
 {
-	"vm_cid": "ec974048-3352-4ba4-669d-beab87b16bcb",
-	"disk_cid": null,
-	"ips": ["10.244.0.142"],
-	"dns": [],
-	"agent_id": "c5e7c705-459e-41c0-b640-db32d8dc6e71",
-	"job_name": "doppler_z1",
-	"index": 0,
-	"job_state": "running",
-	"resource_pool": "medium_z1",
-	"vitals": {
-		"cpu": {
-			"sys": "9.1",
-			"user": "2.1",
-			"wait": "1.7"
-		},
-		"disk": {
-			"ephemeral": {
-				"inode_percent": "11",
-				"percent": "36"
-			},
-			"system": {
-				"inode_percent": "11",
-				"percent": "36"
-			}
-		},
-		"load": ["0.61", "0.74", "1.10"],
-		"mem": {
-			"kb": "2520960",
-			"percent": "41"
-		},
-		"swap": {
-			"kb": "102200",
-			"percent": "10"
-		}
-	},
-	"processes": [{
-		"name": "doppler",
-		"state": "running"
-	}, {
-		"name": "syslog_drain_binder",
-		"state": "running"
-	}, {
-		"name": "metron_agent",
-		"state": "running"
-	}]
+  "vm_cid": "ec974048-3352-4ba4-669d-beab87b16bcb",
+  "disk_cid": null,
+  "ips": ["10.244.0.142"],
+  "dns": [],
+  "agent_id": "c5e7c705-459e-41c0-b640-db32d8dc6e71",
+  "job_name": "doppler_z1",
+  "index": 0,
+  "job_state": "running",
+  "resource_pool": "medium_z1",
+  "vitals": {
+    "cpu": {
+      "sys": "9.1",
+      "user": "2.1",
+      "wait": "1.7"
+    },
+    "disk": {
+      "ephemeral": {
+        "inode_percent": "11",
+        "percent": "36"
+      },
+      "system": {
+        "inode_percent": "11",
+        "percent": "36"
+      }
+    },
+    "load": ["0.61", "0.74", "1.10"],
+    "mem": {
+      "kb": "2520960",
+      "percent": "41"
+    },
+    "swap": {
+      "kb": "102200",
+      "percent": "10"
+    }
+  },
+  "processes": [
+    {
+      "name": "doppler",
+      "state": "running"
+    },
+    {
+      "name": "syslog_drain_binder",
+      "state": "running"
+    },
+    {
+      "name": "metron_agent",
+      "state": "running"
+    }
+  ]
 }
 ```
 
 
 ---
+
 ### `POST /tasks/cancel`: Cancel tasks {: #cancel-tasks }
 
 #### Request headers
@@ -543,6 +561,7 @@ Empty.
 
 
 ---
+
 ## Stemcells {: #stemcells }
 
 ### `GET /stemcells`: List all uploaded stemcells {: #list-stemcells }
@@ -580,6 +599,7 @@ bosh curl '/stemcells' | jq .
 ```
 
 ---
+
 ## Releases {: #releases }
 
 ### `GET /releases`: List all uploaded releases {: #list-releases }
@@ -640,6 +660,7 @@ bosh curl '/releases' | jq .
 ```
 
 ---
+
 ## Deployments {: #deployments }
 
 ### `GET /deployments`: List all deployments {: #list-deployments }
@@ -694,6 +715,7 @@ bosh curl '/deployments' | jq .
 ```
 
 ---
+
 ### `GET /deployments?exclude_configs=true&exclude_releases=true&exclude_stemcells=true`: List all deployments without configs, releases, and stemcells {: #list-just-deployments }
 
 #### Response body schema
@@ -718,6 +740,7 @@ bosh curl '/deployments?exclude_configs=true&exclude_releases=true&exclude_stemc
 ```
 
 ---
+
 ### `POST /deployments`: Create/update single deployment {: #post-deployment }
 
 #### Request query
@@ -739,6 +762,7 @@ bosh curl '/deployments?exclude_configs=true&exclude_releases=true&exclude_stemc
 Creating/updating a deployment is performed in a Director task. Response will be a redirect to a task resource.
 
 ---
+
 ### `GET /deployments/{name}`: Retrieve single deployment {: #get-deployment }
 
 #### Response body schema
@@ -761,6 +785,7 @@ bosh curl '/deployments/cf-warden' | jq .
 ```
 
 ---
+
 ### `DELETE /deployments/{name}`: Delete single deployment {: #delete-deployment }
 
 #### Request query
@@ -776,6 +801,7 @@ Empty.
 Deleting a deployment is performed in a Director task. Response will be a redirect to a task resource.
 
 ---
+
 ## Instances in a deployment {: #instances }
 
 !!! note
@@ -829,6 +855,7 @@ bosh curl '/deployments/example/instances' | jq .
 ```
 
 ---
+
 ### `GET /deployments/{name}/instances?format=full`: List details of instances {: #list-instances-detailed }
 
 #### Response body schema
@@ -954,6 +981,7 @@ curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1287/output?type=res
 ```
 
 ---
+
 ## VMs in a deployment {: #vms }
 
 ### `GET /deployments/{name}/vms`: List all VMs {: #list-vms }
@@ -1018,6 +1046,7 @@ bosh curl '/deployments/cf-warden/vms' | jq .
 ```
 
 ---
+
 ### `GET /deployments/{name}/vms?format=full`: List VM details {: #list-vms-detailed }
 
 #### Response body schema
@@ -1066,104 +1095,104 @@ curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1181/output?type=res
 
 ```json
 {
-	"vm_cid": "3938cc70-8f5e-4318-ad05-24d991e0e66e",
-	"active": true,
-	"vm_created_at": "2023-01-11T14:11:02Z",
-	"cloud_properties": {
-		"zone": "us-east1-c",
-		"machine_type": "n1-standard-2",
-		"root_disk_size_gb": 20,
-		"root_disk_type": "pd-ssd"
-	},
-	"disk_cid": null,
-	"ips": ["10.0.1.3"],
-	"dns": [],
-	"agent_id": "d927e75b-2a2d-4015-b5cc-306a067e94e9",
-	"job_name": "example_service",
-	"index": 0,
-	"job_state": "running",
-	"state": "started",
-	"resource_pool": "resource_pool_1",
-	"vm_type": "resource_pool_1",
-	"vitals": {
-		"cpu": {
-			"sys": "0.3",
-			"user": "0.1",
-			"wait": "0.0"
-		},
-		"disk": {
-			"ephemeral": {
-				"inode_percent": "5",
-				"percent": "32"
-			},
-			"persistent": {
-				"inode_percent": "3",
-				"percent": "67"
-			},
-			"system": {
-				"inode_percent": "34",
-				"percent": "66"
-			}
-		},
-		"load": ["0.00", "0.01", "0.10"],
-		"mem": {
-			"kb": "605008",
-			"percent": "7"
-		},
-		"swap": {
-			"kb": "75436",
-			"percent": "1"
-		}
-	},
+  "vm_cid": "3938cc70-8f5e-4318-ad05-24d991e0e66e",
+  "active": true,
+  "vm_created_at": "2023-01-11T14:11:02Z",
+  "cloud_properties": {
+    "zone": "us-east1-c",
+    "machine_type": "n1-standard-2",
+    "root_disk_size_gb": 20,
+    "root_disk_type": "pd-ssd"
+  },
+  "disk_cid": null,
+  "ips": ["10.0.1.3"],
+  "dns": [],
+  "agent_id": "d927e75b-2a2d-4015-b5cc-306a067e94e9",
+  "job_name": "example_service",
+  "index": 0,
+  "job_state": "running",
+  "state": "started",
+  "resource_pool": "resource_pool_1",
+  "vm_type": "resource_pool_1",
+  "vitals": {
+    "cpu": {
+      "sys": "0.3",
+      "user": "0.1",
+      "wait": "0.0"
+    },
+    "disk": {
+      "ephemeral": {
+        "inode_percent": "5",
+        "percent": "32"
+      },
+      "persistent": {
+        "inode_percent": "3",
+        "percent": "67"
+      },
+      "system": {
+        "inode_percent": "34",
+        "percent": "66"
+      }
+    },
+    "load": ["0.00", "0.01", "0.10"],
+    "mem": {
+      "kb": "605008",
+      "percent": "7"
+    },
+    "swap": {
+      "kb": "75436",
+      "percent": "1"
+    }
+  },
 	"processes": [{
-		"name": "beacon",
-		"state": "running",
-		"uptime": {
-			"secs": 1212184
-		},
-		"mem": {
-			"kb": 776,
-			"percent": 0
-		},
-		"cpu": {
-			"total": 0
-		}
+      "name": "beacon",
+      "state": "running",
+      "uptime": {
+        "secs": 1212184
+      },
+      "mem": {
+        "kb": 776,
+        "percent": 0
+      },
+      "cpu": {
+        "total": 0
+      }
 	}, {
-		"name": "baggageclaim",
-		"state": "running",
-		"uptime": {
-			"secs": 1212152
-		},
-		"mem": {
-			"kb": 8920,
-			"percent": 0.1
-		},
-		"cpu": {
-			"total": 0
-		}
+      "name": "baggageclaim",
+      "state": "running",
+      "uptime": {
+        "secs": 1212152
+      },
+      "mem": {
+        "kb": 8920,
+        "percent": 0.1
+      },
+      "cpu": {
+        "total": 0
+      }
 	}, {
-		"name": "garden",
-		"state": "running",
-		"uptime": {
-			"secs": 1212153
-		},
-		"mem": {
-			"kb": 235004,
-			"percent": 2.8
-		},
-		"cpu": {
-			"total": 0.2
-		}
+      "name": "garden",
+      "state": "running",
+      "uptime": {
+        "secs": 1212153
+      },
+      "mem": {
+        "kb": 235004,
+        "percent": 2.8
+      },
+      "cpu": {
+        "total": 0.2
+      }
 	}],
-	"az": null,
-	"id": "abe6a4e9-cfca-490b-8515-2893f9e54d20",
-	"bootstrap": false,
-	"ignore": false,
-	"stemcell": {
-		"name": "bosh-google-kvm-ubuntu-xenial-go_agent",
-		"version": "621.359",
-		"api_version": 3
-	}
+  "az": null,
+  "id": "abe6a4e9-cfca-490b-8515-2893f9e54d20",
+  "bootstrap": false,
+  "ignore": false,
+  "stemcell": {
+    "name": "bosh-google-kvm-ubuntu-xenial-go_agent",
+    "version": "621.359",
+    "api_version": 3
+  }
 }
 ```
 
@@ -1229,6 +1258,7 @@ curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1181/output?type=res
 ```
 
 ---
+
 ## Events {: #events }
 
 See [Events](events.md) for info.
@@ -1323,6 +1353,7 @@ bosh curl /events | jq .
 ```
 
 ---
+
 ### `GET /events/{id}`: Retrieve single event {: #get-event }
 
 #### Response body schema
@@ -1355,6 +1386,7 @@ bosh curl /events/3133 | jq .
 ```
 
 ---
+
 ### `POST /events`: Create single event {: #post-event }
 
 #### Request body schema

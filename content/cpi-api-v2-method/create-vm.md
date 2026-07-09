@@ -14,27 +14,24 @@ As of V2, created VMs can be tagged at creation time. Please note that the
 also the [`set_vm_metadata` CPI method](set-vm-metadata.md) for more info
 about default tags.
 
-
-
 ## Arguments
 
- * `agent_id` [String]: ID selected by the Director for the VM's agent.
- * `stemcell_cid` [String]: Cloud ID of the stemcell to use as a base image for new VM.
- * `cloud_properties` [Hash]: Cloud properties hash specified in the deployment manifest under the VM's resource pool.
- * `networks` [Hash]: Networks hash that specifies which VM networks must be configured.
- * `disk_cids` [Array of strings] Array of disk cloud IDs for the disks that the created VM will most _likely_ attach. The disk cloud IDs could be used to optimize VM placement so that disks are located nearby.
- * `environment` [Hash]: Resource pool's env hash specified in the deployment manifest, including initial properties added by the BOSH director as shown below. The CPI adds it to the VM's `user data` which is then used by the agent. Additionally, the director will append the following guaranteed values:
-     * `bosh` [Hash]: A collection of properties used by the BOSH Agent, and optionally the CPI.
-         * `group` [String]: A description of the requested VM in the format `<director-name>-<deployment-name>-<job-name>`.
-         * `groups` [Array]: A collection of descriptions for the requested VM, combining `director-name`, `deployment-name` and `job-name` in a range of strings separated by a `-`.
-         * `tags` [Hash]: Tags from the top-level `tags` in the deployment manifest. Some security policies on some IaaSes require tags during VM creation. e.g. `{'tag-name': 'tag-value'}`. As of director v270.7.0+.
-
+- `agent_id` [String]: ID selected by the Director for the VM's agent.
+- `stemcell_cid` [String]: Cloud ID of the stemcell to use as a base image for new VM.
+- `cloud_properties` [Hash]: Cloud properties hash specified in the deployment manifest under the VM's resource pool.
+- `networks` [Hash]: Networks hash that specifies which VM networks must be configured.
+- `disk_cids` [Array of strings] Array of disk cloud IDs for the disks that the created VM will most _likely_ attach. The disk cloud IDs could be used to optimize VM placement so that disks are located nearby.
+- `environment` [Hash]: Resource pool's env hash specified in the deployment manifest, including initial properties added by the BOSH director as shown below. The CPI adds it to the VM's `user data` which is then used by the agent. Additionally, the director will append the following guaranteed values:
+    - `bosh` [Hash]: A collection of properties used by the BOSH Agent, and optionally the CPI.
+        - `group` [String]: A description of the requested VM in the format `<director-name>-<deployment-name>-<job-name>`.
+        - `groups` [Array]: A collection of descriptions for the requested VM, combining `director-name`, `deployment-name` and `job-name` in a range of strings separated by a `-`.
+        - `tags` [Hash]: Tags from the top-level `tags` in the deployment manifest. Some security policies on some IaaSes require tags during VM creation. e.g. `{'tag-name': 'tag-value'}`. As of director v270.7.0+.
 
 ## Result
 
-* Array of results
-   * `vm_cid` [String]: Cloud ID of the created VM.
-   * `networks` [Hash]: Networks associated with the VM.
+- Array of results
+    - `vm_cid` [String]: Cloud ID of the created VM.
+    - `networks` [Hash]: Networks associated with the VM.
 
 ## Agent Settings
 
@@ -81,9 +78,7 @@ Most CPIs choose to communicate with the default Agent. Hence, the communication
 
 See [Agent Configuration](../vm-config.md#agent) for an overview of the Agent configuration file locations.
 
-
 ## Examples
-
 
 ### API Request
 
@@ -167,10 +162,9 @@ Response:
 
 ### Implementations
 
- * [cloudfoundry/bosh-aws-cpi-release](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/00e11f480847a4e88533f1e95b7c626a213d780b/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb#L41)
-
+- [cloudfoundry/bosh-aws-cpi-release](https://github.com/cloudfoundry/bosh-aws-cpi-release/blob/00e11f480847a4e88533f1e95b7c626a213d780b/src/bosh_aws_cpi/lib/cloud/aws/cloud_v2.rb#L41)
 
 ## Related
 
- * [create_vm V1](../cpi-api-v1-method/create-vm.md)
- * [delete_vm](delete-vm.md)
+- [create_vm V1](../cpi-api-v1-method/create-vm.md)
+- [delete_vm](delete-vm.md)

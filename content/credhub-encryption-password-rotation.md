@@ -1,14 +1,14 @@
 # Rotating CredHub Encryption Password
 
-### Preconditions
+## Preconditions
 
-* The director is in a healthy state.
+- The director is in a healthy state.
 
-### Assumptions
+## Assumptions
 
-* CredHub is co-located on the BOSH director VM
+- CredHub is co-located on the BOSH director VM
 
-### Step 1: Update CredHub to encrypt with new password {: #step-1}
+## Step 1: Update CredHub to encrypt with new password {: #step-1}
 
 ```shell
 OLD_PWD=$(bosh interpolate --path=/credhub_encryption_password creds.yml)
@@ -55,12 +55,12 @@ Ops file `add-old-credhub-encryption-password.yml`:
     provider_name: internal
 ```
 
-* create new password
-* deactivate old password
-* let CredHub decrypt all secrets with old password and encrypt all secrets with
+- create new password
+- deactivate old password
+- let CredHub decrypt all secrets with old password and encrypt all secrets with
   new password
 
-### Step 2: Update CredHub to remove old password {: #step-2}
+## Step 2: Update CredHub to remove old password {: #step-2}
 
 ```shell
 cp creds.yml creds.yml.bak

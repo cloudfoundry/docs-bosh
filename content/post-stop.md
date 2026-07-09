@@ -1,3 +1,5 @@
+# Post-stop
+
 (See [Job Lifecycle](job-lifecycle.md) for an explanation of when post-stop scripts run.)
 
 !!! note
@@ -6,6 +8,7 @@
 Release job can have a post-stop script that will run when the job is restarted or stopped. This script will run following a monit stop for all jobs on the VM in parallel.
 
 ---
+
 ## Job Configuration {: #job-configuration }
 
 To add a post-stop script to a release job:
@@ -23,6 +26,7 @@ templates:
 ```
 
 ---
+
 ## Script Implementation {: #script-implementation }
 
 Post-stop script is usually just a regular shell script. Since post-start script is executed in a similar way as other release job scripts (start, stop, drain scripts) you can use job's package dependencies.

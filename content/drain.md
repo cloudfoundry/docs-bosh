@@ -1,10 +1,14 @@
+# Drain
+
 (See [Job Lifecycle](job-lifecycle.md) for an explanation of when drain scripts run.)
 
 Release job can have a drain script that will run when the job is restarted or stopped. This script allows the job to clean up and get into a state where it can be safely stopped. For example:
+
 - when writing a release for a load balancer, each node can safely stop accepting new connections and drain existing connections before fully stopping.
 - when writing a release for a database or other distributed datastore, you can ensure that data is correctly replicated/distributed on all nodes before stopping the node.
 
 ---
+
 ## Job Configuration {: #job-configuration }
 
 To add a drain script to a release job:
@@ -25,6 +29,7 @@ templates:
     Drain script from each release job will run if they are deployed on 3093+ stemcells. Before only the first release job's drain script ran.
 
 ---
+
 ## Script Implementation {: #script-implementation }
 
 Drain script is usually just a regular shell script. Since drain script is executed in a similar way as other release job scripts (start, stop, pre-start scripts) you can use job's package dependencies.
@@ -55,12 +60,13 @@ You must ensure that your drain script exits in one of following ways:
 Note that if drain script causes monitored job processes to exit, monit will not call stop script for that job.
 
 ---
+
 ## Environment Variables {: #environment-variables }
 
 Drain script can access the following environment variables:
 
-* `BOSH_JOB_STATE`: JSON description of the current job state
-* `BOSH_JOB_NEXT_STATE`: JSON description of the new job state that is being applied
+- `BOSH_JOB_STATE`: JSON description of the current job state
+- `BOSH_JOB_NEXT_STATE`: JSON description of the new job state that is being applied
 
 Currently, only persistent disk size is provided in those two variables. For
 example:
@@ -98,27 +104,33 @@ You'll find [here](https://github.com/cloudfoundry-incubator/cfcr-etcd-release/b
 an example script for an etcd member to leave its etcd cluster gracefully.
 
 ---
+
 ## Command-line arguments {: #command-line-arguments }
 
 The first argument passed to the drain script indicates the intended job lifecycle action.
 It can have the following values (note: "job" here actually means "instance"):
-* `job_changed` indicating that the instance will be restarted
-* `job_shutdown` indicating that the instance will be stopped and subsequently the VM will terminated
+
+- `job_changed` indicating that the instance will be restarted
+- `job_shutdown` indicating that the instance will be stopped and subsequently the VM will terminated
 
 The second argument passed to the drain script indicates whether the job hash has changed.
 It can have the following values:
-* `hash_changed` indicating that the job's packages or rendered templates have changed.
-* `hash_unchanged` indicating that the job's packages and rendered templates have not changed.
+
+- `hash_changed` indicating that the job's packages or rendered templates have changed.
+- `hash_unchanged` indicating that the job's packages and rendered templates have not changed.
 
 ---
+
 ## Logs {: #logs }
 
 Currently logs from the drain script are not saved on disk by default, though release author may choose to do so explicitly. We are planning to eventually make it more consistent with [pre-start script logging](pre-start.md#logs).
 
 ---
+
 ## Examples {: #example }
 
 ### Load-balancer
+
 ```shell
 #!/bin/bash
 
@@ -137,7 +149,8 @@ kill -USR2 $pid
 echo 15; exit 0
 ```
 
-# Stateful distributed job
+## Stateful distributed job
+
 ```shell
 #!/bin/bash
 

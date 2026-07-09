@@ -1,5 +1,6 @@
-The easiest ways to get started with BOSH is by running on your local workstation with [VirtualBox](https://www.virtualbox.org/). If you are interested in bringing up a director in another environment, like [Google Cloud Platform](https://cloud.google.com/), choose your IaaS from the navigation for more detailed instructions.
+# Quick Start
 
+The easiest ways to get started with BOSH is by running on your local workstation with [VirtualBox](https://www.virtualbox.org/). If you are interested in bringing up a director in another environment, like [Google Cloud Platform](https://cloud.google.com/), choose your IaaS from the navigation for more detailed instructions.
 
 ## Prerequisites
 
@@ -10,7 +11,6 @@ Before trying to deploy the Director, make sure you have satisfied the following
 1. Install the [`bosh` CLI](cli-v2-install.md) and its [additional dependencies](cli-v2-install.md#additional-dependencies).
 
 1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
-
 
 ## Install
 
@@ -35,11 +35,11 @@ Now, we can run the [`virtualbox/create-env.sh`](https://github.com/cloudfoundry
 
 During the bootstrap process, you will see a few stages:
 
- * Creating BOSH Director - dependencies are downloaded, the VM is created, and BOSH is installed, configured, and started.
- * Adding Network Routes - a route to the virtual network is added to ensure you will be able to connect to BOSH-managed VMs.
- * Generating `.envrc` - a settings file is generated so you can easily connect to the environment later.
- * Configuring Environment Alias - an alias is added for the `bosh` command so you can reference the environment as `vbox`.
- * Updating Cloud Config - default settings are applied to the Director so you can easily deploy software later.
+- Creating BOSH Director - dependencies are downloaded, the VM is created, and BOSH is installed, configured, and started.
+- Adding Network Routes - a route to the virtual network is added to ensure you will be able to connect to BOSH-managed VMs.
+- Generating `.envrc` - a settings file is generated so you can easily connect to the environment later.
+- Configuring Environment Alias - an alias is added for the `bosh` command so you can reference the environment as `vbox`.
+- Updating Cloud Config - default settings are applied to the Director so you can easily deploy software later.
 
 After a few moments, BOSH should be started. To verify, first load your connection settings, and then run your first `bosh` command where you should see similar output.
 
@@ -64,7 +64,6 @@ Congratulations - BOSH is running! Now you're ready to [deploy](#deploy)
 
 !!! help "Troubleshooting"
     If you run into any trouble, please continue to the [VirtualBox Troubleshooting](bosh-lite.md) section.
-
 
 ## Deploy
 

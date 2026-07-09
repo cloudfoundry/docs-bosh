@@ -1,12 +1,14 @@
+# Recommended Property Types
+
 ## TLS configuration {: #tls }
 
 Following is a _suggested_ set of properties for TLS configuration:
 
-* **tls** [Hash]: TLS configuration section.
-    * **enabled** [Boolean, optional]: Enable/disable TLS. Default should be `true`.
-    * **cert** [Hash]: Value described by [`certificate` variable type](variable-types.md#certificate). Default is `nil`.
-    * **protocols** [String, optional]: Space separated list of protocols to support. Example: `TLSv1.2`.
-    * **ciphers** [String, optional]: OpenSSL formatted list of ciphers to support. Example: `!DES:!RC4:!3DES:!MD5:!PSK`.
+- **tls** [Hash]: TLS configuration section.
+    - **enabled** [Boolean, optional]: Enable/disable TLS. Default should be `true`.
+    - **cert** [Hash]: Value described by [`certificate` variable type](variable-types.md#certificate). Default is `nil`.
+    - **protocols** [String, optional]: Space separated list of protocols to support. Example: `TLSv1.2`.
+    - **ciphers** [String, optional]: OpenSSL formatted list of ciphers to support. Example: `!DES:!RC4:!3DES:!MD5:!PSK`.
 
 Example job spec:
 
@@ -94,14 +96,15 @@ variables:
 ```
 
 ---
+
 ## Environment proxy configuration {: #env-proxy }
 
 Following is a _suggested_ set of properties for environment proxy configuration:
 
-* **env** [Hash]
-    * **http_proxy** [String, optional]: HTTP proxy that software should use. Default: not specified.
-    * **https_proxy** [String, optional]: HTTPS proxy that software should use. Default: not specified.
-    * **no_proxy** [String, optional]: List of comma-separated hosts that should skip connecting to the proxy in software. Default: not specified.
+- **env** [Hash]
+    - **http_proxy** [String, optional]: HTTP proxy that software should use. Default: not specified.
+    - **https_proxy** [String, optional]: HTTPS proxy that software should use. Default: not specified.
+    - **no_proxy** [String, optional]: List of comma-separated hosts that should skip connecting to the proxy in software. Default: not specified.
 
 Example job spec:
 

@@ -1,3 +1,5 @@
+# Deployment Convergence
+
 During a deployment, BOSH tries to converge to the _intended_ state, _i.e._ the
 state described in the deployment manifest, from the current state.
 

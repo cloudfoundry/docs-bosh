@@ -1,3 +1,5 @@
+# OpenStack Self-Signed Endpoints
+
 !!! note
     This feature is available with bosh-openstack-cpi v23+.
 

@@ -1,3 +1,5 @@
+# Uploading Releases
+
 !!! note
     Document uses CLI v2.
 
@@ -24,11 +26,12 @@ Here are a few popular releases:
     [cf-release](https://bosh.io/releases/github.com/cloudfoundry/cf-release)
     was popular when it used to provide all software components for Cloud
     Foundry. Then
-    [cf-deployment]](https://github.com/cloudfoundry/cf-deployment) emerged
+    [cf-deployment](https://github.com/cloudfoundry/cf-deployment) emerged
     with modularized sources of software components, now provided by 30+ Bosh
-    releases.)
+    releases.
 
 ---
+
 ## Uploading to the Director {: #upload }
 
 CLI provides [`bosh upload-release` command](cli-v2.md#upload-release).
@@ -74,7 +77,7 @@ Once the command succeeds, you can view all uploaded releases in the Director:
 bosh -e vbox releases
 ```
 
-```text
+```shell
 Using environment '192.168.56.6' as client 'admin'
 
 Name       Version            Commit Hash
@@ -93,6 +96,7 @@ See [Release URLs](release-urls.md) for more details on the URLs accepted by
 `bosh upload-release`.
 
 ---
+
 ## Deployment Manifest Usage {: #using }
 
 To use an uploaded release in your deployment, update the `releases` section

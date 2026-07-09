@@ -1,3 +1,5 @@
+# Configuring SSL Certificates
+
 !!! note
     See [Director SSL Certificate Configuration with OpenSSL](director-certs-openssl.md) if you prefer to generate certs with OpenSSL config.
 
@@ -49,7 +51,6 @@ cat certs.yml
 !!! note
     `duration` is set in days, and will default to 365 days
 
-
 ## Configure the Director to use certificates {: #configure }
 
 Update the Director deployment manifest:
@@ -98,6 +99,7 @@ If you are using the UAA for user management, additionally put certificates in t
     - Associated certificate for the UAA (content of `bosh int certs.yml --path /uaa_service_provider_ssl/certificate`)
 
 ---
+
 ## Target the Director {: #target }
 
 After you deployed your Director with the above changes, you need to specify `--ca-cert` when targeting the Director:

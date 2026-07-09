@@ -1,9 +1,12 @@
+# Failing VMs
+
 This document describes the usual actions and tools used to drill down failing
 VMs issues, and find a root cause.
 
 For troubleshooting specific issues, see also [those tips](tips.md).
 
 ---
+
 ## Troubleshooting a failed deployment {: #failed-vms }
 
 These are usual steps to do in order to drill down to the root cause for some
@@ -19,7 +22,7 @@ VM instance failure.
    the `$PATH`.
 
 4. Check failing Monit jobs with `monit summary`. Whenever the failure has
-   happened at [`pre-atart` stage](job-lifecycle.md#start), this list is empty
+   happened at [`pre-start` stage](job-lifecycle.md#start), this list is empty
    because Monit configuration is not yet assembled.
 
 5. Check for any full disk device with `df -h`.

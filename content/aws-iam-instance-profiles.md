@@ -1,3 +1,5 @@
+# AWS IAM Profiles
+
 !!! note
     This feature is available with bosh-release v208+ (1.3087.0) colocated with bosh-aws-cpi v31+.
 
@@ -41,6 +43,7 @@ You may have to create one or more IAM instance profiles to limit access to AWS 
         Even though value specified is `env_or_profile`, `bosh create-env` command or the Director do not currently take advantage of the environment variables, only instance the profile, hence to take advantage of this feature you have to run on an AWS instance.
 
 ---
+
 ## Example B: AWS CPI and Director configured with an S3 blobstore {: #director-with-s3-blobstore }
 
 This configuration is similar to the previous one except that it's used when the Director and the Agents use S3 as their [blobstore](bosh-components.md#blobstore) instead of an internal blobstore provided by the bosh release.
@@ -95,9 +98,10 @@ This configuration is similar to the previous one except that it's used when the
         `iam_instance_profile` key in resource pool's cloud_properties takes precedence over the default IAM instance profile, so that specific VMs can have greater access to the AWS resources.
 
 ---
+
 ## Errors {: #errors }
 
-```
+```text
 You are not authorized to perform this operation. Encoded authorization failure message: vHU-KncL6Yo4pG5J9p...
 ```
 

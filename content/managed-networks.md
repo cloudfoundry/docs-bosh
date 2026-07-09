@@ -1,3 +1,5 @@
+# Managed Networks
+
 !!! note
     Available as of BOSH Director version 268.1.0
 
@@ -9,7 +11,7 @@ When a platform operator defines a logical network at the `cloud config` manifes
 
 To enable the managed network lifecycle, the Operator needs to enable it in `cloud config`, making sure that `managed` is set to `true` under the network definition:
 
-```
+```yaml
 networks:
   name: my-network
     type: manual
@@ -23,7 +25,8 @@ networks:
 ```
 
 The current status of `network_lifecycle` can be checked on BOSH environment info:
-```
+
+```shell
 $ bosh environment
 Using environment '30.0.0.1' as client 'admin'
 
@@ -43,7 +46,6 @@ Succeeded
 ## Lifecycle
 
 ![image](images/managed_network_lifecycle.png)
-
 
 ## Implementation
 

@@ -1,3 +1,5 @@
+# Environments
+
 !!! note
     Applies to CLI v2.
 
@@ -100,6 +102,7 @@ bosh -e aws env
 Alternatively you can set `export BOSH_ENVIRONMENT=aws` once instead of using `--environment` flag for each command.
 
 ---
+
 ## Deployment State {: #deployment-state }
 
 `bosh create-env` command needs to remember resources it creates in the IaaS so that it can re-use or delete them at a later time. The deploy command stores current state of your deployment in a given state file (via `--state` flag) or implicitly in `<manifest>-state.json` file in the same directory as your deployment manifest.
@@ -131,6 +134,7 @@ If for some reason you've lost your deployment state file, or have not saved the
 1. Save the deployment state file.
 
 ---
+
 ## `delete-env` command {: #delete-env }
 
 `bosh delete-env` command idempotently deletes all previously created IaaS resources (VMs, disks, and stemcells). The command will try its best to not return an error, for example it ignores resources that were already deleted and retries on certain operations.
@@ -176,6 +180,7 @@ Finished deleting deployment (00:00:04)
 ```
 
 ---
+
 ## `stop-env` command {: #stop-env }
 
 !!! note
@@ -209,6 +214,7 @@ Succeeded
 ```
 
 ---
+
 ## `start-env` command {: #start-env }
 
 !!! note

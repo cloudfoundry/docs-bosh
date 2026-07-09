@@ -1,3 +1,5 @@
+# VM Anti-Affinity
+
 For certain deployment jobs, you might want to distribute the instances across multiple physical resources of the IaaS. Even though an IaaS abstracts away the underlying hardware resources, most have specific APIs to configure VM affinity and anti-affinity rules.
 
 One popular example of a deployment job that needs this type of configuration is Hadoop Datanode. If multiple Datanode instances are placed on the same physical machine, replicated data becomes unavailable if that machine fails. To make replication useful in this scenario, BOSH allows you to configure the resource pool for a deployment job. You configure VM anti-affinity rules for an IaaS using the `cloud_properties` sub-block of the `resource_pools` block in your [deployment manifest](deployment-manifest.md).
@@ -5,16 +7,17 @@ One popular example of a deployment job that needs this type of configuration is
 Currently only vSphere and OpenStack CPIs provide a way to do so.
 
 ---
+
 ## vSphere Configuration {: #vsphere }
 
 The vSphere [VM-VM Affinity Rules](https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.resmgmt.doc/GUID-94FCC204-115A-4918-9533-BFC588338ECB.html) feature allows you to specify whether VMs should run on the same host or be kept on separate hosts. As of BOSH version 101 (stemcell 2693), you can configure the vSphere CPI to include all VMs of a specified BOSH resource pool within a single DRS rule and separate the VMs among multiple hosts.
 
 The following resource pool and instance group configuration manifest example instructs BOSH to:
 
-* Create two MySQL VMs in the `cl` vSphere cluster.
-* Create a `keep-mysql-on-different-hosts` DRS rule in the `cl` vSphere cluster.
-* Configure the DRS rule with a `type` that separates the associated VMs onto different hosts (`separate_vms`).
-* Associate the VMs with the DRS rule.
+- Create two MySQL VMs in the `cl` vSphere cluster.
+- Create a `keep-mysql-on-different-hosts` DRS rule in the `cl` vSphere cluster.
+- Configure the DRS rule with a `type` that separates the associated VMs onto different hosts (`separate_vms`).
+- Associate the VMs with the DRS rule.
 
 ```yaml
 # Assuming that a MySQL release is used...
@@ -68,6 +71,7 @@ vm_extensions:
 ```
 
 ---
+
 ## OpenStack Configuration {: #openstack }
 
 OpenStack's [Filter scheduler](http://docs.openstack.org/developer/nova/devref/filter_scheduler.html) allows to customize compute node selection algorithm which determines placement of new VMs. To enforce anti-affinity among VMs, `ServerGroupAntiAffinityFilter` is available:
@@ -76,9 +80,9 @@ OpenStack's [Filter scheduler](http://docs.openstack.org/developer/nova/devref/f
 
 The following resource pool and job configuration manifest example instructs BOSH to:
 
-* Assume that the server group was created and its UUID is `af09abf2-2283-47d6-f2bd-2932a9ae949c`
-* Assume that the server group specifies 'anti-affinity' policy
-* Create seven hadoop-datanode VMs and add them to the server group `af09abf2-2283-47d6-f2bd-2932a9ae949c`
+- Assume that the server group was created and its UUID is `af09abf2-2283-47d6-f2bd-2932a9ae949c`
+- Assume that the server group specifies 'anti-affinity' policy
+- Create seven hadoop-datanode VMs and add them to the server group `af09abf2-2283-47d6-f2bd-2932a9ae949c`
 
 ```yaml
 # Assuming that a Hadoop release is used...

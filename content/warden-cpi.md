@@ -1,3 +1,5 @@
+# Warden/Garden CPI Cloud Properties
+
 !!! note
     Updated for bosh-warden-cpi v28+.
 
@@ -15,6 +17,7 @@ azs:
 ```
 
 ---
+
 ## Networks {: #networks }
 
 Currently the CPI does not support any cloud properties for networks.
@@ -45,14 +48,15 @@ networks:
 The CPI does not support vip networks.
 
 ---
+
 ## VM Types / VM Extensions {: #resource-pools }
 
 Schema for `cloud_properties` section:
 
-* **ports** [Array, optional]: Allows to define port mapping between host and associated containers. Available in v30+.
-  * **host** [String, required]: Port or range of ports. Example: `80`.
-  * **container** [String, optional]: Port or range of ports. Defaults to `host` defined port or range. Example: `80`.
-  * **protocol** [String, optional]: Connection protocol. Defaults to `tcp`. Example: `udp`.
+- **ports** [Array, optional]: Allows to define port mapping between host and associated containers. Available in v30+.
+    - **host** [String, required]: Port or range of ports. Example: `80`.
+    - **container** [String, optional]: Port or range of ports. Defaults to `host` defined port or range. Example: `80`.
+    - **protocol** [String, optional]: Connection protocol. Defaults to `tcp`. Example: `udp`.
 
 We may add simple load balancing via iptables for testing if ports is forwarded to multiple containers.
 
@@ -76,6 +80,7 @@ vm_extensions:
 ```
 
 ---
+
 ## Disk Types {: #disk-pools }
 
 Currently the CPI does not support any cloud properties for disks.
@@ -89,6 +94,7 @@ disk_pools:
 ```
 
 ---
+
 ## Global Configuration {: #global }
 
 The CPI uses containers to represent VMs and loopback devices to represent disks. Since the CPI can only talk to a single Garden server it can only manage resources on a single machine.
@@ -118,11 +124,13 @@ properties:
 ```
 
 ---
+
 ## Example Cloud Config {: #cloud-config }
 
 See [bosh-deployment](https://github.com/cloudfoundry/bosh-deployment/blob/master/warden/cloud-config.yml).
 
 ---
+
 ## Notes {: #notes }
 
-* Garden server does not have a UI; however, you can use [gaol CLI](https://github.com/xoebus/gaol) to interact with it directly.
+- Garden server does not have a UI; however, you can use [gaol CLI](https://github.com/xoebus/gaol) to interact with it directly.

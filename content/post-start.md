@@ -1,3 +1,5 @@
+# Post-start
+
 (See [Job Lifecycle](job-lifecycle.md) for an explanation of when post-start scripts run.)
 
 !!! note
@@ -9,6 +11,7 @@
 Release job can have a post-start script that will run after the job is started (specifically after monit successfully starts a process). This script allows the job to execute any additional commands against a machine and/or persistent data before considering release job as successfully started.
 
 ---
+
 ## Job Configuration {: #job-configuration }
 
 To add a post-start script to a release job:
@@ -26,6 +29,7 @@ templates:
 ```
 
 ---
+
 ## Script Implementation {: #script-implementation }
 
 Post-start script is usually just a regular shell script. Since post-start script is executed in a similar way as other release job scripts (start, stop, drain scripts) you can use job's package dependencies.
@@ -45,6 +49,7 @@ Post-start scripts in a single deployment job (typically is composed of multiple
     Post-start scripts run at a lower CPU scheduling priority than the BOSH agent to keep the agent responsive. See [Job Lifecycle](job-lifecycle.md) for details.
 
 ---
+
 ## Logs {: #logs }
 
 You can find logs for each release job's post-start script in the following locations:

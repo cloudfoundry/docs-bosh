@@ -4,9 +4,9 @@ Creates a network that will be used to place VMs on.
 
 ## Arguments
 
-Properties required for creating the network. It may contain `range` and `gateway` keys. A `cloud_properties` is required to provide information specific to the CPI and target IaaS. 
+Properties required for creating the network. It may contain `range` and `gateway` keys. A `cloud_properties` is required to provide information specific to the CPI and target IaaS.
 
-```
+```yaml
 {
   type: String (required)
   cloud_properties: Hash (required)
@@ -18,8 +18,7 @@ Properties required for creating the network. It may contain `range` and `gatewa
 
 ## Result
 
-* Array with the following format: `[network_id (string), addresses (hash), cloud properties (hash)]`
-
+- Array with the following format: `[network_id (string), addresses (hash), cloud properties (hash)]`
 
 ## Examples
 
@@ -74,12 +73,10 @@ Properties required for creating the network. It may contain `range` and `gatewa
 }
 ```
 
-
 ### Implementations
 
- * [cloudfoundry/bosh-vsphere-cpi-release](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/blob/dfe878579cbab768af07a12bb5543cd016cbb762/src/vsphere_cpi/lib/cloud/vsphere/cloud.rb#L683)
-
+- [cloudfoundry/bosh-vsphere-cpi-release](https://github.com/cloudfoundry/bosh-vsphere-cpi-release/blob/dfe878579cbab768af07a12bb5543cd016cbb762/src/vsphere_cpi/lib/cloud/vsphere/cloud.rb#L683)
 
 ## Related
 
- * [delete_network](delete-network.md)
+- [delete_network](delete-network.md)

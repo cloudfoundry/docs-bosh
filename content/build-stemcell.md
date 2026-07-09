@@ -1,3 +1,5 @@
+# Building a Stemcell
+
 (See [What is a Stemcell?](stemcell.md) for an introduction to stemcells.)
 
 To build a stemcell tarball for a supported IaaS-OS combination follow instructions in the [bosh-linux-stemcell-builder's README](https://github.com/cloudfoundry/bosh-linux-stemcell-builder/blob/master/README.md).
@@ -14,6 +16,7 @@ In the future, BOSH team will investigate how to best consolidate stemcells into
 - [bosh-agent](https://github.com/cloudfoundry/bosh-agent)
 
 ---
+
 ## Tarball Structure {: #tarball-structure }
 
 !!! info
@@ -32,24 +35,24 @@ Should result in:
 -rw-r--r--  0 ubuntu ubuntu  12543 Aug  4 09:22 dev_tools_file_list.txt
 ```
 
-* `image`: OS image in a format (raw, qcow, ova, etc.) understood by the CPI/IaaS.
-* `stemcell.MF`: YAML file with stemcell metadata.
-* `packages.txt`: Text file that includes list of packages installed. (Used to be included as `stemcell_dpkg_l.txt`)
-* `dev_tools_file_list.txt`: Text file that includes list of files removed by the agent if Agent's `remove_dev_tools` feature is enabled.
+- `image`: OS image in a format (raw, qcow, ova, etc.) understood by the CPI/IaaS.
+- `stemcell.MF`: YAML file with stemcell metadata.
+- `packages.txt`: Text file that includes list of packages installed. (Used to be included as `stemcell_dpkg_l.txt`)
+- `dev_tools_file_list.txt`: Text file that includes list of files removed by the agent if Agent's `remove_dev_tools` feature is enabled.
 
 ### Metadata {: #metadata }
 
 !!! info
     This is an implementation detail. The content of `stemcell.MF` is subject to change without notice.
 
-* **name** [String, required]: A unique name used to identify stemcell series.
-* **operating_system** [String, required]: Operating system in the stemcell. Example: `ubuntu-xenial`.
-* **version** [String, required]: Version of the stemcell. Example: `621.74`.
-* **sha1** [String, required]: The SHA1 of the image file included in the stemcell tarball.
-* **bosh_protocol** [String, optional]: Deprecated.
-* **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to import OS image. These properties will be passed in to the [`create_stemcell` CPI call](cpi-api-v2.md#create-stemcell).
-* **api_version** [Integer, optional]: Highest supported API version of the Agent in the stemcell. Defaults to `1`.
-* **stemcell_formats** [Array of Strings, optional]: The list of stemcell formats that a [CPI must support](cpi-api-v2-method/info.md#result). The director will attempt to upload the stemcell to all CPIs that support any specified formats.
+- **name** [String, required]: A unique name used to identify stemcell series.
+- **operating_system** [String, required]: Operating system in the stemcell. Example: `ubuntu-xenial`.
+- **version** [String, required]: Version of the stemcell. Example: `621.74`.
+- **sha1** [String, required]: The SHA1 of the image file included in the stemcell tarball.
+- **bosh_protocol** [String, optional]: Deprecated.
+- **cloud_properties** [Hash, required]: Describes any IaaS-specific properties needed to import OS image. These properties will be passed in to the [`create_stemcell` CPI call](cpi-api-v2.md#create-stemcell).
+- **api_version** [Integer, optional]: Highest supported API version of the Agent in the stemcell. Defaults to `1`.
+- **stemcell_formats** [Array of Strings, optional]: The list of stemcell formats that a [CPI must support](cpi-api-v2-method/info.md#result). The director will attempt to upload the stemcell to all CPIs that support any specified formats.
 
 Name, operating system and version values will be visible via `bosh stemcells` command once a stemcell is imported into the Director.
 
@@ -84,6 +87,7 @@ cloud_properties:
 ```
 
 ---
+
 ## Light Stemcells {: #light-stemcells }
 
 A "light" stemcell represents a reference to an IaaS resource where the stemcell has already been imported. This helps solve IaaS limitations which restrict how base VM images can be imported, such as:
@@ -132,7 +136,6 @@ cloud_properties:
     cn-north-1: ami-01db1b9ef2de116fb
 ```
 
-
 ### Publishing {: #light-stemcell-publishing }
 
 The process of building light stemcells will depend on your IaaS. Typically, you will have an automation pipeline which does the following:
@@ -144,16 +147,17 @@ The process of building light stemcells will depend on your IaaS. Typically, you
 
 If you're getting started in this process, you may want to refer to the following examples:
 
- * Amazon Web Services ([cloudfoundry/bosh-aws-light-stemcell-builder](https://github.com/cloudfoundry/bosh-aws-light-stemcell-builder))
- * Google Cloud Platform ([cloudfoundry/bosh-google-light-stemcell-builder](https://github.com/cloudfoundry/bosh-google-light-stemcell-builder))
- * OpenStack ([docs](openstack-light-stemcells.md)) - this uses the `repack-stemcell` command of the CLI
+- Amazon Web Services ([cloudfoundry/bosh-aws-light-stemcell-builder](https://github.com/cloudfoundry/bosh-aws-light-stemcell-builder))
+- Google Cloud Platform ([cloudfoundry/bosh-google-light-stemcell-builder](https://github.com/cloudfoundry/bosh-google-light-stemcell-builder))
+- OpenStack ([docs](openstack-light-stemcells.md)) - this uses the `repack-stemcell` command of the CLI
 
 While the import step is highly IaaS-specific, there are a couple general recommendations:
 
- * You may want to reuse the process that the CPI uses internally with `create_stemcell`. If not reusing the same code, you should follow the exact same steps. There should be no noticeable difference between an IaaS base image created from a "light stemcell builder" vs an operator importing the stemcell on a director themselves.
- * Your IaaS may support alternative methods for transferring images once they're imported. As long as the process does not change the underlying stemcell image, you may feel free to use it. For example, in AWS we import the image into a single region, then use the `CopyImage` AWS API call to copy the image to all other regions.
+- You may want to reuse the process that the CPI uses internally with `create_stemcell`. If not reusing the same code, you should follow the exact same steps. There should be no noticeable difference between an IaaS base image created from a "light stemcell builder" vs an operator importing the stemcell on a director themselves.
+- Your IaaS may support alternative methods for transferring images once they're imported. As long as the process does not change the underlying stemcell image, you may feel free to use it. For example, in AWS we import the image into a single region, then use the `CopyImage` AWS API call to copy the image to all other regions.
 
 ---
+
 ## Testing {: #testing }
 
 There are two test suites each stemcell is expected to pass before it's considered to be production-ready:

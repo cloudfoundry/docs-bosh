@@ -1,5 +1,9 @@
+# Process Monitoring with Monit
+
 The Agent on each deployment job VM is responsible for managing lifecycle of each enabled release job. It starts, monitors, restarts and stops release jobs' processes. These tasks are done with the help of [Monit, version 5.2.5](https://web.archive.org/web/20110816041503/https://mmonit.com/monit/documentation/monit.html). The Agent communicates with the Monit daemon through Monit HTTP APIs to add, remove, start, stop, monitor and unmonitor release jobs' processes.
+
 ---
+
 ## Check Status {: #check-status }
 
 Assuming you have a deployment, run `bosh instances` to see aggregate status for each deployment job VM:
@@ -10,7 +14,7 @@ bosh instances
 
 Should result in:
 
-```text
+```shell
 
 Deployment `my-deployment'
 
@@ -40,6 +44,7 @@ There are several typical values for State:
 To determine what the problem is with a specific VM, you can ssh into the VM and look at the logs and/or Monit directly.
 
 ---
+
 ## Using Monit on the VM {: #using-monit }
 
 On any BOSH-managed VM, you can access Monit status for release jobs'
@@ -60,7 +65,7 @@ monit summary
 
 Should result in:
 
-```text
+```shell
 The Monit daemon 5.2.4 uptime: 1d 22h 7m
 
 Process 'nats'                      running
@@ -79,7 +84,7 @@ System 'system_bm-24638eb6-55b9-4670-bb1a-23c9e3f77d91' running
 ```
 
 !!! note
-    You can use standard <code>watch</code> utility with the summary command to track process status over time.
+    You can use standard `watch` utility with the summary command to track process status over time.
 
 You can also get more detailed information about individual processes via `monit status`:
 
@@ -89,7 +94,7 @@ monit status
 
 Should result in:
 
-```text
+```shell
 The Monit daemon 5.2.4 uptime: 1d 22h 8m
 
 Process 'nats'

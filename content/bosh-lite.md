@@ -1,3 +1,5 @@
+# VirtualBox
+
 BOSH Lite v2 is a Director VM running in VirtualBox (typically locally). It is managed via [CLI v2](cli-v2.md). Internally CPI uses containers to emulate VMs which makes it an excellent choice for:
 
 - General BOSH exploration without investing time and resources to configure an IaaS
@@ -5,6 +7,7 @@ BOSH Lite v2 is a Director VM running in VirtualBox (typically locally). It is m
 - Testing releases locally or in CI
 
 ---
+
 ## Install {: #install }
 
 Follow below steps to get it running on locally on VirtualBox:
@@ -85,8 +88,8 @@ Follow below steps to get it running on locally on VirtualBox:
     route add           10.244.0.0/16     192.168.56.6 # Windows
     ```
 
-
 ---
+
 ## Deploy example Zookeeper deployment {: #deploy }
 
 Run through quick steps below or follow [deploy workflow](basic-workflow.md) that goes through the same steps but with more explanation.
@@ -117,8 +120,7 @@ Run through quick steps below or follow [deploy workflow](basic-workflow.md) tha
     bosh -e vbox -d zookeeper run-errand smoke-tests
     ```
 
-
 ## Tips {: #tips }
 
-* In case you need to SSH into the Director VM, see [Jumpbox](jumpbox.md).
-* In case VirtualBox VM shuts down or reboots, you will have to re-run `create-env` command from above with `--recreate` flag. The containers will be lost after a VM restart, but you can restore your deployment with `bosh cck` command. Alternatively *Pause* the VM from the VirtualBox UI before shutting down VirtualBox host, or making your computer sleep.
+- In case you need to SSH into the Director VM, see [Jumpbox](jumpbox.md).
+- In case VirtualBox VM shuts down or reboots, you will have to re-run `create-env` command from above with `--recreate` flag. The containers will be lost after a VM restart, but you can restore your deployment with `bosh cck` command. Alternatively *Pause* the VM from the VirtualBox UI before shutting down VirtualBox host, or making your computer sleep.

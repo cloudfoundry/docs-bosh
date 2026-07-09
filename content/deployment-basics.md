@@ -1,3 +1,5 @@
+# Building a Manifest
+
 (See [What is a Deployment?](deployment.md) for an introduction to deployments.)
 
 A deployment is a collection of VMs, persistent disks and other resources. To create a deployment in the Director, it has to be described with a [deployment manifest](terminology.md#manifest). Most deployment manifests look something like this:
@@ -57,7 +59,7 @@ Here is how deployment manifest describes a reasonably complex Zookeeper cluster
 
 1. Zookepeer source code, configuration file, startup scripts
     - include `zookeeper` release version `0.0.5` to the `releases` section
-1.  Operating system image onto which install software
+1. Operating system image onto which install software
     - include latest version of `ubuntu-xenial` stemcell
 1. Create 5 Zookeeper VMs spread
     - add `zookeeper` [instance group](terminology.md#instance-group) with `instances: 5`

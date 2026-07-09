@@ -3,7 +3,6 @@
 BOSH is part of the open-source community, so you can easily find us in a few
 places...
 
-
 ## Slack
 
 The [Cloud Foundry Slack](https://cloudfoundry.slack.com) is a great place to ask questions or discuss issues - especially if you are still trying to figure out what might actually be wrong. Contributors, operators, and developers of BOSH are typically hanging out in the [`#bosh`](https://cloudfoundry.slack.com/messages/C02HPPYQ2/) channel and happy to help answer questions.
@@ -12,7 +11,6 @@ The [Cloud Foundry Slack](https://cloudfoundry.slack.com) is a great place to as
     Slack requires members to be invited, so please [request an
     invite](https://slack.cloudfoundry.org/) from our bot first if you are
     new to the community.
-
 
 ## GitHub
 
@@ -28,13 +26,11 @@ issue or make a change, please feel free to ask! [Slack](#slack) usually works
 best for that, but you can also just [create an
 issue](https://github.com/cloudfoundry/bosh/issues/new) if that's easier.
 
-
 ## Roadmap
 
 We use [GitHub
 Projects](https://github.com/orgs/cloudfoundry/projects?query=is%3Aopen) for
 keeping track of what we're working on and prioritizing tasks.
-
 
 ## Mailing List
 
@@ -44,9 +40,6 @@ list](https://lists.cloudfoundry.org/g/cf-bosh). Although it is quieter than
 on the list. We also occasionally use this for announcements or product
 discussion.
 
-
 ## Additional Resources
 
- * [Ultimate Guide to
-   BOSH](https://web.archive.org/web/20260214185516/https://ultimateguidetobosh.com/) -
-   a great resource for learning more about BOSH concepts
+- [Ultimate Guide to BOSH](https://web.archive.org/web/20260214185516/https://ultimateguidetobosh.com/) - a great resource for learning more about BOSH concepts

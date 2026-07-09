@@ -1,3 +1,5 @@
+# Link Properties
+
 (See [Links](links.md) for an introduction.)
 
 !!! note
@@ -108,5 +110,6 @@ instance_groups:
     properties:
       password: some-password
 ```
+
 !!! note
     There is a [bosh issue](https://github.com/cloudfoundry/bosh/issues/2250) with sharing of hash properties via Credhub.

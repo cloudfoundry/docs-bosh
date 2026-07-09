@@ -12,7 +12,7 @@ To configure NTP servers for all VMs on all deployments,
 add an ntp section to the agent env in your bosh director manifest.
 For example:
 
-```
+```yaml
 instance_groups
 - name: bosh
   ...
@@ -38,7 +38,7 @@ ntp should be configured by adding an ntp section to the `resource_pools`
 in the create-env manifest
 For example:
 
-```
+```yaml
 resource_pools:
 - env:
     bosh:
@@ -52,7 +52,6 @@ resource_pools:
 ```
 
 This will have the same agent behavior as changing the `agent.env.bosh.ntp` in a director manifest.
-
 
 At this point you should know enough to configure NTP on your VMs. The rest of this document is explaining details or exceptions.
 

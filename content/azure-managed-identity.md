@@ -1,3 +1,5 @@
+# Azure Managed Identity
+
 You can configure BOSH to use [Azure Managed Identities](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/qs-configure-cli-windows-vm) to avoid hard coding specific Azure credentials.
 Azure Managed Identities are similar to [AWS instance profiles](aws-iam-instance-profiles.md).  
 You first have to create an Azure Managed Identity, and give the proper roles/permissions required by BOSH (i.e. create/delete VM, create/delete/attach disks).  

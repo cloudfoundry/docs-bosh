@@ -1,15 +1,17 @@
+# Networks
+
 A BOSH network is an IaaS-agnostic representation of the networking layer. The Director is responsible for configuring each instance group's networks with the help of the BOSH Agent and the IaaS. Networking configuration is usually assigned at the boot of the VM and/or when network configuration changes in the deployment manifest for already-running instance groups.
 
 There are three types of networks that BOSH supports:
 
-* **manual**: The Director decides how to assign IPs to each instance based on the specified network subnets in the deployment manifest
-* **dynamic**: The Director defers IP selection to the IaaS
-* **vip**: The Director allows one-off IP assignments to specific instances to enable flexible IP routing (e.g. elastic IP)
+- **manual**: The Director decides how to assign IPs to each instance based on the specified network subnets in the deployment manifest
+- **dynamic**: The Director defers IP selection to the IaaS
+- **vip**: The Director allows one-off IP assignments to specific instances to enable flexible IP routing (e.g. elastic IP)
 
 Each type of network supports one or both IP reservation types:
 
-* **static**: IP is explicitly requested by the user in the deployment manifest
-* **automatic**: IP is selected automatically based on the network type
+- **static**: IP is explicitly requested by the user in the deployment manifest
+- **automatic**: IP is selected automatically based on the network type
 
 |                         | Manual network     | Dynamic network | VIP network |
 | ----------------------- | ------------------ | --------------- | ----------- |
@@ -79,18 +81,18 @@ Each manual network attached to an instance is typically represented as its own 
 
 Schema for manual network definition:
 
-* **name** [String, required]: Name used to reference this network configuration
-* **type** [String, required]: Value should be `manual`
-* **subnets** [Array, required]: Lists subnets in this network
-    * **range** [String, required]: Subnet IP range that includes all IPs from this subnet
-    * **gateway** [String, required]: Subnet gateway IP
-    * **dns** [Array, optional]: DNS IP addresses for this subnet
-    * **reserved** [Array, optional]: Array of reserved IPs and/or IP ranges. BOSH does not assign IPs from this range to any VM
-    * **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to instances requesting static IPs. Only IPs specified here can be used for static IP reservations.
-    * **prefix** [String, optional]: Size of the prefix BOSH will assign to VMs. Networks that have this property set cannot be used by BOSH itself; therefore, if this is set, a secondary network needs to be attached. Supported from director version `v282.1.0` and stemcell `Ubuntu Jammy v1.943`. Find more information in the [Prefix Delegation](#prefix-delegation) section.
-    * **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `z1`. Available in v241+.
-    * **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`. Available in v241+.
-    * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
+- **name** [String, required]: Name used to reference this network configuration
+- **type** [String, required]: Value should be `manual`
+- **subnets** [Array, required]: Lists subnets in this network
+    - **range** [String, required]: Subnet IP range that includes all IPs from this subnet
+    - **gateway** [String, required]: Subnet gateway IP
+    - **dns** [Array, optional]: DNS IP addresses for this subnet
+    - **reserved** [Array, optional]: Array of reserved IPs and/or IP ranges. BOSH does not assign IPs from this range to any VM
+    - **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to instances requesting static IPs. Only IPs specified here can be used for static IP reservations.
+    - **prefix** [String, optional]: Size of the prefix BOSH will assign to VMs. Networks that have this property set cannot be used by BOSH itself; therefore, if this is set, a secondary network needs to be attached. Supported from director version `v282.1.0` and stemcell `Ubuntu Jammy v1.943`. Find more information in the [Prefix Delegation](#prefix-delegation) section.
+    - **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `z1`. Available in v241+.
+    - **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`. Available in v241+.
+    - **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
 
 Example cloud config:
 
@@ -159,16 +161,16 @@ networks:
 
 In this example, the Director divides the `/24` subnet into `/28` subnets to assign to VMs (as soon as the network is referenced by a deployment manifest). The next available base address of the prefix within the subnet range is calculated for each assignment. For example, the first three base addresses would be:
 
-* `10.10.0.0/28` <-- bosh will not assign this one, because the range contains reserved ip addresses (gateway etc.)
-* `10.10.0.16/28` <-- first prefix that will be assigned to a vm
-* `10.10.0.32/28`
+- `10.10.0.0/28` <-- bosh will not assign this one, because the range contains reserved ip addresses (gateway etc.)
+- `10.10.0.16/28` <-- first prefix that will be assigned to a vm
+- `10.10.0.32/28`
 
 The IP and prefix information will get send to the CPI via the `create_vm` RPC interface in the networks section.
 
 #### Static IP Clarifications
 
-* If single static IPs are defined in the cloud config, the Director verifies that these IPs are base addresses of the specified prefix. If not, an error is raised.
-* If a range of static IP addresses is defined, only the base addresses of the specified prefix are considered as static IPs.
+- If single static IPs are defined in the cloud config, the Director verifies that these IPs are base addresses of the specified prefix. If not, an error is raised.
+- If a range of static IP addresses is defined, only the base addresses of the specified prefix are considered as static IPs.
 
 **Considering the following instance group configuration:**
 
@@ -187,16 +189,16 @@ instance_groups:
 
 The Director will send two IP addresses to the CPI:
 
-* The next available single address from the `my-network` network configuration.
-* The next available prefix delegation from the `my-network-with-prefix` network configuration.
+- The next available single address from the `my-network` network configuration.
+- The next available prefix delegation from the `my-network-with-prefix` network configuration.
 
 #### Limitations
 
-* Networks with a `prefix` defined can only be attached as a secondary network. To group networks to be attached to the same network interface refer to the nic_group configuration in the networks section [here](manifest-v2.md#instance-groups)
-* Dynamic and VIP networks are not supported.
-* Managed networks are not supported.
-* Single static IPs must be a base address of the prefix.
-* For IPv6 use cases: Currently, static IP ranges or CIDRs defined on a network where BOSH will assign the next available IP address are extended into an array. Large ranges or CIDRs may lead to performance degradation of the Director. This is particularly relevant for IPv6 addressing, where CIDR ranges easily contain hundreds of millions of addresses. Size `/112` static ranges for networks without prefix delegation seem manageable, at ca. 65k addresses, but at the moment it is recommended to stay below such sizes.
+- Networks with a `prefix` defined can only be attached as a secondary network. To group networks to be attached to the same network interface refer to the nic_group configuration in the networks section [here](manifest-v2.md#instance-groups)
+- Dynamic and VIP networks are not supported.
+- Managed networks are not supported.
+- Single static IPs must be a base address of the prefix.
+- For IPv6 use cases: Currently, static IP ranges or CIDRs defined on a network where BOSH will assign the next available IP address are extended into an array. Large ranges or CIDRs may lead to performance degradation of the Director. This is particularly relevant for IPv6 addressing, where CIDR ranges easily contain hundreds of millions of addresses. Size `/112` static ranges for networks without prefix delegation seem manageable, at ca. 65k addresses, but at the moment it is recommended to stay below such sizes.
 
 See supported CPIs in the [CPI Limitations](#cpi-limitations) section.
 
@@ -212,10 +214,10 @@ Dynamic networking only supports automatic IP reservations.
 
 Schema for dynamic network definition:
 
-* **name** [String, required]: Name used to reference this network configuration
-* **type** [String, required]: Value should be `dynamic`
-* **dns** [Array, optional]: DNS IP addresses for this network
-* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the network. Default is `{}` (empty Hash).
+- **name** [String, required]: Name used to reference this network configuration
+- **type** [String, required]: Value should be `dynamic`
+- **dns** [Array, optional]: DNS IP addresses for this network
+- **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the network. Default is `{}` (empty Hash).
 
 Example cloud config:
 
@@ -228,14 +230,13 @@ networks:
 ```
 
 Schema for dynamic network definition with multiple subnets (available in v241+):
-
-* **name** [String, required]: Name used to reference this network configuration
-* **type** [String, required]: Value should be `dynamic`
-* **subnets** [Array, required]: Lists subnets in this network.
-    * **dns** [Array, optional]: DNS IP addresses for this subnet
-    * **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `z1`.
-    * **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`.
-    * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
+- **name** [String, required]: Name used to reference this network configuration
+- **type** [String, required]: Value should be `dynamic`
+- **subnets** [Array, required]: Lists subnets in this network.
+    - **dns** [Array, optional]: DNS IP addresses for this subnet
+    - **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `z1`.
+    - **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`.
+    - **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
 
 Example cloud config:
 
@@ -260,9 +261,9 @@ VIP network static IPs can either be defined in the deployment manifest (static 
 
 Schema for VIP network where static IPs are configured in the deployment manifest:
 
-* **name** [String, required]: Name used to reference this network configuration
-* **type** [String, required]: Value should be `vip`
-* **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the network. Default is `{}` (empty Hash).
+- **name** [String, required]: Name used to reference this network configuration
+- **type** [String, required]: Value should be `vip`
+- **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the network. Default is `{}` (empty Hash).
 
 Sample cloud config and deployment manifest:
 
@@ -290,13 +291,13 @@ instance_groups:
 
 Schema for VIP network where static IPs are configured in the cloud config for use across deployments:
 
-* **name** [String, required]: Name used to reference this network configuration
-* **type** [String, required]: Value should be `vip`
-* **subnets** [Array, optional]: Lists subnets in this network
-    * **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `z1`.
-    * **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`.
-    * **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to instances requesting static IPs. Only IPs specified here can be used for static IP reservations.
-    * **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
+- **name** [String, required]: Name used to reference this network configuration
+- **type** [String, required]: Value should be `vip`
+- **subnets** [Array, optional]: Lists subnets in this network
+    - **az** [String, optional]: AZ associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `z1`.
+    - **azs** [Array, optional]: List of AZs associated with this subnet (should only be used when using [first class AZs](azs.md)). Example: `[z1, z2]`.
+    - **static** [Array, optional]: Array of static IPs and/or IP ranges. BOSH assigns IPs from this range to instances requesting static IPs. Only IPs specified here can be used for static IP reservations.
+    - **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties for the subnet. Default is `{}` (empty Hash).
 
 Sample cloud config and deployment manifest:
 
@@ -433,7 +434,7 @@ An instance group can be configured to have multiple IP addresses (multiple NICs
 
 Schema for `default` property:
 
-* **default** [Array, optional]: Configures this network to provide its settings for specific category as a default. Possible values are: `dns`, `gateway` and since bosh-release v258 `addressable`. All values can be specified together. `addressable` can be used to specify which IP address other instances see.
+- **default** [Array, optional]: Configures this network to provide its settings for specific category as a default. Possible values are: `dns`, `gateway` and since bosh-release v258 `addressable`. All values can be specified together. `addressable` can be used to specify which IP address other instances see.
 
 Example:
 
@@ -483,7 +484,7 @@ In the above example, VM allocated to `my-multi-homed-instance-group` instance g
 The Director does not enforce how many networks can be assigned to each instance; however, each CPI might impose custom requirements either due to the IaaS limitations or simply because support was not yet implemented.
 
 |               | Manual network<br>(per instance group)     | Dynamic network<br>(per instance group) | VIP network          |
-| ------------- | ------------------------------------------ | --------------------------------------- | -------------------- |
+|---------------|--------------------------------------------|-----------------------------------------|----------------------|
 | **AWS**       | Multiple<sup>1</sup> (from v107.0.0)       | Single                                  | Single (Elastic IP)  |
 | **Azure**     | Multiple                                   | Multiple                                | Single (Reserved IP) |
 | **OpenStack** | [Multiple](openstack-multiple-networks.md) | Single                                  | Single (Floating IP) |
@@ -509,10 +510,10 @@ The Director does not enforce how many networks can be assigned to each instance
 
 1: The maximum number of IP addresses assigned to one NIC (limited by the AWS CPI as of now):
 
-* one IPv4 address
-* one IPv6 address
-* one IPv4 prefix delegation
-* one IPv6 prefix delegation
+- one IPv4 address
+- one IPv6 address
+- one IPv4 prefix delegation
+- one IPv6 prefix delegation
 
 2: Find the currently supported prefix sizes in [Prefix delegation for AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html).
 

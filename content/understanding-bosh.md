@@ -1,3 +1,5 @@
+# Understanding BOSH
+
 BOSH is an open source tool chain for release engineering, deployment, and
 lifecycle management of large-scale distributed services.
 
@@ -25,9 +27,9 @@ scripts, with a version number that identifies these components.
 A BOSH release consists of the software packages to be installed and the
 processes, or jobs, to run on the VMs in a deployment.
 
-* A package contains source code and a script for compiling and installing the
+- A package contains source code and a script for compiling and installing the
 package, with optional dependencies on other packages.
-* A job is a set of configuration files and scripts to run the binaries from a
+- A job is a set of configuration files and scripts to run the binaries from a
 package.
 
 ### Manifest {: #manifest }
@@ -64,15 +66,15 @@ rest.
 
 For example:
 
-* To switch a deployment between clouds:
-    * Keep the same release
-    * Use a stemcell specific to the new cloud
-    * Tweak the manifest
-* To scale up an application:
-    * Keep the same release
-    * Use the same stemcell
-    * Change one line in the manifest
-* To update or roll back an application:
-    * Use a newer or older release version
-    * Use the same stemcell
-    * Use the same manifest
+- To switch a deployment between clouds:
+    - Keep the same release
+    - Use a stemcell specific to the new cloud
+    - Tweak the manifest
+- To scale up an application:
+    - Keep the same release
+    - Use the same stemcell
+    - Change one line in the manifest
+- To update or roll back an application:
+    - Use a newer or older release version
+    - Use the same stemcell
+    - Use the same manifest

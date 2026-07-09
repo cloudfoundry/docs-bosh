@@ -1,3 +1,5 @@
+# Azure - Creating Resources
+
 ## Subscription {: #subscription }
 
 To find out subscription and tenant ID use following commands:
@@ -33,9 +35,9 @@ Should result in:
 !!! note
     If `tenantId` is not present, you may be using a personal account to log in to your Azure subscription. Switch to using work or school account.
 
-     * If you are using Azure cloud in China, you should switch the cloud from `AzureCloud` to `AzureChinaCloud`.
-     * If you are using Azure cloud in Azure Government, you should switch the cloud from `AzureCloud` to `AzureUSGovernment`.
-     * If you are using Azure cloud in German Cloud, you should switch the cloud from `AzureCloud` to `AzureGermanCloud`.
+    - If you are using Azure cloud in China, you should switch the cloud from `AzureCloud` to `AzureChinaCloud`.
+    - If you are using Azure cloud in Azure Government, you should switch the cloud from `AzureCloud` to `AzureUSGovernment`.
+    - If you are using Azure cloud in German Cloud, you should switch the cloud from `AzureCloud` to `AzureGermanCloud`.
 
 Once you've determined your subscription ID, switch to using that account:
 
@@ -52,6 +54,7 @@ az provider register --namespace Microsoft.Compute
 ```
 
 ---
+
 ## Client {: #client }
 
 Azure CPI needs client ID and secret to make authenticated requests.
@@ -88,6 +91,7 @@ az role assignment create --role "Contributor" --assignee "http://mycpi" --scope
 ```
 
 ---
+
 ## Resource Group {: #res-group }
 
 Create a resource group in one of the supported [Azure locations](http://azure.microsoft.com/en-us/regions/):
@@ -115,6 +119,7 @@ Should result in:
 Make sure to wait for 'Provisioning State' to become `Succeeded`.
 
 ---
+
 ## Virtual Network & Subnet {: #virtual-network }
 
 Create a virtual network:
@@ -170,6 +175,7 @@ Should result in:
 ```
 
 ---
+
 ## Network Security Group {: #network-security-group }
 
 Create two network security groups:
@@ -188,6 +194,7 @@ az network nsg rule create --resource-group bosh-res-group --nsg-name nsg-cf --a
 ```
 
 ---
+
 ## Public IPs {: #public-ips }
 
 To make certain VMs publicly accessible, you will need to create a Public IP. If Azure Availability Zones is used in [AZs](azure-cpi.md#azs), the Public IP should be created with type `Standard SKU`; otherwise, you can use the default `Basic SKU`.
@@ -228,6 +235,7 @@ Should result in:
     You can skip below section if you are using managed disks with Azure CPI v21+
 
 ---
+
 ## Storage Account {: #storage-account }
 
 Create a default storage account to hold root disks, persistent disks, stemcells, etc.
@@ -333,6 +341,7 @@ Should result in:
 ```
 
 ---
+
 ### Storage Account Containers {: #storage-account-container }
 
 CPI expects to find `bosh` and `stemcell` containers within a default storage account:
@@ -391,6 +400,7 @@ Should result in:
 ```
 
 ---
+
 ### Storage Account Tables {: #storage-account-tables }
 
 To support multiple storage accounts, you need to create the following tables in the default storage account:
@@ -413,6 +423,7 @@ Should result in:
 ```
 
 ---
+
 ### Compute Gallery {: #compute-gallery }
 
 !!! note

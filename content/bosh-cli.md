@@ -1,3 +1,5 @@
+# CLI v1 Installation
+
 BOSH Command Line Interface (CLI) is used to interact with the Director. The CLI is written in Ruby and is distributed via `bosh_cli` gem.
 
 ```shell
@@ -9,7 +11,7 @@ gem install bosh_cli --no-ri --no-rdoc
 
 If gem installation does not succeed, make sure pre-requisites for your OS are met.
 
-### Prerequisites on Ubuntu Trusty
+## Prerequisites on Ubuntu Trusty
 
 Make sure following packages are installed:
 
@@ -19,7 +21,7 @@ sudo apt-get install build-essential ruby ruby-dev libxml2-dev libsqlite3-dev li
 
 Make sure `ruby` and `gem` binaries are on your path before continuing.
 
-### Prerequisites on CentOS
+## Prerequisites on CentOS
 
 Make sure following packages are installed:
 
@@ -27,18 +29,22 @@ Make sure following packages are installed:
 sudo yum install gcc ruby ruby-devel mysql-devel postgresql-devel postgresql-libs sqlite-devel libxslt-devel libxml2-devel yajl-ruby
 ```
 
-### Prerequisites on Mac OS X
+## Prerequisites on Mac OS X
 
 You may see an error like this:
 
+```text
     ERROR:  While executing gem ... (Gem::FilePermissionError)
     You don't have write permissions for the /Library/Ruby/Gems/2.0.0 directory.
+```
 
 Instead of using the system Ruby, install a separate Ruby for your own use, and switch to that one using a package like RVM, rbenv, or chruby.
 
 You may see an error like this:
 
+```text
     The compiler failed to generate an executable file. (RuntimeError). You have to install development tools first.
+```
 
 Make sure you have installed Xcode and the command-line developer tools, and agreed to the license.
 
@@ -49,7 +55,9 @@ xcode-select --install
 
 A window will pop up saying:
 
+```text
     The "xcode-select" command requires the command line developer tools. Would you like to install the tools now?
+```
 
 Choose Install to continue. Choose Get Xcode to install Xcode and the command line developer tools from the App Store. If you have already installed Xcode from the App Store, you can choose Install and it will install the cli tools.
 

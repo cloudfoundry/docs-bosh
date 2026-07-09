@@ -1,3 +1,5 @@
+# OpenStack - Using Human-readable VM names
+
 !!! note
     This feature is available with bosh-openstack-cpi v23+.
 
