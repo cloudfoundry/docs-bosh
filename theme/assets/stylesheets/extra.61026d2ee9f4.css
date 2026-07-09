@@ -2,9 +2,9 @@
 .bosh-schema blockquote {
   padding-bottom: .01rem;
   padding-left: 1.8rem;
-  margin-left: 1.4rem;
+  margin-left: 1rem;
   border-left: .4rem solid rgba(0,0,0,.18);
-  color: rgba(0,0,0,.87);
+  color: var(--md-typeset-color);
 }
 
 /* in headers, the codehilite causes distracting indenting */
@@ -24,9 +24,8 @@
 .bosh-schema h4,
 .bosh-schema h5,
 .bosh-schema h6 {
-  font-size: 2rem;
+  font-size: 1rem;
   font-weight: 600;
-  margin-top: 3.2rem;
   text-transform: none;
 }
 
@@ -42,11 +41,45 @@
     display: table;
 }
 
-.bosh-schema dd {
-  margin: 0 0 .25em 6em
+[dir="ltr"] .bosh-schema dd {
+  margin: 0 0 0 6em;
 }
 
 .bosh-schema dt {
   font-style: italic;
   position: absolute;
 }
+
+.md-copyright__highlight {
+    color: inherit;
+}
+
+
+/* START Primary Sidebar */
+
+@media screen and (max-width: 76.2344em) {
+  .md-nav--lifted > .md-nav__list {
+    &:has(> .md-nav__item--bosh-sidebar-sticky-bottom) { padding-bottom: 1.2rem; }
+    > .md-nav__item--bosh-sidebar-sticky-bottom {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        background: inherit;
+    }
+  }
+}
+
+@media screen and (min-width: 76.25em) {
+  .md-nav--lifted > .md-nav__list {
+     > .md-nav__item--bosh-persistent {
+       display: block;
+       margin-top: 0;
+       > .md-nav__link {
+         > .md-ellipsis { cursor: default; }
+         > .md-nav__icon { display: none; }
+       }
+     }
+     > .md-nav__item--bosh-persistent + .md-nav__item { margin-top: 1.2rem; }
+  }
+}
+/* END Primary Sidebar */

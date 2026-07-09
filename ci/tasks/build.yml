@@ -3,7 +3,7 @@ image_resource:
   type: registry-image
   source:
     repository: squidfunk/mkdocs-material
-    tag: 2.7.2
+    tag: 9.7.6
 run:
   dir: docs
   path: /usr/bin/mkdocs

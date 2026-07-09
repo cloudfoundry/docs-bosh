@@ -1,6 +1,7 @@
 # Welcome to
 
-![Cloud Foundry BOSH](images/logo-full.png)
+![Cloud Foundry BOSH](images/logo-full.png#only-light)
+![Cloud Foundry BOSH](images/logo-full-white.png#only-dark)
 
 BOSH is a project that unifies release engineering, deployment, and lifecycle management of small and large-scale cloud software. BOSH can provision and deploy software over hundreds of VMs. It also performs monitoring, failure recovery, and software updates with zero-to-minimal downtime.
 
