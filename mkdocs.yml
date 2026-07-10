@@ -119,18 +119,11 @@ nav:
     - Configuring the Database:
       - Builtin PostgreSQL: director-configure-db.md
       - External MySQL: director-configure-db.md
-    - Configuring the Blobstore:
-      - Builtin DAV Server: director-configure-blobstore.md
-      - Amazon S3: director-configure-blobstore.md
-      - Google Cloud Storage: director-configure-blobstore.md
-      - Azure Storage Account: director-configure-blobstore.md
+    - Configuring the Blobstore: director-configure-blobstore.md
     - Managing Releases: managing-releases.md
     - Managing Stemcells: managing-stemcells.md
     - Auto-healing Capabilities: resurrector.md
     - Using Health Monitor: hm-config.md
-    - Using Runtime Config:
-      - Overview: runtime-config.md
-      - Common Addons: addons-common.md
     - Using Deploy Config: deploy-config.md
     - Integrating with CredHub:
       - Variable Types: variable-types.md
@@ -188,7 +181,9 @@ nav:
   - Director APIs:
     - Director HTTP API: director-api-v1.md
     - Links API: links-api.md
-  - Director Runtime Config: runtime-config.md
+  - Director Runtime Config:
+    - Overview: runtime-config.md
+    - Common Addons: addons-common.md
   - Director Deploy Config: deploy-config.md
   - Generic Configs: configs.md
   - Cloud Provider Interface:

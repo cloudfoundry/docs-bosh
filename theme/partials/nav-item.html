@@ -189,7 +189,7 @@
   {% else %}
     {% if nav_item.title[0:4] == "--- " %}
       {% if level == 2 and parent.active %}
-        {% set class = class ~ " md-nav__item--section" %}
+        {% set class = class ~ " md-nav__item--section md-nav__item--pseudo-section" %}
         {% set is_section = true %}
       {% endif %}
     {% endif %}
@@ -197,7 +197,9 @@
       <li class="{{ class }}">
       <span class="md-nav__link">
         {{ render_content(nav_item) }}
+        {% if not is_section %}
         <span class="md-nav__icon md-icon"></span>
+        {% endif %}
       </span>
       </li>
     {% else %}

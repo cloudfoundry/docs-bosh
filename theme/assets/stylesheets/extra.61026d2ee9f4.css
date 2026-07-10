@@ -57,7 +57,16 @@
 
 /* START Primary Sidebar */
 
+.md-nav__item--pseudo-section {
+    color: var(--md-default-fg-color--light);
+}
+
 @media screen and (max-width: 76.2344em) {
+  .md-nav--primary .md-nav__item--pseudo-section {
+      margin-top: 1.8rem;
+      border-top: none;
+  }
+  
   .md-nav--lifted > .md-nav__list {
     &:has(> .md-nav__item--bosh-sidebar-sticky-bottom) { padding-bottom: 1.2rem; }
     > .md-nav__item--bosh-sidebar-sticky-bottom {
