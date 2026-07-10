@@ -77,7 +77,7 @@ See how to define each network type below.
 
 Manual networking allows you to specify one or more subnets and let the Director choose available IPs from one of the subnet ranges. A subnet definition specifies the CIDR range and, optionally, the gateway and DNS servers. In addition, certain IPs can be blacklisted (the Director will not use these IPs) via the `reserved` property.
 
-Each manual network attached to an instance is typically represented as its own NIC in the IaaS layer. This behavior can be changed by configuring NIC groups, as explained in the networks section of the instance groups manifest definition [here](manifest-v2.md#instance-groups).
+Each manual network attached to an instance is typically represented as its own NIC in the IaaS layer. This behavior can be changed by configuring NIC groups, as explained in the [networks section](manifest-v2.md#instance-groups) of the instance groups manifest definition.
 
 Schema for manual network definition:
 
@@ -194,7 +194,7 @@ The Director will send two IP addresses to the CPI:
 
 #### Limitations
 
-- Networks with a `prefix` defined can only be attached as a secondary network. To group networks to be attached to the same network interface refer to the nic_group configuration in the networks section [here](manifest-v2.md#instance-groups)
+- Networks with a `prefix` defined can only be attached as a secondary network. To group networks to be attached to the same network interface refer to the nic_group configuration in the [networks section](manifest-v2.md#instance-groups)
 - Dynamic and VIP networks are not supported.
 - Managed networks are not supported.
 - Single static IPs must be a base address of the prefix.
