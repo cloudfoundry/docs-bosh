@@ -90,7 +90,7 @@ uaac member delete bosh.read some-new-user
 
 ---
 
-## Top-level Scopes {: #top-level-scopes }
+## Top-level / Director-wide Scopes {: #top-level-scopes }
 
 UAA scopes can be assigned to groups, individual users, or clients.
 

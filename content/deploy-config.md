@@ -49,6 +49,8 @@ include:
 You can include and exclude deployments by using EITHER the `include` or `exclude` property. The [example](#example1) above will only apply the flags if the deployment "foo" gets deployed.
 In contrast, the [example](#example2) config below will ensure that only for the "foo" deployment the flags will NOT be applied. Only specifying the `flags` property will apply the flags for all deployments.
 
+[](){ #example2 }
+
 ```yaml
 flags:
   - recreate

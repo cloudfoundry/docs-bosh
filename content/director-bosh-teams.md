@@ -53,4 +53,4 @@ Can view shared resources:
 - `bosh tasks`: list of team managed deployments' tasks and their full details
 
 Team admins cannot upload releases and stemcells. These are
-[director-wide scopes](director-users-uaa-scopes.md#director-wide-scopes).
+[director-wide scopes](director-users-uaa-scopes.md#top-level-scopes).

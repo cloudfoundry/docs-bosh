@@ -84,9 +84,11 @@ nav:
       - Sample Release: windows-sample-release.md
     - Using BPM:
       - Overview: bpm/bpm.md
+      - Public Interface: bpm/public_interface.md
       - Configuration: bpm/config.md
       - Runtime: bpm/runtime.md
       - Migrating to BPM: bpm/transitioning.md
+      - Transitioning BBR Scripts: bpm/transitioning_bbr_scripts.md
       - Undefined Behaviors: bpm/undefined.md
   - Operating Director:
     - Monitoring:
@@ -316,6 +318,10 @@ nav:
     - Usage: warden-cpi.md
 - Stemcells: '/stemcells/'
 - Releases: '/releases/'
+
+exclude_docs: |
+  /bpm/internal/*
+  /bpm/proposals/*
       
 theme:
   name: material

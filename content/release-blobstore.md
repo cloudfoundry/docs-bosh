@@ -3,7 +3,7 @@
 !!! note
     This describes configuring a blobstore for publishing BOSH Releases with
     **BOSH CLI v2+**, which is separate from [configuring the blobstore of a
-    BOSH Director](director-configure-blobstore).
+    BOSH Director](director-configure-blobstore.md).
 
 A release blobstore contains [release blob](release-blobs.md) and created final releases.
 

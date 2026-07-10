@@ -184,7 +184,7 @@ vm_types:
 - [See AWS CPI VM types cloud properties](aws-cpi.md#resource-pools)
 - [See Azure CPI VM types cloud properties](azure-cpi.md#resource-pools)
 - [See OpenStack CPI VM types cloud properties](openstack-cpi.md#resource-pools)
-- [See Google Cloud Platform CPI VM types cloud properties](google-cpi.md#resource-pools)
+- [See Google Cloud Platform CPI VM types cloud properties](google-cpi.md#vm-types)
 - [See vSphere CPI VM types cloud properties](vsphere-cpi.md#resource-pools)
 
 ---
@@ -214,7 +214,7 @@ Any IaaS specific configuration could be placed into a VM extension's `cloud_pro
 
 ## Disk Types Block {: #disk-types }
 
-**disk_types** [Array, required]: Specifies the [disk types](terminology.md#disk-types) available to deployments. At least one should be specified.
+**disk_types** [Array, required]: Specifies the [disk types](terminology.md#disk-type) available to deployments. At least one should be specified.
 
 - **name** [String, required]: A unique name used to identify and reference the disk type
 - **disk_size** [Integer, required]: Specifies the disk size. `disk_size` must be a positive integer. BOSH creates a [persistent disk](persistent-disks.md) of that size in megabytes and attaches it to each job instance VM.
@@ -235,7 +235,7 @@ disk_types:
 - [See AWS CPI disk type cloud properties](aws-cpi.md#disk-pools)
 - [See Azure CPI disk type cloud properties](azure-cpi.md#disk-pools)
 - [See OpenStack CPI disk type cloud properties](openstack-cpi.md#disk-pools)
-- [See Google Cloud Platform CPI disk type cloud properties](google-cpi.md#disk-pools)
+- [See Google Cloud Platform CPI disk type cloud properties](google-cpi.md#disk-types)
 - [See vSphere CPI disk type cloud properties](vsphere-cpi.md#disk-pools)
 
 ---

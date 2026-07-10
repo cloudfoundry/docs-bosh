@@ -55,7 +55,7 @@ You must ensure that your drain script exits in one of following ways:
     !!! tip
         It's recommended to only use static draining as dynamic draining will be eventually deprecated. If you can't provide an upper bound
         on how long BOSH should wait before continuing (as required in case of static draining) you can sleep/retry inside the `drain` script
-        since BOSH guarantees that `drain` scripts [will not timeout](drain.md#stop).
+        since BOSH guarantees that `drain` scripts [will not timeout](drain.md#script-implementation).
 
 Note that if drain script causes monitored job processes to exit, monit will not call stop script for that job.
 

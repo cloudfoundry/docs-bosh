@@ -11,7 +11,7 @@ Please refer to [CredHub documentation][credhub_cred_types] for full details
 over CredHub supported credentials types and their associated available
 generation options.
 
-Please also refer to [variables block](manifest-v2/#variables) for useful
+Please also refer to [variables block](manifest-v2.md#variables) for useful
 options like `update_mode: converge` (knowing that when the Bosh CLI generates
 secrets in a local `--vars-store` file for `bosh create-env`, the
 `update_mode: converge` is not honored, though).

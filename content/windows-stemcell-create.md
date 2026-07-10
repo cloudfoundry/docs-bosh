@@ -7,13 +7,13 @@ This topic describes how to create a Windows Stemcell for vSphere.
 To create a BOSH stemcell for Windows on vSphere, do the following:
 
 1. [Create a Base VM for the BOSH Stemcell](#create-base-vm)
-1. [Install Windows Updates](#install-windows-updates)
-1. [Clone the Base VM](#clone-vm)
-1. [Construct the BOSH Stemcell](#construct-stemcell)
-1. [Package the BOSH Stemcell](#package-stemcell)
-1. [Upload the BOSH Stemcell to Ops Manager](#upload-stemcell)
+2. [Install Windows Updates](#install-windows-updates)
+3. [Clone the Base VM](#clone-vm)
+4. [Construct the BOSH Stemcell](#construct-stemcell)
+5. [Package the BOSH Stemcell](#package-stemcell)
 
 !!! note
+
     **If you already have a BOSH stemcell for Windows on vSphere,
     see [Monthly Stemcell Upgrades](#upgrade-stemcell)**
 
@@ -24,7 +24,7 @@ To create a BOSH stemcell for Windows on vSphere, do the following:
 - `stembuild` from a release in [stembuild](https://github.com/cloudfoundry/stembuild/releases) that corresponds to the operating system of your local host and the stemcell version that you want to build
 - Microsoft [Local Group Policy Object Utility (LGPO)](https://www.microsoft.com/en-us/download/details.aspx?id=55319) downloaded to the same folder as your `stembuild`
 
-## Step 1: Create a Base VM for the BOSH Stemcell
+## Step 1: Create a Base VM for the BOSH Stemcell {: #create-base-vm }
 
 This section describes how to create, configure, and verify a base VM for Windows
 from a volume-licensed ISO.
@@ -105,7 +105,7 @@ To install VMware Tools on the base VM, do the following:
 1. Navigate to the `D:` drive and run `setup64.exe`.
 1. Restart the VM to complete the installation.
 
-## Step 2: Install Windows Updates
+## Step 2: Install Windows Updates {: #install-windows-updates }
 
 Install Windows updates on the base VM using your preferred procedure.
 For example, you can install Windows updates by following the steps below. This procedure requires internet access.
@@ -117,7 +117,7 @@ For example, you can install Windows updates by following the steps below. This 
 
 You may need to restart the base VM while installing the updates.
 
-## Step 3: Clone the Base VM
+## Step 3: Clone the Base VM {: #clone-vm }
 
 To clone the base VM, do the following in the vSphere Web Client:
 
@@ -126,7 +126,7 @@ To clone the base VM, do the following in the vSphere Web Client:
 1. Select **Clone** > **Clone to Virtual Machine**. This clone is your target VM.
 1. Save the base VM. You will run Windows updates on this VM for future stemcells.
 
-## Step 4: Construct the BOSH Stemcell
+## Step 4: Construct the BOSH Stemcell {: #construct-stemcell }
 
 !!! note
     The target VM must be routable from your local host. Before running the `construct` command, ensure you are logged out of the target VM.</p>
@@ -163,7 +163,7 @@ If you want to view the status of `construct`, you can log in to the target VM a
     Get-Content -Path "C:\provision\log.log" -Wait
     ```
 
-## Step 5: Package the BOSH Stemcell
+## Step 5: Package the BOSH Stemcell {: #package-stemcell }
 
 To package the BOSH stemcell, run the following command from your local host:
 
@@ -181,9 +181,11 @@ version of the stemcell that you want to build. For example, `stembuild-windows-
 - `INVENTORY-PATH` is the vCenter inventory path to the target VM.
 
 !!! note
-    This command creates a stemcell on your local host in the folder where you ran the command and may take up to 30 minutes to complete.
 
-## >Monthly Stemcell Upgrades
+    This command creates a stemcell on your local host in the folder where you
+    ran the command and may take up to 30 minutes to complete.
+
+## Monthly Stemcell Upgrades { #upgrade-stemcell }
 
 After Microsoft releases operating system updates, you should upgrade your BOSH stemcell. Microsoft typically
 releases Windows updates on the second Tuesday of each month.
@@ -191,7 +193,7 @@ releases Windows updates on the second Tuesday of each month.
 To upgrade your BOSH stemcell, do the following:
 
 1. [Install Windows Updates](#install-windows-updates) on the base VM.
-1. [Clone the Base VM](#clone-vm).
-1. [Construct the BOSH Stemcell](#construct-stemcell).
-1. [Package the BOSH Stemcell](#package-stemcell).
-1. Deploy the updated stemcell with BOSH.
+2. [Clone the Base VM](#clone-vm).
+3. [Construct the BOSH Stemcell](#construct-stemcell).
+4. [Package the BOSH Stemcell](#package-stemcell).
+5. Deploy the updated stemcell with BOSH.
