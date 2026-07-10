@@ -52,7 +52,7 @@ When using Managed Disks, encryption is automatically used by all disks and
 cannot be disabled. By default, all aspects of the encryption are internally
 managed by Azure. Starting with Azure CPI v52.0.0, it is possible to configure
 customer-managed keys for root, ephemeral, and persistent disks using
-[Disk Encryption Sets](azure_disk_encryption).
+[Disk Encryption Sets][azure_disk_encryption].
 
 |    Disk Type    |    Encryption     | Customer-managed Keys |
 | --------------- | ----------------- | --------------------- |

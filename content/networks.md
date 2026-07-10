@@ -77,7 +77,7 @@ See how to define each network type below.
 
 Manual networking allows you to specify one or more subnets and let the Director choose available IPs from one of the subnet ranges. A subnet definition specifies the CIDR range and, optionally, the gateway and DNS servers. In addition, certain IPs can be blacklisted (the Director will not use these IPs) via the `reserved` property.
 
-Each manual network attached to an instance is typically represented as its own NIC in the IaaS layer. This behavior can be changed by configuring NIC groups, as explained in the networks section of the instance groups manifest definition [here](manifest-v2.md#instance-groups-block--instance-groups-).
+Each manual network attached to an instance is typically represented as its own NIC in the IaaS layer. This behavior can be changed by configuring NIC groups, as explained in the networks section of the instance groups manifest definition [here](manifest-v2.md#instance-groups).
 
 Schema for manual network definition:
 

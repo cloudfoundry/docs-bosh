@@ -92,7 +92,7 @@ Render it online http://plantuml.com/plantuml/ or from a private plantuml instan
 
 This section details the configuration and protocols supported by the Agent.
 
-[VM Configuration Locations](vm-config.html#agent) provides a list of Agent configuration files and their roles.
+[VM Configuration Locations](vm-config.md#agent) provides a list of Agent configuration files and their roles.
 
 ---
 

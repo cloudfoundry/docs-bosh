@@ -283,7 +283,7 @@ A generic VM image that BOSH clones and configures during deployment. A stemcell
 
 ## Team {: #team }
 
-Each deployment can be managed by specific teams. A logged in UAA user can belong to one or more teams. [See details](director-bosh-teams).
+Each deployment can be managed by specific teams. A logged in UAA user can belong to one or more teams. [See details](director-bosh-teams.md).
 
 ---
 

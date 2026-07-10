@@ -87,19 +87,19 @@ Schema:
 
         - **description** [String, required]: Describes purpose of the
           property. This is not used by the Director, but is displayed in job
-          configuration details provided by the [release index](/releases).
+          configuration details provided by the [release index](/releases/).
         - **type** [String, optional]: The type of the property. This is only
           a convention for release authors to provide a type when they
           estimate it useful. Example: `type: certificate`.
         - **example** [Any, optional]: Example value, to be displayed in the
-          [release index](/releases). Default is `nil`.
+          [release index](/releases/). Default is `nil`.
         - **default** [Any, optional]: The default value for the property.
           Default is `nil`.
 
 !!! Note
     Within a property definition, `default` is used by the Director, and
     `description`, `default` and `example` are displayed by the
-    [release index](/releases). In turns, other keys like `type` are used only
+    [release index](/releases/). In turns, other keys like `type` are used only
     for convenience, like Concourse does `env` keys in the
     [“web” job definition][concourse_web_spec]. Indeed, the schema is not
     formally validated by the Director when registering a release job.
@@ -124,7 +124,7 @@ hold back since then.
 As a consequence, Release authors should avoid at all costs relying on fancy
 Monit features. Instead, they should use a very simple and standard `monit`
 file, and leverage the battle-tested and well-designed
-[Bosh Process Manager (BPM)](bpm/bpm).
+[Bosh Process Manager (BPM)](bpm/bpm.md).
 
 Whenever BPM would miss some required features, then contributions should be
 submitted as Pull Requests to [its Git repository][bpm_repo] so that more
@@ -136,8 +136,8 @@ use-case are covered.
 
 The release needs to render a `config/bpm.yml` file following the
 configuration schema defined in the BPM documentation. The schema is clean and
-configuring BPM is straightforward. See [BPM Configuration Format](bpm/config)
-for more details.
+configuring BPM is straightforward. See [BPM Configuration
+Format](bpm/config.md) for more details.
 
 Here is a simple example `bpm.yml` config, showcased in the
 [Exemplar Bosh Release][exemplar_bpm].
@@ -159,7 +159,8 @@ Release author need a basic understanding of the isolation mechanisms enforced
 by BPM, especially read-only root disk remounting, and declaring read-write
 access to portions only of the mount space.
 
-See the [BPM Runtime Environment](bpm/runtime) for more details on these topics.
+See the [BPM Runtime Environment](bpm/runtime.md) for more details on these
+topics.
 
 #### Standard `monit` shim with BPM
 
@@ -179,7 +180,7 @@ check process <job-name>
 Legacy `monit` files are using a `*_ctl` scripts that conventionally accept
 `start` or `stop` as first argument. We document this here only for release
 author to spot this old pattern and properly
-[transition to the BPM pattern](bpm/transitioning).
+[transition to the BPM pattern](bpm/transitioning.md).
 
 ```monit
 check process postgres

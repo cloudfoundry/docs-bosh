@@ -4,7 +4,7 @@
 
 >     Stemcell does not contain an AMI for this region (us-west-2c)
 
-Make sure that your [`region`](aws-cpi.md#options-region) is one of the [official AWS regions](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-regions). AWS regions typically end with a number, so in the example above region is erroneously specified (it's set to an AZ since each region is divided into multiple AZ which end with a letter.)
+Make sure that your [`region`](aws-cpi.md#global) is one of the [official AWS regions](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-regions). AWS regions typically end with a number, so in the example above region is erroneously specified (it's set to an AZ since each region is divided into multiple AZ which end with a letter.)
 
 ## Elastic IP Requires an Internet Gateway
 
@@ -16,7 +16,7 @@ You need to create and attach an internet gateway to your VPC so that VMs can co
 
 >     The subnet ID 'subnet-c3051fad' does not exist
 
-Make sure that the [`region`](aws-cpi.md#options-region) matches the region where your specified subnet resides.
+Make sure that the [`region`](aws-cpi.md#global) matches the region where your specified subnet resides.
 
 ## Incorrect System Time
 

@@ -9,7 +9,7 @@ This section will guide you through how to configure the Google Cloud CPI and Di
 !!! note
     If you wish to configure BOSH to use GCS blobstore also follow [these steps](google-required-permissions.md#director-with-gcs-blobstore)
 
-1. Download and install the [Google Cloud CLI](https://cloud.google.com/sdk/) and [BOSH CLI v2](cli-v2.md#install).
+1. Download and install the [Google Cloud CLI](https://cloud.google.com/sdk/) and [BOSH CLI v2](cli-v2-install.md).
 
 2. Create a file called `bosh-director-role.yml`.
 
@@ -137,7 +137,7 @@ In addition to configuring the Google CPI and Director with the previous permiss
 
 This configuration is similar to the previous one except that it's used when the Director and the Agents use GCS as their [blobstore](bosh-components.md#blobstore) instead of an internal blobstore provided by the bosh release.
 
-1. Download and install the [Google Cloud CLI](https://cloud.google.com/sdk/) and [BOSH CLI v2](cli-v2.md#install).
+1. Download and install the [Google Cloud CLI](https://cloud.google.com/sdk/) and [BOSH CLI v2](cli-v2-install.md).
 
 2. Create a file called `director-blobstore-role.yml`.
 

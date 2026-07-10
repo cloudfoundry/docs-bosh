@@ -49,7 +49,8 @@ A deployment with this release specified will always use the packages from this 
 compiled against `250.4` and will not update the packages
 when newer releases are uploaded.
 
-To create a compiled release, follow the instructions on the [compiled releases page](compiled-releases/)
+To create a compiled release, follow the instructions on the [compiled
+releases page](compiled-releases.md)
 
 ## Why an array?
 

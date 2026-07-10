@@ -74,7 +74,7 @@ bosh -e <environment> update-cloud-config cloud-config.yml
 The deployment manifest specifies which networks each instance group uses. For dual stack, list both the IPv4 and IPv6 networks.
 
 !!! Info
-    Check if your CPI supports `nic_group` (see [CPI Network Limitations](networks#cpi-limitations)).
+    Check if your CPI supports `nic_group` (see [CPI Network Limitations](networks.md#cpi-limitations)).
 
 **Key Configuration:**
 
