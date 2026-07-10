@@ -6,7 +6,7 @@ image_resource:
     tag: 9.7.6
 run:
   dir: docs
-  path: /usr/bin/mkdocs
+  path: /usr/local/bin/mkdocs
   args:
   - build
   - --site-dir=../docroot
