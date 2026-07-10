@@ -6,7 +6,7 @@ environments; however, a highly-available external blobstore may be desired.
 
 ## Included DAV (default) {: #included }
 
-By default the Director is configured to use included DAV blobstore job. Here is how to configure it:
+By default, the Director is configured to use included DAV blobstore job. Here is how to configure it:
 
 1. Add blobstore release job and make sure that persistent disk is enabled:
 
