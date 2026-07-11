@@ -185,7 +185,7 @@ version of the stemcell that you want to build. For example, `stembuild-windows-
     This command creates a stemcell on your local host in the folder where you
     ran the command and may take up to 30 minutes to complete.
 
-## Monthly Stemcell Upgrades { #upgrade-stemcell }
+## Monthly Stemcell Upgrades {: #upgrade-stemcell }
 
 After Microsoft releases operating system updates, you should upgrade your BOSH stemcell. Microsoft typically
 releases Windows updates on the second Tuesday of each month.
