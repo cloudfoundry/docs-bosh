@@ -99,7 +99,7 @@ Schema:
 !!! Note
     Within a property definition, `default` is used by the Director, and
     `description`, `default` and `example` are displayed by the
-    [release index](/releases/). In turns, other keys like `type` are used only
+    [release index](/releases/). In turn, other keys like `type` are used only
     for convenience, like Concourse does `env` keys in the
     [“web” job definition][concourse_web_spec]. Indeed, the schema is not
     formally validated by the Director when registering a release job.
