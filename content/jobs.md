@@ -18,7 +18,7 @@ Jobs are typically OS specific (Windows vs Linux); however, structure of a job r
 
 Spec file defines job metadata. It will be interpreted by the Director when the release is uploaded and when it's deployed.
 
-```yaml
+```yaml title="jobs/http-server/spec"
 ---
 name: http-server
 
@@ -97,17 +97,76 @@ Schema:
           Default is `nil`.
 
 !!! Note
+
     Within a property definition, `default` is used by the Director, and
-    `description`, `default` and `example` are displayed by the
-    [release index](/releases/). In turn, other keys like `type` are used only
-    for convenience, like Concourse does `env` keys in the
-    [“web” job definition][concourse_web_spec]. Indeed, the schema is not
-    formally validated by the Director when registering a release job.
+    `description`, `default` and `example` are displayed by the [release
+    index](/releases/). In turn, other keys like `type` are used only for
+    convenience, like Concourse does `env` keys in the [“web” job
+    definition][concourse_web_spec]. For formal validation by the Director
+    when registering a release job, see [property
+    validation](#property-validation).
 
 [concourse_web_spec]: https://github.com/concourse/concourse-bosh-release/blob/8d2cfa0/jobs/web/spec#L68-L71
 
 ---
+## Property validation {: #property-validation }
 
+!!! note
+    
+    Requires BOSH CLI
+    [v7.9.1](https://github.com/cloudfoundry/bosh-cli/releases/tag/v7.9.1)+
+    when creating a release and BOSH Director
+    [v280.1.22](https://github.com/cloudfoundry/bosh/releases/tag/v280.1.22)+
+    when deploying. The schema file is ignored on earlier versions.
+
+!!! note
+    
+    `bosh create-env` does not perform property validation.
+
+The `properties` defined in a release job `spec` file can be associated with a
+JSON Schema instance to enable validation during BOSH deployments.
+
+Release authors can add a `properties-schema.json` file at the root directory
+of each job they'd like to add property validation to:
+
+```json title="jobs/http-server/properties-schema.json"
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "listen_port": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 65535
+    }
+  }
+}
+```
+
+### BOSH-specific extensions
+
+BOSH extends JSON Schema with a custom `certificate` type, which can be used
+to validate for PEM-encoded x509 v3 certificates:
+
+```json title="jobs/http-server/properties-schema.json"
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "trusted_certificate": {
+      "type": "certificate"
+    }
+  }
+}
+```
+
+!!! note
+    
+    The schema is only used for property validation. It does not influence
+    defaults nor [variable generation](variable-types.md) by the Director's
+    config server such as CredHub.
+
+---
 ## Templates (ERB configuration files) {: #templates }
 
 Release authors can define zero or more templates for each job, but typically
