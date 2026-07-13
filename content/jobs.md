@@ -126,10 +126,10 @@ Schema:
 The `properties` defined in a release job `spec` file can be associated with a
 JSON Schema instance to enable validation during BOSH deployments.
 
-Release authors can add a `properties-schema.json` file at the root directory
+Release authors can add a `properties_schema.json` file at the root directory
 of each job they'd like to add property validation to:
 
-```json title="jobs/http-server/properties-schema.json"
+```json title="jobs/http-server/properties_schema.json"
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
@@ -146,9 +146,9 @@ of each job they'd like to add property validation to:
 ### BOSH-specific extensions
 
 BOSH extends JSON Schema with a custom `certificate` type, which can be used
-to validate for PEM-encoded x509 v3 certificates:
+to validate for PEM-encoded X.509 v3 certificates:
 
-```json title="jobs/http-server/properties-schema.json"
+```json title="jobs/http-server/properties_schema.json"
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
