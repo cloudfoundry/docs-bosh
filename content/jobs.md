@@ -124,7 +124,8 @@ Schema:
     `bosh create-env` does not perform property validation.
 
 The `properties` defined in a release job `spec` file can be associated with a
-JSON Schema instance to enable validation during BOSH deployments.
+JSON Schema (draft 2020-12) document to enable Director-enforced validation
+during BOSH deployments.
 
 Release authors can add a `properties_schema.json` file at the root directory
 of each job they'd like to add property validation to:
@@ -146,15 +147,31 @@ of each job they'd like to add property validation to:
 ### BOSH-specific extensions
 
 BOSH extends JSON Schema with a custom `certificate` type, which can be used
-to validate for PEM-encoded X.509 v3 certificates:
+to validate for parseable PEM-encoded X.509 v3 certificates:
 
-```json title="jobs/http-server/properties_schema.json"
+```json title="jobs/<job_name>/properties_schema.json"
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {
     "trusted_certificate": {
       "type": "certificate"
+    }
+  }
+}
+```
+
+Zero-length strings are valid for the `certificate` type. To require at least
+one parseable PEM certificate, use `minLength`:
+
+```json title="jobs/<job_name>/properties_schema.json"
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "trusted_certificate": {
+      "type": "certificate",
+      "minLength": 1
     }
   }
 }
