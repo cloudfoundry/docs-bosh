@@ -54,6 +54,7 @@ Generation options:
 - **alternative_names** [Array, optional]: Subject alternative names. Example: `["foo.com", "*.foo.com"]`.
 - **is_ca** [Boolean, required]: Indicates whether this is a CA certificate (root or intermediate). Defaults to `false`.
 - **ca** [String, optional]: Specifies name of a CA certificate to use for making this certificate. Can be specified in conjunction with `is_ca` to produce an intermediate certificate.
+- **key\_usage** [Array, optional]: List of key usage. Possible values: `digital_signature`, `non_repudiation`, `key_encipherment`, `data_encipherment`, `key_agreement`, `key_cert_sign`, `crl_sign`, `encipher_only`, `decipher_only`. Default: `[]` (empty list). Example: `["key_cert_sign"]`.
 - **extended\_key\_usage** [Array, optional]: List of extended key usage. Possible values: `client_auth` and/or `server_auth`. Default: `[]` (empty list). Example: `["client_auth"]`.
 - **duration** [Number, optional]: Duration in days of generated credential value. Default: `365`. If a minimum duration is configured in CredHub and is greater than the user provided duration, the certificate will be generated using the minimum duration instead.
 
