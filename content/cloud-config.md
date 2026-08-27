@@ -250,7 +250,13 @@ The Director creates compilation VMs for release compilation. The Director will 
 - **az** [String, required]: Name of the AZ defined in AZs section to use for creating compilation VMs.
 - **vm_type** [String, optional]: Name of the VM type defined in VM types section to use for creating compilation VMs. Alternatively, you can specify the `vm_resources`, or `cloud_properties` key.
 - **orphan_workers** [Boolean, optional]: When enabled, BOSH will orphan compilation VMs after they finishing compiling packages for the VMs to be deleted asynchronously (instead of blocking the deployment). Default `false`. Available in bosh-release v267+.
-- **vm_resources** [Hash, optional]: Specifies generic VM resources such as CPU, RAM and disk size that are automatically translated into correct VM cloud properties to determine VM size. VM size is determined on best effort basis as some IaaSes may not support exact size configuration. Currently some CPIs (Google and Azure) do not support this functionality. Available in bosh-release v264+.
+- **vm_resources** [Hash, optional]: Specifies generic VM resources such as
+  CPU, RAM and disk size that are automatically translated into correct VM
+  cloud properties to determine VM size. VM size is determined on best effort
+  basis as some IaaSes may not support exact size configuration. Currently
+  some CPIs do not support this functionality (Check for "Generic VM Resource
+  Configuration" support in their "Overview" page). Available in bosh-release
+  v264+.
 - **vm_extensions** [Array, optional]: Names of the VM extensions defined in the VM extensions section to use for creating compilation VMs.
 - **cloud_properties** [Hash, optional]: Describes any IaaS-specific properties needed to create VMs. Most IaaSes require this. Examples: `instance_type`, `availability_zone`. Default is `{}` (empty Hash).
 - **network** [String, required]: References a valid network name defined in the Networks block. BOSH assigns network properties to compilation VMs according to the type and properties of the specified network.
