@@ -7,8 +7,8 @@ For an overview of the sequence of the CPI calls, please have a look at the foll
 
 Examples of API request and response:
 
-- [Building a CPI: RPC - Request](https://bosh.io/docs/build-cpi.html#request)
-- [Building a CPI: RPC - Response](https://bosh.io/docs/build-cpi.html#response)
+- [RPC Interface - Request](cpi-api-rpc.md#request)
+- [RPC Interface - Response](cpi-api-rpc.md#response)
 
 If you're looking to get started on building a CPI, this [short guide](build-cpi.md) may be helpful. To learn more about the technical implementation, continue reading or refer to the [RPC Interface](cpi-api-rpc.md) for more details.
 

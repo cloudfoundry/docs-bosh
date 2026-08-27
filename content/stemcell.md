@@ -22,7 +22,7 @@ infrastructures without worrying about the differences between OS images.
 
 The Cloud Foundry BOSH team is responsible for producing and maintaining an
 official set of stemcells. See the [stemcells section of
-bosh.io](https://bosh.io/stemcells) to see the infrastructures and operating
+bosh.io](/stemcells/) to see the infrastructures and operating
 systems that are currently supported.
 
 Stemcells are distributed as tarballs.
@@ -88,6 +88,5 @@ stages defined here:
 
 ### Links
 
-- [CI Source Repo](https://github.com/cloudfoundry/bosh-stemcells-ci)
 - [Stemcell Builder](https://github.com/cloudfoundry/bosh-linux-stemcell-builder)
-- [Stemcell Hardening](https://techdocs.broadcom.com/us/en/vmware-tanzu/platform/tanzu-operations-manager/3-0/tanzu-ops-manager/security-pcf-infrastructure-stemcell-index.html)
+- [Stemcell Hardening](https://techdocs.broadcom.com/us/en/vmware-tanzu/platform/tanzu-operations-manager/3-3/tanzu-ops-manager/security-pcf-infrastructure-stemcell-index.html)
