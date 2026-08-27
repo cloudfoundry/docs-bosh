@@ -229,7 +229,10 @@ networks:
   cloud_properties: {subnet: subnet-9be6c3f7}
 ```
 
+### Multiple Subnets
+
 Schema for dynamic network definition with multiple subnets (available in v241+):
+
 - **name** [String, required]: Name used to reference this network configuration
 - **type** [String, required]: Value should be `dynamic`
 - **subnets** [Array, required]: Lists subnets in this network.

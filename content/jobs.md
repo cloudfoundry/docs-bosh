@@ -149,7 +149,7 @@ of each job they'd like to add property validation to:
 BOSH extends JSON Schema with a custom `certificate` type, which can be used
 to validate for parseable PEM-encoded X.509 v3 certificates:
 
-```json title="jobs/<job_name>/properties_schema.json"
+```json title="jobs/&lt;job_name&gt;/properties_schema.json"
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
@@ -164,7 +164,7 @@ to validate for parseable PEM-encoded X.509 v3 certificates:
 Zero-length strings are valid for the `certificate` type. To require at least
 one parseable PEM certificate, use `minLength`:
 
-```json title="jobs/<job_name>/properties_schema.json"
+```json title="jobs/&lt;job_name&gt;/properties_schema.json"
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",

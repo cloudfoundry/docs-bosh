@@ -108,40 +108,40 @@ The `final_blobs/` directory should NOT be in `.gitignore` because Git LFS-track
 
 1. Add the blob to your release:
 
-```shell
-bosh add-blob ~/Downloads/some-package-1.0.0.tar.gz some-package-1.0.0.tar.gz
-```
+    ```shell
+    bosh add-blob ~/Downloads/some-package-1.0.0.tar.gz some-package-1.0.0.tar.gz
+    ```
 
-The `bosh add-blob` command copies the file to `blobs/` and updates `config/blobs.yml`.
+    The `bosh add-blob` command copies the file to `blobs/` and updates `config/blobs.yml`.
 
 2. Commit to Git:
 
-```shell
-git add config/blobs.yml
-git commit -m "Add some-package 1.0.0 blob"
-```
+    ```shell
+    git add config/blobs.yml
+    git commit -m "Add some-package 1.0.0 blob"
+    ```
 
-Git LFS automatically tracks the blob file via `.gitattributes` patterns.
+    Git LFS automatically tracks the blob file via `.gitattributes` patterns.
 
 ### Creating a Final Release
 
 1. Create the final release:
 
-```shell
-bosh create-release --final
-```
+    ```shell
+    bosh create-release --final
+    ```
 
-This generates the final release tarball and places it in the `final_blobs/` directory.
+    This generates the final release tarball and places it in the `final_blobs/` directory.
 
 2. Commit to Git:
 
-```shell
-git add config/blobs.yml config/index.yml final_blobs/
-git commit -m "Finalize release v1.0.0"
-git tag v1.0.0
-```
+    ```shell
+    git add config/blobs.yml config/index.yml final_blobs/
+    git commit -m "Finalize release v1.0.0"
+    git tag v1.0.0
+    ```
 
-The `final_blobs/` directory contents are automatically tracked by Git LFS via `.gitattributes`.
+    The `final_blobs/` directory contents are automatically tracked by Git LFS via `.gitattributes`.
 
 ### For Contributors
 
@@ -149,17 +149,17 @@ External contributors follow the same workflow:
 
 1. Clone the repository (Git LFS objects are downloaded automatically):
 
-```shell
-git clone https://github.com/your-org/my-release.git
-```
+    ```shell
+    git clone https://github.com/your-org/my-release.git
+    ```
 
 2. Add or update blobs:
 
-```shell
-bosh add-blob ~/Downloads/new-dependency-2.0.0.tar.gz new-dependency-2.0.0.tar.gz
-git add config/blobs.yml
-git commit -m "Bump new-dependency to 2.0.0"
-```
+    ```shell
+    bosh add-blob ~/Downloads/new-dependency-2.0.0.tar.gz new-dependency-2.0.0.tar.gz
+    git add config/blobs.yml
+    git commit -m "Bump new-dependency to 2.0.0"
+    ```
 
 3. Push the changes (including LFS objects):
 
