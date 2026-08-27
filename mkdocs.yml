@@ -18,7 +18,6 @@ nav:
   - Community: community.md
 - Installation:
   - Installing the CLI: cli-v2-install.md
-  - CLI env Dependencies: cli-env-deps.md
   - Quick Start: quick-start.md
   - Alibaba Cloud: init-alicloud.md
   - Amazon Web Services: init-aws.md
@@ -116,9 +115,7 @@ nav:
         - CredHub:
           - Encryption Password Rotation: credhub-encryption-password-rotation.md
       - Signed URLs: director-blobstore-signed-urls.md
-    - Configuring the Database:
-      - Builtin PostgreSQL: director-configure-db.md
-      - External MySQL: director-configure-db.md
+    - Configuring the Database: director-configure-db.md
     - Configuring the Blobstore: director-configure-blobstore.md
     - Managing Releases: managing-releases.md
     - Managing Stemcells: managing-stemcells.md
@@ -294,8 +291,6 @@ nav:
     - Multi-homed VMs: openstack-multiple-networks.md
     - Extended Registry configuration: openstack-registry.md
     - Self-signed Endpoints: openstack-self-signed-endpoints.md
-  - RackHD:
-    - Usage: rackhd-cpi.md
   - VirtualBox:
     - Usage: virtualbox-cpi.md
   - VMware vSphere:
@@ -392,7 +387,7 @@ extra:
   - icon: fontawesome/brands/github
     link: 'https://github.com/cloudfoundry/bosh'
   - icon: fontawesome/brands/slack
-    link: 'https://cloudfoundry.slack.com/messages/C02HPPYQ2/'
+    link: 'https://slack.cloudfoundry.org/'
 
   generator: false
 
