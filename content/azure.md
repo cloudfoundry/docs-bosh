@@ -21,13 +21,13 @@ The following table maps BOSH concepts to their Azure-native equivalents.
 | Stemcell          | Disk Storage Blobs and Managed Disk Blobs                                      |
 | Agent Settings    | Config Drive; BOSH Registry                                                    |
 
-[azure_docs_azs]: https://docs.microsoft.com/en-us/azure/availability-zones/az-overview
-[azure_docs_vm_sizes]: https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes
-[azure_docs_vnets]: https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview
-[azure_docs_pub_ips]: https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-ip-addresses-overview-arm#public-ip-addresses
-[azure_docs_disks]: https://azure.microsoft.com/en-us/services/storage/disks/
-[azure_docs_managed_disks]: https://azure.microsoft.com/en-us/services/managed-disks/
-[azure_docs_disk_snapshots]: https://docs.microsoft.com/en-us/azure/virtual-machines/windows/managed-disks-overview#managed-disk-snapshots
+[azure_docs_azs]: https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview
+[azure_docs_vm_sizes]: https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/overview
+[azure_docs_vnets]: https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview
+[azure_docs_pub_ips]: https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/public-ip-addresses
+[azure_docs_disks]: https://azure.microsoft.com/en-us/products/storage/disks/
+[azure_docs_managed_disks]: https://learn.microsoft.com/en-us/azure/virtual-machines/managed-disks-overview
+[azure_docs_disk_snapshots]: https://learn.microsoft.com/en-us/azure/virtual-machines/disks-incremental-snapshots
 
 ## Feature Support
 
@@ -76,8 +76,8 @@ specific properties which need to be configured through CPI configuration.
 the Azure Portal ([learn more][azure_disk_encryption]), and Azure
 transparently handles re-encryption of data.
 
-[azure_keyvault]: https://azure.microsoft.com/en-us/services/key-vault/
-[azure_disk_encryption]: https://docs.microsoft.com/en-us/azure/security/azure-security-disk-encryption
+[azure_keyvault]: https://learn.microsoft.com/en-us/azure/key-vault/general/overview
+[azure_disk_encryption]: https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#customer-managed-keys
 
 ### Miscellaneous
 

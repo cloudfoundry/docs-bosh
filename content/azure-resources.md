@@ -94,7 +94,7 @@ az role assignment create --role "Contributor" --assignee "http://mycpi" --scope
 
 ## Resource Group {: #res-group }
 
-Create a resource group in one of the supported [Azure locations](http://azure.microsoft.com/en-us/regions/):
+Create a resource group in one of the supported [Azure regions](https://learn.microsoft.com/en-us/azure/reliability/regions-overview):
 
 ```shell
 az group create --name bosh-res-group --location "Central US"

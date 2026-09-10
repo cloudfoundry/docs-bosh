@@ -19,7 +19,7 @@ Before you begin, ensure you have:
 | **Role (Type)**                                                                           | **Scope Assignment**                                                             | **Key Permissions**                                                                         | **Required Actions**                                |
 |-------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|-----------------------------------------------------|
 | [**Compute Gallery Artifacts Publisher**][compute-gallery-artifacts-publisher] (Built-in) | **Azure Compute Gallery** (the specific gallery resource, or its resource group) | *Gallery management:* Allows creating image definitions and image versions in that gallery. | `Microsoft.Compute/galleries/*`                     |
-| [**Storage Account Contributor**][storage-contributor] (Built-in)                         | **Storage Account/Container** (the storage resource containing the VHD)          | *Blob access:* Grants access to [list and read VHD file contents][storage].                 | `Microsoft.Storage/storageAccounts/listKeys/action` |
+| [**Storage Account Contributor**][storage-contributor] (Built-in)                         | **Storage Account** (the storage resource containing the VHD)                    | *Blob access:* Allows the CPI to [retrieve storage account keys][storage-account-keys] used to read the VHD. | `Microsoft.Storage/storageAccounts/listKeys/action` |
 
 !!! warning
     Each role should be assigned **only at the needed scope** (the specific gallery and storage resource).
@@ -43,7 +43,7 @@ azure:
 ```
 
 - `location`: The location where Azure Compute Gallery images should be initially created during the upload of stemcells.
-- `compute_gallery_name`: The name of the Azure Compute Gallery, provisioned in the [previous step](#configuring-bosh-azure-cpi-to-use-azure-compute-gallery).
+- `compute_gallery_name`: The name of the Azure Compute Gallery, provisioned in the [previous step](#creating-an-azure-compute-gallery).
 - `compute_gallery_replicas`: The number of replicas used for Azure Compute Gallery Images. Azure recommends a minimum of 3 replicas for production images and to keep one replica for every 20 VMs that are concurrently created.
 
 Re-deploy the BOSH Director to apply the changes.
@@ -78,5 +78,5 @@ If you encounter issues:
 [azure-compute-gallery]: https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery
 [gallery-best-practices]: https://learn.microsoft.com/en-us/azure/virtual-machines/azure-compute-gallery#best-practices
 [compute-gallery-artifacts-publisher]: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/compute#compute-gallery-artifacts-publisher
-[storage-contributor]: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/storage#storage-blob-data-contributor
-[storage]: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/storage
+[storage-contributor]: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/storage#storage-account-contributor
+[storage-account-keys]: https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage

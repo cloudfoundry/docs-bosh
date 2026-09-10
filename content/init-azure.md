@@ -4,11 +4,11 @@ This document shows how to initialize new [environment](terminology.md#environme
 
 ## Step 1: Prepare an Azure Environment {: #prepare }
 
-If you do not have an Azure account, [create one](https://azure.microsoft.com/en-us/pricing/free-trial/).
+If you do not have an Azure account, [create one](https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account).
 
 Then follow this [guide](https://github.com/cloudfoundry/bosh-azure-cpi-release/blob/master/docs/get-started/create-service-principal.md) to create your Azure service principal.
 
-We strongly recommend you to use Azure template [bosh-setup](https://github.com/Azure/azure-quickstart-templates/tree/master/application-workloads/bosh/bosh-setup) to initialize the new environment on Microsoft Azure.
+Use the [Azure templates in `bosh-deployment`](https://github.com/cloudfoundry/bosh-deployment/tree/master/azure) to initialize the new environment on Microsoft Azure.
 
 To prepare your Azure environment find out and/or create any missing resources in Azure. If you are not familiar with Azure take a look at [Creating Azure resources](azure-resources.md) page for more details on how to create and configure necessary resources:
 

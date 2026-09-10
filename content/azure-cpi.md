@@ -4,7 +4,7 @@ This topic describes cloud properties for different resources created by the Azu
 
 ## AZs {: #azs }
 
-- **availability_zone** [String, optional]: Availability zone to use for creating instances (available in v33+). Possible values: `'1'`, `'2'`, `'3'`. Read this [document](https://docs.microsoft.com/en-us/azure/availability-zones/az-overview) to get regions and VM sizes on Azure that support availability zones. [More details about availability zone](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/availability-zone).
+- **availability_zone** [String, optional]: Availability zone to use for creating instances (available in v33+). Possible values: `'1'`, `'2'`, `'3'`. Read this [document](https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview) to get regions and VM sizes on Azure that support availability zones. [More details about availability zone](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/availability-zone).
 
 Example:
 
@@ -26,12 +26,11 @@ Schema for `cloud_properties` section:
 - **resource\_group\_name** [String, optional]: Name of a resource group. If it is set, Azure CPI will search the virtual network and security group in this resource group. Otherwise, Azure CPI will search the virtual network and security group in `resource_group_name` in the global CPI settings.
 - **virtual\_network\_name** [String, required]: Name of a virtual network. Example: `boshnet`.
 - **subnet_name** [String, required]: Name of a subnet within virtual network.
-- **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to network interfaces of all VMs placed in this network. The security group of a network interface can be specified either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default security group (specified by `default_security_group` in the global CPI settings) will be used.
-- **application\_security\_groups** [Array, optional]: The [application security group](https://docs.microsoft.com/en-us/azure/virtual-network/security-overview#application-security-groups) to apply to network interfaces of all VMs placed in this network. The application security groups of a network interface can be specified either in a VM type/extension (higher priority) or a network configuration (lower priority).
+- **security_group** [String, optional]: The [security group](https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview) to apply to network interfaces of all VMs placed in this network. The security group of a network interface can be specified either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default security group (specified by `default_security_group` in the global CPI settings) will be used.
+- **application\_security\_groups** [Array, optional]: The [application security group](https://learn.microsoft.com/en-us/azure/virtual-network/application-security-groups) to apply to network interfaces of all VMs placed in this network. The application security groups of a network interface can be specified either in a VM type/extension (higher priority) or a network configuration (lower priority).
     - This property is supported in v31+.
-    - You must reference the [document](https://docs.microsoft.com/en-us/azure/virtual-network/create-network-security-group-preview) to register your subscription with this new feature.
-- **ip_forwarding** [Boolean, optional]: The flag to enable [ip forwarding](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-network-interface#enable-or-disable-ip-forwarding) for network interfaces of all VMs placed in this network. The ip forwarding can be enabled/disabled either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default value is `false`. Available in v35.3.0+.
-- **accelerated_networking** [Boolean, optional]: The flag to enable [accelerated networking](https://docs.microsoft.com/en-us/azure/virtual-network/create-vm-accelerated-networking-cli) for network interfaces of all VMs placed in this network. The accelerated networking can be enabled/disabled either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default value is `false`. Available in v35.4.0+. This feature needs ubuntu-xenial v81+ and [specific instance type](https://docs.microsoft.com/en-us/azure/virtual-network/create-vm-accelerated-networking-cli#supported-vm-instances).
+- **ip_forwarding** [Boolean, optional]: The flag to enable [ip forwarding](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-network-interface#enable-or-disable-ip-forwarding) for network interfaces of all VMs placed in this network. The ip forwarding can be enabled/disabled either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default value is `false`. Available in v35.3.0+.
+- **accelerated_networking** [Boolean, optional]: The flag to enable [accelerated networking](https://learn.microsoft.com/en-us/azure/virtual-network/accelerated-networking-overview) for network interfaces of all VMs placed in this network. The accelerated networking can be enabled/disabled either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default value is `false`. Available in v35.4.0+. This feature needs ubuntu-xenial v81+ and a [supported instance type](https://learn.microsoft.com/en-us/azure/virtual-network/accelerated-networking-overview#limitations-and-constraints).
 
 See [how to create a virtual network and subnets](azure-resources.md#virtual-network).
 
@@ -82,7 +81,7 @@ networks:
 
 Schema for `cloud_properties` section:
 
-- **instance_type** [String, required]: Type of the [instance](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-sizes/). Example: `Standard_A2`. [Basic Tier Virtual Machines](https://azure.microsoft.com/en-us/blog/basic-tier-virtual-machines-2/) should not be used if you need to bind the instance to Azure Load Balancer (ALB), because Basic Tier VM doesn't support ALB.
+- **instance_type** [String, required]: Type of the [instance](https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/overview). Example: `Standard_A2`. [Basic Tier Virtual Machines](https://azure.microsoft.com/en-us/blog/basic-tier-virtual-machines-2/) should not be used if you need to bind the instance to Azure Load Balancer (ALB), because Basic Tier VM doesn't support ALB.
 
 - **security_profile** [Hash, optional]: Azure VM security profile. When omitted, the CPI leaves `securityProfile` out of the VM creation request and Azure applies its default.
     - **security_type** [String, optional]: Either `TrustedLaunch` (default) or `Standard`.
@@ -91,7 +90,7 @@ Schema for `cloud_properties` section:
 
 - **root_disk** [Hash, optional]: OS disk of custom size.
     - **size** [Integer, optional]: Specifies the disk size in MiB.
-        - The size must be greater than 3 * 1024 and less than the max disk size for [unmanaged](https://azure.microsoft.com/en-us/pricing/details/storage/unmanaged-disks/) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. Please always use `N * 1024` as the size because Azure always uses GiB but not MiB.
+        - The size must be greater than 3 * 1024 and less than the max disk size for [unmanaged](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-pageblob-overview) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. Please always use `N * 1024` as the size because Azure always uses GiB but not MiB.
         - It has a default value `30 * 1024` only when ephemeral_disk.use\_root\_disk is set to true.
     - **disk_encryption_set_name** [String, optional]: The Azure Disk Encryption Set name to use when creating the root disk. This is used to encrypt the disk with customer provided keys rather than the default Azure provided encryption keys. Available since v52.0.0.
 - **caching** [String, optional]: Type of the disk caching of the VMs' OS disks. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `ReadWrite`.
@@ -101,86 +100,85 @@ Schema for `cloud_properties` section:
     - **size** [Integer, optional]: Specifies the disk size in MiB. If this is not set, the default size as below will be used. The size of the ephemeral disk for the BOSH VM should be larger than or equal to `30*1024` MiB. Please always use `N * 1024` as the size because Azure always uses GiB not MiB.
         - If the Azure temporary disk size for the instance type is less than `30*1024` MiB, the default size is `30*1024` MiB because the space may not be enough.
         - If the Azure temporary disk size for the instance type is larger than `1000*1024` MiB, the default size is `1000*1024` MiB because it is not expected to use such a large ephemeral disk in CF currently.
-        - Otherwise, the Azure temporary disk size will be used as the default size. See more information about [Azure temporary disk size](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-sizes/).
+        - Otherwise, the Azure temporary disk size will be used as the default size. See more information about [Azure temporary disk size](https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/overview).
     - **caching** [String, optional]: Type of the disk caching. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `None`.
-    - **type** [String, optional]: Storage account type. Valid only when `use_managed_disks` is `true`. It can be either `Standard_LRS`, `Premium_LRS` or `PremiumV2_LRS`. You can click [**HERE**](http://azure.microsoft.com/en-us/pricing/details/storage/) to learn more about the type of Azure storage account. For `PremiumV2_LRS`, you have to set caching to `None` since `PremiumV2_LRS` does currently not support caching.
-    - **iops** [Integer, optional]: IOPS of the disk. If you need more IOPS than the baseline offers, you can increase the IOPS of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
-    - **mbps** [Integer, optional]: Throughput in MB/s of the disk. If you need more throughput than the baseline offers, you can increase the throughput of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
+    - **type** [String, optional]: Storage account type. Valid only when `use_managed_disks` is `true`. It can be either `Standard_LRS`, `Premium_LRS` or `PremiumV2_LRS`. See [Azure managed disk types](https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types) for more information. For `PremiumV2_LRS`, you have to set caching to `None` since `PremiumV2_LRS` does currently not support caching.
+    - **iops** [Integer, optional]: IOPS of the disk. If you need more IOPS than the baseline offers, you can increase the IOPS of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
+    - **mbps** [Integer, optional]: Throughput in MB/s of the disk. If you need more throughput than the baseline offers, you can increase the throughput of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
     - **disk_encryption_set_name** [String, optional]: The Azure Disk Encryption Set name to use when creating the ephemeral disk. This is used to encrypt the disk with customer provided keys rather than the default Azure provided encryption keys. Available since v52.0.0.
 
-- **load_balancer** [String, optional]: Name of a [load balancer](https://azure.microsoft.com/en-us/documentation/articles/load-balancer-overview/) the VMs should belong to.
+- **load_balancer** [String, optional]: Name of a [load balancer](https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-overview) the VMs should belong to.
     !!! note
         - You need to create the load balancer manually before configuring it.
         - [Basic Tier Virtual Machines](https://azure.microsoft.com/en-us/blog/basic-tier-virtual-machines-2/) (Example: `Basic_A1`) doesn't support Azure Load Balancer.
-        - If `availability_zone` is specified for the VM, [standard sku load balancer](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-overview) must be used, as `basic sku load balancer` does not work for zone.
+        - If `availability_zone` is specified for the VM, [Standard SKU Load Balancer](https://learn.microsoft.com/en-us/azure/load-balancer/skus) must be used, as `Basic SKU Load Balancer` does not work for zone.
 
     - In CPI v37.6.0+, you can configure multiple Load Balancers (using a comma-delimited string).
     - This property is equivalent to the `load_balancer/name` property below.
 
-- **load_balancer** [Array or Hash, optional]: The [load balancers](https://azure.microsoft.com/en-us/documentation/articles/load-balancer-overview/) the VMs should belong to.
+- **load_balancer** [Array or Hash, optional]: The [load balancers](https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-overview) the VMs should belong to.
 
     !!! note
         - This property is supported in CPI v35.5.0+. In earlier versions, use the String property above instead.
-        - In CPI [v37.7.0+](https://github.com/cloudfoundry/bosh-azure-cpi-release/releases/tag/v37.7.0), you can configure multiple Load Balancers, using an Array of Hashes with the properties below.
+        - In CPI [v38.0.0+](https://github.com/cloudfoundry/bosh-azure-cpi-release/releases/tag/v38.0.0), you can configure multiple Load Balancers, using an Array of Hashes with the properties below.
         - In CPI [v35.5.0+](https://github.com/cloudfoundry/bosh-azure-cpi-release/releases/tag/v35.5.0), you can configure a single Load Balancer, using a single Hash with the properties below.
         - You need to create the load balancer(s) manually before configuring them.
         - [Basic Tier Virtual Machines](https://azure.microsoft.com/en-us/blog/basic-tier-virtual-machines-2/) (Example: `Basic_A1`) doesn't support Azure Load Balancer.
-        - If `availability_zone` is specified for the VM, [standard sku load balancer](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-overview) must be used, as `basic sku load balancer` does not work for zone.
+        - If `availability_zone` is specified for the VM, [Standard SKU Load Balancer](https://learn.microsoft.com/en-us/azure/load-balancer/skus) must be used, as `Basic SKU Load Balancer` does not work for zone.
 
     - **name** [String, required]: The name of the load balancer.
     - **resource\_group\_name** [String, optional]: The name of the load balancer's resource group. Default value is the `resource_group_name` specified in the global CPI settings.
     - **backend\_pool\_name** [String, optional]: The name of the load balancer backend address pool which VMs' IPv4 addresses should be attached to. If not specified, defaults to the load balancer's "first" backend pool (as returned by the Azure API).
-        - This property is supported in CPI [v37.7.0+](https://github.com/cloudfoundry/bosh-azure-cpi-release/releases/tag/v37.7.0).
+        - This property is supported in CPI [v38.0.0+](https://github.com/cloudfoundry/bosh-azure-cpi-release/releases/tag/v38.0.0).
     - **backend\_pool\_name\_v6** [String, optional]: The name of the load balancer backend address pool which VMs' IPv6 addresses should be attached to. If not specified, IPv6 addresses are not attached to a backend pool.
 
-- **application_gateway** [String, optional]: Name of the [application gateway](https://azure.microsoft.com/en-us/services/application-gateway/) which the VMs should be attached to.
+- **application_gateway** [String, optional]: Name of the [application gateway](https://learn.microsoft.com/en-us/azure/application-gateway/overview) which the VMs should be attached to.
 
     !!! note
         - This property is supported in CPI v28+.
-        - You need to create the application gateway manually before configuring it. Please refer to [the guidance](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/application-gateway).
+        - You need to create the application gateway manually before configuring it. See [Create an application gateway using the Azure CLI](https://learn.microsoft.com/en-us/azure/application-gateway/quick-create-cli).
         - This property is equivalent to the `application_gateway/name` property below.
 
-- **application_gateway** [Array or Hash, optional]: The [application gateways](https://azure.microsoft.com/en-us/services/application-gateway/) the VMs should be attached to.
+- **application_gateway** [Array or Hash, optional]: The [application gateways](https://learn.microsoft.com/en-us/azure/application-gateway/overview) the VMs should be attached to.
 
     !!! note
-        - This property is supported in CPI [v37.7.0+](https://github.com/cloudfoundry/bosh-azure-cpi-release/releases/tag/v37.7.0). In earlier versions, use the String property above instead.
-        - You need to create the application gateway(s) manually before configuring them. Please refer to [the guidance](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/application-gateway).
+        - This property is supported in CPI [v38.0.0+](https://github.com/cloudfoundry/bosh-azure-cpi-release/releases/tag/v38.0.0). In earlier versions, use the String property above instead.
+        - You need to create the application gateway(s) manually before configuring them. See [Create an application gateway using the Azure CLI](https://learn.microsoft.com/en-us/azure/application-gateway/quick-create-cli).
 
     - **name** [String, required]: The name of the application gateway.
     - **resource\_group\_name** [String, optional]: The name of the application gateway's resource group. Default value is the `resource_group_name` specified in the global CPI settings.
     - **backend\_pool\_name** [String, optional]: The name of the application gateway backend address pool which VMs' IPs should be attached to. If not specified, defaults to the application gateway's "first" backend pool (as returned by the Azure API).
 
-- **security_group** [String, optional]: The [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) to apply to network interfaces of all VMs who have this VM type/extension. The security group of a network interface can be specified either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default security group (specified by `default_security_group` in the global CPI settings) will be used.
+- **security_group** [String, optional]: The [security group](https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview) to apply to network interfaces of all VMs who have this VM type/extension. The security group of a network interface can be specified either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default security group (specified by `default_security_group` in the global CPI settings) will be used.
 
-- **application\_security\_groups** [Array, optional]: The [application security group](https://docs.microsoft.com/en-us/azure/virtual-network/security-overview#application-security-groups) to apply to network interfaces of all VMs who have this VM type/extension. The application security groups of a network interface can be specified either in a VM type/extension (higher priority) or a network configuration (lower priority).
+- **application\_security\_groups** [Array, optional]: The [application security group](https://learn.microsoft.com/en-us/azure/virtual-network/application-security-groups) to apply to network interfaces of all VMs who have this VM type/extension. The application security groups of a network interface can be specified either in a VM type/extension (higher priority) or a network configuration (lower priority).
     - This property is supported in v31+.
-    - You must reference the [document](https://docs.microsoft.com/en-us/azure/virtual-network/create-network-security-group-preview) to register your subscription with this new feature.
 
-- **ip_forwarding** [Boolean, optional]: The flag to enable [ip forwarding](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-network-interface#enable-or-disable-ip-forwarding) for network interfaces of all VMs who have this VM type/extension. The ip forwarding can be enabled/disabled either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default value is `false`. Available in v35.3.0+.
+- **ip_forwarding** [Boolean, optional]: The flag to enable [ip forwarding](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-network-interface#enable-or-disable-ip-forwarding) for network interfaces of all VMs who have this VM type/extension. The ip forwarding can be enabled/disabled either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default value is `false`. Available in v35.3.0+.
 
-- **accelerated_networking** [Boolean, optional]: The flag to enable [accelerated networking](https://docs.microsoft.com/en-us/azure/virtual-network/create-vm-accelerated-networking-cli) for network interfaces of all VMs who have this VM type/extension. The accelerated networking can be enabled/disabled either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default value is `false`. Available in v35.4.0+. This feature needs ubuntu-xenial v81+ and [specific instance type](https://docs.microsoft.com/en-us/azure/virtual-network/create-vm-accelerated-networking-cli#supported-vm-instances).
+- **accelerated_networking** [Boolean, optional]: The flag to enable [accelerated networking](https://learn.microsoft.com/en-us/azure/virtual-network/accelerated-networking-overview) for network interfaces of all VMs who have this VM type/extension. The accelerated networking can be enabled/disabled either in a VM type/extension (higher priority) or a network configuration (lower priority). If it's not specified in neither places, the default value is `false`. Available in v35.4.0+. This feature needs ubuntu-xenial v81+ and a [supported instance type](https://learn.microsoft.com/en-us/azure/virtual-network/accelerated-networking-overview#limitations-and-constraints).
 
 - **assign\_dynamic\_public\_ip** [Boolean, optional]: Enable to create and assign dynamic public IP to the VM automatically (to solve the [azure SNAT issue](https://github.com/cloudfoundry/bosh-azure-cpi-release/issues/217)). Default value is `false`. Only the VM without vip will be assigned a dynamic public IP when this value is set to true, and the dynamic public IP will be deleted when the VM is deleted.
 
 
-- **availability_zone** [String, optional]: Availability zone to use for creating instances (available in v33+). Possible values: `'1'`, `'2'`, `'3'`. Read this [document](https://docs.microsoft.com/en-us/azure/availability-zones/az-overview) to get regions and VM sizes on Azure that support availability zones. [More details about availability zone](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/availability-zone).
+- **availability_zone** [String, optional]: Availability zone to use for creating instances (available in v33+). Possible values: `'1'`, `'2'`, `'3'`. Read this [document](https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview) to get regions and VM sizes on Azure that support availability zones. [More details about availability zone](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/availability-zone).
 
-- **availability_set** [String, optional]: Name of an [availability set](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) to use for VMs. [More details](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-for-enterprise#availability-set).
+- **availability_set** [String, optional]: Name of an [availability set](https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview) to use for VMs. [More details](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-with-availability-sets).
     - If available set does not exist, it will be automatically created.
     - If `availability_set` is not specified, Azure CPI will search `env.bosh.group` as the name of availability set.
         1. [bosh release](https://bosh.io/releases/github.com/cloudfoundry/bosh?all=1) v258+ will generate a value for `env.bosh.group` automatically.
         1. On Azure the length of the availability set name must be between 1 and 80 characters. The name got from  `env.bosh.group` may be too long. CPI will truncate the name to the following format `az-MD5-[LAST-40-CHARACTERS-OF-GROUP]` if the length is greater than 80.
     - CPI v27+ will delete the empty availability set.
     - Only one of `availability_zone` and `availability_set` is allowed to be configured for a VM. If `availability_zone` is specified, the VM will be in a zone and not in any availability set.
-- **platform\_update\_domain_count** [Integer, optional]: The count of [update domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set.
+- **platform\_update\_domain_count** [Integer, optional]: The count of [update domains](https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview#update-domains) in the availability set.
     - For Azure, the default value is `5`.
-    - For Azure Stack, the default value is `1`.
-- **platform\_fault\_domain_count** [Integer, optional]: The count of [fault domain](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-manage-availability/) in the availability set.
-    - For Azure, the default value of an unmanaged availability set is `3`. The default value of a managed availability set is `2`, because [some regions don't support 3 fault domains for now](https://docs.microsoft.com/en-us/azure/virtual-machines/virtual-machines-windows-manage-availability#configure-multiple-virtual-machines-in-an-availability-set-for-redundancy)
-    - For Azure Stack, the default value is `1`. Before 1802 update, only `1` is allowed. After [1802 update](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-update-1802), you can configure up to 3 fault domains.
+    - For Azure Stack Hub, the default value is `1`.
+- **platform\_fault\_domain_count** [Integer, optional]: The count of [fault domains](https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview#fault-domains) in the availability set.
+    - For Azure, the default value of an unmanaged availability set is `3`. The default value of a managed availability set is `2`, because [some regions support only two managed-disk fault domains](https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview#disk-fault-domains).
+    - For Azure Stack Hub, the default value is `1`. Before the 1802 update, only `1` is allowed. After the 1802 update, you can configure up to 3 fault domains.
 
 - **storage\_account\_name** [String, optional]: Storage account for VMs. Valid only when `use_managed_disks` is `false`. If this is not set, the VMs will be created in the default storage account. See [this document](https://github.com/cloudfoundry/bosh-azure-cpi-release/blob/master/docs/advanced/deploy-cloudfoundry-with-multiple-storage-accounts/README.md) for more details on why this option exists.
-    - If you use `DS-series` or `GS-series` as `instance_type`, you should set this to a premium storage account. See more information about [Azure premium storage](https://azure.microsoft.com/en-us/documentation/articles/storage-premium-storage-preview-portal/). See [available regions](http://azure.microsoft.com/en-us/regions/#services) where you can create premium storage accounts.
+    - If you use `DS-series` or `GS-series` as `instance_type`, you should set this to a premium storage account. See more information about [Azure premium page blobs](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-pageblob-overview). See [available regions](https://azure.microsoft.com/en-us/explore/global-infrastructure/products-by-region/) where you can create premium storage accounts.
     - If you use a different storage account which must be in the same resource group, please make sure:
         1. The permissions for the container `stemcell` in the default storage account is set to `Public read access for blobs only`.
         1. A table `stemcells` is created in the default storage account.
@@ -194,7 +192,7 @@ Schema for `cloud_properties` section:
         1. The rule to select an available storage account is to check the number of disks under the container `bosh` does not exceed the limitation.
         1. The default number of disks limitation is 30 but you can specify it in **storage\_account\_max\_disk\_number**.
 
-- **storage\_account\_type** [String, optional]: Storage account type. You can click [**HERE**](http://azure.microsoft.com/en-us/pricing/details/storage/) to learn more about the type of Azure storage account.
+- **storage\_account\_type** [String, optional]: Storage account type. See [Azure storage account types](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview#types-of-storage-accounts) for more information.
     - When `use_managed_disks` is `true`, the root disk's type is specified by this property. It can be either `Standard_LRS` or `Premium_LRS`. If not specified, `Premium_LRS` will be used when its `instance_type` supports premium storage, otherwise, `Standard_LRS` will be used.
     - When `use_managed_disks` is `false`, the newly-created storage account's type is specified by this property. It can be either `Standard_LRS`, `Standard_ZRS`, `Standard_GRS`, `Standard_RAGRS` or `Premium_LRS`. It's required if the storage account does not exist.
 
@@ -206,7 +204,7 @@ Schema for `cloud_properties` section:
         1. The maximum number of disks of a premium storage account is 70 if you are using P20 (512 GiB) as your disk type.
         1. The maximum number of disks of a premium storage account is 35 if you are using P30 (1024 GiB) as your disk type.
     - **storage\_account\_max\_disk\_number** should be less than the maximum number. Suggest you to use (MAX - 10) as the value because CPI always creates VMs in parallel.
-    - Please see more information about [azure-subscription-service-limits](https://azure.microsoft.com/en-us/documentation/articles/azure-subscription-service-limits/).
+    - See [Azure subscription and service limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#azure-storage-limits) for more information.
 
 - **storage\_account\_location** [String, optional]: Location of the storage account. This configuration is deprecated in CPI v25+: if you specify a storage account which does not exist, CPI (v25+) will create it automatically in the same location as VMs' VNET.
 
@@ -381,14 +379,14 @@ instance_groups:
 ## Disk Types {: #disk-pools }
 
 - **name** [String, required]: Name of the disk type.
-- **disk_size** [Integer, required]: Size of the disk in MiB. On Azure the disk size must be greater than 1 * 1024 and less than the max disk size for [unmanaged](https://azure.microsoft.com/en-us/pricing/details/storage/unmanaged-disks/) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. Please always use `N * 1024` as the size because Azure always uses GiB not MiB.
+- **disk_size** [Integer, required]: Size of the disk in MiB. On Azure the disk size must be greater than 1 * 1024 and less than the max disk size for [unmanaged](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-pageblob-overview) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. Please always use `N * 1024` as the size because Azure always uses GiB not MiB.
 
 Schema for `cloud_properties` section:
 
 - **caching** [String, optional]: Type of the disk caching. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `None`.
-- **storage\_account\_type** [String, optional]: Storage account type. Valid only when `use_managed_disks` is `true`. It can be either `Standard_LRS`, `Premium_LRS` or `PremiumV2_LRS`. You can click [**HERE**](http://azure.microsoft.com/en-us/pricing/details/storage/) to learn more about the type of Azure storage account. For `PremiumV2_LRS`, you have to set caching to `None` since `PremiumV2_LRS` does currently not support caching.
-- **iops** [Integer, optional]: IOPS of the disk. If you need more IOPS than the baseline offers, you can increase the IOPS of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
-- **mbps** [Integer, optional]: Throughput in MB/s of the disk. If you need more throughput than the baseline offers, you can increase the throughput of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
+- **storage\_account\_type** [String, optional]: Storage account type. Valid only when `use_managed_disks` is `true`. It can be either `Standard_LRS`, `Premium_LRS` or `PremiumV2_LRS`. See [Azure managed disk types](https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types) for more information. For `PremiumV2_LRS`, you have to set caching to `None` since `PremiumV2_LRS` does currently not support caching.
+- **iops** [Integer, optional]: IOPS of the disk. If you need more IOPS than the baseline offers, you can increase the IOPS of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
+- **mbps** [Integer, optional]: Throughput in MB/s of the disk. If you need more throughput than the baseline offers, you can increase the throughput of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
 - **disk_encryption_set_name** [String, optional]: The Azure Disk Encryption Set name to use when creating the persistent disk. This is used to encrypt the disk with customer provided keys rather than the default Azure provided encryption keys. Available since v52.0.0.
 
 Example of a 10GB Standard LRS disk:
@@ -410,7 +408,7 @@ To modify the `cloud_properties` such as `storage_account_type`, `iops`, and `mb
 Schema:
 
 - **environment** [String, required]: Azure environment name. Possible values are: `AzureCloud`, `AzureChinaCloud`, `AzureUSGovernment` (available in v19+), `AzureGermanCloud` (available in v22+) or `AzureStack`.
-- **location** [String, optional]: Azure region name. Only required when `compute_gallery_name` is set, or when [`vm_resources`](https://bosh.io/docs/manifest-v2.html#instance-groups) is specified in the deployment manifest. Available in v33+.
+- **location** [String, optional]: Azure region name. Only required when `compute_gallery_name` is set, or when [`vm_resources`](manifest-v2.md#instance-groups) is specified in the deployment manifest. Available in v33+.
 - **subscription_id** [String, required]: Subscription ID.
 - **tenant_id** [String, required]: Tenant ID of the service principal.
 - **client_id** [String, required]: Client ID of the service principal.
@@ -420,23 +418,23 @@ Schema:
 - **storage\_account\_name** [String, optional]: Storage account name. It will be used as a default storage account for VM disks and stemcells. If `use_managed_disks` is `false`, `storage_account_name` is required. Otherwise, `storage_account_name` is optional.
 - **ssh_user** [String, required]: SSH username. Default: `vcap`.
 - **ssh\_public\_key** [String, required]: SSH public key.
-- **default\_security\_group** [String, optional]: Name of the default [security group](https://azure.microsoft.com/en-us/documentation/articles/virtual-networks-nsg/) that will be applied to all created VMs. This property is required before v35.0.0, and optional in v35.0.0+.
+- **default\_security\_group** [String, optional]: Name of the default [security group](https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview) that will be applied to all created VMs. This property is required before v35.0.0, and optional in v35.0.0+.
 
-- **azure_stack** [Hash, optional]: [Configration for AzureStack](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/azure-stack). Available in v23+.
-    - **domain** [String, optional]: The domain for your AzureStack deployment. Default is `local.azurestack.external`. You can use the default value for [Azure Stack development kit](https://azure.microsoft.com/en-us/overview/azure-stack/development-kit/). To get this value for Azure Stack integrated systems, contact your service provider.
-    - **authentication** [String, optional]: The authentication type for your AzureStack deployment. Possible values are: `AzureAD`, `AzureChinaCloudAD` and `ADFS`. You need to specify `certificate` if you select `ADFS`, because Azure Stack with ADFS authentication only supports the service principal with a certificate.
-    - **resource** [String, optional]: Active Directory Service Endpoint Resource ID, where you can get the token for your AzureStack deployment.
-    - **endpoint_prefix** [String, optional]: The endpoint prefix for your AzureStack deployment. Default is `management`.
+- **azure_stack** [Hash, optional]: Configuration for [Azure Stack Hub](https://learn.microsoft.com/en-us/azure-stack/operator/azure-stack-overview?view=azs-2604). Available in v23+.
+    - **domain** [String, optional]: The domain for your Azure Stack Hub deployment. Default is `local.azurestack.external`. You can use the default value for Azure Stack Development Kit. To get this value for Azure Stack Hub integrated systems, contact your service provider.
+    - **authentication** [String, optional]: The authentication type for your Azure Stack Hub deployment. Possible values are: `AzureAD`, `AzureChinaCloudAD` and `ADFS`. You need to specify `certificate` if you select `ADFS`, because Azure Stack Hub with ADFS authentication only supports the service principal with a certificate.
+    - **resource** [String, optional]: Active Directory Service Endpoint Resource ID, where you can get the token for your Azure Stack Hub deployment.
+    - **endpoint_prefix** [String, optional]: The endpoint prefix for your Azure Stack Hub deployment. Default is `management`.
     - **skip\_ssl\_validation** [Boolean, optional]: Toggles verification of the Azure Resource Manager REST API SSL certificate. Default is `false`. Deprecated in v35.0.0+.
     - **use\_http\_to\_access\_storage\_account** [Boolean, optional]: Flag for using HTTP to access storage account rather than the default HTTPS. Default is `false`. Deprecated in v35.0.0+.
-    - **ca_cert** [String, required]: All required custom CA certificates for AzureStack. You can [export the Azure Stack CA root certificate](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-connect-cli#export-the-azure-stack-ca-root-certificate). Available in v27+.
+    - **ca_cert** [String, required]: All required custom CA certificates for Azure Stack Hub. You can [export the Azure Stack Hub CA root certificate](https://learn.microsoft.com/en-us/azure-stack/operator/azure-stack-cli-admin?view=azs-2604#export-the-azure-stack-hub-ca-root-certificate). Available in v27+.
         - The property is required for v35.0.0+.
         - For the versions from v27 to v34, if `ca_cert` is not provided, the `skip_ssl_validation` and `use_http_to_access_storage_account` must be set to `true`.
 
 - **parallel\_upload\_thread\_num** [Integer, optional]: The number of threads to upload stemcells in parallel. The default value is 16.
 - **debug_mode** [Boolean, optional]: Enable debug mode. The default value is `false`. When `debug_mode` is `true`:
     - CPI will log all raw HTTP requests/responses.
-    - For Azure CPI v26~v35.1.0, the new created VMs (only for VMs in same region with `storage_account_name` specified in [Global Configuration](https://bosh.io/docs/azure-cpi.html#global)) will have [boot diagnostics](https://azure.microsoft.com/en-us/blog/boot-diagnostics-for-virtual-machines-v2/) enabled. **Note**: For Azure CPI v35.2.0+, VM boot diagnostics will NOT be configured by `debug_mode` any more, it will be configured by `enable_vm_boot_diagnostics`.
+    - For Azure CPI v26~v35.1.0, the new created VMs (only for VMs in same region with `storage_account_name` specified in [Global Configuration](#global)) will have [boot diagnostics](https://learn.microsoft.com/en-us/azure/virtual-machines/boot-diagnostics) enabled. **Note**: For Azure CPI v35.2.0+, VM boot diagnostics will NOT be configured by `debug_mode` any more, it will be configured by `enable_vm_boot_diagnostics`.
 
 - **use\_managed\_disks** [Boolean, optional]: Enable managed disks. The default value is `false`. For `AzureCloud`, the option is supported in v21+. For `AzureChinaCloud`, `AzureUSGovernment`, and `AzureGermanCloud`, the option is supported in v26+. For `AzureStack`, the option is not yet supported.
 - **pip\_idle\_timeout\_in\_minutes** [Integer, optional]: Set idle timeouts in minutes for dynamic public IPs. It must be in the range [4, 30]. The default value is 4. It is only used when **assign\_dynamic\_public\_ip** is set to `true` in **resource_pool**. Available in V24+.

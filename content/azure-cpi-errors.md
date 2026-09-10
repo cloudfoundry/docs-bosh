@@ -14,7 +14,7 @@ azure login --username client-id --password client-secret --service-principal --
 
 If your service principal worked and you get the above error suddenly, it may be caused by that your service principal expired. You need to go to Azure Portal to update client secret. By default, the service principal will expire in one year.
 
-1. Go to [Azure Portal](https://manage.windowsazure.com/), select `active directory` -- > ORGANIZATION-NAME -- > `Applications` -- > search your service principal name.
+1. Go to the [Azure portal](https://portal.azure.com/), select `active directory` -- > ORGANIZATION-NAME -- > `Applications` -- > search your service principal name.
 
 2. Then choose your service principal, select `Configure` -- > `keys` -- > add a new key.
 
@@ -55,14 +55,14 @@ The BOSH snapshot operation may be throttled if you do all of the following:
 
 - Use Premium Storage for the Cloud Foundry VMs.
 
-- Enable snapshot in `bosh.yml`. For more information on BOSH Snapshots, please go to <https://bosh.io/docs/snapshots.html>.
+- Enable snapshot in `bosh.yml`. For more information on BOSH Snapshots, see [snapshots](snapshots.md).
 
     ```yaml
     director:
       enable_snapshots: true
     ```
 
-- The time between consecutive snapshots by BOSH is less than **10 minutes**. The limits are documented in [Snapshots and Copy Blob for Premium Storage](https://azure.microsoft.com/en-us/documentation/articles/storage-premium-storage/#snapshots-and-copy-blob).
+- The time between consecutive snapshots by BOSH is less than **10 minutes**. The limit is documented in [REST API restrictions on a premium GPv2 account](https://learn.microsoft.com/en-us/rest/api/storageservices/using-blob-service-operations-with-azure-premium-storage#rest-api-restrictions-on-a-premium-gpv2-account).
 
 The workaround is:
 
