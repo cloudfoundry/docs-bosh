@@ -33,7 +33,7 @@ Follow the steps in [Creating Resources](./azure-resources.md#compute-gallery) t
 
 ## Configuring BOSH Azure CPI to Use Azure Compute Gallery
 
-When specifying `compute_gallery_name` in the [CPI global configuration](./azure-cpi.md#global), the Azure Compute Gallery feature is automatically enabled and Compute Gallery Images will be preferred over regular Azure images.
+Specify `compute_gallery_name` and `location` in the [CPI global configuration](./azure-cpi.md#global). Compute Gallery Images will be preferred over the deprecated legacy managed images.
 
 ```yaml
 azure:
@@ -46,7 +46,7 @@ azure:
 - `compute_gallery_name`: The name of the Azure Compute Gallery, provisioned in the [previous step](#creating-an-azure-compute-gallery).
 - `compute_gallery_replicas`: The number of replicas used for Azure Compute Gallery Images. Azure recommends a minimum of 3 replicas for production images and to keep one replica for every 20 VMs that are concurrently created.
 
-Re-deploy the BOSH Director to apply the changes.
+For a Director deployed with `bosh create-env`, apply these settings both to the Director's Azure CPI job properties and to `cloud_provider.properties.azure`, which is used to create the Director VM. Re-deploy the BOSH Director to apply the changes.
 
 !!! tip
     Read the [Best practices for Azure Compute Gallery][gallery-best-practices] for more information on how to set up and manage your galleries.
@@ -62,6 +62,17 @@ The CPI extracts the VHD from the stemcell tarball and uploads it to the default
 When [deploying](./deployment.md) VMs, BOSH Azure CPI automatically selects the stemcell image from the Azure Compute Gallery based on the deployment manifest configuration. No additional steps are required during deployment.
 
 Visit the [Deployment Manifest](./deployment-manifest.md) section to learn more about how to configure the deployment manifest.
+
+## Migrating Existing Deployments {: #migrating-existing-deployments }
+
+Changing the CPI configuration alone does not convert previously uploaded legacy stemcells to Compute Gallery images or recreate existing VMs.
+
+1. Use Azure CPI `v52.0.1+`, then [create an Azure Compute Gallery](#creating-an-azure-compute-gallery) and grant the permissions listed in the [prerequisites](#prerequisites).
+2. [Configure the Azure CPI](#configuring-bosh-azure-cpi-to-use-azure-compute-gallery) with `compute_gallery_name` and `location`, then re-deploy the Director.
+3. [Upload a new stemcell version](#uploading-a-stemcell-to-azure-compute-gallery) that has not previously been uploaded to the Director. Update each deployment manifest to use that version and re-deploy so its VMs are recreated using Compute Gallery images. Uploading a version already known to the Director normally skips the upload.
+4. For the Director VM itself, update the stemcell reference in its `bosh create-env` manifest to the new version and re-deploy it with the Compute Gallery settings in `cloud_provider.properties.azure`.
+
+Complete the migration for all deployments before upgrading to a CPI release that removes the legacy image paths.
 
 ## Deleting the Azure Compute Gallery
 
