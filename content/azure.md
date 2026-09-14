@@ -6,6 +6,11 @@ The `azure` CPI can be used with [Microsoft Azure](https://azure.microsoft.com/)
 - Issues: [GitHub Issues](https://github.com/cloudfoundry/bosh-azure-cpi-release/issues)
 - Slack: [cloudfoundry#bosh-azure-cpi](https://cloudfoundry.slack.com/messages/bosh-azure-cpi)
 
+!!! warning "Non-Azure Compute Gallery stemcell images are deprecated"
+    The legacy managed-image and unmanaged-VHD stemcell paths are deprecated. New deployments must use [Azure Compute Gallery](azure-compute-gallery.md) with managed disks. Existing deployments should follow the [migration guidance](azure-compute-gallery.md#migrating-existing-deployments).
+
+    Removal of the legacy paths is planned for a future major Azure CPI release. See [cloudfoundry/bosh-azure-cpi-release#748](https://github.com/cloudfoundry/bosh-azure-cpi-release/issues/748) for details.
+
 ## Concepts
 
 The following table maps BOSH concepts to their Azure-native equivalents.
@@ -18,7 +23,7 @@ The following table maps BOSH concepts to their Azure-native equivalents.
 | Virtual IP        | [Public IP][azure_docs_pub_ips]                                                |
 | Persistent Disk   | [Disk Storage][azure_docs_disks] and [Managed Disks][azure_docs_managed_disks] |
 | Disk Snapshot     | [Managed Disk Snapshot][azure_docs_disk_snapshots]                             |
-| Stemcell          | Disk Storage Blobs and Managed Disk Blobs                                      |
+| Stemcell          | [Azure Compute Gallery Images](azure-compute-gallery.md)                       |
 | Agent Settings    | Config Drive; BOSH Registry                                                    |
 
 [azure_docs_azs]: https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview

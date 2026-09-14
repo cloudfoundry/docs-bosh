@@ -405,6 +405,9 @@ To modify the `cloud_properties` such as `storage_account_type`, `iops`, and `mb
 
 ## Global Configuration {: #global }
 
+!!! warning "Non-Azure Compute Gallery stemcell images are deprecated"
+    New deployments must set `compute_gallery_name`, and `location` to use Azure Compute Gallery. The legacy managed-image and unmanaged-VHD stemcell paths are deprecated and are planned for removal in a future major Azure CPI release. See the [Compute Gallery migration guidance](azure-compute-gallery.md#migrating-existing-deployments) for existing deployments.
+
 Schema:
 
 - **environment** [String, required]: Azure environment name. Possible values are: `AzureCloud`, `AzureChinaCloud`, `AzureUSGovernment` (available in v19+), `AzureGermanCloud` (available in v22+) or `AzureStack`.
@@ -458,6 +461,8 @@ client_id: 33e56099-0bde-8z93-a005-89c0f6df7465
 client_secret: client-secret
 resource_group_name: bosh-res-group
 storage_account_name: boshstore
+compute_gallery_name: boshgallery
+location: centralus
 ssh_user: vcap
 ssh_public_key: "ssh-rsa AAAAB3N...6HySEF6IkbJ"
 default_security_group: nsg-azure

@@ -426,9 +426,6 @@ Should result in:
 
 ### Compute Gallery {: #compute-gallery }
 
-!!! note
-    You can skip this section if you are not planning to use the compute gallery feature.
-
 Create a compute gallery to store VM images:
 
 ```shell
