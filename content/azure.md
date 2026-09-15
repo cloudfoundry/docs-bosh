@@ -9,8 +9,6 @@ The `azure` CPI can be used with [Microsoft Azure](https://azure.microsoft.com/)
 !!! warning "Non-Azure Compute Gallery stemcell images are deprecated"
     The legacy managed-image and unmanaged-VHD stemcell paths are deprecated. New deployments must use [Azure Compute Gallery](azure-compute-gallery.md) with managed disks. Existing deployments should follow the [migration guidance](azure-compute-gallery.md#migrating-existing-deployments).
 
-    Removal of the legacy paths is planned for a future major Azure CPI release. See [cloudfoundry/bosh-azure-cpi-release#748](https://github.com/cloudfoundry/bosh-azure-cpi-release/issues/748) for details.
-
 ## Concepts
 
 The following table maps BOSH concepts to their Azure-native equivalents.
