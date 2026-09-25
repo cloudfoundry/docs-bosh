@@ -91,3 +91,13 @@ It is recommended to use the latest version. For example, Stemcell v3232.5 or la
 If you hit `Out of memory` or `Virtual memory exhausted`, please check whether you use Standard_A0 as instance_type. You should change instance_type to a VM size with more memory.
 
 Please reference the [issue #230](https://github.com/cloudfoundry/bosh-azure-cpi-release/issues/230).
+
+## AccountKindNotSupported
+
+```text
+AccountKindNotSupported: Account Kind Storage is not supported. Please use a supported account kind.
+```
+
+Azure retired General Purpose v1 (`Storage`) storage account creation in September 2026. CPI versions prior to vX.X.X hardcode this kind on the auto-create path used when `storage_account_name` is not set in the global CPI configuration. This most commonly surfaces after upgrading to a `bosh-deployment` version that omits `storage_account_name` (e.g. after managed disks became the default) on a deployment that does not already have a storage account.
+
+**Fix:** upgrade to CPI v5X.X.X+, which auto-creates General Purpose v2 (`StorageV2`) accounts.
