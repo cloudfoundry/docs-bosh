@@ -4,6 +4,7 @@ Cloud Foundry's upcoming stemcells will be based on Ubuntu's [Noble Numbat](http
 
 - BOSH DNS — see [below](#bosh-dns)
 - BPM — see [below](#bpm)
+- systemd and cgroup v2 — see [below](#systemd-and-cgroup-v2)
 - EFI bootloader - see [below](#efi-bootloader)
 - Addons - see [below](#addons-runtime-configurations)
 
@@ -47,6 +48,22 @@ we added the following configuration.
 ## BPM
 
 Use BPM version v1.4.0 or higher [bpm-releases](https://github.com/cloudfoundry/bpm-release/releases)
+
+## systemd and cgroup v2
+
+On Noble the BOSH agent runs under systemd, and the stemcell uses the **cgroup v2 unified hierarchy**. Jobs and monitoring code that read cgroup v1 controller paths, or that select the `legacy` / `hybrid` hierarchy, need to move to the v2 equivalents:
+
+```text
+# cgroup v1
+/sys/fs/cgroup/memory/<...>/memory.limit_in_bytes
+/sys/fs/cgroup/cpu/<...>/cpu.cfs_quota_us
+
+# cgroup v2
+/sys/fs/cgroup/<...>/memory.max
+/sys/fs/cgroup/<...>/cpu.max
+```
+
+Container runtimes such as garden-runc and containerd already speak cgroup v2, so this mainly affects bespoke resource-limiting or metrics code. Do this migration properly rather than forcing the v1 hierarchy back on: cgroup v1 is removed outright in Ubuntu 26.04, where there is no fallback.
 
 ## EFI Bootloader
 
