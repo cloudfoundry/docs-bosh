@@ -240,6 +240,9 @@ nav:
     - Overview: stemcell.md
     - Stemcell Lines & Support: stemcell-lines.md
     - Managing Stemcells: managing-stemcells.md
+    - Migrating to Resolute Raccoon:
+      - For Platform Engineers: resolute-migration.md
+      - For Release Authors: resolute-release-migration.md
     - Previous Migrations:
       - Noble Numbat: noble-migration.md
       - Jammy Jellyfish: jammy-migration.md
