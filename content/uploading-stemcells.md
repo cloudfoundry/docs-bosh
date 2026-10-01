@@ -1,8 +1,5 @@
 # Uploading Stemcells
 
-!!! note
-    Document uses CLI v2.
-
 (See [What is a Stemcell?](stemcell.md) for an introduction to stemcells.)
 
 As described earlier, each deployment can reference one or more stemcells. For a deploy to succeed, necessary stemcells must be uploaded to the Director.
@@ -20,7 +17,7 @@ CLI provides [`bosh upload-stemcell` command](cli-v2.md#upload-stemcell).
 - If you have a URL to a stemcell tarball (for example URL provided by bosh.io):
 
     ```shell
-    bosh -e vbox upload-stemcell \
+    bosh upload-stemcell \
     https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-noble?v=1.585
     ```
 
@@ -33,7 +30,7 @@ CLI provides [`bosh upload-stemcell` command](cli-v2.md#upload-stemcell).
 Once the command succeeds you can view all uploaded stemcells in the Director:
 
 ```shell
-bosh -e vbox stemcells
+bosh stemcells
 ```
 
 Should result in:

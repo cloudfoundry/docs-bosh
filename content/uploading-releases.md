@@ -1,8 +1,5 @@
 # Uploading Releases
 
-!!! note
-    Document uses CLI v2.
-
 (See [What is a Release?](release.md) for an introduction to releases.)
 
 Each deployment can reference one or many releases. For a `bosh deploy`
