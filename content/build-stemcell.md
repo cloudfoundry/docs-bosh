@@ -10,10 +10,6 @@ Stemcell tarballs are currently specific to an IaaS-OS/CPI because they may:
 - include custom OS packages/configuration (e.g. [OpenStack's OS customizations](https://github.com/cloudfoundry/bosh/blob/cdd7c7b333d076aa96c648825b1e9ba4ba7a22ba/bosh-stemcell/lib/bosh/stemcell/stage_collection.rb#L93-L94))
 - be packaged into a custom image format (qcow, vmdk, etc.)
 
-In the future, BOSH team will investigate how to best consolidate stemcells into a single OS image. In the meantime, if you're developing a CPI for a new IaaS, you may consider reusing one of the officially generated stemcells, or making changes to the following projects:
-
-- [bosh-linux-stemcell-builder](https://github.com/cloudfoundry/bosh-linux-stemcell-builder)
-- [bosh-agent](https://github.com/cloudfoundry/bosh-agent)
 
 ---
 
