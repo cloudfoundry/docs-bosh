@@ -129,7 +129,7 @@ An addon is a release job that is colocated on all VMs managed by the Director.
 Available rules:
 
 - **stemcell** [Array of hashes, optional]: at least one of the items must match
-    - **os** [String, required]: Matches stemcell's operating system. Example: `ubuntu-xenial`
+    - **os** [String, required]: Matches stemcell's operating system. Example: `ubuntu-noble`
 - **deployments** [Array of strings, optional]: Matches based on deployment names.
 - **jobs** [Array of hashes, optional]: at least one of the configured jobs must match
     - **name** [String, required]: Matching job name.
@@ -167,7 +167,7 @@ include:
   - name: redis
     release: redis-release
   stemcell:
-  - os: ubuntu-xenial
+  - os: ubuntu-noble
 ```
 
 See [common addons list](addons-common.md) for several examples.
@@ -195,7 +195,7 @@ addons:
   include:
     lifecycle: errand
     stemcell:
-    - os: ubuntu-xenial
+    - os: ubuntu-noble
     - os: windows2019
   exclude:
     jobs:
@@ -206,7 +206,7 @@ addons:
 
 ```
 
-The director will collocate `my-addon` to all errand VMs that use either the `ubuntu-xenial` or `windows2019` stemcells,
+The director will collocate `my-addon` to all errand VMs that use either the `ubuntu-noble` or `windows2019` stemcells,
 except for any VMs with `job1` belonging to deployment `dep1` or `dep2`.
 
 In pseudocode:
@@ -216,7 +216,7 @@ In pseudocode:
     INCLUDE (
       AND (
         OR (
-          stemcell:ubuntu-xenial
+          stemcell:ubuntu-noble
           stemcell:windows2019
         )
         lifecycle:errand

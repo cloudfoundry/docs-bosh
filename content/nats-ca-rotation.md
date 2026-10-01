@@ -9,8 +9,8 @@ The procedure below rotates the NATS CA and NATS related certificates across the
 - Director is in a healthy state.
 - All VMs are in `running` state in all deployments. See [below](#expired) if your VMs are unresponsive.
 - Take note of any **ignored** VMs. They will be omitted from the VM redeploy steps.
-- Former Director versions (prior to 271.12) and stemcells (prior to Bionic
-  1.36 or Windows 2019.41) need to recreate VMs as part of the redeploy steps
+- Former Director versions (prior to 271.12) and Windows stemcells (prior to
+  2019.41) need to recreate VMs as part of the redeploy steps
   ([step 2](#step-2) and [step 4](#step-4)).
 
 ### Summary of the involved steps {: #visualization }
@@ -126,8 +126,8 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 Deployed VMs need to be redeployed in order to receive new client certificates that are signed by the new CA. Also, they will receive a new list of CAs (old and new CAs certs concatenated) to trust when communicating with the NATS server. This redeployment of the VMs is crucial for the NATS CA rotation.
 
 !!! Note
-    With Director 271.12+ and Agent 2.388.0+ (shipped with stemcells as of
-    Bionic 1.36+ or Windows 2019.41+), the Director can update the VM settings
+    With Director 271.12+ and Agent 2.388.0+ (shipped with all current Linux
+    stemcells and Windows 2019.41+), the Director can update the VM settings
     without recreating them… Provided that the NATS CA certificate is not yet
     expired!
 
@@ -190,8 +190,8 @@ bosh create-env ~/workspace/bosh-deployment/bosh.yml \
 Redeploying all VMs will remove the old NATS CA reference from their agent settings.
 
 !!! Note
-    With Director 271.12+ and Agent 2.388.0+ (shipped with stemcells as of
-    Bionic 1.36+ or Windows 2019.41+), the Director can update the VM settings
+    With Director 271.12+ and Agent 2.388.0+ (shipped with all current Linux
+    stemcells and Windows 2019.41+), the Director can update the VM settings
     without recreating them.
 
 ### Step 5: Clean-up {: #step-5}

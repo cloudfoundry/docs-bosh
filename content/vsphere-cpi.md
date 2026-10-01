@@ -119,7 +119,7 @@ resource_pools:
 - name: nsx
   network: default
   stemcell:
-    name: bosh-vsphere-esxi-ubuntu-xenial-go_agent
+    name: bosh-vsphere-esxi-ubuntu-noble
     version: latest
   cloud_properties:
     cpu: 1

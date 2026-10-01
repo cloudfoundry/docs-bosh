@@ -25,14 +25,14 @@ bosh repack-stemcell src.tgz dst.tgz [--name=new_name] [--version=new_version] [
 In this example, we first download the stemcell we plan to modify, and then we create a new stemcell that's identical to the one we downloaded with the exception of a new name (`acme-corporation-stemcell`):
 
 ```shell
-curl -OL https://s3.amazonaws.com/bosh-gce-light-stemcells/light-bosh-stemcell-621.74-google-kvm-ubuntu-xenial-go_agent.tgz
-bosh repack-stemcell --name=acme-corporation-stemcell light-bosh-stemcell-621.74-google-kvm-ubuntu-xenial-go_agent.tgz acme-corporation-stemcell.tgz
+curl -OL https://storage.googleapis.com/bosh-gce-light-stemcells/1.585/light-bosh-stemcell-1.585-google-kvm-ubuntu-noble.tgz
+bosh repack-stemcell --name=acme-corporation-stemcell light-bosh-stemcell-1.585-google-kvm-ubuntu-noble.tgz acme-corporation-stemcell.tgz
 ```
 
 We decide to change the stemcell version number to `100` as well as the name (note: this does not change the stemcell version in the `/var/vcap/bosh/etc/stemcell_version` file in the root filesystem of the stemcell):
 
 ```shell
-bosh repack-stemcell --name=acme-corporation-stemcell --version=100 light-bosh-stemcell-621.74-google-kvm-ubuntu-xenial-go_agent.tgz acme-corporation-stemcell.tgz
+bosh repack-stemcell --name=acme-corporation-stemcell --version=100 light-bosh-stemcell-1.585-google-kvm-ubuntu-noble.tgz acme-corporation-stemcell.tgz
 ```
 
 When we've uploaded the stemcell and we run `bosh stemcells`, we will see our stemcell listed with the new name and new version.
@@ -53,7 +53,7 @@ We modify the cloud-properties of an AWS stemcell to encrypt the root filesystem
 We take this opportunity to rename our stemcell so that we don't accidentally confuse the unencrypted stemcells with the encrypted stemcells.
 
 ```shell
-bosh repack-stemcell --name=acme-ubuntu-encrypted --cloud-properties='{"encrypted": true, "kms_key_arn": "arn:aws:kms:us-east-1:088444384256:key/4ffbe966-d138-4f4d-a077-4c234d05b3b1"}' bosh-stemcell-621.74-aws-xen-hvm-ubuntu-xenial-go_agent.tgz acme-encrypted-stemcell.tgz
+bosh repack-stemcell --name=acme-ubuntu-encrypted --cloud-properties='{"encrypted": true, "kms_key_arn": "arn:aws:kms:us-east-1:088444384256:key/4ffbe966-d138-4f4d-a077-4c234d05b3b1"}' bosh-stemcell-1.585-aws-xen-hvm-ubuntu-noble.tgz acme-encrypted-stemcell.tgz
 ```
 
 !!! note
@@ -68,35 +68,31 @@ The `repack-stemcell` works by modifying the stemcell manifest file (`stemcell.M
 The stemcell's manifest may be examined by extracting the `stemcell.MF` file from the stemcell tarball:
 
 ```shell
-curl -L https://bosh.io/d/stemcells/bosh-google-kvm-ubuntu-xenial-go_agent | tar -Oxvf - -- stemcell.MF
+curl -sL https://storage.googleapis.com/bosh-gce-light-stemcells/1.585/light-bosh-stemcell-1.585-google-kvm-ubuntu-noble.tgz | tar -Oxzf - stemcell.MF
 ```
 
-Should  result in:
+Should result in:
 
-```shell
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100   137  100   137    0     0    268      0 --:--:-- --:--:-- --:--:--   268
-100 19230  100 19230    0     0  18442      0  0:00:01  0:00:01 --:--:-- 18442
-x stemcell.MF---
-name: bosh-google-kvm-ubuntu-xenial-go_agent
-version: "621.74"
-bosh_protocol: 1
+```yaml
 api_version: 3
-sha1: da39a3ee5e6b4b0d3255bfef95601890afd80709
-operating_system: ubuntu-xenial
+bosh_protocol: 1
 cloud_properties:
-  name: bosh-google-kvm-ubuntu-xenial-go_agent
-  version: "621.74"
-  infrastructure: google
-  hypervisor: kvm
-  disk: 3072
-  disk_format: rawdisk
-  container_format: bare
-  os_type: linux
-  os_distro: ubuntu
   architecture: x86_64
+  container_format: bare
+  disk: 5120
+  disk_format: rawdisk
+  hypervisor: kvm
+  image_url: https://www.googleapis.com/compute/v1/projects/cloud-foundry-310819/global/images/stemcell-1-585-google-kvm-ubuntu-noble-raw-1789266389
+  infrastructure: google
+  name: bosh-google-kvm-ubuntu-noble
+  os_distro: ubuntu
+  os_type: linux
   root_device_name: /dev/sda1
-  source_url: https://storage.googleapis.com/bosh-gce-raw-stemcells/bosh-stemcell-621.74-google-kvm-ubuntu-xenial-go_agent-raw-1588608687.tar.gz
-  raw_disk_sha1: 20a78432acf485051e9eefedfb9f7309c7285c0c
+  version: "1.585"
+name: bosh-google-kvm-ubuntu-noble
+operating_system: ubuntu-noble
+sha1: da39a3ee5e6b4b0d3255bfef95601890afd80709
+stemcell_formats:
+- google-light
+version: "1.585"
 ```

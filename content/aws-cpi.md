@@ -126,7 +126,7 @@ resource_pools:
 - name: default
   network: default
   stemcell:
-    name: bosh-aws-xen-hvm-ubuntu-xenial-go_agent
+    name: bosh-aws-xen-hvm-ubuntu-noble
     version: latest
   cloud_properties:
     instance_type: m3.medium

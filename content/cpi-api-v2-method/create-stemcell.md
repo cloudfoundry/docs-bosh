@@ -21,8 +21,8 @@ See [Stemcell Building](../build-stemcell.md) for more details.
 [
  "/tmp/extracted-stemcell-348754vdsn87fr/image",
  {
-  "name": "bosh-openstack-esxi-ubuntu-xenial-go_agent",
-  "version": "621.74",
+  "name": "bosh-openstack-esxi-ubuntu-noble",
+  "version": "1.585",
   "infrastructure": "openstack",
   "hypervisor": "esxi",
   "disk": 3072,

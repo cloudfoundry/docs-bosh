@@ -84,7 +84,7 @@ resource_pools:
 - name: default
   network: default
   stemcell:
-    name: bosh-openstack-kvm-ubuntu-xenial-go_agent
+    name: bosh-openstack-kvm-ubuntu-noble
     version: latest
   cloud_properties:
     instance_type: m1.small
@@ -98,7 +98,7 @@ resource_pools:
 - name: web-workers
   network: default
   stemcell:
-    name: bosh-openstack-kvm-ubuntu-xenial-go_agent
+    name: bosh-openstack-kvm-ubuntu-noble
     version: latest
   cloud_properties:
     instance_type: m1.small
@@ -116,7 +116,7 @@ resource_pools:
 - name: default
   network: default
   stemcell:
-    name: bosh-openstack-kvm-ubuntu-xenial-go_agent
+    name: bosh-openstack-kvm-ubuntu-noble
     version: latest
   cloud_properties:
     instance_type: m1.small

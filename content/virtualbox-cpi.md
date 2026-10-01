@@ -1,6 +1,6 @@
 # VirtualBox CPI Cloud Properties
 
-This topic describes cloud properties for different resources created by the [VirtualBox CPI](https://bosh.io/releases/github.com/cloudfoundry/bosh-virtualbox-cpi-release). VirtualBox CPI works with [vSphere ESXI stemcells](https://bosh.io/stemcells/bosh-vsphere-esxi-ubuntu-xenial-go_agent).
+This topic describes cloud properties for different resources created by the [VirtualBox CPI](https://bosh.io/releases/github.com/cloudfoundry/bosh-virtualbox-cpi-release). VirtualBox CPI works with [vSphere ESXI stemcells](https://bosh.io/stemcells/bosh-vsphere-esxi-ubuntu-noble).
 
 ## AZs {: #azs }
 

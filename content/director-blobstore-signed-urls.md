@@ -1,7 +1,7 @@
 # Bosh Director Blobstore Signed URLs
 
 !!! note "Version compatibility"
-    This `blobstore.enable_signed_urls` config property was first introduced in bosh v270.8, the ubuntu-xenial 621.x stemcell, and the windows 2019.17 stemcell.
+    This `blobstore.enable_signed_urls` config property was first introduced in bosh v270.8 and the windows 2019.17 stemcell. All current Linux stemcells support it.
 
 ## Overview
 
@@ -11,8 +11,8 @@ deployed vms and replace access with signed URLs granting scoped actions.
 
 ## Usage
 
-For the purpose of this feature, "supported stemcells" are ubuntu-xenial 621.x and
-later, and windows 2019.17 and later.
+For the purpose of this feature, "supported stemcells" are all current Linux
+stemcells, and windows 2019.17 and later.
 
 ### Enabling the feature flag
 

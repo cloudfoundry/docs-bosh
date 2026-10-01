@@ -140,7 +140,7 @@ resource_pools:
 - name: default
   network: default
   stemcell:
-    name: bosh-alicloud-kvm-ubuntu-xenial-go_agent
+    name: bosh-alicloud-kvm-ubuntu-noble
     version: latest
   cloud_properties:
     instance_type: ecs.sn1ne.large

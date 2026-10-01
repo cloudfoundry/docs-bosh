@@ -21,14 +21,14 @@ The following steps will allow the Resurrector to recreate these VMs on a health
       | Name                                     | OS            | Version | CID                                     |
       |------------------------------------------|---------------|---------|-----------------------------------------|
       | bosh-vsphere-esxi-hvm-centos-7-go_agent  | centos-7      | 3184.1  | sc-bc3d762c-71a1-4e76-ae6d-7d2d4366821b |
-      | bosh-vsphere-esxi-ubuntu-xenial-go_agent | ubuntu-xenial | 456.3   | sc-46509b02-a164-4306-89de-99abdaffe8a8 |
-      | bosh-vsphere-esxi-ubuntu-xenial-go_agent | ubuntu-xenial | 456.112 | sc-86d76a55-5bcb-4c12-9fa7-460edd8f94cf |
-      | bosh-vsphere-esxi-ubuntu-xenial-go_agent | ubuntu-xenial | 621.74* | sc-97e9ba2d-6ae0-41d1-beea-082b6635e7cb |
+      | bosh-vsphere-esxi-ubuntu-noble           | ubuntu-noble  | 1.545   | sc-46509b02-a164-4306-89de-99abdaffe8a8 |
+      | bosh-vsphere-esxi-ubuntu-noble           | ubuntu-noble  | 1.558   | sc-86d76a55-5bcb-4c12-9fa7-460edd8f94cf |
+      | bosh-vsphere-esxi-ubuntu-noble           | ubuntu-noble  | 1.585*  | sc-97e9ba2d-6ae0-41d1-beea-082b6635e7cb |
 
      - re-upload the in-use stemcells (the ones with asterisks ('*') next to their version) with the `--fix` flag, e.g.:
 
        ```shell
-       bosh upload stemcell https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-xenial-go_agent?v=621.74 --fix
+       bosh upload stemcell https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-noble?v=1.585 --fix
        ```
 
 1. Wait for the resurrector to recreate the VMs. Alternatively, force a recreate using `bosh cck`

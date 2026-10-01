@@ -74,11 +74,11 @@
 ---
 #### stemcell api_version
 api_version: 2
-name: bosh-aws-xen-hvm-ubuntu-xenial-go_agent
-version: '621.74'
+name: bosh-aws-xen-hvm-ubuntu-noble
+version: '1.585'
 bosh_protocol: '1'
 sha1: da39a3ee5e6b4b0d3255bfef95601890afd80709
-operating_system: ubuntu-xenial
+operating_system: ubuntu-noble
 stemcell_formats:
 - aws-light
 cloud_properties:

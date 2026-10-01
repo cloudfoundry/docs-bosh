@@ -19,7 +19,7 @@ bosh repack-stemcell --version "<Stemcell version>" \
 --empty-image \
 --format openstack-light \
 --cloud-properties="{\"image_id\": \"<Stemcell CID>\"}" \
-heavy-stemcell.tgz ./light-bosh-stemcell-<Stemcell version>-openstack-kvm-ubuntu-xenial-go_agent.tgz
+heavy-stemcell.tgz ./light-bosh-stemcell-<Stemcell version>-openstack-kvm-ubuntu-noble.tgz
 ```
 
 You can use the light stemcell archive like a regular stemcell archive in BOSH deployment manifests and with `bosh create-env` command.
@@ -29,8 +29,8 @@ You can use the light stemcell archive like a regular stemcell archive in BOSH d
 Untar the downloaded heavy stemcell and its `image` to extract the `root.img`
 
 ```bash
-tar -xvf bosh-stemcell-170.12-openstack-kvm-ubuntu-xenial-go_agent.tgz
-cd bosh-stemcell-170.12-openstack-kvm-ubuntu-xenial-go_agent
+tar -xvf bosh-stemcell-1.585-openstack-kvm-ubuntu-noble.tgz
+cd bosh-stemcell-1.585-openstack-kvm-ubuntu-noble
 tar -xvf image
 ```
 
@@ -46,8 +46,8 @@ openstack image create \
   --property hypervisor_type=kvm \
   --property os_distro=ubuntu \
   --property os_type=linux \
-  --property version=170.12 \
-  bosh-openstack-kvm-ubuntu-xenial-go_agent/170.12
+  --property version=1.585 \
+  bosh-openstack-kvm-ubuntu-noble/1.585
 ```
 
 **Note:** The `stemcell.MF` can be referred to for setting the properties. In case a stemcell has already been uploaded, `openstack image show <Image ID>` may also provide helpful information.

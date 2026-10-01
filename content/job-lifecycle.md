@@ -48,7 +48,7 @@ There are several stages that all jobs (and their associated processes) on each 
 1. [pre-stop scripts](pre-stop.md) run for all jobs on the VM in parallel
     - (waits for all pre-stop scripts to finish)
     - does not time out
-    - requires BOSH v269+ and minimum Xenial stemcell `v315.x`
+    - requires BOSH v269+
 
 1. [drain scripts](drain.md) run for all jobs on the VM in parallel
     - (waits for all drain scripts to finish)

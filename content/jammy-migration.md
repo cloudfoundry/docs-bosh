@@ -105,7 +105,5 @@ addons:
 - name: loggregator_agent
   include:
     stemcell:
-    - os: ubuntu-xenial
-    - os: ubuntu-bionic
     - os: ubuntu-jammy
 ```

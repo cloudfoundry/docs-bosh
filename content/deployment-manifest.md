@@ -125,8 +125,8 @@ resource_pools:
 - name: redis-servers
   network: default
   stemcell:
-    name: bosh-aws-xen-ubuntu-xenial-go_agent
-    version: 621.74
+    name: bosh-aws-xen-hvm-ubuntu-noble
+    version: 1.585
   cloud_properties:
     instance_type: m1.small
     availability_zone: us-east-1c
@@ -146,8 +146,8 @@ resource_pools:
 - name: redis-servers
   network: default
   stemcell:
-    url: https://bosh.io/d/stemcells/bosh-aws-xen-hvm-ubuntu-xenial-go_agent?v=621.74
-    sha1: 5a81413223bcee987955038dc903345720fc22a4
+    url: https://bosh.io/d/stemcells/bosh-aws-xen-hvm-ubuntu-noble?v=1.585
+    sha1: c099cc74f32b0329352d9a0bc5d098f701e8b88a
   cloud_properties:
     instance_type: m1.small
     availability_zone: us-east-1c
