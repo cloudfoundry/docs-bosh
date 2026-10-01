@@ -55,7 +55,6 @@ nav:
     - Migrating:
       - To Availability Zones: migrated-from.md
       - From the Ruby CLI: cli-v2-diff.md
-      - Migrating to Noble Numbat: noble-migration.md
   - Packaging Software:
     - Core Concepts:
       - Creating a Release: create-release.md
@@ -68,7 +67,6 @@ nav:
     - Working with Blobs: release-blobs.md
     - Testing:
       - Unit Testing Job Templates: job-templates.md
-    - Migrating Packages to Jammy Jellyfish: jammy-migration.md
     - Scheduled Processes: scheduled-procs.md
     - Creating Compiled Releases: compiled-releases.md
     - Using Errands: errands.md
@@ -118,7 +116,6 @@ nav:
     - Configuring the Database: director-configure-db.md
     - Configuring the Blobstore: director-configure-blobstore.md
     - Managing Releases: managing-releases.md
-    - Managing Stemcells: managing-stemcells.md
     - Auto-healing Capabilities: resurrector.md
     - Using Health Monitor: hm-config.md
     - Using Deploy Config: deploy-config.md
@@ -163,8 +160,6 @@ nav:
       - Instance Metadata: instance-metadata.md
   - Development:
     - Building a CPI: build-cpi.md
-    - Building a Stemcell: build-stemcell.md
-    - Repacking Stemcells: repack-stemcell.md
     - Target Personas: personas.md
 - Reference:
   - Terminology: terminology.md
@@ -241,8 +236,15 @@ nav:
     - Links:
       - Common Types: links-common-types.md
     - Deployment Convergence: deployment-convergence.md
-  - Operating Systems:
+  - Stemcells:
+    - Overview: stemcell.md
     - Stemcell Lines & Support: stemcell-lines.md
+    - Managing Stemcells: managing-stemcells.md
+    - Previous Migrations:
+      - Noble Numbat: noble-migration.md
+      - Jammy Jellyfish: jammy-migration.md
+    - Building a Stemcell: build-stemcell.md
+    - Repacking Stemcells: repack-stemcell.md
   - CLI reference: *clireference
   - Legacy Documentation:
     # docs we should keep linkable
@@ -254,7 +256,6 @@ nav:
     - CLI v1 Backup / Restore: director-backup.md
     # docs which will be quickly migrated
     - What is a Deployment?: deployment.md
-    - What is a Stemcell?: stemcell.md
     - Recent Changes: recent.md
     - Deploying BOSH with create-env: init.md
   - "--- Cloud Providers": divider.md
