@@ -43,6 +43,8 @@ Upgrading from one stemcell line to another (such as moving from `ubuntu-jammy` 
 
 Migration guides are provided to help platform engineers and release authors navigate these transitions:
 
+- [Migrating to Resolute Raccoon (Platform Engineers)](resolute-migration.md)
+- [Migrating Releases to Resolute Raccoon (Release Authors)](resolute-release-migration.md)
 - [Migrating to Noble Numbat](noble-migration.md)
 - [Migrating Packages to Jammy Jellyfish](jammy-migration.md)
 

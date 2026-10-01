@@ -10,6 +10,9 @@ Cloud Foundry's upcoming stemcells will be based on Ubuntu's [Noble Numbat](http
 
 Discussion Slack channel is [here](https://cloudfoundry.slack.com/archives/C06HTDT78N9).
 
+!!! note
+    **Heading for Resolute Raccoon (Ubuntu 26.04)?** Work through this page first, then follow the Resolute migration guide ([platform engineers](resolute-migration.md), [release authors](resolute-release-migration.md)) — it describes the delta from Noble and assumes the changes below are already done.
+
 ## BOSH DNS
 
 In Noble we switched from resolved to systemd-resolve, with this change and to be backwards compatible with our bosh-dns release some configuration are necessary in the runtime config for DNS.
