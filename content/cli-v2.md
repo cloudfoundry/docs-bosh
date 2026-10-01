@@ -238,8 +238,8 @@ See [Uploading Stemcells](uploading-stemcells.md).
     Using environment '192.168.56.6' as '?'
 
     Name                                         Version    OS             CPI  CID
-    bosh-warden-boshlite-ubuntu-xenial-go_agent  621.74*    ubuntu-xenial  -    6cbb176a-6a43-42...
-    ~                                            456.112    ubuntu-xenial  -    43r3496a-4rt3-52...
+    bosh-warden-boshlite-ubuntu-noble            1.585*     ubuntu-noble   -    6cbb176a-6a43-42...
+    ~                                            1.558      ubuntu-noble   -    43r3496a-4rt3-52...
     bosh-warden-boshlite-centos-7-go_agent       3363*      centos-7       -    38yr83gg-349r-94...
 
     (*) Currently deployed
@@ -264,8 +264,8 @@ See [Uploading Stemcells](uploading-stemcells.md).
     - `URL` Path to a local file or URL
 
     ```shell
-    bosh -e my-env us ~/Downloads/bosh-stemcell-621.74-warden-boshlite-ubuntu-xenial-go_agent.tgz
-    bosh -e my-env us https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-xenial-go_agent?v=621.74
+    bosh -e my-env us ~/Downloads/bosh-stemcell-1.585-warden-boshlite-ubuntu-noble.tgz
+    bosh -e my-env us https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-noble?v=1.585
     ```
 
 #### Delete-Stemcell {: #delete-stemcell }
@@ -277,7 +277,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
     - `--force` Ignore errors
 
     ```shell
-    bosh -e my-env delete-stemcell bosh-warden-boshlite-ubuntu-xenial-go_agent/621.74
+    bosh -e my-env delete-stemcell bosh-warden-boshlite-ubuntu-noble/1.585
     ```
 
 #### Repack-Stemcell {: #repack-stemcell }
@@ -306,7 +306,7 @@ See [Uploading Stemcells](uploading-stemcells.md).
     Display information from stemcell metadata.
 
     ```shell
-    bosh inspect-local-stemcell /path/to/bosh-stemcell-170.5-aws-xen-hvm-ubuntu-xenial-go_agent.tgz
+    bosh inspect-local-stemcell /path/to/bosh-stemcell-1.585-aws-xen-hvm-ubuntu-noble.tgz
     ```
 
 ---
@@ -597,7 +597,7 @@ See [Uploading Releases](uploading-releases.md).
     - `--job=NAME` Name of job to export
 
     ```shell
-    bosh -e my-env -d my-dep export-release cf-smoke-tests/94 ubuntu-xenial/621.74
+    bosh -e my-env -d my-dep export-release cf-smoke-tests/94 ubuntu-noble/1.585
     ```
 
 #### Inspect-Release {: #inspect-release }
@@ -634,13 +634,13 @@ See [Uploading Releases](uploading-releases.md).
     acceptance-tests/9d56ac03d7410dcdfd96a8c96bbc79eb4b53c864          (source)              79fb9ba7-cd23-4b93-...  e08ee88f5...
     confab-windows/52b117effcd95138eca94c789530bcd6499cff9d            (source)              53d4b206-b064-462d-...  43f92c8d0...
     confab/b2ff0bbd68b7d600ecb1ffaf41f59af073e894fd                    (source)              b93214eb-a816-4029-...  4b627d264...
-    ~                                                                  ubuntu-xenial/621.74  f66fe541-8c21-4fe3-...  8e662c2e2...
+    ~                                                                  ubuntu-noble/1.585    f66fe541-8c21-4fe3-...  8e662c2e2...
     consul-windows/2a8e0b7ce1424d1d5efe5c7184791481a0c26424            (source)              9516870b-801e-42ea-...  19db18127...
     consul/6049d3016cd34ac64ccbf7837b06b6db81942102                    (source)              04aa38af-e883-4842-...  c42cacfc7...
-    ~                                                                  ubuntu-xenial/621.74  ab4afda6-881e-46b1-...  27c1390fa...
+    ~                                                                  ubuntu-noble/1.585    ab4afda6-881e-46b1-...  27c1390fa...
     golang1.7-windows/1a80382e081cd429cf518f0c783f4e4172cac79e         (source)              d7670210-7038-4749-...  b91caa06a...
     golang1.7/181f7537c2ec17ac2406d9f2eb3322fd80fa2a1c                 (source)              ac8aa36a-8965-46e9-...  ca440d716...
-    ~                                                                  ubuntu-xenial/621.74  9d40794f-0c50-4d0c-...  9d6e29221...
+    ~                                                                  ubuntu-noble/1.585    9d40794f-0c50-4d0c-...  9d6e29221...
 
     11 packages
 
@@ -654,7 +654,7 @@ See [Uploading Releases](uploading-releases.md).
     Lists all jobs, packages, and compiled packages associated with a release tarball.
 
     ```shell
-    bosh inspect-local-release bpm-1.0.3-ubuntu-xenial-250.25-20190327-162856-776883319.tgz
+    bosh inspect-local-release bpm-1.0.3-ubuntu-noble-1.565-20260327-162856-776883319.tgz
     ```
 
     Should result in:
@@ -663,7 +663,7 @@ See [Uploading Releases](uploading-releases.md).
     Name         bpm
     Version      1.0.3
     Commit Hash  d2f7197
-    Archive      bpm-1.0.3-ubuntu-xenial-250.25-20190327-162856-776883319.tgz
+    Archive      bpm-1.0.3-ubuntu-noble-1.565-20260327-162856-776883319.tgz
 
     Job                                                   Digest                                    Packages
     bpm/fafbd62c034aaf20947ec9c9e7102959ca73db8c          1d17ace7f7cef72554b5fe3106212dd43ed76953  -
@@ -673,11 +673,11 @@ See [Uploading Releases](uploading-releases.md).
     3 jobs
 
     Package                                               Digest                                    Dependencies  OS             OS Version
-    bpm-runc/b1010b27bec38acce027b2d1d8a1c10b71bb6f87     2046ffbd400ddf71fd6a01114a37714e0d531ea5  golang        ubuntu-xenial  250.25
-    bpm/0c350861f27a4b912fb578bfa88d97d1dafe1602          a9dfddb259c4674138da48b9a538aef6b18ab274  golang        ubuntu-xenial  250.25
+    bpm-runc/b1010b27bec38acce027b2d1d8a1c10b71bb6f87     2046ffbd400ddf71fd6a01114a37714e0d531ea5  golang        ubuntu-noble   1.565
+    bpm/0c350861f27a4b912fb578bfa88d97d1dafe1602          a9dfddb259c4674138da48b9a538aef6b18ab274  golang        ubuntu-noble   1.565
     bpm-runc
-    golang/4f7fa7648892d4d98b7912c945638c8f32f52d6f       2d1b33e23642b159cf012e83597a7ab63933eaa5  -             ubuntu-xenial  250.25
-    test-server/b748494d5c1031c9943e0d7f3982e4b09fce36f5  612a488cf46a32883bee4f0415fdcf83de9ee5ec  golang        ubuntu-xenial  250.25
+    golang/4f7fa7648892d4d98b7912c945638c8f32f52d6f       2d1b33e23642b159cf012e83597a7ab63933eaa5  -             ubuntu-noble   1.565
+    test-server/b748494d5c1031c9943e0d7f3982e4b09fce36f5  612a488cf46a32883bee4f0415fdcf83de9ee5ec  golang        ubuntu-noble   1.565
 
     4 packages
 
@@ -920,7 +920,7 @@ bosh -e my-env config --type=deploy --name=default
     Using environment '192.168.56.6' as client 'admin'
 
     Name                                Release(s)                Stemcell(s)                                         Team(s)
-    cf                                  binary-buildpack/1.0.9    bosh-warden-boshlite-ubuntu-xenial-go_agent/621.74  -
+    cf                                  binary-buildpack/1.0.9    bosh-warden-boshlite-ubuntu-noble/1.585             -
                                         capi/1.21.0
                                         cf-mysql/34
                                         cf-smoke-tests/11
@@ -934,7 +934,7 @@ bosh -e my-env config --type=deploy --name=default
                                         routing/0.145.0
                                         statsd-injector/1.0.20
                                         uaa/25
-    service-instance_0d4140a0-42b7-...  mysql/0.6.0               bosh-warden-boshlite-ubuntu-xenial-go_agent/621.74  -
+    service-instance_0d4140a0-42b7-...  mysql/0.6.0               bosh-warden-boshlite-ubuntu-noble/1.585             -
 
     2 deployments
 
@@ -959,7 +959,7 @@ bosh -e my-env config --type=deploy --name=default
     Using environment '192.168.56.6' as client 'admin'
 
     Name  Release(s)              Stemcell(s)                                         Team(s)  Cloud Config
-    cf    binary-buildpack/1.0.9  bosh-warden-boshlite-ubuntu-xenial-go_agent/621.74  -        latest
+    cf    binary-buildpack/1.0.9  bosh-warden-boshlite-ubuntu-noble/1.585             -        latest
           capi/1.21.0
           cf-mysql/34
           cf-smoke-tests/11

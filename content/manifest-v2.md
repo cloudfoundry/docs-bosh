@@ -72,11 +72,11 @@ features:
 - **url** [String, optional]: URL of a release to download or local directory path when version is `create`. Works with CLI v2. Example: `https://bosh.io/d/github.com/cloudfoundry/syslog-release?v=11`.
 - **sha1** [String, optional]: SHA1 of asset referenced via URL. Works with CLI v2. Example: `332ac15609b220a3fdf5efad0e0aa069d8235788`.
 - **stemcell** [Hash, optional]: When `url` refers to a compiled release, the stemcell on which it was compiled (recommended when `url` refers to a compiled release).
-    - **os** [String, required]: Operating system of the stemcell. Example: `ubuntu-xenial`.
-    - **version** [String, required]: Version of the stemcell. Example: `97.18`.
+    - **os** [String, required]: Operating system of the stemcell. Example: `ubuntu-noble`.
+    - **version** [String, required]: Version of the stemcell. Example: `1.585`.
 - **exported_from** [Array, optional]: Require the release be deployed from previously-compiled releases of specific stemcell versions.
-    - **os** [String, required]: Operating system of the stemcell. Example: `ubuntu-xenial`.
-    - **version** [String, required]: Version of the stemcell. Example: `97.18`.
+    - **os** [String, required]: Operating system of the stemcell. Example: `ubuntu-noble`.
+    - **version** [String, required]: Version of the stemcell. Example: `1.585`.
 
 See [Release URLs](release-urls.md) for more details.
 
@@ -104,14 +104,13 @@ Example with a compiled release:
 releases:
 - name: cf-mysql
   version: 36.15.0
-  url: https://storage.googleapis.com/cf-deployment-compiled-releases/cf-mysql-36.15.0-ubuntu-xenial-97.18-20181006-041256-899428687.tgz
-  sha1: 6466c44827c3493645ca34b084e7c21de23272b4
+  url: https://storage.googleapis.com/cf-deployment-compiled-releases/cf-mysql-36.15.0-ubuntu-noble-1.585-20181006-041256-899428687.tgz
   stemcell:
-    os: ubuntu-xenial
-    version: 97.18
+    os: ubuntu-noble
+    version: 1.585
   exported_from:
-  - os: ubuntu-xenial
-    version: 97.18
+  - os: ubuntu-noble
+    version: 1.585
 ```
 
 Example with a local release directory:
@@ -130,7 +129,7 @@ releases:
 **stemcells** [Array, required]: The name and version of each stemcell in the deployment.
 
 - **alias** [String, required]: Name of a stemcell used in the deployment
-- **os** [String, optional]: Operating system of a matching stemcell. Example: `ubuntu-xenial`.
+- **os** [String, optional]: Operating system of a matching stemcell. Example: `ubuntu-noble`.
 - **version** [String, required]: The version of a matching stemcell. Version can be `latest`.
 - **name** [String, optional]: Full name of a matching stemcell. Either `name` or `os` keys can be specified.
 
@@ -142,11 +141,11 @@ Example:
 ```yaml
 stemcells:
 - alias: default
-  os: ubuntu-xenial
-  version: 621.74
+  os: ubuntu-noble
+  version: 1.585
 - alias: default2
-  name: bosh-aws-xen-hvm-ubuntu-xenial-go_agent
-  version: 621.74
+  name: bosh-aws-xen-hvm-ubuntu-noble
+  version: 1.585
 ```
 
 ---

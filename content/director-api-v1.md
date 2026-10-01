@@ -572,7 +572,7 @@ Empty.
 
 - **name** [String]: Name of the stemcell.
 - **version** [String]: Version of the stemcell.
-- **operating_system** [String]: Operating system identifier. Example: `ubuntu-xenial` and `centos-7`.
+- **operating_system** [String]: Operating system identifier. Example: `ubuntu-noble` and `centos-7`.
 - **cid** [String]: Cloud ID of the stemcell.
 - **deployments** [Array]: List of deployments currently using this stemcell version.
     - **name** [String]: Deployment name.
@@ -587,9 +587,9 @@ bosh curl '/stemcells' | jq .
 ```json
 [
   {
-    "name": "bosh-warden-boshlite-ubuntu-xenial-go_agent",
-    "operating_system": "ubuntu-xenial",
-    "version": "621.74",
+    "name": "bosh-warden-boshlite-ubuntu-noble",
+    "operating_system": "ubuntu-noble",
+    "version": "1.585",
     "cid": "stemcell-f580d090-7cdb-4ee2-6d9a-fd2b155024f8",
     "deployments": [
       { "name": "cf-warden" }
@@ -702,12 +702,12 @@ bosh curl '/deployments' | jq .
     ],
     "stemcells": [
       {
-        "name": "bosh-warden-boshlite-ubuntu-xenial-go_agent",
-        "version": "621.74"
+        "name": "bosh-warden-boshlite-ubuntu-noble",
+        "version": "1.585"
       },
       {
-        "name": "bosh-warden-boshlite-ubuntu-xenial-go_agent",
-        "version": "456.112"
+        "name": "bosh-warden-boshlite-ubuntu-noble",
+        "version": "1.558"
       }
     ]
   }
@@ -1189,8 +1189,8 @@ curl -v -s -k 'https://admin:admin@192.168.56.4:25555/tasks/1181/output?type=res
   "bootstrap": false,
   "ignore": false,
   "stemcell": {
-    "name": "bosh-google-kvm-ubuntu-xenial-go_agent",
-    "version": "621.359",
+    "name": "bosh-google-kvm-ubuntu-noble",
+    "version": "1.585",
     "api_version": 3
   }
 }
@@ -1321,7 +1321,7 @@ bosh curl /events | jq .
           "bosh-aws-cpi/62+dev.1"
         ],
         "stemcells": [
-          "bosh-aws-xen-hvm-ubuntu-xenial-go_agent/456.112"
+          "bosh-aws-xen-hvm-ubuntu-noble/1.558"
         ]
       },
       "after": {
@@ -1331,7 +1331,7 @@ bosh curl /events | jq .
           "bosh-aws-cpi/62+dev.1"
         ],
         "stemcells": [
-          "bosh-aws-xen-hvm-ubuntu-xenial-go_agent/621.74"
+          "bosh-aws-xen-hvm-ubuntu-noble/1.585"
         ]
       }
     }

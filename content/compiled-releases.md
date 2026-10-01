@@ -31,7 +31,7 @@ To export a release:
 
     stemcells:
     - alias: default
-      os: ubuntu-xenial
+      os: ubuntu-noble
       version: latest
 
     instance_groups: []
@@ -50,7 +50,7 @@ To export a release:
 
 1. Deploy. Example manifest above does not allocate any resources when deployed.
 
-1. Run `bosh export-release` command. In our example: `bosh -d compilation-workspace export-release uaa/45 ubuntu-xenial/621.74`. If release is not already compiled it will create necessary compilation VMs and compile all packages.
+1. Run `bosh export-release` command. In our example: `bosh -d compilation-workspace export-release uaa/45 ubuntu-noble/1.585`. If release is not already compiled it will create necessary compilation VMs and compile all packages.
 
 1. Find exported release tarball in the current directory. Compiled release tarball can be now imported into any other Director via `bosh upload-release` command.
 
@@ -62,7 +62,7 @@ To export a release:
 
 Compiled releases are built against a particular stemcell version. Director allows compiled releases to be installed on any minor version of the major stemcell version that the compiled release was exported against. `bosh create-env` command requires exact stemcell match unlike the Director.
 
-For example UAA release 27 compiled against stemcell version 3233.10 will work on any 3233 stemcell, but the Director will refuse to install it on 3234.
+For example, a UAA release compiled against stemcell version `ubuntu-noble/1.585` will work on any `ubuntu-noble/1.x` stemcell, but the Director will refuse to install it on `2.x`.
 
 ## Using the bosh-agent compile command {: #bosh-agent-compile }
 

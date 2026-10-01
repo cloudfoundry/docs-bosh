@@ -79,7 +79,7 @@ The Director and the Agents can use an S3 compatible blobstore. Here is how to c
 ## Google Cloud Storage (GCS) {: #gcs }
 
 !!! note
-    Available in bosh release v263+ and Linux stemcells 3450+.
+    Available in bosh release v263+.
 
 The Director and the Agents can use GCS as a blobstore. Here is how to configure it:
 

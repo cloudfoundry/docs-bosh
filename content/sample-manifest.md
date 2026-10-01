@@ -14,8 +14,8 @@ resource_pools:
 - name: redis-servers
   network: default
   stemcell:
-    name: bosh-aws-xen-ubuntu-xenial-go_agent
-    version: 2708
+    name: bosh-aws-xen-hvm-ubuntu-noble
+    version: 1.585
   cloud_properties:
     instance_type: m1.small
     availability_zone: us-east-1c

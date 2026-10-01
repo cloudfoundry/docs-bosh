@@ -1,7 +1,7 @@
 # Using IPv6 on vSphere
 
 !!! note
-    BOSH supports IPv6 on vSphere since version bosh-release v264+, stemcell 3468.11+ and CLI v2.0.45+.
+    BOSH supports IPv6 on vSphere since version bosh-release v264+ and CLI v2.0.45+.
 
 In this guide we explore how to configure BOSH in an IPv6-enabled environment.
 
@@ -121,11 +121,9 @@ Follow steps below or the [deploy workflow](basic-workflow.md) that goes through
 1. Upload stemcell
 
     ```shell
-    bosh -e ipv6 upload-stemcell --sha1 0d927b9c5f79b369e646f5c835e33496bf7356c5 \
-    https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-xenial-go_agent?v=621.74
+    bosh -e ipv6 upload-stemcell \
+    https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-noble?v=1.585
     ```
-
-    Note that IPv6 is currently only available for Ubuntu Xenial and Ubuntu Trusty stemcells.
 
 1. Deploy example deployment and see IPv6 addresses
 
@@ -267,11 +265,9 @@ Follow steps below or the [deploy workflow](basic-workflow.md) that goes through
 1. Upload stemcell
 
     ```shell
-    bosh -e ipv6 upload-stemcell --sha1 0d927b9c5f79b369e646f5c835e33496bf7356c5 \
-    https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-xenial-go_agent?v=621.74
+    bosh -e ipv6 upload-stemcell \
+    https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-noble?v=1.585
     ```
-
-    Note that IPv6 is currently only available for Ubuntu Xenial and Ubuntu Trusty stemcells.
 
 1. Deploy example deployment and see IPv6 addresses
 
