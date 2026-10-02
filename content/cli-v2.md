@@ -1263,9 +1263,9 @@ bosh -e my-env config --type=deploy --name=default
 
 #### Disks {: #disks }
 
-- `bosh [GLOBAL-CLI-OPTIONS] disks [-o | --dynamic]`
+- `bosh [GLOBAL-CLI-OPTIONS] disks (-o | --dynamic)`
 
-    Lists disks. Give one of the two flags.
+    Lists disks. Give exactly one of the two flags.
 
     - `-o`, `--orphaned` List orphaned disks
     - `--dynamic` List [dynamic disks](dynamic-disks.md) (bosh-cli v7.10.8+)
