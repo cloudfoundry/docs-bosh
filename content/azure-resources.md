@@ -239,7 +239,8 @@ Should result in:
 ## Storage Account {: #storage-account }
 
 Create a default storage account to hold root disks, persistent disks, stemcells, etc.
-If unsure of desired SKU Name, choose `LRS`, desired Kind, choose `Storage`:
+If unsure of desired SKU Name, choose `LRS`. The Azure CLI defaults to kind `StorageV2` (General Purpose v2),
+which is required; General Purpose v1 (`Storage`) account creation was retired in September 2026.
 
 ```shell
 az storage account create --name myboshstore --resource-group bosh-res-group --location "Central US"
@@ -272,7 +273,7 @@ Should result in:
   },
   "id": "/subscriptions/my-subscription-id/resourceGroups/bosh-res-group/providers/Microsoft.Storage/storageAccounts/myboshstore",
   "identity": null,
-  "kind": "Storage",
+  "kind": "StorageV2",
   "lastGeoFailoverTime": null,
   "location": "centralus",
   "name": "myboshstore",

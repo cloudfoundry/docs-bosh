@@ -418,7 +418,7 @@ Schema:
 - **client_secret** [String, optional]: Client secret of the service principal.
 - **certificate** [String, optional]: The certificate for your service principal. Azure CPI v35.0.0+ supports the [service principal with a certificate](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/use-service-principal-with-certificate). Only one of `client_secret` and `certificate` can be specified.
 - **resource\_group\_name** [String, required]: Resource group name.
-- **storage\_account\_name** [String, optional]: Storage account name. It will be used as a default storage account for VM disks and stemcells. If `use_managed_disks` is `false`, `storage_account_name` is required. Otherwise, `storage_account_name` is optional.
+- **storage\_account\_name** [String, optional]: Storage account name. Used as the default storage account for VM disks and stemcells. Required when `use_managed_disks` is `false`. When omitted, the CPI auto-creates one (requires CPI v5X.X.X+; see [AccountKindNotSupported](./azure-cpi-errors.md#accountkindnotsupported)).
 - **ssh_user** [String, required]: SSH username. Default: `vcap`.
 - **ssh\_public\_key** [String, required]: SSH public key.
 - **default\_security\_group** [String, optional]: Name of the default [security group](https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview) that will be applied to all created VMs. This property is required before v35.0.0, and optional in v35.0.0+.
