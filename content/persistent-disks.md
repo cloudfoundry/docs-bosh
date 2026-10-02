@@ -219,3 +219,9 @@ For example, to re-attach the disk:
     `attach-disk` command can also attach available disks found in the IaaS. They don't have to be listed in the orphaned disks list.
 
 Orphaned disks are deleted after [5 days by default](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.disks). You can decide to clean up orphaned disks manually with `bosh clean-up --all` or one-by-one with `bosh delete-disk`.
+
+---
+
+## Dynamic Disks {: #dynamic-disks }
+
+A [dynamic disk](dynamic-disks.md) is a disk that an API client manages while the deployment runs. The deployment manifest does not declare it.

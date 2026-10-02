@@ -168,6 +168,23 @@ Note that CLI will try to list releases before uploading given release, hence `b
 
 ---
 
+### Dynamic disk scopes {: #dynamic-disks }
+
+!!! note
+    This feature is available with bosh-release v282.1.6+.
+
+Scopes:
+
+- `bosh.dynamic-disks.create`: user can create dynamic disks
+- `bosh.dynamic-disks.attach`: user can attach dynamic disks
+- `bosh.dynamic-disks.detach`: user can detach dynamic disks
+- `bosh.dynamic-disks.delete`: user can delete dynamic disks
+- `bosh.dynamic-disks.list`: user can list dynamic disks
+
+The provide operation needs both `bosh.dynamic-disks.create` and `bosh.dynamic-disks.attach`. The `bosh.admin` and `bosh.<DIRECTOR-UUID>.admin` scopes also give all dynamic disk permissions. See [Dynamic Disks](dynamic-disks.md).
+
+---
+
 ### Anonymous {: #anon }
 
 Users with no UAA scopes are considered anonymous.
