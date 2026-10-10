@@ -24,22 +24,22 @@ you do one of the following:
 The BOSH v2 CLI also hyphenates single commands that v1 represented as space-separated word pairs.
 For example, `bosh delete deployment` in v1 corresponds to `bosh delete-deployment` in v2.
 
-| Before                      | After                           |
-|-----------------------------|---------------------------------|
-| bosh-init deploy <manifest> | bosh create-env <manifest>      |
-| bosh-init delete <manifest> | bosh delete-env <manifest>      |
-| bosh target <ip>            | bosh alias-env my-env -e <ip>   |
-| bosh status                 | bosh env                        |
-| bosh -t my-env ...          | bosh -e my-env ...              |
-| bosh -d manifest-path ...   | bosh -d deployment-name ... [3] |
-| bosh deployment <manifest>  | n/a                             |
-| bosh deploy                 | bosh deploy <manifest>          |
-| bosh delete deployment      | bosh delete-deployment          |
-| bosh tasks --no-filter      | bosh tasks                      |
-| bosh tasks recent 1000      | bosh tasks -r=1000              |
-| bosh download manifest dep  | bosh manifest                   |
-| bosh vms my-dep             | bosh instances                  |
-| bosh vms my-dep             | bosh -d my-dep vms              |
+| Before                        | After                             |
+|-------------------------------|-----------------------------------|
+| `bosh-init deploy <manifest>` | `bosh create-env <manifest>`      |
+| `bosh-init delete <manifest>` | `bosh delete-env <manifest>`      |
+| `bosh target <ip>`            | `bosh alias-env my-env -e <ip>`   |
+| `bosh status`                 | `bosh env`                        |
+| `bosh -t my-env ...`          | `bosh -e my-env ...`              |
+| `bosh -d manifest-path ...`   | `bosh -d deployment-name ...`     |
+| `bosh deployment <manifest>`  | n/a                               |
+| `bosh deploy`                 | `bosh deploy <manifest>`          |
+| `bosh delete deployment`      | `bosh delete-deployment`          |
+| `bosh tasks --no-filter`      | `bosh tasks`                      |
+| `bosh tasks recent 1000`      | `bosh tasks -r=1000`              |
+| `bosh download manifest dep`  | `bosh manifest`                   |
+| `bosh vms my-dep`             | `bosh instances`                  |
+| `bosh vms my-dep`             | `bosh -d my-dep vms`              |
 
 - Most commands require (`--environment`) `-e` and `--deployment` (`-d`) flags
 - `--deployment` (`-d`) flag accepts a deployment name instead of a manifest

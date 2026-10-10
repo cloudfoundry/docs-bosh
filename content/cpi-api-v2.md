@@ -47,7 +47,7 @@ resource_pools:
 
 For registry-less operation to be possible, the director and CPI must implement v2 of the API contract and the stemcell must contain a version of the agent implementing v2 as well. In the table below, `user-metadata` refers to the agent settings sent with `create_vm`.
 
-| Director | CPI   | Stemcell | Should update registry       | Add *full agent settings** to IaaS `user-metadata`? |
+| Director | CPI   | Stemcell | Should update registry       | Add *full agent settings*\* to IaaS `user-metadata`? |
 |----------|-------|----------|------------------------------|-----------------------------------------------------|
 | 1        | 1     | 1        | Update registry              | No                                                  |
 | 1        | 1     | 2        | Update registry              | No                                                  |
