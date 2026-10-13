@@ -1263,11 +1263,12 @@ bosh -e my-env config --type=deploy --name=default
 
 #### Disks {: #disks }
 
-- `bosh [GLOBAL-CLI-OPTIONS] disks [-o ]`
+- `bosh [GLOBAL-CLI-OPTIONS] disks (-o | --dynamic)`
 
-    Lists disks.
+    Lists disks. Give exactly one of the two flags.
 
     - `-o`, `--orphaned` List orphaned disks
+    - `--dynamic` List [dynamic disks](dynamic-disks.md) (bosh-cli v7.10.8+)
 
 #### Orphan-Disk {: #orphan-disk }
 
@@ -1293,12 +1294,15 @@ bosh -e my-env config --type=deploy --name=default
 
 #### Delete-Disk {: #delete-disk }
 
-- `bosh [GLOBAL-CLI-OPTIONS] delete-disk CID`
+- `bosh [GLOBAL-CLI-OPTIONS] delete-disk [--dynamic] CID-OR-NAME`
 
-    Deletes orphaned disk.
+    Deletes orphaned disk. With `--dynamic`, deletes a [dynamic disk](dynamic-disks.md) by name.
+
+    - `--dynamic` Delete a dynamic disk by name (bosh-cli v7.10.8+)
 
     ```shell
     bosh -e vbox -d cf delete-disk vol-shw8f293f2f2
+    bosh -e vbox delete-disk --dynamic service-instance-1234
     ```
 
 ---

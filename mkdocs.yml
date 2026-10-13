@@ -38,6 +38,7 @@ nav:
       - Persistent Disks: persistent-disks.md
       - Taking Snapshots: snapshots.md
       - Using XFS: persistent-disk-fs.md
+      - Dynamic Disks: dynamic-disks.md
     - Using Links:
       - Links: links.md
       - Manually Configuring Links: links-manual.md

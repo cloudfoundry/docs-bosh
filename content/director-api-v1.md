@@ -802,6 +802,147 @@ Deleting a deployment is performed in a Director task. Response will be a redire
 
 ---
 
+## Dynamic disks {: #dynamic-disks }
+
+!!! note
+    These endpoints are available with bosh-release v282.1.6+. `GET /dynamic_disks`, `POST /dynamic_disks`, and `POST /dynamic_disks/{name}/attach` need bosh-release v283.1.2+.
+
+See [Dynamic Disks](dynamic-disks.md) for the requirements and the lifecycle. Each endpoint needs a [dynamic disk scope](director-users-uaa-scopes.md#dynamic-disks).
+
+---
+
+### `GET /dynamic_disks`: List dynamic disks {: #list-dynamic-disks }
+
+#### Response body schema
+
+**[root]** [Array]: List of dynamic disks.
+
+- **name** [String]: Disk name.
+- **disk_cid** [String]: Disk CID.
+- **deployment** [String]: Deployment name.
+- **instance** [String]: Name of the instance that has the disk, or null when the disk is detached.
+- **availability_zone** [String]: Availability zone.
+- **size** [Integer]: Size in MiB.
+- **disk_pool_name** [String]: Name of the disk type in the cloud config.
+- **cpi** [String]: Name of the CPI.
+- **metadata** [Hash]: Disk metadata.
+
+#### Example
+
+```shell
+bosh curl /dynamic_disks | jq .
+```
+
+```json
+[
+  {
+    "name": "service-instance-1234",
+    "disk_cid": "vol-0a1b2c3d",
+    "deployment": "my-service",
+    "instance": "worker/209c42e5-3c1a-432a-8445-ab8d7c9f69b0",
+    "availability_zone": "z1",
+    "size": 10240,
+    "disk_pool_name": "default",
+    "cpi": "",
+    "metadata": {"service_instance": "1234"}
+  }
+]
+```
+
+---
+
+### `POST /dynamic_disks/provide`: Create and attach a dynamic disk {: #provide-dynamic-disk }
+
+Creates the disk if no disk has the name, then attaches it to the instance.
+
+#### Request headers
+
+- **Content-Type** must be `application/json`.
+
+#### Request body schema
+
+**[root]** [Hash]
+
+- **instance_id** [String, required]: Instance ID (UUID).
+- **disk_name** [String, required]: Disk name. Disk names are unique on the Director.
+- **disk_pool_name** [String, required]: Name of a disk type in the cloud config.
+- **disk_size** [Integer, required]: Size in MiB.
+- **metadata** [Hash, optional]: Disk metadata.
+
+#### Response
+
+Performed in a Director task. Response will be a redirect to a task resource. The task result has the disk CID, for example `{"disk_cid":"vol-0a1b2c3d"}`.
+
+---
+
+### `POST /dynamic_disks`: Create a dynamic disk {: #create-dynamic-disk }
+
+Creates the disk and does not attach it. The deployment must have an active VM in the availability zone.
+
+#### Request headers
+
+- **Content-Type** must be `application/json`.
+
+#### Request body schema
+
+**[root]** [Hash]
+
+- **deployment_name** [String, required]: Deployment name.
+- **az** [String, required]: Availability zone.
+- **disk_name** [String, required]: Disk name. Disk names are unique on the Director.
+- **disk_pool_name** [String, required]: Name of a disk type in the cloud config.
+- **disk_size** [Integer, required]: Size in MiB.
+- **metadata** [Hash, optional]: Disk metadata.
+
+#### Response
+
+Performed in a Director task. Response will be a redirect to a task resource. The task result has the disk CID.
+
+---
+
+### `POST /dynamic_disks/{name}/attach`: Attach a dynamic disk {: #attach-dynamic-disk }
+
+#### Request headers
+
+- **Content-Type** must be `application/json`.
+
+#### Request body schema
+
+**[root]** [Hash]
+
+- **instance_id** [String, required]: Instance ID (UUID).
+- **metadata** [Hash, optional]: Disk metadata.
+
+#### Response
+
+Performed in a Director task. Response will be a redirect to a task resource.
+
+---
+
+### `POST /dynamic_disks/{name}/detach`: Detach a dynamic disk {: #detach-dynamic-disk }
+
+#### Request body
+
+Empty.
+
+#### Response
+
+Performed in a Director task. Response will be a redirect to a task resource.
+
+---
+
+### `DELETE /dynamic_disks/{name}`: Delete a dynamic disk {: #delete-dynamic-disk }
+
+#### Request body
+
+Empty.
+
+#### Response
+
+Performed in a Director task. Response will be a redirect to a task resource.
+
+---
+
 ## Instances in a deployment {: #instances }
 
 !!! note
