@@ -3,7 +3,7 @@
 !!! note
     This feature is available with bosh-release v282.1.6+. The create, attach, and list operations need bosh-release v283.1.2+.
 
-A dynamic disk is a disk that an API client creates, attaches, detaches, and deletes while a deployment runs. The deployment manifest does not declare it, and a deploy does not change it. Use a dynamic disk when a workload on a VM needs extra storage on demand, for example a volume for a service instance.
+A dynamic disk is a disk that an API client creates, attaches, detaches, and deletes while a deployment runs. The deployment manifest does not declare or reconcile it, although a deploy that recreates the VM detaches it as described in [Lifecycle](#lifecycle). Use a dynamic disk when a workload on a VM needs extra storage on demand, for example a volume for a service instance.
 
 Dynamic disks are different from [persistent disks](persistent-disks.md). The Director manages a persistent disk from the manifest. A client of the [Director API](director-api-v1.md#dynamic-disks) manages a dynamic disk. For the design, see [RFC 0053: Dynamic Disks](https://github.com/cloudfoundry/community/blob/main/toc/rfc/rfc-0053-dynamic-disks.md).
 
