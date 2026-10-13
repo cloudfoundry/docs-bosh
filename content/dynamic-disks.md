@@ -12,7 +12,7 @@ Dynamic disks are different from [persistent disks](persistent-disks.md). The Di
 ## Requirements {: #requirements }
 
 - **Director**: bosh-release v282.1.6+. Use v283.1.2+ to get all six API endpoints.
-- **Stemcell**: a stemcell with bosh-agent v2.834.0+. The agent must support the `add_dynamic_disk` and `remove_dynamic_disk` messages.
+- **Stemcell**: a Linux stemcell with bosh-agent v2.834.0+. The agent must support the `add_dynamic_disk` and `remove_dynamic_disk` messages.
 - **CLI**: bosh-cli v7.10.8+ for `bosh disks --dynamic` and `bosh delete-disk --dynamic`.
 - **Workers**: set the `director.dynamic_disks_workers` property of the director job to 1 or more. The default is 0. With 0, no Director worker reads the dynamic disks queue, and each dynamic disk task stays in the `queued` state.
 - **Disk type**: a [disk type](cloud-config.md#disk-types) in the cloud config. The API calls it `disk_pool_name`. The Director uses the `cloud_properties` of that disk type when it creates the disk.
