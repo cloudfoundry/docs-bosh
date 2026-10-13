@@ -16,7 +16,7 @@ Dynamic disks are different from [persistent disks](persistent-disks.md). The Di
 - **CLI**: bosh-cli v7.10.8+ for `bosh disks --dynamic` and `bosh delete-disk --dynamic`.
 - **Workers**: set the `director.dynamic_disks_workers` property of the director job to 1 or more. The default is 0. With 0, no Director worker reads the dynamic disks queue, and each dynamic disk task stays in the `queued` state.
 - **Disk type**: a [disk type](cloud-config.md#disk-types) in the cloud config. The API calls it `disk_pool_name`. The Director uses the `cloud_properties` of that disk type when it creates the disk.
-- **Permissions**: a UAA client or user with the [dynamic disk scopes](director-users-uaa-scopes.md#dynamic-disks), or with `bosh.admin`.
+- **Permissions**: a UAA client or user with the [dynamic disk scopes](director-users-uaa-scopes.md#dynamic-disks), `bosh.admin`, or `bosh.<DIRECTOR-UUID>.admin`.
 
 Example operations file for the director job:
 
