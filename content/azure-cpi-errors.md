@@ -98,6 +98,6 @@ Please reference the [issue #230](https://github.com/cloudfoundry/bosh-azure-cpi
 AccountKindNotSupported: Account Kind Storage is not supported. Please use a supported account kind.
 ```
 
-Azure retired General Purpose v1 (`Storage`) storage account creation in September 2026. CPI versions prior to v53.1.10 hardcode this kind on the auto-create path used when `storage_account_name` is not set in the global CPI configuration. This most commonly surfaces after upgrading to a `bosh-deployment` version that omits `storage_account_name` (e.g. after managed disks became the default) on a deployment that does not already have a storage account.
+On public Azure, Azure retired General Purpose v1 (`Storage`) storage account creation in September 2026. CPI versions prior to v53.1.10 hardcode this kind on the auto-create path used when `storage_account_name` is not set in the global CPI configuration. This most commonly surfaces after upgrading to a `bosh-deployment` version that omits `storage_account_name` (e.g. after managed disks became the default) on a deployment that does not already have a storage account.
 
-**Fix:** upgrade to CPI v53.1.10+, which auto-creates General Purpose v2 (`StorageV2`) accounts.
+**Fix for public Azure:** upgrade to CPI v53.1.10+, which auto-creates General Purpose v2 (`StorageV2`) accounts. Azure Stack uses `Storage` for this auto-create path.
