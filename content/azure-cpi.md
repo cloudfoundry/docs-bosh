@@ -90,17 +90,17 @@ Schema for `cloud_properties` section:
 
 - **root_disk** [Hash, optional]: OS disk of custom size.
     - **size** [Integer, optional]: Specifies the disk size in MiB.
-        - The size must be greater than 3 * 1024 and less than the max disk size for [unmanaged](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-pageblob-overview) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. Please always use `N * 1024` as the size because Azure always uses GiB but not MiB.
+        - The size must be greater than 3 * 1024 and less than the max disk size for [unmanaged](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-pageblob-overview) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. The CPI converts MiB to GiB using integer division before calling Azure, so non-multiples of 1024 are silently truncated; use `N * 1024` to get the intended size.
         - It has a default value `30 * 1024` only when ephemeral_disk.use\_root\_disk is set to true.
     - **disk_encryption_set_name** [String, optional]: The Azure Disk Encryption Set name to use when creating the root disk. This is used to encrypt the disk with customer provided keys rather than the default Azure provided encryption keys. Available since v52.0.0.
 - **caching** [String, optional]: Type of the disk caching of the VMs' OS disks. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `ReadWrite`.
 
-- **ephemeral_disk** [Hash, optional]: Ephemeral disk to apply for all VMs that are in this VM type/extension. By default a data disk with the default size as below will be created as the ephemeral disk.
+- **ephemeral_disk** [Hash, optional]: Ephemeral disk to apply for all VMs that are in this VM type/extension. By default a data disk is created as the ephemeral disk; its size is derived from the instance type's temporary disk size, subject to the floor and cap described below.
     - **use\_root\_disk** [Boolean, optional]: Enable to use OS disk to store the ephemeral data. The default value is false. When it is true, ephemeral_disk.size will not be used.
-    - **size** [Integer, optional]: Specifies the disk size in MiB. If this is not set, the default size as below will be used. The size of the ephemeral disk for the BOSH VM should be larger than or equal to `30*1024` MiB. Please always use `N * 1024` as the size because Azure always uses GiB not MiB.
-        - If the Azure temporary disk size for the instance type is less than `30*1024` MiB, the default size is `30*1024` MiB because the space may not be enough.
-        - If the Azure temporary disk size for the instance type is larger than `1000*1024` MiB, the default size is `1000*1024` MiB because it is not expected to use such a large ephemeral disk in CF currently.
-        - Otherwise, the Azure temporary disk size will be used as the default size. See more information about [Azure temporary disk size](https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/overview).
+    - **size** [Integer, optional]: Specifies the disk size in MiB. The CPI converts MiB to GiB using integer division before calling Azure, so non-multiples of 1024 are silently truncated; use `N * 1024` to get the intended size. The size must be at least `30*1024` MiB. If not set, the size is derived from the instance type's temporary disk size as follows:
+        - Instance types whose Azure temporary disk is smaller than 30 GiB use `30*1024` MiB as the minimum.
+        - Instance types whose Azure temporary disk is larger than 1000 GiB use `1000*1024` MiB as the maximum.
+        - Otherwise the instance type's temporary disk size is used. Temp disk sizes are listed on each series page under the **Local Storage** tab in the [Azure VM sizes catalog](https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/overview).
     - **caching** [String, optional]: Type of the disk caching. It can be either `None`, `ReadOnly` or `ReadWrite`. Default is `None`.
     - **type** [String, optional]: Storage account type. Valid only when `use_managed_disks` is `true`. It can be either `Standard_LRS`, `Premium_LRS` or `PremiumV2_LRS`. See [Azure managed disk types](https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types) for more information. For `PremiumV2_LRS`, you have to set caching to `None` since `PremiumV2_LRS` does currently not support caching.
     - **iops** [Integer, optional]: IOPS of the disk. If you need more IOPS than the baseline offers, you can increase the IOPS of the disks. For more details, see [Premium SSD v2 performance](https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types#premium-ssd-v2-performance). Only supported for `PremiumV2_LRS`
@@ -379,7 +379,7 @@ instance_groups:
 ## Disk Types {: #disk-pools }
 
 - **name** [String, required]: Name of the disk type.
-- **disk_size** [Integer, required]: Size of the disk in MiB. On Azure the disk size must be greater than 1 * 1024 and less than the max disk size for [unmanaged](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-pageblob-overview) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. Please always use `N * 1024` as the size because Azure always uses GiB not MiB.
+- **disk_size** [Integer, required]: Size of the disk in MiB. On Azure the disk size must be greater than 1 * 1024 and less than the max disk size for [unmanaged](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-pageblob-overview) or [managed](https://azure.microsoft.com/en-us/pricing/details/managed-disks/) disk. The CPI converts MiB to GiB using integer division before calling Azure, so non-multiples of 1024 are silently truncated; use `N * 1024` to get the intended size.
 
 Schema for `cloud_properties` section:
 
