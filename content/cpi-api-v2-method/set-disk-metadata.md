@@ -52,7 +52,7 @@ No return value
 
 ### Implementations
 
-- [cloudfoundry/bosh-openstack-cpi-release](https://github.com/cloudfoundry/bosh-openstack-cpi-release/blob/0c8ee8951cab41d0ddc86591719d55d8a783ac98/src/bosh_openstack_cpi/lib/cloud/openstack/cloud.rb#L629)
+- [cloudfoundry/bosh-openstack-cpi-release](https://github.com/cloudfoundry/bosh-openstack-cpi-release/blob/8c73155d98c9d92e2cde5b4e211633052ffb8cbc/src/openstack_cpi_golang/cpi/methods/set_disk_metadata.go#L33)
 
 ## Related
 

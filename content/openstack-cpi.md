@@ -215,6 +215,19 @@ default_security_groups: [bosh]
 default_volume_type: ceph
 ```
 
+Example with application credentials (Keystone V3):
+
+```yaml
+auth_url: http://pistoncloud.com:5000/v3
+application_credential_id: abc123def456
+application_credential_secret: s3cr3t
+project: Bosh
+domain: sample-domain
+region: RegionOne
+default_key_name: bosh
+default_security_groups: [bosh]
+```
+
 ---
 
 ## Example Cloud Config {: #cloud-config }
