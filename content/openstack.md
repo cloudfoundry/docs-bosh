@@ -56,12 +56,13 @@ The CPI supports multiple NICs being attached to a single VM.
 
 ### Miscellaneous
 
-|              Feature              |               Support                |
-| --------------------------------- | ------------------------------------ |
-| Multi-CPI                         | Supported, [v31][openstack_cpi_v31]+ |
-| Native Disk Resize                | Supported, [v33][openstack_cpi_v33]+ |
-| Native Disk Update                | Not Supported                        |
-| Generic VM Resource Configuration | Supported, [v31][openstack_cpi_v31]+ |
+| Feature                           | Support                                                                                 |
+|-----------------------------------|-----------------------------------------------------------------------------------------|
+| Multi-CPI                         | Supported, [v31][openstack_cpi_v31]+ (Ruby CPI), [v56.1][openstack_cpi_v56_1]+ (Go CPI) |
+| Native Disk Resize                | Supported, [v33][openstack_cpi_v33]+                                                    |
+| Native Disk Update                | Not Supported                                                                           |
+| Generic VM Resource Configuration | Supported, [v31][openstack_cpi_v31]+                                                    |
 
 [openstack_cpi_v31]: https://github.com/cloudfoundry/bosh-openstack-cpi-release/releases/tag/v31
 [openstack_cpi_v33]: https://github.com/cloudfoundry/bosh-openstack-cpi-release/releases/tag/v33
+[openstack_cpi_v56_1]: https://github.com/cloudfoundry/bosh-openstack-cpi-release/releases/tag/v56.1.0

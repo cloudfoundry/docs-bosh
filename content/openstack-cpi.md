@@ -171,6 +171,9 @@ Example of 10GB disk:
 
 See [CPI job configuration](https://bosh.io/jobs/openstack_cpi_golang?source=github.com/cloudfoundry/bosh-openstack-cpi-release) for details.
 
+!!! note
+    Multi-CPI is supported since v56.1+. The connection properties below (`auth_url`, `region`, `username`/`api_key`, `application_credential_id`/`application_credential_secret`) can be overridden per CPI entry in a [CPI config](cpi-config.md), enabling a single Director to manage VMs across multiple OpenStack projects or regions.
+
 Schema:
 
 - **default_volume_type** [String, optional]: sets volume type for persistent disks unless overridden in resource pool/VM Type. `cinder type-list` will return the available volume types. Example: `SSD`.
