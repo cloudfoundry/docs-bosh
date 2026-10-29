@@ -1,7 +1,7 @@
 # OpenStack Extended Registry Configuration
 
-!!! note
-    We are actively pursuing to remove the Registry to simplify BOSH architecture.
+!!! warning
+    The BOSH Registry was removed in the Go CPI (v56.0.0+). This page applies only to the Ruby CPI (v55 and earlier). If you are running v56+, no registry configuration is required.
 
 Default configuration typically uses Registry and defaults it to IP source authentication. Due to certain networking configurations (NAT) IP source authentication may not work correctly, hence switching to basic authentication is necessary.
 
