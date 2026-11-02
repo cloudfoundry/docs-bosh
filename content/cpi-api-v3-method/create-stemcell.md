@@ -40,4 +40,4 @@ See [Stemcell Building](../build-stemcell.md) for more details.
 
 ### Implementations
 
-- [cloudfoundry/bosh-aws-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/create_stemcell.go)
+- [cloudfoundry/bosh-aws-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/main/src/bosh-warden-cpi/action/create_stemcell.go)

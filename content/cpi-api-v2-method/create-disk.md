@@ -29,7 +29,7 @@ Creates disk with specific size. Disk does not belong to any given VM.
 
 ### Implementations
 
-- [cloudfoundry/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/create_disk.go)
+- [cloudfoundry/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/main/src/bosh-warden-cpi/action/create_disk.go)
 
 ## Related
 

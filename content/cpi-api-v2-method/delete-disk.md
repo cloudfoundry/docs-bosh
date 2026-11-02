@@ -16,7 +16,7 @@ No return value
 
 ### Implementations
 
-- [cloudfoundry/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/delete_disk.go)
+- [cloudfoundry/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/main/src/bosh-warden-cpi/action/delete_disk.go)
 
 ## Related
 
