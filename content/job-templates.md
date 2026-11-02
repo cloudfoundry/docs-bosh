@@ -4,7 +4,7 @@
 
 `bosh-template` executable in the `bosh-director` gem could be used for unit testing your job templates. Unit testing of job templates becomes even more important once they contain more complex ERB logic that may perform validation or data transformation.
 
-See example of unit tests in a production release: [https://github.com/cloudfoundry/bosh-dns-aliases-release/blob/master/spec/bosh-dns-aliases_spec.rb](https://github.com/cloudfoundry/bosh-dns-aliases-release/blob/master/spec/bosh-dns-aliases_spec.rb).
+See example of unit tests in a production release: [https://github.com/cloudfoundry/bosh-dns-aliases-release/blob/main/spec/bosh-dns-aliases_spec.rb](https://github.com/cloudfoundry/bosh-dns-aliases-release/blob/main/spec/bosh-dns-aliases_spec.rb).
 
 Assuming we have a job `web-server` with a following `config.json` ERB template:
 
