@@ -16,7 +16,7 @@ This method is mostly used by the consistency check tool (cloudcheck) to determi
 
 ### Implementations
 
-- [cloudfoundry/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/has_vm.go)
+- [cloudfoundry/bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/main/src/bosh-warden-cpi/action/has_vm.go)
 
 ## Related
 

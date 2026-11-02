@@ -34,7 +34,7 @@ No return value
 
 ### Implementations
 
-- [bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/master/src/bosh-warden-cpi/action/delete_vm.go)
+- [bosh-warden-cpi-release](https://github.com/cloudfoundry/bosh-warden-cpi-release/blob/main/src/bosh-warden-cpi/action/delete_vm.go)
 
 #### Changes for V2 of the API contract
 
