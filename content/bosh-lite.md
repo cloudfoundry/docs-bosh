@@ -39,8 +39,8 @@ Follow below steps to get it running on locally on VirtualBox:
     `192.168.56.0/24` and [NAT network][vbox_nat_net] called `NatNetwork` with
     DHCP enabled.
 
-    [vbox_host_only]: https://github.com/cloudfoundry/bosh-virtualbox-cpi-release/blob/master/docs/networks-host-only.md
-    [vbox_nat_net]: https://github.com/cloudfoundry/bosh-virtualbox-cpi-release/blob/master/docs/networks-nat-network.md
+    [vbox_host_only]: https://github.com/cloudfoundry/bosh-virtualbox-cpi-release/blob/main/docs/networks-host-only.md
+    [vbox_nat_net]: https://github.com/cloudfoundry/bosh-virtualbox-cpi-release/blob/main/docs/networks-nat-network.md
 
     ```shell
     bosh create-env ~/workspace/bosh-deployment/bosh.yml \
