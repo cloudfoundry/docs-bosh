@@ -79,6 +79,14 @@ Schema for `cloud_properties` section:
     - `SpotWithPriceLimit` Sets the price threshold for a preemptible instance.
     - `SpotAsPriceGo` A price that is based on the highest Pay-As-You-Go instance.
     - Default is `NoSpot`.
+- **private_pool_options** [Hash, optional, Available since v62.0.0]: Configures how the instance uses [private pool capacity](https://www.alibabacloud.com/help/en/ecs/developer-reference/api-ecs-2014-05-26-createinstance).
+    - **match_criteria** [String, optional]: Private pool matching mode. Options:
+        - `Open`: Automatically match an open private pool.
+        - `Target`: Use the private pool specified by `id`.
+        - `None`: Do not use a private pool.
+        - Default is `None`.
+    - **id** [String, optional]: ID of an elasticity assurance (`eap-*`) or capacity reservation (`crp-*`). Required when `match_criteria` is `Target`; must be omitted for `Open` and `None`.
+    - Private pools are not supported for spot instances. Set `match_criteria` to `None` when `spot_strategy` is not `NoSpot`.
 - **slbs** [Array, optional]: Array of Load balancer Ids used to add created VMs to default slb server group. Example: `[lb-abc123456]`.
     - Default is `[]`.
 - **slb_weight** [Integer, optional]: The weight value used to add created VMs to default slb server group. Example: `80`.
@@ -145,6 +153,19 @@ resource_pools:
   cloud_properties:
     instance_type: ecs.sn1ne.large
     availability_zone: us-east-1a
+```
+
+Example of a VM type using a targeted private pool:
+
+```yaml
+vm_types:
+- name: private-pool
+  cloud_properties:
+    instance_type: ecs.g5.large
+    availability_zone: cn-beijing-a
+    private_pool_options:
+      match_criteria: Target
+      id: eap-bp67acfmxazb4
 ```
 
 ---
