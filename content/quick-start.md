@@ -27,7 +27,7 @@ Next, we'll use [bosh-deployment](https://github.com/cloudfoundry/bosh-deploymen
 git clone https://github.com/cloudfoundry/bosh-deployment.git
 ```
 
-Now, we can run the [`virtualbox/create-env.sh`](https://github.com/cloudfoundry/bosh-deployment/blob/master/virtualbox/create-env.sh) script to create our test director and configure the environment with some defaults.
+Now, we can run the [`virtualbox/create-env.sh`](https://github.com/cloudfoundry/bosh-deployment/blob/main/virtualbox/create-env.sh) script to create our test director and configure the environment with some defaults.
 
 ```shell
 ./bosh-deployment/virtualbox/create-env.sh
@@ -95,7 +95,7 @@ Run through quick steps below or follow [deploy workflow](basic-workflow.md) tha
 
 ## Clean up
 
-The test director can be deleted using the [`virtualbox/delete-env.sh`](https://github.com/cloudfoundry/bosh-deployment/blob/master/virtualbox/delete-env.sh) script.
+The test director can be deleted using the [`virtualbox/delete-env.sh`](https://github.com/cloudfoundry/bosh-deployment/blob/main/virtualbox/delete-env.sh) script.
 
 ```shell
 ./bosh-deployment/virtualbox/delete-env.sh

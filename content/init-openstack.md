@@ -240,16 +240,16 @@ See [OpenStack CPI errors](openstack-cpi-errors.md) for list of common errors an
 
 #### Customize the Deployment {: #customize-deployment }
 
-- using internal DNS, i.e. if it is required to resolve the OpenStack API endpoint: [bosh-deployment/misc/dns.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/dns.yml)
-- using `boot-from-volume` to have nova create the boot volume as a cinder device (necessary for live-migration of VMs): [bosh-deployment/openstack/boot-from-volume.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/boot-from-volume.yml)
-- using a custom CA for your OpenStack endpoints: [bosh-deployment/openstack/custom-ca.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/custom-ca.yml)
-- putting additional trusted certificates into the cert-store of deployed VMs: [bosh-deployment/openstack/trusted-certs.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/trusted-certs.yml)
-- using a custom ntp server for deployed VMs: [bosh-deployment/misc/ntp.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/ntp.yml)
-- using keystone v2 instead of keystone v3: [bosh-deployment/openstack/keystone-v2.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/keystone-v2.yml)
-- enable soft anti affinity for each instance group: [bosh-deployment/openstack/auto-anti-affinity.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/auto-anti-affinity.yml)
-- disable human readable VM names and use UUIDs instead: [bosh-deployment/openstack/disable-readable-vm-names.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/disable-readable-vm-names.yml)
-- using nova networking instead of neutron networking: [bosh-deployment/openstack/nova-networking.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/openstack/nova-networking.yml)
-- enable native CPI disk resizing: [bosh-deployment/misc/cpi-resize-disk.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/cpi-resize-disk.yml)
+- using internal DNS, i.e. if it is required to resolve the OpenStack API endpoint: [bosh-deployment/misc/dns.yml](https://github.com/cloudfoundry/bosh-deployment/blob/main/misc/dns.yml)
+- using `boot-from-volume` to have nova create the boot volume as a cinder device (necessary for live-migration of VMs): [bosh-deployment/openstack/boot-from-volume.yml](https://github.com/cloudfoundry/bosh-deployment/blob/main/openstack/boot-from-volume.yml)
+- using a custom CA for your OpenStack endpoints: [bosh-deployment/openstack/custom-ca.yml](https://github.com/cloudfoundry/bosh-deployment/blob/main/openstack/custom-ca.yml)
+- putting additional trusted certificates into the cert-store of deployed VMs: [bosh-deployment/openstack/trusted-certs.yml](https://github.com/cloudfoundry/bosh-deployment/blob/main/openstack/trusted-certs.yml)
+- using a custom ntp server for deployed VMs: [bosh-deployment/misc/ntp.yml](https://github.com/cloudfoundry/bosh-deployment/blob/main/misc/ntp.yml)
+- using keystone v2 instead of keystone v3: [bosh-deployment/openstack/keystone-v2.yml](https://github.com/cloudfoundry/bosh-deployment/blob/main/openstack/keystone-v2.yml)
+- enable soft anti affinity for each instance group: [bosh-deployment/openstack/auto-anti-affinity.yml](https://github.com/cloudfoundry/bosh-deployment/blob/main/openstack/auto-anti-affinity.yml)
+- disable human readable VM names and use UUIDs instead: [bosh-deployment/openstack/disable-readable-vm-names.yml](https://github.com/cloudfoundry/bosh-deployment/blob/main/openstack/disable-readable-vm-names.yml)
+- using nova networking instead of neutron networking: [bosh-deployment/openstack/nova-networking.yml](https://github.com/cloudfoundry/bosh-deployment/blob/main/openstack/nova-networking.yml)
+- enable native CPI disk resizing: [bosh-deployment/misc/cpi-resize-disk.yml](https://github.com/cloudfoundry/bosh-deployment/blob/main/misc/cpi-resize-disk.yml)
 
 ### Connect to the Director
 

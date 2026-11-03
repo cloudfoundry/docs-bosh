@@ -5,7 +5,7 @@
 
 As of `v270.10.0` the director can now be deployed with a co-located metrics server which will report Prometheus style metrics about the director and it's deployed VMs.
 
-The metrics server can be enabled by setting the `properties.director.metrics_server.enabled` property to true. If you are using [bosh-deployment](https://github.com/cloudfoundry/bosh-deployment), the [`experimental/enable-metrics.yml`](https://github.com/cloudfoundry/bosh-deployment/blob/master/experimental/enable-metrics.yml) operations file will enable the metrics server.
+The metrics server can be enabled by setting the `properties.director.metrics_server.enabled` property to true. If you are using [bosh-deployment](https://github.com/cloudfoundry/bosh-deployment), the [`experimental/enable-metrics.yml`](https://github.com/cloudfoundry/bosh-deployment/blob/main/experimental/enable-metrics.yml) operations file will enable the metrics server.
 
 Currently the metrics server is secured using mutual auth TLS. In order to successfully enable the metrics server, you will need to specify the following variables:
 
