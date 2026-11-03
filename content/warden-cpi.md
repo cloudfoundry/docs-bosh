@@ -127,7 +127,7 @@ properties:
 
 ## Example Cloud Config {: #cloud-config }
 
-See [bosh-deployment](https://github.com/cloudfoundry/bosh-deployment/blob/master/warden/cloud-config.yml).
+See [bosh-deployment](https://github.com/cloudfoundry/bosh-deployment/blob/main/warden/cloud-config.yml).
 
 ---
 

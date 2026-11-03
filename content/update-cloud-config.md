@@ -37,7 +37,7 @@ compilation:
   network: default
 ```
 
-(Taken from <https://github.com/cloudfoundry/bosh-deployment/blob/master/warden/cloud-config.yml>)
+(Taken from <https://github.com/cloudfoundry/bosh-deployment/blob/main/warden/cloud-config.yml>)
 
 Without going into much detail, above cloud config defines three [availability zones](terminology.md#az), one `default` [VM type](terminology.md#vm-type) and one `default` [disk types](terminology.md#disk-type) and a `default` [network](networks.md). All of these definitions will be referenced by the deployment manifest.
 

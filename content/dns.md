@@ -140,7 +140,7 @@ The following queries demonstrate the expected resolution behaviors:
 
 DNS release provides a way to reference all instances (or a subset of instances) in a link via single DNS record. Instances can be queried using their DNS addresses and optional filters to limit results (see [Constructing Queries](#constructing-queries) for more information). The notion of instance healthiness is directly tied to the state of processes running on a VM. DNS release will continuously poll for updated healthiness information (same information is visible via `bosh instances --ps` command) on all instances from groups that were resolved at least once.
 
-To enable healthiness, use `health.enabled` property and specify necessary TLS certificates. Canonical DNS runtime config with healthiness enabled can be found here: https://github.com/cloudfoundry/bosh-deployment/blob/master/runtime-configs/dns.yml.
+To enable healthiness, use `health.enabled` property and specify necessary TLS certificates. Canonical DNS runtime config with healthiness enabled can be found here: https://github.com/cloudfoundry/bosh-deployment/blob/main/runtime-configs/dns.yml.
 
 By default, a VM is considered healthy if the process manager reports all processes as healthy (e.g. `monit`). For specific jobs, release authors may install a script at `bin/dns/healthy` to provide more precise healthiness checks. The `healthy` script must exit `0` if the job is healthy, or any other exit code for unhealthy. These scripts are run at regular intervals (by default, 5s) in addition to checking the status from the process manager. If any processes are failing or any `healthy` script reports as unhealthy, the VM will be considered unhealthy.
 
@@ -329,7 +329,7 @@ Both proxied and direct define api.bosh.internal as an alias, but with different
 
 DNS release provides a way to enable response caching based on response TTLs. Enabling caching typically will alleviate some pressure from your upstream DNS servers and decrease latency of DNS resolutions.
 
-To enable caching, use `cache.enabled` property. Canonical DNS runtime config with caching enabled can be found in the [dns.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/runtime-configs/dns.yml).
+To enable caching, use `cache.enabled` property. Canonical DNS runtime config with caching enabled can be found in the [dns.yml](https://github.com/cloudfoundry/bosh-deployment/blob/main/runtime-configs/dns.yml).
 
 ### Additional Handlers
 
@@ -359,7 +359,7 @@ Enabling `local_dns.enabled` configuration will make Director broadcast DNS upda
 
 If you were relying on instance index based DNS records, you must enable [`local_dns.include_index` property](https://bosh.io/jobs/director?source=github.com/cloudfoundry/bosh#p=director.local_dns.enabled) in the Director job.
 
-Additionally, you should colocate DNS release via an addon in all your deployments. See [bosh-deployment's runtime-configs/dns.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/runtime-configs/dns.yml) as an example.
+Additionally, you should colocate DNS release via an addon in all your deployments. See [bosh-deployment's runtime-configs/dns.yml](https://github.com/cloudfoundry/bosh-deployment/blob/main/runtime-configs/dns.yml) as an example.
 
 ---
 
@@ -373,7 +373,7 @@ To disable the native BOSH functionality, you must disable the [`local_dns.enabl
 
 ## DNS Monitoring {: #monitoring }
 
-DNS release provides monitoring, which can be enabled with [`metrics.enabled` property](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p%3dmetrics.enabled) or with this [addon config](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/dns-addon-enable-local-monitoring.yml). By default the metrics endpoint will be exposed on `http://127.0.0.1:53088/metrics`. The bind address for the metrics server could be change with [`metrics.address` property](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p%3dmetrics.address) and the port with [`metrics.port` property](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p%3dmetrics.port) or with this [addon config](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/dns-addon-enable-external-monitoring.yml).
+DNS release provides monitoring, which can be enabled with [`metrics.enabled` property](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p%3dmetrics.enabled) or with this [addon config](https://github.com/cloudfoundry/bosh-deployment/blob/main/misc/dns-addon-enable-local-monitoring.yml). By default the metrics endpoint will be exposed on `http://127.0.0.1:53088/metrics`. The bind address for the metrics server could be change with [`metrics.address` property](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p%3dmetrics.address) and the port with [`metrics.port` property](https://bosh.io/jobs/bosh-dns?source=github.com/cloudfoundry/bosh-dns-release#p%3dmetrics.port) or with this [addon config](https://github.com/cloudfoundry/bosh-deployment/blob/main/misc/dns-addon-enable-external-monitoring.yml).
 
 ---
 

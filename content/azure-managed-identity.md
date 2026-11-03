@@ -22,7 +22,7 @@ Next is updating your bosh manifest and add the property _default_managed_identi
       use_managed_disks: true
 ```
 
-There is also an [azure/use-managed-identity.yml operator file](https://github.com/cloudfoundry/bosh-deployment/blob/master/azure/use-managed-identity.yml) that you can use to make these changes.
+There is also an [azure/use-managed-identity.yml operator file](https://github.com/cloudfoundry/bosh-deployment/blob/main/azure/use-managed-identity.yml) that you can use to make these changes.
 
 Once deployed and your BOSH director VM has been recreated, it should have a "User Managed" identity with the name you specified on the ``user_assigned_identity_name`` property (see example above).  
 You can check this by going to Azure Portal _=> Virtual Machines => select BOSH director VM => Identities_

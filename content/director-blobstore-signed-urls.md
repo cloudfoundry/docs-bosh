@@ -33,7 +33,7 @@ templates of some CPIs.
 
 An ops-file in bosh-deployment can be used to enable signed URLs and manage
 the unnecessary properties.
-See the [bosh-deployment › misc/blobstore-signed-urls.yml](https://github.com/cloudfoundry/bosh-deployment/blob/master/misc/blobstore-signed-urls.yml)
+See the [bosh-deployment › misc/blobstore-signed-urls.yml](https://github.com/cloudfoundry/bosh-deployment/blob/main/misc/blobstore-signed-urls.yml)
 ops file.
 
 ### Removing blobstore credentials from agent VM
