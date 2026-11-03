@@ -6,7 +6,7 @@ This document shows how to initialize new [environment](terminology.md#environme
 
 If you do not have an Azure account, [create one](https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account).
 
-Then follow this [guide](https://github.com/cloudfoundry/bosh-azure-cpi-release/blob/master/docs/get-started/create-service-principal.md) to create your Azure service principal.
+Then follow this [guide](https://github.com/cloudfoundry/bosh-azure-cpi-release/blob/main/docs/get-started/create-service-principal.md) to create your Azure service principal.
 
 Use the [Azure templates in `bosh-deployment`](https://github.com/cloudfoundry/bosh-deployment/tree/master/azure) to initialize the new environment on Microsoft Azure.
 

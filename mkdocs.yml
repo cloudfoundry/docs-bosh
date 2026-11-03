@@ -4,7 +4,7 @@ site_url: "https://bosh.io/docs/"
 
 repo_name: cloudfoundry/bosh
 repo_url: https://github.com/cloudfoundry/bosh
-edit_uri: https://github.com/cloudfoundry/docs-bosh/edit/master/content/
+edit_uri: https://github.com/cloudfoundry/docs-bosh/edit/main/content/
 
 # non-default since our repo itself is called "docs"
 docs_dir: content

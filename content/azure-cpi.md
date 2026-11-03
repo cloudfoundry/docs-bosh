@@ -4,7 +4,7 @@ This topic describes cloud properties for different resources created by the Azu
 
 ## AZs {: #azs }
 
-- **availability_zone** [String, optional]: Availability zone to use for creating instances (available in v33+). Possible values: `'1'`, `'2'`, `'3'`. Read this [document](https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview) to get regions and VM sizes on Azure that support availability zones. [More details about availability zone](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/availability-zone).
+- **availability_zone** [String, optional]: Availability zone to use for creating instances (available in v33+). Possible values: `'1'`, `'2'`, `'3'`. Read this [document](https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview) to get regions and VM sizes on Azure that support availability zones. [More details about availability zone](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/main/docs/advanced/availability-zone).
 
 Example:
 
@@ -161,9 +161,9 @@ Schema for `cloud_properties` section:
 - **assign\_dynamic\_public\_ip** [Boolean, optional]: Enable to create and assign dynamic public IP to the VM automatically (to solve the [azure SNAT issue](https://github.com/cloudfoundry/bosh-azure-cpi-release/issues/217)). Default value is `false`. Only the VM without vip will be assigned a dynamic public IP when this value is set to true, and the dynamic public IP will be deleted when the VM is deleted.
 
 
-- **availability_zone** [String, optional]: Availability zone to use for creating instances (available in v33+). Possible values: `'1'`, `'2'`, `'3'`. Read this [document](https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview) to get regions and VM sizes on Azure that support availability zones. [More details about availability zone](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/availability-zone).
+- **availability_zone** [String, optional]: Availability zone to use for creating instances (available in v33+). Possible values: `'1'`, `'2'`, `'3'`. Read this [document](https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview) to get regions and VM sizes on Azure that support availability zones. [More details about availability zone](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/main/docs/advanced/availability-zone).
 
-- **availability_set** [String, optional]: Name of an [availability set](https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview) to use for VMs. [More details](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/deploy-cloudfoundry-with-availability-sets).
+- **availability_set** [String, optional]: Name of an [availability set](https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview) to use for VMs. [More details](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/main/docs/advanced/deploy-cloudfoundry-with-availability-sets).
     - If available set does not exist, it will be automatically created.
     - If `availability_set` is not specified, Azure CPI will search `env.bosh.group` as the name of availability set.
         1. [bosh release](https://bosh.io/releases/github.com/cloudfoundry/bosh?all=1) v258+ will generate a value for `env.bosh.group` automatically.
@@ -177,7 +177,7 @@ Schema for `cloud_properties` section:
     - For Azure, the default value of an unmanaged availability set is `3`. The default value of a managed availability set is `2`, because [some regions support only two managed-disk fault domains](https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview#disk-fault-domains).
     - For Azure Stack Hub, the default value is `1`. Before the 1802 update, only `1` is allowed. After the 1802 update, you can configure up to 3 fault domains.
 
-- **storage\_account\_name** [String, optional]: Storage account for VMs. Valid only when `use_managed_disks` is `false`. If this is not set, the VMs will be created in the default storage account. See [this document](https://github.com/cloudfoundry/bosh-azure-cpi-release/blob/master/docs/advanced/deploy-cloudfoundry-with-multiple-storage-accounts/README.md) for more details on why this option exists.
+- **storage\_account\_name** [String, optional]: Storage account for VMs. Valid only when `use_managed_disks` is `false`. If this is not set, the VMs will be created in the default storage account. See [this document](https://github.com/cloudfoundry/bosh-azure-cpi-release/blob/main/docs/advanced/deploy-cloudfoundry-with-multiple-storage-accounts/README.md) for more details on why this option exists.
     - If you use `DS-series` or `GS-series` as `instance_type`, you should set this to a premium storage account. See more information about [Azure premium page blobs](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-pageblob-overview). See [available regions](https://azure.microsoft.com/en-us/explore/global-infrastructure/products-by-region/) where you can create premium storage accounts.
     - If you use a different storage account which must be in the same resource group, please make sure:
         1. The permissions for the container `stemcell` in the default storage account is set to `Public read access for blobs only`.
@@ -416,7 +416,7 @@ Schema:
 - **tenant_id** [String, required]: Tenant ID of the service principal.
 - **client_id** [String, required]: Client ID of the service principal.
 - **client_secret** [String, optional]: Client secret of the service principal.
-- **certificate** [String, optional]: The certificate for your service principal. Azure CPI v35.0.0+ supports the [service principal with a certificate](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/master/docs/advanced/use-service-principal-with-certificate). Only one of `client_secret` and `certificate` can be specified.
+- **certificate** [String, optional]: The certificate for your service principal. Azure CPI v35.0.0+ supports the [service principal with a certificate](https://github.com/cloudfoundry/bosh-azure-cpi-release/tree/main/docs/advanced/use-service-principal-with-certificate). Only one of `client_secret` and `certificate` can be specified.
 - **resource\_group\_name** [String, required]: Resource group name.
 - **storage\_account\_name** [String, optional]: Storage account name. Used as the default storage account for VM disks and stemcells. Required when `use_managed_disks` is `false`. When omitted, the CPI auto-creates one (requires CPI v53.1.10+; see [AccountKindNotSupported](./azure-cpi-errors.md#accountkindnotsupported)).
 - **ssh_user** [String, required]: SSH username. Default: `vcap`.

@@ -62,7 +62,7 @@ null
 ### Implementations
 
 - [cloudfoundry/bosh-azure-cpi-release](https://github.com/cloudfoundry/bosh-azure-cpi-release/blob/fc16e6f65b0533f83052812dc0d6c1edefc9ac28/src/bosh_azure_cpi/lib/cloud/azure/cloud.rb#L482)
-- [cloudfoundry/bosh-google-cpi-release](https://github.com/cloudfoundry/bosh-google-cpi-release/blob/master/src/bosh-google-cpi/action/update_disk.go)
+- [cloudfoundry/bosh-google-cpi-release](https://github.com/cloudfoundry/bosh-google-cpi-release/blob/main/src/bosh-google-cpi/action/update_disk.go)
 - [cloudfoundry/bosh-alicloud-cpi-release](https://github.com/cloudfoundry/bosh-alicloud-cpi-release/blob/master/src/bosh-alicloud-cpi/action/update_disk.go)
 
 ## Related

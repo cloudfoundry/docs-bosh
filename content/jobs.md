@@ -206,7 +206,7 @@ Whenever BPM would miss some required features, then contributions should be
 submitted as Pull Requests to [its Git repository][bpm_repo] so that more
 use-case are covered.
 
-[bpm_repo]: https://github.com/cloudfoundry/bpm-release/tree/master/src/bpm
+[bpm_repo]: https://github.com/cloudfoundry/bpm-release/tree/main/src/bpm
 
 #### BPM Configuration
 
