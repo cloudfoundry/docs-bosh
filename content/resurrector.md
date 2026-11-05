@@ -7,9 +7,12 @@ The Resurrector continuously cross-references VMs expected to be running against
 - create a new VM if the old VM is missing from the IaaS
 - replace a VM if the Agent on that VM is not responding to commands
 
+!!! note
+    Instances with active persistent disks are **not** resurrected by default. The Director filters them out during the scan and fix task to avoid data loss on stateful workloads.
+
 Under certain conditions the Resurrector will consider the system in the "meltdown" and will stop sending requests to the Director. It will resume submitting scan and fix tasks to the Director once the conditions change.
 
-Resurrection can be turned off per specific deployment job instance or for all VMs managed by the Director via `bosh update-config --type resurrection`.
+Resurrection can be turned off per instance group via `bosh update-config --type resurrection --name <name> <path>`, or globally for all VMs managed by the Director via `bosh update-resurrection off`. These are two distinct commands: the first manages fine-grained resurrection rules stored as Director config; the second is a global toggle that takes precedence over any resurrection config.
 
 !!! note
     The Health Monitor deploys with the Resurrector plugin disabled by default. To use it, you must enable the Resurrector plugin in your BOSH deployment manifest.
@@ -29,8 +32,8 @@ To enable the Resurrector:
     ```
 
 1. Optionally change configuration values:
-    - **minimum\_down\_jobs** [Integer, optional]: If the total number of instances that are down in a deployment (within time interval T) is below this number, the Resurrector will _always_ request to fix instances. This decision takes precedence to the `percent_threshold` check when the # of down instances ≤ `minimum_down_jobs`. Default is 5.
-    - **percent_threshold** [Float, optional]: If the percentage of instances that are down in a deployment (within time interval T) is greater than the threshold percentage, the Resurrector will _not_ request to fix any instance. Going over this threshold is called "meltdown". Default is 0.2 (20%).
+    - **minimum\_down\_jobs** [Integer, optional]: If the total number of instances that are down in a deployment (within time interval T) is below this number, the Resurrector will _always_ request to fix instances regardless of `percent_threshold`. Default is 5.
+    - **percent_threshold** [Float, optional]: If the percentage of instances that are down in a deployment (within time interval T) is greater than or equal to this threshold **and** the absolute count also meets or exceeds `minimum_down_jobs`, the Resurrector will _not_ request to fix any instance. This state is called "meltdown". Both thresholds must be exceeded simultaneously to trigger meltdown. Default is 0.2 (20%).
     - **time_threshold** [Integer, optional]: Time interval (in seconds) used in the above calculations. Default is 600.
 
     ```yaml
@@ -108,18 +111,18 @@ If your deployment consists of only five VMs, you may not want the Resurrector t
 
 #### Large Deployment
 
-If your deployment consists of 1000 VMs, and you use the defaults, the Resurrector notifies the Director to recreate at least five VMs and up to 200 VMs. Depending on your deployment, you may consider even 100 down instances a catastrophic failure. In this scenario, set `percent_threshold` to 5% so that the Director resurrects 50 instances or fewer.
+If your deployment consists of 1000 VMs, and you use the defaults, the Resurrector notifies the Director to recreate any number of VMs from 1 up to 199 (meltdown triggers at 200, which is 20% of 1000). Depending on your deployment, you may consider even 100 down instances a catastrophic failure. In this scenario, set `percent_threshold` to 5% so that the Director resurrects fewer than 50 instances (50 would hit the meltdown threshold).
 
 ---
 
 ## Enabling the Resurrector with Resurrection Config {: #enable-with-resurrection-config }
 
-!!! tip "Beta Feature"
-    This `resurrection` config method was first introduced in [v267.2.0](https://github.com/cloudfoundry/bosh/releases/tag/v267.2). We currently do not migrate existing resurrection state to this new configuration method, but are considering it as we improve the UX around this feature. Until we resolve that, test with caution. When used together with the `update-resurrection` cli command, be aware of that pausing resurrection with the cli command takes precedence. It's recommended to either use resurrection config or the cli command, but to not mix them.
+!!! note
+    When used together with the `update-resurrection` CLI command, pausing resurrection with the CLI command takes precedence (the Director rejects the scan and fix request). It is recommended to use either resurrection config or the CLI command, but not both.
 
 It is possible to configure resurrection based on deployments and instance group names using a Resurrection Configuration file. These files override default resurrection behavior and instruct the BOSH director to resurrect (or not) based on the deployment and instance group names.
 
-The resurrection state will be updated directly after updating the resurrection config and does not require further actions. For example:
+The resurrection state will be updated within 60 seconds of uploading a new resurrection config (the Health Monitor polls the Director every 60 seconds) and does not require further actions. For example:
 
 1. Upload a resurrection config, which disables resurrection.
 2. Delete a VM of a deployment (VM gets not resurrected).
@@ -172,8 +175,8 @@ By default, resurrection is turned on and the following examples demonstrate how
     rules:
     - enabled: false
       include:
-      deployments:
-      - dep1
+        deployments:
+        - dep1
     ```
 
     Running `bosh update-config --type resurrection --name disable-dep1 resurrection.yml` disables resurrection for all deployments in the include block, i.e. `dep1`. For all other deployments, resurrection is still enabled.
@@ -183,11 +186,11 @@ By default, resurrection is turned on and the following examples demonstrate how
     ```yaml
     rules:
     - enabled: false
-    include:
-      deployments:
-      - dep1
-      instance_groups:
-      - instance-group-1
+      include:
+        deployments:
+        - dep1
+        instance_groups:
+        - instance-group-1
     ```
 
     Running `bosh update-config --type resurrection --name disable-dep1-instance-group-1 resurrection.yml` disables resurrection for all instance groups of all the specified deployments, i.e. `instance-group-1` of deployment `dep1`. For all other instance groups and deployments, resurrection is still enabled.
@@ -197,12 +200,12 @@ By default, resurrection is turned on and the following examples demonstrate how
     ```yaml
     rules:
     - enabled: false
-    exclude:
-      deployments:
-      - dep1
+      exclude:
+        deployments:
+        - dep1
     ```
 
-    Running `bosh update-config --type resurrection --name disable-all-but-dep1 resurrection.yml` disables resurrection for all deployments except deployment `dep-1`.
+    Running `bosh update-config --type resurrection --name disable-all-but-dep1 resurrection.yml` disables resurrection for all deployments except deployment `dep1`.
 
 ### Disabling resurrection globally
 
