@@ -33,7 +33,7 @@ To enable the Resurrector:
 
 1. Optionally change configuration values:
     - **minimum\_down\_jobs** [Integer, optional]: If the total number of instances that are down in a deployment (within time interval T) is below this number, the Resurrector will _always_ request to fix instances regardless of `percent_threshold`. Default is 5.
-    - **percent_threshold** [Float, optional]: If the percentage of instances that are down in a deployment (within time interval T) is greater than or equal to this threshold **and** the absolute count also meets or exceeds `minimum_down_jobs`, the Resurrector will _not_ request to fix any instance. This state is called "meltdown". Both thresholds must be exceeded simultaneously to trigger meltdown. Default is 0.2 (20%).
+    - **percent_threshold** [Float, optional]: If the percentage of instances that are down in a deployment (within time interval T) is greater than or equal to this threshold **and** the absolute count also meets or exceeds `minimum_down_jobs`, the Resurrector will _not_ request to fix any instance. This state is called "meltdown". Both thresholds must be met or exceeded simultaneously to trigger meltdown. Default is 0.2 (20%).
     - **time_threshold** [Integer, optional]: Time interval (in seconds) used in the above calculations. Default is 600.
 
     ```yaml
