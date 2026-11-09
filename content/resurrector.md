@@ -32,7 +32,7 @@ These are two distinct commands: the first manages fine-grained resurrection rul
 
 A VM is a candidate for resurrection when all of the following are true:
 
-- **Meltdown is not active** - when the percentage of unhealthy instances in a deployment meets or exceeds `percent_threshold` *and* the absolute count also meets or exceeds `minimum_down_jobs`, the Resurrector enters meltdown and pauses all resurrection requests for that deployment until conditions improve.
+- **Meltdown is not active** - the Resurrector tracks instances with critical alerts within the `time_threshold` window. When the percentage of such instances in a deployment meets or exceeds `percent_threshold` *and* their count also meets or exceeds `minimum_down_jobs`, the Resurrector enters meltdown and pauses all resurrection requests for that deployment until conditions improve.
 - **Global pause is not in effect** - `bosh update-resurrection off` prevents the Director from accepting any scan and fix request, regardless of resurrection config.
 - **No matching resurrection config rule disables it** - all active named resurrection configs are evaluated together; if any matching rule has `enabled: false`, the instance is skipped.
 - **Active persistent disks do not block it** - by default (`director.auto_fix_stateful_nodes: true`), instances with active persistent disks are included. Set this Director property to `false` to exclude them.
@@ -131,7 +131,7 @@ If your deployment consists of only five VMs, you may not want the Resurrector t
 
 #### Large Deployment
 
-If your deployment consists of 1000 VMs, and you use the defaults, the Resurrector notifies the Director to recreate any number of VMs from 1 up to 199 (meltdown triggers at 200, which is 20% of 1000). Depending on your deployment, you may consider even 100 down instances a catastrophic failure. In this scenario, set `percent_threshold` to 5% so that the Director resurrects fewer than 50 instances (50 would hit the meltdown threshold).
+If your deployment consists of 1000 VMs, and you use the defaults, the Resurrector notifies the Director to recreate any number of VMs from 1 up to 199 at a time (meltdown triggers at 200, which is 20% of 1000). This is a sliding count: only instances with a critical alert within the last `time_threshold` seconds are counted, so once resurrected instances' alerts age out, new failures can be fixed. Depending on your deployment, you may consider even 100 down instances a catastrophic failure. In this scenario, set `percent_threshold` to 5% so that the Director resurrects fewer than 50 instances (50 would hit the meltdown threshold).
 
 ---
 
@@ -145,9 +145,10 @@ It is possible to configure resurrection based on deployments and instance group
 The resurrection state will be updated within 60 seconds of uploading a new resurrection config (the Health Monitor polls the Director every 60 seconds) and does not require further actions. For example:
 
 1. Upload a resurrection config, which disables resurrection.
-2. Delete a VM of a deployment (VM gets not resurrected).
-3. Delete or replace the disabling resurrection config with one that enables resurrection.
-4. The missing VM is now eligible for resurrection.
+2. Wait up to 60 seconds for the Health Monitor to apply the new config.
+3. Delete a VM of a deployment (VM gets not resurrected).
+4. Delete or replace the disabling resurrection config with one that enables resurrection.
+5. The missing VM is now eligible for resurrection.
 
 ### Structure of resurrection config
 
@@ -200,6 +201,9 @@ By default, resurrection is turned on and the following examples demonstrate how
     ```
 
     Running `bosh update-config --type resurrection --name disable-dep1 resurrection.yml` disables resurrection for all deployments in the include block, i.e. `dep1`. For all other deployments, resurrection is still enabled.
+
+    !!! note
+        This config remains active until explicitly deleted. If you intend to run example 2, delete it first (`bosh delete-config --type resurrection --name disable-dep1`) - while `disable-dep1` is active, it disables all of `dep1` regardless of any more specific rules you add.
 
 2. Disable resurrection for an instance group `instance-group-1` of a deployment `dep1` by creating a `resurrection.yml`:
 
