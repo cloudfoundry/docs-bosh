@@ -145,7 +145,7 @@ It is possible to configure resurrection based on deployments and instance group
 The resurrection state will be updated within 60 seconds of uploading a new resurrection config (the Health Monitor polls the Director every 60 seconds) and does not require further actions. For example:
 
 1. Upload a resurrection config, which disables resurrection.
-2. Wait up to 60 seconds for the Health Monitor to apply the new config.
+2. Wait at least 60 seconds for the Health Monitor to poll and apply the new config.
 3. Delete a VM of a deployment (VM gets not resurrected).
 4. Delete or replace the disabling resurrection config with one that enables resurrection.
 5. The missing VM is now eligible for resurrection.
