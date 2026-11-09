@@ -136,7 +136,7 @@ The resurrection state will be updated within 60 seconds of uploading a new resu
 1. Upload a resurrection config, which disables resurrection.
 2. Delete a VM of a deployment (VM gets not resurrected).
 3. Delete or replace the disabling resurrection config with one that enables resurrection.
-4. Missing VM will be resurrected (provided no active disabling resurrection config matches it).
+4. Missing VM will be resurrected, provided no active disabling resurrection config matches it (and it has no active persistent disks if `director.auto_fix_stateful_nodes` is `false`).
 
 ### Structure of resurrection config
 
