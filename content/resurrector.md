@@ -131,7 +131,7 @@ If your deployment consists of only five VMs, you may not want the Resurrector t
 
 #### Large Deployment
 
-If your deployment consists of 1000 VMs, and you use the defaults, the Resurrector notifies the Director to recreate any number of VMs from 1 up to 199 at a time (meltdown triggers at 200, which is 20% of 1000). This is a sliding count: only instances with a critical alert within the last `time_threshold` seconds are counted, so once resurrected instances' alerts age out, new failures can be fixed. Depending on your deployment, you may consider even 100 down instances a catastrophic failure. In this scenario, set `percent_threshold` to 5% so that the Director resurrects fewer than 50 instances (50 would hit the meltdown threshold).
+If your deployment consists of 1000 VMs, and you use the defaults, the Resurrector notifies the Director to recreate any number of VMs from 1 up to 199 at a time (meltdown triggers at 200, which is 20% of 1000). This is a sliding count: only instances with a critical alert within the last `time_threshold` seconds are counted, so once resurrected instances' alerts age out, new failures can be fixed. Depending on your deployment, you may consider even 100 down instances a catastrophic failure. In this scenario, set `percent_threshold` to `0.05` so that the Director resurrects fewer than 50 instances (50 would hit the meltdown threshold).
 
 ---
 
@@ -145,7 +145,7 @@ It is possible to configure resurrection based on deployments and instance group
 The resurrection state will be updated within 60 seconds of uploading a new resurrection config (the Health Monitor polls the Director every 60 seconds) and does not require further actions. For example:
 
 1. Upload a resurrection config, which disables resurrection.
-2. Wait at least 60 seconds for the Health Monitor to poll and apply the new config.
+2. Wait up to 60 seconds for the Health Monitor to poll and apply the new config.
 3. Delete a VM of a deployment (VM gets not resurrected).
 4. Delete or replace the disabling resurrection config with one that enables resurrection.
 5. The missing VM is now eligible for resurrection.
