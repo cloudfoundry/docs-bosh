@@ -7,7 +7,7 @@ The Resurrector continuously cross-references VMs expected to be running against
 - create a new VM if the old VM is missing from the IaaS
 - replace a VM if the Agent on that VM is not responding to commands
 
-Under certain conditions the Resurrector will consider the system in the "meltdown" and will stop sending requests to the Director. It will resume submitting scan and fix tasks to the Director once the conditions change.
+Under certain conditions the Resurrector will consider the system in the "meltdown" and will stop sending requests to the Director - see [Resurrection eligibility](#eligibility).
 
 Resurrection can be turned off per instance group via:
 
@@ -25,6 +25,17 @@ These are two distinct commands: the first manages fine-grained resurrection rul
 
 !!! note
     The Health Monitor deploys with the Resurrector plugin disabled by default. To use it, you must enable the Resurrector plugin in your BOSH deployment manifest.
+
+---
+
+## Resurrection eligibility {: #eligibility }
+
+A VM is a candidate for resurrection when all of the following are true:
+
+- **Meltdown is not active** - when the percentage of unhealthy instances in a deployment meets or exceeds `percent_threshold` *and* the absolute count also meets or exceeds `minimum_down_jobs`, the Resurrector enters meltdown and pauses all resurrection requests for that deployment until conditions improve.
+- **Global pause is not in effect** - `bosh update-resurrection off` prevents the Director from accepting any scan and fix request, regardless of resurrection config.
+- **No matching resurrection config rule disables it** - all active named resurrection configs are evaluated together; if any matching rule has `enabled: false`, the instance is skipped.
+- **Active persistent disks do not block it** - by default (`director.auto_fix_stateful_nodes: true`), instances with active persistent disks are included. Set this Director property to `false` to exclude them.
 
 ---
 
@@ -136,7 +147,7 @@ The resurrection state will be updated within 60 seconds of uploading a new resu
 1. Upload a resurrection config, which disables resurrection.
 2. Delete a VM of a deployment (VM gets not resurrected).
 3. Delete or replace the disabling resurrection config with one that enables resurrection.
-4. Missing VM will be resurrected, provided no active disabling resurrection config matches it (and it has no active persistent disks if `director.auto_fix_stateful_nodes` is `false`).
+4. The missing VM is now eligible for resurrection.
 
 ### Structure of resurrection config
 
@@ -217,7 +228,7 @@ By default, resurrection is turned on and the following examples demonstrate how
     Running `bosh update-config --type resurrection --name disable-all-but-dep1 resurrection.yml` disables resurrection for all deployments except deployment `dep1`.
 
     !!! note
-        Named resurrection configs remain active until explicitly deleted, and rules from all active configs are combined. If you previously applied example 1 or example 2, delete those configs before running this one — otherwise their rules remain active: `bosh delete-config --type resurrection --name disable-dep1` and `bosh delete-config --type resurrection --name disable-dep1-instance-group-1`.
+        Named resurrection configs remain active until explicitly deleted, and rules from all active configs are combined. If you previously applied example 1 or example 2, delete those configs before running this one - otherwise their rules remain active: `bosh delete-config --type resurrection --name disable-dep1` and `bosh delete-config --type resurrection --name disable-dep1-instance-group-1`.
 
 ### Disabling resurrection globally
 
