@@ -27,7 +27,7 @@ Stemcell version numbers identify the build iteration and stability of a release
 
 | Stemcell line | Operating system / version | Upstream release date | Standard support ends | Stemcell status |
 |---|---|---|---|---|
-| [`ubuntu-resolute`](/stemcells/#ubuntu-resolute) | Ubuntu 26.04 LTS (Resolute Raccoon) | April 2026 | May 2031 | Alpha (`0.x`) |
+| [`ubuntu-resolute`](/stemcells/#ubuntu-resolute) | Ubuntu 26.04 LTS (Resolute Raccoon) | April 2026 | May 2031 | Generally available |
 | [`ubuntu-noble`](/stemcells/#ubuntu-noble) | Ubuntu 24.04 LTS (Noble Numbat) | April 2024 | May 2029 | Generally available |
 | [`ubuntu-jammy`](/stemcells/#ubuntu-jammy) | Ubuntu 22.04 LTS (Jammy Jellyfish) | April 2022 | May 2027 | Generally available |
 | [`windows2019`](/stemcells/#windows2019) | Windows Server 2019 | October 2018 | January 2029[^windows-support] | Generally available |
